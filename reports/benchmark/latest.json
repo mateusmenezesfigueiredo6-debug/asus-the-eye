@@ -1,0 +1,147 @@
+{
+  "project": "ASUS THE EYE",
+  "engine_version": "0.2.0",
+  "date": "2026-08-01T19:11:16.885879+00:00",
+  "problem": {
+    "name": "demo_portfolio_v1",
+    "values": [
+      8.0,
+      11.0,
+      6.0,
+      14.0,
+      7.0,
+      9.0
+    ],
+    "weights": [
+      4.0,
+      6.0,
+      3.0,
+      8.0,
+      4.0,
+      5.0
+    ],
+    "capacity": 15.0
+  },
+  "results": {
+    "classical": {
+      "solver": "classical",
+      "execution_time_ms": 0.18464199820300564,
+      "memory_mb": 23.7890625,
+      "combinations_evaluated": 64,
+      "score": 28.0,
+      "solution": [
+        1,
+        0,
+        1,
+        1,
+        0,
+        0
+      ],
+      "timestamp": "2026-08-01T19:11:16.799493+00:00",
+      "solver_version": "0.2.0"
+    },
+    "qubo": {
+      "solver": "qubo",
+      "variables": 6,
+      "quadratic_terms": 15,
+      "density": 1.0,
+      "build_time_ms": 0.025474000722169876,
+      "solve_time_ms": 0.16496899843332358,
+      "execution_time_ms": 0.19044299915549345,
+      "score": 28.0,
+      "solution": [
+        1,
+        0,
+        1,
+        1,
+        0,
+        0
+      ]
+    },
+    "qaoa": {
+      "solver": "qaoa",
+      "backend": "local_simulator",
+      "shots": 1024,
+      "layers": 2,
+      "depth": 30,
+      "execution_time_ms": 7.421955997415353,
+      "score": 28.0,
+      "solution": [
+        1,
+        0,
+        1,
+        1,
+        0,
+        0
+      ],
+      "fidelity": 0.04315542586379005,
+      "expected_objective": -558.986197382659,
+      "optimized_angles": {
+        "gamma": 1.3089969389957472,
+        "beta": 1.3089969389957472
+      },
+      "seed": 42,
+      "hardware_execution": false,
+      "reference_solution": [
+        1,
+        0,
+        1,
+        1,
+        0,
+        0
+      ]
+    }
+  },
+  "metrics": {
+    "qar": {
+      "qar": 1.0,
+      "interpretation": "empate nas condições atuais; não constitui prova científica"
+    },
+    "speed_ratio": 0.024877808257999106,
+    "quality_gap": 0.0,
+    "stability": {
+      "runs": 10,
+      "mean": 28.0,
+      "standard_deviation": 0.0,
+      "variance": 0.0,
+      "scores": [
+        28.0,
+        28.0,
+        28.0,
+        28.0,
+        28.0,
+        28.0,
+        28.0,
+        28.0,
+        28.0,
+        28.0
+      ]
+    }
+  },
+  "conclusion": "Classical solver achieved equal or better quality under the current problem size.",
+  "limitations": [
+    "QAOA result uses a controlled local simulator, not a real QPU.",
+    "A single demo problem cannot establish general performance or quantum advantage.",
+    "Wall-clock measurements depend on the local machine and concurrent workload."
+  ],
+  "telemetry": {
+    "performance": {
+      "cpu_percent": 0.0,
+      "ram_mb": 24.1953125,
+      "execution_time_ms": 99.37012099908316,
+      "execution": "benchmark_suite",
+      "version": "0.2.0",
+      "python_version": "3.14.4",
+      "timestamp": "2026-08-01T19:11:16.886447+00:00"
+    },
+    "cost": {
+      "estimated_cost": 0.0,
+      "currency": "USD",
+      "shots": 1024,
+      "qpu_time_ms": 0.0,
+      "ibm_cost": null,
+      "backend": "local_simulator",
+      "estimate_only": true
+    }
+  }
+}
