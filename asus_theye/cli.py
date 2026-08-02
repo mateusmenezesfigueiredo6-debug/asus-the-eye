@@ -4,10 +4,12 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 from collections.abc import Sequence
 from pathlib import Path
 
 from asus_theye.benchmark.runner import run_benchmark_suite
+from asus_theye.audit.remote_ledger import DEFAULT_TENANT, publish_benchmark_report
 from asus_theye.audit.verifier import verify_file
 
 
@@ -20,6 +22,17 @@ def _parser() -> argparse.ArgumentParser:
     benchmark.add_argument("--layers", type=int, default=2)
     benchmark.add_argument("--seed", type=int, default=42)
     benchmark.add_argument("--stability-runs", type=int, default=10)
+    benchmark.add_argument(
+        "--publish",
+        action="store_true",
+        help="publish the report summary to the remote audit ledger (opt-in)",
+    )
+    benchmark.add_argument(
+        "--ledger-url",
+        default=os.environ.get("THE_EYE_LEDGER_URL", ""),
+        help="audit ledger base URL (or THE_EYE_LEDGER_URL env var)",
+    )
+    benchmark.add_argument("--tenant", default=DEFAULT_TENANT)
     verify = subcommands.add_parser("audit-verify", help="verify an offline audit JSON document")
     verify.add_argument("input", type=Path)
     verify.add_argument("--receipt", type=Path)
@@ -52,6 +65,17 @@ def main(argv: Sequence[str] | None = None) -> int:
         print(f"\nQAOA:\nshots: {qaoa['shots']}\nscore: {qaoa['score']}")
         print(f"\nQAR: {metrics['qar']['qar']}")
         print(f"\nReport:\n{path}")
+        if args.publish:
+            if not args.ledger_url:
+                print("\nLedger: --publish requires --ledger-url or THE_EYE_LEDGER_URL")
+                return 1
+            receipt = publish_benchmark_report(report, args.ledger_url, args.tenant)
+            deduplicated = receipt.get("deduplicated", False)
+            print(
+                f"\nLedger:\nsequence: {receipt['sequence']}"
+                f"\nevent_hash: {receipt['event_hash_sha256']}"
+                f"\ndeduplicated: {deduplicated}"
+            )
         return 0
     if args.command == "audit-verify":
         receipt = verify_file(args.input, args.receipt)
