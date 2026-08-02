@@ -48,6 +48,11 @@ def _parser() -> argparse.ArgumentParser:
     )
     llm.add_argument("--ledger-url", default=os.environ.get("THE_EYE_LEDGER_URL", ""))
     llm.add_argument("--tenant", default=DEFAULT_TENANT)
+    extract = subcommands.add_parser(
+        "extract-decision",
+        help="extract schema-validated procedural facts from a public decision text file",
+    )
+    extract.add_argument("input", type=Path, help="text file with the public decision")
     return parser
 
 
@@ -114,6 +119,12 @@ def main(argv: Sequence[str] | None = None) -> int:
         )
         if outcome["ledger_receipt"] is not None:
             print(f"[audit] ledger_sequence={outcome['ledger_receipt']['sequence']}")
+        return 0
+    if args.command == "extract-decision":
+        from asus_theye.decision_context import extract_decision_fields
+
+        fields = extract_decision_fields(args.input.read_text(encoding="utf-8"))
+        print(json.dumps(fields, ensure_ascii=False, indent=2))
         return 0
     return 2
 
