@@ -53,6 +53,11 @@ def _parser() -> argparse.ArgumentParser:
         help="extract schema-validated procedural facts from a public decision text file",
     )
     extract.add_argument("input", type=Path, help="text file with the public decision")
+    quantum = subcommands.add_parser("quantum", help="IBM Quantum adapter (gated)")
+    quantum.add_argument("--execute", action="store_true", help="submit a real QPU job (requires THE_EYE_IBM_EXECUTE=1)")
+    quantum.add_argument("--backend", default=None)
+    quantum.add_argument("--shots", type=int, default=1_024)
+    quantum.add_argument("--layers", type=int, default=2)
     return parser
 
 
@@ -125,6 +130,19 @@ def main(argv: Sequence[str] | None = None) -> int:
 
         fields = extract_decision_fields(args.input.read_text(encoding="utf-8"))
         print(json.dumps(fields, ensure_ascii=False, indent=2))
+        return 0
+    if args.command == "quantum":
+        from asus_theye.benchmark.ibm_backend import dry_run, run_on_hardware
+        from asus_theye.problem import load_demo_problem
+
+        problem = load_demo_problem()
+        if args.execute:
+            outcome = run_on_hardware(
+                problem, layers=args.layers, shots=args.shots, backend_name=args.backend
+            )
+        else:
+            outcome = dry_run(problem, layers=args.layers, shots=args.shots)
+        print(json.dumps(outcome, ensure_ascii=False, indent=2))
         return 0
     return 2
 
