@@ -10,7 +10,7 @@ import sqlite3
 import uuid
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Callable
+from typing import Any
 
 from .canonical import canonicalize
 from .schema import GENESIS_HASH, SCHEMA_VERSION, hash_json, seal_event, verify_event
@@ -75,7 +75,8 @@ class SQLiteAuditStore:
                      event["previous_event_hash_sha256"], serialized),
                 )
                 self.connection.execute(
-                    "INSERT INTO audit_outbox (outbox_id,event_id,tenant_id,payload,status,attempts,available_at) VALUES (?,?,?,?, 'pending',0,?)",
+                    "INSERT INTO audit_outbox (outbox_id,event_id,tenant_id,payload,status,attempts,available_at)"
+                    " VALUES (?,?,?,?, 'pending',0,?)",
                     (receipt_id, event["event_id"], event["tenant_id"], serialized, event["recorded_at"]),
                 )
         except sqlite3.IntegrityError as exc:
@@ -84,9 +85,15 @@ class SQLiteAuditStore:
                 (event["tenant_id"], event["idempotency_key"]),
             ).fetchone()
             if existing:
-                return {"receipt_id": receipt_id, "event_id": existing[0], "event_hash_sha256": existing[1], "duplicate": True}
+                return {
+                    "receipt_id": receipt_id, "event_id": existing[0],
+                    "event_hash_sha256": existing[1], "duplicate": True,
+                }
             raise ValueError("audit uniqueness invariant violated") from exc
-        return {"receipt_id": receipt_id, "event_id": event["event_id"], "event_hash_sha256": event["event_hash_sha256"], "duplicate": False}
+        return {
+            "receipt_id": receipt_id, "event_id": event["event_id"],
+            "event_hash_sha256": event["event_hash_sha256"], "duplicate": False,
+        }
 
     def events(self, tenant_id: str, resource_id: str | None = None) -> list[dict[str, Any]]:
         query = "SELECT event_json FROM audit_events WHERE tenant_id=?"
@@ -99,7 +106,9 @@ class SQLiteAuditStore:
 
 
 class AuditSDK:
-    def __init__(self, store: SQLiteAuditStore, *, pseudonymization_key: bytes, service: str, build_version: str) -> None:
+    def __init__(
+        self, store: SQLiteAuditStore, *, pseudonymization_key: bytes, service: str, build_version: str
+    ) -> None:
         if len(pseudonymization_key) < 16:
             raise ValueError("pseudonymization key must contain at least 128 bits")
         self.store = store
@@ -126,16 +135,20 @@ class AuditSDK:
         event_id = values.pop("event_id", str(uuid.uuid4()))
         body: dict[str, Any] = {
             "schema_version": SCHEMA_VERSION, "event_id": event_id,
-            "idempotency_key": values.pop("idempotency_key", hash_json([tenant_id, event_type, action, correlation_id, resource_id])),
+            "idempotency_key": values.pop(
+                "idempotency_key", hash_json([tenant_id, event_type, action, correlation_id, resource_id])
+            ),
             "tenant_id": tenant_id, "sequence": sequence, "event_type": event_type, "action": action,
             "occurred_at": values.pop("occurred_at", now), "recorded_at": now,
             "actor_type": values.pop("actor_type", "user"),
             "actor_id_pseudonymous": self.pseudonymize(actor_id, tenant_id),
-            "actor_role": values.pop("actor_role", "unknown"), "source_system": values.pop("source_system", self.service),
+            "actor_role": values.pop("actor_role", "unknown"),
+            "source_system": values.pop("source_system", self.service),
             "resource_type": values.pop("resource_type", event_type.split(".")[0]),
             "resource_id_pseudonymous": self.pseudonymize(resource_id, tenant_id),
             "resource_version": values.pop("resource_version", "1"), "jurisdiction": values.pop("jurisdiction", "BR"),
-            "legal_area_ids": values.pop("legal_area_ids", []), "classification": values.pop("classification", "confidential"),
+            "legal_area_ids": values.pop("legal_area_ids", []),
+            "classification": values.pop("classification", "confidential"),
             "retention_policy_id": values.pop("retention_policy_id", "audit-default-v1"),
             "lawful_basis_reference": values.pop("lawful_basis_reference", "REQUIRES_LEGAL_VALIDATION"),
             "content_hash_sha256": hash_json(safe_content), "metadata_hash_sha256": hash_json(safe_metadata),

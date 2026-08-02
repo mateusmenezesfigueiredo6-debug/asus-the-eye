@@ -8,9 +8,9 @@ import os
 from collections.abc import Sequence
 from pathlib import Path
 
-from asus_theye.benchmark.runner import run_benchmark_suite
 from asus_theye.audit.remote_ledger import DEFAULT_TENANT, publish_benchmark_report
 from asus_theye.audit.verifier import verify_file
+from asus_theye.benchmark.runner import run_benchmark_suite
 
 
 def _parser() -> argparse.ArgumentParser:
@@ -54,7 +54,9 @@ def _parser() -> argparse.ArgumentParser:
     )
     extract.add_argument("input", type=Path, help="text file with the public decision")
     quantum = subcommands.add_parser("quantum", help="IBM Quantum adapter (gated)")
-    quantum.add_argument("--execute", action="store_true", help="submit a real QPU job (requires THE_EYE_IBM_EXECUTE=1)")
+    quantum.add_argument(
+        "--execute", action="store_true", help="submit a real QPU job (requires THE_EYE_IBM_EXECUTE=1)"
+    )
     quantum.add_argument("--backend", default=None)
     quantum.add_argument("--shots", type=int, default=1_024)
     quantum.add_argument("--layers", type=int, default=2)

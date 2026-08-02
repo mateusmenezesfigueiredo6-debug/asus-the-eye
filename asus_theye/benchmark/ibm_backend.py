@@ -50,7 +50,9 @@ def execution_gate_open() -> bool:
     return os.environ.get(EXECUTE_ENV_FLAG, "") == "1"
 
 
-def build_qaoa_circuit(problem: BenchmarkProblem, layers: int = 2, gamma: float = math.pi / 6, beta: float = math.pi / 6):
+def build_qaoa_circuit(
+    problem: BenchmarkProblem, layers: int = 2, gamma: float = math.pi / 6, beta: float = math.pi / 6
+):
     """Build the knapsack QAOA ansatz as a Qiskit circuit.
 
     Mirrors the local simulator: value terms as single-qubit RZ phases, the

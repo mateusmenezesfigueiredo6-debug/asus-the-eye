@@ -36,3 +36,19 @@ comparação usa um dataset demo pequeno e tempos de parede dependentes da máqu
 acima de 1 é apenas um sinal para investigação, nunca prova científica automática.
 
 Detalhes metodológicos e operacionais: [docs/BENCHMARK_ENGINE.md](docs/BENCHMARK_ENGINE.md).
+
+## Plataforma 0.3 — o que está no ar
+
+| Camada | Estado |
+| --- | --- |
+| Benchmark clássico/QUBO/QAOA local | `asus-theye benchmark` (QAR honesto) |
+| Ledger de auditoria em produção (staging) | Worker Cloudflare + D1 append-only + R2 — hash chain viva |
+| Publicação de evidência | `asus-theye benchmark --publish` (resumo + hash; relatório fica local) |
+| LLM local auditado | `asus-theye llm` (Ollama/qwen2.5:3b; prompts nunca saem da máquina) |
+| Fase G — contexto decisório (judiciário) | 10 schemas LGPD-por-construção + `asus-theye extract-decision` (híbrido LLM+regex, divergências sinalizadas) |
+| IBM Quantum (gated) | `asus-theye quantum` (dry-run); `--execute` exige `THE_EYE_IBM_EXECUTE=1` |
+
+Primeira execução em hardware real: QAOA de 6 qubits em `ibm_kingston` (Heron
+156q) encontrou o ótimo exato — com a ressalva honesta, registrada no ledger,
+de que um problema de 64 estados amostrado por 1.024 shots não demonstra
+vantagem quântica. Evidência: evento 6 da cadeia, job `d9ngkpcsfqic73ar17vg`.
