@@ -6,6 +6,7 @@ __pycache__/
 build/
 dist/
 *.egg-info/
+reports/benchmark/latest.json
 reports/benchmark/history.jsonl
 reports/benchmark/ledger.jsonl
 
