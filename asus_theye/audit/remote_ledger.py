@@ -59,17 +59,12 @@ def build_benchmark_event(report: dict[str, Any], tenant_id: str = DEFAULT_TENAN
     }
 
 
-def publish_benchmark_report(
-    report: dict[str, Any],
-    ledger_url: str,
-    tenant_id: str = DEFAULT_TENANT,
-) -> dict[str, Any]:
-    """POST the benchmark event to ``<ledger_url>/events`` and return the receipt.
+def publish_event(body: dict[str, Any], ledger_url: str) -> dict[str, Any]:
+    """POST an audit ingest body to ``<ledger_url>/events`` and return the receipt.
 
     Fails loudly (:class:`LedgerPublishError`) — per the critical-mutation rule,
     a publish that cannot be recorded must never look successful.
     """
-    body = build_benchmark_event(report, tenant_id)
     request = urllib.request.Request(
         f"{ledger_url.rstrip('/')}/events",
         data=json.dumps(body).encode("utf-8"),
@@ -93,3 +88,12 @@ def publish_benchmark_report(
     if status not in (200, 201):
         raise LedgerPublishError(f"unexpected ledger status {status}: {receipt}")
     return receipt
+
+
+def publish_benchmark_report(
+    report: dict[str, Any],
+    ledger_url: str,
+    tenant_id: str = DEFAULT_TENANT,
+) -> dict[str, Any]:
+    """Publish a benchmark report summary to the remote ledger."""
+    return publish_event(build_benchmark_event(report, tenant_id), ledger_url)

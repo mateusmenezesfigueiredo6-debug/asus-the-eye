@@ -21,3 +21,4 @@ reports/autonomous/*/launcher.log
 *.pem
 *.key
 # END THE EYE AUTONOMOUS RUNTIME
+reports/llm/calls.jsonl

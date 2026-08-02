@@ -36,6 +36,18 @@ def _parser() -> argparse.ArgumentParser:
     verify = subcommands.add_parser("audit-verify", help="verify an offline audit JSON document")
     verify.add_argument("input", type=Path)
     verify.add_argument("--receipt", type=Path)
+    llm = subcommands.add_parser("llm", help="call the audited local LLM (Ollama)")
+    llm.add_argument("prompt")
+    llm.add_argument("--system")
+    llm.add_argument("--model", default=None)
+    llm.add_argument("--temperature", type=float, default=0.2)
+    llm.add_argument(
+        "--publish",
+        action="store_true",
+        help="anchor the call record (hashes only) on the remote audit ledger",
+    )
+    llm.add_argument("--ledger-url", default=os.environ.get("THE_EYE_LEDGER_URL", ""))
+    llm.add_argument("--tenant", default=DEFAULT_TENANT)
     return parser
 
 
@@ -81,6 +93,28 @@ def main(argv: Sequence[str] | None = None) -> int:
         receipt = verify_file(args.input, args.receipt)
         print(json.dumps(receipt, ensure_ascii=False, indent=2))
         return 0 if receipt["status"] in {"valid", "not_anchored", "anchor_unconfirmed"} else 1
+    if args.command == "llm":
+        from asus_theye.llm import AuditedLocalLLM, OllamaClient
+
+        if args.publish and not args.ledger_url:
+            print("llm: --publish requires --ledger-url or THE_EYE_LEDGER_URL")
+            return 1
+        client = OllamaClient(model=args.model) if args.model else OllamaClient()
+        llm = AuditedLocalLLM(
+            client=client,
+            ledger_url=args.ledger_url if args.publish else None,
+            tenant_id=args.tenant,
+        )
+        outcome = llm.chat(args.prompt, system=args.system, temperature=args.temperature)
+        print(outcome["content"])
+        record = outcome["audit_record"]
+        print(
+            f"\n[audit] model={record['model']} duration_ms={record['duration_ms']}"
+            f"\n[audit] record_hash={record['record_hash_sha256']}"
+        )
+        if outcome["ledger_receipt"] is not None:
+            print(f"[audit] ledger_sequence={outcome['ledger_receipt']['sequence']}")
+        return 0
     return 2
 
 
