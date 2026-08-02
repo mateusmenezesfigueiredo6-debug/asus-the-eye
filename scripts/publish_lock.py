@@ -85,7 +85,8 @@ def cmd_unlock(window_seconds: int = DEFAULT_WINDOW_SECONDS) -> int:
         return 1
     expires = int(time.time()) + window_seconds
     _write_private(UNLOCK_FILE, {"expires_at": expires, "window_seconds": window_seconds})
-    print(f"Publishing unlocked for {window_seconds // 60} minutes (until {time.strftime('%H:%M:%S', time.localtime(expires))}).")
+    until = time.strftime("%H:%M:%S", time.localtime(expires))
+    print(f"Publishing unlocked for {window_seconds // 60} minutes (until {until}).")
     return 0
 
 

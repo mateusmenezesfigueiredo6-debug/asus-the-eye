@@ -23,3 +23,4 @@ reports/autonomous/*/launcher.log
 # END THE EYE AUTONOMOUS RUNTIME
 reports/llm/calls.jsonl
 reports/audit/proofs/
+reports/releases/
