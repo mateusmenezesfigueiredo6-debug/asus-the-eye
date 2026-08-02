@@ -15,6 +15,22 @@ export interface Env {
   ENVIRONMENT: string;
   BLOCKCHAIN_BROADCAST_ENABLED: string;
   AUDIT_SCHEMA_VERSION: string;
+  /** Wrangler secret. All endpoints except /health require it as a Bearer token. */
+  AUDIT_INGEST_TOKEN: string;
+}
+
+/** Constant-time-ish bearer check; never log or echo the token. */
+function authorized(request: Request, env: Env): boolean {
+  const header = request.headers.get("authorization") ?? "";
+  if (!header.startsWith("Bearer ") || !env.AUDIT_INGEST_TOKEN) return false;
+  const provided = header.slice(7);
+  const expected = env.AUDIT_INGEST_TOKEN;
+  if (provided.length !== expected.length) return false;
+  let mismatch = 0;
+  for (let i = 0; i < expected.length; i++) {
+    mismatch |= provided.charCodeAt(i) ^ expected.charCodeAt(i);
+  }
+  return mismatch === 0;
 }
 
 const GENESIS_HASH = "0".repeat(64);
@@ -83,6 +99,11 @@ function json(status: number, body: unknown): Response {
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
     const url = new URL(request.url);
+
+    // Fully closed surface: every endpoint, /health included, requires the token.
+    if (!authorized(request, env)) {
+      return json(401, { error: "unauthorized" });
+    }
 
     if (url.pathname === "/health") {
       return json(200, {

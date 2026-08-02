@@ -10,12 +10,25 @@ from __future__ import annotations
 
 import hashlib
 import json
+import os
 import urllib.error
 import urllib.request
+from pathlib import Path
 from typing import Any
 
 DEFAULT_TENANT = "tenant-demo"
 _TIMEOUT_SECONDS = 30
+_TOKEN_FILE = Path.home() / ".the-eye" / "staging-token"
+
+
+def _ledger_token() -> str | None:
+    """Bearer token for the restricted ledger: env var wins, then key file."""
+    token = os.environ.get("THE_EYE_LEDGER_TOKEN")
+    if token:
+        return token.strip()
+    if _TOKEN_FILE.exists():
+        return _TOKEN_FILE.read_text(encoding="utf-8").strip()
+    return None
 
 
 class LedgerPublishError(RuntimeError):
@@ -65,15 +78,19 @@ def publish_event(body: dict[str, Any], ledger_url: str) -> dict[str, Any]:
     Fails loudly (:class:`LedgerPublishError`) — per the critical-mutation rule,
     a publish that cannot be recorded must never look successful.
     """
+    headers = {
+        "content-type": "application/json",
+        # Cloudflare's browser integrity check rejects the default
+        # Python-urllib user agent with error 1010.
+        "user-agent": "asus-theye-audit-client/0.2",
+    }
+    token = _ledger_token()
+    if token:
+        headers["authorization"] = f"Bearer {token}"
     request = urllib.request.Request(
         f"{ledger_url.rstrip('/')}/events",
         data=json.dumps(body).encode("utf-8"),
-        headers={
-            "content-type": "application/json",
-            # Cloudflare's browser integrity check rejects the default
-            # Python-urllib user agent with error 1010.
-            "user-agent": "asus-theye-audit-client/0.2",
-        },
+        headers=headers,
         method="POST",
     )
     try:
