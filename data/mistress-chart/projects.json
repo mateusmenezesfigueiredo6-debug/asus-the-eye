@@ -1,0 +1,173 @@
+{
+  "chart_version": "1.0.0",
+  "note": "Registro de projetos do THE EYE. Campos declaram INTENÇÃO (o que o projeto se propõe e quais artefatos deveria ter); o chart mede a REALIDADE conferindo se cada artefato existe. Nunca escreva percentual aqui — ele é calculado.",
+  "projects": [
+    {
+      "project_id": "benchmark-engine",
+      "name": "Engine de benchmark (clássico / QUBO / QAOA)",
+      "purpose": "Comparar caminhos com honestidade: QAR mede vantagem real, não promessa",
+      "release_class": "L1",
+      "niches": ["*"],
+      "paths": ["asus_theye/benchmark", "asus_theye/problem.py"],
+      "artifacts": [
+        "asus_theye/benchmark/runner.py",
+        "asus_theye/benchmark/qaoa_benchmark.py",
+        "asus_theye/problem.py",
+        "tests/test_benchmark.py",
+        "docs/BENCHMARK_ENGINE.md"
+      ]
+    },
+    {
+      "project_id": "audit-core",
+      "name": "Núcleo de auditoria (hash chain, Merkle, verifier)",
+      "purpose": "Evidência append-only que ninguém — nem o dono — consegue reescrever",
+      "release_class": "L1",
+      "niches": ["*"],
+      "paths": ["asus_theye/audit", "packages"],
+      "artifacts": [
+        "asus_theye/audit/canonical.py",
+        "asus_theye/audit/keccak.py",
+        "asus_theye/audit/merkle.py",
+        "asus_theye/audit/manifest.py",
+        "asus_theye/audit/schema.py",
+        "asus_theye/audit/sdk.py",
+        "asus_theye/audit/verifier.py",
+        "asus_theye/audit/batching.py",
+        "migrations/0001_audit_ledger.sql",
+        "tests/audit/test_audit_core.py"
+      ]
+    },
+    {
+      "project_id": "ledger-staging",
+      "name": "Ledger em produção (Cloudflare D1 + R2 + Worker)",
+      "purpose": "A cadeia viva: sequenciador por tenant, append-only garantido por trigger",
+      "release_class": "L2",
+      "niches": ["*"],
+      "paths": ["infra/cloudflare"],
+      "artifacts": [
+        "infra/cloudflare/staging/worker.ts",
+        "infra/cloudflare/staging/wrangler.toml",
+        "infra/cloudflare/STAGING_PROVISIONING.md",
+        "apps/verifier/app.py",
+        "tests/apps/test_verifier_app.py"
+      ]
+    },
+    {
+      "project_id": "decision-context",
+      "name": "Contexto decisório (Fase G — judiciário)",
+      "purpose": "Análise institucional e jurisprudencial com LGPD por construção",
+      "release_class": "L4",
+      "niches": [
+        "civil-procedure",
+        "precedents-and-repetitive-litigation",
+        "jurimetrics-litigation-analytics-and-litigation-finance",
+        "enforcement"
+      ],
+      "paths": ["data/decision-context", "asus_theye/decision_context"],
+      "artifacts": [
+        "data/decision-context/decision-makers.schema.json",
+        "data/decision-context/decision-bodies.schema.json",
+        "data/decision-context/assignment-rules.schema.json",
+        "data/decision-context/public-decisions.schema.json",
+        "data/decision-context/jurisprudential-patterns.schema.json",
+        "data/decision-context/panel-dynamics.schema.json",
+        "data/decision-context/conflict-alerts.schema.json",
+        "data/decision-context/institutional-context.schema.json",
+        "data/decision-context/metrics.schema.json",
+        "data/decision-context/data-protection.schema.json",
+        "asus_theye/decision_context/extractor.py",
+        "asus_theye/decision_context/legal_areas.py",
+        "docs/security/DECISION_CONTEXT_LGPD.md",
+        "tests/decision_context/test_schemas.py"
+      ]
+    },
+    {
+      "project_id": "legal-taxonomy",
+      "name": "Taxonomia legal (145 nichos)",
+      "purpose": "Chave de junção entre eventos, decisões e produtos por área",
+      "release_class": "L1",
+      "niches": ["*"],
+      "paths": ["data/legal-taxonomy"],
+      "artifacts": [
+        "data/legal-taxonomy/legal_areas.master.json",
+        "data/legal-taxonomy/legal_areas.master.yaml",
+        "data/legal-taxonomy/legal_area_aliases.json",
+        "data/legal-taxonomy/legal_area_relationships.json",
+        "data/legal-taxonomy/cnj_crosswalk.json",
+        "data/legal-taxonomy/international_crosswalk.json",
+        "docs/legal-intelligence/LEGAL_TAXONOMY.md",
+        "docs/legal-intelligence/TAXONOMY_METHODOLOGY.md"
+      ]
+    },
+    {
+      "project_id": "local-llm",
+      "name": "LLM local auditado (Ollama)",
+      "purpose": "Inferência que nunca sai da máquina, com registro encadeado de cada chamada",
+      "release_class": "L0",
+      "niches": ["*"],
+      "paths": ["asus_theye/llm"],
+      "artifacts": [
+        "asus_theye/llm/ollama_client.py",
+        "asus_theye/llm/audited.py",
+        "tests/llm/test_audited_llm.py"
+      ]
+    },
+    {
+      "project_id": "quantum-adapter",
+      "name": "Adaptador IBM Quantum (gated)",
+      "purpose": "Hardware real atrás de portão explícito; dry-run é livre, execução não",
+      "release_class": "L2",
+      "niches": ["*"],
+      "paths": ["asus_theye/benchmark/ibm_backend.py"],
+      "artifacts": [
+        "asus_theye/benchmark/ibm_backend.py",
+        "tests/benchmark/test_ibm_backend_gate.py"
+      ]
+    },
+    {
+      "project_id": "governance",
+      "name": "Governança (trava, protocolo, checagem de vazamento)",
+      "purpose": "Regras executáveis: o que sai, quando, com aprovação de quem",
+      "release_class": "L1",
+      "niches": ["*"],
+      "paths": ["scripts", "RELEASE_PROTOCOL.md"],
+      "artifacts": [
+        "RELEASE_PROTOCOL.md",
+        "scripts/publish_lock.py",
+        "scripts/publish_guard.py",
+        "scripts/release_check.py",
+        "scripts/leak_check.py",
+        "scripts/policy_gate.py",
+        "docs/security/LEAK_CHECK.md",
+        "tests/scripts/test_publish_guard.py"
+      ]
+    },
+    {
+      "project_id": "anchor-contract",
+      "name": "Contrato de ancoragem (Base Sepolia)",
+      "purpose": "Raiz Merkle on-chain; conteúdo nunca — só prova",
+      "release_class": "L3",
+      "niches": ["blockchain-and-smart-contracts", "cryptoassets"],
+      "paths": ["contracts"],
+      "artifacts": [
+        "contracts/audit-anchor/src/TheEyeAuditAnchor.sol",
+        "contracts/audit-anchor/test/TheEyeAuditAnchor.t.sol",
+        "contracts/audit-anchor/foundry.toml",
+        "contracts/audit-anchor/README.md"
+      ]
+    },
+    {
+      "project_id": "public-verifier",
+      "name": "Superfície pública de verificação",
+      "purpose": "Terceiros conferem provas sem credencial — só leitura, só hashes",
+      "release_class": "L5",
+      "niches": ["*"],
+      "paths": ["apps/public-verifier"],
+      "artifacts": [
+        "apps/public-verifier/worker.ts",
+        "apps/public-verifier/wrangler.toml",
+        "apps/public-verifier/README.md"
+      ]
+    }
+  ]
+}

@@ -9,6 +9,9 @@ PBKDF2-SHA256 hash lives on disk. Unlocks are short-lived and single-window.
     python3 scripts/publish_lock.py unlock     # open a 5-minute publish window
     python3 scripts/publish_lock.py status     # show lock state
     python3 scripts/publish_lock.py lock       # close the window immediately
+    python3 scripts/publish_lock.py authorize npm @me/pkg   # recurring target: flows freely
+    python3 scripts/publish_lock.py list       # show standing authorizations
+    python3 scripts/publish_lock.py revoke npm @me/pkg
 
 Standard library only.
 """
@@ -28,6 +31,7 @@ from pathlib import Path
 LOCK_DIR = Path.home() / ".the-eye"
 LOCK_FILE = LOCK_DIR / "publish-lock.json"
 UNLOCK_FILE = LOCK_DIR / "publish-unlock.json"
+STANDING_FILE = LOCK_DIR / "standing-releases.json"
 ITERATIONS = 480_000
 DEFAULT_WINDOW_SECONDS = 300
 
@@ -109,6 +113,63 @@ def unlock_remaining_seconds() -> int:
     return max(0, expires - int(time.time()))
 
 
+def load_standing() -> list[dict]:
+    """Targets whose exposure decision was already made, once, with the passphrase.
+
+    Re-publishing an already-public artifact exposes nothing new: the door opened
+    at v1.0.0. Gating every version would train the user to keep the window open
+    permanently, which is worse than no lock at all.
+    """
+    if not STANDING_FILE.exists():
+        return []
+    try:
+        return json.loads(STANDING_FILE.read_text(encoding="utf-8"))["targets"]
+    except (ValueError, KeyError):
+        return []
+
+
+def cmd_authorize(kind: str, identifier: str) -> int:
+    """Grant standing authorization for a recurring release target."""
+    if not LOCK_FILE.exists():
+        print("No passphrase set. Run: python3 scripts/publish_lock.py set", file=sys.stderr)
+        return 1
+    print(f"Standing authorization: {kind} -> {identifier}")
+    print("Every future release to THIS target will flow without a passphrase.")
+    if not _verify(getpass.getpass("Publish passphrase to confirm: ")):
+        print("Wrong passphrase. Nothing authorized.", file=sys.stderr)
+        return 1
+    targets = load_standing()
+    if any(t["kind"] == kind and t["identifier"] == identifier for t in targets):
+        print("Already authorized.")
+        return 0
+    targets.append({"kind": kind, "identifier": identifier, "authorized_at": int(time.time())})
+    _write_private(STANDING_FILE, {"targets": targets})
+    print("Authorized. New/unknown targets still require the passphrase.")
+    return 0
+
+
+def cmd_revoke(kind: str, identifier: str) -> int:
+    targets = [
+        t for t in load_standing()
+        if not (t["kind"] == kind and t["identifier"] == identifier)
+    ]
+    _write_private(STANDING_FILE, {"targets": targets})
+    print(f"Revoked: {kind} -> {identifier}")
+    return 0
+
+
+def cmd_list() -> int:
+    targets = load_standing()
+    if not targets:
+        print("No standing authorizations. Every exposing release needs the passphrase.")
+        return 0
+    print("Standing authorizations (recurring releases that flow freely):")
+    for target in targets:
+        when = time.strftime("%Y-%m-%d", time.localtime(target["authorized_at"]))
+        print(f"  {target['kind']:16s} {target['identifier']:40s} desde {when}")
+    return 0
+
+
 def cmd_status() -> int:
     if not LOCK_FILE.exists():
         print("status: NO PASSPHRASE SET — publishing is blocked until you run `set`.")
@@ -117,7 +178,9 @@ def cmd_status() -> int:
     if remaining:
         print(f"status: UNLOCKED for {remaining}s")
     else:
-        print("status: LOCKED — publishing requires the passphrase")
+        print("status: LOCKED — new exposures require the passphrase")
+    standing = load_standing()
+    print(f"standing authorizations: {len(standing)} (recurring releases that flow freely)")
     return 0
 
 
@@ -132,6 +195,12 @@ def main(argv: list[str]) -> int:
         return cmd_lock()
     if command == "status":
         return cmd_status()
+    if command == "authorize" and len(argv) > 3:
+        return cmd_authorize(argv[2], argv[3])
+    if command == "revoke" and len(argv) > 3:
+        return cmd_revoke(argv[2], argv[3])
+    if command == "list":
+        return cmd_list()
     print(__doc__)
     return 2
 

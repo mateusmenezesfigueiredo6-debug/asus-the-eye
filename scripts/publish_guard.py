@@ -23,12 +23,36 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 try:
-    from publish_lock import LOCK_FILE, unlock_remaining_seconds
+    from publish_lock import LOCK_FILE, load_standing, unlock_remaining_seconds
 except Exception:  # pragma: no cover - fail closed
     LOCK_FILE = Path.home() / ".the-eye" / "publish-lock.json"
 
     def unlock_remaining_seconds() -> int:
         return 0
+
+    def load_standing() -> list:
+        return []
+
+
+def strip_heredocs(command: str) -> str:
+    """Remove heredoc bodies before pattern matching.
+
+    Writing a file whose *content* names a publishing command is not publishing.
+    Without this, editing the guard itself (or any doc that documents the
+    blocked commands) trips the guard — a false positive that teaches people to
+    disable it.
+    """
+    result: list[str] = []
+    delimiter: str | None = None
+    for line in command.splitlines():
+        if delimiter is None:
+            match = re.search(r"<<-?\s*['\"]?([A-Za-z_][A-Za-z0-9_]*)['\"]?", line)
+            result.append(line)
+            if match:
+                delimiter = match.group(1)
+        elif line.strip() == delimiter:
+            delimiter = None
+    return "\n".join(result)
 
 
 # Tier EXPOSE: makes something visible to the world or is irreversible outside
@@ -57,6 +81,38 @@ ROUTINE_PATTERNS: tuple[tuple[str, str], ...] = (
 )
 
 
+def _package_name(directory: Path) -> str | None:
+    manifest = directory / "package.json"
+    if not manifest.exists():
+        return None
+    try:
+        return json.loads(manifest.read_text(encoding="utf-8")).get("name")
+    except ValueError:
+        return None
+
+
+def standing_match(command: str) -> str | None:
+    """Identifier of a standing authorization covering this command, if any.
+
+    Re-releasing an already-public artifact is not a new exposure: that decision
+    was made once, with the passphrase. Gating every version of a live product
+    would train the user to keep the window permanently open — worse than no
+    lock. Only new or unknown targets stay gated.
+    """
+    lowered = command.lower()
+    for target in load_standing():
+        kind, identifier = target.get("kind", ""), target.get("identifier", "")
+        if not identifier:
+            continue
+        if identifier.lower() in lowered:
+            return f"{kind}:{identifier}"
+        # npm carries no target on the command line; read the local manifest.
+        if kind == "npm" and re.search(r"\bnpm\s+publish\b", lowered):
+            if _package_name(Path.cwd()) == identifier:
+                return f"{kind}:{identifier}"
+    return None
+
+
 def classify(command: str) -> tuple[str, str] | None:
     """Return (tier, description) for a command, or None when it is harmless."""
     for pattern, description in EXPOSE_PATTERNS:
@@ -79,7 +135,8 @@ def main() -> int:
         print(json.dumps({}))
         return 0
 
-    command = str(payload.get("tool_input", {}).get("command", ""))
+    raw_command = str(payload.get("tool_input", {}).get("command", ""))
+    command = strip_heredocs(raw_command)
     classified = classify(command)
     if classified is None:
         print(json.dumps({}))
@@ -89,6 +146,16 @@ def main() -> int:
     # Routine, private, reversible: always announce, never block.
     if tier == "routine":
         print(json.dumps({"systemMessage": f"📤 Saindo da máquina (combinado): {reason}"}))
+        return 0
+
+    # Recurring release to an already-authorized target: exposure decided once.
+    authorized = standing_match(command)
+    if authorized is not None:
+        print(
+            json.dumps(
+                {"systemMessage": f"📦 Release recorrente autorizado ({authorized}): {reason}"}
+            )
+        )
         return 0
 
     remaining = unlock_remaining_seconds()
@@ -121,6 +188,9 @@ def main() -> int:
                         f"  $ {command[:200]}\n\n"
                         "Nada sai desta máquina sem a sua senha. Para liberar, rode você mesmo:\n"
                         f"  {lock_hint}\n\n"
+                        "Se este é um lançamento RECORRENTE (produto vivo), autorize o alvo\n"
+                        "uma vez e ele flui para sempre, sem senha:\n"
+                        "  python3 scripts/publish_lock.py authorize <npm|docker|release> <alvo>\n\n"
                         "A senha nunca passa por esta conversa."
                     ),
                 }

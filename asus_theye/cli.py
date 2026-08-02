@@ -61,6 +61,12 @@ def _parser() -> argparse.ArgumentParser:
         "--proofs-out", type=Path, default=Path("reports/audit/proofs"),
         help="directory for the manifest and inclusion proofs",
     )
+    chart = subcommands.add_parser("chart", help="Mistress Chart — projetos e nichos medidos")
+    chart.add_argument("--html", type=Path, default=Path("reports/chart/mistress-chart.html"))
+    chart.add_argument("--json", dest="json_out", type=Path, default=Path("reports/chart/snapshot.json"))
+    chart.add_argument("--ledger-url", default=os.environ.get("THE_EYE_LEDGER_URL", ""))
+    chart.add_argument("--tenant", default=DEFAULT_TENANT)
+    chart.add_argument("--publish", action="store_true", help="ancorar o hash do snapshot no ledger")
     quantum = subcommands.add_parser("quantum", help="IBM Quantum adapter (gated)")
     quantum.add_argument(
         "--execute", action="store_true", help="submit a real QPU job (requires THE_EYE_IBM_EXECUTE=1)"
@@ -168,6 +174,48 @@ def main(argv: Sequence[str] | None = None) -> int:
         print(f"manifest_hash: {manifest['manifest_hash_sha256']}")
         print(f"status: {outcome['status']}")
         print(f"\nProofs:\n{target}")
+        return 0
+    if args.command == "chart":
+        from asus_theye.audit.remote_ledger import publish_event
+        from asus_theye.chart import build_chart, chart_snapshot_hash, render_html, render_text
+
+        events = None
+        if args.ledger_url:
+            from asus_theye.audit.batching import fetch_events
+
+            events = fetch_events(args.ledger_url, args.tenant)
+        snapshot = build_chart(events)
+        snapshot_hash = chart_snapshot_hash(snapshot)
+        print(render_text(snapshot, snapshot_hash))
+
+        for target, content in (
+            (args.json_out, json.dumps(snapshot, ensure_ascii=False, indent=2) + "\n"),
+            (args.html, render_html(snapshot, snapshot_hash)),
+        ):
+            target.parent.mkdir(parents=True, exist_ok=True)
+            target.write_text(content, encoding="utf-8")
+        print(f"\nHTML: {args.html}\nJSON: {args.json_out}")
+
+        if args.publish:
+            if not args.ledger_url:
+                print("chart: --publish requer --ledger-url ou THE_EYE_LEDGER_URL")
+                return 1
+            receipt = publish_event(
+                {
+                    "tenant_id": args.tenant,
+                    "idempotency_key": f"chart-{snapshot_hash[:32]}",
+                    "event_type": "chart.snapshot",
+                    "resource_type": "mistress_chart",
+                    "resource_id_pseudonymous": f"chart-{snapshot_hash[:16]}",
+                    "payload": {
+                        "commit": snapshot["commit"],
+                        "snapshot_hash_sha256": snapshot_hash,
+                        **snapshot["totals"],
+                    },
+                },
+                args.ledger_url,
+            )
+            print(f"Ledger: sequência {receipt['sequence']}")
         return 0
     if args.command == "quantum":
         from asus_theye.benchmark.ibm_backend import dry_run, run_on_hardware
