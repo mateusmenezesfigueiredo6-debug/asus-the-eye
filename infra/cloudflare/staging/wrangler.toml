@@ -1,0 +1,35 @@
+# ASUS THE EYE — approved staging deploy (phase 2, partial).
+# Queues intentionally absent: Cloudflare Queues requires the Workers Paid plan,
+# and cost creation is gated. Ingestion is HTTP -> Durable Object -> D1 for now.
+# See ../STAGING_PROVISIONING.md for the approval record.
+
+name = "the-eye-audit-staging"
+main = "worker.ts"
+compatibility_date = "2026-07-01"
+workers_dev = true
+
+[vars]
+ENVIRONMENT = "staging"
+BLOCKCHAIN_BROADCAST_ENABLED = "false"
+AUDIT_SCHEMA_VERSION = "1.0.0"
+
+[[d1_databases]]
+binding = "AUDIT_DB"
+database_name = "the-eye-audit-staging"
+database_id = "6a7a2c73-653f-4a2e-9d9d-62f7d83914ea"
+
+[[r2_buckets]]
+binding = "AUDIT_EVIDENCE"
+bucket_name = "the-eye-audit-staging"
+
+[[durable_objects.bindings]]
+name = "AUDIT_SEQUENCER"
+class_name = "AuditSequencer"
+
+[[migrations]]
+tag = "v1-staging"
+new_sqlite_classes = ["AuditSequencer"]
+
+[observability]
+enabled = true
+head_sampling_rate = 1
