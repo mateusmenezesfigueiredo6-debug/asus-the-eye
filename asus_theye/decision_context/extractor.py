@@ -156,5 +156,8 @@ def extract_decision_fields(
     if review_flags:
         validated["review_flags"] = review_flags
 
+    from asus_theye.decision_context.legal_areas import suggest_legal_areas
+
+    validated["legal_area_ids_suggested"] = suggest_legal_areas(decision_text)
     validated["extraction_audit_record_hash"] = outcome["audit_record"]["record_hash_sha256"]
     return validated

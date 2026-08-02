@@ -1,0 +1,7 @@
+{
+  "crosswalk_version": "0.1.0",
+  "target": "International practice-area taxonomies",
+  "status": "pending_official_mapping",
+  "policy": "Mappings are added only from official published tables; never inferred or invented (UNKNOWN over guess).",
+  "mappings": []
+}

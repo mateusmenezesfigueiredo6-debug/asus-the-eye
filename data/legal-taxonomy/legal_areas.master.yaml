@@ -1,0 +1,583 @@
+taxonomy_version: "1.0.0"
+area_count: 145
+areas:
+  - legal_area_id: constitutional-and-constitutional-procedure
+    number: 1
+    name_en: "Constitutional and constitutional procedure"
+    group: public-law
+  - legal_area_id: administrative-and-public-service
+    number: 2
+    name_en: "Administrative and public service"
+    group: public-law
+  - legal_area_id: regulatory
+    number: 3
+    name_en: "Regulatory"
+    group: public-law
+  - legal_area_id: public-procurement-and-public-contracts
+    number: 4
+    name_en: "Public procurement and public contracts"
+    group: public-law
+  - legal_area_id: concessions-ppps-privatization-and-infrastructure
+    number: 5
+    name_en: "Concessions, PPPs, privatization, and infrastructure"
+    group: public-law
+  - legal_area_id: public-finance-budgeting-fiscal-responsibility-and-public-de
+    number: 6
+    name_en: "Public finance, budgeting, fiscal responsibility, and public debt"
+    group: public-law
+  - legal_area_id: tax
+    number: 7
+    name_en: "Tax"
+    group: public-law
+  - legal_area_id: customs
+    number: 8
+    name_en: "Customs"
+    group: public-law
+  - legal_area_id: civil-law
+    number: 9
+    name_en: "Civil law"
+    group: civil-and-consumer
+  - legal_area_id: obligations
+    number: 10
+    name_en: "Obligations"
+    group: civil-and-consumer
+  - legal_area_id: contracts
+    number: 11
+    name_en: "Contracts"
+    group: civil-and-consumer
+  - legal_area_id: civil-liability-and-product-liability
+    number: 12
+    name_en: "Civil liability and product liability"
+    group: civil-and-consumer
+  - legal_area_id: consumer
+    number: 13
+    name_en: "Consumer"
+    group: civil-and-consumer
+  - legal_area_id: family
+    number: 14
+    name_en: "Family"
+    group: civil-and-consumer
+  - legal_area_id: children-and-adolescents
+    number: 15
+    name_en: "Children and adolescents"
+    group: civil-and-consumer
+  - legal_area_id: elder-law
+    number: 16
+    name_en: "Elder law"
+    group: civil-and-consumer
+  - legal_area_id: succession-private-client-and-family-offices
+    number: 17
+    name_en: "Succession, private client, and family offices"
+    group: civil-and-consumer
+  - legal_area_id: real-estate
+    number: 18
+    name_en: "Real estate"
+    group: civil-and-consumer
+  - legal_area_id: urban-planning
+    number: 19
+    name_en: "Urban planning"
+    group: civil-and-consumer
+  - legal_area_id: registry-and-notarial-law
+    number: 20
+    name_en: "Registry and notarial law"
+    group: civil-and-consumer
+  - legal_area_id: business-law
+    number: 21
+    name_en: "Business law"
+    group: corporate-and-transactions
+  - legal_area_id: corporate-law
+    number: 22
+    name_en: "Corporate law"
+    group: corporate-and-transactions
+  - legal_area_id: governance
+    number: 23
+    name_en: "Governance"
+    group: corporate-and-transactions
+  - legal_area_id: m-a
+    number: 24
+    name_en: "M&A"
+    group: corporate-and-transactions
+  - legal_area_id: startups
+    number: 25
+    name_en: "Startups"
+    group: corporate-and-transactions
+  - legal_area_id: venture-capital
+    number: 26
+    name_en: "Venture capital"
+    group: corporate-and-transactions
+  - legal_area_id: private-equity
+    number: 27
+    name_en: "Private equity"
+    group: corporate-and-transactions
+  - legal_area_id: banking
+    number: 28
+    name_en: "Banking"
+    group: financial-services
+  - legal_area_id: private-financial-law
+    number: 29
+    name_en: "Private financial law"
+    group: financial-services
+  - legal_area_id: fintech-and-payments
+    number: 30
+    name_en: "Fintech and payments"
+    group: financial-services
+  - legal_area_id: capital-markets
+    number: 31
+    name_en: "Capital markets"
+    group: financial-services
+  - legal_area_id: asset-management
+    number: 32
+    name_en: "Asset management"
+    group: financial-services
+  - legal_area_id: insurance
+    number: 33
+    name_en: "Insurance"
+    group: financial-services
+  - legal_area_id: reinsurance
+    number: 34
+    name_en: "Reinsurance"
+    group: financial-services
+  - legal_area_id: private-pensions
+    number: 35
+    name_en: "Private pensions"
+    group: financial-services
+  - legal_area_id: insolvency
+    number: 36
+    name_en: "Insolvency"
+    group: insolvency-competition-trade
+  - legal_area_id: judicial-and-extrajudicial-restructuring
+    number: 37
+    name_en: "Judicial and extrajudicial restructuring"
+    group: insolvency-competition-trade
+  - legal_area_id: competition-and-antitrust
+    number: 38
+    name_en: "Competition and antitrust"
+    group: insolvency-competition-trade
+  - legal_area_id: international-trade
+    number: 39
+    name_en: "International trade"
+    group: insolvency-competition-trade
+  - legal_area_id: sanctions-export-controls-and-foreign-investment-screening
+    number: 40
+    name_en: "Sanctions, export controls, and foreign-investment screening"
+    group: insolvency-competition-trade
+  - legal_area_id: employment
+    number: 41
+    name_en: "Employment"
+    group: labor-and-social-security
+  - legal_area_id: collective-labor-and-unions
+    number: 42
+    name_en: "Collective labor and unions"
+    group: labor-and-social-security
+  - legal_area_id: social-security
+    number: 43
+    name_en: "Social security"
+    group: labor-and-social-security
+  - legal_area_id: criminal-law
+    number: 44
+    name_en: "Criminal law"
+    group: criminal-and-compliance
+  - legal_area_id: criminal-procedure
+    number: 45
+    name_en: "Criminal procedure"
+    group: criminal-and-compliance
+  - legal_area_id: sentence-enforcement
+    number: 46
+    name_en: "Sentence enforcement"
+    group: criminal-and-compliance
+  - legal_area_id: corporate-criminal-law
+    number: 47
+    name_en: "Corporate criminal law"
+    group: criminal-and-compliance
+  - legal_area_id: compliance
+    number: 48
+    name_en: "Compliance"
+    group: criminal-and-compliance
+  - legal_area_id: internal-investigations
+    number: 49
+    name_en: "Internal investigations"
+    group: criminal-and-compliance
+  - legal_area_id: aml-kyc-kyb-beneficial-ownership-and-asset-recovery
+    number: 50
+    name_en: "AML, KYC, KYB, beneficial ownership, and asset recovery"
+    group: criminal-and-compliance
+  - legal_area_id: civil-procedure
+    number: 51
+    name_en: "Civil procedure"
+    group: procedure-and-disputes
+  - legal_area_id: precedents-and-repetitive-litigation
+    number: 52
+    name_en: "Precedents and repetitive litigation"
+    group: procedure-and-disputes
+  - legal_area_id: collective-actions-and-structural-litigation
+    number: 53
+    name_en: "Collective actions and structural litigation"
+    group: procedure-and-disputes
+  - legal_area_id: enforcement
+    number: 54
+    name_en: "Enforcement"
+    group: procedure-and-disputes
+  - legal_area_id: jurimetrics-litigation-analytics-and-litigation-finance
+    number: 55
+    name_en: "Jurimetrics, litigation analytics, and litigation finance"
+    group: procedure-and-disputes
+  - legal_area_id: arbitration
+    number: 56
+    name_en: "Arbitration"
+    group: procedure-and-disputes
+  - legal_area_id: mediation
+    number: 57
+    name_en: "Mediation"
+    group: procedure-and-disputes
+  - legal_area_id: conciliation
+    number: 58
+    name_en: "Conciliation"
+    group: procedure-and-disputes
+  - legal_area_id: negotiation
+    number: 59
+    name_en: "Negotiation"
+    group: procedure-and-disputes
+  - legal_area_id: dispute-boards-and-adjudication
+    number: 60
+    name_en: "Dispute boards and adjudication"
+    group: procedure-and-disputes
+  - legal_area_id: expert-determination-and-neutral-evaluation
+    number: 61
+    name_en: "Expert determination and neutral evaluation"
+    group: procedure-and-disputes
+  - legal_area_id: online-dispute-resolution-and-dispute-system-design
+    number: 62
+    name_en: "Online dispute resolution and dispute-system design"
+    group: procedure-and-disputes
+  - legal_area_id: public-international-law
+    number: 63
+    name_en: "Public international law"
+    group: international-and-human-rights
+  - legal_area_id: private-international-law
+    number: 64
+    name_en: "Private international law"
+    group: international-and-human-rights
+  - legal_area_id: international-investment-law
+    number: 65
+    name_en: "International investment law"
+    group: international-and-human-rights
+  - legal_area_id: human-rights
+    number: 66
+    name_en: "Human rights"
+    group: international-and-human-rights
+  - legal_area_id: humanitarian-law
+    number: 67
+    name_en: "Humanitarian law"
+    group: international-and-human-rights
+  - legal_area_id: migration-nationality-asylum-and-refugees
+    number: 68
+    name_en: "Migration, nationality, asylum, and refugees"
+    group: international-and-human-rights
+  - legal_area_id: health-law
+    number: 69
+    name_en: "Health law"
+    group: health-and-life-sciences
+  - legal_area_id: life-sciences
+    number: 70
+    name_en: "Life sciences"
+    group: health-and-life-sciences
+  - legal_area_id: pharmaceutical-and-medical-devices
+    number: 71
+    name_en: "Pharmaceutical and medical devices"
+    group: health-and-life-sciences
+  - legal_area_id: bioethics-genetics-reproductive-medicine-end-of-life-and-neu
+    number: 72
+    name_en: "Bioethics, genetics, reproductive medicine, end-of-life, and neurorights"
+    group: health-and-life-sciences
+  - legal_area_id: education
+    number: 73
+    name_en: "Education"
+    group: health-and-life-sciences
+  - legal_area_id: science-research-integrity-and-technology-transfer
+    number: 74
+    name_en: "Science, research integrity, and technology transfer"
+    group: health-and-life-sciences
+  - legal_area_id: environmental
+    number: 75
+    name_en: "Environmental"
+    group: environment-and-climate
+  - legal_area_id: climate
+    number: 76
+    name_en: "Climate"
+    group: environment-and-climate
+  - legal_area_id: esg-and-business-and-human-rights
+    number: 77
+    name_en: "ESG and business and human rights"
+    group: environment-and-climate
+  - legal_area_id: animal-law
+    number: 78
+    name_en: "Animal law"
+    group: environment-and-climate
+  - legal_area_id: electric-power
+    number: 79
+    name_en: "Electric power"
+    group: energy-and-natural-resources
+  - legal_area_id: renewables-hydrogen-storage-and-nuclear
+    number: 80
+    name_en: "Renewables, hydrogen, storage, and nuclear"
+    group: energy-and-natural-resources
+  - legal_area_id: oil-gas-fuels-and-biofuels
+    number: 81
+    name_en: "Oil, gas, fuels, and biofuels"
+    group: energy-and-natural-resources
+  - legal_area_id: mining-and-critical-minerals
+    number: 82
+    name_en: "Mining and critical minerals"
+    group: energy-and-natural-resources
+  - legal_area_id: water-resources
+    number: 83
+    name_en: "Water resources"
+    group: energy-and-natural-resources
+  - legal_area_id: agrarian
+    number: 84
+    name_en: "Agrarian"
+    group: energy-and-natural-resources
+  - legal_area_id: agribusiness
+    number: 85
+    name_en: "Agribusiness"
+    group: energy-and-natural-resources
+  - legal_area_id: food-labeling-traceability-and-food-security
+    number: 86
+    name_en: "Food, labeling, traceability, and food security"
+    group: energy-and-natural-resources
+  - legal_area_id: construction-and-engineering
+    number: 87
+    name_en: "Construction and engineering"
+    group: infrastructure-and-transport
+  - legal_area_id: aviation-and-drones
+    number: 88
+    name_en: "Aviation and drones"
+    group: infrastructure-and-transport
+  - legal_area_id: maritime-and-shipping
+    number: 89
+    name_en: "Maritime and shipping"
+    group: infrastructure-and-transport
+  - legal_area_id: ports
+    number: 90
+    name_en: "Ports"
+    group: infrastructure-and-transport
+  - legal_area_id: rail
+    number: 91
+    name_en: "Rail"
+    group: infrastructure-and-transport
+  - legal_area_id: roads-and-automotive
+    number: 92
+    name_en: "Roads and automotive"
+    group: infrastructure-and-transport
+  - legal_area_id: transportation-logistics-and-autonomous-mobility
+    number: 93
+    name_en: "Transportation, logistics, and autonomous mobility"
+    group: infrastructure-and-transport
+  - legal_area_id: technology
+    number: 94
+    name_en: "Technology"
+    group: technology-data-and-cyber
+  - legal_area_id: software-and-saas
+    number: 95
+    name_en: "Software and SaaS"
+    group: technology-data-and-cyber
+  - legal_area_id: cloud-and-outsourcing
+    number: 96
+    name_en: "Cloud and outsourcing"
+    group: technology-data-and-cyber
+  - legal_area_id: telecommunications-and-internet
+    number: 97
+    name_en: "Telecommunications and internet"
+    group: technology-data-and-cyber
+  - legal_area_id: data-protection
+    number: 98
+    name_en: "Data protection"
+    group: technology-data-and-cyber
+  - legal_area_id: privacy
+    number: 99
+    name_en: "Privacy"
+    group: technology-data-and-cyber
+  - legal_area_id: cybersecurity-and-incident-response
+    number: 100
+    name_en: "Cybersecurity and incident response"
+    group: technology-data-and-cyber
+  - legal_area_id: artificial-intelligence
+    number: 101
+    name_en: "Artificial intelligence"
+    group: technology-data-and-cyber
+  - legal_area_id: algorithmic-governance-and-ai-auditing
+    number: 102
+    name_en: "Algorithmic governance and AI auditing"
+    group: technology-data-and-cyber
+  - legal_area_id: digital-evidence-and-forensics
+    number: 103
+    name_en: "Digital evidence and forensics"
+    group: technology-data-and-cyber
+  - legal_area_id: intellectual-property
+    number: 104
+    name_en: "Intellectual property"
+    group: intellectual-property
+  - legal_area_id: patents-and-utility-models
+    number: 105
+    name_en: "Patents and utility models"
+    group: intellectual-property
+  - legal_area_id: trademarks-industrial-designs-and-geographical-indications
+    number: 106
+    name_en: "Trademarks, industrial designs, and geographical indications"
+    group: intellectual-property
+  - legal_area_id: copyright-and-neighboring-rights
+    number: 107
+    name_en: "Copyright and neighboring rights"
+    group: intellectual-property
+  - legal_area_id: trade-secrets-and-unfair-competition
+    number: 108
+    name_en: "Trade secrets and unfair competition"
+    group: intellectual-property
+  - legal_area_id: domain-names-and-platform-enforcement
+    number: 109
+    name_en: "Domain names and platform enforcement"
+    group: intellectual-property
+  - legal_area_id: media-and-press
+    number: 110
+    name_en: "Media and press"
+    group: media-and-consumer-brands
+  - legal_area_id: entertainment-music-audiovisual-and-streaming
+    number: 111
+    name_en: "Entertainment, music, audiovisual, and streaming"
+    group: media-and-consumer-brands
+  - legal_area_id: advertising-influencers-and-marketing
+    number: 112
+    name_en: "Advertising, influencers, and marketing"
+    group: media-and-consumer-brands
+  - legal_area_id: fashion-law
+    number: 113
+    name_en: "Fashion law"
+    group: media-and-consumer-brands
+  - legal_area_id: luxury-law
+    number: 114
+    name_en: "Luxury law"
+    group: media-and-consumer-brands
+  - legal_area_id: art-cultural-heritage-provenance-restitution-and-museums
+    number: 115
+    name_en: "Art, cultural heritage, provenance, restitution, and museums"
+    group: media-and-consumer-brands
+  - legal_area_id: sports-law
+    number: 116
+    name_en: "Sports law"
+    group: sports-games-and-betting
+  - legal_area_id: sports-arbitration
+    number: 117
+    name_en: "Sports arbitration"
+    group: sports-games-and-betting
+  - legal_area_id: sports-justice-and-disciplinary-law
+    number: 118
+    name_en: "Sports justice and disciplinary law"
+    group: sports-games-and-betting
+  - legal_area_id: anti-doping
+    number: 119
+    name_en: "Anti-doping"
+    group: sports-games-and-betting
+  - legal_area_id: sports-integrity-and-safeguarding
+    number: 120
+    name_en: "Sports integrity and safeguarding"
+    group: sports-games-and-betting
+  - legal_area_id: sports-betting
+    number: 121
+    name_en: "Sports betting"
+    group: sports-games-and-betting
+  - legal_area_id: match-fixing-and-competition-manipulation
+    number: 122
+    name_en: "Match-fixing and competition manipulation"
+    group: sports-games-and-betting
+  - legal_area_id: esports
+    number: 123
+    name_en: "Esports"
+    group: sports-games-and-betting
+  - legal_area_id: games-and-virtual-economies
+    number: 124
+    name_en: "Games and virtual economies"
+    group: sports-games-and-betting
+  - legal_area_id: gambling-and-lotteries
+    number: 125
+    name_en: "Gambling and lotteries"
+    group: sports-games-and-betting
+  - legal_area_id: cryptoassets
+    number: 126
+    name_en: "Cryptoassets"
+    group: crypto-and-web3
+  - legal_area_id: blockchain-and-smart-contracts
+    number: 127
+    name_en: "Blockchain and smart contracts"
+    group: crypto-and-web3
+  - legal_area_id: web3-defi-daos-nfts-tokenization-and-digital-custody
+    number: 128
+    name_en: "Web3, DeFi, DAOs, NFTs, tokenization, and digital custody"
+    group: crypto-and-web3
+  - legal_area_id: electoral-law
+    number: 129
+    name_en: "Electoral law"
+    group: political-and-legislative
+  - legal_area_id: political-parties-and-campaign-finance
+    number: 130
+    name_en: "Political parties and campaign finance"
+    group: political-and-legislative
+  - legal_area_id: legislative-process-and-legislative-drafting
+    number: 131
+    name_en: "Legislative process and legislative drafting"
+    group: political-and-legislative
+  - legal_area_id: government-relations-public-policy-and-lobbying
+    number: 132
+    name_en: "Government relations, public policy, and lobbying"
+    group: political-and-legislative
+  - legal_area_id: military-law
+    number: 133
+    name_en: "Military law"
+    group: defense-security-and-space
+  - legal_area_id: defense-dual-use-technology-and-export-control
+    number: 134
+    name_en: "Defense, dual-use technology, and export control"
+    group: defense-security-and-space
+  - legal_area_id: public-security-policing-surveillance-and-use-of-force
+    number: 135
+    name_en: "Public security, policing, surveillance, and use of force"
+    group: defense-security-and-space
+  - legal_area_id: air-and-space-law-satellites-launches-orbital-debris-and-spa
+    number: 136
+    name_en: "Air and space law, satellites, launches, orbital debris, and space resources"
+    group: defense-security-and-space
+  - legal_area_id: third-sector
+    number: 137
+    name_en: "Third sector"
+    group: third-sector-and-religion
+  - legal_area_id: philanthropy-endowments-and-impact-investing
+    number: 138
+    name_en: "Philanthropy, endowments, and impact investing"
+    group: third-sector-and-religion
+  - legal_area_id: religious-law-and-freedom-of-religion
+    number: 139
+    name_en: "Religious law and freedom of religion"
+    group: third-sector-and-religion
+  - legal_area_id: professional-ethics-and-legal-responsibility
+    number: 140
+    name_en: "Professional ethics and legal responsibility"
+    group: legal-profession-and-operations
+  - legal_area_id: legal-operations
+    number: 141
+    name_en: "Legal operations"
+    group: legal-profession-and-operations
+  - legal_area_id: legal-management-and-knowledge-management
+    number: 142
+    name_en: "Legal management and knowledge management"
+    group: legal-profession-and-operations
+  - legal_area_id: access-to-justice-legal-aid-and-public-defense
+    number: 143
+    name_en: "Access to justice, legal aid, and public defense"
+    group: legal-profession-and-operations
+  - legal_area_id: legal-design-plain-language-and-accessible-justice
+    number: 144
+    name_en: "Legal design, plain language, and accessible justice"
+    group: legal-profession-and-operations
+  - legal_area_id: auditable-legal-ai-and-computational-law
+    number: 145
+    name_en: "Auditable legal AI and computational law"
+    group: legal-profession-and-operations

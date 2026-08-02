@@ -1,0 +1,148 @@
+{
+  "alias_version": "0.1.0",
+  "policy": "Seed aliases are high-confidence PT-BR names. Additions go through review; ambiguity stays out.",
+  "aliases": {
+    "tax": [
+      "direito tributario",
+      "tributario"
+    ],
+    "customs": [
+      "aduaneiro",
+      "direito aduaneiro"
+    ],
+    "civil-law": [
+      "direito civil"
+    ],
+    "contracts": [
+      "contrato",
+      "contratos",
+      "contratual",
+      "direito contratual",
+      "prestacao de servicos"
+    ],
+    "consumer": [
+      "cdc",
+      "consumidor",
+      "direito do consumidor",
+      "relacao de consumo"
+    ],
+    "family": [
+      "familia",
+      "direito de familia"
+    ],
+    "real-estate": [
+      "imobiliario",
+      "direito imobiliario"
+    ],
+    "corporate-law": [
+      "societario",
+      "direito societario"
+    ],
+    "m-a": [
+      "fusoes e aquisicoes",
+      "m&a"
+    ],
+    "banking": [
+      "bancario",
+      "direito bancario"
+    ],
+    "capital-markets": [
+      "mercado de capitais"
+    ],
+    "insurance": [
+      "seguros",
+      "direito securitario"
+    ],
+    "insolvency": [
+      "falencia",
+      "insolvencia"
+    ],
+    "judicial-and-extrajudicial-restructuring": [
+      "recuperacao judicial",
+      "recuperacao extrajudicial"
+    ],
+    "competition-and-antitrust": [
+      "concorrencial",
+      "antitruste",
+      "cade"
+    ],
+    "employment": [
+      "trabalhista",
+      "direito do trabalho"
+    ],
+    "social-security": [
+      "previdenciario",
+      "inss"
+    ],
+    "criminal-law": [
+      "penal",
+      "direito penal"
+    ],
+    "criminal-procedure": [
+      "processo penal"
+    ],
+    "compliance": [
+      "compliance",
+      "integridade"
+    ],
+    "civil-procedure": [
+      "agravo de instrumento",
+      "apelacao",
+      "apelacao civel",
+      "cpc",
+      "processo civil"
+    ],
+    "enforcement": [
+      "execucao",
+      "cumprimento de sentenca"
+    ],
+    "arbitration": [
+      "arbitragem"
+    ],
+    "mediation": [
+      "mediacao"
+    ],
+    "environmental": [
+      "ambiental",
+      "direito ambiental"
+    ],
+    "data-protection": [
+      "protecao de dados",
+      "lgpd"
+    ],
+    "privacy": [
+      "privacidade"
+    ],
+    "artificial-intelligence": [
+      "inteligencia artificial",
+      "ia"
+    ],
+    "intellectual-property": [
+      "propriedade intelectual",
+      "pi"
+    ],
+    "copyright-and-neighboring-rights": [
+      "direitos autorais"
+    ],
+    "electoral-law": [
+      "eleitoral",
+      "direito eleitoral"
+    ],
+    "health-law": [
+      "direito da saude",
+      "saude"
+    ],
+    "constitutional-and-constitutional-procedure": [
+      "constitucional",
+      "direito constitucional"
+    ],
+    "administrative-and-public-service": [
+      "administrativo",
+      "direito administrativo"
+    ],
+    "public-procurement-and-public-contracts": [
+      "licitacoes",
+      "lei de licitacoes"
+    ]
+  }
+}

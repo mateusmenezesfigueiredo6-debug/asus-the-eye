@@ -1,0 +1,195 @@
+{
+  "relationship_version": "1.0.0",
+  "note": "Only structural group membership derived from the source list. Cross-area doctrinal links require legal review before addition.",
+  "groups": {
+    "public-law": [
+      "constitutional-and-constitutional-procedure",
+      "administrative-and-public-service",
+      "regulatory",
+      "public-procurement-and-public-contracts",
+      "concessions-ppps-privatization-and-infrastructure",
+      "public-finance-budgeting-fiscal-responsibility-and-public-de",
+      "tax",
+      "customs"
+    ],
+    "civil-and-consumer": [
+      "civil-law",
+      "obligations",
+      "contracts",
+      "civil-liability-and-product-liability",
+      "consumer",
+      "family",
+      "children-and-adolescents",
+      "elder-law",
+      "succession-private-client-and-family-offices",
+      "real-estate",
+      "urban-planning",
+      "registry-and-notarial-law"
+    ],
+    "corporate-and-transactions": [
+      "business-law",
+      "corporate-law",
+      "governance",
+      "m-a",
+      "startups",
+      "venture-capital",
+      "private-equity"
+    ],
+    "financial-services": [
+      "banking",
+      "private-financial-law",
+      "fintech-and-payments",
+      "capital-markets",
+      "asset-management",
+      "insurance",
+      "reinsurance",
+      "private-pensions"
+    ],
+    "insolvency-competition-trade": [
+      "insolvency",
+      "judicial-and-extrajudicial-restructuring",
+      "competition-and-antitrust",
+      "international-trade",
+      "sanctions-export-controls-and-foreign-investment-screening"
+    ],
+    "labor-and-social-security": [
+      "employment",
+      "collective-labor-and-unions",
+      "social-security"
+    ],
+    "criminal-and-compliance": [
+      "criminal-law",
+      "criminal-procedure",
+      "sentence-enforcement",
+      "corporate-criminal-law",
+      "compliance",
+      "internal-investigations",
+      "aml-kyc-kyb-beneficial-ownership-and-asset-recovery"
+    ],
+    "procedure-and-disputes": [
+      "civil-procedure",
+      "precedents-and-repetitive-litigation",
+      "collective-actions-and-structural-litigation",
+      "enforcement",
+      "jurimetrics-litigation-analytics-and-litigation-finance",
+      "arbitration",
+      "mediation",
+      "conciliation",
+      "negotiation",
+      "dispute-boards-and-adjudication",
+      "expert-determination-and-neutral-evaluation",
+      "online-dispute-resolution-and-dispute-system-design"
+    ],
+    "international-and-human-rights": [
+      "public-international-law",
+      "private-international-law",
+      "international-investment-law",
+      "human-rights",
+      "humanitarian-law",
+      "migration-nationality-asylum-and-refugees"
+    ],
+    "health-and-life-sciences": [
+      "health-law",
+      "life-sciences",
+      "pharmaceutical-and-medical-devices",
+      "bioethics-genetics-reproductive-medicine-end-of-life-and-neu",
+      "education",
+      "science-research-integrity-and-technology-transfer"
+    ],
+    "environment-and-climate": [
+      "environmental",
+      "climate",
+      "esg-and-business-and-human-rights",
+      "animal-law"
+    ],
+    "energy-and-natural-resources": [
+      "electric-power",
+      "renewables-hydrogen-storage-and-nuclear",
+      "oil-gas-fuels-and-biofuels",
+      "mining-and-critical-minerals",
+      "water-resources",
+      "agrarian",
+      "agribusiness",
+      "food-labeling-traceability-and-food-security"
+    ],
+    "infrastructure-and-transport": [
+      "construction-and-engineering",
+      "aviation-and-drones",
+      "maritime-and-shipping",
+      "ports",
+      "rail",
+      "roads-and-automotive",
+      "transportation-logistics-and-autonomous-mobility"
+    ],
+    "technology-data-and-cyber": [
+      "technology",
+      "software-and-saas",
+      "cloud-and-outsourcing",
+      "telecommunications-and-internet",
+      "data-protection",
+      "privacy",
+      "cybersecurity-and-incident-response",
+      "artificial-intelligence",
+      "algorithmic-governance-and-ai-auditing",
+      "digital-evidence-and-forensics"
+    ],
+    "intellectual-property": [
+      "intellectual-property",
+      "patents-and-utility-models",
+      "trademarks-industrial-designs-and-geographical-indications",
+      "copyright-and-neighboring-rights",
+      "trade-secrets-and-unfair-competition",
+      "domain-names-and-platform-enforcement"
+    ],
+    "media-and-consumer-brands": [
+      "media-and-press",
+      "entertainment-music-audiovisual-and-streaming",
+      "advertising-influencers-and-marketing",
+      "fashion-law",
+      "luxury-law",
+      "art-cultural-heritage-provenance-restitution-and-museums"
+    ],
+    "sports-games-and-betting": [
+      "sports-law",
+      "sports-arbitration",
+      "sports-justice-and-disciplinary-law",
+      "anti-doping",
+      "sports-integrity-and-safeguarding",
+      "sports-betting",
+      "match-fixing-and-competition-manipulation",
+      "esports",
+      "games-and-virtual-economies",
+      "gambling-and-lotteries"
+    ],
+    "crypto-and-web3": [
+      "cryptoassets",
+      "blockchain-and-smart-contracts",
+      "web3-defi-daos-nfts-tokenization-and-digital-custody"
+    ],
+    "political-and-legislative": [
+      "electoral-law",
+      "political-parties-and-campaign-finance",
+      "legislative-process-and-legislative-drafting",
+      "government-relations-public-policy-and-lobbying"
+    ],
+    "defense-security-and-space": [
+      "military-law",
+      "defense-dual-use-technology-and-export-control",
+      "public-security-policing-surveillance-and-use-of-force",
+      "air-and-space-law-satellites-launches-orbital-debris-and-spa"
+    ],
+    "third-sector-and-religion": [
+      "third-sector",
+      "philanthropy-endowments-and-impact-investing",
+      "religious-law-and-freedom-of-religion"
+    ],
+    "legal-profession-and-operations": [
+      "professional-ethics-and-legal-responsibility",
+      "legal-operations",
+      "legal-management-and-knowledge-management",
+      "access-to-justice-legal-aid-and-public-defense",
+      "legal-design-plain-language-and-accessible-justice",
+      "auditable-legal-ai-and-computational-law"
+    ]
+  }
+}
