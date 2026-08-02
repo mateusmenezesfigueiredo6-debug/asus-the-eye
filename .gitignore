@@ -8,3 +8,16 @@ dist/
 *.egg-info/
 reports/benchmark/history.jsonl
 reports/benchmark/ledger.jsonl
+
+# BEGIN THE EYE AUTONOMOUS RUNTIME
+reports/autonomous/*/cycle-*/events.jsonl
+reports/autonomous/*/cycle-*/errors.log
+reports/autonomous/*/pid
+reports/autonomous/*/launcher.log
+# Never commit real environment or key files
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+# END THE EYE AUTONOMOUS RUNTIME

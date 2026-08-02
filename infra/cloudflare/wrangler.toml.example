@@ -1,0 +1,41 @@
+name = "the-eye-audit-worker-local-template"
+main = "worker.ts"
+compatibility_date = "2026-07-01"
+workers_dev = false
+
+[vars]
+ENVIRONMENT = "local"
+BLOCKCHAIN_BROADCAST_ENABLED = "false"
+AUDIT_SCHEMA_VERSION = "1.0.0"
+
+[[queues.consumers]]
+queue = "the-eye-audit-events"
+dead_letter_queue = "the-eye-audit-dlq"
+max_batch_size = 100
+max_batch_timeout = 5
+max_retries = 5
+
+[[queues.producers]]
+binding = "AUDIT_EVENTS"
+queue = "the-eye-audit-events"
+
+[[d1_databases]]
+binding = "AUDIT_DB"
+database_name = "REPLACE_IN_APPROVED_STAGING"
+database_id = ""
+
+[[r2_buckets]]
+binding = "AUDIT_EVIDENCE"
+bucket_name = "REPLACE_IN_APPROVED_STAGING"
+
+[[durable_objects.bindings]]
+name = "AUDIT_SEQUENCER"
+class_name = "AuditSequencer"
+
+[[migrations]]
+tag = "v1-local-template"
+new_sqlite_classes = ["AuditSequencer"]
+
+[observability]
+enabled = true
+head_sampling_rate = 1

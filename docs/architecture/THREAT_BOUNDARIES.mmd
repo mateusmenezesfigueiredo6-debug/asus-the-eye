@@ -1,0 +1,28 @@
+flowchart TB
+  subgraph T1[Untrusted/domain input]
+    I[User, integration, R2 event]
+  end
+  subgraph T2[Application trust zone]
+    S[SDK validation/redaction]
+    Q[Queue consumer]
+  end
+  subgraph T3[Tenant integrity zone]
+    D[Durable Object sequencer]
+    L[(Append-only ledger/outbox)]
+    E[(Encrypted evidence)]
+  end
+  subgraph T4[Privileged signing zone]
+    G[Policy + broadcast gate]
+    H[KMS/HSM signer - future]
+  end
+  subgraph T5[Public chain / external RPC]
+    C[Anchor contract]
+    R[RPC providers]
+  end
+  I --> S --> D --> L
+  I --> Q --> D
+  L --> G --> H --> C
+  E -. hashes only .-> L
+  R --> V[Independent verifier]
+  L --> V
+  C --> V

@@ -1,0 +1,15 @@
+sequenceDiagram
+  participant A as Auditor
+  participant V as Verifier
+  participant L as Ledger/storage
+  participant R as Independent RPC
+  A->>V: event/proof/manifest/anchor reference
+  V->>V: schema + canonical SHA-256
+  V->>L: tenant chain + manifest/proof
+  L-->>V: immutable evidence
+  V->>V: leaf/nodes/root + manifest hash
+  opt authorized chain check
+    V->>R: chain/address/batch/block
+    R-->>V: fields + confirmations/reorg view
+  end
+  V-->>A: valid / invalid / incomplete / not_anchored / anchor_unconfirmed receipt

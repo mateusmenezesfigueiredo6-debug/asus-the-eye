@@ -3,10 +3,12 @@
 from __future__ import annotations
 
 import argparse
+import json
 from collections.abc import Sequence
 from pathlib import Path
 
 from asus_theye.benchmark.runner import run_benchmark_suite
+from asus_theye.audit.verifier import verify_file
 
 
 def _parser() -> argparse.ArgumentParser:
@@ -18,6 +20,9 @@ def _parser() -> argparse.ArgumentParser:
     benchmark.add_argument("--layers", type=int, default=2)
     benchmark.add_argument("--seed", type=int, default=42)
     benchmark.add_argument("--stability-runs", type=int, default=10)
+    verify = subcommands.add_parser("audit-verify", help="verify an offline audit JSON document")
+    verify.add_argument("input", type=Path)
+    verify.add_argument("--receipt", type=Path)
     return parser
 
 
@@ -48,6 +53,10 @@ def main(argv: Sequence[str] | None = None) -> int:
         print(f"\nQAR: {metrics['qar']['qar']}")
         print(f"\nReport:\n{path}")
         return 0
+    if args.command == "audit-verify":
+        receipt = verify_file(args.input, args.receipt)
+        print(json.dumps(receipt, ensure_ascii=False, indent=2))
+        return 0 if receipt["status"] in {"valid", "not_anchored", "anchor_unconfirmed"} else 1
     return 2
 
 

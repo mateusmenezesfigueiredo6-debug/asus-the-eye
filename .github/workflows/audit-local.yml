@@ -1,0 +1,54 @@
+name: audit-local
+on:
+  pull_request:
+  push:
+    branches-ignore: [main]
+permissions:
+  contents: read
+jobs:
+  python:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12"}
+      - run: python -m pip install -e '.[dev]'
+      - run: ruff check .
+      - run: python -m pytest
+      - run: python scripts/policy_gate.py
+      - run: python scripts/event_coverage.py
+  security:
+    runs-on: ubuntu-latest
+    permissions: {contents: read, security-events: write}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: gitleaks/gitleaks-action@v2
+      - uses: anchore/sbom-action@v0
+        with: {path: ".", format: "cyclonedx-json", output-file: "sbom.cdx.json"}
+  dependency-review:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    permissions: {contents: read}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/dependency-review-action@v4
+  codeql:
+    runs-on: ubuntu-latest
+    permissions: {contents: read, security-events: write}
+    strategy: {matrix: {language: [python, javascript-typescript]}}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: github/codeql-action/init@v3
+        with: {languages: "${{ matrix.language }}"}
+      - uses: github/codeql-action/analyze@v3
+  contract:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python scripts/policy_gate.py
+      - run: |
+          if command -v forge >/dev/null && test -d contracts/audit-anchor/lib/openzeppelin-contracts; then
+            forge test --root contracts/audit-anchor
+          else
+            echo 'SKIPPED: reviewed vendored Forge/OpenZeppelin toolchain unavailable'
+          fi

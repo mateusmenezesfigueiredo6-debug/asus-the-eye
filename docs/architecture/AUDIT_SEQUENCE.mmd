@@ -1,0 +1,21 @@
+sequenceDiagram
+  participant S as Domain service
+  participant K as Audit SDK
+  participant D as Ledger DB
+  participant O as Outbox worker
+  participant B as Batcher
+  participant C as Anchor adapter
+  S->>K: critical mutation intent + correlation_id
+  K->>K: redact, tenant-HMAC, canonical hashes
+  K->>D: transaction(event + outbox)
+  alt audit unavailable
+    K-->>S: AuditUnavailableError; mutation blocked
+  else committed
+    D-->>K: receipt
+    K-->>S: mutation may complete
+    O->>D: claim pending idempotently
+    O->>B: sealed event
+    B->>B: ordered Merkle + manifest
+    B->>C: commitment only
+    Note over C: disabled unless explicit approved gate
+  end

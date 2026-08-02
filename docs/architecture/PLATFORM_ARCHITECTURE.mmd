@@ -1,0 +1,15 @@
+flowchart LR
+  U[Domain services / AI / admin] --> SDK[Single Audit SDK\nredact + pseudonymize + hash]
+  SDK -->|same transaction| DB[(Tenant ledger + outbox)]
+  R2[(Encrypted R2 objects)] -->|notification| Q[the-eye-audit-events]
+  Q --> V[Schema + idempotency]
+  V --> DO[Tenant Durable Object\nSQLite sequencer]
+  DO --> DB
+  DB --> B[Deterministic batcher]
+  B --> M[(Encrypted manifest + proofs)]
+  B --> A{Broadcast gate\ndefault false}
+  A -->|approved only| C[Anchor contract]
+  DB --> X[Offline/API verifier]
+  M --> X
+  C --> X
+  Q -->|exhausted/poison| D[the-eye-audit-dlq]
