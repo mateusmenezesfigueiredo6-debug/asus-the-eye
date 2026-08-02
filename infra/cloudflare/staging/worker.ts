@@ -148,6 +148,122 @@ export default {
       return json(200, { tenant_id: tenant, events: results });
     }
 
+    // Merkle batches are built client-side (keccak lives in the Python audit
+    // core) and stored here. The worker re-checks the batch against the ledger
+    // it owns: the events must exist, belong to the tenant, and match the
+    // declared sequence range — a manifest can never claim events that aren't
+    // in the chain.
+    if (url.pathname === "/batches" && request.method === "POST") {
+      let payload: {
+        manifest?: Record<string, unknown>;
+        proofs?: { event_id: string; leaf_index: number; proof: unknown }[];
+      };
+      try {
+        payload = (await request.json()) as typeof payload;
+      } catch {
+        return json(400, { error: "invalid JSON" });
+      }
+      const manifest = payload.manifest;
+      const proofs = payload.proofs ?? [];
+      if (!manifest || typeof manifest !== "object") return json(422, { error: "manifest required" });
+      for (const field of [
+        "batch_id",
+        "tenant_id",
+        "schema_version",
+        "first_sequence",
+        "last_sequence",
+        "event_count",
+        "merkle_root",
+        "manifest_hash_sha256",
+      ]) {
+        if (!(field in manifest)) return json(422, { error: `manifest missing ${field}` });
+      }
+      const tenantId = String(manifest.tenant_id);
+      const firstSequence = Number(manifest.first_sequence);
+      const lastSequence = Number(manifest.last_sequence);
+      const eventCount = Number(manifest.event_count);
+      if (!proofs.length || proofs.length !== eventCount) {
+        return json(422, { error: "one proof required per event in the batch" });
+      }
+
+      const { results: ledgerRows } = await env.AUDIT_DB.prepare(
+        `SELECT event_id, sequence, event_hash_sha256 FROM audit_events
+          WHERE tenant_id = ?1 AND sequence BETWEEN ?2 AND ?3 ORDER BY sequence`,
+      )
+        .bind(tenantId, firstSequence, lastSequence)
+        .all<{ event_id: string; sequence: number; event_hash_sha256: string }>();
+      if (ledgerRows.length !== eventCount) {
+        return json(422, {
+          error: "batch does not match the ledger",
+          declared_event_count: eventCount,
+          ledger_events_in_range: ledgerRows.length,
+        });
+      }
+      const ledgerIds = new Set(ledgerRows.map((row) => row.event_id));
+      const unknown = proofs.filter((entry) => !ledgerIds.has(entry.event_id));
+      if (unknown.length) {
+        return json(422, { error: "proof references events outside the ledger range" });
+      }
+
+      const createdAt = new Date().toISOString();
+      const statements = [
+        env.AUDIT_DB.prepare(
+          `INSERT INTO audit_batches
+             (batch_id, tenant_id, schema_version, first_sequence, last_sequence, event_count,
+              merkle_root, previous_batch_root, manifest_hash_sha256, manifest_json, status, created_at)
+           VALUES (?1,?2,?3,?4,?5,?6,?7,?8,?9,?10,'stored',?11)`,
+        ).bind(
+          String(manifest.batch_id),
+          tenantId,
+          String(manifest.schema_version),
+          firstSequence,
+          lastSequence,
+          eventCount,
+          String(manifest.merkle_root),
+          manifest.previous_batch_root === null ? null : String(manifest.previous_batch_root),
+          String(manifest.manifest_hash_sha256),
+          JSON.stringify(manifest),
+          createdAt,
+        ),
+        ...proofs.map((entry) =>
+          env.AUDIT_DB.prepare(
+            `INSERT INTO audit_batch_events (batch_id, event_id, leaf_index, proof_json)
+             VALUES (?1,?2,?3,?4)`,
+          ).bind(String(manifest.batch_id), entry.event_id, entry.leaf_index, JSON.stringify(entry.proof)),
+        ),
+      ];
+      try {
+        await env.AUDIT_DB.batch(statements);
+      } catch (error) {
+        return json(409, {
+          error: "batch rejected",
+          detail: error instanceof Error ? error.message.slice(0, 200) : "unknown",
+        });
+      }
+      return json(201, {
+        batch_id: manifest.batch_id,
+        merkle_root: manifest.merkle_root,
+        event_count: eventCount,
+        first_sequence: firstSequence,
+        last_sequence: lastSequence,
+        status: "stored",
+        anchored: false,
+      });
+    }
+
+    if (url.pathname === "/batches" && request.method === "GET") {
+      const tenant = url.searchParams.get("tenant");
+      if (!tenant) return json(400, { error: "tenant query param required" });
+      const { results } = await env.AUDIT_DB.prepare(
+        `SELECT batch_id, first_sequence, last_sequence, event_count, merkle_root,
+                previous_batch_root, manifest_hash_sha256, status, created_at
+           FROM audit_batches WHERE tenant_id = ?1 ORDER BY last_sequence DESC LIMIT 50`,
+      )
+        .bind(tenant)
+        .all();
+      return json(200, { tenant_id: tenant, batches: results });
+    }
+
     if (url.pathname === "/evidence" && request.method === "POST") {
       const body = await request.arrayBuffer();
       if (body.byteLength === 0) return json(400, { error: "empty body" });

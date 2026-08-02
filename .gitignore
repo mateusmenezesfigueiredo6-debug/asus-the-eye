@@ -22,3 +22,4 @@ reports/autonomous/*/launcher.log
 *.key
 # END THE EYE AUTONOMOUS RUNTIME
 reports/llm/calls.jsonl
+reports/audit/proofs/

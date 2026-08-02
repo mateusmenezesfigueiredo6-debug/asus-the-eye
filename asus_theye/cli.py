@@ -53,6 +53,14 @@ def _parser() -> argparse.ArgumentParser:
         help="extract schema-validated procedural facts from a public decision text file",
     )
     extract.add_argument("input", type=Path, help="text file with the public decision")
+    batch = subcommands.add_parser("batch", help="build a Merkle batch of pending ledger events")
+    batch.add_argument("--ledger-url", default=os.environ.get("THE_EYE_LEDGER_URL", ""))
+    batch.add_argument("--tenant", default=DEFAULT_TENANT)
+    batch.add_argument("--publish", action="store_true", help="store the batch on the ledger")
+    batch.add_argument(
+        "--proofs-out", type=Path, default=Path("reports/audit/proofs"),
+        help="directory for the manifest and inclusion proofs",
+    )
     quantum = subcommands.add_parser("quantum", help="IBM Quantum adapter (gated)")
     quantum.add_argument(
         "--execute", action="store_true", help="submit a real QPU job (requires THE_EYE_IBM_EXECUTE=1)"
@@ -132,6 +140,34 @@ def main(argv: Sequence[str] | None = None) -> int:
 
         fields = extract_decision_fields(args.input.read_text(encoding="utf-8"))
         print(json.dumps(fields, ensure_ascii=False, indent=2))
+        return 0
+    if args.command == "batch":
+        from asus_theye.audit.batching import batch_pending_events
+
+        if not args.ledger_url:
+            print("batch: --ledger-url or THE_EYE_LEDGER_URL required")
+            return 1
+        outcome = batch_pending_events(args.ledger_url, args.tenant, publish=args.publish)
+        if outcome["status"] == "up_to_date":
+            print(f"Batch: up to date (last batched sequence {outcome['last_batched_sequence']})")
+            return 0
+        manifest = outcome["manifest"]
+        args.proofs_out.mkdir(parents=True, exist_ok=True)
+        target = args.proofs_out / f"batch-{manifest['batch_id']}.json"
+        target.write_text(
+            json.dumps({"manifest": manifest, "proofs": outcome["proofs"]}, ensure_ascii=False, indent=2)
+            + "\n",
+            encoding="utf-8",
+        )
+        print("==========================")
+        print("MERKLE BATCH")
+        print("==========================")
+        print(f"\nevents: {manifest['event_count']} (seq {manifest['first_sequence']}-{manifest['last_sequence']})")
+        print(f"merkle_root: {manifest['merkle_root']}")
+        print(f"previous_batch_root: {manifest['previous_batch_root']}")
+        print(f"manifest_hash: {manifest['manifest_hash_sha256']}")
+        print(f"status: {outcome['status']}")
+        print(f"\nProofs:\n{target}")
         return 0
     if args.command == "quantum":
         from asus_theye.benchmark.ibm_backend import dry_run, run_on_hardware
