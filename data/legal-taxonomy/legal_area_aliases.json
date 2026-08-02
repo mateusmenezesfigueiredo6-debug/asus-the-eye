@@ -1,89 +1,118 @@
 {
-  "alias_version": "0.1.0",
+  "alias_version": "1.0.0",
   "policy": "Seed aliases are high-confidence PT-BR names. Additions go through review; ambiguity stays out.",
   "aliases": {
-    "tax": [
-      "direito tributario",
-      "tributario"
+    "access-to-justice-legal-aid-and-public-defense": [
+      "acesso a justica",
+      "defensoria publica",
+      "justica gratuita"
     ],
-    "customs": [
-      "aduaneiro",
-      "direito aduaneiro"
+    "administrative-and-public-service": [
+      "administrativo",
+      "direito administrativo"
     ],
-    "civil-law": [
-      "direito civil"
+    "advertising-influencers-and-marketing": [
+      "publicidade",
+      "conar",
+      "influenciador",
+      "marketing"
     ],
-    "contracts": [
-      "contrato",
-      "contratos",
-      "contratual",
-      "direito contratual",
-      "prestacao de servicos"
+    "agrarian": [
+      "direito agrario",
+      "agrario",
+      "reforma agraria"
     ],
-    "consumer": [
-      "cdc",
-      "consumidor",
-      "direito do consumidor",
-      "relacao de consumo"
+    "agribusiness": [
+      "agronegocio",
+      "agribusiness",
+      "cpr"
     ],
-    "family": [
-      "familia",
-      "direito de familia"
+    "air-and-space-law-satellites-launches-orbital-debris-and-spa": [
+      "direito espacial",
+      "satelite",
+      "lancamento orbital"
     ],
-    "real-estate": [
-      "imobiliario",
-      "direito imobiliario"
+    "algorithmic-governance-and-ai-auditing": [
+      "governanca algoritmica",
+      "auditoria de ia"
     ],
-    "corporate-law": [
-      "societario",
-      "direito societario"
+    "aml-kyc-kyb-beneficial-ownership-and-asset-recovery": [
+      "lavagem de dinheiro",
+      "pld",
+      "kyc",
+      "beneficiario final",
+      "coaf"
     ],
-    "m-a": [
-      "fusoes e aquisicoes",
-      "m&a"
+    "animal-law": [
+      "direito animal",
+      "protecao animal"
+    ],
+    "anti-doping": [
+      "antidoping",
+      "doping",
+      "wada"
+    ],
+    "arbitration": [
+      "arbitragem"
+    ],
+    "art-cultural-heritage-provenance-restitution-and-museums": [
+      "patrimonio cultural",
+      "iphan",
+      "bem cultural"
+    ],
+    "artificial-intelligence": [
+      "inteligencia artificial",
+      "ia"
+    ],
+    "asset-management": [
+      "gestao de recursos",
+      "asset management",
+      "fundo de investimento"
+    ],
+    "auditable-legal-ai-and-computational-law": [
+      "ia juridica",
+      "direito computacional",
+      "ia auditavel"
+    ],
+    "aviation-and-drones": [
+      "direito aeronautico",
+      "aviacao",
+      "drone",
+      "anac"
     ],
     "banking": [
       "bancario",
       "direito bancario"
     ],
+    "bioethics-genetics-reproductive-medicine-end-of-life-and-neu": [
+      "bioetica",
+      "reproducao assistida",
+      "neurodireitos"
+    ],
+    "blockchain-and-smart-contracts": [
+      "blockchain",
+      "contrato inteligente",
+      "smart contract"
+    ],
+    "business-law": [
+      "direito empresarial",
+      "empresarial"
+    ],
     "capital-markets": [
       "mercado de capitais"
     ],
-    "insurance": [
-      "seguros",
-      "direito securitario"
+    "children-and-adolescents": [
+      "eca",
+      "estatuto da crianca",
+      "infancia e juventude"
     ],
-    "insolvency": [
-      "falencia",
-      "insolvencia"
+    "civil-law": [
+      "direito civil"
     ],
-    "judicial-and-extrajudicial-restructuring": [
-      "recuperacao judicial",
-      "recuperacao extrajudicial"
-    ],
-    "competition-and-antitrust": [
-      "concorrencial",
-      "antitruste",
-      "cade"
-    ],
-    "employment": [
-      "trabalhista",
-      "direito do trabalho"
-    ],
-    "social-security": [
-      "previdenciario",
-      "inss"
-    ],
-    "criminal-law": [
-      "penal",
-      "direito penal"
-    ],
-    "criminal-procedure": [
-      "processo penal"
-    ],
-    "compliance": [
-      "compliance",
-      "integridade"
+    "civil-liability-and-product-liability": [
+      "responsabilidade civil",
+      "dano moral",
+      "vicio do produto"
     ],
     "civil-procedure": [
       "agravo de instrumento",
@@ -92,57 +121,530 @@
       "cpc",
       "processo civil"
     ],
-    "enforcement": [
-      "execucao",
-      "cumprimento de sentenca"
+    "climate": [
+      "direito climatico",
+      "mudanca climatica",
+      "credito de carbono"
     ],
-    "arbitration": [
-      "arbitragem"
+    "cloud-and-outsourcing": [
+      "computacao em nuvem",
+      "terceirizacao de ti"
     ],
-    "mediation": [
-      "mediacao"
+    "collective-actions-and-structural-litigation": [
+      "acao civil publica",
+      "acao coletiva",
+      "processo estrutural"
     ],
-    "environmental": [
-      "ambiental",
-      "direito ambiental"
+    "collective-labor-and-unions": [
+      "direito coletivo do trabalho",
+      "sindical",
+      "acordo coletivo",
+      "convencao coletiva"
     ],
-    "data-protection": [
-      "protecao de dados",
-      "lgpd"
+    "competition-and-antitrust": [
+      "concorrencial",
+      "antitruste",
+      "cade"
     ],
-    "privacy": [
-      "privacidade"
+    "compliance": [
+      "compliance",
+      "integridade"
     ],
-    "artificial-intelligence": [
-      "inteligencia artificial",
-      "ia"
+    "concessions-ppps-privatization-and-infrastructure": [
+      "concessao",
+      "ppp",
+      "parceria publico-privada",
+      "privatizacao"
     ],
-    "intellectual-property": [
-      "propriedade intelectual",
-      "pi"
-    ],
-    "copyright-and-neighboring-rights": [
-      "direitos autorais"
-    ],
-    "electoral-law": [
-      "eleitoral",
-      "direito eleitoral"
-    ],
-    "health-law": [
-      "direito da saude",
-      "saude"
+    "conciliation": [
+      "conciliacao"
     ],
     "constitutional-and-constitutional-procedure": [
       "constitucional",
       "direito constitucional"
     ],
-    "administrative-and-public-service": [
-      "administrativo",
-      "direito administrativo"
+    "construction-and-engineering": [
+      "direito da construcao",
+      "engenharia consultiva",
+      "obra"
+    ],
+    "consumer": [
+      "cdc",
+      "consumidor",
+      "direito do consumidor",
+      "relacao de consumo"
+    ],
+    "contracts": [
+      "contrato",
+      "contratos",
+      "contratual",
+      "direito contratual",
+      "prestacao de servicos"
+    ],
+    "copyright-and-neighboring-rights": [
+      "direitos autorais"
+    ],
+    "corporate-criminal-law": [
+      "direito penal economico",
+      "penal empresarial"
+    ],
+    "corporate-law": [
+      "societario",
+      "direito societario"
+    ],
+    "criminal-law": [
+      "penal",
+      "direito penal"
+    ],
+    "criminal-procedure": [
+      "processo penal"
+    ],
+    "cryptoassets": [
+      "criptoativo",
+      "criptomoeda",
+      "bitcoin",
+      "vasp"
+    ],
+    "customs": [
+      "aduaneiro",
+      "direito aduaneiro"
+    ],
+    "cybersecurity-and-incident-response": [
+      "ciberseguranca",
+      "seguranca cibernetica",
+      "resposta a incidente"
+    ],
+    "data-protection": [
+      "protecao de dados",
+      "lgpd"
+    ],
+    "defense-dual-use-technology-and-export-control": [
+      "direito da defesa",
+      "tecnologia dual"
+    ],
+    "digital-evidence-and-forensics": [
+      "prova digital",
+      "pericia digital",
+      "forense computacional"
+    ],
+    "dispute-boards-and-adjudication": [
+      "dispute board",
+      "comite de resolucao de disputas"
+    ],
+    "domain-names-and-platform-enforcement": [
+      "nome de dominio",
+      "remocao de conteudo"
+    ],
+    "education": [
+      "direito educacional",
+      "direito da educacao"
+    ],
+    "elder-law": [
+      "estatuto do idoso",
+      "direito do idoso"
+    ],
+    "electoral-law": [
+      "eleitoral",
+      "direito eleitoral"
+    ],
+    "electric-power": [
+      "setor eletrico",
+      "energia eletrica",
+      "aneel"
+    ],
+    "employment": [
+      "trabalhista",
+      "direito do trabalho"
+    ],
+    "enforcement": [
+      "execucao",
+      "cumprimento de sentenca"
+    ],
+    "entertainment-music-audiovisual-and-streaming": [
+      "direito do entretenimento",
+      "audiovisual",
+      "streaming",
+      "ancine"
+    ],
+    "environmental": [
+      "ambiental",
+      "direito ambiental"
+    ],
+    "esg-and-business-and-human-rights": [
+      "esg",
+      "empresas e direitos humanos"
+    ],
+    "esports": [
+      "esports",
+      "esporte eletronico"
+    ],
+    "expert-determination-and-neutral-evaluation": [
+      "pericia arbitral",
+      "avaliacao neutra"
+    ],
+    "family": [
+      "familia",
+      "direito de familia"
+    ],
+    "fashion-law": [
+      "fashion law",
+      "direito da moda"
+    ],
+    "fintech-and-payments": [
+      "fintech",
+      "meios de pagamento",
+      "arranjo de pagamento",
+      "pix"
+    ],
+    "food-labeling-traceability-and-food-security": [
+      "rotulagem de alimentos",
+      "seguranca alimentar",
+      "rastreabilidade"
+    ],
+    "gambling-and-lotteries": [
+      "loteria",
+      "jogos de azar"
+    ],
+    "games-and-virtual-economies": [
+      "economia virtual",
+      "item virtual"
+    ],
+    "governance": [
+      "governanca corporativa"
+    ],
+    "government-relations-public-policy-and-lobbying": [
+      "relacoes governamentais",
+      "lobby",
+      "politica publica"
+    ],
+    "health-law": [
+      "direito da saude",
+      "saude"
+    ],
+    "human-rights": [
+      "direitos humanos"
+    ],
+    "humanitarian-law": [
+      "direito humanitario"
+    ],
+    "insolvency": [
+      "falencia",
+      "insolvencia"
+    ],
+    "insurance": [
+      "seguros",
+      "direito securitario"
+    ],
+    "intellectual-property": [
+      "propriedade intelectual",
+      "pi"
+    ],
+    "internal-investigations": [
+      "investigacao interna",
+      "apuracao interna"
+    ],
+    "international-investment-law": [
+      "direito internacional dos investimentos"
+    ],
+    "international-trade": [
+      "comercio internacional",
+      "comercio exterior"
+    ],
+    "judicial-and-extrajudicial-restructuring": [
+      "recuperacao judicial",
+      "recuperacao extrajudicial"
+    ],
+    "jurimetrics-litigation-analytics-and-litigation-finance": [
+      "jurimetria",
+      "analise de litigios"
+    ],
+    "legal-design-plain-language-and-accessible-justice": [
+      "legal design",
+      "linguagem simples",
+      "visual law"
+    ],
+    "legal-management-and-knowledge-management": [
+      "gestao juridica",
+      "gestao do conhecimento juridico"
+    ],
+    "legal-operations": [
+      "legal operations",
+      "legal ops"
+    ],
+    "legislative-process-and-legislative-drafting": [
+      "processo legislativo",
+      "tecnica legislativa"
+    ],
+    "life-sciences": [
+      "ciencias da vida"
+    ],
+    "luxury-law": [
+      "direito do luxo"
+    ],
+    "m-a": [
+      "fusoes e aquisicoes",
+      "m&a"
+    ],
+    "maritime-and-shipping": [
+      "direito maritimo",
+      "navegacao",
+      "afretamento"
+    ],
+    "match-fixing-and-competition-manipulation": [
+      "manipulacao de resultado",
+      "match fixing"
+    ],
+    "media-and-press": [
+      "direito da imprensa",
+      "liberdade de imprensa"
+    ],
+    "mediation": [
+      "mediacao"
+    ],
+    "migration-nationality-asylum-and-refugees": [
+      "direito migratorio",
+      "refugio",
+      "asilo",
+      "naturalizacao"
+    ],
+    "military-law": [
+      "direito militar",
+      "justica militar"
+    ],
+    "mining-and-critical-minerals": [
+      "direito minerario",
+      "mineracao",
+      "minerais criticos"
+    ],
+    "negotiation": [
+      "negociacao"
+    ],
+    "obligations": [
+      "direito das obrigacoes",
+      "obrigacoes"
+    ],
+    "oil-gas-fuels-and-biofuels": [
+      "petroleo e gas",
+      "anp",
+      "biocombustivel",
+      "combustivel"
+    ],
+    "online-dispute-resolution-and-dispute-system-design": [
+      "odr",
+      "resolucao online de disputas"
+    ],
+    "patents-and-utility-models": [
+      "patente",
+      "modelo de utilidade",
+      "inpi"
+    ],
+    "pharmaceutical-and-medical-devices": [
+      "anvisa",
+      "medicamento",
+      "dispositivo medico",
+      "farmaceutico"
+    ],
+    "philanthropy-endowments-and-impact-investing": [
+      "filantropia",
+      "endowment",
+      "investimento de impacto"
+    ],
+    "political-parties-and-campaign-finance": [
+      "partido politico",
+      "financiamento de campanha",
+      "fundo eleitoral"
+    ],
+    "ports": [
+      "direito portuario",
+      "porto",
+      "antaq"
+    ],
+    "precedents-and-repetitive-litigation": [
+      "precedentes",
+      "recurso repetitivo",
+      "irdr",
+      "repercussao geral"
+    ],
+    "privacy": [
+      "privacidade"
+    ],
+    "private-equity": [
+      "private equity"
+    ],
+    "private-financial-law": [
+      "direito financeiro privado"
+    ],
+    "private-international-law": [
+      "direito internacional privado"
+    ],
+    "private-pensions": [
+      "previdencia privada",
+      "previdencia complementar",
+      "pgbl",
+      "vgbl"
+    ],
+    "professional-ethics-and-legal-responsibility": [
+      "etica profissional",
+      "codigo de etica da oab"
+    ],
+    "public-finance-budgeting-fiscal-responsibility-and-public-de": [
+      "lei de responsabilidade fiscal",
+      "lrf",
+      "orcamento publico",
+      "divida publica"
+    ],
+    "public-international-law": [
+      "direito internacional publico"
     ],
     "public-procurement-and-public-contracts": [
       "licitacoes",
       "lei de licitacoes"
+    ],
+    "public-security-policing-surveillance-and-use-of-force": [
+      "seguranca publica",
+      "uso da forca",
+      "vigilancia estatal"
+    ],
+    "rail": [
+      "direito ferroviario",
+      "ferrovia"
+    ],
+    "real-estate": [
+      "imobiliario",
+      "direito imobiliario"
+    ],
+    "registry-and-notarial-law": [
+      "registral",
+      "notarial",
+      "cartorio",
+      "tabelionato"
+    ],
+    "regulatory": [
+      "regulatorio",
+      "direito regulatorio",
+      "agencia reguladora"
+    ],
+    "reinsurance": [
+      "resseguro"
+    ],
+    "religious-law-and-freedom-of-religion": [
+      "liberdade religiosa",
+      "direito religioso"
+    ],
+    "renewables-hydrogen-storage-and-nuclear": [
+      "energia renovavel",
+      "hidrogenio verde",
+      "energia nuclear"
+    ],
+    "roads-and-automotive": [
+      "direito automotivo",
+      "rodoviario"
+    ],
+    "sanctions-export-controls-and-foreign-investment-screening": [
+      "sancoes internacionais",
+      "controle de exportacao"
+    ],
+    "science-research-integrity-and-technology-transfer": [
+      "integridade em pesquisa",
+      "transferencia de tecnologia"
+    ],
+    "sentence-enforcement": [
+      "execucao penal",
+      "lep"
+    ],
+    "social-security": [
+      "previdenciario",
+      "inss"
+    ],
+    "software-and-saas": [
+      "software",
+      "saas",
+      "licenciamento de software"
+    ],
+    "sports-arbitration": [
+      "arbitragem esportiva",
+      "cas",
+      "tas"
+    ],
+    "sports-betting": [
+      "apostas esportivas",
+      "bet",
+      "loteria de quota fixa"
+    ],
+    "sports-integrity-and-safeguarding": [
+      "integridade esportiva"
+    ],
+    "sports-justice-and-disciplinary-law": [
+      "justica desportiva",
+      "stjd"
+    ],
+    "sports-law": [
+      "direito desportivo",
+      "lei pele",
+      "direito do esporte"
+    ],
+    "startups": [
+      "startup",
+      "marco legal das startups"
+    ],
+    "succession-private-client-and-family-offices": [
+      "sucessoes",
+      "inventario",
+      "heranca",
+      "testamento"
+    ],
+    "tax": [
+      "direito tributario",
+      "tributario"
+    ],
+    "technology": [
+      "direito digital",
+      "direito da tecnologia"
+    ],
+    "telecommunications-and-internet": [
+      "telecomunicacoes",
+      "anatel",
+      "marco civil da internet"
+    ],
+    "third-sector": [
+      "terceiro setor",
+      "oscip",
+      "organizacao da sociedade civil"
+    ],
+    "trade-secrets-and-unfair-competition": [
+      "segredo de negocio",
+      "concorrencia desleal"
+    ],
+    "trademarks-industrial-designs-and-geographical-indications": [
+      "marca",
+      "desenho industrial",
+      "indicacao geografica"
+    ],
+    "transportation-logistics-and-autonomous-mobility": [
+      "logistica",
+      "mobilidade",
+      "transporte"
+    ],
+    "urban-planning": [
+      "direito urbanistico",
+      "plano diretor",
+      "urbanistico"
+    ],
+    "venture-capital": [
+      "venture capital",
+      "capital de risco"
+    ],
+    "water-resources": [
+      "recursos hidricos",
+      "outorga de agua"
+    ],
+    "web3-defi-daos-nfts-tokenization-and-digital-custody": [
+      "web3",
+      "defi",
+      "dao",
+      "nft",
+      "tokenizacao",
+      "custodia digital"
     ]
   }
 }

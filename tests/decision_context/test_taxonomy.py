@@ -59,3 +59,31 @@ def test_suggest_respects_word_boundaries() -> None:
 
     # "ia" must not fire inside other words like "materia" or "familia".
     assert "artificial-intelligence" not in suggest_legal_areas("materia da familia")
+
+
+def test_every_area_has_at_least_one_alias() -> None:
+    """Cobertura total: o extrator precisa reconhecer qualquer uma das 145 areas."""
+    master_ids = {a["legal_area_id"] for a in load("legal_areas.master.json")["areas"]}
+    aliases = load("legal_area_aliases.json")["aliases"]
+    assert set(aliases) == master_ids
+
+
+def test_no_alias_points_to_two_areas() -> None:
+    """Ambiguidade vira silencio: um termo nao pode significar duas areas."""
+    aliases = load("legal_area_aliases.json")["aliases"]
+    seen: dict[str, str] = {}
+    for area_id, terms in aliases.items():
+        for term in terms:
+            assert term not in seen or seen[term] == area_id, (
+                f"alias ambiguo {term!r}: {seen.get(term)} vs {area_id}"
+            )
+            seen[term] = area_id
+
+
+def test_suggestion_works_across_distant_areas() -> None:
+    from asus_theye.decision_context.legal_areas import suggest_legal_areas
+
+    assert "agribusiness" in suggest_legal_areas("contrato de CPR no agronegocio")
+    assert "sports-betting" in suggest_legal_areas("regulacao de apostas esportivas")
+    assert "cryptoassets" in suggest_legal_areas("tributacao de criptoativo")
+    assert "human-rights" in suggest_legal_areas("violacao de direitos humanos")
