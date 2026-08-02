@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://the-eye.local/schemas/decision-context/assignment-rules.schema.json",
+  "title": "Case assignment / substitution rule",
+  "description": "Official rules governing case distribution, rapporteur assignment and substitution within a body. Sourced from regimento interno, resolutions or official acts only.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["rule_id", "body_id", "rule_type", "description", "official_source_url", "effective_from"],
+  "properties": {
+    "rule_id": { "type": "string", "minLength": 1 },
+    "body_id": { "type": "string", "minLength": 1 },
+    "rule_type": {
+      "type": "string",
+      "enum": ["distribution", "rapporteur_assignment", "substitution", "prevention", "connection", "specialization"]
+    },
+    "description": { "type": "string", "minLength": 1 },
+    "governing_instrument": { "type": "string", "description": "e.g. regimento interno article, resolution number." },
+    "official_source_url": { "type": "string", "format": "uri" },
+    "effective_from": { "type": "string", "format": "date" },
+    "effective_until": { "type": "string", "format": "date" },
+    "content_hash_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+  }
+}

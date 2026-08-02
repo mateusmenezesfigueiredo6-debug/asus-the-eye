@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://the-eye.local/schemas/decision-context/jurisprudential-patterns.schema.json",
+  "title": "Jurisprudential pattern statement",
+  "description": "A descriptive statement about observed public decision patterns. Outputs must separate FACT, DERIVED_METRIC, INFERENCE, UNKNOWN and PROHIBITED. Never states that a person 'will decide X'. PROHIBITED marks a requested analysis that policy forbids — recorded so the refusal is auditable, with no content.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "pattern_id",
+    "scope",
+    "statement",
+    "claim_class",
+    "supporting_metric_ids",
+    "best_contrary_evidence",
+    "confidence",
+    "limitations",
+    "what_would_change_conclusion",
+    "cutoff_date",
+    "human_review"
+  ],
+  "properties": {
+    "pattern_id": { "type": "string", "minLength": 1 },
+    "scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["target_type", "target_id"],
+      "properties": {
+        "target_type": { "type": "string", "enum": ["decision_body", "decision_maker", "panel", "theme"] },
+        "target_id": { "type": "string" },
+        "area": { "type": "string" }
+      }
+    },
+    "statement": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Must follow the template: 'In comparable public decisions from the specified period and sample, ... subject to these limitations.'"
+    },
+    "claim_class": { "type": "string", "enum": ["FACT", "DERIVED_METRIC", "INFERENCE", "UNKNOWN", "PROHIBITED"] },
+    "supporting_metric_ids": { "type": "array", "items": { "type": "string" } },
+    "supporting_decision_ids": { "type": "array", "items": { "type": "string" } },
+    "best_contrary_evidence": { "type": "string", "minLength": 1 },
+    "confidence": { "type": "string", "enum": ["low", "medium", "high"] },
+    "limitations": { "type": "string", "minLength": 1 },
+    "what_would_change_conclusion": { "type": "string", "minLength": 1 },
+    "cutoff_date": { "type": "string", "format": "date" },
+    "human_review": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["required", "status"],
+      "properties": {
+        "required": { "type": "boolean", "const": true },
+        "status": { "type": "string", "enum": ["pending", "approved", "rejected"] },
+        "reviewer_role": { "type": "string" },
+        "reviewed_at": { "type": "string", "format": "date-time" }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "claim_class": { "const": "PROHIBITED" } } },
+      "then": {
+        "properties": {
+          "statement": {
+            "const": "PROHIBITED_ANALYSIS_REFUSED"
+          }
+        }
+      }
+    }
+  ]
+}

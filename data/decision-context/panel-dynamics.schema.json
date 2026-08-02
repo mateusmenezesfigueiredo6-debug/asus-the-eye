@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://the-eye.local/schemas/decision-context/panel-dynamics.schema.json",
+  "title": "Panel dynamics (collegiate behavior, aggregate only)",
+  "description": "Aggregate collegiate metrics for a panel composition over a period: agreement, dissent, concurrence. Never individual psychological or relational profiling — only counts over public collegiate decisions with denominators.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "panel_dynamics_id",
+    "body_id",
+    "composition_decision_maker_ids",
+    "period",
+    "decisions_analyzed",
+    "unanimous_count",
+    "dissent_count",
+    "concurrence_count",
+    "supporting_metric_ids",
+    "limitations",
+    "claim_class",
+    "computed_at"
+  ],
+  "properties": {
+    "panel_dynamics_id": { "type": "string", "minLength": 1 },
+    "body_id": { "type": "string", "minLength": 1 },
+    "composition_decision_maker_ids": { "type": "array", "minItems": 2, "items": { "type": "string" } },
+    "period": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["start", "end"],
+      "properties": {
+        "start": { "type": "string", "format": "date" },
+        "end": { "type": "string", "format": "date" }
+      }
+    },
+    "decisions_analyzed": { "type": "integer", "minimum": 1, "description": "Denominator for all counts below." },
+    "unanimous_count": { "type": "integer", "minimum": 0 },
+    "dissent_count": { "type": "integer", "minimum": 0 },
+    "concurrence_count": { "type": "integer", "minimum": 0 },
+    "panel_agreement_rate": { "type": "number", "minimum": 0, "maximum": 1 },
+    "supporting_metric_ids": { "type": "array", "items": { "type": "string" } },
+    "limitations": { "type": "string", "minLength": 1 },
+    "claim_class": { "type": "string", "const": "DERIVED_METRIC" },
+    "computed_at": { "type": "string", "format": "date-time" }
+  }
+}

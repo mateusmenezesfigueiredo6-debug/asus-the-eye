@@ -1,0 +1,74 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://the-eye.local/schemas/decision-context/conflict-alerts.schema.json",
+  "title": "Potential impediment / conflict indicator",
+  "description": "A potential impediment, suspicion or conflict indicator for human legal review. Policy: any state other than confirmed_by_official_decision is only a potential indicator. The system never declares bias or partiality automatically, and never accuses a decision-maker.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "alert_id",
+    "decision_maker_id",
+    "matter_ref_pseudonymous",
+    "indicator_type",
+    "state",
+    "evidence_refs",
+    "claim_class",
+    "human_review",
+    "created_at"
+  ],
+  "properties": {
+    "alert_id": { "type": "string", "minLength": 1 },
+    "decision_maker_id": { "type": "string", "minLength": 1 },
+    "matter_ref_pseudonymous": { "type": "string", "minLength": 1 },
+    "indicator_type": {
+      "type": "string",
+      "enum": [
+        "statutory_impediment_candidate",
+        "statutory_suspicion_candidate",
+        "prior_participation_same_matter",
+        "public_professional_relationship",
+        "public_declared_interest",
+        "other_public_indicator"
+      ]
+    },
+    "state": {
+      "type": "string",
+      "enum": [
+        "no_public_indicator",
+        "potential_indicator",
+        "legal_review_required",
+        "confirmed_by_official_decision",
+        "resolved",
+        "insufficient_information"
+      ]
+    },
+    "governing_rule": { "type": "string", "description": "e.g. CPC arts. 144-148, statute or regulation reference." },
+    "evidence_refs": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string" },
+      "description": "Source-manifest IDs of the public evidence supporting the indicator."
+    },
+    "official_decision_ref": { "type": "string", "description": "Required when state is confirmed_by_official_decision." },
+    "claim_class": { "type": "string", "enum": ["INFERENCE", "FACT", "UNKNOWN"], "description": "confirmed_by_official_decision may be FACT; everything else INFERENCE or UNKNOWN." },
+    "human_review": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["required", "status"],
+      "properties": {
+        "required": { "type": "boolean", "const": true },
+        "status": { "type": "string", "enum": ["pending", "approved", "rejected"] },
+        "reviewer_role": { "type": "string" },
+        "reviewed_at": { "type": "string", "format": "date-time" }
+      }
+    },
+    "created_at": { "type": "string", "format": "date-time" },
+    "resolved_at": { "type": "string", "format": "date-time" }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "state": { "const": "confirmed_by_official_decision" } } },
+      "then": { "required": ["official_decision_ref"] }
+    }
+  ]
+}

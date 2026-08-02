@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://the-eye.local/schemas/decision-context/institutional-context.schema.json",
+  "title": "Institutional context record",
+  "description": "Allowed institutional context: appointment process, public hearings, mandates, competence, composition changes, assignment rules, binding precedents, repetitive themes, IRDR, IAC, amici, official agenda, legislation, regulation, and public fiscal/economic/sectoral context. Policy: the appointing authority is never turned into an ideological label.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["context_id", "target_type", "target_id", "context_type", "description", "official_source_url", "recorded_at", "claim_class"],
+  "properties": {
+    "context_id": { "type": "string", "minLength": 1 },
+    "target_type": { "type": "string", "enum": ["decision_body", "decision_maker", "jurisdiction", "theme"] },
+    "target_id": { "type": "string", "minLength": 1 },
+    "context_type": {
+      "type": "string",
+      "enum": [
+        "appointment_process",
+        "public_hearing",
+        "mandate",
+        "competence_change",
+        "composition_change",
+        "assignment_rule_change",
+        "binding_precedent",
+        "repetitive_theme",
+        "irdr",
+        "iac",
+        "amicus_curiae",
+        "official_agenda",
+        "legislation",
+        "regulation",
+        "public_policy",
+        "fiscal_context",
+        "economic_context",
+        "sectoral_context"
+      ]
+    },
+    "description": { "type": "string", "minLength": 1 },
+    "official_source_url": { "type": "string", "format": "uri" },
+    "content_hash_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "effective_from": { "type": "string", "format": "date" },
+    "effective_until": { "type": "string", "format": "date" },
+    "recorded_at": { "type": "string", "format": "date-time" },
+    "claim_class": { "type": "string", "enum": ["FACT", "DERIVED_METRIC", "INFERENCE", "UNKNOWN"] }
+  }
+}

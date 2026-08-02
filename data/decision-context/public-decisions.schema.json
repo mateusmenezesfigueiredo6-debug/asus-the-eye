@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://the-eye.local/schemas/decision-context/public-decisions.schema.json",
+  "title": "Public decision record",
+  "description": "A single public adjudicative decision, sourced from official publication. Facts only: outcome and procedural classification. Interpretive statements belong in jurisprudential-patterns with proper claim classes.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "decision_id",
+    "body_id",
+    "decision_maker_ids",
+    "case_class",
+    "outcome",
+    "decision_form",
+    "decided_at",
+    "official_source_url",
+    "content_hash_sha256",
+    "claim_class"
+  ],
+  "properties": {
+    "decision_id": { "type": "string", "minLength": 1 },
+    "body_id": { "type": "string", "minLength": 1 },
+    "decision_maker_ids": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+    "rapporteur_id": { "type": "string" },
+    "case_class": { "type": "string", "description": "Procedural class (e.g. CNJ class code)." },
+    "cnj_subject_codes": { "type": "array", "items": { "type": "string" } },
+    "motion_type": { "type": "string" },
+    "procedural_phase": { "type": "string" },
+    "outcome": { "type": "string", "enum": ["granted", "denied", "partial", "not_known", "converted", "prejudicado"] },
+    "decision_form": { "type": "string", "enum": ["monocratic", "collegiate"] },
+    "vote_detail": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "unanimous": { "type": "boolean" },
+        "dissents": { "type": "integer", "minimum": 0 },
+        "concurrences": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "precedents_cited": { "type": "array", "items": { "type": "string" } },
+    "binding_precedent_applied": { "type": "boolean" },
+    "distinction_applied": { "type": "boolean" },
+    "decided_at": { "type": "string", "format": "date" },
+    "published_at": { "type": "string", "format": "date" },
+    "official_source_url": { "type": "string", "format": "uri" },
+    "content_hash_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "claim_class": { "type": "string", "const": "FACT", "description": "Decision records are facts from official publication." }
+  }
+}

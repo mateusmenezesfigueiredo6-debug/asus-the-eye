@@ -1,0 +1,77 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://the-eye.local/schemas/decision-context/decision-bodies.schema.json",
+  "title": "Adjudicative body",
+  "description": "A court, chamber, panel, council, tribunal or board with adjudicative competence. Institutional data only.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["body_id", "name", "institution", "jurisdiction", "level", "source_manifest", "last_verification_at"],
+  "properties": {
+    "body_id": { "type": "string", "minLength": 1 },
+    "name": { "type": "string", "minLength": 1 },
+    "institution": { "type": "string", "minLength": 1 },
+    "jurisdiction": { "type": "string", "minLength": 1 },
+    "level": {
+      "type": "string",
+      "enum": [
+        "trial",
+        "appellate",
+        "superior",
+        "constitutional",
+        "audit_court",
+        "administrative",
+        "regulatory",
+        "arbitration",
+        "dispute_board",
+        "sports_justice",
+        "disciplinary"
+      ]
+    },
+    "competence": { "type": "array", "items": { "type": "string" } },
+    "composition": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["decision_maker_id", "seat_role"],
+        "properties": {
+          "decision_maker_id": { "type": "string" },
+          "seat_role": { "type": "string", "enum": ["member", "president", "vice_president", "substitute"] },
+          "since": { "type": "string", "format": "date" },
+          "until": { "type": "string", "format": "date" }
+        }
+      }
+    },
+    "presidency_decision_maker_id": { "type": "string" },
+    "composition_changes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["changed_at", "description", "official_source_url"],
+        "properties": {
+          "changed_at": { "type": "string", "format": "date" },
+          "description": { "type": "string" },
+          "official_source_url": { "type": "string", "format": "uri" }
+        }
+      }
+    },
+    "assignment_rule_ids": { "type": "array", "items": { "type": "string" } },
+    "source_manifest": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["source_id", "official_url", "retrieved_at", "content_hash_sha256"],
+        "properties": {
+          "source_id": { "type": "string" },
+          "official_url": { "type": "string", "format": "uri" },
+          "retrieved_at": { "type": "string", "format": "date-time" },
+          "content_hash_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+        }
+      }
+    },
+    "last_verification_at": { "type": "string", "format": "date-time" }
+  }
+}

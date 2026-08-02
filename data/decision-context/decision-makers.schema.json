@@ -1,0 +1,115 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://the-eye.local/schemas/decision-context/decision-makers.schema.json",
+  "title": "Decision maker (adjudicator) — public professional record",
+  "description": "Institutional record of an adjudicator built exclusively from lawful public professional data. Mediators are not adjudicators and must not be recorded here. Prohibited by policy (AGENTS.md / master mission Phase G): political, ideological, religious, health, racial, sexual, biometric, private-address, private-family, friendship-network, geolocation, psychological, social-sentiment and corruption-propensity attributes or inferences. additionalProperties is false to enforce data minimization.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "decision_maker_id",
+    "official_name",
+    "role",
+    "institution",
+    "body",
+    "jurisdiction",
+    "level",
+    "active_status",
+    "source_manifest",
+    "last_verification_at",
+    "correction_status",
+    "legal_basis_reference",
+    "retention_policy_id",
+    "human_review"
+  ],
+  "properties": {
+    "decision_maker_id": { "type": "string", "minLength": 1, "description": "Normalized stable ID." },
+    "official_name": { "type": "string", "minLength": 1 },
+    "role": {
+      "type": "string",
+      "enum": [
+        "judge",
+        "appellate_judge",
+        "justice",
+        "rapporteur",
+        "reviewer",
+        "panel_member",
+        "panel_president",
+        "administrative_adjudicator",
+        "regulatory_decision_maker",
+        "tax_council_member",
+        "audit_court_member",
+        "arbitrator",
+        "tribunal_president",
+        "dispute_board_member",
+        "sports_justice_member",
+        "disciplinary_council_member"
+      ]
+    },
+    "institution": { "type": "string", "minLength": 1 },
+    "body": { "type": "string", "minLength": 1, "description": "Chamber, panel, section or council within the institution." },
+    "jurisdiction": { "type": "string", "minLength": 1 },
+    "level": {
+      "type": "string",
+      "enum": [
+        "trial",
+        "appellate",
+        "superior",
+        "constitutional",
+        "audit_court",
+        "administrative",
+        "regulatory",
+        "arbitration",
+        "dispute_board",
+        "sports_justice",
+        "disciplinary"
+      ]
+    },
+    "competence": { "type": "array", "items": { "type": "string" } },
+    "official_profile_url": { "type": "string", "format": "uri", "description": "Official institutional page only." },
+    "official_curriculum_url": { "type": "string", "format": "uri", "description": "Official or self-published professional curriculum only." },
+    "appointment_method": { "type": "string", "description": "Public appointment process (e.g. concurso, quinto constitucional, indicação com sabatina). Never used to infer ideology." },
+    "appointment_date": { "type": "string", "format": "date" },
+    "term_start": { "type": "string", "format": "date" },
+    "term_end": { "type": "string", "format": "date" },
+    "active_status": { "type": "string", "enum": ["active", "inactive", "retired", "removed", "unknown"] },
+    "public_decision_refs": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "IDs into public-decisions records."
+    },
+    "jurisprudential_areas": { "type": "array", "items": { "type": "string" } },
+    "source_manifest": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["source_id", "official_url", "retrieved_at", "content_hash_sha256"],
+        "properties": {
+          "source_id": { "type": "string" },
+          "official_url": { "type": "string", "format": "uri" },
+          "retrieved_at": { "type": "string", "format": "date-time" },
+          "content_hash_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+        }
+      }
+    },
+    "last_verification_at": { "type": "string", "format": "date-time" },
+    "correction_status": {
+      "type": "string",
+      "enum": ["none_requested", "correction_pending", "corrected", "contested"]
+    },
+    "legal_basis_reference": { "type": "string", "minLength": 1, "description": "LGPD legal basis mapped per processing operation." },
+    "retention_policy_id": { "type": "string", "minLength": 1 },
+    "human_review": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["required", "status"],
+      "properties": {
+        "required": { "type": "boolean", "const": true },
+        "status": { "type": "string", "enum": ["pending", "approved", "rejected"] },
+        "reviewer_role": { "type": "string" },
+        "reviewed_at": { "type": "string", "format": "date-time" }
+      }
+    }
+  }
+}

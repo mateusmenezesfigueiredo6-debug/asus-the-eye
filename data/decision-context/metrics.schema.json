@@ -1,0 +1,107 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://the-eye.local/schemas/decision-context/metrics.schema.json",
+  "title": "Jurisprudential metric",
+  "description": "A derived metric over public decisions. Policy: every metric carries denominator, period, sample size, uncertainty, missingness and case-mix controls. A metric is always DERIVED_METRIC, never a prediction about a person. Template wording: 'In comparable public decisions from the specified period and sample, scenario X occurred with the reported frequency, subject to these limitations.'",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "metric_id",
+    "name",
+    "scope",
+    "numerator",
+    "denominator",
+    "period",
+    "sample_size",
+    "uncertainty",
+    "missingness",
+    "case_mix_controls",
+    "unobserved_factors",
+    "limitations",
+    "claim_class",
+    "computed_at"
+  ],
+  "properties": {
+    "metric_id": { "type": "string", "minLength": 1 },
+    "name": {
+      "type": "string",
+      "description": "e.g. grant_rate_by_motion, time_to_decision_days, monocratic_rate, precedent_citation_rate, dissent_rate, affirmance_rate, reversal_rate, remand_rate, reconsideration_rate."
+    },
+    "scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["target_type", "target_id"],
+      "properties": {
+        "target_type": { "type": "string", "enum": ["decision_body", "decision_maker", "panel", "theme"] },
+        "target_id": { "type": "string" },
+        "area": { "type": "string" },
+        "case_class": { "type": "string" },
+        "cnj_subject": { "type": "string" },
+        "motion_type": { "type": "string" },
+        "procedural_phase": { "type": "string" }
+      }
+    },
+    "numerator": { "type": "integer", "minimum": 0 },
+    "denominator": { "type": "integer", "minimum": 1 },
+    "value": { "type": "number" },
+    "unit": { "type": "string" },
+    "period": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["start", "end"],
+      "properties": {
+        "start": { "type": "string", "format": "date" },
+        "end": { "type": "string", "format": "date" }
+      }
+    },
+    "sample_size": { "type": "integer", "minimum": 1 },
+    "uncertainty": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["confidence_level", "ci_low", "ci_high"],
+      "properties": {
+        "confidence_level": { "type": "number", "exclusiveMinimum": 0, "exclusiveMaximum": 1 },
+        "ci_low": { "type": "number" },
+        "ci_high": { "type": "number" },
+        "statistical_power_note": { "type": "string" }
+      }
+    },
+    "missingness": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["missing_count", "note"],
+      "properties": {
+        "missing_count": { "type": "integer", "minimum": 0 },
+        "duplicates_removed": { "type": "integer", "minimum": 0 },
+        "note": { "type": "string" }
+      }
+    },
+    "case_mix_controls": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "area",
+          "case_class",
+          "cnj_subject",
+          "motion_type",
+          "procedural_phase",
+          "period",
+          "legal_change",
+          "precedent_change",
+          "urgency",
+          "expert_evidence",
+          "binding_precedent",
+          "panel_composition",
+          "none_possible"
+        ]
+      }
+    },
+    "unobserved_factors": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+    "concept_drift_note": { "type": "string" },
+    "limitations": { "type": "string", "minLength": 1 },
+    "claim_class": { "type": "string", "const": "DERIVED_METRIC" },
+    "computed_at": { "type": "string", "format": "date-time" },
+    "source_decision_ids": { "type": "array", "items": { "type": "string" } }
+  }
+}

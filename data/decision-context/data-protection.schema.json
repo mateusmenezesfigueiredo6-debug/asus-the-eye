@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://the-eye.local/schemas/decision-context/data-protection.schema.json",
+  "title": "Data-protection processing record (LGPD)",
+  "description": "Record of processing for each decision-context operation: legal basis per operation, minimization, retention, correction and contestation processes, human review, and DPIA status. Production is gated on all of these being approved by privacy and legal professionals.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "processing_record_id",
+    "operation",
+    "data_categories",
+    "legal_basis",
+    "minimization_statement",
+    "retention_policy_id",
+    "correction_process",
+    "contestation_process",
+    "human_review_required",
+    "dpia_status",
+    "approved_for_production",
+    "recorded_at"
+  ],
+  "properties": {
+    "processing_record_id": { "type": "string", "minLength": 1 },
+    "operation": { "type": "string", "minLength": 1, "description": "e.g. collect_public_decisions, compute_metrics, publish_pattern_report." },
+    "data_categories": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string", "enum": ["public_professional_data", "public_decision_data", "institutional_data", "derived_aggregate_metric"] },
+      "description": "Only these categories are processable. Sensitive-data categories are structurally excluded."
+    },
+    "legal_basis": {
+      "type": "string",
+      "enum": [
+        "legitimate_interest_art7_ix",
+        "legal_obligation_art7_ii",
+        "public_data_art7_para3",
+        "consent_art7_i",
+        "contract_art7_v",
+        "judicial_process_art7_vi"
+      ],
+      "description": "LGPD article mapping. Balancing test reference required for legitimate interest."
+    },
+    "balancing_test_ref": { "type": "string" },
+    "minimization_statement": { "type": "string", "minLength": 1 },
+    "retention_policy_id": { "type": "string", "minLength": 1 },
+    "correction_process": { "type": "string", "minLength": 1 },
+    "contestation_process": { "type": "string", "minLength": 1 },
+    "human_review_required": { "type": "boolean", "const": true },
+    "fairness_audit_ref": { "type": "string" },
+    "dpia_status": { "type": "string", "enum": ["not_started", "in_progress", "completed", "approved"] },
+    "approved_for_production": { "type": "boolean" },
+    "approver_roles": { "type": "array", "items": { "type": "string", "enum": ["dpo", "legal", "security", "executive"] } },
+    "recorded_at": { "type": "string", "format": "date-time" }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "legal_basis": { "const": "legitimate_interest_art7_ix" } } },
+      "then": { "required": ["balancing_test_ref"] }
+    },
+    {
+      "if": { "properties": { "approved_for_production": { "const": true } } },
+      "then": {
+        "properties": { "dpia_status": { "const": "approved" } },
+        "required": ["approver_roles", "fairness_audit_ref"]
+      }
+    }
+  ]
+}
