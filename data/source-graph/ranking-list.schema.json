@@ -1,0 +1,80 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://the-eye.local/schemas/source-graph/ranking-list.schema.json",
+  "title": "Ranking list (lista ranqueada)",
+  "description": "Uma lista qualificada. Duas regras da Phase C viram invariante estrutural: 'never fill a list artificially to reach 100' (padded é const false — o schema NÃO PERMITE declarar lista preenchida) e 'do not mix academics, practitioners, judges, regulators and policy officials in one list' (entity_type é único por lista). qualified_count 7 com target_size 100 é resultado válido e o relatório o expõe.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "list_id",
+    "list_scope",
+    "entity_type",
+    "category_id",
+    "methodology_version",
+    "cut_off_date",
+    "target_size",
+    "qualified_count",
+    "padded",
+    "coverage_note",
+    "human_review"
+  ],
+  "properties": {
+    "list_id": { "type": "string", "minLength": 1 },
+    "list_scope": {
+      "type": "string",
+      "enum": [
+        "global",
+        "brazil",
+        "jurisdictional",
+        "academic",
+        "professional",
+        "institutional",
+        "emerging",
+        "period_specific"
+      ],
+      "description": "Exatamente as separações que a Phase C exige (MISSION:250-252)."
+    },
+    "entity_type": {
+      "type": "string",
+      "enum": [
+        "institution",
+        "journal",
+        "repository",
+        "dataset",
+        "api",
+        "observatory",
+        "association",
+        "conference",
+        "news_outlet",
+        "book",
+        "work",
+        "software_artifact",
+        "community"
+      ],
+      "description": "Único por lista. 'person' ausente aqui de propósito: ranking de pessoas é L4."
+    },
+    "category_id": { "type": "string", "minLength": 1 },
+    "methodology_version": { "type": "string", "minLength": 1 },
+    "cut_off_date": { "type": "string", "format": "date" },
+    "target_size": { "type": "integer", "minimum": 1, "description": "Alvo pedido, não resultado." },
+    "qualified_count": { "type": "integer", "minimum": 0, "description": "Quantas entidades de fato qualificaram." },
+    "padded": {
+      "type": "boolean",
+      "const": false,
+      "description": "Sempre false. O schema não tem como representar uma lista preenchida artificialmente."
+    },
+    "coverage_note": { "type": "string", "minLength": 1 },
+    "entry_ids": { "type": "array", "items": { "type": "string" } },
+    "human_review": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["required", "status"],
+      "properties": {
+        "required": { "type": "boolean", "const": true },
+        "status": { "type": "string", "enum": ["pending", "approved", "rejected"] },
+        "reviewer_role": { "type": "string" },
+        "reviewed_at": { "type": "string", "format": "date-time" }
+      }
+    }
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "methodology_version": "1.0.0",
+  "generated_from": "docs/legal-intelligence/RANKING_METHODOLOGY.md",
+  "note": "Pesos por componente de score. A soma é exatamente 1.0 e o teste trava isso. Componente sem dado é OMITIDO do cálculo, nunca zerado — o score vira média ponderada só dos presentes, e components_present/components_declared viajam junto para que 3-de-7 nunca leia como 7-de-7. Nenhum componente usa seguidores, engajamento, alcance ou popularidade: a missão proíbe ranquear por métrica social.",
+  "weights": {
+    "authority_tier": 0.25,
+    "subarea_specialization": 0.2,
+    "documented_impact": 0.2,
+    "recency_continuity": 0.1,
+    "methodology_transparency": 0.1,
+    "structured_data_accessibility": 0.1,
+    "jurisdictional_relevance": 0.05
+  }
+}

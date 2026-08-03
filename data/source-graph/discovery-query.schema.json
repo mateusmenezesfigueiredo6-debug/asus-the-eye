@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://the-eye.local/schemas/source-graph/discovery-query.schema.json",
+  "title": "Discovery query (reprodutibilidade da descoberta)",
+  "description": "Registro de uma busca executada contra um conector. Sem isto nenhuma cobertura é reproduzível e nenhum número é auditável: quem quiser conferir precisa saber qual consulta, com quais parâmetros, em que momento, sob qual base de acesso e com qual resposta exata (hash).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "discovery_query_id",
+    "connector_id",
+    "query_string",
+    "parameters",
+    "executed_at",
+    "result_count",
+    "response_hash_sha256",
+    "robots_decision",
+    "rate_limit_applied"
+  ],
+  "properties": {
+    "discovery_query_id": { "type": "string", "minLength": 1 },
+    "connector_id": { "type": "string", "minLength": 1 },
+    "query_string": { "type": "string" },
+    "parameters": { "type": "object" },
+    "executed_at": { "type": "string", "format": "date-time" },
+    "result_count": { "type": "integer", "minimum": 0 },
+    "response_hash_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "robots_decision": {
+      "type": "string",
+      "description": "robots_allowed | no_robots_file | api_terms:<url> | refused. A base da autorização fica gravada, nunca implícita."
+    },
+    "rate_limit_applied": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["min_interval_seconds"],
+      "properties": {
+        "min_interval_seconds": { "type": "number", "exclusiveMinimum": 0 },
+        "waited_seconds": { "type": "number", "minimum": 0 },
+        "retries": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "http_status": { "type": "integer" },
+    "byte_length": { "type": "integer", "minimum": 0 }
+  }
+}

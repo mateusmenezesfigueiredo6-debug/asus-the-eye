@@ -1,0 +1,9 @@
+{
+  "crosswalk_version": "0.1.0",
+  "target": "Book sales volume, print run, and market-size figures per niche",
+  "status": "pending_licensed_source",
+  "policy": "Sales volume and market size are recorded only from licensed primary sources (Circana/NPD BookScan, Nielsen BookData) or official publisher/issuer disclosures. Never inferred from ratings, review counts, bestseller-list appearances, search interest or retailer rank. Automated collection of Amazon Best Sellers Rank is forbidden by that platform's terms and is out of scope by policy, not by difficulty. UNKNOWN over guess.",
+  "why_empty": "Nenhuma API gratuita e legítima entrega volume de vendas de livros nem tamanho de mercado por nicho. Preencher isto com proxies (nota do Goodreads, número de resenhas, interesse de busca) seria proxy vendido como medição — exatamente o que este repositório proíbe.",
+  "what_would_unblock": "Assinatura de Circana BookScan ou Nielsen BookData, ou divulgação oficial de editora/emissor com hash de proveniência.",
+  "mappings": []
+}

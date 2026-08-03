@@ -1,0 +1,152 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://the-eye.local/schemas/source-graph/knowledge-source.schema.json",
+  "title": "Knowledge source (nó do grafo de fontes)",
+  "description": "Uma entidade-fonte qualificada: instituição, periódico, repositório, dataset, API, observatório, associação, conferência, veículo, livro, obra, artefato de software ou comunidade. Toda entidade carrega proveniência hasheada (source_manifest) e licença declarada — nunca inferida. Proibido por política (AGENTS.md / MISSION:464-466): qualquer atributo biométrico, psicológico, de sentimento social, de seguidores/engajamento, ou preditivo sobre pessoas. additionalProperties é false para tornar a minimização estrutural.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "source_id",
+    "category_id",
+    "entity_type",
+    "official_name",
+    "official_url",
+    "jurisdiction",
+    "authority_tier",
+    "source_manifest",
+    "discovery_query_id",
+    "first_seen_at",
+    "last_verification_at",
+    "claim_class",
+    "license",
+    "human_review"
+  ],
+  "properties": {
+    "source_id": {
+      "type": "string",
+      "pattern": "^S[0-9]{3,6}$",
+      "description": "Convenção de ID de fonte externa do AGENTS.md (S001)."
+    },
+    "category_id": {
+      "type": "string",
+      "description": "Uma das categorias declaradas em source_categories.json. O teste trava a igualdade entre este enum e o registry."
+    },
+    "entity_type": {
+      "type": "string",
+      "enum": [
+        "institution",
+        "journal",
+        "repository",
+        "dataset",
+        "api",
+        "observatory",
+        "association",
+        "conference",
+        "news_outlet",
+        "book",
+        "work",
+        "software_artifact",
+        "community",
+        "person"
+      ],
+      "description": "person existe para o futuro, mas o pipeline recusa materializá-lo: dado pessoal é L4 e exige DPIA humana."
+    },
+    "official_name": { "type": "string", "minLength": 1, "maxLength": 512 },
+    "official_url": { "type": "string", "format": "uri" },
+    "description": { "type": "string", "maxLength": 2000 },
+    "jurisdiction": { "type": "string", "minLength": 1, "description": "ISO 3166 alpha-2, 'GLOBAL' ou identificador de jurisdição." },
+    "authority_tier": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 8,
+      "description": "Espelha a hierarquia de evidências do AGENTS.md:37-46. 1 = mais autoritativo."
+    },
+    "legal_area_ids_suggested": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Saída literal de suggest_legal_areas. Lista vazia é resultado válido — silêncio sobre palpite."
+    },
+    "identifiers": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Somente IDs de registros oficiais. Nada derivado ou inventado.",
+      "properties": {
+        "ror": { "type": "string" },
+        "doi": { "type": "string" },
+        "issn": { "type": "string" },
+        "isbn13": { "type": "string", "pattern": "^97[89][0-9]{10}$" },
+        "openalex_id": { "type": "string" },
+        "cik": { "type": "string" },
+        "wikidata": { "type": "string" }
+      }
+    },
+    "license": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["license_id", "license_url"],
+      "description": "Vem de connectors.json. NUNCA deduzida de página.",
+      "properties": {
+        "license_id": { "type": "string", "minLength": 1, "description": "SPDX quando aplicável, ou identificador declarado pela fonte." },
+        "license_url": { "type": "string", "format": "uri" },
+        "reuse_note": { "type": "string", "maxLength": 1000 }
+      }
+    },
+    "poc_status": {
+      "type": "string",
+      "enum": ["production", "research", "experimental", "unknown"],
+      "description": "Só para entity_type software_artifact. 'production' exige evidence_ref apontando para documentação oficial ou release; sem isso é 'research'."
+    },
+    "evidence_ref": {
+      "type": "string",
+      "description": "source_id do manifesto que sustenta a afirmação mais forte deste registro."
+    },
+    "does_not_provide": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "O que esta fonte explicitamente NÃO entrega. Declarar o limite é parte do registro."
+    },
+    "source_manifest": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["source_id", "official_url", "retrieved_at", "content_hash_sha256"],
+        "properties": {
+          "source_id": { "type": "string" },
+          "official_url": { "type": "string", "format": "uri" },
+          "retrieved_at": { "type": "string", "format": "date-time" },
+          "content_hash_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+        }
+      }
+    },
+    "discovery_query_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "FK para discovery-query: qual busca produziu esta entidade. Sem isto nenhuma cobertura é reproduzível."
+    },
+    "first_seen_at": { "type": "string", "format": "date-time" },
+    "last_verification_at": { "type": "string", "format": "date-time" },
+    "claim_class": {
+      "type": "string",
+      "enum": ["FACT", "DERIVED_METRIC", "INFERENCE", "UNKNOWN", "PROHIBITED"]
+    },
+    "human_review": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["required", "status"],
+      "properties": {
+        "required": { "type": "boolean", "const": true },
+        "status": { "type": "string", "enum": ["pending", "approved", "rejected"] },
+        "reviewer_role": { "type": "string" },
+        "reviewed_at": { "type": "string", "format": "date-time" }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "poc_status": { "const": "production" } }, "required": ["poc_status"] },
+      "then": { "required": ["evidence_ref"] }
+    }
+  ]
+}

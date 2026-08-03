@@ -1,0 +1,98 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://the-eye.local/schemas/source-graph/coverage-report.schema.json",
+  "title": "Coverage report (cobertura real, com o motivo de cada zero)",
+  "description": "Quantas entidades qualificadas existem de fato por categoria e por nicho — e, para cada zero, POR QUE. blocking_reason é enum fechado: um zero sem motivo nomeado não passa na validação. É a diferença entre 'não temos' e 'não olhamos'.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "report_version",
+    "generated_at",
+    "methodology_version",
+    "by_category",
+    "by_niche",
+    "gaps",
+    "snapshot_hash_sha256"
+  ],
+  "properties": {
+    "report_version": { "type": "string", "minLength": 1 },
+    "generated_at": { "type": "string", "format": "date-time" },
+    "methodology_version": { "type": "string", "minLength": 1 },
+    "by_category": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["category_id", "qualified_count", "target_size", "coverage_pct", "blocking_reason"],
+        "properties": {
+          "category_id": { "type": "string" },
+          "qualified_count": { "type": "integer", "minimum": 0 },
+          "target_size": { "type": "integer", "minimum": 0 },
+          "coverage_pct": { "type": "number", "minimum": 0, "maximum": 100 },
+          "blocking_reason": {
+            "type": "string",
+            "enum": [
+              "none",
+              "no_free_source",
+              "license_restricted",
+              "robots_disallowed",
+              "requires_paid_api",
+              "requires_dpia",
+              "not_yet_attempted"
+            ]
+          }
+        }
+      }
+    },
+    "by_niche": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["legal_area_id", "qualified_count", "blocking_reason"],
+        "properties": {
+          "legal_area_id": { "type": "string" },
+          "qualified_count": { "type": "integer", "minimum": 0 },
+          "blocking_reason": {
+            "type": "string",
+            "enum": [
+              "none",
+              "no_free_source",
+              "license_restricted",
+              "robots_disallowed",
+              "requires_paid_api",
+              "requires_dpia",
+              "not_yet_attempted"
+            ]
+          }
+        }
+      }
+    },
+    "gaps": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["description", "blocking_reason"],
+        "properties": {
+          "description": { "type": "string", "minLength": 1 },
+          "category_id": { "type": "string" },
+          "blocking_reason": {
+            "type": "string",
+            "enum": [
+              "none",
+              "no_free_source",
+              "license_restricted",
+              "robots_disallowed",
+              "requires_paid_api",
+              "requires_dpia",
+              "not_yet_attempted"
+            ]
+          },
+          "what_would_unblock": { "type": "string" }
+        }
+      }
+    },
+    "snapshot_hash_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+  }
+}

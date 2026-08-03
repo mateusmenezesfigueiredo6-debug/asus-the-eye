@@ -1,0 +1,251 @@
+{
+  "connector_version": "1.0.0",
+  "note": "Cada conector declara sua licença, seus termos, seu intervalo mínimo e — obrigatoriamente — o que NÃO entrega. Nenhuma licença é deduzida de página: se um conector não declara license_id aqui, o registry recusa carregá-lo. min_interval_seconds default global é 3.0 (o limite do arXiv, o mais estrito do conjunto): errar para o lado educado. enabled=false significa que o Estágio 1 não usa; nada com requires_key=true é habilitado.",
+  "default_min_interval_seconds": 3.0,
+  "default_max_bytes": 5242880,
+  "connectors": [
+    {
+      "connector_id": "ror",
+      "name": "Research Organization Registry",
+      "base_url": "https://api.ror.org/v2/organizations",
+      "terms_url": "https://ror.org/about/terms/",
+      "license_id": "CC0-1.0",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "access_basis": "api_terms",
+      "min_interval_seconds": 3.0,
+      "max_bytes": 5242880,
+      "requires_key": false,
+      "enabled": false,
+      "provides": ["identidade canônica de organização de pesquisa", "país", "tipos", "relações"],
+      "does_not_provide": [
+        "ranking ou medida de qualidade",
+        "produção científica",
+        "dados de pessoas"
+      ],
+      "limitations": [
+        "2.000 req/5 min por IP hoje; a partir do 3º tri/2026 exige client ID grátis, senão cai para 50 req/5 min",
+        "máximo 10.000 registros por consulta — para o conjunto completo (120k+ orgs) usar o data dump"
+      ]
+    },
+    {
+      "connector_id": "crossref",
+      "name": "Crossref REST API",
+      "base_url": "https://api.crossref.org",
+      "terms_url": "https://www.crossref.org/documentation/retrieve-metadata/rest-api/",
+      "license_id": "CC0-1.0",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "access_basis": "api_terms",
+      "min_interval_seconds": 3.0,
+      "max_bytes": 10485760,
+      "requires_key": false,
+      "enabled": false,
+      "provides": ["metadados de artigos e periódicos", "DOI", "ISSN", "contagem de citações parcial"],
+      "does_not_provide": [
+        "texto completo",
+        "contagem de citações completa ou auditável",
+        "ranking de qualidade"
+      ],
+      "limitations": [
+        "limites revisados em 01/12/2025: público 5 req/s por DOI, 1 req/s para listas, 1 conexão",
+        "polite pool (com mailto) sobe para 10 req/s e 3 conexões — mas exige identificação",
+        "abstracts podem ter copyright do editor"
+      ]
+    },
+    {
+      "connector_id": "arxiv",
+      "name": "arXiv API",
+      "base_url": "https://export.arxiv.org/api/query",
+      "terms_url": "https://info.arxiv.org/help/api/tou.html",
+      "license_id": "CC0-1.0",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "access_basis": "api_terms",
+      "min_interval_seconds": 3.0,
+      "max_bytes": 5242880,
+      "requires_key": false,
+      "enabled": false,
+      "provides": ["metadados de preprints", "resumos", "categorias"],
+      "does_not_provide": [
+        "artigos revisados por pares (só preprints)",
+        "redistribuição de PDF a partir do seu servidor"
+      ],
+      "limitations": ["1 requisição a cada 3 s, 1 conexão — o mais estrito do conjunto"]
+    },
+    {
+      "connector_id": "openlibrary",
+      "name": "Open Library",
+      "base_url": "https://openlibrary.org",
+      "terms_url": "https://openlibrary.org/developers/api",
+      "license_id": "CC0-1.0",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "access_basis": "api_terms",
+      "min_interval_seconds": 3.0,
+      "max_bytes": 5242880,
+      "requires_key": false,
+      "enabled": false,
+      "provides": ["metadados bibliográficos de livros", "ISBN", "autores", "edições"],
+      "does_not_provide": [
+        "dados de vendas",
+        "ranking comercial",
+        "qualquer métrica de mercado"
+      ],
+      "limitations": [
+        "1 req/s anônimo, 3 req/s identificado; User-Agent com contato é exigido",
+        "a documentação declara explicitamente que a plataforma não é infraestrutura comercial"
+      ]
+    },
+    {
+      "connector_id": "doaj",
+      "name": "Directory of Open Access Journals",
+      "base_url": "https://doaj.org/api",
+      "terms_url": "https://doaj.org/docs/api/",
+      "license_id": "CC-BY-SA-4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+      "access_basis": "api_terms",
+      "min_interval_seconds": 3.0,
+      "max_bytes": 5242880,
+      "requires_key": false,
+      "enabled": false,
+      "provides": ["periódicos open access verificados", "critérios de qualidade editorial"],
+      "does_not_provide": ["periódicos por assinatura", "fator de impacto"],
+      "limitations": ["cobertura restrita a OA; ~2 req/s"]
+    },
+    {
+      "connector_id": "openalex",
+      "name": "OpenAlex",
+      "base_url": "https://api.openalex.org",
+      "terms_url": "https://docs.openalex.org/",
+      "license_id": "CC0-1.0",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "access_basis": "api_terms",
+      "min_interval_seconds": 3.0,
+      "max_bytes": 10485760,
+      "requires_key": true,
+      "enabled": false,
+      "provides": ["obras, autores, instituições, tópicos", "contagem de citações"],
+      "does_not_provide": ["acesso gratuito ilimitado desde fev/2026"],
+      "limitations": [
+        "BLOQUEADO NO ESTÁGIO 1: desde fev/2026 exige chave e cobra por uso (US$1/dia grátis). O AGENTS.md proíbe criar custos",
+        "caminho correto é o dump CC0 no S3 — grátis, sem chave, Estágio 2"
+      ]
+    },
+    {
+      "connector_id": "sec-edgar",
+      "name": "SEC EDGAR",
+      "base_url": "https://data.sec.gov",
+      "terms_url": "https://www.sec.gov/os/webmaster-faq#developers",
+      "license_id": "US-PublicDomain",
+      "license_url": "https://www.sec.gov/privacy#dissemination",
+      "access_basis": "api_terms",
+      "min_interval_seconds": 3.0,
+      "max_bytes": 20971520,
+      "requires_key": false,
+      "enabled": false,
+      "provides": ["arquivamentos de empresas listadas nos EUA", "CIK", "demonstrações financeiras"],
+      "does_not_provide": ["empresas fechadas", "empresas não listadas nos EUA"],
+      "limitations": ["User-Agent com contato é OBRIGATÓRIO — sem isso a SEC bloqueia; 10 req/s"]
+    },
+    {
+      "connector_id": "dados-gov-br",
+      "name": "Portal Brasileiro de Dados Abertos",
+      "base_url": "https://dados.gov.br/api",
+      "terms_url": "https://dados.gov.br/termos-de-uso",
+      "license_id": "CC-BY-4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "access_basis": "api_terms",
+      "min_interval_seconds": 3.0,
+      "max_bytes": 20971520,
+      "requires_key": false,
+      "enabled": false,
+      "provides": ["catálogo federal de dados abertos (CKAN)"],
+      "does_not_provide": ["dados estaduais e municipais não federados"],
+      "limitations": ["base legal: Lei 12.527/2011 + Decreto 8.777/2016"]
+    },
+    {
+      "connector_id": "anp",
+      "name": "ANP - dados abertos (óleo e gás)",
+      "base_url": "https://www.gov.br/anp/pt-br/centrais-de-conteudo/dados-abertos",
+      "terms_url": "https://www.gov.br/anp/pt-br/acesso-a-informacao/dados-abertos",
+      "license_id": "CC-BY-4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "access_basis": "api_terms",
+      "min_interval_seconds": 3.0,
+      "max_bytes": 52428800,
+      "requires_key": false,
+      "enabled": false,
+      "provides": ["produção de petróleo e gás", "poços", "preços de combustíveis"],
+      "does_not_provide": ["dados de empresas privadas não reguladas", "previsão de preço"],
+      "limitations": ["publicação por arquivo, não por API REST em todos os conjuntos"]
+    },
+    {
+      "connector_id": "snis",
+      "name": "SNIS - Sistema Nacional de Informações sobre Saneamento",
+      "base_url": "https://www.gov.br/cidades/pt-br/acesso-a-informacao/acoes-e-programas/saneamento/snis",
+      "terms_url": "https://www.gov.br/cidades/pt-br/acesso-a-informacao/dados-abertos",
+      "license_id": "CC-BY-4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "access_basis": "api_terms",
+      "min_interval_seconds": 3.0,
+      "max_bytes": 52428800,
+      "requires_key": false,
+      "enabled": false,
+      "provides": ["estações de tratamento de água e esgoto", "indicadores por município", "cobertura de saneamento"],
+      "does_not_provide": ["telemetria em tempo real de estação", "dados operacionais internos de concessionária"],
+      "limitations": ["série anual com defasagem; autodeclarado pelos prestadores"]
+    },
+    {
+      "connector_id": "ibm-quantum",
+      "name": "IBM Quantum (Open Plan)",
+      "base_url": "https://quantum.ibm.com",
+      "terms_url": "https://quantum.ibm.com/terms",
+      "license_id": "Apache-2.0",
+      "license_url": "https://www.apache.org/licenses/LICENSE-2.0",
+      "access_basis": "api_terms",
+      "min_interval_seconds": 3.0,
+      "max_bytes": 5242880,
+      "requires_key": true,
+      "enabled": false,
+      "category": "quantum_cloud",
+      "provides": ["~10 min de QPU real por janela de 28 dias", "simuladores locais ilimitados via Qiskit"],
+      "does_not_provide": [
+        "vantagem quântica em previsão prática — QML ainda não supera XGBoost",
+        "acesso anônimo: exige conta identificada",
+        "endereço .onion — não existe nuvem quântica via Tor"
+      ],
+      "limitations": ["JÁ EM USO NESTE PROJETO: job d9ngkpcsfqic73ar17vg em ibm_kingston, 3,94 s de QPU"]
+    },
+    {
+      "connector_id": "amazon-braket",
+      "name": "Amazon Braket",
+      "base_url": "https://aws.amazon.com/braket/",
+      "terms_url": "https://aws.amazon.com/service-terms/",
+      "license_id": "Proprietary-AWS",
+      "license_url": "https://aws.amazon.com/service-terms/",
+      "access_basis": "api_terms",
+      "min_interval_seconds": 3.0,
+      "max_bytes": 5242880,
+      "requires_key": true,
+      "enabled": false,
+      "category": "quantum_cloud",
+      "provides": ["1 h de simulador grátis/mês para novos usuários"],
+      "does_not_provide": ["hardware real gratuito — IonQ/Rigetti/QuEra são pagos"],
+      "limitations": ["cria custo além da cota — bloqueado pelo AGENTS.md"]
+    },
+    {
+      "connector_id": "dwave-leap",
+      "name": "D-Wave Leap",
+      "base_url": "https://cloud.dwavesys.com/leap/",
+      "terms_url": "https://www.dwavesys.com/legal/",
+      "license_id": "Proprietary-DWave",
+      "license_url": "https://www.dwavesys.com/legal/",
+      "access_basis": "api_terms",
+      "min_interval_seconds": 3.0,
+      "max_bytes": 5242880,
+      "requires_key": true,
+      "enabled": false,
+      "category": "quantum_cloud",
+      "provides": ["minutos mensais grátis em annealer quântico", "bom para otimização combinatória"],
+      "does_not_provide": ["computação quântica de porta universal", "acesso anônimo"],
+      "limitations": ["annealer resolve uma classe restrita de problema; não roda QAOA de porta"]
+    }
+  ]
+}

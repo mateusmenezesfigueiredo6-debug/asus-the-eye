@@ -1,0 +1,40 @@
+{
+  "community_version": "1.0.0",
+  "note": "Fóruns, comunidades e conferências como FONTES. Registra-se o fórum, nunca as pessoas nele: proibido raspar conteúdo de membros, contar seguidores ou perfilar participante (AGENTS.md:136-140, MISSION:269). member_scale é uma faixa declarada publicamente pela própria comunidade quando existe — nunca uma métrica coletada, e nunca entra em score de ranking.",
+  "collection_policy": "Somente a página oficial da comunidade é buscada, para confirmar existência e escopo. Nenhuma mensagem, perfil ou lista de membros é coletada.",
+  "community_count": 22,
+  "communities": [
+    { "community_id": "huggingface-forum", "name": "Hugging Face Forums", "official_url": "https://discuss.huggingface.co/", "topic_ids": ["ml_general", "llm"], "kind": "forum", "language": "en" },
+    { "community_id": "r-machinelearning", "name": "r/MachineLearning", "official_url": "https://www.reddit.com/r/MachineLearning/", "topic_ids": ["ml_general"], "kind": "forum", "language": "en" },
+    { "community_id": "r-localllama", "name": "r/LocalLLaMA", "official_url": "https://www.reddit.com/r/LocalLLaMA/", "topic_ids": ["llm"], "kind": "forum", "language": "en" },
+    { "community_id": "kaggle-forums", "name": "Kaggle", "official_url": "https://www.kaggle.com/discussions", "topic_ids": ["ml_general", "sales_analytics"], "kind": "forum_and_competition", "language": "en" },
+    { "community_id": "eleutherai", "name": "EleutherAI", "official_url": "https://www.eleuther.ai/", "topic_ids": ["llm"], "kind": "research_collective", "language": "en" },
+    { "community_id": "neurips", "name": "NeurIPS proceedings", "official_url": "https://papers.nips.cc/", "topic_ids": ["ml_general", "llm"], "kind": "conference_proceedings", "language": "en" },
+    { "community_id": "icml", "name": "ICML proceedings", "official_url": "https://proceedings.mlr.press/", "topic_ids": ["ml_general"], "kind": "conference_proceedings", "language": "en" },
+    { "community_id": "iclr", "name": "ICLR (OpenReview)", "official_url": "https://openreview.net/group?id=ICLR.cc", "topic_ids": ["ml_general", "llm"], "kind": "conference_proceedings", "language": "en" },
+    { "community_id": "quant-stackexchange", "name": "Quantitative Finance Stack Exchange", "official_url": "https://quant.stackexchange.com/", "topic_ids": ["derivatives", "hedging"], "kind": "qa_site", "language": "en" },
+    { "community_id": "r-quant", "name": "r/quant", "official_url": "https://www.reddit.com/r/quant/", "topic_ids": ["derivatives", "hedging"], "kind": "forum", "language": "en" },
+    { "community_id": "r-algotrading", "name": "r/algotrading", "official_url": "https://www.reddit.com/r/algotrading/", "topic_ids": ["derivatives"], "kind": "forum", "language": "en" },
+    { "community_id": "quantnet", "name": "QuantNet", "official_url": "https://quantnet.com/", "topic_ids": ["derivatives"], "kind": "forum", "language": "en" },
+    { "community_id": "wilmott", "name": "Wilmott Forums", "official_url": "https://forum.wilmott.com/", "topic_ids": ["derivatives", "hedging"], "kind": "forum", "language": "en" },
+    { "community_id": "quantlib-community", "name": "QuantLib community", "official_url": "https://www.quantlib.org/newsgroup.shtml", "topic_ids": ["derivatives"], "kind": "mailing_list", "language": "en" },
+    { "community_id": "r-econometrics", "name": "r/econometrics", "official_url": "https://www.reddit.com/r/econometrics/", "topic_ids": ["economics"], "kind": "forum", "language": "en" },
+    { "community_id": "nber", "name": "NBER working papers", "official_url": "https://www.nber.org/papers", "topic_ids": ["economics"], "kind": "working_paper_series", "language": "en" },
+    { "community_id": "sicss", "name": "Summer Institute in Computational Social Science", "official_url": "https://sicss.io/", "topic_ids": ["economics", "politics"], "kind": "research_program", "language": "en", "note": "tem núcleos no Brasil" },
+    { "community_id": "abraji", "name": "ABRAJI", "official_url": "https://www.abraji.org.br/", "topic_ids": ["data_journalism"], "kind": "association", "language": "pt-BR" },
+    { "community_id": "knight-center", "name": "Knight Center for Journalism in the Americas", "official_url": "https://journalismcourses.org/", "topic_ids": ["data_journalism"], "kind": "training", "language": "pt-BR" },
+    { "community_id": "nicar-ire", "name": "NICAR / IRE", "official_url": "https://www.ire.org/", "topic_ids": ["data_journalism"], "kind": "association", "language": "en" },
+    { "community_id": "data-hackers", "name": "Data Hackers", "official_url": "https://datahackers.com.br/", "topic_ids": ["ml_general"], "kind": "community", "language": "pt-BR" },
+    { "community_id": "quantum-open-source-foundation", "name": "Quantum Open Source Foundation", "official_url": "https://qosf.org/", "topic_ids": ["quantum", "quantum_ml"], "kind": "community", "language": "en" }
+  ],
+  "excluded_by_policy": [
+    {
+      "what": "Grupos fechados de WhatsApp e Telegram",
+      "why": "Conteúdo privado. Indexar exigiria entrar no grupo e coletar mensagens de pessoas — perfilamento vedado pelo AGENTS.md."
+    },
+    {
+      "what": "Comunidades de psicologia clínica ou psiquiatria computacional com conteúdo de pacientes",
+      "why": "Dado sensível de saúde. Só a literatura publicada entra no grafo, nunca a comunidade como fonte de dados de pessoas."
+    }
+  ]
+}

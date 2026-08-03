@@ -1,0 +1,25 @@
+{
+  "tier_version": "1.0.0",
+  "generated_from": "AGENTS.md#evidence-hierarchy",
+  "note": "A hierarquia de evidências do AGENTS.md, literal e na ordem. Tier 1 é o mais autoritativo. O componente de score authority_tier é (9 - tier) / 8, então tier 1 vale 1.0 e tier 8 vale 0.125.",
+  "tier_count": 8,
+  "tiers": [
+    { "tier": 1, "name_en": "constitutions, statutes, regulations, official gazettes" },
+    { "tier": 2, "name_en": "courts, official judgments, procedural tables, and official datasets" },
+    { "tier": 3, "name_en": "regulators, legislatures, ministries, and public authorities" },
+    { "tier": 4, "name_en": "universities, peer-reviewed research, and recognized research centers" },
+    { "tier": 5, "name_en": "professional institutions and transparent legal directories" },
+    { "tier": 6, "name_en": "specialized press" },
+    { "tier": 7, "name_en": "general press" },
+    { "tier": 8, "name_en": "identified professional commentary" }
+  ],
+  "technical_hierarchy": {
+    "note": "Para trabalho técnico o AGENTS.md define uma hierarquia própria de 4 níveis; ela é mapeada nos tiers acima quando a fonte é técnica.",
+    "tiers": [
+      { "tier": 1, "name_en": "repository code, configuration, tests, and reproducible logs", "maps_to_authority_tier": 2 },
+      { "tier": 2, "name_en": "official documentation and primary specifications", "maps_to_authority_tier": 3 },
+      { "tier": 3, "name_en": "official repositories", "maps_to_authority_tier": 4 },
+      { "tier": 4, "name_en": "secondary material only as support", "maps_to_authority_tier": 6 }
+    ]
+  }
+}

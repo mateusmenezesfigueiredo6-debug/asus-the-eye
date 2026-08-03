@@ -1,0 +1,27 @@
+{
+  "category_version": "1.0.0",
+  "generated_from": "prompts/THE_EYE_MASTER_MISSION.md#phase-c",
+  "note": "As 19 categorias literais da Phase C, na ordem do documento. requires_dpia marca as categorias que descrevem PESSOAS: pelo RELEASE_PROTOCOL.md isso é L4 e exige DPIA humana, então o pipeline recusa materializá-las no Estágio 1.",
+  "category_count": 19,
+  "categories": [
+    { "category_id": "universities", "name_en": "Universities", "default_entity_type": "institution", "requires_dpia": false },
+    { "category_id": "schools-and-departments", "name_en": "Schools and departments", "default_entity_type": "institution", "requires_dpia": false },
+    { "category_id": "research-centers", "name_en": "Research centers", "default_entity_type": "institution", "requires_dpia": false },
+    { "category_id": "legal-clinics", "name_en": "Legal clinics", "default_entity_type": "institution", "requires_dpia": false },
+    { "category_id": "academics-and-researchers", "name_en": "Academics and researchers", "default_entity_type": "person", "requires_dpia": true },
+    { "category_id": "practitioners", "name_en": "Practitioners", "default_entity_type": "person", "requires_dpia": true },
+    { "category_id": "arbitrators-and-mediators", "name_en": "Arbitrators and mediators", "default_entity_type": "person", "requires_dpia": true },
+    { "category_id": "institutional-authorities", "name_en": "Institutional authorities using only necessary public professional data", "default_entity_type": "person", "requires_dpia": true },
+    { "category_id": "law-firms-and-boutiques", "name_en": "Law firms and specialist boutiques", "default_entity_type": "institution", "requires_dpia": false },
+    { "category_id": "courts-and-tribunals", "name_en": "Courts and tribunals", "default_entity_type": "institution", "requires_dpia": false },
+    { "category_id": "regulators-and-public-bodies", "name_en": "Regulators and public bodies", "default_entity_type": "institution", "requires_dpia": false },
+    { "category_id": "arbitration-and-mediation-institutions", "name_en": "Arbitration and mediation institutions", "default_entity_type": "institution", "requires_dpia": false },
+    { "category_id": "sports-tribunals-and-federations", "name_en": "Sports tribunals and federations", "default_entity_type": "institution", "requires_dpia": false },
+    { "category_id": "journals-repositories-and-working-papers", "name_en": "Journals, repositories, and working-paper series", "default_entity_type": "journal", "requires_dpia": false },
+    { "category_id": "associations-and-think-tanks", "name_en": "Professional associations and think tanks", "default_entity_type": "association", "requires_dpia": false },
+    { "category_id": "official-datasets-and-apis", "name_en": "Official datasets and APIs", "default_entity_type": "dataset", "requires_dpia": false },
+    { "category_id": "observatories", "name_en": "Observatories", "default_entity_type": "observatory", "requires_dpia": false },
+    { "category_id": "news-portals-newsletters-and-podcasts", "name_en": "News portals, newsletters, and podcasts", "default_entity_type": "news_outlet", "requires_dpia": false },
+    { "category_id": "conferences-and-research-programs", "name_en": "Conferences and research programs", "default_entity_type": "conference", "requires_dpia": false }
+  ]
+}

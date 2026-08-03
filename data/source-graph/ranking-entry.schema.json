@@ -1,0 +1,99 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://the-eye.local/schemas/source-graph/ranking-entry.schema.json",
+  "title": "Ranking entry (entrada ranqueada com evidência)",
+  "description": "Uma entrada de lista ranqueada. Carrega os campos que a Phase C exige sem exceção: evidence, score components, confidence, methodology version, source IDs, cut-off date, validation date, limitations, conflicts of interest, human-review status. Três invariantes tornam a honestidade estrutural: (1) não existe representação para 'componente ausente com valor 0' — ausente é ausente; (2) components_present/components_declared viajam junto do score, então 3-de-7 nunca lê como 7-de-7; (3) limitations tem minItems 1 — se você não achou nenhuma limitação, você não olhou.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "entry_id",
+    "list_id",
+    "source_id",
+    "rank",
+    "score",
+    "score_components",
+    "components_present",
+    "components_declared",
+    "evidence",
+    "confidence",
+    "methodology_version",
+    "source_ids",
+    "cut_off_date",
+    "validation_date",
+    "limitations",
+    "conflicts_of_interest",
+    "human_review"
+  ],
+  "properties": {
+    "entry_id": { "type": "string", "minLength": 1 },
+    "list_id": { "type": "string", "minLength": 1 },
+    "source_id": { "type": "string", "pattern": "^S[0-9]{3,6}$" },
+    "rank": { "type": "integer", "minimum": 1 },
+    "score": { "type": "number", "minimum": 0, "maximum": 1 },
+    "score_components": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["component_id", "value", "evidence_ref", "claim_class", "computed_from"],
+        "properties": {
+          "component_id": {
+            "type": "string",
+            "enum": [
+              "authority_tier",
+              "subarea_specialization",
+              "documented_impact",
+              "recency_continuity",
+              "methodology_transparency",
+              "structured_data_accessibility",
+              "jurisdictional_relevance"
+            ],
+            "description": "Enum fechado: passar follower_count, engagement ou popularity levanta na validação em vez de ser silenciosamente ignorado."
+          },
+          "value": { "type": "number", "minimum": 0, "maximum": 1 },
+          "evidence_ref": { "type": "string", "minLength": 1 },
+          "claim_class": { "type": "string", "enum": ["FACT", "DERIVED_METRIC"] },
+          "denominator": {
+            "type": ["integer", "null"],
+            "description": "Denominador da razão que produziu o valor. null só quando o componente não é uma razão."
+          },
+          "computed_from": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "components_present": { "type": "integer", "minimum": 1 },
+    "components_declared": { "type": "integer", "minimum": 1 },
+    "evidence": { "type": "string", "minLength": 1 },
+    "confidence": {
+      "type": "string",
+      "enum": ["high", "medium", "low", "insufficient"],
+      "description": "Categoria, não float — precisão falsa é pior que imprecisão declarada."
+    },
+    "methodology_version": { "type": "string", "minLength": 1 },
+    "source_ids": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+    "cut_off_date": { "type": "string", "format": "date" },
+    "validation_date": { "type": "string", "format": "date" },
+    "limitations": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "conflicts_of_interest": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Obrigatório existir. Declarar 'nenhum' é um ato registrado, não um silêncio."
+    },
+    "human_review": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["required", "status"],
+      "properties": {
+        "required": { "type": "boolean", "const": true },
+        "status": { "type": "string", "enum": ["pending", "approved", "rejected"] },
+        "reviewer_role": { "type": "string" },
+        "reviewed_at": { "type": "string", "format": "date-time" }
+      }
+    }
+  }
+}
