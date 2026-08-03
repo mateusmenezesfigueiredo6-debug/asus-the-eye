@@ -1,128 +1,257 @@
 {
-  "niches_version": "1.0.0",
-  "note": "Os nichos comerciais da operação. NICHO É CONFIGURAÇÃO, NÃO SISTEMA: adicionar o 16º é uma entrada aqui, não um repositório novo. Cada um referencia legal_area_ids da taxonomia de 145 — é assim que o classificador liga um caso ao nicho automaticamente. Nenhum campo aqui contém estimativa de mercado: volume e ticket vêm de oportunidades reais registradas, nunca de palpite.",
+  "niches_version": "1.1.0",
+  "note": "Os nichos comerciais da operação. NICHO É CONFIGURAÇÃO, NÃO SISTEMA: adicionar o 16º é uma entrada aqui, não um repositório novo. Cada um referencia legal_area_ids da taxonomia de 145 — é assim que o classificador liga um caso ao nicho automaticamente. Nenhum campo aqui contém estimativa de mercado: volume e ticket vêm de oportunidades reais registradas, nunca de palpite. priority e ticket_band_declared sao DECLARADOS por voce, nunca estimados pelo sistema — existem justamente para serem confrontados com a taxa e o ticket reais.",
   "selection_basis": "Seleção inicial por volume de demanda jurídica no Brasil, feita como ponto de partida editável. NÃO é derivada de dados de mercado licenciados — ver data/source-graph/sales_data_crosswalk.json, que permanece vazio por não haver fonte gratuita legítima.",
   "niche_count": 15,
   "niches": [
     {
       "niche_id": "tributario",
       "name": "Tributário",
-      "legal_area_ids": ["tax", "customs"],
+      "legal_area_ids": [
+        "tax",
+        "customs"
+      ],
       "typical_client": "empresa",
-      "engagement_models": ["exito", "hora", "fixo"],
-      "cycle_expectation": "longo"
+      "engagement_models": [
+        "exito",
+        "hora",
+        "fixo"
+      ],
+      "cycle_expectation": "longo",
+      "priority": "core",
+      "ticket_band_declared": "alto"
     },
     {
       "niche_id": "trabalhista",
       "name": "Trabalhista",
-      "legal_area_ids": ["employment", "collective-labor-and-unions"],
+      "legal_area_ids": [
+        "employment",
+        "collective-labor-and-unions"
+      ],
       "typical_client": "empresa",
-      "engagement_models": ["fixo", "hora", "exito"],
-      "cycle_expectation": "medio"
+      "engagement_models": [
+        "fixo",
+        "hora",
+        "exito"
+      ],
+      "cycle_expectation": "medio",
+      "priority": "core",
+      "ticket_band_declared": "medio"
     },
     {
       "niche_id": "consumidor",
       "name": "Consumidor",
-      "legal_area_ids": ["consumer", "civil-liability-and-product-liability"],
+      "legal_area_ids": [
+        "consumer",
+        "civil-liability-and-product-liability"
+      ],
       "typical_client": "pessoa_fisica",
-      "engagement_models": ["exito"],
-      "cycle_expectation": "curto"
+      "engagement_models": [
+        "exito"
+      ],
+      "cycle_expectation": "curto",
+      "priority": "legado",
+      "ticket_band_declared": "baixo"
     },
     {
       "niche_id": "civel-contencioso",
       "name": "Cível contencioso",
-      "legal_area_ids": ["civil-procedure", "enforcement", "obligations"],
+      "legal_area_ids": [
+        "civil-procedure",
+        "enforcement",
+        "obligations"
+      ],
       "typical_client": "ambos",
-      "engagement_models": ["exito", "hora"],
-      "cycle_expectation": "longo"
+      "engagement_models": [
+        "exito",
+        "hora"
+      ],
+      "cycle_expectation": "longo",
+      "priority": "legado",
+      "ticket_band_declared": "medio"
     },
     {
       "niche_id": "contratos",
       "name": "Contratos e consultivo",
-      "legal_area_ids": ["contracts", "business-law"],
+      "legal_area_ids": [
+        "contracts",
+        "business-law"
+      ],
       "typical_client": "empresa",
-      "engagement_models": ["fixo", "hora"],
-      "cycle_expectation": "curto"
+      "engagement_models": [
+        "fixo",
+        "hora"
+      ],
+      "cycle_expectation": "curto",
+      "priority": "core",
+      "ticket_band_declared": "medio"
     },
     {
       "niche_id": "imobiliario",
       "name": "Imobiliário",
-      "legal_area_ids": ["real-estate", "registry-and-notarial-law", "urban-planning"],
+      "legal_area_ids": [
+        "real-estate",
+        "registry-and-notarial-law",
+        "urban-planning"
+      ],
       "typical_client": "ambos",
-      "engagement_models": ["fixo", "hora"],
-      "cycle_expectation": "medio"
+      "engagement_models": [
+        "fixo",
+        "hora"
+      ],
+      "cycle_expectation": "medio",
+      "priority": "core",
+      "ticket_band_declared": "medio"
     },
     {
       "niche_id": "societario",
       "name": "Societário e M&A",
-      "legal_area_ids": ["corporate-law", "m-a", "governance"],
+      "legal_area_ids": [
+        "corporate-law",
+        "m-a",
+        "governance"
+      ],
       "typical_client": "empresa",
-      "engagement_models": ["fixo", "hora"],
-      "cycle_expectation": "longo"
+      "engagement_models": [
+        "fixo",
+        "hora"
+      ],
+      "cycle_expectation": "longo",
+      "priority": "core",
+      "ticket_band_declared": "alto"
     },
     {
       "niche_id": "recuperacao",
       "name": "Recuperação e insolvência",
-      "legal_area_ids": ["judicial-and-extrajudicial-restructuring", "insolvency"],
+      "legal_area_ids": [
+        "judicial-and-extrajudicial-restructuring",
+        "insolvency"
+      ],
       "typical_client": "empresa",
-      "engagement_models": ["fixo", "exito"],
-      "cycle_expectation": "longo"
+      "engagement_models": [
+        "fixo",
+        "exito"
+      ],
+      "cycle_expectation": "longo",
+      "priority": "exploratorio",
+      "ticket_band_declared": "alto"
     },
     {
       "niche_id": "bancario",
       "name": "Bancário e financeiro",
-      "legal_area_ids": ["banking", "fintech-and-payments", "private-financial-law"],
+      "legal_area_ids": [
+        "banking",
+        "fintech-and-payments",
+        "private-financial-law"
+      ],
       "typical_client": "empresa",
-      "engagement_models": ["hora", "fixo"],
-      "cycle_expectation": "medio"
+      "engagement_models": [
+        "hora",
+        "fixo"
+      ],
+      "cycle_expectation": "medio",
+      "priority": "exploratorio",
+      "ticket_band_declared": "alto"
     },
     {
       "niche_id": "previdenciario",
       "name": "Previdenciário",
-      "legal_area_ids": ["social-security", "private-pensions"],
+      "legal_area_ids": [
+        "social-security",
+        "private-pensions"
+      ],
       "typical_client": "pessoa_fisica",
-      "engagement_models": ["exito"],
-      "cycle_expectation": "longo"
+      "engagement_models": [
+        "exito"
+      ],
+      "cycle_expectation": "longo",
+      "priority": "legado",
+      "ticket_band_declared": "baixo"
     },
     {
       "niche_id": "familia",
       "name": "Família",
-      "legal_area_ids": ["family", "children-and-adolescents", "elder-law"],
+      "legal_area_ids": [
+        "family",
+        "children-and-adolescents",
+        "elder-law"
+      ],
       "typical_client": "pessoa_fisica",
-      "engagement_models": ["fixo", "hora"],
-      "cycle_expectation": "medio"
+      "engagement_models": [
+        "fixo",
+        "hora"
+      ],
+      "cycle_expectation": "medio",
+      "priority": "legado",
+      "ticket_band_declared": "baixo"
     },
     {
       "niche_id": "sucessoes",
       "name": "Sucessões e patrimônio",
-      "legal_area_ids": ["succession-private-client-and-family-offices"],
+      "legal_area_ids": [
+        "succession-private-client-and-family-offices"
+      ],
       "typical_client": "pessoa_fisica",
-      "engagement_models": ["fixo", "exito"],
-      "cycle_expectation": "longo"
+      "engagement_models": [
+        "fixo",
+        "exito"
+      ],
+      "cycle_expectation": "longo",
+      "priority": "exploratorio",
+      "ticket_band_declared": "medio"
     },
     {
       "niche_id": "agronegocio",
       "name": "Agronegócio",
-      "legal_area_ids": ["agribusiness", "agrarian", "food-labeling-traceability-and-food-security"],
+      "legal_area_ids": [
+        "agribusiness",
+        "agrarian",
+        "food-labeling-traceability-and-food-security"
+      ],
       "typical_client": "empresa",
-      "engagement_models": ["fixo", "hora"],
-      "cycle_expectation": "medio"
+      "engagement_models": [
+        "fixo",
+        "hora"
+      ],
+      "cycle_expectation": "medio",
+      "priority": "exploratorio",
+      "ticket_band_declared": "medio"
     },
     {
       "niche_id": "protecao-dados",
       "name": "Proteção de dados e digital",
-      "legal_area_ids": ["data-protection", "privacy", "technology", "cybersecurity-and-incident-response"],
+      "legal_area_ids": [
+        "data-protection",
+        "privacy",
+        "technology",
+        "cybersecurity-and-incident-response"
+      ],
       "typical_client": "empresa",
-      "engagement_models": ["fixo", "hora"],
-      "cycle_expectation": "curto"
+      "engagement_models": [
+        "fixo",
+        "hora"
+      ],
+      "cycle_expectation": "curto",
+      "priority": "exploratorio",
+      "ticket_band_declared": "medio"
     },
     {
       "niche_id": "penal-empresarial",
       "name": "Penal empresarial e compliance",
-      "legal_area_ids": ["corporate-criminal-law", "compliance", "internal-investigations", "aml-kyc-kyb-beneficial-ownership-and-asset-recovery"],
+      "legal_area_ids": [
+        "corporate-criminal-law",
+        "compliance",
+        "internal-investigations",
+        "aml-kyc-kyb-beneficial-ownership-and-asset-recovery"
+      ],
       "typical_client": "empresa",
-      "engagement_models": ["hora", "fixo"],
-      "cycle_expectation": "longo"
+      "engagement_models": [
+        "hora",
+        "fixo"
+      ],
+      "cycle_expectation": "longo",
+      "priority": "core",
+      "ticket_band_declared": "alto"
     }
   ]
 }

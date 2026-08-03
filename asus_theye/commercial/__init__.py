@@ -7,8 +7,11 @@ fez os 145 nichos jurídicos funcionarem com um único classificador.
 
 from asus_theye.commercial.metrics import (
     MINIMUM_SAMPLE,
+    TICKET_BANDS_BRL,
     compute_metrics,
+    observed_band,
     rank_niches,
+    reality_check,
 )
 from asus_theye.commercial.niches import (
     NicheError,
@@ -25,6 +28,7 @@ from asus_theye.commercial.pipeline import (
 
 __all__ = [
     "MINIMUM_SAMPLE",
+    "TICKET_BANDS_BRL",
     "STAGES",
     "NicheError",
     "OpportunityError",
@@ -32,7 +36,9 @@ __all__ = [
     "compute_metrics",
     "load_niches",
     "new_opportunity",
+    "observed_band",
     "niche_by_id",
     "niche_for_legal_areas",
     "rank_niches",
+    "reality_check",
 ]

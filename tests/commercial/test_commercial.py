@@ -263,3 +263,81 @@ def test_every_metric_carries_limitations(tmp_path: Path) -> None:
     metrics = compute_metrics(pipe.opportunities(), "tributario", **PERIOD)
     assert metrics["limitations"], "toda métrica declara ao menos uma limitação"
     assert metrics["claim_class"] == "DERIVED_METRIC"
+
+
+# ------------------------------------------- confronto declarado vs. medido
+
+def test_every_niche_declares_priority_and_ticket_band() -> None:
+    for niche in load_niches():
+        assert niche["priority"] in {"core", "exploratorio", "legado"}
+        assert niche["ticket_band_declared"] in {"baixo", "medio", "alto"}
+
+
+def test_declared_expectation_is_confirmed_when_data_agrees(tmp_path: Path) -> None:
+    from asus_theye.commercial import compute_metrics as cm
+    from asus_theye.commercial import reality_check
+
+    pipe = pipeline(tmp_path)
+    for index in range(10):  # ticket 120k = faixa alta, como tributario declara
+        opportunity = pipe.add(
+            new_opportunity(niche_id="tributario", client_identifier=f"e{index}",
+                            source_channel="indicacao")
+        )
+        pipe.advance(opportunity["opportunity_id"], "qualificacao")
+        pipe.advance(opportunity["opportunity_id"], "proposta")
+        pipe.advance(opportunity["opportunity_id"], "ganho", value_brl=120_000.0)
+    check = reality_check(
+        cm(pipe.opportunities(), "tributario", **PERIOD), niche_by_id("tributario")
+    )
+    assert check["ticket_band_declared"] == "alto"
+    assert check["ticket_band_observed"] == "alto"
+    assert check["verdict"] == "confirmed"
+
+
+def test_declared_expectation_is_contradicted_when_data_disagrees(tmp_path: Path) -> None:
+    """O achado mais útil do painel: você achava alto, os dados dizem baixo."""
+    from asus_theye.commercial import compute_metrics as cm
+    from asus_theye.commercial import reality_check
+
+    pipe = pipeline(tmp_path)
+    for index in range(10):  # ticket 9k = faixa baixa, mas tributario declara alto
+        opportunity = pipe.add(
+            new_opportunity(niche_id="tributario", client_identifier=f"e{index}",
+                            source_channel="indicacao")
+        )
+        pipe.advance(opportunity["opportunity_id"], "qualificacao")
+        pipe.advance(opportunity["opportunity_id"], "proposta")
+        pipe.advance(opportunity["opportunity_id"], "ganho", value_brl=9_000.0)
+    check = reality_check(
+        cm(pipe.opportunities(), "tributario", **PERIOD), niche_by_id("tributario")
+    )
+    assert check["verdict"] == "contradicted"
+    assert "declarou ticket 'alto'" in check["note"]
+
+
+def test_small_sample_cannot_contradict_the_expectation(tmp_path: Path) -> None:
+    """A hipótese sobrevive por falta de prova, não por estar certa."""
+    from asus_theye.commercial import compute_metrics as cm
+    from asus_theye.commercial import reality_check
+
+    pipe = pipeline(tmp_path)
+    opportunity = pipe.add(
+        new_opportunity(niche_id="tributario", client_identifier="e0", source_channel="site")
+    )
+    pipe.advance(opportunity["opportunity_id"], "qualificacao")
+    pipe.advance(opportunity["opportunity_id"], "proposta")
+    pipe.advance(opportunity["opportunity_id"], "ganho", value_brl=1_000.0)
+    check = reality_check(
+        cm(pipe.opportunities(), "tributario", **PERIOD), niche_by_id("tributario")
+    )
+    assert check["verdict"] == "insufficient_evidence"
+
+
+def test_no_data_yields_no_verdict(tmp_path: Path) -> None:
+    from asus_theye.commercial import compute_metrics as cm
+    from asus_theye.commercial import reality_check
+
+    check = reality_check(
+        cm(pipeline(tmp_path).opportunities(), "tributario", **PERIOD), niche_by_id("tributario")
+    )
+    assert check["verdict"] == "no_data"

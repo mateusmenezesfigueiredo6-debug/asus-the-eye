@@ -16,6 +16,13 @@ from typing import Any
 MINIMUM_SAMPLE = 8
 """Fechamentos mínimos para a taxa ser ranqueável. Abaixo disso é ruído."""
 
+TICKET_BANDS_BRL: dict[str, tuple[float, float]] = {
+    "baixo": (0.0, 15_000.0),
+    "medio": (15_000.0, 80_000.0),
+    "alto": (80_000.0, float("inf")),
+}
+"""Faixas de ticket. Servem só para CONFRONTAR o que foi declarado com o medido."""
+
 
 def _parse(value: str) -> datetime:
     return datetime.fromisoformat(value.replace("Z", "+00:00"))
@@ -26,6 +33,60 @@ def _cycle_days(opportunity: dict[str, Any]) -> float | None:
         return None
     delta = _parse(opportunity["closed_at"]) - _parse(opportunity["created_at"])
     return round(delta.total_seconds() / 86400, 2)
+
+
+def observed_band(average_ticket: float | None) -> str | None:
+    """Faixa em que o ticket medido caiu. ``None`` quando não há ticket medido."""
+    if average_ticket is None:
+        return None
+    for band, (low, high) in TICKET_BANDS_BRL.items():
+        if low <= average_ticket < high:
+            return band
+    return None
+
+
+def reality_check(
+    metrics: dict[str, Any], niche: dict[str, Any], *, minimum_sample: int = MINIMUM_SAMPLE
+) -> dict[str, Any]:
+    """Confronta o que você DECLAROU com o que os dados mostram.
+
+    A expectativa declarada não é um palpite a ser escondido — é uma hipótese a
+    ser testada. Quando os dados a contrariam com amostra suficiente, isso é a
+    informação mais útil do painel. Quando a amostra é pequena, o veredito é
+    ``insufficient_evidence``: a hipótese sobrevive por falta de prova, não por
+    estar certa.
+    """
+    declared = niche.get("ticket_band_declared")
+    observed = observed_band(metrics.get("average_ticket_brl"))
+
+    if observed is None:
+        verdict, note = "no_data", "nenhum ganho com valor registrado — nada a confrontar"
+    elif not metrics["sample_sufficient"]:
+        verdict = "insufficient_evidence"
+        note = (
+            f"observado {observed!r} sobre {metrics['denominator']} fechamento(s): "
+            f"pouco para contrariar a expectativa {declared!r}"
+        )
+    elif declared == observed:
+        verdict, note = "confirmed", f"expectativa {declared!r} confirmada pelos dados"
+    else:
+        verdict = "contradicted"
+        note = (
+            f"você declarou ticket {declared!r}, mas o medido é {observed!r} "
+            f"(R$ {metrics['average_ticket_brl']:,.0f} sobre {metrics['denominator']} fechamentos)"
+        )
+
+    return {
+        "niche_id": niche["niche_id"],
+        "priority_declared": niche.get("priority"),
+        "ticket_band_declared": declared,
+        "ticket_band_observed": observed,
+        "average_ticket_brl": metrics.get("average_ticket_brl"),
+        "denominator": metrics["denominator"],
+        "verdict": verdict,
+        "note": note,
+        "claim_class": "DERIVED_METRIC",
+    }
 
 
 def compute_metrics(

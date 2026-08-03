@@ -19,6 +19,7 @@ from asus_theye.commercial import (
     new_opportunity,
     rank_niches,
 )
+from asus_theye.commercial.metrics import reality_check
 from asus_theye.commercial.niches import NicheError, classify_case, niche_by_id
 
 STATIC_DIR = Path(__file__).resolve().parent / "static"
@@ -131,6 +132,32 @@ def create_app(pipeline_path: Path | None = None) -> Any:
             )
         except ValueError as error:
             raise HTTPException(status_code=422, detail=str(error)) from error
+
+    @app.get("/api/reality-check")
+    def reality() -> Any:
+        """Confronta prioridade e ticket declarados com o que os dados mostram."""
+        start, end = _default_period()
+        items = pipeline.opportunities()
+        checks = [
+            reality_check(
+                compute_metrics(items, niche["niche_id"], period_start=start, period_end=end),
+                niche,
+            )
+            for niche in load_niches()
+        ]
+        by_verdict: dict[str, int] = {}
+        for check in checks:
+            by_verdict[check["verdict"]] = by_verdict.get(check["verdict"], 0) + 1
+        return {
+            "period_start": start,
+            "period_end": end,
+            "checks": checks,
+            "by_verdict": dict(sorted(by_verdict.items())),
+            "note": (
+                "A expectativa declarada e uma hipotese a ser testada, nao um numero "
+                "a ser escondido. 'contradicted' e o achado mais util do painel."
+            ),
+        }
 
     @app.get("/api/overview")
     def overview() -> Any:
