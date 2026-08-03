@@ -26,3 +26,4 @@ reports/llm/calls.jsonl
 reports/audit/proofs/
 reports/releases/
 reports/commercial/
+reports/source-graph/

@@ -1,31 +1,429 @@
 {
-  "artifact_version": "1.0.0",
+  "artifact_version": "2.0.0",
   "note": "Bibliotecas com prova de conceito real — código aberto, instalável, licença declarada. Estas são SEMENTES: verification_status 'declared_unverified' significa que a licença aqui é a que o projeto publicamente declara, mas ainda não hasheamos o arquivo LICENSE. No Estágio 2 cada uma vira um knowledge_source com source_manifest e content_hash_sha256, e o status passa a 'verified'. poc_status 'production' só se sustenta com evidence_ref para release ou documentação oficial.",
   "verification_policy": "Nenhuma afirmação de licença ou maturidade é promovida a FACT antes de ser buscada e hasheada. Até lá, claim_class é UNKNOWN.",
   "artifact_count": 23,
   "artifacts": [
-    { "artifact_id": "scikit-learn", "name": "scikit-learn", "domain": "ml_general", "repo_url": "https://github.com/scikit-learn/scikit-learn", "docs_url": "https://scikit-learn.org/stable/", "license_id": "BSD-3-Clause", "poc_status": "production", "verification_status": "declared_unverified", "does_not_provide": ["deep learning", "séries temporais nativas"] },
-    { "artifact_id": "xgboost", "name": "XGBoost", "domain": "ml_general", "repo_url": "https://github.com/dmlc/xgboost", "docs_url": "https://xgboost.readthedocs.io/", "license_id": "Apache-2.0", "poc_status": "production", "verification_status": "declared_unverified", "does_not_provide": ["dados não tabulares sem engenharia de atributos"] },
-    { "artifact_id": "lightgbm", "name": "LightGBM", "domain": "ml_general", "repo_url": "https://github.com/microsoft/LightGBM", "docs_url": "https://lightgbm.readthedocs.io/", "license_id": "MIT", "poc_status": "production", "verification_status": "declared_unverified", "does_not_provide": ["dados não tabulares"] },
-    { "artifact_id": "catboost", "name": "CatBoost", "domain": "ml_general", "repo_url": "https://github.com/catboost/catboost", "docs_url": "https://catboost.ai/docs/", "license_id": "Apache-2.0", "poc_status": "production", "verification_status": "declared_unverified", "does_not_provide": ["dados não tabulares"] },
-    { "artifact_id": "statsforecast", "name": "Nixtla statsforecast", "domain": "time_series", "repo_url": "https://github.com/Nixtla/statsforecast", "docs_url": "https://nixtlaverse.nixtla.io/statsforecast/", "license_id": "Apache-2.0", "poc_status": "production", "verification_status": "declared_unverified", "does_not_provide": ["modelos neurais (ver neuralforecast)"] },
-    { "artifact_id": "neuralforecast", "name": "Nixtla neuralforecast", "domain": "time_series", "repo_url": "https://github.com/Nixtla/neuralforecast", "docs_url": "https://nixtlaverse.nixtla.io/neuralforecast/", "license_id": "Apache-2.0", "poc_status": "production", "verification_status": "declared_unverified", "does_not_provide": ["modelos estatísticos clássicos (ver statsforecast)"] },
-    { "artifact_id": "prophet", "name": "Prophet", "domain": "time_series", "repo_url": "https://github.com/facebook/prophet", "docs_url": "https://facebook.github.io/prophet/", "license_id": "MIT", "poc_status": "production", "verification_status": "declared_unverified", "does_not_provide": ["séries de alta frequência", "múltiplas séries em escala"] },
-    { "artifact_id": "darts", "name": "Darts", "domain": "time_series", "repo_url": "https://github.com/unit8co/darts", "docs_url": "https://unit8co.github.io/darts/", "license_id": "Apache-2.0", "poc_status": "production", "verification_status": "declared_unverified", "does_not_provide": [] },
-    { "artifact_id": "sktime", "name": "sktime", "domain": "time_series", "repo_url": "https://github.com/sktime/sktime", "docs_url": "https://www.sktime.net/", "license_id": "BSD-3-Clause", "poc_status": "production", "verification_status": "declared_unverified", "does_not_provide": [] },
-    { "artifact_id": "chronos", "name": "Chronos (Amazon)", "domain": "foundation_forecasting", "repo_url": "https://github.com/amazon-science/chronos-forecasting", "docs_url": "https://github.com/amazon-science/chronos-forecasting", "license_id": "Apache-2.0", "poc_status": "research", "verification_status": "declared_unverified", "does_not_provide": ["garantia de superar modelos clássicos em dados específicos"] },
-    { "artifact_id": "timesfm", "name": "TimesFM (Google)", "domain": "foundation_forecasting", "repo_url": "https://github.com/google-research/timesfm", "docs_url": "https://github.com/google-research/timesfm", "license_id": "Apache-2.0", "poc_status": "research", "verification_status": "declared_unverified", "does_not_provide": ["garantia de superar modelos clássicos em dados específicos"] },
-    { "artifact_id": "uni2ts-moirai", "name": "Moirai / uni2ts (Salesforce)", "domain": "foundation_forecasting", "repo_url": "https://github.com/SalesforceAIResearch/uni2ts", "docs_url": "https://github.com/SalesforceAIResearch/uni2ts", "license_id": "Apache-2.0", "poc_status": "research", "verification_status": "declared_unverified", "does_not_provide": ["garantia de superar modelos clássicos em dados específicos"] },
-    { "artifact_id": "autogluon", "name": "AutoGluon", "domain": "automl", "repo_url": "https://github.com/autogluon/autogluon", "docs_url": "https://auto.gluon.ai/", "license_id": "Apache-2.0", "poc_status": "production", "verification_status": "declared_unverified", "does_not_provide": [] },
-    { "artifact_id": "flaml", "name": "FLAML", "domain": "automl", "repo_url": "https://github.com/microsoft/FLAML", "docs_url": "https://microsoft.github.io/FLAML/", "license_id": "MIT", "poc_status": "production", "verification_status": "declared_unverified", "does_not_provide": [] },
-    { "artifact_id": "transformers", "name": "Hugging Face Transformers", "domain": "llm", "repo_url": "https://github.com/huggingface/transformers", "docs_url": "https://huggingface.co/docs/transformers", "license_id": "Apache-2.0", "poc_status": "production", "verification_status": "declared_unverified", "does_not_provide": ["servidor de inferência otimizado (ver vLLM)"] },
-    { "artifact_id": "vllm", "name": "vLLM", "domain": "llm", "repo_url": "https://github.com/vllm-project/vllm", "docs_url": "https://docs.vllm.ai/", "license_id": "Apache-2.0", "poc_status": "production", "verification_status": "declared_unverified", "does_not_provide": ["treinamento"] },
-    { "artifact_id": "ollama", "name": "Ollama", "domain": "llm", "repo_url": "https://github.com/ollama/ollama", "docs_url": "https://ollama.com/", "license_id": "MIT", "poc_status": "production", "verification_status": "declared_unverified", "does_not_provide": ["treinamento", "escala multi-GPU de produção"], "in_use_here": true },
-    { "artifact_id": "quantlib", "name": "QuantLib", "domain": "derivatives", "repo_url": "https://github.com/lballabio/QuantLib", "docs_url": "https://www.quantlib.org/", "license_id": "BSD-3-Clause-Modified", "poc_status": "production", "verification_status": "declared_unverified", "does_not_provide": ["dados de mercado", "previsão de preço"] },
-    { "artifact_id": "riskfolio-lib", "name": "Riskfolio-Lib", "domain": "portfolio", "repo_url": "https://github.com/dcajasn/Riskfolio-Lib", "docs_url": "https://riskfolio-lib.readthedocs.io/", "license_id": "BSD-3-Clause", "poc_status": "production", "verification_status": "declared_unverified", "does_not_provide": ["dados de mercado"] },
-    { "artifact_id": "qiskit", "name": "Qiskit", "domain": "quantum", "repo_url": "https://github.com/Qiskit/qiskit", "docs_url": "https://docs.quantum.ibm.com/", "license_id": "Apache-2.0", "poc_status": "production", "verification_status": "declared_unverified", "does_not_provide": ["vantagem quântica prática"], "in_use_here": true },
-    { "artifact_id": "qiskit-machine-learning", "name": "Qiskit Machine Learning", "domain": "quantum_ml", "repo_url": "https://github.com/qiskit-community/qiskit-machine-learning", "docs_url": "https://qiskit-community.github.io/qiskit-machine-learning/", "license_id": "Apache-2.0", "poc_status": "research", "verification_status": "declared_unverified", "does_not_provide": ["desempenho superior a XGBoost em previsão prática — é pesquisa, não produção"] },
-    { "artifact_id": "pennylane", "name": "PennyLane", "domain": "quantum_ml", "repo_url": "https://github.com/PennyLaneAI/pennylane", "docs_url": "https://pennylane.ai/", "license_id": "Apache-2.0", "poc_status": "research", "verification_status": "declared_unverified", "does_not_provide": ["desempenho superior a modelos clássicos em previsão prática"] },
-    { "artifact_id": "cirq", "name": "Cirq", "domain": "quantum", "repo_url": "https://github.com/quantumlib/Cirq", "docs_url": "https://quantumai.google/cirq", "license_id": "Apache-2.0", "poc_status": "production", "verification_status": "declared_unverified", "does_not_provide": ["acesso a hardware do Google sem convite"] }
-  ]
+    {
+      "artifact_id": "scikit-learn",
+      "name": "scikit-learn",
+      "domain": "ml_general",
+      "repo_url": "https://github.com/scikit-learn/scikit-learn",
+      "docs_url": "https://scikit-learn.org/stable/",
+      "license_id": "BSD-3-Clause",
+      "poc_status": "production",
+      "verification_status": "verified",
+      "does_not_provide": [
+        "deep learning",
+        "séries temporais nativas"
+      ],
+      "verified_at": "2026-08-03T06:23:15.220939Z",
+      "content_hash_sha256": "4df8aafeab2401523c2fdd146b6e185c67839464d7f2213c7d6fecca199b18c0",
+      "latest_release_tag": "1.9.0",
+      "years_since_push": 0.0,
+      "archived": false
+    },
+    {
+      "artifact_id": "xgboost",
+      "name": "XGBoost",
+      "domain": "ml_general",
+      "repo_url": "https://github.com/dmlc/xgboost",
+      "docs_url": "https://xgboost.readthedocs.io/",
+      "license_id": "Apache-2.0",
+      "poc_status": "production",
+      "verification_status": "verified",
+      "does_not_provide": [
+        "dados não tabulares sem engenharia de atributos"
+      ],
+      "verified_at": "2026-08-03T06:23:16.041982Z",
+      "content_hash_sha256": "5bd428d3fab3d6d541a466941af24c8af166b1b1b26325bbd3a05e3c54a38e92",
+      "latest_release_tag": "v3.3.0",
+      "years_since_push": 0.0,
+      "archived": false
+    },
+    {
+      "artifact_id": "lightgbm",
+      "name": "LightGBM",
+      "domain": "ml_general",
+      "repo_url": "https://github.com/microsoft/LightGBM",
+      "docs_url": "https://lightgbm.readthedocs.io/",
+      "license_id": "MIT",
+      "poc_status": "production",
+      "verification_status": "verified",
+      "does_not_provide": [
+        "dados não tabulares"
+      ],
+      "verified_at": "2026-08-03T06:23:17.497705Z",
+      "content_hash_sha256": "a2c46d8debfd26ba19d22669657552e6ae946a198db1e1ca804f7a673d70f41c",
+      "latest_release_tag": "v4.7.0",
+      "years_since_push": 0.0,
+      "archived": false
+    },
+    {
+      "artifact_id": "catboost",
+      "name": "CatBoost",
+      "domain": "ml_general",
+      "repo_url": "https://github.com/catboost/catboost",
+      "docs_url": "https://catboost.ai/docs/",
+      "license_id": "Apache-2.0",
+      "poc_status": "production",
+      "verification_status": "verified",
+      "does_not_provide": [
+        "dados não tabulares"
+      ],
+      "verified_at": "2026-08-03T06:23:18.398775Z",
+      "content_hash_sha256": "e04ff408f910d1138741ccadd36f9b1f23bcdfff2d02abbbc0f83db253e90335",
+      "latest_release_tag": "v1.2.10",
+      "years_since_push": 0.0,
+      "archived": false
+    },
+    {
+      "artifact_id": "statsforecast",
+      "name": "Nixtla statsforecast",
+      "domain": "time_series",
+      "repo_url": "https://github.com/Nixtla/statsforecast",
+      "docs_url": "https://nixtlaverse.nixtla.io/statsforecast/",
+      "license_id": "Apache-2.0",
+      "poc_status": "production",
+      "verification_status": "verified",
+      "does_not_provide": [
+        "modelos neurais (ver neuralforecast)"
+      ],
+      "verified_at": "2026-08-03T06:23:19.301795Z",
+      "content_hash_sha256": "0a498477fc69cab15b1d4f660741e721dea43b7686770158d60b8368357c5f18",
+      "latest_release_tag": "v2.1.1",
+      "years_since_push": 0.02,
+      "archived": false
+    },
+    {
+      "artifact_id": "neuralforecast",
+      "name": "Nixtla neuralforecast",
+      "domain": "time_series",
+      "repo_url": "https://github.com/Nixtla/neuralforecast",
+      "docs_url": "https://nixtlaverse.nixtla.io/neuralforecast/",
+      "license_id": "Apache-2.0",
+      "poc_status": "production",
+      "verification_status": "verified",
+      "does_not_provide": [
+        "modelos estatísticos clássicos (ver statsforecast)"
+      ],
+      "verified_at": "2026-08-03T06:23:20.198657Z",
+      "content_hash_sha256": "8a6d892f3d9a5ed6fe5ee0ec00fa4ead1b29d74eb07a4b425c53bcaa75c2bdea",
+      "latest_release_tag": "v3.2.0",
+      "years_since_push": 0.0,
+      "archived": false
+    },
+    {
+      "artifact_id": "prophet",
+      "name": "Prophet",
+      "domain": "time_series",
+      "repo_url": "https://github.com/facebook/prophet",
+      "docs_url": "https://facebook.github.io/prophet/",
+      "license_id": "MIT",
+      "poc_status": "production",
+      "verification_status": "verified",
+      "does_not_provide": [
+        "séries de alta frequência",
+        "múltiplas séries em escala"
+      ],
+      "verified_at": "2026-08-03T06:23:21.087581Z",
+      "content_hash_sha256": "701e175479ef4c1684d8d00959354d506c0e4619b1b40c5af5d6d514d6d4d5e4",
+      "latest_release_tag": "v1.4.0",
+      "years_since_push": 0.0,
+      "archived": false
+    },
+    {
+      "artifact_id": "darts",
+      "name": "Darts",
+      "domain": "time_series",
+      "repo_url": "https://github.com/unit8co/darts",
+      "docs_url": "https://unit8co.github.io/darts/",
+      "license_id": "Apache-2.0",
+      "poc_status": "production",
+      "verification_status": "verified",
+      "does_not_provide": [],
+      "verified_at": "2026-08-03T06:23:22.083600Z",
+      "content_hash_sha256": "8efb662f31a09d5c26e479abbd8bfd3ecf74e6e481962806adeb59bde67b73f0",
+      "latest_release_tag": "0.46.1",
+      "years_since_push": 0.01,
+      "archived": false
+    },
+    {
+      "artifact_id": "sktime",
+      "name": "sktime",
+      "domain": "time_series",
+      "repo_url": "https://github.com/sktime/sktime",
+      "docs_url": "https://www.sktime.net/",
+      "license_id": "BSD-3-Clause",
+      "poc_status": "production",
+      "verification_status": "verified",
+      "does_not_provide": [],
+      "verified_at": "2026-08-03T06:23:23.007524Z",
+      "content_hash_sha256": "b737716c40ec54c6bc41c244fa7b8a89534a5c43007ee2a978942657cacf4270",
+      "latest_release_tag": "v1.1.0",
+      "years_since_push": 0.0,
+      "archived": false
+    },
+    {
+      "artifact_id": "chronos",
+      "name": "Chronos (Amazon)",
+      "domain": "foundation_forecasting",
+      "repo_url": "https://github.com/amazon-science/chronos-forecasting",
+      "docs_url": "https://github.com/amazon-science/chronos-forecasting",
+      "license_id": "Apache-2.0",
+      "poc_status": "research",
+      "verification_status": "verified",
+      "does_not_provide": [
+        "garantia de superar modelos clássicos em dados específicos"
+      ],
+      "verified_at": "2026-08-03T06:23:24.029923Z",
+      "content_hash_sha256": "b98f63bcbbf9882918f0379569e5d7e48867d802c98228d97cbe448b78b87893",
+      "latest_release_tag": "v2.3.1",
+      "years_since_push": 0.08,
+      "archived": false
+    },
+    {
+      "artifact_id": "timesfm",
+      "name": "TimesFM (Google)",
+      "domain": "foundation_forecasting",
+      "repo_url": "https://github.com/google-research/timesfm",
+      "docs_url": "https://github.com/google-research/timesfm",
+      "license_id": "Apache-2.0",
+      "poc_status": "research",
+      "verification_status": "verified",
+      "does_not_provide": [
+        "garantia de superar modelos clássicos em dados específicos"
+      ],
+      "verified_at": "2026-08-03T06:23:25.157646Z",
+      "content_hash_sha256": "6c74e270b183e8a5ffcd9cfd2262e16da253a0f0ce7883376547a1cccd354f2a",
+      "latest_release_tag": "v2.0.2",
+      "years_since_push": 0.05,
+      "archived": false
+    },
+    {
+      "artifact_id": "uni2ts-moirai",
+      "name": "Moirai / uni2ts (Salesforce)",
+      "domain": "foundation_forecasting",
+      "repo_url": "https://github.com/SalesforceAIResearch/uni2ts",
+      "docs_url": "https://github.com/SalesforceAIResearch/uni2ts",
+      "license_id": "Apache-2.0",
+      "poc_status": "research",
+      "verification_status": "verified",
+      "does_not_provide": [
+        "garantia de superar modelos clássicos em dados específicos"
+      ],
+      "verified_at": "2026-08-03T06:23:26.180902Z",
+      "content_hash_sha256": "20f7ccd6d18ce7dd99d73d9fed4272f29c3627803257e4c5acbe21031068bd49",
+      "latest_release_tag": "2.0.0",
+      "years_since_push": 0.17,
+      "archived": false
+    },
+    {
+      "artifact_id": "autogluon",
+      "name": "AutoGluon",
+      "domain": "automl",
+      "repo_url": "https://github.com/autogluon/autogluon",
+      "docs_url": "https://auto.gluon.ai/",
+      "license_id": "Apache-2.0",
+      "poc_status": "production",
+      "verification_status": "verified",
+      "does_not_provide": [],
+      "verified_at": "2026-08-03T06:23:27.055796Z",
+      "content_hash_sha256": "79cdebbe0fa869c575bfe33b513c875598010f81265d3b9e814fe233025fee69",
+      "latest_release_tag": "v1.5.0",
+      "years_since_push": 0.0,
+      "archived": false
+    },
+    {
+      "artifact_id": "flaml",
+      "name": "FLAML",
+      "domain": "automl",
+      "repo_url": "https://github.com/microsoft/FLAML",
+      "docs_url": "https://microsoft.github.io/FLAML/",
+      "license_id": "MIT",
+      "poc_status": "production",
+      "verification_status": "verified",
+      "does_not_provide": [],
+      "verified_at": "2026-08-03T06:23:28.536919Z",
+      "content_hash_sha256": "94108d90fd0fbda444c14b65dad6625d8141b6308653ee850e939b6ccb0b3e90",
+      "latest_release_tag": "v2.6.0",
+      "years_since_push": 0.0,
+      "archived": false
+    },
+    {
+      "artifact_id": "transformers",
+      "name": "Hugging Face Transformers",
+      "domain": "llm",
+      "repo_url": "https://github.com/huggingface/transformers",
+      "docs_url": "https://huggingface.co/docs/transformers",
+      "license_id": "Apache-2.0",
+      "poc_status": "production",
+      "verification_status": "verified",
+      "does_not_provide": [
+        "servidor de inferência otimizado (ver vLLM)"
+      ],
+      "verified_at": "2026-08-03T06:23:29.663437Z",
+      "content_hash_sha256": "d18b0fe0352b6e97cd4244d6a30de5de9e6a8cc04f7301d6fcf05f5b0acf1493",
+      "latest_release_tag": "v5.14.1",
+      "years_since_push": 0.0,
+      "archived": false
+    },
+    {
+      "artifact_id": "vllm",
+      "name": "vLLM",
+      "domain": "llm",
+      "repo_url": "https://github.com/vllm-project/vllm",
+      "docs_url": "https://docs.vllm.ai/",
+      "license_id": "Apache-2.0",
+      "poc_status": "production",
+      "verification_status": "verified",
+      "does_not_provide": [
+        "treinamento"
+      ],
+      "verified_at": "2026-08-03T06:23:30.793332Z",
+      "content_hash_sha256": "a045528906e07d9a62249f70c8049441fb3386a91bd90427be222b844aae1b26",
+      "latest_release_tag": "v0.26.0",
+      "years_since_push": 0.0,
+      "archived": false
+    },
+    {
+      "artifact_id": "ollama",
+      "name": "Ollama",
+      "domain": "llm",
+      "repo_url": "https://github.com/ollama/ollama",
+      "docs_url": "https://ollama.com/",
+      "license_id": "MIT",
+      "poc_status": "production",
+      "verification_status": "verified",
+      "does_not_provide": [
+        "treinamento",
+        "escala multi-GPU de produção"
+      ],
+      "in_use_here": true,
+      "verified_at": "2026-08-03T06:23:31.926992Z",
+      "content_hash_sha256": "c2f0eae62b95bf01b07ed1a45e26e4466697da1c70beacfdf3165d20f2a020f0",
+      "latest_release_tag": "v0.32.5",
+      "years_since_push": 0.01,
+      "archived": false
+    },
+    {
+      "artifact_id": "quantlib",
+      "name": "QuantLib",
+      "domain": "derivatives",
+      "repo_url": "https://github.com/lballabio/QuantLib",
+      "docs_url": "https://www.quantlib.org/",
+      "license_id": "BSD-3-Clause-Modified",
+      "poc_status": "production",
+      "verification_status": "license_mismatch",
+      "does_not_provide": [
+        "dados de mercado",
+        "previsão de preço"
+      ],
+      "verified_at": "2026-08-03T06:23:32.838472Z",
+      "content_hash_sha256": "7a9cd743bbab6064c9350cacd91c623fb32b6cff7de199298b9c9e3b7e306696",
+      "latest_release_tag": "v1.43",
+      "years_since_push": 0.0,
+      "archived": false,
+      "license_observed": "NOASSERTION",
+      "human_review": {
+        "required": true,
+        "status": "pending",
+        "reason": "licença declarada não confere com a reportada pela fonte primária"
+      }
+    },
+    {
+      "artifact_id": "riskfolio-lib",
+      "name": "Riskfolio-Lib",
+      "domain": "portfolio",
+      "repo_url": "https://github.com/dcajasn/Riskfolio-Lib",
+      "docs_url": "https://riskfolio-lib.readthedocs.io/",
+      "license_id": "BSD-3-Clause",
+      "poc_status": "research",
+      "verification_status": "verified",
+      "does_not_provide": [
+        "dados de mercado"
+      ],
+      "verified_at": "2026-08-03T06:23:33.702772Z",
+      "content_hash_sha256": "ad8ac952d2a1d5c8799319539ed035daec1d19b006d801031fcbabe7e7714f87",
+      "latest_release_tag": null,
+      "years_since_push": 0.11,
+      "archived": false,
+      "poc_note": "declarado 'production' mas o repositório não tem release publicada",
+      "poc_downgraded_from": "production"
+    },
+    {
+      "artifact_id": "qiskit",
+      "name": "Qiskit",
+      "domain": "quantum",
+      "repo_url": "https://github.com/Qiskit/qiskit",
+      "docs_url": "https://docs.quantum.ibm.com/",
+      "license_id": "Apache-2.0",
+      "poc_status": "production",
+      "verification_status": "verified",
+      "does_not_provide": [
+        "vantagem quântica prática"
+      ],
+      "in_use_here": true,
+      "verified_at": "2026-08-03T06:23:34.632637Z",
+      "content_hash_sha256": "331bfe29912de064f8881b56a6c7316ea7b7647a146c037bc31f390eee88b154",
+      "latest_release_tag": "2.5.1",
+      "years_since_push": 0.0,
+      "archived": false
+    },
+    {
+      "artifact_id": "qiskit-machine-learning",
+      "name": "Qiskit Machine Learning",
+      "domain": "quantum_ml",
+      "repo_url": "https://github.com/qiskit-community/qiskit-machine-learning",
+      "docs_url": "https://qiskit-community.github.io/qiskit-machine-learning/",
+      "license_id": "Apache-2.0",
+      "poc_status": "research",
+      "verification_status": "verified",
+      "does_not_provide": [
+        "desempenho superior a XGBoost em previsão prática — é pesquisa, não produção"
+      ],
+      "verified_at": "2026-08-03T06:23:35.858811Z",
+      "content_hash_sha256": "f3726c30f494c6fa73249b1d596eb668cc0348021aeca877a9155e7dffcc309d",
+      "latest_release_tag": "0.9.0",
+      "years_since_push": 0.01,
+      "archived": false
+    },
+    {
+      "artifact_id": "pennylane",
+      "name": "PennyLane",
+      "domain": "quantum_ml",
+      "repo_url": "https://github.com/PennyLaneAI/pennylane",
+      "docs_url": "https://pennylane.ai/",
+      "license_id": "Apache-2.0",
+      "poc_status": "research",
+      "verification_status": "verified",
+      "does_not_provide": [
+        "desempenho superior a modelos clássicos em previsão prática"
+      ],
+      "verified_at": "2026-08-03T06:23:38.543768Z",
+      "content_hash_sha256": "0740ee51ddfd2a40c67153945904eb2ef48d37c5ffbc02f2cc272418d3c81d9d",
+      "latest_release_tag": "v0.45.1",
+      "years_since_push": 0.01,
+      "archived": false
+    },
+    {
+      "artifact_id": "cirq",
+      "name": "Cirq",
+      "domain": "quantum",
+      "repo_url": "https://github.com/quantumlib/Cirq",
+      "docs_url": "https://quantumai.google/cirq",
+      "license_id": "Apache-2.0",
+      "poc_status": "production",
+      "verification_status": "verified",
+      "does_not_provide": [
+        "acesso a hardware do Google sem convite"
+      ],
+      "verified_at": "2026-08-03T06:23:39.818489Z",
+      "content_hash_sha256": "c3783f60f32577f0e9fbba296b574363ee8ed432ebd6bd37686d08330db69a84",
+      "latest_release_tag": "v1.7.0",
+      "years_since_push": 0.0,
+      "archived": false
+    }
+  ],
+  "verification_note": "Verificado contra a API oficial do GitHub em 2026-08-03. 22 de 23 licenças confirmadas pela fonte primária; 1 divergência (quantlib) marcada para revisão humana em vez de corrigida em silêncio. 1 artefato rebaixado de 'production' para 'research' por não ter release publicada — a regra do próprio registry."
 }

@@ -109,10 +109,35 @@ def test_software_artifacts_declare_license_and_limits() -> None:
         assert "does_not_provide" in artifact
 
 
-def test_seed_artifacts_are_not_claimed_as_verified() -> None:
-    """Licença declarada não é licença verificada — o hash vem no Estágio 2."""
+def test_artifacts_carry_a_verification_verdict() -> None:
+    """Licença declarada não é licença verificada: o veredito vem da fonte primária."""
+    valid = {"verified", "license_mismatch", "fetch_failed", "declared_unverified"}
     for artifact in load("software_artifacts.json")["artifacts"]:
-        assert artifact["verification_status"] == "declared_unverified"
+        assert artifact["verification_status"] in valid
+
+
+def test_verified_artifacts_carry_the_response_hash() -> None:
+    """Verificado sem hash da resposta seria afirmação sem prova."""
+    for artifact in load("software_artifacts.json")["artifacts"]:
+        if artifact["verification_status"] == "verified":
+            assert len(artifact.get("content_hash_sha256", "")) == 64
+            assert artifact.get("verified_at")
+
+
+def test_license_mismatch_goes_to_human_review_not_silent_fix() -> None:
+    """Divergência com a fonte primária não é corrigida em silêncio."""
+    for artifact in load("software_artifacts.json")["artifacts"]:
+        if artifact["verification_status"] == "license_mismatch":
+            assert artifact["human_review"]["status"] == "pending"
+            assert artifact["license_observed"] != artifact["license_id"]
+
+
+def test_production_status_requires_a_published_release() -> None:
+    """Declarar maturidade de produção sem release não se sustenta."""
+    for artifact in load("software_artifacts.json")["artifacts"]:
+        if artifact.get("poc_downgraded_from") == "production":
+            assert artifact["poc_status"] != "production"
+            assert artifact["poc_note"]
 
 
 def test_quantum_ml_artifacts_declare_the_honest_limitation() -> None:
