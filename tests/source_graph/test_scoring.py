@@ -41,13 +41,13 @@ def candidate(source_id: str, score_value: float, entity_type: str = "institutio
 
 # --------------------------------------------------------------- sem imputação
 
+
 def test_absent_component_is_omitted_not_zeroed() -> None:
     """A diferença que importa: omitir muda o score; zerar o distorce."""
     partial = score_source(SOURCE, [component("authority_tier", 1.0)])
     zero_filled = score_source(
         SOURCE,
-        [component("authority_tier", 1.0)]
-        + [component(cid, 0.0) for cid in load_weights() if cid != "authority_tier"],
+        [component("authority_tier", 1.0)] + [component(cid, 0.0) for cid in load_weights() if cid != "authority_tier"],
     )
     assert partial["score"] == 1.0, "com um só componente presente, ele define o score"
     assert zero_filled["score"] < partial["score"], "zerar os ausentes rebaixaria o score"
@@ -63,10 +63,9 @@ def test_omitted_components_are_named_in_limitations() -> None:
 
 # ---------------------------------------------------------- denominador visível
 
+
 def test_present_and_declared_travel_with_the_score() -> None:
-    result = score_source(
-        SOURCE, [component("authority_tier", 0.9), component("recency_continuity", 0.5)]
-    )
+    result = score_source(SOURCE, [component("authority_tier", 0.9), component("recency_continuity", 0.5)])
     assert result["components_present"] == 2
     assert result["components_declared"] == 7
     assert "2 de 7" in " ".join(result["limitations"])
@@ -80,6 +79,7 @@ def test_confidence_degrades_with_coverage() -> None:
 
 
 # ------------------------------------------------------------------- validação
+
 
 def test_social_metric_component_raises_instead_of_being_ignored() -> None:
     with pytest.raises(ScoringError, match="desconhecido"):
@@ -119,6 +119,7 @@ def test_methodology_version_is_stamped() -> None:
 
 
 # --------------------------------------------------------------- sem preencher
+
 
 def test_ranking_never_pads_to_target() -> None:
     result = build_ranking(
@@ -179,8 +180,7 @@ def test_person_candidate_in_a_non_person_list_is_refused() -> None:
 def test_mixed_entity_types_are_refused() -> None:
     with pytest.raises(ScoringError, match="misturar"):
         build_ranking(
-            [candidate("S001", 0.5, entity_type="institution"),
-             candidate("S002", 0.5, entity_type="journal")],
+            [candidate("S001", 0.5, entity_type="institution"), candidate("S002", 0.5, entity_type="journal")],
             list_id="L001",
             list_scope="global",
             entity_type="institution",

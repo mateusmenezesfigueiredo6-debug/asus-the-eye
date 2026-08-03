@@ -10,7 +10,7 @@ Ranqueamos **instituições, periódicos, repositórios, datasets, APIs, observa
 associações, conferências, veículos, obras, artefatos de software e comunidades**.
 
 **Não ranqueamos pessoas.** Acadêmicos, praticantes, árbitros e autoridades são
-dado pessoal: pelo `RELEASE_PROTOCOL.md` isso é L4 e exige DPIA concluída por
+dado pessoal: pelo `docs/governance/RELEASE_PROTOCOL.md` isso é L4 e exige DPIA concluída por
 profissional humano. O schema prevê `entity_type: "person"` para o futuro; o
 pipeline (`scoring.build_ranking`) **levanta** se alguém tentar.
 

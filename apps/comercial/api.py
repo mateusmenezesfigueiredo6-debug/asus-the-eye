@@ -23,9 +23,7 @@ from asus_theye.commercial.metrics import reality_check
 from asus_theye.commercial.niches import NicheError, classify_case, niche_by_id
 
 STATIC_DIR = Path(__file__).resolve().parent / "static"
-DEFAULT_PIPELINE_PATH = Path(
-    os.environ.get("THE_EYE_PIPELINE_PATH", "reports/commercial/pipeline.jsonl")
-)
+DEFAULT_PIPELINE_PATH = Path(os.environ.get("THE_EYE_PIPELINE_PATH", "reports/commercial/pipeline.jsonl"))
 
 
 def _default_period() -> tuple[str, str]:
@@ -115,9 +113,7 @@ def create_app(pipeline_path: Path | None = None) -> Any:
             niche_by_id(niche_id)
         except NicheError as error:
             raise HTTPException(status_code=404, detail=str(error)) from error
-        return compute_metrics(
-            pipeline.opportunities(), niche_id, period_start=start, period_end=end
-        )
+        return compute_metrics(pipeline.opportunities(), niche_id, period_start=start, period_end=end)
 
     @app.get("/api/ranking")
     def ranking(by: str = Query("win_rate")) -> Any:
@@ -163,10 +159,7 @@ def create_app(pipeline_path: Path | None = None) -> Any:
     def overview() -> Any:
         start, end = _default_period()
         items = pipeline.opportunities()
-        all_metrics = [
-            compute_metrics(items, n["niche_id"], period_start=start, period_end=end)
-            for n in load_niches()
-        ]
+        all_metrics = [compute_metrics(items, n["niche_id"], period_start=start, period_end=end) for n in load_niches()]
         revenues = [m["revenue_brl"] for m in all_metrics if m["revenue_brl"] is not None]
         closed = sum(m["denominator"] for m in all_metrics)
         won = sum(m["won"] for m in all_metrics)

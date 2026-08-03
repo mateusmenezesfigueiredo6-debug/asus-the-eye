@@ -151,23 +151,13 @@ def main() -> int:
     # Recurring release to an already-authorized target: exposure decided once.
     authorized = standing_match(command)
     if authorized is not None:
-        print(
-            json.dumps(
-                {"systemMessage": f"📦 Release recorrente autorizado ({authorized}): {reason}"}
-            )
-        )
+        print(json.dumps({"systemMessage": f"📦 Release recorrente autorizado ({authorized}): {reason}"}))
         return 0
 
     remaining = unlock_remaining_seconds()
     if remaining > 0:
         print(
-            json.dumps(
-                {
-                    "systemMessage": (
-                        f"🔓 Publicação liberada ({remaining}s restantes) — executando: {reason}"
-                    )
-                }
-            )
+            json.dumps({"systemMessage": (f"🔓 Publicação liberada ({remaining}s restantes) — executando: {reason}")})
         )
         return 0
 

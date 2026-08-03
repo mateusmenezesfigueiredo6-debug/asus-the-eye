@@ -36,25 +36,20 @@ def pipeline(tmp_path: Path) -> Pipeline:
 def seed(pipe: Pipeline, niche_id: str, *, won: int = 0, lost: int = 0, open_: int = 0) -> None:
     for index in range(won):
         opportunity = pipe.add(
-            new_opportunity(
-                niche_id=niche_id, client_identifier=f"g{index}", source_channel="indicacao"
-            )
+            new_opportunity(niche_id=niche_id, client_identifier=f"g{index}", source_channel="indicacao")
         )
         pipe.advance(opportunity["opportunity_id"], "qualificacao")
         pipe.advance(opportunity["opportunity_id"], "proposta")
         pipe.advance(opportunity["opportunity_id"], "ganho", value_brl=10_000.0)
     for index in range(lost):
-        opportunity = pipe.add(
-            new_opportunity(niche_id=niche_id, client_identifier=f"p{index}", source_channel="site")
-        )
+        opportunity = pipe.add(new_opportunity(niche_id=niche_id, client_identifier=f"p{index}", source_channel="site"))
         pipe.advance(opportunity["opportunity_id"], "perdido", lost_reason="preco")
     for index in range(open_):
-        pipe.add(
-            new_opportunity(niche_id=niche_id, client_identifier=f"a{index}", source_channel="evento")
-        )
+        pipe.add(new_opportunity(niche_id=niche_id, client_identifier=f"a{index}", source_channel="evento"))
 
 
 # ------------------------------------------------------------------- nichos
+
 
 def test_fifteen_niches_all_referencing_real_legal_areas() -> None:
     niches = load_niches()
@@ -66,7 +61,7 @@ def test_niche_is_configuration_not_code() -> None:
     """Acrescentar o 16º nicho é uma entrada de JSON — não existe módulo por nicho."""
     registry = json.loads((DATA_DIR / "niches.json").read_text(encoding="utf-8"))
     assert registry["niche_count"] == len(registry["niches"])
-    modules = list((Path(__file__).resolve().parents[2] / "asus_theye" / "commercial").glob("*.py"))
+    modules = list((Path(__file__).resolve().parents[2] / "src" / "asus_theye" / "commercial").glob("*.py"))
     assert len(modules) <= 5, "um módulo por nicho seria o erro que esta arquitetura evita"
 
 
@@ -96,6 +91,7 @@ def test_unknown_niche_raises() -> None:
 
 # ------------------------------------------------------------- privacidade
 
+
 def test_client_name_is_never_stored(tmp_path: Path) -> None:
     pipe = pipeline(tmp_path)
     pipe.add(
@@ -122,11 +118,10 @@ def test_pseudonym_is_stable_and_irreversible() -> None:
 
 # ------------------------------------------------------------------- funil
 
+
 def test_pipeline_is_append_only(tmp_path: Path) -> None:
     pipe = pipeline(tmp_path)
-    opportunity = pipe.add(
-        new_opportunity(niche_id="contratos", client_identifier="c1", source_channel="site")
-    )
+    opportunity = pipe.add(new_opportunity(niche_id="contratos", client_identifier="c1", source_channel="site"))
     pipe.advance(opportunity["opportunity_id"], "qualificacao")
     pipe.advance(opportunity["opportunity_id"], "proposta")
     history = pipe.history(opportunity["opportunity_id"])
@@ -136,9 +131,7 @@ def test_pipeline_is_append_only(tmp_path: Path) -> None:
 
 def test_invalid_transition_is_refused(tmp_path: Path) -> None:
     pipe = pipeline(tmp_path)
-    opportunity = pipe.add(
-        new_opportunity(niche_id="contratos", client_identifier="c1", source_channel="site")
-    )
+    opportunity = pipe.add(new_opportunity(niche_id="contratos", client_identifier="c1", source_channel="site"))
     with pytest.raises(OpportunityError, match="transição inválida"):
         pipe.advance(opportunity["opportunity_id"], "ganho")  # sem proposta não há o que ganhar
 
@@ -146,18 +139,14 @@ def test_invalid_transition_is_refused(tmp_path: Path) -> None:
 def test_losing_requires_a_reason(tmp_path: Path) -> None:
     """Perder sem motivo registrado não ensina nada."""
     pipe = pipeline(tmp_path)
-    opportunity = pipe.add(
-        new_opportunity(niche_id="contratos", client_identifier="c1", source_channel="site")
-    )
+    opportunity = pipe.add(new_opportunity(niche_id="contratos", client_identifier="c1", source_channel="site"))
     with pytest.raises(OpportunityError, match="motivo"):
         pipe.advance(opportunity["opportunity_id"], "perdido")
 
 
 def test_winning_requires_a_registered_value(tmp_path: Path) -> None:
     pipe = pipeline(tmp_path)
-    opportunity = pipe.add(
-        new_opportunity(niche_id="contratos", client_identifier="c1", source_channel="site")
-    )
+    opportunity = pipe.add(new_opportunity(niche_id="contratos", client_identifier="c1", source_channel="site"))
     pipe.advance(opportunity["opportunity_id"], "qualificacao")
     pipe.advance(opportunity["opportunity_id"], "proposta")
     with pytest.raises(OpportunityError, match="valor registrado"):
@@ -172,9 +161,7 @@ def test_closed_stages_are_terminal() -> None:
 
 def test_history_reconstructs_the_past(tmp_path: Path) -> None:
     pipe = pipeline(tmp_path)
-    opportunity = pipe.add(
-        new_opportunity(niche_id="contratos", client_identifier="c1", source_channel="site")
-    )
+    opportunity = pipe.add(new_opportunity(niche_id="contratos", client_identifier="c1", source_channel="site"))
     created = opportunity["created_at"]
     pipe.advance(opportunity["opportunity_id"], "qualificacao")
     past = pipe.opportunities(as_of=created)
@@ -182,6 +169,7 @@ def test_history_reconstructs_the_past(tmp_path: Path) -> None:
 
 
 # --------------------------------------------------------------- métricas
+
 
 def test_no_closings_produces_null_rate_not_zero(tmp_path: Path) -> None:
     """Taxa sem denominador não é 0% — é indisponível."""
@@ -228,14 +216,13 @@ def test_lost_reasons_are_counted(tmp_path: Path) -> None:
 
 # --------------------------------------------------------------- ranking
 
+
 def test_small_sample_niche_is_physically_separated(tmp_path: Path) -> None:
     """O nicho de 2-de-2 não pode aparecer acima do de 5-de-10 numa lista só."""
     pipe = pipeline(tmp_path)
-    seed(pipe, "tributario", won=2)              # 100%, amostra 2
-    seed(pipe, "trabalhista", won=5, lost=5)     # 50%, amostra 10
-    ranking = rank_niches(
-        pipe.opportunities(), ["tributario", "trabalhista"], by="win_rate", **PERIOD
-    )
+    seed(pipe, "tributario", won=2)  # 100%, amostra 2
+    seed(pipe, "trabalhista", won=5, lost=5)  # 50%, amostra 10
+    ranking = rank_niches(pipe.opportunities(), ["tributario", "trabalhista"], by="win_rate", **PERIOD)
     ranked_ids = [m["niche_id"] for m in ranking["ranked"]]
     insufficient_ids = [m["niche_id"] for m in ranking["insufficient_sample"]]
     assert ranked_ids == ["trabalhista"]
@@ -244,11 +231,9 @@ def test_small_sample_niche_is_physically_separated(tmp_path: Path) -> None:
 
 def test_ranking_orders_by_criterion(tmp_path: Path) -> None:
     pipe = pipeline(tmp_path)
-    seed(pipe, "tributario", won=8, lost=2)      # 80%
-    seed(pipe, "trabalhista", won=5, lost=5)     # 50%
-    ranking = rank_niches(
-        pipe.opportunities(), ["tributario", "trabalhista"], by="win_rate", **PERIOD
-    )
+    seed(pipe, "tributario", won=8, lost=2)  # 80%
+    seed(pipe, "trabalhista", won=5, lost=5)  # 50%
+    ranking = rank_niches(pipe.opportunities(), ["tributario", "trabalhista"], by="win_rate", **PERIOD)
     assert [m["niche_id"] for m in ranking["ranked"]] == ["tributario", "trabalhista"]
 
 
@@ -267,6 +252,7 @@ def test_every_metric_carries_limitations(tmp_path: Path) -> None:
 
 # ------------------------------------------- confronto declarado vs. medido
 
+
 def test_every_niche_declares_priority_and_ticket_band() -> None:
     for niche in load_niches():
         assert niche["priority"] in {"core", "exploratorio", "legado"}
@@ -280,15 +266,12 @@ def test_declared_expectation_is_confirmed_when_data_agrees(tmp_path: Path) -> N
     pipe = pipeline(tmp_path)
     for index in range(10):  # ticket 120k = faixa alta, como tributario declara
         opportunity = pipe.add(
-            new_opportunity(niche_id="tributario", client_identifier=f"e{index}",
-                            source_channel="indicacao")
+            new_opportunity(niche_id="tributario", client_identifier=f"e{index}", source_channel="indicacao")
         )
         pipe.advance(opportunity["opportunity_id"], "qualificacao")
         pipe.advance(opportunity["opportunity_id"], "proposta")
         pipe.advance(opportunity["opportunity_id"], "ganho", value_brl=120_000.0)
-    check = reality_check(
-        cm(pipe.opportunities(), "tributario", **PERIOD), niche_by_id("tributario")
-    )
+    check = reality_check(cm(pipe.opportunities(), "tributario", **PERIOD), niche_by_id("tributario"))
     assert check["ticket_band_declared"] == "alto"
     assert check["ticket_band_observed"] == "alto"
     assert check["verdict"] == "confirmed"
@@ -302,15 +285,12 @@ def test_declared_expectation_is_contradicted_when_data_disagrees(tmp_path: Path
     pipe = pipeline(tmp_path)
     for index in range(10):  # ticket 9k = faixa baixa, mas tributario declara alto
         opportunity = pipe.add(
-            new_opportunity(niche_id="tributario", client_identifier=f"e{index}",
-                            source_channel="indicacao")
+            new_opportunity(niche_id="tributario", client_identifier=f"e{index}", source_channel="indicacao")
         )
         pipe.advance(opportunity["opportunity_id"], "qualificacao")
         pipe.advance(opportunity["opportunity_id"], "proposta")
         pipe.advance(opportunity["opportunity_id"], "ganho", value_brl=9_000.0)
-    check = reality_check(
-        cm(pipe.opportunities(), "tributario", **PERIOD), niche_by_id("tributario")
-    )
+    check = reality_check(cm(pipe.opportunities(), "tributario", **PERIOD), niche_by_id("tributario"))
     assert check["verdict"] == "contradicted"
     assert "declarou ticket 'alto'" in check["note"]
 
@@ -321,15 +301,11 @@ def test_small_sample_cannot_contradict_the_expectation(tmp_path: Path) -> None:
     from asus_theye.commercial import reality_check
 
     pipe = pipeline(tmp_path)
-    opportunity = pipe.add(
-        new_opportunity(niche_id="tributario", client_identifier="e0", source_channel="site")
-    )
+    opportunity = pipe.add(new_opportunity(niche_id="tributario", client_identifier="e0", source_channel="site"))
     pipe.advance(opportunity["opportunity_id"], "qualificacao")
     pipe.advance(opportunity["opportunity_id"], "proposta")
     pipe.advance(opportunity["opportunity_id"], "ganho", value_brl=1_000.0)
-    check = reality_check(
-        cm(pipe.opportunities(), "tributario", **PERIOD), niche_by_id("tributario")
-    )
+    check = reality_check(cm(pipe.opportunities(), "tributario", **PERIOD), niche_by_id("tributario"))
     assert check["verdict"] == "insufficient_evidence"
 
 
@@ -337,7 +313,5 @@ def test_no_data_yields_no_verdict(tmp_path: Path) -> None:
     from asus_theye.commercial import compute_metrics as cm
     from asus_theye.commercial import reality_check
 
-    check = reality_check(
-        cm(pipeline(tmp_path).opportunities(), "tributario", **PERIOD), niche_by_id("tributario")
-    )
+    check = reality_check(cm(pipeline(tmp_path).opportunities(), "tributario", **PERIOD), niche_by_id("tributario"))
     assert check["verdict"] == "no_data"

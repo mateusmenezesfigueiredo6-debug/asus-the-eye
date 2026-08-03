@@ -68,9 +68,7 @@ def layer1_stranger() -> None:
 
 def _gh(args: list[str]) -> str | None:
     try:
-        return subprocess.run(
-            ["gh", *args], capture_output=True, text=True, timeout=60, check=True
-        ).stdout.strip()
+        return subprocess.run(["gh", *args], capture_output=True, text=True, timeout=60, check=True).stdout.strip()
     except Exception:
         return None
 

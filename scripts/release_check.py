@@ -43,6 +43,7 @@ def run(args: list[str], cwd: Path = REPO_ROOT) -> tuple[int, str]:
 
 # ---------------------------------------------------------------- portões L0/L1
 
+
 def gate_tests() -> tuple[bool, str]:
     code, out = run([str(REPO_ROOT / ".venv/bin/python"), "-m", "pytest", "-q", "tests/"])
     tail = out.strip().splitlines()[-1] if out.strip() else "sem saída"
@@ -50,14 +51,15 @@ def gate_tests() -> tuple[bool, str]:
 
 
 def gate_lint() -> tuple[bool, str]:
-    code, out = run([str(REPO_ROOT / ".venv/bin/ruff"), "check", "asus_theye/", "scripts/"])
+    code, out = run([str(REPO_ROOT / ".venv/bin/ruff"), "check", "src/asus_theye/", "scripts/"])
     return code == 0, "limpo" if code == 0 else out.strip().splitlines()[-1]
 
 
 def gate_no_tracked_secrets() -> tuple[bool, str]:
     code, out = run(["git", "ls-files"])
     suspicious = [
-        line for line in out.splitlines()
+        line
+        for line in out.splitlines()
         if any(token in line.lower() for token in (".env", "secret", "token", ".key", ".pem"))
         and not line.endswith(".example")
     ]
@@ -72,14 +74,13 @@ def gate_clean_worktree() -> tuple[bool, str]:
 
 # ------------------------------------------------------------------- portões L2
 
+
 def gate_endpoints_closed() -> tuple[bool, str]:
     paths = ("/health", "/events?tenant=tenant-demo", "/batches?tenant=tenant-demo")
     codes = []
     for path in paths:
         try:
-            request = urllib.request.Request(
-                f"{WORKER_URL}{path}", headers={"user-agent": "release-check/1.0"}
-            )
+            request = urllib.request.Request(f"{WORKER_URL}{path}", headers={"user-agent": "release-check/1.0"})
             with urllib.request.urlopen(request, timeout=20) as response:
                 codes.append(response.status)
         except urllib.error.HTTPError as error:
@@ -91,9 +92,7 @@ def gate_endpoints_closed() -> tuple[bool, str]:
 
 
 def gate_secret_in_vault() -> tuple[bool, str]:
-    code, out = run(
-        ["npx", "wrangler", "secret", "list"], cwd=REPO_ROOT / "infra/cloudflare/staging"
-    )
+    code, out = run(["npx", "wrangler", "secret", "list"], cwd=REPO_ROOT / "infra/cloudflare/staging")
     ok = code == 0 and "AUDIT_INGEST_TOKEN" in out
     return ok, "AUDIT_INGEST_TOKEN no cofre" if ok else "segredo não confirmado no cofre"
 
@@ -105,6 +104,7 @@ def gate_chain_integrity() -> tuple[bool, str]:
 
 
 # ------------------------------------------------------------------- portões L3+
+
 
 def gate_no_pii_onchain_policy() -> tuple[bool, str]:
     """A ancoragem só pode publicar raiz/hashes — nunca conteúdo."""

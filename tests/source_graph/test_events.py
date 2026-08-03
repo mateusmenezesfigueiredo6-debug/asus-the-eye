@@ -58,6 +58,7 @@ def all_events() -> list[dict]:
 
 # ---------------------------------------------------------- nada de conteúdo
 
+
 @pytest.mark.parametrize("event", all_events())
 def test_no_payload_key_is_sensitive(event: dict) -> None:
     """Nenhuma chave do payload pode ser sensível segundo o SDK de auditoria.
@@ -95,6 +96,7 @@ def test_only_the_host_is_recorded_not_the_full_url() -> None:
 
 # ------------------------------------------------------------- idempotência
 
+
 def test_idempotency_keys_derive_from_hash_and_are_stable() -> None:
     first, second = source_snapshot_event(RESULT, "S001"), source_snapshot_event(RESULT, "S001")
     assert first["idempotency_key"] == second["idempotency_key"]
@@ -114,6 +116,7 @@ def test_access_basis_is_recorded_in_the_event() -> None:
 
 
 # ------------------------------------------------------------------ cobertura
+
 
 def test_empty_coverage_names_the_reason_for_every_zero() -> None:
     report = build_coverage([])

@@ -62,8 +62,14 @@ def cmd_set() -> int:
     salt = secrets.token_bytes(16)
     _write_private(
         LOCK_FILE,
-        {"version": 1, "kdf": "pbkdf2_sha256", "iterations": ITERATIONS,
-         "salt": salt.hex(), "hash": _derive(first, salt), "created_at": int(time.time())},
+        {
+            "version": 1,
+            "kdf": "pbkdf2_sha256",
+            "iterations": ITERATIONS,
+            "salt": salt.hex(),
+            "hash": _derive(first, salt),
+            "created_at": int(time.time()),
+        },
     )
     UNLOCK_FILE.unlink(missing_ok=True)
     print("Publish lock armed. Publishing now requires this passphrase.")
@@ -149,10 +155,7 @@ def cmd_authorize(kind: str, identifier: str) -> int:
 
 
 def cmd_revoke(kind: str, identifier: str) -> int:
-    targets = [
-        t for t in load_standing()
-        if not (t["kind"] == kind and t["identifier"] == identifier)
-    ]
+    targets = [t for t in load_standing() if not (t["kind"] == kind and t["identifier"] == identifier)]
     _write_private(STANDING_FILE, {"targets": targets})
     print(f"Revoked: {kind} -> {identifier}")
     return 0

@@ -16,22 +16,43 @@ from asus_theye.audit.sdk import AuditSDK, AuditUnavailableError, SQLiteAuditSto
 
 def event(sequence: int, previous: str = GENESIS_HASH, *, tenant: str = "tenant-a"):
     body = {
-        "schema_version": SCHEMA_VERSION, "event_id": f"event-{sequence}",
-        "idempotency_key": f"idem-key-{sequence:016d}", "tenant_id": tenant,
-        "sequence": sequence, "event_type": "document.updated", "action": "update",
-        "occurred_at": "2026-08-02T00:00:00Z", "recorded_at": "2026-08-02T00:00:01Z",
-        "actor_type": "user", "actor_id_pseudonymous": "1" * 64, "actor_role": "editor",
-        "source_system": "test", "resource_type": "document",
-        "resource_id_pseudonymous": "2" * 64, "resource_version": str(sequence),
-        "jurisdiction": "BR", "legal_area_ids": ["civil"], "classification": "restricted",
-        "retention_policy_id": "audit-default-v1", "lawful_basis_reference": "test-only",
-        "content_hash_sha256": "3" * 64, "metadata_hash_sha256": "4" * 64,
-        "previous_event_hash_sha256": previous, "correlation_id": "correlation-1",
-        "causation_id": None, "model_provider": None, "model_name": None,
-        "model_version": None, "prompt_template_version": None,
-        "source_citation_hashes": [], "human_review_status": "not_required",
-        "reviewer_pseudonymous": None, "result_status": "success", "error_code": None,
-        "created_by_service": "test", "build_version": "test",
+        "schema_version": SCHEMA_VERSION,
+        "event_id": f"event-{sequence}",
+        "idempotency_key": f"idem-key-{sequence:016d}",
+        "tenant_id": tenant,
+        "sequence": sequence,
+        "event_type": "document.updated",
+        "action": "update",
+        "occurred_at": "2026-08-02T00:00:00Z",
+        "recorded_at": "2026-08-02T00:00:01Z",
+        "actor_type": "user",
+        "actor_id_pseudonymous": "1" * 64,
+        "actor_role": "editor",
+        "source_system": "test",
+        "resource_type": "document",
+        "resource_id_pseudonymous": "2" * 64,
+        "resource_version": str(sequence),
+        "jurisdiction": "BR",
+        "legal_area_ids": ["civil"],
+        "classification": "restricted",
+        "retention_policy_id": "audit-default-v1",
+        "lawful_basis_reference": "test-only",
+        "content_hash_sha256": "3" * 64,
+        "metadata_hash_sha256": "4" * 64,
+        "previous_event_hash_sha256": previous,
+        "correlation_id": "correlation-1",
+        "causation_id": None,
+        "model_provider": None,
+        "model_name": None,
+        "model_version": None,
+        "prompt_template_version": None,
+        "source_citation_hashes": [],
+        "human_review_status": "not_required",
+        "reviewer_pseudonymous": None,
+        "result_status": "success",
+        "error_code": None,
+        "created_by_service": "test",
+        "build_version": "test",
     }
     return seal_event(body)
 
@@ -95,10 +116,17 @@ def test_manifest_is_pre_anchor_and_hashes_all_fields():
 def test_sdk_redaction_pseudonymization_idempotency_and_outbox():
     store = SQLiteAuditStore()
     sdk = AuditSDK(store, pseudonymization_key=b"local-test-key-32-bytes-long!!!!", service="test", build_version="1")
-    values = dict(tenant_id="tenant-a", event_type="document.updated", action="update",
-                  correlation_id="corr", actor_id="alice@example.test", resource_id="doc-123",
-                  content={"text": "hashed", "password": "never"}, metadata={"email": "never"},
-                  idempotency_key="stable-idempotency-key")
+    values = dict(
+        tenant_id="tenant-a",
+        event_type="document.updated",
+        action="update",
+        correlation_id="corr",
+        actor_id="alice@example.test",
+        resource_id="doc-123",
+        content={"text": "hashed", "password": "never"},
+        metadata={"email": "never"},
+        idempotency_key="stable-idempotency-key",
+    )
     first = sdk.recordMutation(**values)
     second = sdk.recordMutation(**values)
     assert first["duplicate"] is False and second["duplicate"] is True
@@ -116,5 +144,6 @@ def test_critical_mutation_fails_explicitly_when_store_is_unavailable():
     sdk = AuditSDK(store, pseudonymization_key=b"local-test-key-32-bytes-long!!!!", service="test", build_version="1")
     store.connection.close()
     with pytest.raises(AuditUnavailableError):
-        sdk.recordMutation(tenant_id="t", event_type="case.updated", action="update",
-                           correlation_id="c", actor_id="a", resource_id="r")
+        sdk.recordMutation(
+            tenant_id="t", event_type="case.updated", action="update", correlation_id="c", actor_id="a", resource_id="r"
+        )

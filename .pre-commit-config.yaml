@@ -1,0 +1,39 @@
+# Trava antes do commit, não depois do bug.
+#   pip install pre-commit && pre-commit install
+repos:
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.14.5
+    hooks:
+      - id: ruff
+        args: [--fix]
+      - id: ruff-format
+
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-toml
+      - id: check-json
+      - id: check-merge-conflict
+      - id: check-added-large-files
+        args: [--maxkb=2000]
+      - id: detect-private-key       # nenhuma chave privada entra no repo
+      - id: no-commit-to-branch
+        args: [--branch, main]        # main só via merge
+
+  - repo: local
+    hooks:
+      - id: policy-gate
+        name: portão de política (broadcast off, sem .env real, ABI estreita)
+        entry: python3 scripts/policy_gate.py
+        language: system
+        pass_filenames: false
+        always_run: true
+
+      - id: no-secrets-tracked
+        name: nenhum segredo rastreado pelo git
+        entry: bash -c 'git ls-files | grep -E "(^|/)\.env$|\.key$|\.pem$|staging-token|publish-lock" && { echo "segredo rastreado"; exit 1; } || exit 0'
+        language: system
+        pass_filenames: false

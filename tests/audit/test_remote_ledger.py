@@ -39,8 +39,8 @@ def test_build_event_is_deterministic() -> None:
 def test_build_event_changes_with_report_content() -> None:
     modified = json.loads(json.dumps(SAMPLE_REPORT))
     modified["metrics"]["qar"]["qar"] = 1.1
-    assert build_benchmark_event(SAMPLE_REPORT)["idempotency_key"] != (
-        build_benchmark_event(modified)["idempotency_key"]
+    assert (
+        build_benchmark_event(SAMPLE_REPORT)["idempotency_key"] != (build_benchmark_event(modified)["idempotency_key"])
     )
 
 

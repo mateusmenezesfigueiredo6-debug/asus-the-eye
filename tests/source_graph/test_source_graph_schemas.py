@@ -25,19 +25,50 @@ EXPECTED_SCHEMAS = {
 # Os 20 fragmentos já proibidos em decision-context, mais os 7 específicos de
 # ranking de fontes: nenhuma métrica social pode virar componente de score.
 PROHIBITED_FRAGMENTS = (
-    "politic", "ideolog", "religio", "health", "race", "ethnic", "sexual",
-    "biometric", "private_address", "family", "friendship", "geolocation",
-    "psycholog", "sentiment", "corruption", "moral_score", "bias_score",
-    "partiality", "prediction", "will_decide",
-    "follower", "subscriber", "likes", "engagement", "virality", "reach",
-    "popularity", "influence_score", "clout",
+    "politic",
+    "ideolog",
+    "religio",
+    "health",
+    "race",
+    "ethnic",
+    "sexual",
+    "biometric",
+    "private_address",
+    "family",
+    "friendship",
+    "geolocation",
+    "psycholog",
+    "sentiment",
+    "corruption",
+    "moral_score",
+    "bias_score",
+    "partiality",
+    "prediction",
+    "will_decide",
+    "follower",
+    "subscriber",
+    "likes",
+    "engagement",
+    "virality",
+    "reach",
+    "popularity",
+    "influence_score",
+    "clout",
 )
 
 # Os 11 campos que a Phase C exige de toda entrada ranqueada (MISSION:254-256).
 PHASE_C_REQUIRED = (
-    "score_components", "evidence", "confidence", "methodology_version",
-    "source_ids", "cut_off_date", "validation_date", "limitations",
-    "conflicts_of_interest", "human_review", "score",
+    "score_components",
+    "evidence",
+    "confidence",
+    "methodology_version",
+    "source_ids",
+    "cut_off_date",
+    "validation_date",
+    "limitations",
+    "conflicts_of_interest",
+    "human_review",
+    "score",
 )
 
 SCORE_COMPONENTS = {
@@ -88,9 +119,7 @@ def test_no_prohibited_attribute_names(name: str) -> None:
     for prop in iter_property_names(schema):
         lowered = prop.lower()
         for fragment in PROHIBITED_FRAGMENTS:
-            assert fragment not in lowered, (
-                f"{name}: propriedade {prop!r} casa fragmento proibido {fragment!r}"
-            )
+            assert fragment not in lowered, f"{name}: propriedade {prop!r} casa fragmento proibido {fragment!r}"
 
 
 def test_ranking_entry_has_every_phase_c_field() -> None:
@@ -142,16 +171,12 @@ def test_knowledge_source_manifest_requires_hash() -> None:
     assert manifest["minItems"] == 1
     item = manifest["items"]
     assert item["properties"]["content_hash_sha256"]["pattern"] == "^[0-9a-f]{64}$"
-    assert set(item["required"]) == {
-        "source_id", "official_url", "retrieved_at", "content_hash_sha256"
-    }
+    assert set(item["required"]) == {"source_id", "official_url", "retrieved_at", "content_hash_sha256"}
 
 
 def test_knowledge_source_id_follows_agents_convention() -> None:
     """AGENTS.md:72 — fontes externas usam IDs como S001."""
-    assert load("knowledge-source.schema.json")["properties"]["source_id"]["pattern"] == (
-        "^S[0-9]{3,6}$"
-    )
+    assert load("knowledge-source.schema.json")["properties"]["source_id"]["pattern"] == ("^S[0-9]{3,6}$")
 
 
 def test_production_poc_status_requires_evidence() -> None:
@@ -177,8 +202,13 @@ def test_every_coverage_zero_has_a_named_reason() -> None:
     """A diferença entre 'não temos' e 'não olhamos'."""
     schema = load("coverage-report.schema.json")
     expected = {
-        "none", "no_free_source", "license_restricted", "robots_disallowed",
-        "requires_paid_api", "requires_dpia", "not_yet_attempted",
+        "none",
+        "no_free_source",
+        "license_restricted",
+        "robots_disallowed",
+        "requires_paid_api",
+        "requires_dpia",
+        "not_yet_attempted",
     }
     for section in ("by_category", "by_niche", "gaps"):
         item = schema["properties"][section]["items"]
@@ -188,5 +218,12 @@ def test_every_coverage_zero_has_a_named_reason() -> None:
 
 def test_discovery_query_makes_coverage_reproducible() -> None:
     required = set(load("discovery-query.schema.json")["required"])
-    assert {"connector_id", "query_string", "parameters", "executed_at",
-            "response_hash_sha256", "robots_decision", "rate_limit_applied"} <= required
+    assert {
+        "connector_id",
+        "query_string",
+        "parameters",
+        "executed_at",
+        "response_hash_sha256",
+        "robots_decision",
+        "rate_limit_applied",
+    } <= required

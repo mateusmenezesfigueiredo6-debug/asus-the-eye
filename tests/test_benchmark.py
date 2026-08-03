@@ -70,9 +70,7 @@ def test_report_and_audit_ledger_are_created(tmp_path: Path, problem):
     assert report["metrics"]["stability"]["runs"] == 10
     assert (tmp_path / "history.jsonl").exists()
     assert verify_ledger(tmp_path / "ledger.jsonl")
-    events = [
-        json.loads(line)["event"] for line in (tmp_path / "ledger.jsonl").read_text().splitlines()
-    ]
+    events = [json.loads(line)["event"] for line in (tmp_path / "ledger.jsonl").read_text().splitlines()]
     assert {
         "benchmark.classical",
         "benchmark.qubo",

@@ -119,9 +119,7 @@ def test_no_prohibited_attribute_names(name: str):
     for prop in iter_property_names(schema):
         lowered = prop.lower()
         for fragment in PROHIBITED_FRAGMENTS:
-            assert fragment not in lowered, (
-                f"{name}: property {prop!r} matches prohibited fragment {fragment!r}"
-            )
+            assert fragment not in lowered, f"{name}: property {prop!r} matches prohibited fragment {fragment!r}"
 
 
 def test_conflict_alert_state_machine_is_exact():
@@ -131,8 +129,7 @@ def test_conflict_alert_state_machine_is_exact():
     # Confirmation requires an official decision reference.
     conditionals = schema.get("allOf", [])
     assert any(
-        clause.get("if", {}).get("properties", {}).get("state", {}).get("const")
-        == "confirmed_by_official_decision"
+        clause.get("if", {}).get("properties", {}).get("state", {}).get("const") == "confirmed_by_official_decision"
         and "official_decision_ref" in clause.get("then", {}).get("required", [])
         for clause in conditionals
     ), "confirmed_by_official_decision must require official_decision_ref"

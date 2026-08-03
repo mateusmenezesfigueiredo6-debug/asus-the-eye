@@ -74,9 +74,7 @@ def test_no_alias_points_to_two_areas() -> None:
     seen: dict[str, str] = {}
     for area_id, terms in aliases.items():
         for term in terms:
-            assert term not in seen or seen[term] == area_id, (
-                f"alias ambiguo {term!r}: {seen.get(term)} vs {area_id}"
-            )
+            assert term not in seen or seen[term] == area_id, f"alias ambiguo {term!r}: {seen.get(term)} vs {area_id}"
             seen[term] = area_id
 
 

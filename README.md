@@ -52,3 +52,29 @@ Primeira execução em hardware real: QAOA de 6 qubits em `ibm_kingston` (Heron
 156q) encontrou o ótimo exato — com a ressalva honesta, registrada no ledger,
 de que um problema de 64 estados amostrado por 1.024 shots não demonstra
 vantagem quântica. Evidência: evento 6 da cadeia, job `d9ngkpcsfqic73ar17vg`.
+
+## Começar
+
+```bash
+make setup     # ambiente + dependências
+make check     # lint + tipos + testes + cobertura (o que o CI roda)
+make           # lista todos os comandos
+```
+
+## Estrutura
+
+```
+src/asus_theye/     código do pacote (layout src, recomendação da PyPA)
+apps/               aplicações que consomem o pacote (comercial, verifier)
+data/               registros versionados: 145 nichos, schemas, conectores
+docs/               ADRs, governança, segurança, metodologia
+  adr/              decisões arquiteturais, com o que as reverteria
+  governance/       protocolo de lançamento L0–L6, runbook, gates
+infra/cloudflare/   worker do ledger (D1 + R2)
+scripts/            trava de publicação, checagem de vazamento, portões
+tests/              espelha src/ e apps/
+research/           perguntas, decisões, incógnitas, fontes
+```
+
+Detalhes das decisões: [ADR-012](docs/adr/ADR-012-ESTRUTURA-E-FERRAMENTAS.md).
+Como contribuir e as regras inegociáveis: [CONTRIBUTING.md](CONTRIBUTING.md).

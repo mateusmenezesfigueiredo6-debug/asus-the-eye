@@ -1,0 +1,115 @@
+name: CI
+
+# Roda o que hoje só rodava quando alguém lembrava.
+# Nada aqui publica: nenhum step tem credencial de deploy, por desenho.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  qualidade:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.10", "3.12", "3.13"]
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Instalar uv
+        uses: astral-sh/setup-uv@v7
+        with:
+          enable-cache: true
+
+      - name: Ambiente
+        run: |
+          uv venv --python ${{ matrix.python-version }}
+          uv pip install -e '.[telemetry,dashboard,dev]'
+
+      - name: Lint (ruff)
+        run: .venv/bin/ruff check .
+
+      - name: Formatação (ruff)
+        run: .venv/bin/ruff format --check .
+
+      - name: Tipos (mypy)
+        run: .venv/bin/mypy src/
+        continue-on-error: true # adoção gradual — ver ADR-012
+
+      - name: Testes + cobertura
+        run: .venv/bin/python -m pytest tests/ -q --cov=asus_theye --cov-report=xml
+
+      - name: Guardar cobertura
+        if: matrix.python-version == '3.12'
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage
+          path: coverage.xml
+          retention-days: 14
+
+  politica:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0 # o scan de segredos precisa do histórico
+
+      - uses: astral-sh/setup-uv@v7
+
+      - name: Ambiente
+        run: |
+          uv venv
+          uv pip install -e '.[dev]'
+
+      - name: Portão de política
+        # broadcast desligado, nenhum .env real, ABI de ancoragem estreita
+        run: .venv/bin/python scripts/policy_gate.py
+
+      - name: Cobertura de eventos de auditoria
+        run: .venv/bin/python scripts/event_coverage.py
+
+      - name: Nenhum segredo rastreado
+        run: |
+          if git ls-files | grep -E '(^|/)\.env$|\.key$|\.pem$|staging-token|publish-lock'; then
+            echo "::error::segredo rastreado pelo git"
+            exit 1
+          fi
+
+      - name: Nenhuma chave privada no histórico
+        run: |
+          if git log -p --all | grep -qE 'BEGIN (RSA |EC |OPENSSH )?PRIVATE KEY'; then
+            echo "::error::chave privada no histórico"
+            exit 1
+          fi
+
+  integridade-dos-dados:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: astral-sh/setup-uv@v7
+
+      - name: Ambiente
+        run: |
+          uv venv
+          uv pip install -e '.[telemetry,dashboard,dev]'
+
+      - name: Registros de dados íntegros
+        # 145 nichos, 19 categorias, 8 tiers, pesos somando 1.0,
+        # crosswalks pendentes vazios, nenhum alias ambíguo
+        run: |
+          .venv/bin/python -m pytest \
+            tests/decision_context tests/source_graph tests/commercial -q
+
+      - name: Painel mede sem erro
+        run: .venv/bin/python -m asus_theye.cli chart

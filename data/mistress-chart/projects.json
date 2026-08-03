@@ -11,13 +11,13 @@
         "*"
       ],
       "paths": [
-        "asus_theye/benchmark",
-        "asus_theye/problem.py"
+        "src/asus_theye/benchmark",
+        "src/asus_theye/problem.py"
       ],
       "artifacts": [
-        "asus_theye/benchmark/runner.py",
-        "asus_theye/benchmark/qaoa_benchmark.py",
-        "asus_theye/problem.py",
+        "src/asus_theye/benchmark/runner.py",
+        "src/asus_theye/benchmark/qaoa_benchmark.py",
+        "src/asus_theye/problem.py",
         "tests/test_benchmark.py",
         "docs/BENCHMARK_ENGINE.md"
       ],
@@ -33,18 +33,18 @@
         "*"
       ],
       "paths": [
-        "asus_theye/audit",
+        "src/asus_theye/audit",
         "packages"
       ],
       "artifacts": [
-        "asus_theye/audit/canonical.py",
-        "asus_theye/audit/keccak.py",
-        "asus_theye/audit/merkle.py",
-        "asus_theye/audit/manifest.py",
-        "asus_theye/audit/schema.py",
-        "asus_theye/audit/sdk.py",
-        "asus_theye/audit/verifier.py",
-        "asus_theye/audit/batching.py",
+        "src/asus_theye/audit/canonical.py",
+        "src/asus_theye/audit/keccak.py",
+        "src/asus_theye/audit/merkle.py",
+        "src/asus_theye/audit/manifest.py",
+        "src/asus_theye/audit/schema.py",
+        "src/asus_theye/audit/sdk.py",
+        "src/asus_theye/audit/verifier.py",
+        "src/asus_theye/audit/batching.py",
         "migrations/0001_audit_ledger.sql",
         "tests/audit/test_audit_core.py"
       ],
@@ -85,7 +85,7 @@
       ],
       "paths": [
         "data/decision-context",
-        "asus_theye/decision_context"
+        "src/asus_theye/decision_context"
       ],
       "artifacts": [
         "data/decision-context/decision-makers.schema.json",
@@ -98,8 +98,8 @@
         "data/decision-context/institutional-context.schema.json",
         "data/decision-context/metrics.schema.json",
         "data/decision-context/data-protection.schema.json",
-        "asus_theye/decision_context/extractor.py",
-        "asus_theye/decision_context/legal_areas.py",
+        "src/asus_theye/decision_context/extractor.py",
+        "src/asus_theye/decision_context/legal_areas.py",
         "docs/security/DECISION_CONTEXT_LGPD.md",
         "tests/decision_context/test_schemas.py"
       ],
@@ -139,11 +139,11 @@
         "*"
       ],
       "paths": [
-        "asus_theye/llm"
+        "src/asus_theye/llm"
       ],
       "artifacts": [
-        "asus_theye/llm/ollama_client.py",
-        "asus_theye/llm/audited.py",
+        "src/asus_theye/llm/ollama_client.py",
+        "src/asus_theye/llm/audited.py",
         "tests/llm/test_audited_llm.py"
       ],
       "pipeline_stage": "3-processamento",
@@ -158,10 +158,10 @@
         "*"
       ],
       "paths": [
-        "asus_theye/benchmark/ibm_backend.py"
+        "src/asus_theye/benchmark/ibm_backend.py"
       ],
       "artifacts": [
-        "asus_theye/benchmark/ibm_backend.py",
+        "src/asus_theye/benchmark/ibm_backend.py",
         "tests/benchmark/test_ibm_backend_gate.py"
       ],
       "pipeline_stage": "3-processamento",
@@ -177,10 +177,10 @@
       ],
       "paths": [
         "scripts",
-        "RELEASE_PROTOCOL.md"
+        "docs/governance/RELEASE_PROTOCOL.md"
       ],
       "artifacts": [
-        "RELEASE_PROTOCOL.md",
+        "docs/governance/RELEASE_PROTOCOL.md",
         "scripts/publish_lock.py",
         "scripts/publish_guard.py",
         "scripts/release_check.py",
@@ -227,8 +227,8 @@
       ],
       "paths": [
         "data/source-graph",
-        "asus_theye/source_graph",
-        "asus_theye/net"
+        "src/asus_theye/source_graph",
+        "src/asus_theye/net"
       ],
       "artifacts": [
         "data/source-graph/knowledge-source.schema.json",
@@ -243,13 +243,13 @@
         "data/source-graph/sales_data_crosswalk.json",
         "data/source-graph/software_artifacts.json",
         "data/source-graph/communities.json",
-        "asus_theye/net/http.py",
-        "asus_theye/source_graph/fetcher.py",
-        "asus_theye/source_graph/robots.py",
-        "asus_theye/source_graph/scoring.py",
-        "asus_theye/source_graph/events.py",
-        "asus_theye/source_graph/coverage.py",
-        "asus_theye/source_graph/report.py",
+        "src/asus_theye/net/http.py",
+        "src/asus_theye/source_graph/fetcher.py",
+        "src/asus_theye/source_graph/robots.py",
+        "src/asus_theye/source_graph/scoring.py",
+        "src/asus_theye/source_graph/events.py",
+        "src/asus_theye/source_graph/coverage.py",
+        "src/asus_theye/source_graph/report.py",
         "docs/legal-intelligence/RANKING_METHODOLOGY.md",
         "docs/legal-intelligence/SOURCE_AUTHORITY_MODEL.md",
         "docs/legal-intelligence/LEGAL_SOURCE_GRAPH.md",
@@ -313,16 +313,16 @@
       ],
       "paths": [
         "data/commercial",
-        "asus_theye/commercial",
+        "src/asus_theye/commercial",
         "apps/comercial"
       ],
       "artifacts": [
         "data/commercial/niches.json",
         "data/commercial/opportunity.schema.json",
         "data/commercial/niche-metrics.schema.json",
-        "asus_theye/commercial/niches.py",
-        "asus_theye/commercial/pipeline.py",
-        "asus_theye/commercial/metrics.py",
+        "src/asus_theye/commercial/niches.py",
+        "src/asus_theye/commercial/pipeline.py",
+        "src/asus_theye/commercial/metrics.py",
         "apps/comercial/api.py",
         "apps/comercial/static/index.html",
         "tests/commercial/test_commercial.py"

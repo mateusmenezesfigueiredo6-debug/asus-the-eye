@@ -75,6 +75,7 @@ def build(routes: dict, *, policy: FetchPolicy | None = None):
 
 # --------------------------------------------------------------------- robots
 
+
 def test_robots_disallow_blocks_and_no_content_request_is_made() -> None:
     url = "https://example.invalid/data"
     fetcher, transport, _, _ = build(
@@ -99,9 +100,7 @@ def test_missing_robots_file_is_allowed_with_named_reason() -> None:
     url = "https://example.invalid/data"
     fetcher, _, _, _ = build(
         {
-            "https://example.invalid/robots.txt": [
-                HttpResponse(url="", status=404, headers={}, body=b"")
-            ],
+            "https://example.invalid/robots.txt": [HttpResponse(url="", status=404, headers={}, body=b"")],
             url: [ok(url)],
         }
     )
@@ -121,6 +120,7 @@ def test_api_terms_basis_is_recorded_not_silent() -> None:
 
 # ----------------------------------------------------------------- rate limit
 
+
 def test_minimum_interval_is_respected_between_requests() -> None:
     url = "https://example.invalid/a"
     fetcher, _, sleeper, _ = build(
@@ -136,6 +136,7 @@ def test_minimum_interval_is_respected_between_requests() -> None:
 
 # --------------------------------------------------------------------- limite
 
+
 def test_body_over_max_bytes_refuses_and_produces_no_hash() -> None:
     url = "https://example.invalid/big"
     fetcher, _, _, _ = build(
@@ -149,6 +150,7 @@ def test_body_over_max_bytes_refuses_and_produces_no_hash() -> None:
 
 
 # --------------------------------------------------------------------- retry
+
 
 def test_429_honours_retry_after_then_succeeds() -> None:
     url = "https://example.invalid/limited"
@@ -211,6 +213,7 @@ def test_transport_failure_is_retryable() -> None:
 
 # ------------------------------------------------------------------ resultado
 
+
 def test_hash_is_of_the_exact_bytes_received() -> None:
     url = "https://example.invalid/doc"
     payload = b'{"titulo":"exemplo"}'
@@ -235,15 +238,12 @@ def test_user_agent_must_identify_a_contact() -> None:
 def test_connector_without_license_is_refused() -> None:
     """Licença nunca é deduzida de página: sem license_id, o fetcher recusa nascer."""
     with pytest.raises(FetchRefusal, match="license_id"):
-        PoliteFetcher(
-            policy=FetchPolicy(user_agent=UA), connector_id="sem-licenca", license_id=""
-        )
+        PoliteFetcher(policy=FetchPolicy(user_agent=UA), connector_id="sem-licenca", license_id="")
 
 
 def test_there_is_no_way_to_disable_robots() -> None:
     """A checagem não é um parâmetro: nenhum campo da política a desliga."""
     assert not any(
-        "robots" in field_name and "disable" in field_name.lower()
-        for field_name in FetchPolicy.__dataclass_fields__
+        "robots" in field_name and "disable" in field_name.lower() for field_name in FetchPolicy.__dataclass_fields__
     )
     assert "respect_robots" not in FetchPolicy.__dataclass_fields__

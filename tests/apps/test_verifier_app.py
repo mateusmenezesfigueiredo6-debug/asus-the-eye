@@ -14,11 +14,13 @@ def make_chain(n: int) -> list[dict]:
     events, previous = [], GENESIS_HASH
     for seq in range(1, n + 1):
         current = f"{seq:064x}"
-        events.append({
-            "sequence": seq,
-            "event_hash_sha256": current,
-            "previous_event_hash_sha256": previous,
-        })
+        events.append(
+            {
+                "sequence": seq,
+                "event_hash_sha256": current,
+                "previous_event_hash_sha256": previous,
+            }
+        )
         previous = current
     return events
 
