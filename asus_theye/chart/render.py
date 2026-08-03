@@ -13,6 +13,32 @@ def _bar(pct: int, width: int = BAR_WIDTH) -> str:
     return "█" * filled + "·" * (width - filled)
 
 
+STAGE_LABELS = {
+    "1-ingestao": "Ingestão — descobrir e hashear fontes",
+    "2-classificacao": "Classificação — 145 nichos, extração validada",
+    "3-processamento": "Processamento — benchmark, LLM local, QPU",
+    "4-operacao": "Operação — funil comercial, 15 nichos",
+    "5-evidencia": "Evidência — hash chain, Merkle, ledger vivo",
+    "6-verificacao": "Verificação — governança, contrato de ancoragem",
+    "7-publicacao": "Publicação — superfície pública (nada publicado)",
+}
+
+
+def _pipeline_text(pipeline: dict[str, Any]) -> list[str]:
+    lines = ["", "PIPELINE — o projeto inteiro, etapa por etapa", "-" * 72]
+    for stage, data in pipeline.items():
+        pct = data["completion_pct"]
+        label = STAGE_LABELS.get(stage, stage)
+        classes = "/".join(data["release_classes"])
+        lines.append(
+            f"  {stage:17s} {_bar(pct, 14)} {pct:3d}%  "
+            f"{data['artifacts_present']:3d}/{data['artifacts_declared']:<3d}  [{classes}]"
+        )
+        lines.append(f"      {label}")
+        lines.append(f"      {', '.join(data['projects'])}")
+    return lines
+
+
 def render_text(snapshot: dict[str, Any], snapshot_hash: str) -> str:
     totals = snapshot["totals"]
     ledger = snapshot["ledger"]
@@ -28,6 +54,10 @@ def render_text(snapshot: dict[str, Any], snapshot_hash: str) -> str:
         f"nichos:   {totals['niches_covered']}/{totals['niches_total']} "
         f"({totals['niche_coverage_pct']}%)  {_bar(totals['niche_coverage_pct'])}",
         f"cadeia:   {ledger['events']} eventos (topo: sequência {ledger['head_sequence']})",
+        "",
+    ]
+    lines += _pipeline_text(snapshot.get("pipeline", {}))
+    lines += [
         "",
         "PROJETOS (medidos por artefato existente, não por status declarado)",
         "-" * 72,
@@ -122,6 +152,49 @@ def _mermaid_graph(knowledge: dict[str, Any]) -> str:
             arrow = "-->" if reason == "none" else "-.->"
             lines.append(f'  {node} {arrow} {reason_node}["{text}<br/>{count} categoria(s)"]')
     return "\n".join(lines)
+
+
+def _pipeline_html(pipeline: dict[str, Any]) -> str:
+    """O projeto como um pipeline: barras por etapa + diagrama do fluxo."""
+    if not pipeline:
+        return ""
+
+    rows = []
+    for stage, data in pipeline.items():
+        pct = data["completion_pct"]
+        rows.append(
+            "<tr>"
+            f'<td><span class="tag">{html.escape(stage.split("-")[0])}</span></td>'
+            f"<td><strong>{html.escape(STAGE_LABELS.get(stage, stage))}</strong><br>"
+            f'<span class="muted small">{html.escape(", ".join(data["projects"]))}</span></td>'
+            f'<td class="num">{data["artifacts_present"]}/{data["artifacts_declared"]}</td>'
+            f'<td class="barcell"><div class="track"><div class="fill" style="width:{pct}%"></div>'
+            f'</div><span class="pct">{pct}%</span></td>'
+            f'<td class="muted small">{html.escape("/".join(data["release_classes"]))}</td>'
+            "</tr>"
+        )
+
+    nodes = []
+    for index, (stage, data) in enumerate(pipeline.items()):
+        short = stage.split("-", 1)[1].replace("-", " ")
+        pct = data["completion_pct"]
+        nodes.append((f"E{index}", short, pct, data["artifacts_present"], data["artifacts_declared"]))
+
+    diagram = ["graph LR"]
+    for node_id, short, pct, present, declared in nodes:
+        diagram.append(f'  {node_id}["{short}<br/>{present}/{declared} · {pct}%"]')
+    for (a, *_), (b, *_) in zip(nodes, nodes[1:], strict=False):
+        diagram.append(f"  {a} --> {b}")
+    diagram.append('  E6 -.-> BLOQ["nada publicado<br/>L5 exige senha + 24h"]')
+
+    return f"""
+<h2>Pipeline — o projeto inteiro, etapa por etapa</h2>
+<table><thead><tr><th>#</th><th>Etapa</th><th>Artefatos</th><th>Progresso</th>
+<th>Classe</th></tr></thead><tbody>{"".join(rows)}</tbody></table>
+
+<h2>Fluxo</h2>
+<pre class="mermaid">{html.escape(chr(10).join(diagram))}</pre>
+"""
 
 
 def _knowledge_html(knowledge: dict[str, Any]) -> str:
@@ -219,6 +292,7 @@ def render_html(snapshot: dict[str, Any], snapshot_hash: str) -> str:
         )
 
     knowledge_block = _knowledge_html(snapshot.get("knowledge", {}))
+    pipeline_block = _pipeline_html(snapshot.get("pipeline", {}))
 
     group_rows = []
     for group, counts in snapshot["group_coverage"].items():
@@ -278,6 +352,7 @@ snapshot sha256: {html.escape(snapshot_hash)}</div>
 {card("Nichos cobertos", f"{totals['niches_covered']}/{totals['niches_total']}")}
 {card("Eventos na cadeia", str(ledger["events"]))}
 </div>
+{pipeline_block}
 <h2>Projetos — medidos por artefato existente</h2>
 <table><thead><tr><th>Classe</th><th>Projeto</th><th>Artefatos</th><th>Progresso</th>
 <th>Faltando</th></tr></thead><tbody>{"".join(rows)}</tbody></table>

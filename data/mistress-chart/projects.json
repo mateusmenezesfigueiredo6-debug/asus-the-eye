@@ -1,5 +1,5 @@
 {
-  "chart_version": "1.0.0",
+  "chart_version": "2.0.0",
   "note": "Registro de projetos do THE EYE. Campos declaram INTENÇÃO (o que o projeto se propõe e quais artefatos deveria ter); o chart mede a REALIDADE conferindo se cada artefato existe. Nunca escreva percentual aqui — ele é calculado.",
   "projects": [
     {
@@ -20,7 +20,9 @@
         "asus_theye/problem.py",
         "tests/test_benchmark.py",
         "docs/BENCHMARK_ENGINE.md"
-      ]
+      ],
+      "pipeline_stage": "3-processamento",
+      "pipeline_order": 3
     },
     {
       "project_id": "audit-core",
@@ -45,7 +47,9 @@
         "asus_theye/audit/batching.py",
         "migrations/0001_audit_ledger.sql",
         "tests/audit/test_audit_core.py"
-      ]
+      ],
+      "pipeline_stage": "5-evidencia",
+      "pipeline_order": 5
     },
     {
       "project_id": "ledger-staging",
@@ -64,7 +68,9 @@
         "infra/cloudflare/STAGING_PROVISIONING.md",
         "apps/verifier/app.py",
         "tests/apps/test_verifier_app.py"
-      ]
+      ],
+      "pipeline_stage": "5-evidencia",
+      "pipeline_order": 5
     },
     {
       "project_id": "decision-context",
@@ -96,7 +102,9 @@
         "asus_theye/decision_context/legal_areas.py",
         "docs/security/DECISION_CONTEXT_LGPD.md",
         "tests/decision_context/test_schemas.py"
-      ]
+      ],
+      "pipeline_stage": "2-classificacao",
+      "pipeline_order": 2
     },
     {
       "project_id": "legal-taxonomy",
@@ -118,7 +126,9 @@
         "data/legal-taxonomy/international_crosswalk.json",
         "docs/legal-intelligence/LEGAL_TAXONOMY.md",
         "docs/legal-intelligence/TAXONOMY_METHODOLOGY.md"
-      ]
+      ],
+      "pipeline_stage": "2-classificacao",
+      "pipeline_order": 2
     },
     {
       "project_id": "local-llm",
@@ -135,7 +145,9 @@
         "asus_theye/llm/ollama_client.py",
         "asus_theye/llm/audited.py",
         "tests/llm/test_audited_llm.py"
-      ]
+      ],
+      "pipeline_stage": "3-processamento",
+      "pipeline_order": 3
     },
     {
       "project_id": "quantum-adapter",
@@ -151,7 +163,9 @@
       "artifacts": [
         "asus_theye/benchmark/ibm_backend.py",
         "tests/benchmark/test_ibm_backend_gate.py"
-      ]
+      ],
+      "pipeline_stage": "3-processamento",
+      "pipeline_order": 3
     },
     {
       "project_id": "governance",
@@ -174,7 +188,9 @@
         "scripts/policy_gate.py",
         "docs/security/LEAK_CHECK.md",
         "tests/scripts/test_publish_guard.py"
-      ]
+      ],
+      "pipeline_stage": "6-verificacao",
+      "pipeline_order": 6
     },
     {
       "project_id": "anchor-contract",
@@ -193,7 +209,9 @@
         "contracts/audit-anchor/test/TheEyeAuditAnchor.t.sol",
         "contracts/audit-anchor/foundry.toml",
         "contracts/audit-anchor/README.md"
-      ]
+      ],
+      "pipeline_stage": "6-verificacao",
+      "pipeline_order": 6
     },
     {
       "project_id": "source-graph",
@@ -248,7 +266,9 @@
         "tests/source_graph/test_fetcher.py",
         "tests/source_graph/test_scoring.py",
         "tests/source_graph/test_events.py"
-      ]
+      ],
+      "pipeline_stage": "1-ingestao",
+      "pipeline_order": 1
     },
     {
       "project_id": "public-verifier",
@@ -265,7 +285,9 @@
         "apps/public-verifier/worker.ts",
         "apps/public-verifier/wrangler.toml",
         "apps/public-verifier/README.md"
-      ]
+      ],
+      "pipeline_stage": "7-publicacao",
+      "pipeline_order": 7
     },
     {
       "project_id": "comercial",
@@ -304,7 +326,10 @@
         "apps/comercial/api.py",
         "apps/comercial/static/index.html",
         "tests/commercial/test_commercial.py"
-      ]
+      ],
+      "pipeline_stage": "4-operacao",
+      "pipeline_order": 4
     }
-  ]
+  ],
+  "pipeline_note": "O projeto inteiro e UM pipeline: dado bruto -> classificacao -> processamento -> operacao -> evidencia -> verificacao -> publicacao. Cada etapa e medida pelos artefatos que existem, nunca por status declarado. A ultima etapa esta vazia de proposito: nada foi publicado."
 }
