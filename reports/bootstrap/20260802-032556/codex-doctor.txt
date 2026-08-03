@@ -1,0 +1,169 @@
+Codex Doctor v0.146.0 · linux-x86_64
+
+Environment
+  ✓ system       C
+      os                       Ubuntu 26.4.0 (resolute) [64-bit]
+      OS language              C
+      LC_ALL                   C.UTF-8
+      LANG                     C.UTF-8
+      VISUAL                   not set
+      EDITOR                   not set
+  ✓ runtime      npm (package /home/sexexes/.npm-global/lib/node_modules/@openai/codex/node_modules/@openai/codex-linux-x64/vendor/x86_64-unknown-linux-musl, bin /home/sexexes/.npm-global/lib/node_modules/@openai/codex/node_modules/@openai/codex-linux-x64/vendor/x86_64-unknown-linux-musl/bin, resources /home/sexexes/.npm-global/lib/node_modules/@openai/codex/node_modules/@openai/codex-linux-x64/vendor/x86_64-unknown-linux-musl/codex-resources, path /home/sexexes/.npm-global/lib/node_modules/@openai/codex/node_modules/@openai/codex-linux-x64/vendor/x86_64-unknown-linux-musl/codex-path)
+      version                  0.146.0
+      install method           npm (package /home/sexexes/.npm-global/lib/node_modules/@openai/codex/node_modules/@openai/codex-linux-x64/vendor/x86_64-unknown-linux-musl, bin /home/sexexes/.npm-global/lib/node_modules/@openai/codex/node_modules/@openai/codex-linux-x64/vendor/x86_64-unknown-linux-musl/bin, resources /home/sexexes/.npm-global/lib/node_modules/@openai/codex/node_modules/@openai/codex-linux-x64/vendor/x86_64-unknown-linux-musl/codex-resources, path /home/sexexes/.npm-global/lib/node_modules/@openai/codex/node_modules/@openai/codex-linux-x64/vendor/x86_64-unknown-linux-musl/codex-path)
+      commit                   unknown
+      executable               ~/.npm-global/lib/node_m…wn-linux-musl/bin/codex
+  ✓ install      consistent
+      context                  npm (package /home/sexexes/.npm-global/lib/node_modules/@openai/codex/node_modules/@openai/codex-linux-x64/vendor/x86_64-unknown-linux-musl, bin /home/sexexes/.npm-global/lib/node_modules/@openai/codex/node_modules/@openai/codex-linux-x64/vendor/x86_64-unknown-linux-musl/bin, resources /home/sexexes/.npm-global/lib/node_modules/@openai/codex/node_modules/@openai/codex-linux-x64/vendor/x86_64-unknown-linux-musl/codex-resources, path /home/sexexes/.npm-global/lib/node_modules/@openai/codex/node_modules/@openai/codex-linux-x64/vendor/x86_64-unknown-linux-musl/codex-path)
+      managed by               npm: yes · bun: no · pnpm: no · package root /home/sexexes/.npm-global/lib/node_modules/@openai/codex
+      PATH entries (4)         ~/.npm-global/bin/codex
+                               ~/.local/share/npm-global/bin/codex
+                               ~/.local/share/npm-global/bin/codex
+                               … (full list with --all)
+      npm update target        ~/.npm-global/lib/node_modules/@openai/codex
+  ✓ search       file exists (bundled, `/home/sexexes/.npm-global/lib/node_modules/@openai/codex/node_modules/@openai/codex-linux-x64/vendor/x86_64-unknown-linux-musl/codex-path/rg`)
+      search command           ~/.npm-global/lib/node_m…inux-musl/codex-path/rg
+      search provider          bundled
+      search command readiness file exists
+  ✓ git          git version 2.53.0
+      selected git             /usr/bin/git
+      version                  git version 2.53.0
+      exec path                /usr/lib/git-core
+      repo detected            true
+      repo root                ~/asus_the_eye
+      .git entry               directory
+      branch                   codex/audit-blockchain-20260802-010224
+      PATH entries (2)         /usr/bin/git
+                               /bin/git
+  ✓ terminal     unknown · tmux 3.6 · TERM=xterm-256color
+      terminal                 unknown
+      TERM_PROGRAM             VTE(8400)
+      TERM                     xterm-256color
+      multiplexer              tmux 3.6
+      stdin is terminal        true
+      stdout is terminal       false
+      stderr is terminal       false
+      terminal size            182x47
+      color output             disabled (stdout is not a terminal)
+      COLORTERM                truecolor
+      effective locale         C.UTF-8
+      WAYLAND_DISPLAY          present
+      DISPLAY                  present
+      tmux client termtype     VTE(8400)
+      tmux client termname     xterm-256color
+      tmux extended-keys       off
+      tmux xterm-keys          on
+      tmux allow-passthrough   off
+      tmux set-clipboard       external
+      tmux focus-events        off
+  ✓ title        default · project asus_the_eye
+      title source             default
+      title items              activity, project-name
+      activity item            true
+      project source           git repo root
+      project value            asus_the_eye
+  ✓ state        databases healthy
+      CODEX_HOME               ~/.codex (dir)
+      log dir                  ~/.codex/log (dir)
+      sqlite home              ~/.codex (dir)
+      state DB                 ~/.codex/state_5.sqlite (file) · integrity ok
+      log DB                   ~/.codex/logs_2.sqlite (file) · integrity ok
+      goals DB                 ~/.codex/goals_1.sqlite (file) · integrity ok
+      memories DB              ~/.codex/memories_1.sqlite (file) · integrity ok
+      active rollouts          29 files · 13.69 MB (avg 483.25 KB)
+      archived rollouts        0 files · 0 B (avg 0 B)
+      thread history DB        ~/.codex/thread_history_1.sqlite (missing)
+      thread history DB integrity skipped (missing)
+  ✓ threads      rollout files and state DB thread inventory agree
+      default model provider   openai
+      rollout DB active files  29
+      rollout DB archived files 0
+      rollout DB scan errors   0
+      rollout DB malformed file names 0
+      rollout DB scan cap reached false
+      rollout DB rows          29
+      rollout DB active rows   29
+      rollout DB archived rows 0
+      rollout DB missing active rows 0
+      rollout DB missing archived rows 0
+      rollout DB stale rows    0
+      rollout DB archive mismatches 0
+      rollout DB duplicate rollout thread ids 0
+      rollout DB duplicate DB paths 0
+      rollout DB model providers openai=29
+      rollout DB sources       exec=17, cli=12
+
+Configuration
+  ✓ config       loaded
+      model                    gpt-5.6-sol · openai
+      cwd                      ~/asus_the_eye
+      config.toml              ~/.codex/config.toml
+      config.toml parse        ok
+      MCP servers              1
+      feature flags            37 enabled · 1 overridden (full list with --all)
+      overrides                apps
+  ✓ auth         auth is configured
+      auth storage mode        File
+      auth file                ~/.codex/auth.json
+      stored auth mode         chatgpt
+      stored API key           false
+      stored ChatGPT tokens    true
+      stored agent identity    false
+  ✓ mcp          1 server (1 streamable_http) · 0 disabled
+      configured servers       1
+      disabled servers         0
+      streamable_http servers  1
+  ✓ sandbox      restricted fs + restricted network · approval OnRequest
+      approval policy          OnRequest
+      filesystem sandbox       restricted
+      network sandbox          restricted
+      linux helper             ~/.codex/tmp/arg0/codex-…WR3/codex-linux-sandbox
+      execve wrapper helper    ~/.codex/tmp/arg0/codex-…R3/codex-execve-wrapper
+
+Updates
+  ✓ updates      update configuration is locally consistent
+      startup update check     true
+      update action            npm install -g @openai/codex
+      version cache            ~/.codex/version.json
+      cached latest version    0.146.0
+      last checked at          2026-08-02 02:38 UTC
+      npm update target        ~/.npm-global/lib/node_modules/@openai/codex
+      latest version           0.146.0
+      latest version status    current version is not older
+
+Connectivity
+  ✓ network      no proxy env vars
+      proxy env vars           none
+  ✓ websocket    connected (HTTP 101 Switching Protocols) · 15s timeout
+      model provider           openai
+      provider name            OpenAI
+      wire API                 responses
+      supports websockets      true
+      proxy env vars           none
+      connect timeout          15000 ms
+      auth mode                chatgpt
+      endpoint                 wss://chatgpt.com/backend-api/<redacted>
+      DNS                      2 IPv4, 2 IPv6, first IPv6
+      handshake result         HTTP 101 Switching Protocols
+      reasoning header         false
+      models etag present      true
+      server model present     false
+  ✓ reachability active provider endpoints are reachable over HTTP
+      reachability mode        ChatGPT auth
+      ChatGPT base URL         https://chatgpt.com/backend-api/ reachable (HTTP 403)
+
+Background Server
+  ○ app-server   not running (ephemeral mode)
+      daemon state dir         ~/.codex/app-server-daemon
+      settings                 ~/.codex/app-server-daemon/settings.json (missing)
+      pid file                 ~/.codex/app-server-daemon/app-server.pid (missing)
+      update-loop pid file     ~/.codex/app-server-daem…/app-server-updater.pid (missing)
+      control socket           ~/.codex/app-server-cont…app-server-control.sock
+      status                   not running
+      mode                     ephemeral
+
+─────────────────────────────────────────────────────────────
+17 ok · 1 idle · 0 warn · 0 fail ok
+
+--summary compact output           --all expand truncated lists
+--json redacted report

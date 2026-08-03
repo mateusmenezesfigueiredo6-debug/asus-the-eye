@@ -1,0 +1,2 @@
+Name            Url                             Bearer Token Env Var  Status   Auth 
+cloudflare-api  https://mcp.cloudflare.com/mcp  -                     enabled  OAuth

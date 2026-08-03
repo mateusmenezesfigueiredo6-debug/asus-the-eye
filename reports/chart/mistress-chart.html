@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Mistress Chart — THE EYE</title>
+<style>
+ :root { color-scheme: dark; }
+ body { margin:0; padding:2rem; background:#080b12; color:#e6edf7;
+        font:15px/1.55 ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif; }
+ h1 { margin:0 0 .25rem; font-size:1.6rem; letter-spacing:.02em; }
+ .sub { color:#7d8aa0; font-size:.82rem; font-family:ui-monospace,monospace;
+         word-break:break-all; margin-bottom:1.5rem; }
+ .cards { display:grid; gap:.75rem; grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+           margin-bottom:1.5rem; }
+ .card { background:#0f1520; border:1px solid #1d2735; border-radius:10px; padding:.9rem 1rem; }
+ .label { color:#7d8aa0; font-size:.68rem; letter-spacing:.09em; text-transform:uppercase; }
+ .value { color:#5ad9e8; font-size:1.5rem; font-weight:600; margin-top:.2rem; }
+ h2 { font-size:.72rem; letter-spacing:.12em; text-transform:uppercase; color:#7d8aa0;
+       margin:2rem 0 .6rem; }
+ table { width:100%; border-collapse:collapse; background:#0f1520;
+          border:1px solid #1d2735; border-radius:10px; overflow:hidden; }
+ th { text-align:left; font-size:.68rem; letter-spacing:.09em; text-transform:uppercase;
+       color:#7d8aa0; padding:.6rem .8rem; border-bottom:1px solid #1d2735; font-weight:500; }
+ td { padding:.65rem .8rem; border-bottom:1px solid #161f2c; vertical-align:top; }
+ tr:last-child td { border-bottom:none; }
+ .num { font-family:ui-monospace,monospace; color:#9fb0c8; white-space:nowrap; }
+ .muted { color:#7d8aa0; } .small { font-size:.78rem; }
+ .tag { background:#16233a; color:#5ad9e8; border-radius:5px; padding:.12rem .45rem;
+         font-size:.72rem; font-family:ui-monospace,monospace; }
+ .barcell { white-space:nowrap; width:150px; }
+ .track { display:inline-block; width:96px; height:7px; background:#16202e;
+           border-radius:4px; overflow:hidden; vertical-align:middle; }
+ .fill { height:100%; background:linear-gradient(90deg,#2f8fd8,#5ad9e8); }
+ .pct { font-family:ui-monospace,monospace; font-size:.78rem; color:#9fb0c8;
+         margin-left:.5rem; }
+ footer { margin-top:2rem; color:#5c6880; font-size:.75rem; }
+</style></head><body>
+<h1>Mistress Chart</h1>
+<div class="sub">commit 36dde14 · 2026-08-03T20:44:57.595440Z<br>
+snapshot sha256: cb0a6e6ac94a05bdb7fbfeb91164d5138fd558e72b9ec9ac450b5fe43865643a</div>
+<div class="cards">
+<div class="card"><div class="label">Projetos</div><div class="value">12</div></div>
+<div class="card"><div class="label">Completos</div><div class="value">11</div></div>
+<div class="card"><div class="label">Testes</div><div class="value">211</div></div>
+<div class="card"><div class="label">Nichos cobertos</div><div class="value">24/145</div></div>
+<div class="card"><div class="label">Eventos na cadeia</div><div class="value">15</div></div>
+</div>
+
+<h2>Pipeline — o projeto inteiro, etapa por etapa</h2>
+<table><thead><tr><th>#</th><th>Etapa</th><th>Artefatos</th><th>Progresso</th>
+<th>Classe</th></tr></thead><tbody><tr><td><span class="tag">1</span></td><td><strong>Ingestão — descobrir e hashear fontes</strong><br><span class="muted small">source-graph</span></td><td class="num">35/35</td><td class="barcell"><div class="track"><div class="fill" style="width:100%"></div></div><span class="pct">100%</span></td><td class="muted small">L1</td></tr><tr><td><span class="tag">2</span></td><td><strong>Classificação — 145 nichos, extração validada</strong><br><span class="muted small">decision-context, legal-taxonomy</span></td><td class="num">22/22</td><td class="barcell"><div class="track"><div class="fill" style="width:100%"></div></div><span class="pct">100%</span></td><td class="muted small">L1/L4</td></tr><tr><td><span class="tag">3</span></td><td><strong>Processamento — benchmark, LLM local, QPU</strong><br><span class="muted small">benchmark-engine, local-llm, quantum-adapter</span></td><td class="num">10/10</td><td class="barcell"><div class="track"><div class="fill" style="width:100%"></div></div><span class="pct">100%</span></td><td class="muted small">L0/L1/L2</td></tr><tr><td><span class="tag">4</span></td><td><strong>Operação — funil comercial, 15 nichos</strong><br><span class="muted small">comercial</span></td><td class="num">9/9</td><td class="barcell"><div class="track"><div class="fill" style="width:100%"></div></div><span class="pct">100%</span></td><td class="muted small">L1</td></tr><tr><td><span class="tag">5</span></td><td><strong>Evidência — hash chain, Merkle, ledger vivo</strong><br><span class="muted small">audit-core, ledger-staging</span></td><td class="num">15/15</td><td class="barcell"><div class="track"><div class="fill" style="width:100%"></div></div><span class="pct">100%</span></td><td class="muted small">L1/L2</td></tr><tr><td><span class="tag">6</span></td><td><strong>Verificação — governança, contrato de ancoragem</strong><br><span class="muted small">governance, anchor-contract</span></td><td class="num">12/12</td><td class="barcell"><div class="track"><div class="fill" style="width:100%"></div></div><span class="pct">100%</span></td><td class="muted small">L1/L3</td></tr><tr><td><span class="tag">7</span></td><td><strong>Publicação — superfície pública (nada publicado)</strong><br><span class="muted small">public-verifier</span></td><td class="num">0/3</td><td class="barcell"><div class="track"><div class="fill" style="width:0%"></div></div><span class="pct">0%</span></td><td class="muted small">L5</td></tr></tbody></table>
+
+<h2>Fluxo</h2>
+<pre class="mermaid">graph LR
+  E0[&quot;ingestao&lt;br/&gt;35/35 · 100%&quot;]
+  E1[&quot;classificacao&lt;br/&gt;22/22 · 100%&quot;]
+  E2[&quot;processamento&lt;br/&gt;10/10 · 100%&quot;]
+  E3[&quot;operacao&lt;br/&gt;9/9 · 100%&quot;]
+  E4[&quot;evidencia&lt;br/&gt;15/15 · 100%&quot;]
+  E5[&quot;verificacao&lt;br/&gt;12/12 · 100%&quot;]
+  E6[&quot;publicacao&lt;br/&gt;0/3 · 0%&quot;]
+  E0 --&gt; E1
+  E1 --&gt; E2
+  E2 --&gt; E3
+  E3 --&gt; E4
+  E4 --&gt; E5
+  E5 --&gt; E6
+  E6 -.-&gt; BLOQ[&quot;nada publicado&lt;br/&gt;L5 exige senha + 24h&quot;]</pre>
+
+<h2>Projetos — medidos por artefato existente</h2>
+<table><thead><tr><th>Classe</th><th>Projeto</th><th>Artefatos</th><th>Progresso</th>
+<th>Faltando</th></tr></thead><tbody><tr><td><span class="tag">L3</span></td><td><strong>Contrato de ancoragem (Base Sepolia)</strong><br><span class="muted">Raiz Merkle on-chain; conteúdo nunca — só prova</span></td><td class="num">4/4</td><td class="barcell"><div class="track"><div class="fill" style="width:100%"></div></div><span class="pct">100%</span></td><td class="muted small">—</td></tr><tr><td><span class="tag">L1</span></td><td><strong>Núcleo de auditoria (hash chain, Merkle, verifier)</strong><br><span class="muted">Evidência append-only que ninguém — nem o dono — consegue reescrever</span></td><td class="num">10/10</td><td class="barcell"><div class="track"><div class="fill" style="width:100%"></div></div><span class="pct">100%</span></td><td class="muted small">—</td></tr><tr><td><span class="tag">L1</span></td><td><strong>Engine de benchmark (clássico / QUBO / QAOA)</strong><br><span class="muted">Comparar caminhos com honestidade: QAR mede vantagem real, não promessa</span></td><td class="num">5/5</td><td class="barcell"><div class="track"><div class="fill" style="width:100%"></div></div><span class="pct">100%</span></td><td class="muted small">—</td></tr><tr><td><span class="tag">L1</span></td><td><strong>Plataforma comercial (diretor comercial — direito)</strong><br><span class="muted">Um sistema, 15 nichos por configuração: funil append-only, métricas com denominador e ranking que separa amostra insuficiente</span></td><td class="num">9/9</td><td class="barcell"><div class="track"><div class="fill" style="width:100%"></div></div><span class="pct">100%</span></td><td class="muted small">—</td></tr><tr><td><span class="tag">L4</span></td><td><strong>Contexto decisório (Fase G — judiciário)</strong><br><span class="muted">Análise institucional e jurisprudencial com LGPD por construção</span></td><td class="num">14/14</td><td class="barcell"><div class="track"><div class="fill" style="width:100%"></div></div><span class="pct">100%</span></td><td class="muted small">—</td></tr><tr><td><span class="tag">L1</span></td><td><strong>Governança (trava, protocolo, checagem de vazamento)</strong><br><span class="muted">Regras executáveis: o que sai, quando, com aprovação de quem</span></td><td class="num">8/8</td><td class="barcell"><div class="track"><div class="fill" style="width:100%"></div></div><span class="pct">100%</span></td><td class="muted small">—</td></tr><tr><td><span class="tag">L2</span></td><td><strong>Ledger em produção (Cloudflare D1 + R2 + Worker)</strong><br><span class="muted">A cadeia viva: sequenciador por tenant, append-only garantido por trigger</span></td><td class="num">5/5</td><td class="barcell"><div class="track"><div class="fill" style="width:100%"></div></div><span class="pct">100%</span></td><td class="muted small">—</td></tr><tr><td><span class="tag">L1</span></td><td><strong>Taxonomia legal (145 nichos)</strong><br><span class="muted">Chave de junção entre eventos, decisões e produtos por área</span></td><td class="num">8/8</td><td class="barcell"><div class="track"><div class="fill" style="width:100%"></div></div><span class="pct">100%</span></td><td class="muted small">—</td></tr><tr><td><span class="tag">L0</span></td><td><strong>LLM local auditado (Ollama)</strong><br><span class="muted">Inferência que nunca sai da máquina, com registro encadeado de cada chamada</span></td><td class="num">3/3</td><td class="barcell"><div class="track"><div class="fill" style="width:100%"></div></div><span class="pct">100%</span></td><td class="muted small">—</td></tr><tr><td><span class="tag">L2</span></td><td><strong>Adaptador IBM Quantum (gated)</strong><br><span class="muted">Hardware real atrás de portão explícito; dry-run é livre, execução não</span></td><td class="num">2/2</td><td class="barcell"><div class="track"><div class="fill" style="width:100%"></div></div><span class="pct">100%</span></td><td class="muted small">—</td></tr><tr><td><span class="tag">L1</span></td><td><strong>Grafo de fontes de conhecimento (Fase C)</strong><br><span class="muted">Descobrir, hashear e ranquear fontes qualificadas com evidência — cobertura real, nunca preenchida</span></td><td class="num">35/35</td><td class="barcell"><div class="track"><div class="fill" style="width:100%"></div></div><span class="pct">100%</span></td><td class="muted small">—</td></tr><tr><td><span class="tag">L5</span></td><td><strong>Superfície pública de verificação</strong><br><span class="muted">Terceiros conferem provas sem credencial — só leitura, só hashes</span></td><td class="num">0/3</td><td class="barcell"><div class="track"><div class="fill" style="width:0%"></div></div><span class="pct">0%</span></td><td class="muted small">apps/public-verifier/worker.ts, apps/public-verifier/wrangler.toml, apps/public-verifier/README.md</td></tr></tbody></table>
+<h2>Cobertura por grupo de nicho</h2>
+<table><thead><tr><th>Grupo</th><th>Cobertos</th><th>Progresso</th></tr></thead>
+<tbody><tr><td>civil-and-consumer</td><td class="num">5/12</td><td class="barcell"><div class="track"><div class="fill" style="width:42%"></div></div><span class="pct">42%</span></td></tr><tr><td>corporate-and-transactions</td><td class="num">1/7</td><td class="barcell"><div class="track"><div class="fill" style="width:14%"></div></div><span class="pct">14%</span></td></tr><tr><td>criminal-and-compliance</td><td class="num">1/7</td><td class="barcell"><div class="track"><div class="fill" style="width:14%"></div></div><span class="pct">14%</span></td></tr><tr><td>crypto-and-web3</td><td class="num">2/3</td><td class="barcell"><div class="track"><div class="fill" style="width:67%"></div></div><span class="pct">67%</span></td></tr><tr><td>defense-security-and-space</td><td class="num">0/4</td><td class="barcell"><div class="track"><div class="fill" style="width:0%"></div></div><span class="pct">0%</span></td></tr><tr><td>energy-and-natural-resources</td><td class="num">1/8</td><td class="barcell"><div class="track"><div class="fill" style="width:12%"></div></div><span class="pct">12%</span></td></tr><tr><td>environment-and-climate</td><td class="num">0/4</td><td class="barcell"><div class="track"><div class="fill" style="width:0%"></div></div><span class="pct">0%</span></td></tr><tr><td>financial-services</td><td class="num">1/8</td><td class="barcell"><div class="track"><div class="fill" style="width:12%"></div></div><span class="pct">12%</span></td></tr><tr><td>health-and-life-sciences</td><td class="num">1/6</td><td class="barcell"><div class="track"><div class="fill" style="width:17%"></div></div><span class="pct">17%</span></td></tr><tr><td>infrastructure-and-transport</td><td class="num">0/7</td><td class="barcell"><div class="track"><div class="fill" style="width:0%"></div></div><span class="pct">0%</span></td></tr><tr><td>insolvency-competition-trade</td><td class="num">1/5</td><td class="barcell"><div class="track"><div class="fill" style="width:20%"></div></div><span class="pct">20%</span></td></tr><tr><td>intellectual-property</td><td class="num">0/6</td><td class="barcell"><div class="track"><div class="fill" style="width:0%"></div></div><span class="pct">0%</span></td></tr><tr><td>international-and-human-rights</td><td class="num">0/6</td><td class="barcell"><div class="track"><div class="fill" style="width:0%"></div></div><span class="pct">0%</span></td></tr><tr><td>labor-and-social-security</td><td class="num">2/3</td><td class="barcell"><div class="track"><div class="fill" style="width:67%"></div></div><span class="pct">67%</span></td></tr><tr><td>legal-profession-and-operations</td><td class="num">2/6</td><td class="barcell"><div class="track"><div class="fill" style="width:33%"></div></div><span class="pct">33%</span></td></tr><tr><td>media-and-consumer-brands</td><td class="num">0/6</td><td class="barcell"><div class="track"><div class="fill" style="width:0%"></div></div><span class="pct">0%</span></td></tr><tr><td>political-and-legislative</td><td class="num">0/4</td><td class="barcell"><div class="track"><div class="fill" style="width:0%"></div></div><span class="pct">0%</span></td></tr><tr><td>procedure-and-disputes</td><td class="num">4/12</td><td class="barcell"><div class="track"><div class="fill" style="width:33%"></div></div><span class="pct">33%</span></td></tr><tr><td>public-law</td><td class="num">1/8</td><td class="barcell"><div class="track"><div class="fill" style="width:12%"></div></div><span class="pct">12%</span></td></tr><tr><td>sports-games-and-betting</td><td class="num">0/10</td><td class="barcell"><div class="track"><div class="fill" style="width:0%"></div></div><span class="pct">0%</span></td></tr><tr><td>technology-data-and-cyber</td><td class="num">2/10</td><td class="barcell"><div class="track"><div class="fill" style="width:20%"></div></div><span class="pct">20%</span></td></tr><tr><td>third-sector-and-religion</td><td class="num">0/3</td><td class="barcell"><div class="track"><div class="fill" style="width:0%"></div></div><span class="pct">0%</span></td></tr></tbody></table>
+
+<h2>Grafo de fontes — onde estamos em cada trilha</h2>
+<table><thead><tr><th>Trilha</th><th>Qualificadas</th><th>Cobertura</th>
+<th>Motivo</th></tr></thead><tbody><tr><td><strong>Acadêmico — universidades, centros de pesquisa, observatórios</strong></td><td class="num">0/500</td><td class="barcell"><div class="track"><div class="fill" style="width:0.0%"></div></div><span class="pct">0.0%</span></td><td class="muted small">ainda não tentado ×5</td></tr><tr><td><strong>Fundação — periódicos, datasets oficiais, associações, conferências</strong></td><td class="num">0/400</td><td class="barcell"><div class="track"><div class="fill" style="width:0.0%"></div></div><span class="pct">0.0%</span></td><td class="muted small">ainda não tentado ×4</td></tr><tr><td><strong>Bloqueado por DPIA — categorias que descrevem pessoas (L4)</strong></td><td class="num">0/400</td><td class="barcell"><div class="track"><div class="fill" style="width:0.0%"></div></div><span class="pct">0.0%</span></td><td class="muted small">exige DPIA humana ×4</td></tr><tr><td><strong>Setorial — reguladores, tribunais, instituições, veículos</strong></td><td class="num">0/600</td><td class="barcell"><div class="track"><div class="fill" style="width:0.0%"></div></div><span class="pct">0.0%</span></td><td class="muted small">ainda não tentado ×6</td></tr></tbody></table>
+
+<div class="cards" style="margin-top:1rem">
+<div class="card"><div class="label">Conectores</div><div class="value">13</div>
+<div class="muted small">0 habilitados · 4 exigem chave/custo</div></div>
+<div class="card"><div class="label">Bibliotecas com PoC</div><div class="value">23</div>
+<div class="muted small">production: 17, research: 6</div></div>
+<div class="card"><div class="label">Comunidades</div><div class="value">22</div>
+<div class="muted small">registradas como fontes, nunca as pessoas nelas</div></div>
+</div>
+
+<h2>Mapa das trilhas</h2>
+<pre class="mermaid">graph LR
+  GRAFO[Grafo de fontes]
+  GRAFO --&gt; T0[&quot;academico&lt;br/&gt;0/500&quot;]
+  T0 -.-&gt; T0R247[&quot;ainda não tentado&lt;br/&gt;5 categoria(s)&quot;]
+  GRAFO --&gt; T1[&quot;fundacao&lt;br/&gt;0/400&quot;]
+  T1 -.-&gt; T1R247[&quot;ainda não tentado&lt;br/&gt;4 categoria(s)&quot;]
+  GRAFO --&gt; T2[&quot;gated dpia&lt;br/&gt;0/400&quot;]
+  T2 -.-&gt; T2R84[&quot;exige DPIA humana&lt;br/&gt;4 categoria(s)&quot;]
+  GRAFO --&gt; T3[&quot;setorial&lt;br/&gt;0/600&quot;]
+  T3 -.-&gt; T3R247[&quot;ainda não tentado&lt;br/&gt;6 categoria(s)&quot;]</pre>
+
+<h2>Lacunas — e o que destravaria cada uma</h2>
+<table><thead><tr><th>Motivo</th><th>Lacuna</th><th>O que destravaria</th></tr></thead>
+<tbody><tr><td><span class="tag">exige fonte paga</span></td><td>Volume de vendas de livros e tamanho de mercado por nicho</td><td class="muted small">Assinatura de Circana BookScan ou Nielsen BookData</td></tr><tr><td><span class="tag">exige fonte paga</span></td><td>Produção científica em escala para ranquear universidades</td><td class="muted small">Ingestão do dump CC0 do OpenAlex no S3 (grátis, sem chave)</td></tr><tr><td><span class="tag">exige DPIA humana</span></td><td>Ranking de acadêmicos, praticantes e árbitros</td><td class="muted small">RIPD/DPIA concluída por profissional humano + aprovação de DPO/jurídico</td></tr><tr><td><span class="tag">não existe fonte gratuita</span></td><td>Algoritmos proprietários de recomendação de plataformas sociais</td><td class="muted small">Nada: não são públicos. O indexável são as publicações dessas empresas e as divulgações obrigatórias do art. 40 do DSA</td></tr><tr><td><span class="tag">ainda não tentado</span></td><td>Qualquer categoria — nenhum conector foi executado ainda</td><td class="muted small">Estágio 2: habilitar conectores e executar a primeira corrida limitada</td></tr></tbody></table>
+
+<footer>Todo número desta página é derivado de evidência verificável — arquivos que
+existem, testes coletados, commits, eventos encadeados. Nenhum status é
+autodeclarado. O hash acima é ancorado no ledger.</footer>
+</body></html>

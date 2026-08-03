@@ -1,0 +1,818 @@
+{
+  "chart_version": "2.0.0",
+  "pipeline": {
+    "1-ingestao": {
+      "order": 1,
+      "projects": [
+        "source-graph"
+      ],
+      "artifacts_present": 35,
+      "artifacts_declared": 35,
+      "release_classes": [
+        "L1"
+      ],
+      "completion_pct": 100
+    },
+    "2-classificacao": {
+      "order": 2,
+      "projects": [
+        "decision-context",
+        "legal-taxonomy"
+      ],
+      "artifacts_present": 22,
+      "artifacts_declared": 22,
+      "release_classes": [
+        "L1",
+        "L4"
+      ],
+      "completion_pct": 100
+    },
+    "3-processamento": {
+      "order": 3,
+      "projects": [
+        "benchmark-engine",
+        "local-llm",
+        "quantum-adapter"
+      ],
+      "artifacts_present": 10,
+      "artifacts_declared": 10,
+      "release_classes": [
+        "L0",
+        "L1",
+        "L2"
+      ],
+      "completion_pct": 100
+    },
+    "4-operacao": {
+      "order": 4,
+      "projects": [
+        "comercial"
+      ],
+      "artifacts_present": 9,
+      "artifacts_declared": 9,
+      "release_classes": [
+        "L1"
+      ],
+      "completion_pct": 100
+    },
+    "5-evidencia": {
+      "order": 5,
+      "projects": [
+        "audit-core",
+        "ledger-staging"
+      ],
+      "artifacts_present": 15,
+      "artifacts_declared": 15,
+      "release_classes": [
+        "L1",
+        "L2"
+      ],
+      "completion_pct": 100
+    },
+    "6-verificacao": {
+      "order": 6,
+      "projects": [
+        "governance",
+        "anchor-contract"
+      ],
+      "artifacts_present": 12,
+      "artifacts_declared": 12,
+      "release_classes": [
+        "L1",
+        "L3"
+      ],
+      "completion_pct": 100
+    },
+    "7-publicacao": {
+      "order": 7,
+      "projects": [
+        "public-verifier"
+      ],
+      "artifacts_present": 0,
+      "artifacts_declared": 3,
+      "release_classes": [
+        "L5"
+      ],
+      "completion_pct": 0
+    }
+  },
+  "generated_at": "2026-08-03T20:44:57.595440Z",
+  "commit": "36dde14",
+  "knowledge": {
+    "available": true,
+    "methodology_version": "1.0.0",
+    "tracks": {
+      "academico": {
+        "categories": 5,
+        "qualified": 0,
+        "target": 500,
+        "blocking_reasons": {
+          "not_yet_attempted": 5
+        },
+        "coverage_pct": 0.0
+      },
+      "fundacao": {
+        "categories": 4,
+        "qualified": 0,
+        "target": 400,
+        "blocking_reasons": {
+          "not_yet_attempted": 4
+        },
+        "coverage_pct": 0.0
+      },
+      "gated_dpia": {
+        "categories": 4,
+        "qualified": 0,
+        "target": 400,
+        "blocking_reasons": {
+          "requires_dpia": 4
+        },
+        "coverage_pct": 0.0
+      },
+      "setorial": {
+        "categories": 6,
+        "qualified": 0,
+        "target": 600,
+        "blocking_reasons": {
+          "not_yet_attempted": 6
+        },
+        "coverage_pct": 0.0
+      }
+    },
+    "connectors": {
+      "declared": 13,
+      "enabled": 0,
+      "blocked_by_cost_or_key": 4
+    },
+    "artifacts": {
+      "declared": 23,
+      "by_poc_status": {
+        "production": 17,
+        "research": 6
+      },
+      "verified": 22
+    },
+    "communities": {
+      "declared": 22
+    },
+    "gaps": [
+      {
+        "description": "Volume de vendas de livros e tamanho de mercado por nicho",
+        "blocking_reason": "requires_paid_api",
+        "what_would_unblock": "Assinatura de Circana BookScan ou Nielsen BookData"
+      },
+      {
+        "description": "Produção científica em escala para ranquear universidades",
+        "blocking_reason": "requires_paid_api",
+        "what_would_unblock": "Ingestão do dump CC0 do OpenAlex no S3 (grátis, sem chave)"
+      },
+      {
+        "description": "Ranking de acadêmicos, praticantes e árbitros",
+        "category_id": "academics-and-researchers",
+        "blocking_reason": "requires_dpia",
+        "what_would_unblock": "RIPD/DPIA concluída por profissional humano + aprovação de DPO/jurídico"
+      },
+      {
+        "description": "Algoritmos proprietários de recomendação de plataformas sociais",
+        "blocking_reason": "no_free_source",
+        "what_would_unblock": "Nada: não são públicos. O indexável são as publicações dessas empresas e as divulgações obrigatórias do art. 40 do DSA"
+      },
+      {
+        "description": "Qualquer categoria — nenhum conector foi executado ainda",
+        "blocking_reason": "not_yet_attempted",
+        "what_would_unblock": "Estágio 2: habilitar conectores e executar a primeira corrida limitada"
+      }
+    ],
+    "coverage_snapshot_hash": "4fb49afdef7372cac25f599354146c3b5b94ad3089f637ccab3dbd316b414b90"
+  },
+  "totals": {
+    "projects": 12,
+    "projects_complete": 11,
+    "tests": 211,
+    "niches_total": 145,
+    "niches_covered": 24,
+    "niche_coverage_pct": 17
+  },
+  "ledger": {
+    "events": 15,
+    "head_sequence": 15,
+    "event_types": {
+      "audit.chain.test": 1,
+      "benchmark.completed": 4,
+      "benchmark.hardware.completed": 1,
+      "chart.snapshot": 2,
+      "llm.call.completed": 2,
+      "module.created": 1,
+      "release.checked": 3,
+      "source.snapshot.recorded": 1
+    }
+  },
+  "projects": [
+    {
+      "project_id": "benchmark-engine",
+      "name": "Engine de benchmark (clássico / QUBO / QAOA)",
+      "purpose": "Comparar caminhos com honestidade: QAR mede vantagem real, não promessa",
+      "release_class": "L1",
+      "niches": [
+        "*"
+      ],
+      "paths": [
+        "asus_theye/benchmark",
+        "asus_theye/problem.py"
+      ],
+      "artifacts": [
+        "asus_theye/benchmark/runner.py",
+        "asus_theye/benchmark/qaoa_benchmark.py",
+        "asus_theye/problem.py",
+        "tests/test_benchmark.py",
+        "docs/BENCHMARK_ENGINE.md"
+      ],
+      "pipeline_stage": "3-processamento",
+      "pipeline_order": 3,
+      "evidence": {
+        "artifacts_present": 5,
+        "artifacts_declared": 5,
+        "artifacts_missing": [],
+        "completion_pct": 100,
+        "commits": 3,
+        "last_commit": "3ec714b 2026-08-02"
+      },
+      "unknown_niches": []
+    },
+    {
+      "project_id": "audit-core",
+      "name": "Núcleo de auditoria (hash chain, Merkle, verifier)",
+      "purpose": "Evidência append-only que ninguém — nem o dono — consegue reescrever",
+      "release_class": "L1",
+      "niches": [
+        "*"
+      ],
+      "paths": [
+        "asus_theye/audit",
+        "packages"
+      ],
+      "artifacts": [
+        "asus_theye/audit/canonical.py",
+        "asus_theye/audit/keccak.py",
+        "asus_theye/audit/merkle.py",
+        "asus_theye/audit/manifest.py",
+        "asus_theye/audit/schema.py",
+        "asus_theye/audit/sdk.py",
+        "asus_theye/audit/verifier.py",
+        "asus_theye/audit/batching.py",
+        "migrations/0001_audit_ledger.sql",
+        "tests/audit/test_audit_core.py"
+      ],
+      "pipeline_stage": "5-evidencia",
+      "pipeline_order": 5,
+      "evidence": {
+        "artifacts_present": 10,
+        "artifacts_declared": 10,
+        "artifacts_missing": [],
+        "completion_pct": 100,
+        "commits": 7,
+        "last_commit": "5844e6a 2026-08-02"
+      },
+      "unknown_niches": []
+    },
+    {
+      "project_id": "ledger-staging",
+      "name": "Ledger em produção (Cloudflare D1 + R2 + Worker)",
+      "purpose": "A cadeia viva: sequenciador por tenant, append-only garantido por trigger",
+      "release_class": "L2",
+      "niches": [
+        "*"
+      ],
+      "paths": [
+        "infra/cloudflare"
+      ],
+      "artifacts": [
+        "infra/cloudflare/staging/worker.ts",
+        "infra/cloudflare/staging/wrangler.toml",
+        "infra/cloudflare/STAGING_PROVISIONING.md",
+        "apps/verifier/app.py",
+        "tests/apps/test_verifier_app.py"
+      ],
+      "pipeline_stage": "5-evidencia",
+      "pipeline_order": 5,
+      "evidence": {
+        "artifacts_present": 5,
+        "artifacts_declared": 5,
+        "artifacts_missing": [],
+        "completion_pct": 100,
+        "commits": 5,
+        "last_commit": "5844e6a 2026-08-02"
+      },
+      "unknown_niches": []
+    },
+    {
+      "project_id": "decision-context",
+      "name": "Contexto decisório (Fase G — judiciário)",
+      "purpose": "Análise institucional e jurisprudencial com LGPD por construção",
+      "release_class": "L4",
+      "niches": [
+        "civil-procedure",
+        "precedents-and-repetitive-litigation",
+        "jurimetrics-litigation-analytics-and-litigation-finance",
+        "enforcement"
+      ],
+      "paths": [
+        "data/decision-context",
+        "asus_theye/decision_context"
+      ],
+      "artifacts": [
+        "data/decision-context/decision-makers.schema.json",
+        "data/decision-context/decision-bodies.schema.json",
+        "data/decision-context/assignment-rules.schema.json",
+        "data/decision-context/public-decisions.schema.json",
+        "data/decision-context/jurisprudential-patterns.schema.json",
+        "data/decision-context/panel-dynamics.schema.json",
+        "data/decision-context/conflict-alerts.schema.json",
+        "data/decision-context/institutional-context.schema.json",
+        "data/decision-context/metrics.schema.json",
+        "data/decision-context/data-protection.schema.json",
+        "asus_theye/decision_context/extractor.py",
+        "asus_theye/decision_context/legal_areas.py",
+        "docs/security/DECISION_CONTEXT_LGPD.md",
+        "tests/decision_context/test_schemas.py"
+      ],
+      "pipeline_stage": "2-classificacao",
+      "pipeline_order": 2,
+      "evidence": {
+        "artifacts_present": 14,
+        "artifacts_declared": 14,
+        "artifacts_missing": [],
+        "completion_pct": 100,
+        "commits": 3,
+        "last_commit": "d2ec509 2026-08-02"
+      },
+      "unknown_niches": []
+    },
+    {
+      "project_id": "legal-taxonomy",
+      "name": "Taxonomia legal (145 nichos)",
+      "purpose": "Chave de junção entre eventos, decisões e produtos por área",
+      "release_class": "L1",
+      "niches": [
+        "*"
+      ],
+      "paths": [
+        "data/legal-taxonomy"
+      ],
+      "artifacts": [
+        "data/legal-taxonomy/legal_areas.master.json",
+        "data/legal-taxonomy/legal_areas.master.yaml",
+        "data/legal-taxonomy/legal_area_aliases.json",
+        "data/legal-taxonomy/legal_area_relationships.json",
+        "data/legal-taxonomy/cnj_crosswalk.json",
+        "data/legal-taxonomy/international_crosswalk.json",
+        "docs/legal-intelligence/LEGAL_TAXONOMY.md",
+        "docs/legal-intelligence/TAXONOMY_METHODOLOGY.md"
+      ],
+      "pipeline_stage": "2-classificacao",
+      "pipeline_order": 2,
+      "evidence": {
+        "artifacts_present": 8,
+        "artifacts_declared": 8,
+        "artifacts_missing": [],
+        "completion_pct": 100,
+        "commits": 2,
+        "last_commit": "1e5410e 2026-08-02"
+      },
+      "unknown_niches": []
+    },
+    {
+      "project_id": "local-llm",
+      "name": "LLM local auditado (Ollama)",
+      "purpose": "Inferência que nunca sai da máquina, com registro encadeado de cada chamada",
+      "release_class": "L0",
+      "niches": [
+        "*"
+      ],
+      "paths": [
+        "asus_theye/llm"
+      ],
+      "artifacts": [
+        "asus_theye/llm/ollama_client.py",
+        "asus_theye/llm/audited.py",
+        "tests/llm/test_audited_llm.py"
+      ],
+      "pipeline_stage": "3-processamento",
+      "pipeline_order": 3,
+      "evidence": {
+        "artifacts_present": 3,
+        "artifacts_declared": 3,
+        "artifacts_missing": [],
+        "completion_pct": 100,
+        "commits": 1,
+        "last_commit": "b37c35f 2026-08-02"
+      },
+      "unknown_niches": []
+    },
+    {
+      "project_id": "quantum-adapter",
+      "name": "Adaptador IBM Quantum (gated)",
+      "purpose": "Hardware real atrás de portão explícito; dry-run é livre, execução não",
+      "release_class": "L2",
+      "niches": [
+        "*"
+      ],
+      "paths": [
+        "asus_theye/benchmark/ibm_backend.py"
+      ],
+      "artifacts": [
+        "asus_theye/benchmark/ibm_backend.py",
+        "tests/benchmark/test_ibm_backend_gate.py"
+      ],
+      "pipeline_stage": "3-processamento",
+      "pipeline_order": 3,
+      "evidence": {
+        "artifacts_present": 2,
+        "artifacts_declared": 2,
+        "artifacts_missing": [],
+        "completion_pct": 100,
+        "commits": 2,
+        "last_commit": "3ec714b 2026-08-02"
+      },
+      "unknown_niches": []
+    },
+    {
+      "project_id": "governance",
+      "name": "Governança (trava, protocolo, checagem de vazamento)",
+      "purpose": "Regras executáveis: o que sai, quando, com aprovação de quem",
+      "release_class": "L1",
+      "niches": [
+        "*"
+      ],
+      "paths": [
+        "scripts",
+        "RELEASE_PROTOCOL.md"
+      ],
+      "artifacts": [
+        "RELEASE_PROTOCOL.md",
+        "scripts/publish_lock.py",
+        "scripts/publish_guard.py",
+        "scripts/release_check.py",
+        "scripts/leak_check.py",
+        "scripts/policy_gate.py",
+        "docs/security/LEAK_CHECK.md",
+        "tests/scripts/test_publish_guard.py"
+      ],
+      "pipeline_stage": "6-verificacao",
+      "pipeline_order": 6,
+      "evidence": {
+        "artifacts_present": 8,
+        "artifacts_declared": 8,
+        "artifacts_missing": [],
+        "completion_pct": 100,
+        "commits": 4,
+        "last_commit": "88be2ad 2026-08-02"
+      },
+      "unknown_niches": []
+    },
+    {
+      "project_id": "anchor-contract",
+      "name": "Contrato de ancoragem (Base Sepolia)",
+      "purpose": "Raiz Merkle on-chain; conteúdo nunca — só prova",
+      "release_class": "L3",
+      "niches": [
+        "blockchain-and-smart-contracts",
+        "cryptoassets"
+      ],
+      "paths": [
+        "contracts"
+      ],
+      "artifacts": [
+        "contracts/audit-anchor/src/TheEyeAuditAnchor.sol",
+        "contracts/audit-anchor/test/TheEyeAuditAnchor.t.sol",
+        "contracts/audit-anchor/foundry.toml",
+        "contracts/audit-anchor/README.md"
+      ],
+      "pipeline_stage": "6-verificacao",
+      "pipeline_order": 6,
+      "evidence": {
+        "artifacts_present": 4,
+        "artifacts_declared": 4,
+        "artifacts_missing": [],
+        "completion_pct": 100,
+        "commits": 1,
+        "last_commit": "239259d 2026-08-02"
+      },
+      "unknown_niches": []
+    },
+    {
+      "project_id": "source-graph",
+      "name": "Grafo de fontes de conhecimento (Fase C)",
+      "purpose": "Descobrir, hashear e ranquear fontes qualificadas com evidência — cobertura real, nunca preenchida",
+      "release_class": "L1",
+      "niches": [
+        "artificial-intelligence",
+        "auditable-legal-ai-and-computational-law",
+        "legal-management-and-knowledge-management",
+        "jurimetrics-litigation-analytics-and-litigation-finance",
+        "science-research-integrity-and-technology-transfer"
+      ],
+      "paths": [
+        "data/source-graph",
+        "asus_theye/source_graph",
+        "asus_theye/net"
+      ],
+      "artifacts": [
+        "data/source-graph/knowledge-source.schema.json",
+        "data/source-graph/ranking-entry.schema.json",
+        "data/source-graph/ranking-list.schema.json",
+        "data/source-graph/discovery-query.schema.json",
+        "data/source-graph/coverage-report.schema.json",
+        "data/source-graph/source_categories.json",
+        "data/source-graph/authority_tiers.json",
+        "data/source-graph/connectors.json",
+        "data/source-graph/ranking_weights.json",
+        "data/source-graph/sales_data_crosswalk.json",
+        "data/source-graph/software_artifacts.json",
+        "data/source-graph/communities.json",
+        "asus_theye/net/http.py",
+        "asus_theye/source_graph/fetcher.py",
+        "asus_theye/source_graph/robots.py",
+        "asus_theye/source_graph/scoring.py",
+        "asus_theye/source_graph/events.py",
+        "asus_theye/source_graph/coverage.py",
+        "asus_theye/source_graph/report.py",
+        "docs/legal-intelligence/RANKING_METHODOLOGY.md",
+        "docs/legal-intelligence/SOURCE_AUTHORITY_MODEL.md",
+        "docs/legal-intelligence/LEGAL_SOURCE_GRAPH.md",
+        "docs/adr/ADR-011-SOURCE-GRAPH-FETCH.md",
+        "reports/LEGAL_SOURCE_COVERAGE.md",
+        "reports/SOURCE_GAPS.md",
+        "reports/RANKING_LIMITATIONS.md",
+        "research/QUESTIONS.md",
+        "research/SOURCES.jsonl",
+        "research/DECISIONS.md",
+        "research/UNKNOWNS.md",
+        "tests/source_graph/test_source_graph_schemas.py",
+        "tests/source_graph/test_registries.py",
+        "tests/source_graph/test_fetcher.py",
+        "tests/source_graph/test_scoring.py",
+        "tests/source_graph/test_events.py"
+      ],
+      "pipeline_stage": "1-ingestao",
+      "pipeline_order": 1,
+      "evidence": {
+        "artifacts_present": 35,
+        "artifacts_declared": 35,
+        "artifacts_missing": [],
+        "completion_pct": 100,
+        "commits": 3,
+        "last_commit": "36dde14 2026-08-03"
+      },
+      "unknown_niches": []
+    },
+    {
+      "project_id": "public-verifier",
+      "name": "Superfície pública de verificação",
+      "purpose": "Terceiros conferem provas sem credencial — só leitura, só hashes",
+      "release_class": "L5",
+      "niches": [
+        "*"
+      ],
+      "paths": [
+        "apps/public-verifier"
+      ],
+      "artifacts": [
+        "apps/public-verifier/worker.ts",
+        "apps/public-verifier/wrangler.toml",
+        "apps/public-verifier/README.md"
+      ],
+      "pipeline_stage": "7-publicacao",
+      "pipeline_order": 7,
+      "evidence": {
+        "artifacts_present": 0,
+        "artifacts_declared": 3,
+        "artifacts_missing": [
+          "apps/public-verifier/worker.ts",
+          "apps/public-verifier/wrangler.toml",
+          "apps/public-verifier/README.md"
+        ],
+        "completion_pct": 0,
+        "commits": 0,
+        "last_commit": ""
+      },
+      "unknown_niches": []
+    },
+    {
+      "project_id": "comercial",
+      "name": "Plataforma comercial (diretor comercial — direito)",
+      "purpose": "Um sistema, 15 nichos por configuração: funil append-only, métricas com denominador e ranking que separa amostra insuficiente",
+      "release_class": "L1",
+      "niches": [
+        "tax",
+        "employment",
+        "consumer",
+        "civil-procedure",
+        "contracts",
+        "real-estate",
+        "corporate-law",
+        "judicial-and-extrajudicial-restructuring",
+        "banking",
+        "social-security",
+        "family",
+        "succession-private-client-and-family-offices",
+        "agribusiness",
+        "data-protection",
+        "corporate-criminal-law"
+      ],
+      "paths": [
+        "data/commercial",
+        "asus_theye/commercial",
+        "apps/comercial"
+      ],
+      "artifacts": [
+        "data/commercial/niches.json",
+        "data/commercial/opportunity.schema.json",
+        "data/commercial/niche-metrics.schema.json",
+        "asus_theye/commercial/niches.py",
+        "asus_theye/commercial/pipeline.py",
+        "asus_theye/commercial/metrics.py",
+        "apps/comercial/api.py",
+        "apps/comercial/static/index.html",
+        "tests/commercial/test_commercial.py"
+      ],
+      "pipeline_stage": "4-operacao",
+      "pipeline_order": 4,
+      "evidence": {
+        "artifacts_present": 9,
+        "artifacts_declared": 9,
+        "artifacts_missing": [],
+        "completion_pct": 100,
+        "commits": 2,
+        "last_commit": "391c90c 2026-08-03"
+      },
+      "unknown_niches": []
+    }
+  ],
+  "niche_coverage": {
+    "agribusiness": [
+      "comercial"
+    ],
+    "artificial-intelligence": [
+      "source-graph"
+    ],
+    "auditable-legal-ai-and-computational-law": [
+      "source-graph"
+    ],
+    "banking": [
+      "comercial"
+    ],
+    "blockchain-and-smart-contracts": [
+      "anchor-contract"
+    ],
+    "civil-procedure": [
+      "comercial",
+      "decision-context"
+    ],
+    "consumer": [
+      "comercial"
+    ],
+    "contracts": [
+      "comercial"
+    ],
+    "corporate-criminal-law": [
+      "comercial"
+    ],
+    "corporate-law": [
+      "comercial"
+    ],
+    "cryptoassets": [
+      "anchor-contract"
+    ],
+    "data-protection": [
+      "comercial"
+    ],
+    "employment": [
+      "comercial"
+    ],
+    "enforcement": [
+      "decision-context"
+    ],
+    "family": [
+      "comercial"
+    ],
+    "judicial-and-extrajudicial-restructuring": [
+      "comercial"
+    ],
+    "jurimetrics-litigation-analytics-and-litigation-finance": [
+      "decision-context",
+      "source-graph"
+    ],
+    "legal-management-and-knowledge-management": [
+      "source-graph"
+    ],
+    "precedents-and-repetitive-litigation": [
+      "decision-context"
+    ],
+    "real-estate": [
+      "comercial"
+    ],
+    "science-research-integrity-and-technology-transfer": [
+      "source-graph"
+    ],
+    "social-security": [
+      "comercial"
+    ],
+    "succession-private-client-and-family-offices": [
+      "comercial"
+    ],
+    "tax": [
+      "comercial"
+    ]
+  },
+  "group_coverage": {
+    "civil-and-consumer": {
+      "areas": 12,
+      "covered": 5
+    },
+    "corporate-and-transactions": {
+      "areas": 7,
+      "covered": 1
+    },
+    "criminal-and-compliance": {
+      "areas": 7,
+      "covered": 1
+    },
+    "crypto-and-web3": {
+      "areas": 3,
+      "covered": 2
+    },
+    "defense-security-and-space": {
+      "areas": 4,
+      "covered": 0
+    },
+    "energy-and-natural-resources": {
+      "areas": 8,
+      "covered": 1
+    },
+    "environment-and-climate": {
+      "areas": 4,
+      "covered": 0
+    },
+    "financial-services": {
+      "areas": 8,
+      "covered": 1
+    },
+    "health-and-life-sciences": {
+      "areas": 6,
+      "covered": 1
+    },
+    "infrastructure-and-transport": {
+      "areas": 7,
+      "covered": 0
+    },
+    "insolvency-competition-trade": {
+      "areas": 5,
+      "covered": 1
+    },
+    "intellectual-property": {
+      "areas": 6,
+      "covered": 0
+    },
+    "international-and-human-rights": {
+      "areas": 6,
+      "covered": 0
+    },
+    "labor-and-social-security": {
+      "areas": 3,
+      "covered": 2
+    },
+    "legal-profession-and-operations": {
+      "areas": 6,
+      "covered": 2
+    },
+    "media-and-consumer-brands": {
+      "areas": 6,
+      "covered": 0
+    },
+    "political-and-legislative": {
+      "areas": 4,
+      "covered": 0
+    },
+    "procedure-and-disputes": {
+      "areas": 12,
+      "covered": 4
+    },
+    "public-law": {
+      "areas": 8,
+      "covered": 1
+    },
+    "sports-games-and-betting": {
+      "areas": 10,
+      "covered": 0
+    },
+    "technology-data-and-cyber": {
+      "areas": 10,
+      "covered": 2
+    },
+    "third-sector-and-religion": {
+      "areas": 3,
+      "covered": 0
+    }
+  }
+}

@@ -1,0 +1,78 @@
+diff --git a/.gitignore b/.gitignore
+index 9ce784e..4c70b8e 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -8,3 +8,16 @@ dist/
+ *.egg-info/
+ reports/benchmark/history.jsonl
+ reports/benchmark/ledger.jsonl
++
++# BEGIN THE EYE AUTONOMOUS RUNTIME
++reports/autonomous/*/cycle-*/events.jsonl
++reports/autonomous/*/cycle-*/errors.log
++reports/autonomous/*/pid
++reports/autonomous/*/launcher.log
++# Never commit real environment or key files
++.env
++.env.*
++!.env.example
++*.pem
++*.key
++# END THE EYE AUTONOMOUS RUNTIME
+diff --git a/asus_theye/audit/__init__.py b/asus_theye/audit/__init__.py
+index 04027ef..7b7d89c 100644
+--- a/asus_theye/audit/__init__.py
++++ b/asus_theye/audit/__init__.py
+@@ -1,5 +1,12 @@
+-"""Append-only audit facilities."""
++"""Append-only, privacy-aware audit facilities."""
+ 
+ from .ledger import AuditLedger, verify_ledger
++from .merkle import MerkleProof, MerkleTree, verify_proof
++from .schema import event_hash, seal_event, verify_chain, verify_event
++from .sdk import AuditSDK, AuditUnavailableError, SQLiteAuditStore
+ 
+-__all__ = ["AuditLedger", "verify_ledger"]
++__all__ = [
++    "AuditLedger", "AuditSDK", "AuditUnavailableError", "MerkleProof", "MerkleTree",
++    "SQLiteAuditStore", "event_hash", "seal_event", "verify_chain", "verify_event",
++    "verify_ledger", "verify_proof",
++]
+diff --git a/asus_theye/cli.py b/asus_theye/cli.py
+index c36449d..c10a286 100644
+--- a/asus_theye/cli.py
++++ b/asus_theye/cli.py
+@@ -3,10 +3,12 @@
+ from __future__ import annotations
+ 
+ import argparse
++import json
+ from collections.abc import Sequence
+ from pathlib import Path
+ 
+ from asus_theye.benchmark.runner import run_benchmark_suite
++from asus_theye.audit.verifier import verify_file
+ 
+ 
+ def _parser() -> argparse.ArgumentParser:
+@@ -18,6 +20,9 @@ def _parser() -> argparse.ArgumentParser:
+     benchmark.add_argument("--layers", type=int, default=2)
+     benchmark.add_argument("--seed", type=int, default=42)
+     benchmark.add_argument("--stability-runs", type=int, default=10)
++    verify = subcommands.add_parser("audit-verify", help="verify an offline audit JSON document")
++    verify.add_argument("input", type=Path)
++    verify.add_argument("--receipt", type=Path)
+     return parser
+ 
+ 
+@@ -48,6 +53,10 @@ def main(argv: Sequence[str] | None = None) -> int:
+         print(f"\nQAR: {metrics['qar']['qar']}")
+         print(f"\nReport:\n{path}")
+         return 0
++    if args.command == "audit-verify":
++        receipt = verify_file(args.input, args.receipt)
++        print(json.dumps(receipt, ensure_ascii=False, indent=2))
++        return 0 if receipt["status"] in {"valid", "not_anchored", "anchor_unconfirmed"} else 1
+     return 2
+ 
+ 

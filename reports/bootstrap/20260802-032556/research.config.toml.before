@@ -1,0 +1,20 @@
+approval_policy = "never"
+sandbox_mode = "workspace-write"
+web_search = "live"
+model_reasoning_effort = "high"
+model_reasoning_summary = "concise"
+model_verbosity = "high"
+
+[sandbox_workspace_write]
+network_access = false
+
+[shell_environment_policy]
+exclude = [
+  "AWS_*",
+  "CLOUDFLARE_*",
+  "OPENAI_API_KEY",
+  "*_TOKEN",
+  "*_SECRET",
+  "*_PASSWORD",
+  "*_PRIVATE_KEY"
+]

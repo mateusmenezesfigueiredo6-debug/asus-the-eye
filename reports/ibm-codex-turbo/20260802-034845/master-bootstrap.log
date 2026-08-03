@@ -1,0 +1,29 @@
+============================================================
+ ASUS + THE EYE - MASTER UNIFIED BOOTSTRAP
+============================================================
+
+============================================================
+ EXECUCAO INICIADA EM SEGUNDO PLANO
+============================================================
+Projeto: /home/sexexes/asus_the_eye
+Run ID:  20260802-034845
+PID:     501420
+Perfil:  /home/sexexes/.codex/research.config.toml
+Prompt:  /home/sexexes/asus_the_eye/prompts/THE_EYE_MASTER_MISSION.md
+
+Acompanhar launcher:
+  tail -f '/home/sexexes/asus_the_eye/reports/autonomous/20260802-034845/launcher.log'
+
+Acompanhar ciclo atual:
+  find '/home/sexexes/asus_the_eye/reports/autonomous/20260802-034845' -name events.jsonl -print -exec tail -n 5 {} \;
+
+Consultar amanha:
+  cat '/home/sexexes/asus_the_eye/reports/autonomous/20260802-034845/RUN_SUMMARY.md'
+  python3 -m json.tool '/home/sexexes/asus_the_eye/reports/autonomous/20260802-034845/final.json'
+  sed -n '1,240p' '/home/sexexes/asus_the_eye/reports/AUTONOMOUS_RESEARCH_REPORT.md'
+
+Parar com seguranca:
+  kill -INT 501420
+
+Mantenha o notebook ligado, na energia e com a tampa aberta.
+Revogue no painel Cloudflare quaisquer credenciais que tenham sido expostas.
