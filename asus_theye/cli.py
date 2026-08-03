@@ -61,6 +61,17 @@ def _parser() -> argparse.ArgumentParser:
         "--proofs-out", type=Path, default=Path("reports/audit/proofs"),
         help="directory for the manifest and inclusion proofs",
     )
+    source_graph = subcommands.add_parser(
+        "source-graph", help="grafo de fontes: cobertura, lacunas e relatórios da Phase C"
+    )
+    source_graph.add_argument(
+        "--dry-run", action="store_true", default=True,
+        help="não toca a rede (padrão; o Estágio 1 é inteiramente offline)",
+    )
+    source_graph.add_argument("--reports", action="store_true", help="escrever os 3 relatórios")
+    source_graph.add_argument("--ledger-url", default=os.environ.get("THE_EYE_LEDGER_URL", ""))
+    source_graph.add_argument("--tenant", default=DEFAULT_TENANT)
+    source_graph.add_argument("--publish", action="store_true", help="ancorar o snapshot no ledger")
     chart = subcommands.add_parser("chart", help="Mistress Chart — projetos e nichos medidos")
     chart.add_argument("--html", type=Path, default=Path("reports/chart/mistress-chart.html"))
     chart.add_argument("--json", dest="json_out", type=Path, default=Path("reports/chart/snapshot.json"))
@@ -174,6 +185,48 @@ def main(argv: Sequence[str] | None = None) -> int:
         print(f"manifest_hash: {manifest['manifest_hash_sha256']}")
         print(f"status: {outcome['status']}")
         print(f"\nProofs:\n{target}")
+        return 0
+    if args.command == "source-graph":
+        from asus_theye.audit.remote_ledger import publish_event
+        from asus_theye.source_graph import (
+            build_coverage,
+            coverage_by_track,
+            graph_built_event,
+            write_reports,
+        )
+
+        coverage = build_coverage([])
+        tracks = coverage_by_track(coverage)
+        print("=" * 62)
+        print("GRAFO DE FONTES — COBERTURA")
+        print("=" * 62)
+        print(f"\nmetodologia: {coverage['methodology_version']}")
+        print(f"snapshot:    {coverage['snapshot_hash_sha256']}\n")
+        for track, data in tracks.items():
+            reasons = ", ".join(f"{k}×{v}" for k, v in sorted(data["blocking_reasons"].items()))
+            print(
+                f"  {track:14s} {data['qualified']:4d}/{data['target']:5d}  "
+                f"{data['coverage_pct']:5.1f}%  [{reasons}]"
+            )
+        print("\nLACUNAS")
+        for gap in coverage["gaps"]:
+            print(f"  [{gap['blocking_reason']}] {gap['description']}")
+        if args.reports:
+            for path in write_reports(coverage, tracks):
+                print(f"\nRelatório: {path.relative_to(Path.cwd()) if path.is_relative_to(Path.cwd()) else path}")
+        if args.publish:
+            if not args.ledger_url:
+                print("\nsource-graph: --publish requer --ledger-url ou THE_EYE_LEDGER_URL")
+                return 1
+            snapshot = {
+                "sources_total": 0,
+                "by_category": {e["category_id"]: e["qualified_count"] for e in coverage["by_category"]},
+                "methodology_version": coverage["methodology_version"],
+            }
+            receipt = publish_event(
+                graph_built_event(snapshot, commit="", tenant_id=args.tenant), args.ledger_url
+            )
+            print(f"\nLedger: sequência {receipt['sequence']}")
         return 0
     if args.command == "chart":
         from asus_theye.audit.remote_ledger import publish_event

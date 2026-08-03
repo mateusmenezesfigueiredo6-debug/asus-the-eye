@@ -82,6 +82,51 @@ def _ledger_evidence(events: list[dict[str, Any]] | None) -> dict[str, Any]:
     }
 
 
+def _knowledge_section() -> dict[str, Any]:
+    """Painel de navegação do grafo de fontes: onde estamos em cada trilha.
+
+    Lê os registries de data/source-graph/ e a cobertura calculada. No dia 1 tudo
+    aparece com blocking_reason 'not_yet_attempted' — o painel mostra o que
+    existe, não o que se pretende.
+    """
+    source_graph_dir = REPO_ROOT / "data" / "source-graph"
+    if not source_graph_dir.exists():
+        return {"available": False, "reason": "data/source-graph ainda não existe"}
+
+    from asus_theye.source_graph.coverage import build_coverage, coverage_by_track
+
+    def load(name: str) -> dict[str, Any]:
+        return json.loads((source_graph_dir / name).read_text(encoding="utf-8"))
+
+    connectors = load("connectors.json")["connectors"]
+    artifacts = load("software_artifacts.json")["artifacts"]
+    communities = load("communities.json")["communities"]
+    coverage = build_coverage([])
+
+    by_poc: dict[str, int] = {}
+    for artifact in artifacts:
+        by_poc[artifact["poc_status"]] = by_poc.get(artifact["poc_status"], 0) + 1
+
+    return {
+        "available": True,
+        "methodology_version": coverage["methodology_version"],
+        "tracks": coverage_by_track(coverage),
+        "connectors": {
+            "declared": len(connectors),
+            "enabled": sum(1 for c in connectors if c.get("enabled")),
+            "blocked_by_cost_or_key": sum(1 for c in connectors if c.get("requires_key")),
+        },
+        "artifacts": {
+            "declared": len(artifacts),
+            "by_poc_status": dict(sorted(by_poc.items())),
+            "verified": sum(1 for a in artifacts if a.get("verification_status") == "verified"),
+        },
+        "communities": {"declared": len(communities)},
+        "gaps": coverage["gaps"],
+        "coverage_snapshot_hash": coverage["snapshot_hash_sha256"],
+    }
+
+
 def build_chart(ledger_events: list[dict[str, Any]] | None = None) -> dict[str, Any]:
     registry = json.loads(REGISTRY_PATH.read_text(encoding="utf-8"))
     taxonomy = json.loads(TAXONOMY_PATH.read_text(encoding="utf-8"))
@@ -112,6 +157,7 @@ def build_chart(ledger_events: list[dict[str, Any]] | None = None) -> dict[str, 
         "chart_version": registry.get("chart_version", "1.0.0"),
         "generated_at": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
         "commit": _git(["rev-parse", "--short", "HEAD"]),
+        "knowledge": _knowledge_section(),
         "totals": {
             "projects": len(projects),
             "projects_complete": sum(1 for p in projects if p["evidence"]["completion_pct"] == 100),

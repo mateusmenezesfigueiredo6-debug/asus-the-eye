@@ -53,6 +53,34 @@ def render_text(snapshot: dict[str, Any], snapshot_hash: str) -> str:
             f"  {group:34s} {counts['covered']:3d}/{counts['areas']:3d}  {_bar(pct, 12)} {pct:3d}%"
         )
 
+    knowledge = snapshot.get("knowledge", {})
+    if knowledge.get("available"):
+        lines += ["", "GRAFO DE FONTES — TRILHAS", "-" * 72]
+        for track, data in knowledge["tracks"].items():
+            pct = data["coverage_pct"]
+            reasons = ", ".join(f"{k}×{v}" for k, v in sorted(data["blocking_reasons"].items()))
+            lines.append(
+                f"  {track:14s} {data['qualified']:4d}/{data['target']:5d}  "
+                f"{_bar(int(pct), 12)} {pct:5.1f}%  [{reasons}]"
+            )
+        connectors = knowledge["connectors"]
+        artifacts = knowledge["artifacts"]
+        lines += [
+            "",
+            f"  conectores:   {connectors['declared']} declarados, "
+            f"{connectors['enabled']} habilitados, "
+            f"{connectors['blocked_by_cost_or_key']} bloqueados por chave/custo",
+            f"  bibliotecas:  {artifacts['declared']} declaradas "
+            f"({', '.join(f'{k}={v}' for k, v in artifacts['by_poc_status'].items())}), "
+            f"{artifacts['verified']} verificadas",
+            f"  comunidades:  {knowledge['communities']['declared']} declaradas",
+            "",
+            "  LACUNAS (cada uma com o que a destravaria)",
+        ]
+        for gap in knowledge["gaps"]:
+            lines.append(f"    [{gap['blocking_reason']}] {gap['description']}")
+            lines.append(f"        → {gap.get('what_would_unblock', '')}")
+
     if ledger["event_types"]:
         lines += ["", "EVENTOS NA CADEIA", "-" * 72]
         for event_type, count in ledger["event_types"].items():
@@ -60,6 +88,105 @@ def render_text(snapshot: dict[str, Any], snapshot_hash: str) -> str:
 
     lines += ["", "=" * 72]
     return "\n".join(lines)
+
+
+TRACK_LABELS = {
+    "fundacao": "Fundação — periódicos, datasets oficiais, associações, conferências",
+    "academico": "Acadêmico — universidades, centros de pesquisa, observatórios",
+    "setorial": "Setorial — reguladores, tribunais, instituições, veículos",
+    "gated_dpia": "Bloqueado por DPIA — categorias que descrevem pessoas (L4)",
+    "outros": "Outros",
+}
+
+REASON_LABELS = {
+    "none": "coberto",
+    "not_yet_attempted": "ainda não tentado",
+    "requires_dpia": "exige DPIA humana",
+    "requires_paid_api": "exige fonte paga",
+    "license_restricted": "licença restringe",
+    "robots_disallowed": "robots proíbe",
+    "no_free_source": "não existe fonte gratuita",
+}
+
+
+def _mermaid_graph(knowledge: dict[str, Any]) -> str:
+    """Diagrama do grafo: trilhas → estado, com o motivo do bloqueio visível."""
+    lines = ["graph LR", "  GRAFO[Grafo de fontes]"]
+    for index, (track, data) in enumerate(knowledge["tracks"].items()):
+        node = f"T{index}"
+        label = track.replace("_", " ")
+        lines.append(f'  GRAFO --> {node}["{label}<br/>{data["qualified"]}/{data["target"]}"]')
+        for reason, count in sorted(data["blocking_reasons"].items()):
+            reason_node = f"{node}R{abs(hash(reason)) % 1000}"
+            text = REASON_LABELS.get(reason, reason)
+            arrow = "-->" if reason == "none" else "-.->"
+            lines.append(f'  {node} {arrow} {reason_node}["{text}<br/>{count} categoria(s)"]')
+    return "\n".join(lines)
+
+
+def _knowledge_html(knowledge: dict[str, Any]) -> str:
+    if not knowledge.get("available"):
+        return ""
+
+    track_rows = []
+    for track, data in knowledge["tracks"].items():
+        pct = data["coverage_pct"]
+        reasons = " · ".join(
+            f"{REASON_LABELS.get(k, k)} ×{v}" for k, v in sorted(data["blocking_reasons"].items())
+        )
+        track_rows.append(
+            "<tr>"
+            f"<td><strong>{html.escape(TRACK_LABELS.get(track, track))}</strong></td>"
+            f'<td class="num">{data["qualified"]}/{data["target"]}</td>'
+            f'<td class="barcell"><div class="track"><div class="fill" style="width:{pct}%"></div>'
+            f'</div><span class="pct">{pct}%</span></td>'
+            f'<td class="muted small">{html.escape(reasons)}</td>'
+            "</tr>"
+        )
+
+    artifacts = knowledge["artifacts"]
+    connectors = knowledge["connectors"]
+    poc = ", ".join(f"{k}: {v}" for k, v in artifacts["by_poc_status"].items())
+    connector_note = (
+        f"{connectors['enabled']} habilitados · "
+        f"{connectors['blocked_by_cost_or_key']} exigem chave/custo"
+    )
+
+    gap_rows_list = []
+    for gap in knowledge["gaps"]:
+        reason = gap["blocking_reason"]
+        label = REASON_LABELS.get(reason, reason)
+        unblock = gap.get("what_would_unblock") or "—"
+        gap_rows_list.append(
+            "<tr>"
+            f'<td><span class="tag">{html.escape(label)}</span></td>'
+            f"<td>{html.escape(gap['description'])}</td>"
+            f'<td class="muted small">{html.escape(unblock)}</td>'
+            "</tr>"
+        )
+    gap_rows = "".join(gap_rows_list)
+
+    return f"""
+<h2>Grafo de fontes — onde estamos em cada trilha</h2>
+<table><thead><tr><th>Trilha</th><th>Qualificadas</th><th>Cobertura</th>
+<th>Motivo</th></tr></thead><tbody>{"".join(track_rows)}</tbody></table>
+
+<div class="cards" style="margin-top:1rem">
+<div class="card"><div class="label">Conectores</div><div class="value">{connectors["declared"]}</div>
+<div class="muted small">{connector_note}</div></div>
+<div class="card"><div class="label">Bibliotecas com PoC</div><div class="value">{artifacts["declared"]}</div>
+<div class="muted small">{html.escape(poc)}</div></div>
+<div class="card"><div class="label">Comunidades</div><div class="value">{knowledge["communities"]["declared"]}</div>
+<div class="muted small">registradas como fontes, nunca as pessoas nelas</div></div>
+</div>
+
+<h2>Mapa das trilhas</h2>
+<pre class="mermaid">{html.escape(_mermaid_graph(knowledge))}</pre>
+
+<h2>Lacunas — e o que destravaria cada uma</h2>
+<table><thead><tr><th>Motivo</th><th>Lacuna</th><th>O que destravaria</th></tr></thead>
+<tbody>{gap_rows}</tbody></table>
+"""
 
 
 def render_html(snapshot: dict[str, Any], snapshot_hash: str) -> str:
@@ -90,6 +217,8 @@ def render_html(snapshot: dict[str, Any], snapshot_hash: str) -> str:
             f'<td class="muted small">{html.escape(missing)}</td>'
             "</tr>"
         )
+
+    knowledge_block = _knowledge_html(snapshot.get("knowledge", {}))
 
     group_rows = []
     for group, counts in snapshot["group_coverage"].items():
@@ -155,6 +284,7 @@ snapshot sha256: {html.escape(snapshot_hash)}</div>
 <h2>Cobertura por grupo de nicho</h2>
 <table><thead><tr><th>Grupo</th><th>Cobertos</th><th>Progresso</th></tr></thead>
 <tbody>{"".join(group_rows)}</tbody></table>
+{knowledge_block}
 <footer>Todo número desta página é derivado de evidência verificável — arquivos que
 existem, testes coletados, commits, eventos encadeados. Nenhum status é
 autodeclarado. O hash acima é ancorado no ledger.</footer>
