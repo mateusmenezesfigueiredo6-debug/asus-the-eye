@@ -25,3 +25,4 @@ reports/autonomous/*/launcher.log
 reports/llm/calls.jsonl
 reports/audit/proofs/
 reports/releases/
+reports/commercial/

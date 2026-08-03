@@ -1,0 +1,344 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>THE EYE — Diretor Comercial</title>
+<style>
+ :root { color-scheme: dark; }
+ * { box-sizing: border-box; }
+ body { margin:0; padding:1.5rem 2rem 3rem; background:#080b12; color:#e6edf7;
+        font:15px/1.55 ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif; }
+ h1 { margin:0 0 .2rem; font-size:1.5rem; letter-spacing:.02em; }
+ .sub { color:#7d8aa0; font-size:.8rem; margin-bottom:1.5rem; }
+ .cards { display:grid; gap:.75rem; grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+          margin-bottom:1.5rem; }
+ .card { background:#0f1520; border:1px solid #1d2735; border-radius:10px; padding:.85rem 1rem; }
+ .label { color:#7d8aa0; font-size:.66rem; letter-spacing:.09em; text-transform:uppercase; }
+ .value { color:#5ad9e8; font-size:1.45rem; font-weight:600; margin-top:.15rem; }
+ .value.muted { color:#5c6880; font-size:1rem; }
+ .hint { color:#5c6880; font-size:.7rem; margin-top:.15rem; }
+ h2 { font-size:.7rem; letter-spacing:.12em; text-transform:uppercase; color:#7d8aa0;
+      margin:2rem 0 .6rem; }
+ nav { display:flex; gap:.4rem; flex-wrap:wrap; margin-bottom:1rem; }
+ button { background:#131c2a; color:#c8d4e6; border:1px solid #223047; border-radius:7px;
+          padding:.4rem .75rem; font:inherit; font-size:.82rem; cursor:pointer; }
+ button:hover { background:#1a2536; border-color:#2f4160; }
+ button.on { background:#16233a; color:#5ad9e8; border-color:#2f6f88; }
+ button.primary { background:#17384a; color:#7fe3f0; border-color:#2f6f88; }
+ table { width:100%; border-collapse:collapse; background:#0f1520; border:1px solid #1d2735;
+         border-radius:10px; overflow:hidden; }
+ th { text-align:left; font-size:.66rem; letter-spacing:.09em; text-transform:uppercase;
+      color:#7d8aa0; padding:.55rem .7rem; border-bottom:1px solid #1d2735; font-weight:500; }
+ td { padding:.55rem .7rem; border-bottom:1px solid #161f2c; vertical-align:top;
+      font-size:.86rem; }
+ tr:last-child td { border-bottom:none; }
+ .num { font-family:ui-monospace,monospace; color:#9fb0c8; white-space:nowrap; }
+ .muted { color:#7d8aa0; } .small { font-size:.76rem; }
+ .tag { background:#16233a; color:#5ad9e8; border-radius:5px; padding:.1rem .4rem;
+        font-size:.7rem; font-family:ui-monospace,monospace; }
+ .tag.warn { background:#3a2a16; color:#e8b45a; }
+ .tag.stage { background:#1c2740; color:#9fb0c8; }
+ .bar { display:inline-block; width:80px; height:6px; background:#16202e; border-radius:4px;
+        overflow:hidden; vertical-align:middle; }
+ .fill { height:100%; background:linear-gradient(90deg,#2f8fd8,#5ad9e8); }
+ form { background:#0f1520; border:1px solid #1d2735; border-radius:10px; padding:1rem;
+        display:grid; gap:.6rem; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); }
+ label { display:block; font-size:.66rem; letter-spacing:.08em; text-transform:uppercase;
+         color:#7d8aa0; margin-bottom:.2rem; }
+ input, select, textarea { width:100%; background:#0a0f18; color:#e6edf7; border:1px solid #223047;
+        border-radius:6px; padding:.42rem .55rem; font:inherit; font-size:.85rem; }
+ textarea { min-height:64px; resize:vertical; }
+ .wide { grid-column:1/-1; }
+ .row { display:flex; gap:.5rem; align-items:flex-end; flex-wrap:wrap; }
+ .note { background:#0d1420; border-left:3px solid #2f6f88; padding:.6rem .8rem;
+         color:#9fb0c8; font-size:.78rem; border-radius:0 6px 6px 0; margin:.6rem 0; }
+ .warnbox { border-left-color:#8a6a2f; }
+ footer { margin-top:2.5rem; color:#5c6880; font-size:.72rem; line-height:1.6; }
+ #toast { position:fixed; bottom:1.2rem; right:1.2rem; background:#16233a; color:#7fe3f0;
+          border:1px solid #2f6f88; border-radius:8px; padding:.6rem .9rem; font-size:.82rem;
+          opacity:0; transition:opacity .2s; pointer-events:none; max-width:340px; }
+ #toast.show { opacity:1; }
+ #toast.err { background:#3a1a1a; color:#f0a0a0; border-color:#8a3f3f; }
+</style>
+</head>
+<body>
+
+<h1>Diretor Comercial</h1>
+<div class="sub" id="sub">carregando…</div>
+
+<div class="cards" id="overview"></div>
+
+<h2>Nichos — ranking</h2>
+<nav id="criteria"></nav>
+<div id="ranking"></div>
+
+<h2>Classificar um caso</h2>
+<form id="classify-form">
+  <div class="wide">
+    <label for="case-text">Descrição do caso (o classificador sugere o nicho)</label>
+    <textarea id="case-text" placeholder="Ex.: Ação de cobrança fundada em CPR do agronegócio com discussão sobre recuperação judicial"></textarea>
+  </div>
+  <div class="wide row">
+    <button type="submit" class="primary">Classificar</button>
+    <span id="classify-result" class="muted small"></span>
+  </div>
+</form>
+
+<h2>Nova oportunidade</h2>
+<form id="new-form">
+  <div>
+    <label for="f-niche">Nicho</label>
+    <select id="f-niche"></select>
+  </div>
+  <div>
+    <label for="f-client">Cliente (vira pseudônimo)</label>
+    <input id="f-client" placeholder="nome ou apelido interno" required>
+  </div>
+  <div>
+    <label for="f-type">Tipo</label>
+    <select id="f-type">
+      <option value="empresa">Empresa</option>
+      <option value="pessoa_fisica">Pessoa física</option>
+    </select>
+  </div>
+  <div>
+    <label for="f-channel">Canal</label>
+    <select id="f-channel">
+      <option value="indicacao">Indicação</option>
+      <option value="site">Site</option>
+      <option value="evento">Evento</option>
+      <option value="prospeccao_ativa">Prospecção ativa</option>
+      <option value="recorrencia">Recorrência</option>
+      <option value="parceria">Parceria</option>
+      <option value="outro">Outro</option>
+    </select>
+  </div>
+  <div>
+    <label for="f-model">Contratação</label>
+    <select id="f-model">
+      <option value="">—</option>
+      <option value="fixo">Fixo</option>
+      <option value="hora">Hora</option>
+      <option value="exito">Êxito</option>
+      <option value="misto">Misto</option>
+    </select>
+  </div>
+  <div class="wide row">
+    <button type="submit" class="primary">Registrar</button>
+    <span class="muted small">O nome do cliente nunca é gravado — só o pseudônimo.</span>
+  </div>
+</form>
+
+<h2>Funil</h2>
+<nav id="niche-filter"></nav>
+<div id="pipeline"></div>
+
+<footer>
+  Todo número desta tela vem de oportunidades <strong>registradas</strong>, nunca de estimativa.
+  Taxa sem denominador não é exibida como 0% — é exibida como indisponível.
+  Nichos com menos de 8 fechamentos aparecem <strong>separados</strong> do ranking de propósito:
+  uma taxa sobre poucos casos não é comparável a uma sobre muitos.<br>
+  Aplicação local, não publicada. O nome do cliente nunca sai da sua tela.
+</footer>
+
+<div id="toast"></div>
+
+<script>
+const $ = (id) => document.getElementById(id);
+const BRL = (v) => v === null || v === undefined ? "—"
+  : v.toLocaleString("pt-BR", {style:"currency", currency:"BRL", maximumFractionDigits:0});
+const PCT = (v) => v === null || v === undefined ? "—" : (v*100).toFixed(1) + "%";
+
+let NICHES = [], CRITERION = "win_rate", FILTER = null;
+
+function toast(message, isError) {
+  const el = $("toast");
+  el.textContent = message;
+  el.className = "show" + (isError ? " err" : "");
+  setTimeout(() => { el.className = ""; }, 3800);
+}
+
+async function api(path, options) {
+  const response = await fetch(path, options);
+  const data = await response.json().catch(() => ({}));
+  if (!response.ok) throw new Error(data.detail || ("HTTP " + response.status));
+  return data;
+}
+
+function card(label, value, hint, muted) {
+  return `<div class="card"><div class="label">${label}</div>
+    <div class="value${muted ? " muted" : ""}">${value}</div>
+    ${hint ? `<div class="hint">${hint}</div>` : ""}</div>`;
+}
+
+async function loadOverview() {
+  const data = await api("/api/overview");
+  $("sub").textContent = `${data.niches} nichos · período ${data.period_start} a ${data.period_end}`;
+  const rateHint = data.denominator
+    ? `sobre ${data.denominator} fechamentos`
+    : "sem fechamentos — taxa indisponível";
+  $("overview").innerHTML = [
+    card("Oportunidades", data.opportunities_total),
+    card("Em aberto", data.open),
+    card("Ganhas", data.won),
+    card("Taxa de conversão", PCT(data.win_rate), rateHint, data.win_rate === null),
+    card("Receita registrada", BRL(data.revenue_brl), "só valores informados"),
+    card("Nichos ranqueáveis", `${data.niches_with_sufficient_sample}/${data.niches}`, "≥8 fechamentos"),
+  ].join("");
+}
+
+async function loadRanking() {
+  const data = await api("/api/ranking?by=" + CRITERION);
+  const name = (id) => (NICHES.find(n => n.niche_id === id) || {}).name || id;
+  const value = (m) => CRITERION === "win_rate" ? PCT(m.win_rate)
+    : CRITERION === "opportunities_total" ? m.opportunities_total : BRL(m[CRITERION]);
+  const width = (m) => CRITERION === "win_rate" ? (m.win_rate || 0) * 100 : 0;
+
+  const rows = (list, rankable) => list.map((m, i) => `<tr>
+    <td class="num">${rankable ? i + 1 : "—"}</td>
+    <td><strong>${name(m.niche_id)}</strong></td>
+    <td class="num">${value(m)}</td>
+    ${CRITERION === "win_rate" ? `<td><div class="bar"><div class="fill" style="width:${width(m)}%"></div></div></td>` : "<td></td>"}
+    <td class="num">${m.won}/${m.denominator}</td>
+    <td class="num">${m.open}</td>
+    <td class="muted small">${m.limitations[0]}</td>
+  </tr>`).join("");
+
+  let html = "";
+  if (data.ranked.length) {
+    html += `<table><thead><tr><th>#</th><th>Nicho</th><th>${CRITERION}</th><th></th>
+      <th>Ganhos/Fech.</th><th>Abertas</th><th>Observação</th></tr></thead>
+      <tbody>${rows(data.ranked, true)}</tbody></table>`;
+  } else {
+    html += `<div class="note warnbox">Nenhum nicho tem amostra suficiente para ranquear ainda
+      (mínimo ${data.minimum_sample} fechamentos). Isso não é uma falha: é o sistema
+      recusando comparar números que não são comparáveis.</div>`;
+  }
+  if (data.insufficient_sample.length) {
+    html += `<div class="note">${data.note}</div>
+      <table><thead><tr><th></th><th>Nicho</th><th>${CRITERION}</th><th></th>
+      <th>Ganhos/Fech.</th><th>Abertas</th><th>Observação</th></tr></thead>
+      <tbody>${rows(data.insufficient_sample, false)}</tbody></table>`;
+  }
+  $("ranking").innerHTML = html;
+}
+
+async function loadPipeline() {
+  const query = FILTER ? "?niche_id=" + encodeURIComponent(FILTER) : "";
+  const data = await api("/api/opportunities" + query);
+  const name = (id) => (NICHES.find(n => n.niche_id === id) || {}).name || id;
+  const next = {entrada:["qualificacao","perdido"], qualificacao:["proposta","perdido"],
+    proposta:["negociacao","ganho","perdido"], negociacao:["ganho","perdido"],
+    ganho:[], perdido:[]};
+
+  if (!data.opportunities.length) {
+    $("pipeline").innerHTML = `<div class="note">Nenhuma oportunidade${FILTER ? " neste nicho" : ""} ainda.
+      Registre a primeira no formulário acima.</div>`;
+    return;
+  }
+  $("pipeline").innerHTML = `<table><thead><tr><th>Nicho</th><th>Cliente</th><th>Estágio</th>
+    <th>Valor</th><th>Canal</th><th>Ações</th></tr></thead><tbody>` +
+    data.opportunities.map(o => `<tr>
+      <td>${name(o.niche_id)}</td>
+      <td class="num small">${o.client_ref_pseudonymous}</td>
+      <td><span class="tag stage">${o.stage}</span>${o.lost_reason ? ` <span class="tag warn">${o.lost_reason}</span>` : ""}</td>
+      <td class="num">${BRL(o.value_brl)}</td>
+      <td class="muted small">${o.source_channel}</td>
+      <td>${next[o.stage].map(s =>
+        `<button onclick="advance('${o.opportunity_id}','${s}')">${s}</button>`).join(" ") || "<span class='muted small'>fechada</span>"}</td>
+    </tr>`).join("") + "</tbody></table>";
+}
+
+window.advance = async (id, stage) => {
+  const body = {to_stage: stage};
+  if (stage === "perdido") {
+    const reason = prompt("Motivo da perda (preco, prazo, escopo, concorrencia, sem_resposta, desistiu, fora_de_escopo, outro):", "preco");
+    if (!reason) return;
+    body.lost_reason = reason.trim();
+  }
+  if (stage === "ganho") {
+    const value = prompt("Valor fechado em BRL (só números):", "");
+    if (value === null) return;
+    body.value_brl = parseFloat(value);
+    if (isNaN(body.value_brl)) return toast("Valor inválido — ganhar exige o valor registrado", true);
+  }
+  try {
+    await api(`/api/opportunities/${id}/advance`, {
+      method: "POST", headers: {"content-type": "application/json"}, body: JSON.stringify(body),
+    });
+    toast(`Movida para ${stage}`);
+    await refresh();
+  } catch (error) { toast(error.message, true); }
+};
+
+$("classify-form").onsubmit = async (event) => {
+  event.preventDefault();
+  const text = $("case-text").value;
+  if (!text.trim()) return;
+  try {
+    const result = await api("/api/classify", {
+      method: "POST", headers: {"content-type": "application/json"},
+      body: JSON.stringify({text}),
+    });
+    const name = (id) => (NICHES.find(n => n.niche_id === id) || {}).name || id;
+    $("classify-result").innerHTML = result.niche_id
+      ? `→ <span class="tag">${name(result.niche_id)}</span> · áreas: ${result.legal_area_ids_suggested.join(", ")}`
+      : `→ <span class="tag warn">nenhum nicho reconhecido</span> — silêncio é resposta válida`;
+    if (result.niche_id) $("f-niche").value = result.niche_id;
+  } catch (error) { toast(error.message, true); }
+};
+
+$("new-form").onsubmit = async (event) => {
+  event.preventDefault();
+  try {
+    await api("/api/opportunities", {
+      method: "POST", headers: {"content-type": "application/json"},
+      body: JSON.stringify({
+        niche_id: $("f-niche").value,
+        client_identifier: $("f-client").value,
+        client_type: $("f-type").value,
+        source_channel: $("f-channel").value,
+        engagement_model: $("f-model").value || null,
+      }),
+    });
+    $("f-client").value = "";
+    toast("Oportunidade registrada");
+    await refresh();
+  } catch (error) { toast(error.message, true); }
+};
+
+async function refresh() {
+  await Promise.all([loadOverview(), loadRanking(), loadPipeline()]);
+}
+
+async function boot() {
+  NICHES = (await api("/api/niches")).niches;
+  $("f-niche").innerHTML = NICHES.map(n => `<option value="${n.niche_id}">${n.name}</option>`).join("");
+  $("criteria").innerHTML = [
+    ["win_rate", "Taxa de conversão"], ["revenue_brl", "Receita"],
+    ["average_ticket_brl", "Ticket médio"], ["opportunities_total", "Volume"],
+  ].map(([id, label]) =>
+    `<button class="${id === CRITERION ? "on" : ""}" onclick="setCriterion('${id}')">${label}</button>`).join("");
+  $("niche-filter").innerHTML = `<button class="${!FILTER ? "on" : ""}" onclick="setFilter(null)">Todos</button>` +
+    NICHES.map(n => `<button class="${FILTER === n.niche_id ? "on" : ""}" onclick="setFilter('${n.niche_id}')">${n.name}</button>`).join("");
+  await refresh();
+}
+
+window.setCriterion = (id) => {
+  CRITERION = id;
+  document.querySelectorAll("#criteria button").forEach(b => b.classList.remove("on"));
+  event.target.classList.add("on");
+  loadRanking();
+};
+window.setFilter = (id) => {
+  FILTER = id;
+  document.querySelectorAll("#niche-filter button").forEach(b => b.classList.remove("on"));
+  event.target.classList.add("on");
+  loadPipeline();
+};
+
+boot().catch(e => toast("Falha ao carregar: " + e.message, true));
+</script>
+</body>
+</html>

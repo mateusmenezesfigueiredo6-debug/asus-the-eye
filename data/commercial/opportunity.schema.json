@@ -1,0 +1,77 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://the-eye.local/schemas/commercial/opportunity.schema.json",
+  "title": "Oportunidade comercial",
+  "description": "Uma oportunidade no funil. O cliente é sempre pseudonimizado — o nome real nunca entra neste registro nem no ledger. Valores monetários só existem quando REGISTRADOS pelo usuário; não há campo de estimativa automática, porque estimar receita e apresentar como medição é o mesmo erro que o crosswalk de vendas de livros evita.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "opportunity_id",
+    "niche_id",
+    "client_ref_pseudonymous",
+    "stage",
+    "source_channel",
+    "created_at",
+    "updated_at",
+    "claim_class"
+  ],
+  "properties": {
+    "opportunity_id": { "type": "string", "minLength": 1 },
+    "niche_id": { "type": "string", "minLength": 1 },
+    "legal_area_ids_suggested": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Saída literal de suggest_legal_areas sobre a descrição do caso. Lista vazia é resultado válido."
+    },
+    "client_ref_pseudonymous": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Referência pseudonimizada. NUNCA o nome, CPF, CNPJ ou e-mail do cliente."
+    },
+    "client_type": { "type": "string", "enum": ["pessoa_fisica", "empresa"] },
+    "stage": {
+      "type": "string",
+      "enum": ["entrada", "qualificacao", "proposta", "negociacao", "ganho", "perdido"]
+    },
+    "lost_reason": {
+      "type": "string",
+      "enum": ["preco", "prazo", "escopo", "concorrencia", "sem_resposta", "desistiu", "fora_de_escopo", "outro"],
+      "description": "Obrigatório quando stage é 'perdido' — perder sem motivo registrado não ensina nada."
+    },
+    "source_channel": {
+      "type": "string",
+      "enum": ["indicacao", "site", "evento", "prospeccao_ativa", "recorrencia", "parceria", "outro"]
+    },
+    "engagement_model": { "type": "string", "enum": ["exito", "hora", "fixo", "misto"] },
+    "value_brl": {
+      "type": ["number", "null"],
+      "minimum": 0,
+      "description": "Valor REGISTRADO da proposta, em BRL. null quando ainda não há proposta — nunca uma estimativa automática."
+    },
+    "probability_declared": {
+      "type": ["number", "null"],
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Probabilidade DECLARADA por um humano, não calculada por modelo. Existe para ser confrontada com a taxa histórica real do estágio."
+    },
+    "created_at": { "type": "string", "format": "date-time" },
+    "updated_at": { "type": "string", "format": "date-time" },
+    "closed_at": { "type": "string", "format": "date-time" },
+    "notes_hash_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$",
+      "description": "Hash das anotações. O texto fica local; só o hash é auditável."
+    },
+    "claim_class": { "type": "string", "enum": ["FACT", "DERIVED_METRIC", "UNKNOWN"] }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "stage": { "const": "perdido" } }, "required": ["stage"] },
+      "then": { "required": ["lost_reason"] }
+    },
+    {
+      "if": { "properties": { "stage": { "const": "ganho" } }, "required": ["stage"] },
+      "then": { "required": ["value_brl", "closed_at"] }
+    }
+  ]
+}

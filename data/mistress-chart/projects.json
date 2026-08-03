@@ -7,8 +7,13 @@
       "name": "Engine de benchmark (clássico / QUBO / QAOA)",
       "purpose": "Comparar caminhos com honestidade: QAR mede vantagem real, não promessa",
       "release_class": "L1",
-      "niches": ["*"],
-      "paths": ["asus_theye/benchmark", "asus_theye/problem.py"],
+      "niches": [
+        "*"
+      ],
+      "paths": [
+        "asus_theye/benchmark",
+        "asus_theye/problem.py"
+      ],
       "artifacts": [
         "asus_theye/benchmark/runner.py",
         "asus_theye/benchmark/qaoa_benchmark.py",
@@ -22,8 +27,13 @@
       "name": "Núcleo de auditoria (hash chain, Merkle, verifier)",
       "purpose": "Evidência append-only que ninguém — nem o dono — consegue reescrever",
       "release_class": "L1",
-      "niches": ["*"],
-      "paths": ["asus_theye/audit", "packages"],
+      "niches": [
+        "*"
+      ],
+      "paths": [
+        "asus_theye/audit",
+        "packages"
+      ],
       "artifacts": [
         "asus_theye/audit/canonical.py",
         "asus_theye/audit/keccak.py",
@@ -42,8 +52,12 @@
       "name": "Ledger em produção (Cloudflare D1 + R2 + Worker)",
       "purpose": "A cadeia viva: sequenciador por tenant, append-only garantido por trigger",
       "release_class": "L2",
-      "niches": ["*"],
-      "paths": ["infra/cloudflare"],
+      "niches": [
+        "*"
+      ],
+      "paths": [
+        "infra/cloudflare"
+      ],
       "artifacts": [
         "infra/cloudflare/staging/worker.ts",
         "infra/cloudflare/staging/wrangler.toml",
@@ -63,7 +77,10 @@
         "jurimetrics-litigation-analytics-and-litigation-finance",
         "enforcement"
       ],
-      "paths": ["data/decision-context", "asus_theye/decision_context"],
+      "paths": [
+        "data/decision-context",
+        "asus_theye/decision_context"
+      ],
       "artifacts": [
         "data/decision-context/decision-makers.schema.json",
         "data/decision-context/decision-bodies.schema.json",
@@ -86,8 +103,12 @@
       "name": "Taxonomia legal (145 nichos)",
       "purpose": "Chave de junção entre eventos, decisões e produtos por área",
       "release_class": "L1",
-      "niches": ["*"],
-      "paths": ["data/legal-taxonomy"],
+      "niches": [
+        "*"
+      ],
+      "paths": [
+        "data/legal-taxonomy"
+      ],
       "artifacts": [
         "data/legal-taxonomy/legal_areas.master.json",
         "data/legal-taxonomy/legal_areas.master.yaml",
@@ -104,8 +125,12 @@
       "name": "LLM local auditado (Ollama)",
       "purpose": "Inferência que nunca sai da máquina, com registro encadeado de cada chamada",
       "release_class": "L0",
-      "niches": ["*"],
-      "paths": ["asus_theye/llm"],
+      "niches": [
+        "*"
+      ],
+      "paths": [
+        "asus_theye/llm"
+      ],
       "artifacts": [
         "asus_theye/llm/ollama_client.py",
         "asus_theye/llm/audited.py",
@@ -117,8 +142,12 @@
       "name": "Adaptador IBM Quantum (gated)",
       "purpose": "Hardware real atrás de portão explícito; dry-run é livre, execução não",
       "release_class": "L2",
-      "niches": ["*"],
-      "paths": ["asus_theye/benchmark/ibm_backend.py"],
+      "niches": [
+        "*"
+      ],
+      "paths": [
+        "asus_theye/benchmark/ibm_backend.py"
+      ],
       "artifacts": [
         "asus_theye/benchmark/ibm_backend.py",
         "tests/benchmark/test_ibm_backend_gate.py"
@@ -129,8 +158,13 @@
       "name": "Governança (trava, protocolo, checagem de vazamento)",
       "purpose": "Regras executáveis: o que sai, quando, com aprovação de quem",
       "release_class": "L1",
-      "niches": ["*"],
-      "paths": ["scripts", "RELEASE_PROTOCOL.md"],
+      "niches": [
+        "*"
+      ],
+      "paths": [
+        "scripts",
+        "RELEASE_PROTOCOL.md"
+      ],
       "artifacts": [
         "RELEASE_PROTOCOL.md",
         "scripts/publish_lock.py",
@@ -147,8 +181,13 @@
       "name": "Contrato de ancoragem (Base Sepolia)",
       "purpose": "Raiz Merkle on-chain; conteúdo nunca — só prova",
       "release_class": "L3",
-      "niches": ["blockchain-and-smart-contracts", "cryptoassets"],
-      "paths": ["contracts"],
+      "niches": [
+        "blockchain-and-smart-contracts",
+        "cryptoassets"
+      ],
+      "paths": [
+        "contracts"
+      ],
       "artifacts": [
         "contracts/audit-anchor/src/TheEyeAuditAnchor.sol",
         "contracts/audit-anchor/test/TheEyeAuditAnchor.t.sol",
@@ -168,7 +207,11 @@
         "jurimetrics-litigation-analytics-and-litigation-finance",
         "science-research-integrity-and-technology-transfer"
       ],
-      "paths": ["data/source-graph", "asus_theye/source_graph", "asus_theye/net"],
+      "paths": [
+        "data/source-graph",
+        "asus_theye/source_graph",
+        "asus_theye/net"
+      ],
       "artifacts": [
         "data/source-graph/knowledge-source.schema.json",
         "data/source-graph/ranking-entry.schema.json",
@@ -212,12 +255,55 @@
       "name": "Superfície pública de verificação",
       "purpose": "Terceiros conferem provas sem credencial — só leitura, só hashes",
       "release_class": "L5",
-      "niches": ["*"],
-      "paths": ["apps/public-verifier"],
+      "niches": [
+        "*"
+      ],
+      "paths": [
+        "apps/public-verifier"
+      ],
       "artifacts": [
         "apps/public-verifier/worker.ts",
         "apps/public-verifier/wrangler.toml",
         "apps/public-verifier/README.md"
+      ]
+    },
+    {
+      "project_id": "comercial",
+      "name": "Plataforma comercial (diretor comercial — direito)",
+      "purpose": "Um sistema, 15 nichos por configuração: funil append-only, métricas com denominador e ranking que separa amostra insuficiente",
+      "release_class": "L1",
+      "niches": [
+        "tax",
+        "employment",
+        "consumer",
+        "civil-procedure",
+        "contracts",
+        "real-estate",
+        "corporate-law",
+        "judicial-and-extrajudicial-restructuring",
+        "banking",
+        "social-security",
+        "family",
+        "succession-private-client-and-family-offices",
+        "agribusiness",
+        "data-protection",
+        "corporate-criminal-law"
+      ],
+      "paths": [
+        "data/commercial",
+        "asus_theye/commercial",
+        "apps/comercial"
+      ],
+      "artifacts": [
+        "data/commercial/niches.json",
+        "data/commercial/opportunity.schema.json",
+        "data/commercial/niche-metrics.schema.json",
+        "asus_theye/commercial/niches.py",
+        "asus_theye/commercial/pipeline.py",
+        "asus_theye/commercial/metrics.py",
+        "apps/comercial/api.py",
+        "apps/comercial/static/index.html",
+        "tests/commercial/test_commercial.py"
       ]
     }
   ]

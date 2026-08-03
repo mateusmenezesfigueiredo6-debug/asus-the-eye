@@ -35,3 +35,5 @@ select = ["E", "F", "I", "UP", "B"]
 
 [tool.ruff.lint.per-file-ignores]
 "asus_theye/audit/keccak.py" = ["E701"]
+# Body()/Query()/Depends() em default de argumento é o idioma do FastAPI, não um bug.
+"apps/*/api.py" = ["B008"]

@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://the-eye.local/schemas/commercial/niche-metrics.schema.json",
+  "title": "Métricas por nicho",
+  "description": "Toda métrica carrega denominador, período e tamanho de amostra — a mesma regra da Fase G. Uma taxa de conversão de 100% sobre 2 oportunidades não é comparável a 40% sobre 200, e o schema obriga a mostrar isso. sample_sufficient é o campo que impede a leitura ingênua.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "niche_id",
+    "period_start",
+    "period_end",
+    "opportunities_total",
+    "won",
+    "lost",
+    "open",
+    "win_rate",
+    "denominator",
+    "sample_sufficient",
+    "limitations",
+    "claim_class",
+    "computed_at"
+  ],
+  "properties": {
+    "niche_id": { "type": "string", "minLength": 1 },
+    "period_start": { "type": "string", "format": "date" },
+    "period_end": { "type": "string", "format": "date" },
+    "opportunities_total": { "type": "integer", "minimum": 0 },
+    "won": { "type": "integer", "minimum": 0 },
+    "lost": { "type": "integer", "minimum": 0 },
+    "open": { "type": "integer", "minimum": 0 },
+    "win_rate": {
+      "type": ["number", "null"],
+      "minimum": 0,
+      "maximum": 1,
+      "description": "null quando o denominador é zero — taxa sem denominador não é taxa."
+    },
+    "denominator": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Oportunidades fechadas (ganhas + perdidas). O que produz a taxa."
+    },
+    "sample_sufficient": {
+      "type": "boolean",
+      "description": "false quando o denominador é menor que o mínimo declarado. Uma taxa com amostra insuficiente é exibida, mas nunca ranqueada."
+    },
+    "minimum_sample": { "type": "integer", "minimum": 1 },
+    "revenue_brl": {
+      "type": ["number", "null"],
+      "minimum": 0,
+      "description": "Soma dos valores REGISTRADOS das oportunidades ganhas. null se nenhuma tem valor."
+    },
+    "average_ticket_brl": { "type": ["number", "null"], "minimum": 0 },
+    "median_cycle_days": { "type": ["number", "null"], "minimum": 0 },
+    "lost_reasons": {
+      "type": "object",
+      "additionalProperties": { "type": "integer", "minimum": 0 },
+      "description": "Contagem por motivo. É o que transforma perda em aprendizado."
+    },
+    "limitations": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+    "claim_class": { "type": "string", "const": "DERIVED_METRIC" },
+    "computed_at": { "type": "string", "format": "date-time" }
+  }
+}
