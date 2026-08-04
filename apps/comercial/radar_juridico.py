@@ -1,20 +1,22 @@
-"""RADAR JURÍDICO — o produto vendável da plataforma de direito.
+"""RADAR JURIDICO — o produto vendavel da plataforma de direito.
 
-Relatório semanal de leads reais extraídos dos diários oficiais municipais
-(Querido Diário) para um nicho jurídico. Cada lead vem com data, município,
-excerto do ato oficial e link para o PDF original — verificável pelo cliente.
+Relatorio periodico de leads reais extraidos dos diarios oficiais municipais
+(Querido Diario) para um nicho juridico.
 
-Modelo de negócio: assinatura por nicho/região para escritórios de advocacia.
-Exemplos de lead por nicho:
-  recuperacao  → empresas em recuperação judicial (leads para insolvência)
-  tributario   → execuções fiscais (leads para tributaristas)
-  imobiliario  → desapropriações (leads para imobiliaristas)
+Qualidade do lead e o produto. O gerador nao entrega excerto bruto: para cada
+nicho com padrao definido na ontologia, ele EXTRAI a entidade nomeada no ato
+(empresa em recuperacao, executado fiscal, imovel desapropriado), DESCARTA
+texto padrao de edital (exigencia de certidao negativa nao e lead) e DEDUPLICA
+por entidade. O que sobra e o que um advogado usaria.
 
 Uso: python3 apps/comercial/radar_juridico.py <niche_id> [dias]
-Saída: reports/commercial/radar_<niche_id>.html
+Saida: reports/commercial/radar_<niche_id>.html
 """
+import html as html_mod
 import json
+import re
 import sys
+import unicodedata
 import urllib.parse
 import urllib.request
 from datetime import datetime, timedelta, timezone
@@ -23,92 +25,152 @@ from pathlib import Path
 BASE = Path(__file__).resolve().parents[2]
 ONT = json.loads((BASE / "apps/comercial/ontologia.json").read_text(encoding="utf-8"))
 API = ONT["fonte_sinal_externo"]["api"]
+MAX_LEADS = 12
+
+
+def _limpar(texto: str) -> str:
+    return " ".join(texto.split())
+
+
+def _chave(nome: str) -> str:
+    """Normaliza para deduplicar: sem acento, sem pontuacao, sem sufixo societario."""
+    n = unicodedata.normalize("NFKD", nome).encode("ascii", "ignore").decode()
+    n = re.sub(r"\b(LTDA|S ?A|EIRELI|ME|EPP|SA)\b", "", n.upper())
+    return re.sub(r"[^A-Z0-9]", "", n)[:28]
+
+
+def extrair(nicho: dict, gazettes: list) -> list[dict]:
+    """Devolve leads com entidade identificada, sem ruido e sem repeticao."""
+    rx_ent = nicho.get("regex_entidade")
+    rx_ruido = nicho.get("regex_ruido")
+    entidade = re.compile(rx_ent) if rx_ent else None
+    ruido = re.compile(rx_ruido, re.I) if rx_ruido else None
+
+    leads, vistos = [], set()
+    for g in gazettes:
+        for bruto in g.get("excerpts") or []:
+            trecho = _limpar(bruto)
+            if ruido and ruido.search(trecho):
+                continue
+            nome = None
+            if entidade:
+                m = entidade.search(trecho)
+                if not m:
+                    continue
+                nome = _limpar(m.group(1)).strip(" -–.,")
+                if len(nome) < 5:
+                    continue
+                k = _chave(nome)
+                if k in vistos:
+                    continue
+                vistos.add(k)
+            leads.append({
+                "entidade": nome,
+                "trecho": trecho,
+                "municipio": g["territory_name"],
+                "uf": g["state_code"],
+                "data": g["date"],
+                "url": g["url"],
+            })
+            break  # um lead por publicacao
+    return leads[:MAX_LEADS]
+
+
+def buscar(nicho: dict, dias: int) -> tuple[list, int]:
+    termo = nicho.get("busca_lead") or nicho["termo_sinal"]
+    desde = (datetime.now(timezone.utc) - timedelta(days=dias)).strftime("%Y-%m-%d")
+    url = (f"{API}?querystring={urllib.parse.quote(chr(34) + termo + chr(34))}"
+           f"&published_since={desde}&size=60&excerpt_size=340&number_of_excerpts=2")
+    payload = json.loads(urllib.request.urlopen(url, timeout=40).read())
+    return payload.get("gazettes", []), payload.get("total_gazettes", 0)
+
+
+def render(nicho: dict, leads: list, total: int, dias: int) -> str:
+    termo = nicho.get("busca_lead") or nicho["termo_sinal"]
+    e = html_mod.escape
+    cards = ""
+    for i, ld in enumerate(leads, 1):
+        titulo = e(ld["entidade"]) if ld["entidade"] else f"{e(ld['municipio'])} / {e(ld['uf'])}"
+        cards += f"""<article class=lead>
+<div class=cab><span class=num>{i:02d}</span><h2>{titulo}</h2></div>
+<div class=onde>{e(ld['municipio'])} · {e(ld['uf'])} · publicado em {e(ld['data'])}</div>
+<p>{e(ld['trecho'][:330])}…</p>
+<a class=selo href="{e(ld['url'])}" target=_blank rel=noopener>Conferir no diario oficial</a>
+</article>"""
+    if not leads:
+        cards = ("<article class=lead><p>Nenhum caso novo com entidade identificada "
+                 "nesta janela. Nao preenchemos a edicao com ruido: quando nao ha lead, "
+                 "a edicao vem curta.</p></article>")
+
+    agora = datetime.now()
+    fonte = ONT["fonte_sinal_externo"]
+    return f"""<!doctype html><html lang=pt-BR><meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<title>Radar Juridico — {e(nicho['objeto_juridico'])}</title>
+<style>
+:root{{--verde:#0E4B3A;--papel:#FAFAF7;--tinta:#1A1A18;--cinza:#6B6B65;
+--linha:#E3E1D8;--carimbo:#B3261E;--branco:#FFF}}
+*{{box-sizing:border-box}}
+body{{font-family:Georgia,'Times New Roman',serif;background:var(--papel);
+color:var(--tinta);margin:0;line-height:1.6}}
+.capa{{background:var(--verde);color:#EDF5F1;padding:40px 6vw 30px}}
+.orgao{{font-family:'Arial Narrow',Arial,sans-serif;font-size:12px;letter-spacing:4px;
+text-transform:uppercase;opacity:.8}}
+.capa h1{{font-family:'Arial Narrow',Arial,sans-serif;font-weight:700;
+text-transform:uppercase;font-size:clamp(28px,6vw,44px);line-height:1.05;
+margin:10px 0 8px;text-wrap:balance}}
+.linha-edicao{{font-family:'Courier New',monospace;font-size:12.5px;opacity:.9}}
+main{{max-width:760px;margin:0 auto;padding:0 6vw 60px}}
+.sumario{{background:var(--branco);border:1px solid var(--linha);
+border-left:4px solid var(--verde);padding:16px 20px;margin:24px 0 8px;font-size:15px}}
+.sumario b{{color:var(--verde)}}
+.lead{{background:var(--branco);border:1px solid var(--linha);
+margin:14px 0;padding:18px 22px 16px}}
+.cab{{display:flex;gap:12px;align-items:baseline}}
+.num{{font-family:'Courier New',monospace;font-size:13px;color:var(--carimbo);
+font-weight:700;padding-top:3px}}
+.lead h2{{font-family:'Arial Narrow',Arial,sans-serif;text-transform:uppercase;
+font-size:19px;letter-spacing:.5px;margin:0;color:var(--verde);text-wrap:balance}}
+.onde{{font-family:'Arial Narrow',Arial,sans-serif;font-size:13px;color:var(--cinza);
+margin:4px 0 0;padding-left:26px;letter-spacing:.5px}}
+.lead p{{font-size:14px;color:#3A3A36;margin:12px 0 14px;padding-left:26px;
+border-left:2px solid var(--linha);max-width:62ch}}
+.selo{{display:inline-block;margin-left:26px;font-family:'Arial Narrow',Arial,sans-serif;
+font-size:11.5px;letter-spacing:1.5px;text-transform:uppercase;color:var(--carimbo);
+border:1.5px solid var(--carimbo);padding:5px 12px;text-decoration:none}}
+.selo:hover,.selo:focus{{background:var(--carimbo);color:#fff}}
+.rodape{{font-size:12px;color:var(--cinza);margin-top:32px;
+border-top:1px solid var(--linha);padding-top:14px;max-width:62ch}}
+</style>
+<header class=capa>
+<div class=orgao>Radar Juridico — Diarios Oficiais do Brasil</div>
+<h1>{e(nicho['objeto_juridico'])}</h1>
+<div class=linha-edicao>EDICAO DE {agora.strftime('%d/%m/%Y')} ·
+JANELA DE {dias} DIAS · EXPRESSAO: "{e(termo.upper())}"</div>
+</header>
+<main>
+<div class=sumario><b>{len(leads)} casos com parte identificada</b>, apurados
+entre {total:,} publicacoes que citaram a expressao no periodo. Exigencias de
+certidao e texto padrao de edital foram descartados — aqui so entra ato que
+nomeia alguem.</div>
+{cards}
+<div class=rodape>Fonte: {e(fonte['nome'])} ({e(fonte['operador'])}), diarios
+oficiais municipais de acesso publico. Cada caso remete ao PDF de origem para
+conferencia. Inteligencia de mercado; nao constitui aconselhamento juridico.</div>
+</main></html>"""
 
 
 def gerar(niche_id: str, dias: int = 14) -> Path:
     nicho = next(n for n in ONT["nichos"] if n["niche_id"] == niche_id)
-    termo = nicho["termo_sinal"]
-    desde = (datetime.now(timezone.utc) - timedelta(days=dias)).strftime("%Y-%m-%d")
-    url = (f"{API}?querystring={urllib.parse.quote(chr(34)+termo+chr(34))}"
-           f"&published_since={desde}&size=20&excerpt_size=380&number_of_excerpts=1")
-    payload = json.loads(urllib.request.urlopen(url, timeout=30).read())
-    total = payload.get("total_gazettes", 0)
-    leads = payload.get("gazettes", [])
-
-    cards = ""
-    for i, g in enumerate(leads, 1):
-        exc = (g.get("excerpts") or [""])[0].replace("\n", " ").strip()
-        cards += f"""<article class=lead>
-<div class=protocolo><span class=num>Nº {i:03d}/{datetime.now().strftime('%Y')}</span>
-<span class=onde>{g['territory_name']} · {g['state_code']}</span>
-<span class=quando>{g['date']}</span></div>
-<p>{exc[:380]}…</p>
-<div class=acoes><a class=selo href="{g['url']}" target=_blank rel=noopener>
-VERIFICAR NO PDF OFICIAL ↗</a></div>
-</article>"""
-
-    agora = datetime.now()
-    fonte_nome = ONT["fonte_sinal_externo"]["nome"]
-    fonte_op = ONT["fonte_sinal_externo"]["operador"]
-    html = f"""<!doctype html><meta charset=utf-8><title>Radar Jurídico — {niche_id}</title>
-<style>
-:root{{--verde:#0E4B3A;--verde2:#0B3D30;--papel:#FAFAF7;--tinta:#1A1A18;
---cinza:#6B6B65;--linha:#DDDDD3;--carimbo:#B3261E;--branco:#FFFFFF}}
-*{{box-sizing:border-box}}
-body{{font-family:Georgia,'Times New Roman',serif;background:var(--papel);color:var(--tinta);
-margin:0;line-height:1.55}}
-.capa{{background:var(--verde);color:#EDF5F1;padding:34px 5vw 26px}}
-.capa .orgao{{font-family:'Arial Narrow',Arial,sans-serif;font-size:13px;letter-spacing:4px;
-text-transform:uppercase;opacity:.85}}
-.capa h1{{font-family:'Arial Narrow',Arial,sans-serif;font-weight:700;text-transform:uppercase;
-font-size:clamp(30px,6vw,46px);letter-spacing:1px;margin:6px 0 4px;text-wrap:balance}}
-.capa .edicao{{font-family:'Courier New',monospace;font-size:13px;opacity:.9}}
-main{{max-width:780px;margin:0 auto;padding:26px 5vw 60px}}
-.sumario{{border:1px solid var(--linha);background:var(--branco);padding:16px 20px;margin:0 0 6px;
-font-size:15.5px}}
-.sumario b{{font-size:22px;color:var(--verde)}}
-.lead{{background:var(--branco);border:1px solid var(--linha);border-left:4px solid var(--verde);
-margin:16px 0;padding:0 20px 14px}}
-.protocolo{{display:flex;gap:16px;flex-wrap:wrap;align-items:baseline;
-border-bottom:1px dashed var(--linha);padding:12px 0 9px;font-family:'Courier New',monospace;
-font-size:12.5px;color:var(--cinza)}}
-.protocolo .num{{color:var(--verde);font-weight:700}}
-.protocolo .onde{{color:var(--tinta)}}
-.lead p{{font-size:14.5px;margin:12px 0 10px;max-width:65ch}}
-.acoes{{text-align:right}}
-.selo{{display:inline-block;font-family:'Arial Narrow',Arial,sans-serif;font-size:11.5px;
-letter-spacing:1.5px;color:var(--carimbo);border:1.5px solid var(--carimbo);
-padding:4px 10px;text-decoration:none;transform:rotate(-1deg)}}
-.selo:hover,.selo:focus{{background:var(--carimbo);color:#fff;outline:2px solid var(--verde)}}
-.rodape{{font-size:12px;color:var(--cinza);margin-top:30px;border-top:1px solid var(--linha);
-padding-top:12px}}
-@media(prefers-reduced-motion:no-preference){{.lead{{transition:box-shadow .15s}}
-.lead:hover{{box-shadow:0 2px 10px rgba(14,75,58,.12)}}}}
-</style>
-<header class=capa>
-<div class=orgao>Radar Jurídico · Inteligência de Diários Oficiais</div>
-<h1>{nicho['objeto_juridico']}</h1>
-<div class=edicao>EDIÇÃO DE {agora.strftime('%d/%m/%Y')} · JANELA {dias} DIAS ·
-TERMO VIGIADO: "{termo.upper()}"</div>
-</header>
-<main>
-<div class=sumario><b>{total:,}</b> atos oficiais mencionaram "{termo}" no período.
-Os {len(leads)} mais relevantes seguem abaixo como protocolos — cada um verificável
-no documento oficial de origem.</div>
-{cards}
-<div class=rodape>Fonte: {fonte_nome} ({fonte_op}) — diários oficiais municipais, acesso
-público. Cada protocolo linka o PDF oficial de origem. Inteligência de mercado;
-não constitui aconselhamento jurídico.</div>
-</main>"""
-
+    gazettes, total = buscar(nicho, dias)
+    leads = extrair(nicho, gazettes)
     dest = BASE / f"reports/commercial/radar_{niche_id}.html"
     dest.parent.mkdir(parents=True, exist_ok=True)
-    dest.write_text(html, encoding="utf-8")
-    print(f"OK {dest} — {total:,} menções, {len(leads)} leads na edição")
+    dest.write_text(render(nicho, leads, total, dias), encoding="utf-8")
+    print(f"OK {dest.name} — {len(leads)} leads com entidade / {total:,} publicacoes")
     return dest
 
 
 if __name__ == "__main__":
     nid = sys.argv[1] if len(sys.argv) > 1 else "recuperacao"
-    dias = int(sys.argv[2]) if len(sys.argv) > 2 else 14
-    gerar(nid, dias)
+    gerar(nid, int(sys.argv[2]) if len(sys.argv) > 2 else 14)

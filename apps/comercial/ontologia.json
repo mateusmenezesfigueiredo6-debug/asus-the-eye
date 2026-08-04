@@ -9,20 +9,90 @@
     "o_que_mede": "volume de menções do termo do nicho em atos oficiais publicados — proxy de demanda jurídica real no setor público municipal"
   },
   "nichos": [
-    {"niche_id": "tributario", "termo_sinal": "execução fiscal", "objeto_juridico": "cobrança de tributos"},
-    {"niche_id": "trabalhista", "termo_sinal": "processo trabalhista", "objeto_juridico": "relações de trabalho"},
-    {"niche_id": "consumidor", "termo_sinal": "procon", "objeto_juridico": "defesa do consumidor"},
-    {"niche_id": "civel-contencioso", "termo_sinal": "ação judicial", "objeto_juridico": "litígios cíveis"},
-    {"niche_id": "contratos", "termo_sinal": "rescisão contratual", "objeto_juridico": "contratos e obrigações"},
-    {"niche_id": "imobiliario", "termo_sinal": "desapropriação", "objeto_juridico": "propriedade imobiliária"},
-    {"niche_id": "societario", "termo_sinal": "sociedade empresária", "objeto_juridico": "estrutura societária"},
-    {"niche_id": "recuperacao", "termo_sinal": "recuperação judicial", "objeto_juridico": "insolvência empresarial"},
-    {"niche_id": "bancario", "termo_sinal": "instituição financeira", "objeto_juridico": "operações bancárias"},
-    {"niche_id": "previdenciario", "termo_sinal": "aposentadoria", "objeto_juridico": "benefícios previdenciários"},
-    {"niche_id": "familia", "termo_sinal": "pensão alimentícia", "objeto_juridico": "relações familiares"},
-    {"niche_id": "sucessoes", "termo_sinal": "inventário", "objeto_juridico": "transmissão patrimonial"},
-    {"niche_id": "agronegocio", "termo_sinal": "crédito rural", "objeto_juridico": "atividade agropecuária"},
-    {"niche_id": "protecao-dados", "termo_sinal": "proteção de dados", "objeto_juridico": "privacidade e LGPD"},
-    {"niche_id": "penal-empresarial", "termo_sinal": "improbidade administrativa", "objeto_juridico": "responsabilização empresarial"}
-  ]
+    {
+      "niche_id": "tributario",
+      "termo_sinal": "execução fiscal",
+      "objeto_juridico": "cobrança de tributos",
+      "busca_lead": "execução fiscal",
+      "regex_entidade": "(?:executad[oa]|devedor|contribuinte|em face de)\\s*:?\\s*([A-ZÀ-Ú][A-ZÀ-Ú&.\\-/ ]{4,70})",
+      "regex_ruido": "certid[aã]o negativa|modelo de edital|disp[oõ]e sobre|regulamenta"
+    },
+    {
+      "niche_id": "trabalhista",
+      "termo_sinal": "processo trabalhista",
+      "objeto_juridico": "relações de trabalho"
+    },
+    {
+      "niche_id": "consumidor",
+      "termo_sinal": "procon",
+      "objeto_juridico": "defesa do consumidor"
+    },
+    {
+      "niche_id": "civel-contencioso",
+      "termo_sinal": "ação judicial",
+      "objeto_juridico": "litígios cíveis"
+    },
+    {
+      "niche_id": "contratos",
+      "termo_sinal": "rescisão contratual",
+      "objeto_juridico": "contratos e obrigações"
+    },
+    {
+      "niche_id": "imobiliario",
+      "termo_sinal": "desapropriação",
+      "objeto_juridico": "propriedade imobiliária",
+      "busca_lead": "desapropriação",
+      "regex_entidade": "(?:im[oó]vel|[aá]rea|lote|matr[ií]cula)\\s+([^,;.]{10,70})",
+      "regex_ruido": "certid[aã]o negativa|disp[oõ]e sobre"
+    },
+    {
+      "niche_id": "societario",
+      "termo_sinal": "sociedade empresária",
+      "objeto_juridico": "estrutura societária"
+    },
+    {
+      "niche_id": "recuperacao",
+      "termo_sinal": "recuperação judicial",
+      "objeto_juridico": "insolvência empresarial",
+      "busca_lead": "em recuperação judicial",
+      "regex_entidade": "([A-ZÀ-Ú][A-ZÀ-Ú&.\\-/ ]{4,70}?)\\s*(?:LTDA|S\\.?\\s?A\\.?|EIRELI|ME|EPP)?\\s*[-–]?\\s*EM RECUPERA[CÇ][AÃ]O JUDICIAL",
+      "regex_ruido": "certid[aã]o negativa|negativa de fal[eê]ncia|qualifica[cç][aã]o econ[oô]mic|habilita[cç][aã]o|plano de recupera[cç][aã]o homologado pelo ju[ií]zo, em vigor"
+    },
+    {
+      "niche_id": "bancario",
+      "termo_sinal": "instituição financeira",
+      "objeto_juridico": "operações bancárias"
+    },
+    {
+      "niche_id": "previdenciario",
+      "termo_sinal": "aposentadoria",
+      "objeto_juridico": "benefícios previdenciários"
+    },
+    {
+      "niche_id": "familia",
+      "termo_sinal": "pensão alimentícia",
+      "objeto_juridico": "relações familiares"
+    },
+    {
+      "niche_id": "sucessoes",
+      "termo_sinal": "inventário",
+      "objeto_juridico": "transmissão patrimonial"
+    },
+    {
+      "niche_id": "agronegocio",
+      "termo_sinal": "crédito rural",
+      "objeto_juridico": "atividade agropecuária"
+    },
+    {
+      "niche_id": "protecao-dados",
+      "termo_sinal": "proteção de dados",
+      "objeto_juridico": "privacidade e LGPD"
+    },
+    {
+      "niche_id": "penal-empresarial",
+      "termo_sinal": "improbidade administrativa",
+      "objeto_juridico": "responsabilização empresarial"
+    }
+  ],
+  "nota_extracao": "Nichos com busca_lead/regex_entidade extraem a ENTIDADE nomeada no ato (empresa, executado, imovel) e descartam texto padrao de edital via regex_ruido. Nichos sem esses campos caem no modo generico (excerto bruto)."
 }
