@@ -50,7 +50,7 @@ def carregar_smtp() -> dict | None:
 
 def montar_email(destinatario: str, nome: str, nicho: str, html: str) -> EmailMessage:
     msg = EmailMessage()
-    msg["Subject"] = f"⚖️ Radar Jurídico — {nicho} — edição {datetime.now().strftime('%d/%m/%Y')}"
+    msg["Subject"] = f"Radar Jurídico — {nicho} — edição {datetime.now().strftime('%d/%m/%Y')}"
     msg["To"] = destinatario
     msg.set_content(f"Olá {nome}, sua edição do Radar Jurídico ({nicho}) segue em HTML.")
     msg.add_alternative(html, subtype="html")
