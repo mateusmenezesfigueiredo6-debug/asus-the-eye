@@ -36,33 +36,70 @@ def gerar(niche_id: str, dias: int = 14) -> Path:
     leads = payload.get("gazettes", [])
 
     cards = ""
-    for g in leads:
+    for i, g in enumerate(leads, 1):
         exc = (g.get("excerpts") or [""])[0].replace("\n", " ").strip()
-        cards += f"""<div class=lead>
-<div class=meta><b>{g['territory_name']} / {g['state_code']}</b> · {g['date']}</div>
+        cards += f"""<article class=lead>
+<div class=protocolo><span class=num>Nº {i:03d}/{datetime.now().strftime('%Y')}</span>
+<span class=onde>{g['territory_name']} · {g['state_code']}</span>
+<span class=quando>{g['date']}</span></div>
 <p>{exc[:380]}…</p>
-<a href="{g['url']}" target=_blank>ver ato oficial completo (PDF) →</a></div>"""
+<div class=acoes><a class=selo href="{g['url']}" target=_blank rel=noopener>
+VERIFICAR NO PDF OFICIAL ↗</a></div>
+</article>"""
 
     agora = datetime.now()
+    fonte_nome = ONT["fonte_sinal_externo"]["nome"]
+    fonte_op = ONT["fonte_sinal_externo"]["operador"]
     html = f"""<!doctype html><meta charset=utf-8><title>Radar Jurídico — {niche_id}</title>
 <style>
-body{{font-family:Georgia,serif;max-width:820px;margin:0 auto;padding:32px;background:#fcfbf8;color:#1a1a1a}}
-h1{{font-size:26px;margin-bottom:0}} .tag{{color:#8a6d1a;font-size:13px;letter-spacing:1px}}
-.resumo{{background:#f4efe2;border-left:4px solid #8a6d1a;padding:14px 18px;margin:20px 0;font-size:15px}}
-.lead{{background:#fff;border:1px solid #e2dccc;border-radius:8px;padding:16px 20px;margin:14px 0}}
-.lead p{{font-size:14px;line-height:1.6;color:#333}}
-.meta{{font-size:13px;color:#8a6d1a}}
-a{{color:#8a6d1a}} .rodape{{font-size:12px;color:#777;margin-top:28px;border-top:1px solid #e2dccc;padding-top:12px}}
+:root{{--verde:#0E4B3A;--verde2:#0B3D30;--papel:#FAFAF7;--tinta:#1A1A18;
+--cinza:#6B6B65;--linha:#DDDDD3;--carimbo:#B3261E;--branco:#FFFFFF}}
+*{{box-sizing:border-box}}
+body{{font-family:Georgia,'Times New Roman',serif;background:var(--papel);color:var(--tinta);
+margin:0;line-height:1.55}}
+.capa{{background:var(--verde);color:#EDF5F1;padding:34px 5vw 26px}}
+.capa .orgao{{font-family:'Arial Narrow',Arial,sans-serif;font-size:13px;letter-spacing:4px;
+text-transform:uppercase;opacity:.85}}
+.capa h1{{font-family:'Arial Narrow',Arial,sans-serif;font-weight:700;text-transform:uppercase;
+font-size:clamp(30px,6vw,46px);letter-spacing:1px;margin:6px 0 4px;text-wrap:balance}}
+.capa .edicao{{font-family:'Courier New',monospace;font-size:13px;opacity:.9}}
+main{{max-width:780px;margin:0 auto;padding:26px 5vw 60px}}
+.sumario{{border:1px solid var(--linha);background:var(--branco);padding:16px 20px;margin:0 0 6px;
+font-size:15.5px}}
+.sumario b{{font-size:22px;color:var(--verde)}}
+.lead{{background:var(--branco);border:1px solid var(--linha);border-left:4px solid var(--verde);
+margin:16px 0;padding:0 20px 14px}}
+.protocolo{{display:flex;gap:16px;flex-wrap:wrap;align-items:baseline;
+border-bottom:1px dashed var(--linha);padding:12px 0 9px;font-family:'Courier New',monospace;
+font-size:12.5px;color:var(--cinza)}}
+.protocolo .num{{color:var(--verde);font-weight:700}}
+.protocolo .onde{{color:var(--tinta)}}
+.lead p{{font-size:14.5px;margin:12px 0 10px;max-width:65ch}}
+.acoes{{text-align:right}}
+.selo{{display:inline-block;font-family:'Arial Narrow',Arial,sans-serif;font-size:11.5px;
+letter-spacing:1.5px;color:var(--carimbo);border:1.5px solid var(--carimbo);
+padding:4px 10px;text-decoration:none;transform:rotate(-1deg)}}
+.selo:hover,.selo:focus{{background:var(--carimbo);color:#fff;outline:2px solid var(--verde)}}
+.rodape{{font-size:12px;color:var(--cinza);margin-top:30px;border-top:1px solid var(--linha);
+padding-top:12px}}
+@media(prefers-reduced-motion:no-preference){{.lead{{transition:box-shadow .15s}}
+.lead:hover{{box-shadow:0 2px 10px rgba(14,75,58,.12)}}}}
 </style>
-<div class=tag>RADAR JURÍDICO · EDIÇÃO {agora.strftime('%d/%m/%Y')}</div>
-<h1>{nicho['objeto_juridico'].capitalize()}</h1>
-<div class=resumo><b>{total:,}</b> menções a "{termo}" em diários oficiais municipais nos últimos {dias} dias.
-Abaixo, os {len(leads)} atos mais relevantes — cada um com link para o documento oficial original.</div>
+<header class=capa>
+<div class=orgao>Radar Jurídico · Inteligência de Diários Oficiais</div>
+<h1>{nicho['objeto_juridico']}</h1>
+<div class=edicao>EDIÇÃO DE {agora.strftime('%d/%m/%Y')} · JANELA {dias} DIAS ·
+TERMO VIGIADO: "{termo.upper()}"</div>
+</header>
+<main>
+<div class=sumario><b>{total:,}</b> atos oficiais mencionaram "{termo}" no período.
+Os {len(leads)} mais relevantes seguem abaixo como protocolos — cada um verificável
+no documento oficial de origem.</div>
 {cards}
-<div class=rodape>Fonte: {ONT['fonte_sinal_externo']['nome']} \
-({ONT['fonte_sinal_externo']['operador']}) — diários oficiais municipais, acesso público.
-Relatório gerado automaticamente pela plataforma ASUS · cada lead é verificável no PDF oficial linkado.
-Este material é inteligência de mercado, não constitui aconselhamento jurídico.</div>"""
+<div class=rodape>Fonte: {fonte_nome} ({fonte_op}) — diários oficiais municipais, acesso
+público. Cada protocolo linka o PDF oficial de origem. Inteligência de mercado;
+não constitui aconselhamento jurídico.</div>
+</main>"""
 
     dest = BASE / f"reports/commercial/radar_{niche_id}.html"
     dest.parent.mkdir(parents=True, exist_ok=True)
