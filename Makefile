@@ -41,7 +41,7 @@ fmt:  ## corrige o que o ruff sabe corrigir
 	$(RUFF) format .
 
 types:  ## checagem de tipos (não falha o build ainda — ver ADR-012)
-	@$(PY) -m mypy src/ 2>/dev/null || echo "  mypy não instalado: pip install mypy"
+	@if $(PY) -c "import mypy" 2>/dev/null; then $(PY) -m mypy src/ || true; else echo "  mypy não instalado: pip install mypy"; fi
 
 test:  ## suíte completa
 	$(PY) -m pytest tests/ -q

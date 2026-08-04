@@ -32,8 +32,8 @@ def benchmark_page(report_path: str | Path = "reports/benchmark/latest.json") ->
     metrics = report.get("metrics", {})
     scores = {name: float(value.get("score", 0)) for name, value in results.items()}
     times = {name: float(value.get("execution_time_ms", 0)) for name, value in results.items()}
-    best_score_solver = max(scores, key=scores.get) if scores else None
-    best_time_solver = min(times, key=times.get) if times else None
+    best_score_solver = max(scores, key=lambda name: scores[name]) if scores else None
+    best_time_solver = min(times, key=lambda name: times[name]) if times else None
     best_score = f"{scores[best_score_solver]:.3f} ({best_score_solver})" if best_score_solver else "n/a"
     best_time = f"{times[best_time_solver]:.3f} ms ({best_time_solver})" if best_time_solver else "n/a"
     qar = metrics.get("qar", {}).get("qar", "n/a")

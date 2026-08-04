@@ -109,7 +109,7 @@ def compute_metrics(
 
     valued = [o["value_brl"] for o in won if o.get("value_brl") is not None]
     revenue = round(sum(valued), 2) if valued else None
-    average_ticket = round(revenue / len(valued), 2) if valued else None
+    average_ticket = round(revenue / len(valued), 2) if revenue is not None else None
 
     cycles = [c for c in (_cycle_days(o) for o in won + lost) if c is not None]
     median_cycle = round(statistics.median(cycles), 2) if cycles else None

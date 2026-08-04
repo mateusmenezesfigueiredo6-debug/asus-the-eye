@@ -59,7 +59,8 @@ a{{color:#8a6d1a}} .rodape{{font-size:12px;color:#777;margin-top:28px;border-top
 <div class=resumo><b>{total:,}</b> menções a "{termo}" em diários oficiais municipais nos últimos {dias} dias.
 Abaixo, os {len(leads)} atos mais relevantes — cada um com link para o documento oficial original.</div>
 {cards}
-<div class=rodape>Fonte: {ONT['fonte_sinal_externo']['nome']} ({ONT['fonte_sinal_externo']['operador']}) — diários oficiais municipais, acesso público.
+<div class=rodape>Fonte: {ONT['fonte_sinal_externo']['nome']} \
+({ONT['fonte_sinal_externo']['operador']}) — diários oficiais municipais, acesso público.
 Relatório gerado automaticamente pela plataforma ASUS · cada lead é verificável no PDF oficial linkado.
 Este material é inteligência de mercado, não constitui aconselhamento jurídico.</div>"""
 

@@ -56,7 +56,8 @@ def _count_tests() -> int:
 
 def _evidence_for(project: dict[str, Any]) -> dict[str, Any]:
     """Mede um projeto pelos artefatos que ele declara — existindo ou não."""
-    present, missing = [], []
+    present: list[str] = []
+    missing: list[str] = []
     for relative in project.get("artifacts", []):
         path = REPO_ROOT / relative
         (present if path.exists() else missing).append(relative)
@@ -150,17 +151,17 @@ def build_chart(ledger_events: list[dict[str, Any]] | None = None) -> dict[str, 
 
     groups: dict[str, dict[str, int]] = {}
     for area_id, area in areas.items():
-        bucket = groups.setdefault(area["group"], {"areas": 0, "covered": 0})
-        bucket["areas"] += 1
+        group_bucket = groups.setdefault(area["group"], {"areas": 0, "covered": 0})
+        group_bucket["areas"] += 1
         if area_id in covered:
-            bucket["covered"] += 1
+            group_bucket["covered"] += 1
 
     # O projeto inteiro como UM pipeline, medido etapa por etapa.
     stages: dict[str, dict[str, Any]] = {}
     for project in projects:
         stage = project.get("pipeline_stage", "sem-etapa")
         evidence = project["evidence"]
-        bucket = stages.setdefault(
+        stage_bucket: dict[str, Any] = stages.setdefault(
             stage,
             {
                 "order": project.get("pipeline_order", 99),
@@ -170,14 +171,16 @@ def build_chart(ledger_events: list[dict[str, Any]] | None = None) -> dict[str, 
                 "release_classes": set(),
             },
         )
-        bucket["projects"].append(project["project_id"])
-        bucket["artifacts_present"] += evidence["artifacts_present"]
-        bucket["artifacts_declared"] += evidence["artifacts_declared"]
-        bucket["release_classes"].add(project["release_class"])
-    for bucket in stages.values():
-        declared = bucket["artifacts_declared"]
-        bucket["completion_pct"] = round(100 * bucket["artifacts_present"] / declared) if declared else 0
-        bucket["release_classes"] = sorted(bucket["release_classes"])
+        stage_bucket["projects"].append(project["project_id"])
+        stage_bucket["artifacts_present"] += evidence["artifacts_present"]
+        stage_bucket["artifacts_declared"] += evidence["artifacts_declared"]
+        stage_bucket["release_classes"].add(project["release_class"])
+    for stage_bucket in stages.values():
+        declared = stage_bucket["artifacts_declared"]
+        stage_bucket["completion_pct"] = (
+            round(100 * stage_bucket["artifacts_present"] / declared) if declared else 0
+        )
+        stage_bucket["release_classes"] = sorted(stage_bucket["release_classes"])
     pipeline = dict(sorted(stages.items(), key=lambda item: item[1]["order"]))
 
     snapshot = {
