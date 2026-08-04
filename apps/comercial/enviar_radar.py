@@ -42,7 +42,11 @@ def carregar_smtp() -> dict | None:
             k, v = linha.split("=", 1)
             cfg[k.strip()] = v.strip()
     obrigatorias = {"SMTP_HOST", "SMTP_PORT", "SMTP_USER", "SMTP_PASS"}
-    return cfg if obrigatorias <= cfg.keys() else None
+    if not obrigatorias <= cfg.keys():
+        return None
+    if "COLOQUE" in cfg["SMTP_PASS"] or not cfg["SMTP_PASS"]:
+        return None  # placeholder ainda não preenchido → modo outbox
+    return cfg
 
 
 def montar_email(destinatario: str, nome: str, nicho: str, html: str) -> EmailMessage:
@@ -71,12 +75,16 @@ def main(dry_run: bool = False) -> None:
             html = caminho.read_text(encoding="utf-8")
             msg = montar_email(a["email"], a["nome"], nicho, html)
             if smtp:
-                with smtplib.SMTP(smtp["SMTP_HOST"], int(smtp["SMTP_PORT"])) as s:
-                    s.starttls()
-                    s.login(smtp["SMTP_USER"], smtp["SMTP_PASS"])
-                    s.send_message(msg, from_addr=smtp["SMTP_USER"])
-                print(f"  [ENVIADO] {a['email']} ← {nicho}")
-            else:
+                try:
+                    with smtplib.SMTP(smtp["SMTP_HOST"], int(smtp["SMTP_PORT"])) as s:
+                        s.starttls()
+                        s.login(smtp["SMTP_USER"], smtp["SMTP_PASS"])
+                        s.send_message(msg, from_addr=smtp["SMTP_USER"])
+                    print(f"  [ENVIADO] {a['email']} ← {nicho}")
+                except smtplib.SMTPException as e:
+                    smtp = None  # credencial falhou → resto do lote vai p/ outbox
+                    print(f"  [!] SMTP falhou ({e.__class__.__name__}) — caindo para outbox")
+            if not smtp:
                 OUTBOX.mkdir(parents=True, exist_ok=True)
                 dest = OUTBOX / f"{datetime.now().strftime('%Y%m%d')}_{nicho}_{a['email'].split('@')[0]}.eml"
                 dest.write_bytes(bytes(msg))
