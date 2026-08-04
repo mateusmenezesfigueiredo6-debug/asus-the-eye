@@ -1,0 +1,12 @@
+{
+  "descricao": "Registro de assinantes do Radar Jurídico. Cada assinante recebe as edições dos nichos assinados. Status: trial (degustação 14 dias) | ativo | pausado.",
+  "assinantes": [
+    {
+      "email": "mateusmenezesfigueiredo6@gmail.com",
+      "nome": "Mateus (teste interno)",
+      "nichos": ["recuperacao", "tributario"],
+      "status": "trial",
+      "inicio": "2026-08-03"
+    }
+  ]
+}
