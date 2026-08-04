@@ -1,0 +1,28 @@
+{
+  "descricao": "Ontologia da plataforma de direito — benchmark Palantir: cada nicho é um objeto com relações explícitas a áreas legais, termo de sinal externo e fonte auditável. Nicho é dado, não código.",
+  "versao": "1.0",
+  "fonte_sinal_externo": {
+    "nome": "Querido Diário",
+    "operador": "Open Knowledge Brasil",
+    "api": "https://api.queridodiario.ok.org.br/gazettes",
+    "natureza": "diários oficiais municipais brasileiros, acesso aberto, sem chave",
+    "o_que_mede": "volume de menções do termo do nicho em atos oficiais publicados — proxy de demanda jurídica real no setor público municipal"
+  },
+  "nichos": [
+    {"niche_id": "tributario", "termo_sinal": "execução fiscal", "objeto_juridico": "cobrança de tributos"},
+    {"niche_id": "trabalhista", "termo_sinal": "processo trabalhista", "objeto_juridico": "relações de trabalho"},
+    {"niche_id": "consumidor", "termo_sinal": "procon", "objeto_juridico": "defesa do consumidor"},
+    {"niche_id": "civel-contencioso", "termo_sinal": "ação judicial", "objeto_juridico": "litígios cíveis"},
+    {"niche_id": "contratos", "termo_sinal": "rescisão contratual", "objeto_juridico": "contratos e obrigações"},
+    {"niche_id": "imobiliario", "termo_sinal": "desapropriação", "objeto_juridico": "propriedade imobiliária"},
+    {"niche_id": "societario", "termo_sinal": "sociedade empresária", "objeto_juridico": "estrutura societária"},
+    {"niche_id": "recuperacao", "termo_sinal": "recuperação judicial", "objeto_juridico": "insolvência empresarial"},
+    {"niche_id": "bancario", "termo_sinal": "instituição financeira", "objeto_juridico": "operações bancárias"},
+    {"niche_id": "previdenciario", "termo_sinal": "aposentadoria", "objeto_juridico": "benefícios previdenciários"},
+    {"niche_id": "familia", "termo_sinal": "pensão alimentícia", "objeto_juridico": "relações familiares"},
+    {"niche_id": "sucessoes", "termo_sinal": "inventário", "objeto_juridico": "transmissão patrimonial"},
+    {"niche_id": "agronegocio", "termo_sinal": "crédito rural", "objeto_juridico": "atividade agropecuária"},
+    {"niche_id": "protecao-dados", "termo_sinal": "proteção de dados", "objeto_juridico": "privacidade e LGPD"},
+    {"niche_id": "penal-empresarial", "termo_sinal": "improbidade administrativa", "objeto_juridico": "responsabilização empresarial"}
+  ]
+}
