@@ -34,8 +34,11 @@ def _limpar(texto: str) -> str:
 
 def _chave(nome: str) -> str:
     """Normaliza para deduplicar: sem acento, sem pontuacao, sem sufixo societario."""
-    n = unicodedata.normalize("NFKD", nome).encode("ascii", "ignore").decode()
-    n = re.sub(r"\b(LTDA|S ?A|EIRELI|ME|EPP|SA)\b", "", n.upper())
+    n = unicodedata.normalize("NFKD", nome).encode("ascii", "ignore").decode().upper()
+    # Sufixo societario aparece como S/A, S.A., SA ou S A — normalizar antes de
+    # remover, senao a mesma empresa entra duas vezes na edicao.
+    n = re.sub(r"[/.]", " ", n)
+    n = re.sub(r"\b(LTDA|EIRELI|EPP|ME|S\s*A|SA)\b", " ", n)
     return re.sub(r"[^A-Z0-9]", "", n)[:28]
 
 
