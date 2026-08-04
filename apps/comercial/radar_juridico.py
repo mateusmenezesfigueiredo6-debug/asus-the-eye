@@ -39,6 +39,14 @@ def _chave(nome: str) -> str:
     return re.sub(r"[^A-Z0-9]", "", n)[:28]
 
 
+CPF = re.compile(r"\b\d{3}\.?\d{3}\.?\d{3}-\d{2}\b")
+
+
+def sem_dado_pessoal(trecho: str) -> bool:
+    """Edicao publica nao carrega CPF. Ato de origem segue linkado."""
+    return not CPF.search(trecho)
+
+
 def extrair(nicho: dict, gazettes: list) -> list[dict]:
     """Devolve leads com entidade identificada, sem ruido e sem repeticao."""
     rx_ent = nicho.get("regex_entidade")
@@ -52,6 +60,8 @@ def extrair(nicho: dict, gazettes: list) -> list[dict]:
             trecho = _limpar(bruto)
             if ruido and ruido.search(trecho):
                 continue
+            if not sem_dado_pessoal(trecho):
+                continue
             nome = None
             if entidade:
                 m = entidade.search(trecho)
@@ -60,10 +70,13 @@ def extrair(nicho: dict, gazettes: list) -> list[dict]:
                 nome = _limpar(m.group(1)).strip(" -–.,")
                 if len(nome) < 5:
                     continue
-                k = _chave(nome)
-                if k in vistos:
-                    continue
-                vistos.add(k)
+            # Deduplicacao vale para todo nicho: com entidade, pela entidade;
+            # sem entidade, pelo proprio texto — senao a edicao repete o mesmo
+            # ato publicado em varios municipios.
+            k = _chave(nome) if nome else _chave(trecho[:80])
+            if k in vistos:
+                continue
+            vistos.add(k)
             leads.append({
                 "entidade": nome,
                 "trecho": trecho,

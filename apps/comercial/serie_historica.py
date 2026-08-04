@@ -15,7 +15,7 @@ import time
 import urllib.parse
 import urllib.request
 from concurrent.futures import ThreadPoolExecutor
-from datetime import date, datetime, timezone
+from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 
 BASE = Path(__file__).resolve().parents[2]
@@ -33,7 +33,10 @@ def meses_ate(hoje: date, quantos: int) -> list[tuple[str, str, str]]:
         if mes == 0:
             mes, ano = 12, ano - 1
         ini = date(ano, mes, 1)
-        fim = date(ano + (mes == 12), (mes % 12) + 1, 1)
+        # published_until e INCLUSIVO: usar o dia 1 do mes seguinte contaria
+        # esse dia em dois meses. O fim e o ultimo dia do proprio mes.
+        prox = date(ano + (mes == 12), (mes % 12) + 1, 1)
+        fim = prox - timedelta(days=1)
         janelas.append((f"{ano}-{mes:02d}", ini.isoformat(), fim.isoformat()))
     return list(reversed(janelas))
 

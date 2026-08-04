@@ -92,10 +92,14 @@ def avaliar_nicho(nid: str, pontos: dict, meses: list[str], h: int) -> dict:
                 "pontos_validos": observados, "minimo": MIN_PONTOS,
                 "nota": "sem historico bastante para prever — nada e afirmado"}
 
-    # Mes faltante e interpolado, nunca descartado: descartar comprimiria a
-    # linha do tempo e faria meses distantes parecerem vizinhos.
-    idx = np.arange(len(serie), dtype=float)
+    # Mes faltante NO MEIO e interpolado, nunca descartado: descartar
+    # comprimiria a linha do tempo. Buraco ANTES do primeiro mes observado e
+    # cortado — interpolar ali inventaria historico que nunca foi medido.
+    tem_todos = [v is not None for v in serie]
+    primeiro = tem_todos.index(True)
+    serie = serie[primeiro:]
     tem = np.array([v is not None for v in serie])
+    idx = np.arange(len(serie), dtype=float)
     y = np.interp(idx, idx[tem], np.array([v for v in serie if v is not None], dtype=float))
     lacunas = int((~tem).sum())
     resultados = {nome: backtest(y, nome) for nome in METODOS}
