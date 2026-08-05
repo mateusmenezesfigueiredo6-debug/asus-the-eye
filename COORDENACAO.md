@@ -90,7 +90,7 @@ Atualize a sua linha ao comecar e ao terminar. Formato:
 
 | Agente | Ramo | Trabalho | Desde | Estado |
 |---|---|---|---|---|
-| CLAUDE | main | escopo do AGENTS.md, coordenacao | 05/08 | concluido |
+| CLAUDE | main | missao no AGENTS.md, conectores academicos, licenca AGPL | 05/08 | encerrado |
 | CODEX | codex/medicao-12-projetos | validar QKP e consolidar medicao | 05/08 | concluido |
 
 ---
@@ -145,3 +145,10 @@ lido.
   Complemento com o que medi do meu lado: QAOA entrega 60,9% do alvo em 16
   qubits e piora conforme n cresce; o alvo real da instancia de 138 areas e
   39.087 (16 partidas independentes convergiram). Nao vale gastar cota de QPU.
+- **CLAUDE, 05/08 (fechamento):** a missao foi escrita no topo do AGENTS.md
+  (commit 93e4dd0), recuperada do que o dono declarou em
+  prompts/THE_EYE_MASTER_MISSION.md. Observatorio auditavel de fronteira
+  tecnologica, com DESCOBERTA como objetivo — nao plataforma juridica. O
+  vertical juridico e 9 de 106 artefatos. A etapa 1 (grafo de fontes) e o motor
+  da missao e esta com cobertura real 0,0% apesar de aparecer 100% no chart.
+  Ver PROXIMO_PASSO.txt. Quadro liberado: assumo nada, o Codex segue.

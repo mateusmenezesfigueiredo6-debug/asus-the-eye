@@ -1,23 +1,60 @@
-QAOA foi medido e PERDE nesta classe de problema. Nao insistir sem mudar algo.
+A MISSAO ESTA ESCRITA. Retomar a etapa 1, que e o motor dela.
 
-MEDIDO (instancias reduzidas, capacidade 40%, sinergia 3x):
-  N=10  QAOA 74,0% do alvo do recozimento
-  N=14  QAOA 66,3%
-  N=16  QAOA 60,9%   -- piora conforme n cresce, e leva 10,5s contra 0,5s
-QAOA nem sequer bate o guloso a partir de N=14.
+CONTEXTO — por que este handoff existe
+  Duas sessoes estreitaram o projeto: primeiro para a plataforma comercial,
+  depois para o vertical juridico. O dono interrompeu com "pare, nao e uma
+  plataforma so juridica" e apontou que ja havia dito ao Codex: e UMA unica
+  plataforma. A causa raiz era o AGENTS.md descrever as partes sem declarar o
+  proposito. Corrigido no commit 93e4dd0: a missao agora abre o arquivo.
 
-O alvo real da instancia completa (138 areas, cap 10%, sinergia 3x) e 39.087,
-confirmado por 16 partidas independentes de recozimento com movimento de troca.
+A MISSAO, EM UMA LINHA
+  Observatorio auditavel de fronteira tecnologica: 500 inovacoes, 500 pessoas,
+  300 universidades e o conteudo publico que as sustenta — com DESCOBERTA de
+  termos novos, pessoas subestimadas e universidades fora dos rankings, nao
+  apenas confirmacao do ja conhecido.
 
-NAO FAZER:
-  - rodar em QPU real da IBM: 138 qubits cabe no Heron mas a cota e ~133s de 600
-    e a extrapolacao mostra QAOA abaixo de 61% ja em 16 qubits
-  - aumentar n esperando virada: a tendencia medida e de piora
+O QUE ISSO REORDENA
+  A etapa 1 (grafo de fontes, 35 artefatos, a maior do pipeline) e o motor da
+  missao. Ela aparece 100% no chart porque os arquivos existem, mas as trilhas
+  academica, fundacao, setorial e gated_dpia estao TODAS em 0,0% de cobertura
+  real: nenhum conector havia sido executado.
 
-SE FOR CONTINUAR, mudar o que importa:
-  - camadas do QAOA (layers=2 hoje) e o otimizador variacional
-  - formulacao da penalidade da restricao de capacidade
-  - ou trocar de classe de problema
+O QUE JA FOI FEITO NESSA DIRECAO (nao refazer)
+  src/asus_theye/source_graph/connectors/academico.py — ROR, Crossref, arXiv e
+  DOAJ implementados e testados ao vivo. Com "direito digital": 262
+  instituicoes, 68 mil trabalhos, 2001 preprints. Proveniencia com SHA-256 em
+  toda resposta; metrica social nunca vira score; preprint marcado como nao
+  revisado.
+  Bug ja corrigido: a v2 do ROR trocou name por names[] e country por
+  locations[]; sem o ajuste devolvia nulo em silencio.
 
-ARQUIVOS: reports/commercial/otimo_referencia.json (alvo 39.087)
-          reports/commercial/qkp_taxonomia.json (instancia)
+PROXIMO PASSO CONCRETO
+  1. Rodar os conectores academicos sobre os TERMOS DA MISSAO, nao juridicos:
+       .venv/bin/python -m asus_theye.source_graph.connectors.academico "quantum machine learning"
+     e repetir para os campos da missao (causalidade, decision intelligence,
+     agentes, AI for Science, hardware de IA, algoritmos hibridos).
+  2. Ligar a saida ao grafo de fontes para a cobertura sair de 0,0%:
+     ver src/asus_theye/source_graph/coverage.py e o schema
+     data/source-graph/knowledge-source.schema.json
+  3. dados-gov-br passou a exigir chave (retorna 401) — a declaracao em
+     connectors.json esta desatualizada. Corrigir o status la.
+  4. openalex tem caminho gratuito pelo dump CC0 no S3, sem chave; a lacuna
+     registrada no chart ja diz isso.
+
+TRABALHO EM ABERTO, REGISTRADO
+  O site publico (theyeofgod.pages.dev) apresenta a plataforma como produto
+  juridico. Esta errado e nao foi corrigido. A etapa 7 (superficie publica de
+  verificacao) segue em 0 de 3 — e o unico gargalo real do pipeline.
+
+NAO FAZER
+  Nao tratar o Radar Juridico como o produto da plataforma.
+  Nao rodar quantum sem autorizacao (GATE.py, cota IBM ~133s de 600).
+  Nao apagar nada de Kalshi.
+  Nao trocar de ramo no diretorio compartilhado — usar git worktree.
+
+ESTADO TECNICO NO FECHAMENTO
+  300 testes verdes, lint limpo, 4 repositorios privados sincronizados.
+  Servicos sob systemd: asus-api 8713, asus-dashboard 8712, asus-site 8790.
+  Licenca: AGPL-3.0 no codigo, restrita em data/.
+  QAOA medido e reprovado nesta classe (60,9% do alvo em 16 qubits).
+  Otimo de referencia da instancia de 138 areas: 39.087, 16 partidas convergiram.
