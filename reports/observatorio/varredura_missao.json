@@ -1,0 +1,702 @@
+{
+  "gerado_em_utc": "2026-08-05T20:20:00.921404+00:00",
+  "origem_dos_campos": "MISSAO declarada no topo do AGENTS.md",
+  "fontes": [
+    "ROR",
+    "Crossref",
+    "arXiv",
+    "DOAJ"
+  ],
+  "nota_metodo": "razao preprint/publicado e contagem de periodicos abertos sao PISTAS de descoberta, nunca prova. Volume de publicacao nao mede qualidade nem importancia, e a missao proibe ranquear por metrica social.",
+  "campos": 16,
+  "limiar_emergente_q3": 0.14796,
+  "limiar_doaj_q1": 1,
+  "casamento": {
+    "arxiv": "frase exata",
+    "crossref": "titulo, palavras soltas",
+    "aviso": "o Crossref nao suporta busca por frase; os numeros dele sao maiores que a realidade do termo"
+  },
+  "emergentes": [
+    "IA",
+    "predicao",
+    "forecasting",
+    "robotica"
+  ],
+  "subexpostos": [
+    "agentes",
+    "modelos multimodais",
+    "hardware de IA",
+    "algoritmos hibridos",
+    "quantica em nuvem"
+  ],
+  "linhas": [
+    {
+      "termo": "robotics",
+      "rotulo": "robotica",
+      "crossref_titulo": 36628,
+      "arxiv_frase": 69703,
+      "doaj": 84,
+      "razao_preprint_publicado": 1.903,
+      "instituicoes_ror": 78,
+      "conectores_com_falha": {},
+      "amostra_arxiv": [
+        "Xiaomi-Robotics-1: Scaling Vision-Language-Action Models with over 100K Hours of Real-World Trajectories",
+        "Symbol Emergence in Robotics: A Survey"
+      ],
+      "proveniencia": {
+        "ror": {
+          "conector": "ror",
+          "url": "https://api.ror.org/organizations?query=robotics",
+          "coletado_em_utc": "2026-08-05T20:20:22.525417Z",
+          "sha256_resposta": "d736d36995f9d852c9ca848f5219cbee38e796418bd85dc6898e51cfce3bced0"
+        },
+        "crossref": {
+          "conector": "crossref",
+          "url": "https://api.crossref.org/works?query.title=robotics&rows=3&select=DOI,title,issued,type,publisher",
+          "coletado_em_utc": "2026-08-05T20:20:22.919688Z",
+          "sha256_resposta": "bb205cc977dba8677283879c477ac5242336383c929e693ae17c16ed89379246"
+        },
+        "arxiv": {
+          "conector": "arxiv",
+          "url": "https://export.arxiv.org/api/query?search_query=all:%22robotics%22&max_results=3",
+          "coletado_em_utc": "2026-08-05T20:20:23.326864Z",
+          "sha256_resposta": "8682254690fa357f983c87aa19f0d56125787b72dfad932f2c5ce96a926703bb"
+        },
+        "doaj": {
+          "conector": "doaj",
+          "url": "https://doaj.org/api/search/journals/robotics?pageSize=3",
+          "coletado_em_utc": "2026-08-05T20:20:23.534607Z",
+          "sha256_resposta": "a555a5d05d9179baaceb4cb7de83576e122bdaf49eba34b98bcb78526ba2443b"
+        }
+      },
+      "emergente": true,
+      "subexposto": false
+    },
+    {
+      "termo": "prediction",
+      "rotulo": "predicao",
+      "crossref_titulo": 704907,
+      "arxiv_frase": 336273,
+      "doaj": 7,
+      "razao_preprint_publicado": 0.47705,
+      "instituicoes_ror": 21,
+      "conectores_com_falha": {},
+      "amostra_arxiv": [
+        "Radiomics-enhanced Deep Multi-task Learning for Outcome Prediction in Head and Neck Cancer",
+        "A Combined Deep Learning-Gradient Boosting Machine Framework for Fluid Intelligence Prediction"
+      ],
+      "proveniencia": {
+        "ror": {
+          "conector": "ror",
+          "url": "https://api.ror.org/organizations?query=prediction",
+          "coletado_em_utc": "2026-08-05T20:20:07.219817Z",
+          "sha256_resposta": "7bbe1f6460b1495c85b9b2bf8709c9c05cc88784bca09bb4d2d38aa3e43858b2"
+        },
+        "crossref": {
+          "conector": "crossref",
+          "url": "https://api.crossref.org/works?query.title=prediction&rows=3&select=DOI,title,issued,type,publisher",
+          "coletado_em_utc": "2026-08-05T20:20:07.614648Z",
+          "sha256_resposta": "4e18054fe6d66e71bdf485856eb7170162c4af41475992c7df0f19a79bc08f6a"
+        },
+        "arxiv": {
+          "conector": "arxiv",
+          "url": "https://export.arxiv.org/api/query?search_query=all:%22prediction%22&max_results=3",
+          "coletado_em_utc": "2026-08-05T20:20:08.149629Z",
+          "sha256_resposta": "1a7a66bb92e8c6419635ee7982c527ec61df438cd8be99be609916cf3c59ef12"
+        },
+        "doaj": {
+          "conector": "doaj",
+          "url": "https://doaj.org/api/search/journals/prediction?pageSize=3",
+          "coletado_em_utc": "2026-08-05T20:20:08.380492Z",
+          "sha256_resposta": "a7984edb8e442cdb09fcfd63ab186c3cf69f94fde8a1c5fa121ae26955254e87"
+        }
+      },
+      "emergente": true,
+      "subexposto": false
+    },
+    {
+      "termo": "artificial intelligence",
+      "rotulo": "IA",
+      "crossref_titulo": 640464,
+      "arxiv_frase": 210282,
+      "doaj": 308,
+      "razao_preprint_publicado": 0.32833,
+      "instituicoes_ror": 142,
+      "conectores_com_falha": {},
+      "amostra_arxiv": [
+        "A Review on Explainable Artificial Intelligence for Healthcare: Why, How, and When?",
+        "Creative Problem Solving in Artificially Intelligent Agents: A Survey and Framework"
+      ],
+      "proveniencia": {
+        "ror": {
+          "conector": "ror",
+          "url": "https://api.ror.org/organizations?query=artificial%20intelligence",
+          "coletado_em_utc": "2026-08-05T20:20:01.943214Z",
+          "sha256_resposta": "3560aa0c98fe57bfe405bd2ce986399b4ddfd2a834c215895d7aa2a7a28e6851"
+        },
+        "crossref": {
+          "conector": "crossref",
+          "url": "https://api.crossref.org/works?query.title=artificial%20intelligence&rows=3&select=DOI,title,issued,type,publisher",
+          "coletado_em_utc": "2026-08-05T20:20:02.934564Z",
+          "sha256_resposta": "216e19560e2e77ca46ce545379ed85de678f1c6c15a2424452686adb23518caf"
+        },
+        "arxiv": {
+          "conector": "arxiv",
+          "url": "https://export.arxiv.org/api/query?search_query=all:%22artificial%20intelligence%22&max_results=3",
+          "coletado_em_utc": "2026-08-05T20:20:03.567093Z",
+          "sha256_resposta": "c4b5098a8b99a1cf557ade1f4ba335b43448d2c6c12ec03507d3c1f4ab5cd2c5"
+        },
+        "doaj": {
+          "conector": "doaj",
+          "url": "https://doaj.org/api/search/journals/artificial%20intelligence?pageSize=3",
+          "coletado_em_utc": "2026-08-05T20:20:03.782926Z",
+          "sha256_resposta": "d1976cfbe50c4fb7b5bcefa6aacc41317346bca880e5cc8b8d3890fa07b5f617"
+        }
+      },
+      "emergente": true,
+      "subexposto": false
+    },
+    {
+      "termo": "forecasting",
+      "rotulo": "forecasting",
+      "crossref_titulo": 154663,
+      "arxiv_frase": 23198,
+      "doaj": 20,
+      "razao_preprint_publicado": 0.14999,
+      "instituicoes_ror": 15,
+      "conectores_com_falha": {},
+      "amostra_arxiv": [
+        "Lasso estimation for GEFCom2014 probabilistic electric load forecasting",
+        "Quantile Regression for Qualifying Match of GEFCom2017 Probabilistic Load Forecasting"
+      ],
+      "proveniencia": {
+        "ror": {
+          "conector": "ror",
+          "url": "https://api.ror.org/organizations?query=forecasting",
+          "coletado_em_utc": "2026-08-05T20:20:09.536453Z",
+          "sha256_resposta": "0e3ca245e8188465d4be0bb6c926b4c61bef5ae49c48b6e16fc7ee180907321c"
+        },
+        "crossref": {
+          "conector": "crossref",
+          "url": "https://api.crossref.org/works?query.title=forecasting&rows=3&select=DOI,title,issued,type,publisher",
+          "coletado_em_utc": "2026-08-05T20:20:10.187479Z",
+          "sha256_resposta": "389ed957d6e17ab7c5c8421308c872e3e90064bd51856269517d960799ec6a64"
+        },
+        "arxiv": {
+          "conector": "arxiv",
+          "url": "https://export.arxiv.org/api/query?search_query=all:%22forecasting%22&max_results=3",
+          "coletado_em_utc": "2026-08-05T20:20:10.986675Z",
+          "sha256_resposta": "075f083499c61e2eee1335e33dbfc06a8c2d4b096a0f3a9b82d4571aaf74d435"
+        },
+        "doaj": {
+          "conector": "doaj",
+          "url": "https://doaj.org/api/search/journals/forecasting?pageSize=3",
+          "coletado_em_utc": "2026-08-05T20:20:11.195296Z",
+          "sha256_resposta": "faab3414d9f70f121b4ce5d34cd9d3b20059032013718207ad3e62c775a51f01"
+        }
+      },
+      "emergente": true,
+      "subexposto": false
+    },
+    {
+      "termo": "machine learning",
+      "rotulo": "machine learning",
+      "crossref_titulo": 2356955,
+      "arxiv_frase": 334385,
+      "doaj": 124,
+      "razao_preprint_publicado": 0.14187,
+      "instituicoes_ror": 245,
+      "conectores_com_falha": {},
+      "amostra_arxiv": [
+        "Changing Data Sources in the Age of Machine Learning for Official Statistics",
+        "Physics-Inspired Interpretability Of Machine Learning Models"
+      ],
+      "proveniencia": {
+        "ror": {
+          "conector": "ror",
+          "url": "https://api.ror.org/organizations?query=machine%20learning",
+          "coletado_em_utc": "2026-08-05T20:20:04.801953Z",
+          "sha256_resposta": "de67769565141ef47cfa065a449b3ac89427977b411bf24e8ea7bab2e0578647"
+        },
+        "crossref": {
+          "conector": "crossref",
+          "url": "https://api.crossref.org/works?query.title=machine%20learning&rows=3&select=DOI,title,issued,type,publisher",
+          "coletado_em_utc": "2026-08-05T20:20:05.471233Z",
+          "sha256_resposta": "5af3164c45a95bb0bedac2a024af76900912c05676f886de707e5cbef8abff4c"
+        },
+        "arxiv": {
+          "conector": "arxiv",
+          "url": "https://export.arxiv.org/api/query?search_query=all:%22machine%20learning%22&max_results=3",
+          "coletado_em_utc": "2026-08-05T20:20:06.002841Z",
+          "sha256_resposta": "5b7fe52f0e853db20f04f8552f25386f076383806173974d5675b14f56250473"
+        },
+        "doaj": {
+          "conector": "doaj",
+          "url": "https://doaj.org/api/search/journals/machine%20learning?pageSize=3",
+          "coletado_em_utc": "2026-08-05T20:20:06.212573Z",
+          "sha256_resposta": "8226a84c55b105c1b543c7e9e7b0dde7e35f21e1606425b09c0da3f74ad26ecd"
+        }
+      },
+      "emergente": false,
+      "subexposto": false
+    },
+    {
+      "termo": "quantum computing",
+      "rotulo": "computacao quantica",
+      "crossref_titulo": 777725,
+      "arxiv_frase": 26114,
+      "doaj": 12,
+      "razao_preprint_publicado": 0.03358,
+      "instituicoes_ror": null,
+      "conectores_com_falha": {
+        "ror": "https://api.ror.org/organizations?query=quantum%20computing: URLError"
+      },
+      "amostra_arxiv": [
+        "Quantum Computing: Vision and Challenges",
+        "Unifying communication paradigms in measurement-based delegated quantum computing"
+      ],
+      "proveniencia": {
+        "crossref": {
+          "conector": "crossref",
+          "url": "https://api.crossref.org/works?query.title=quantum%20computing&rows=3&select=DOI,title,issued,type,publisher",
+          "coletado_em_utc": "2026-08-05T20:20:59.973635Z",
+          "sha256_resposta": "b5ce9aad4f02142e4b8a74862156cfc8cb1bb82256d95a7c0e2bfe7a2767645c"
+        },
+        "arxiv": {
+          "conector": "arxiv",
+          "url": "https://export.arxiv.org/api/query?search_query=all:%22quantum%20computing%22&max_results=3",
+          "coletado_em_utc": "2026-08-05T20:21:00.621381Z",
+          "sha256_resposta": "0b3009481f3c00a973bb5aaa212e99daeabbead64bc2a04138d958cfc4ab9379"
+        },
+        "doaj": {
+          "conector": "doaj",
+          "url": "https://doaj.org/api/search/journals/quantum%20computing?pageSize=3",
+          "coletado_em_utc": "2026-08-05T20:21:00.848840Z",
+          "sha256_resposta": "ee1f87ed4695c1d8aea796349d04a7605c1faf18636fd69a9e964c86932269fc"
+        }
+      },
+      "emergente": false,
+      "subexposto": false
+    },
+    {
+      "termo": "causal inference",
+      "rotulo": "causalidade",
+      "crossref_titulo": 155715,
+      "arxiv_frase": 3724,
+      "doaj": 2,
+      "razao_preprint_publicado": 0.02392,
+      "instituicoes_ror": 7,
+      "conectores_com_falha": {},
+      "amostra_arxiv": [
+        "Causal inference via algebraic geometry: feasibility tests for functional causal structures with two binary observed var",
+        "OpportunityFinder: A Framework for Automated Causal Inference"
+      ],
+      "proveniencia": {
+        "ror": {
+          "conector": "ror",
+          "url": "https://api.ror.org/organizations?query=causal%20inference",
+          "coletado_em_utc": "2026-08-05T20:20:14.054980Z",
+          "sha256_resposta": "9905787e357e8a502f92373344b2e51abf354a1136c6ad522c225d96dbf0ded2"
+        },
+        "crossref": {
+          "conector": "crossref",
+          "url": "https://api.crossref.org/works?query.title=causal%20inference&rows=3&select=DOI,title,issued,type,publisher",
+          "coletado_em_utc": "2026-08-05T20:20:14.488502Z",
+          "sha256_resposta": "a10e22268b59998cd049c63b234f664b317ed206540870c337e27c9127c21fd8"
+        },
+        "arxiv": {
+          "conector": "arxiv",
+          "url": "https://export.arxiv.org/api/query?search_query=all:%22causal%20inference%22&max_results=3",
+          "coletado_em_utc": "2026-08-05T20:20:14.897050Z",
+          "sha256_resposta": "aa18dd4e5a719fa786c4480df7e8e46da77d40a8494c7db3d6276b97d17528ce"
+        },
+        "doaj": {
+          "conector": "doaj",
+          "url": "https://doaj.org/api/search/journals/causal%20inference?pageSize=3",
+          "coletado_em_utc": "2026-08-05T20:20:15.104948Z",
+          "sha256_resposta": "8288d6a0ea901a088d69a92a05d59b972b81659b6ef7e4d09983763c03111559"
+        }
+      },
+      "emergente": false,
+      "subexposto": false
+    },
+    {
+      "termo": "time series",
+      "rotulo": "series temporais",
+      "crossref_titulo": 1978819,
+      "arxiv_frase": 26809,
+      "doaj": 5,
+      "razao_preprint_publicado": 0.01355,
+      "instituicoes_ror": 30,
+      "conectores_com_falha": {},
+      "amostra_arxiv": [
+        "Clustering Multivariate Time Series using Energy Distance",
+        "GluonTS: Probabilistic Time Series Models in Python"
+      ],
+      "proveniencia": {
+        "ror": {
+          "conector": "ror",
+          "url": "https://api.ror.org/organizations?query=time%20series",
+          "coletado_em_utc": "2026-08-05T20:20:12.246101Z",
+          "sha256_resposta": "b78d676cd60fcac8551cd2e0a958dce31b20c76f8f27cd36d610d8d3ec65ca5a"
+        },
+        "crossref": {
+          "conector": "crossref",
+          "url": "https://api.crossref.org/works?query.title=time%20series&rows=3&select=DOI,title,issued,type,publisher",
+          "coletado_em_utc": "2026-08-05T20:20:12.692540Z",
+          "sha256_resposta": "7b574ca20bc4377e076d996b3faa4b298932166f1d680fd078843d02a9e2914a"
+        },
+        "arxiv": {
+          "conector": "arxiv",
+          "url": "https://export.arxiv.org/api/query?search_query=all:%22time%20series%22&max_results=3",
+          "coletado_em_utc": "2026-08-05T20:20:13.149189Z",
+          "sha256_resposta": "6140cc7488c68e53e6368e5662951a295b6d62dd5c3de77db0d2c7e939aabd9d"
+        },
+        "doaj": {
+          "conector": "doaj",
+          "url": "https://doaj.org/api/search/journals/time%20series?pageSize=3",
+          "coletado_em_utc": "2026-08-05T20:20:13.365722Z",
+          "sha256_resposta": "c4bf6cad17fc1b527da2e8295478474a0211db5aa6abf4ac477844dc945ea34f"
+        }
+      },
+      "emergente": false,
+      "subexposto": false
+    },
+    {
+      "termo": "autonomous agents",
+      "rotulo": "agentes",
+      "crossref_titulo": 400112,
+      "arxiv_frase": 2730,
+      "doaj": 0,
+      "razao_preprint_publicado": 0.00682,
+      "instituicoes_ror": 194,
+      "conectores_com_falha": {},
+      "amostra_arxiv": [
+        "Personality-Driven Decision-Making in LLM-Based Autonomous Agents",
+        "Model-free Motion Planning of Autonomous Agents for Complex Tasks in Partially Observable Environments"
+      ],
+      "proveniencia": {
+        "ror": {
+          "conector": "ror",
+          "url": "https://api.ror.org/organizations?query=autonomous%20agents",
+          "coletado_em_utc": "2026-08-05T20:20:18.230175Z",
+          "sha256_resposta": "c09cae697a9869d9a44375fedab6cf062348c54e851c5374b7408c6bc54f230f"
+        },
+        "crossref": {
+          "conector": "crossref",
+          "url": "https://api.crossref.org/works?query.title=autonomous%20agents&rows=3&select=DOI,title,issued,type,publisher",
+          "coletado_em_utc": "2026-08-05T20:20:18.925209Z",
+          "sha256_resposta": "7e7d4832f3945669abcabcb3f30a85e598ea546d2f81a08c785e5154e04ab910"
+        },
+        "arxiv": {
+          "conector": "arxiv",
+          "url": "https://export.arxiv.org/api/query?search_query=all:%22autonomous%20agents%22&max_results=3",
+          "coletado_em_utc": "2026-08-05T20:20:19.294919Z",
+          "sha256_resposta": "a2b173824aea25ec1b5d014fc8e259449fb592b05d5edff151557cd075eb8962"
+        },
+        "doaj": {
+          "conector": "doaj",
+          "url": "https://doaj.org/api/search/journals/autonomous%20agents?pageSize=3",
+          "coletado_em_utc": "2026-08-05T20:20:19.488061Z",
+          "sha256_resposta": "d52f555ca514f3259804e4b3ca549ead5f54b2d91621e3f4219ebea3ad9d6698"
+        }
+      },
+      "emergente": false,
+      "subexposto": true
+    },
+    {
+      "termo": "multimodal models",
+      "rotulo": "modelos multimodais",
+      "crossref_titulo": 1133198,
+      "arxiv_frase": 2714,
+      "doaj": 0,
+      "razao_preprint_publicado": 0.00239,
+      "instituicoes_ror": 33,
+      "conectores_com_falha": {},
+      "amostra_arxiv": [
+        "Test-Time Matching: Unlocking Compositional Reasoning in Multimodal Models",
+        "GOAT-Bench: Safety Insights to Large Multimodal Models through Meme-Based Social Abuse"
+      ],
+      "proveniencia": {
+        "ror": {
+          "conector": "ror",
+          "url": "https://api.ror.org/organizations?query=multimodal%20models",
+          "coletado_em_utc": "2026-08-05T20:20:20.559355Z",
+          "sha256_resposta": "e5ab5f9b3fd0cd77f0435d4b5db1016731c251704a3ad6d478f0ebe32c79d8c1"
+        },
+        "crossref": {
+          "conector": "crossref",
+          "url": "https://api.crossref.org/works?query.title=multimodal%20models&rows=3&select=DOI,title,issued,type,publisher",
+          "coletado_em_utc": "2026-08-05T20:20:21.014747Z",
+          "sha256_resposta": "5d639c4fae00507dfc92ae8e52534240d15c3361dc50e5e31ac2b70725dfa5aa"
+        },
+        "arxiv": {
+          "conector": "arxiv",
+          "url": "https://export.arxiv.org/api/query?search_query=all:%22multimodal%20models%22&max_results=3",
+          "coletado_em_utc": "2026-08-05T20:20:21.424970Z",
+          "sha256_resposta": "44c975dc520f1e9aa3970f04db42a2ec1910bfbe906f3bfd3a80b177a893cd0c"
+        },
+        "doaj": {
+          "conector": "doaj",
+          "url": "https://doaj.org/api/search/journals/multimodal%20models?pageSize=3",
+          "coletado_em_utc": "2026-08-05T20:20:21.619098Z",
+          "sha256_resposta": "e2f3a8d8b25620a7209167b787797ae83beaa8ebafaeb388757b66b4c50367bd"
+        }
+      },
+      "emergente": false,
+      "subexposto": true
+    },
+    {
+      "termo": "quantum machine learning",
+      "rotulo": "quantum ML",
+      "crossref_titulo": 2907340,
+      "arxiv_frase": 1939,
+      "doaj": 2,
+      "razao_preprint_publicado": 0.00067,
+      "instituicoes_ror": 348,
+      "conectores_com_falha": {},
+      "amostra_arxiv": [
+        "MerLin: A Discovery Engine for Photonic and Hybrid Quantum Machine Learning",
+        "Nuclear Physics in the Era of Quantum Computing and Quantum Machine Learning"
+      ],
+      "proveniencia": {
+        "ror": {
+          "conector": "ror",
+          "url": "https://api.ror.org/organizations?query=quantum%20machine%20learning",
+          "coletado_em_utc": "2026-08-05T20:21:31.310650Z",
+          "sha256_resposta": "103dc8d9f1ef7a4404de94d2050dffd8c2aae1275a4d29b19a4a8db0cc1b9fc2"
+        },
+        "crossref": {
+          "conector": "crossref",
+          "url": "https://api.crossref.org/works?query.title=quantum%20machine%20learning&rows=3&select=DOI,title,issued,type,publisher",
+          "coletado_em_utc": "2026-08-05T20:21:31.811326Z",
+          "sha256_resposta": "1972e2dc98bb0bea92fd69b760220ac8ec879170ed448aede2db1fbbcebed259"
+        },
+        "arxiv": {
+          "conector": "arxiv",
+          "url": "https://export.arxiv.org/api/query?search_query=all:%22quantum%20machine%20learning%22&max_results=3",
+          "coletado_em_utc": "2026-08-05T20:21:32.288863Z",
+          "sha256_resposta": "aa74ef3d1485af1e5a14eb0130de7a7f55089b23aaecabc2251b9b4039649ffc"
+        },
+        "doaj": {
+          "conector": "doaj",
+          "url": "https://doaj.org/api/search/journals/quantum%20machine%20learning?pageSize=3",
+          "coletado_em_utc": "2026-08-05T20:21:32.524587Z",
+          "sha256_resposta": "9bd372decd48d1d0349db84e8a5d3af5a077072adacb10977af6776cc108110a"
+        }
+      },
+      "emergente": false,
+      "subexposto": false
+    },
+    {
+      "termo": "AI for science",
+      "rotulo": "AI for Science",
+      "crossref_titulo": 972717,
+      "arxiv_frase": 342,
+      "doaj": 21,
+      "razao_preprint_publicado": 0.00035,
+      "instituicoes_ror": 12588,
+      "conectores_com_falha": {},
+      "amostra_arxiv": [
+        "From Kepler to Newton: Explainable AI for Science",
+        "AI Behavioral Science"
+      ],
+      "proveniencia": {
+        "ror": {
+          "conector": "ror",
+          "url": "https://api.ror.org/organizations?query=AI%20for%20science",
+          "coletado_em_utc": "2026-08-05T20:20:24.692045Z",
+          "sha256_resposta": "51957d368405dc7a0644258cc369643755aeef0d3049630d5f53510913ec2b5e"
+        },
+        "crossref": {
+          "conector": "crossref",
+          "url": "https://api.crossref.org/works?query.title=AI%20for%20science&rows=3&select=DOI,title,issued,type,publisher",
+          "coletado_em_utc": "2026-08-05T20:20:25.354357Z",
+          "sha256_resposta": "57174482d9e5607917ad15255587bce45d1c93bd25905edb525310f3fe414630"
+        },
+        "arxiv": {
+          "conector": "arxiv",
+          "url": "https://export.arxiv.org/api/query?search_query=all:%22AI%20for%20science%22&max_results=3",
+          "coletado_em_utc": "2026-08-05T20:20:25.729858Z",
+          "sha256_resposta": "acba96745fd301b4d544b7340f99a021bd0f2906cc9be85179db5509405dc154"
+        },
+        "doaj": {
+          "conector": "doaj",
+          "url": "https://doaj.org/api/search/journals/AI%20for%20science?pageSize=3",
+          "coletado_em_utc": "2026-08-05T20:20:26.253442Z",
+          "sha256_resposta": "5baee16aed50991ef483ffd6e71781bc6bd3684e4dba94823cf1fa9ae0ee810a"
+        }
+      },
+      "emergente": false,
+      "subexposto": false
+    },
+    {
+      "termo": "hybrid quantum-classical algorithm",
+      "rotulo": "algoritmos hibridos",
+      "crossref_titulo": 2035235,
+      "arxiv_frase": 348,
+      "doaj": 0,
+      "razao_preprint_publicado": 0.00017,
+      "instituicoes_ror": 133,
+      "conectores_com_falha": {},
+      "amostra_arxiv": [
+        "Hybrid Quantum-Classical Algorithm for Hydrodynamics",
+        "A New Hybrid Quantum-Classical Algorithm for Solving the Unit Commitment Problem"
+      ],
+      "proveniencia": {
+        "ror": {
+          "conector": "ror",
+          "url": "https://api.ror.org/organizations?query=hybrid%20quantum-classical%20algorithm",
+          "coletado_em_utc": "2026-08-05T20:21:33.523851Z",
+          "sha256_resposta": "1a28eaf25cf1cf8514311a660d30376e22d88d907d109c2237f950dcf95ae22f"
+        },
+        "crossref": {
+          "conector": "crossref",
+          "url": "https://api.crossref.org/works?query.title=hybrid%20quantum-classical%20algorithm&rows=3&select=DOI,title,issued,type,publisher",
+          "coletado_em_utc": "2026-08-05T20:21:34.110151Z",
+          "sha256_resposta": "c386a2122b38d8c59ab72da3510e620151596e66e44a17155ae4e930d8548968"
+        },
+        "arxiv": {
+          "conector": "arxiv",
+          "url": "https://export.arxiv.org/api/query?search_query=all:%22hybrid%20quantum-classical%20algorithm%22&max_results=3",
+          "coletado_em_utc": "2026-08-05T20:21:34.473010Z",
+          "sha256_resposta": "7cd7dd1a31960497c8790a5fcdd174cd399bc330fa1543a424334e7ccd964e0b"
+        },
+        "doaj": {
+          "conector": "doaj",
+          "url": "https://doaj.org/api/search/journals/hybrid%20quantum-classical%20algorithm?pageSize=3",
+          "coletado_em_utc": "2026-08-05T20:21:34.676747Z",
+          "sha256_resposta": "7fc22d3cf3d5bae45d0c6595952ac50dd832bb2b8085d7827fea005c6017e9e9"
+        }
+      },
+      "emergente": false,
+      "subexposto": true
+    },
+    {
+      "termo": "cloud quantum computing",
+      "rotulo": "quantica em nuvem",
+      "crossref_titulo": 961706,
+      "arxiv_frase": 67,
+      "doaj": 1,
+      "razao_preprint_publicado": 7e-05,
+      "instituicoes_ror": 243,
+      "conectores_com_falha": {},
+      "amostra_arxiv": [
+        "Three Months in the Life of Cloud Quantum Computing",
+        "Hybrid Quantum Neural Network based Indoor User Localization using Cloud Quantum Computing"
+      ],
+      "proveniencia": {
+        "ror": {
+          "conector": "ror",
+          "url": "https://api.ror.org/organizations?query=cloud%20quantum%20computing",
+          "coletado_em_utc": "2026-08-05T20:21:35.618762Z",
+          "sha256_resposta": "0825c6238b659086f05bc67f27363afba0b30b3b47609d7b5595f6ae502b27e5"
+        },
+        "crossref": {
+          "conector": "crossref",
+          "url": "https://api.crossref.org/works?query.title=cloud%20quantum%20computing&rows=3&select=DOI,title,issued,type,publisher",
+          "coletado_em_utc": "2026-08-05T20:21:36.152556Z",
+          "sha256_resposta": "0a0227dd8f16a5fccf53036b3a3629c9535ab31b1e4af92611cf61774b5d0789"
+        },
+        "arxiv": {
+          "conector": "arxiv",
+          "url": "https://export.arxiv.org/api/query?search_query=all:%22cloud%20quantum%20computing%22&max_results=3",
+          "coletado_em_utc": "2026-08-05T20:21:36.501723Z",
+          "sha256_resposta": "aa0afe959b1f55037d5aa76b0c436f212103d48b6cfe58cacfd37c9aa02c298c"
+        },
+        "doaj": {
+          "conector": "doaj",
+          "url": "https://doaj.org/api/search/journals/cloud%20quantum%20computing?pageSize=3",
+          "coletado_em_utc": "2026-08-05T20:21:36.702690Z",
+          "sha256_resposta": "2e9388f2f0bf6dbae2a3143b970a14a1d1f49cd1028a0f2c0b1c26db758133ba"
+        }
+      },
+      "emergente": false,
+      "subexposto": true
+    },
+    {
+      "termo": "AI hardware accelerator",
+      "rotulo": "hardware de IA",
+      "crossref_titulo": 446987,
+      "arxiv_frase": 23,
+      "doaj": 0,
+      "razao_preprint_publicado": 5e-05,
+      "instituicoes_ror": 123,
+      "conectores_com_falha": {},
+      "amostra_arxiv": [
+        "Using the Abstract Computer Architecture Description Language to Model AI Hardware Accelerators",
+        "Sub-Millisecond Event-Based Eye Tracking on a Resource-Constrained Microcontroller"
+      ],
+      "proveniencia": {
+        "ror": {
+          "conector": "ror",
+          "url": "https://api.ror.org/organizations?query=AI%20hardware%20accelerator",
+          "coletado_em_utc": "2026-08-05T20:20:27.189839Z",
+          "sha256_resposta": "c9c953f160489b3d700ba25734bf00730556c8f1cb7b7e337040222436176a4a"
+        },
+        "crossref": {
+          "conector": "crossref",
+          "url": "https://api.crossref.org/works?query.title=AI%20hardware%20accelerator&rows=3&select=DOI,title,issued,type,publisher",
+          "coletado_em_utc": "2026-08-05T20:20:27.634067Z",
+          "sha256_resposta": "930d6ec67d0e6fd30346df6f1c1dbf4c9fcaeed98320ced8be608f15ef450de8"
+        },
+        "arxiv": {
+          "conector": "arxiv",
+          "url": "https://export.arxiv.org/api/query?search_query=all:%22AI%20hardware%20accelerator%22&max_results=3",
+          "coletado_em_utc": "2026-08-05T20:20:27.980430Z",
+          "sha256_resposta": "2d5a7cc97e85e489356e7aeb072c3c8c0c22eb1238f56023cf83322e3d557def"
+        },
+        "doaj": {
+          "conector": "doaj",
+          "url": "https://doaj.org/api/search/journals/AI%20hardware%20accelerator?pageSize=3",
+          "coletado_em_utc": "2026-08-05T20:20:28.198074Z",
+          "sha256_resposta": "f53df1679bc06eff831dfb16ce82bb07a3375356e2ab593b7805b8442ff6862c"
+        }
+      },
+      "emergente": false,
+      "subexposto": true
+    },
+    {
+      "termo": "decision intelligence",
+      "rotulo": "decision intelligence",
+      "crossref_titulo": 1029070,
+      "arxiv_frase": 34,
+      "doaj": 13,
+      "razao_preprint_publicado": 3e-05,
+      "instituicoes_ror": 151,
+      "conectores_com_falha": {},
+      "amostra_arxiv": [
+        "Thinking fast and slow -- a cognitive inspired framework for decision intelligence for power systems",
+        "Beyond Visualization: Building Decision Intelligence Through Iterative Dashboard Refinement"
+      ],
+      "proveniencia": {
+        "ror": {
+          "conector": "ror",
+          "url": "https://api.ror.org/organizations?query=decision%20intelligence",
+          "coletado_em_utc": "2026-08-05T20:20:16.010862Z",
+          "sha256_resposta": "65bdeb64225564b97467aef2ed21b014ca0baafb5d514376be61c78d418c70f8"
+        },
+        "crossref": {
+          "conector": "crossref",
+          "url": "https://api.crossref.org/works?query.title=decision%20intelligence&rows=3&select=DOI,title,issued,type,publisher",
+          "coletado_em_utc": "2026-08-05T20:20:16.676315Z",
+          "sha256_resposta": "0f8a5a8c66f549bd6d99949936f228bd09836731afda6dc019808d63889cc45d"
+        },
+        "arxiv": {
+          "conector": "arxiv",
+          "url": "https://export.arxiv.org/api/query?search_query=all:%22decision%20intelligence%22&max_results=3",
+          "coletado_em_utc": "2026-08-05T20:20:17.036426Z",
+          "sha256_resposta": "bf522743be2cd9fa7c55b6273f6482c080a54f727d28affb93ab9d145301b265"
+        },
+        "doaj": {
+          "conector": "doaj",
+          "url": "https://doaj.org/api/search/journals/decision%20intelligence?pageSize=3",
+          "coletado_em_utc": "2026-08-05T20:20:17.257816Z",
+          "sha256_resposta": "29ccc7c3d0f6450be9e6cb0c895e68f0c83ae4b774154a242f25d2e75e97b0dd"
+        }
+      },
+      "emergente": false,
+      "subexposto": false
+    }
+  ]
+}

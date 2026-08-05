@@ -1,6 +1,6 @@
 # Lacunas de fonte
 
-Gerado em 2026-08-03 · metodologia 1.0.0 · snapshot `4fb49afdef7372ca…`
+Gerado em 2026-08-05 · metodologia 1.0.0 · snapshot `3c7da12fdcb10c60…`
 
 Cada lacuna com o motivo e o que a destravaria. Uma lacuna sem saída
 declarada é uma lacuna escondida.

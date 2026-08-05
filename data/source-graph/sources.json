@@ -1,0 +1,3496 @@
+{
+  "generated_at": "2026-08-05T20:26:02.468660Z",
+  "note": "fontes descobertas pela varredura da missao; toda entrada tem manifesto com SHA-256 da resposta e revisao humana pendente",
+  "discovery_fields": [
+    "artificial intelligence",
+    "machine learning",
+    "quantum computing",
+    "robotics",
+    "causal inference",
+    "time series",
+    "forecasting",
+    "quantum machine learning"
+  ],
+  "sources": [
+    {
+      "source_id": "https://ror.org/009x1ke56",
+      "category_id": "research-centers",
+      "entity_type": "institution",
+      "official_name": "Artificial Intelligence Research Center",
+      "official_url": "https://ror.org/009x1ke56",
+      "jurisdiction": "Japan",
+      "authority_tier": 2,
+      "source_manifest": [
+        {
+          "url": "https://api.ror.org/organizations?query=artificial%20intelligence",
+          "sha256": "3560aa0c98fe57bfe405bd2ce986399b4ddfd2a834c215895d7aa2a7a28e6851",
+          "retrieved_at": "2026-08-05T20:25:53.352058Z",
+          "connector": "ror"
+        }
+      ],
+      "discovery_query_id": "missao::artificial intelligence",
+      "first_seen_at": "2026-08-05T20:25:53.352101Z",
+      "last_verification_at": "2026-08-05T20:25:53.352104Z",
+      "claim_class": "FACT",
+      "license": {
+        "license_id": "CC0-1.0",
+        "license_url": "https://ror.org/about/"
+      },
+      "human_review": {
+        "required": true,
+        "status": "pending"
+      },
+      "poc_status": "production"
+    },
+    {
+      "source_id": "https://ror.org/03wkvpx79",
+      "category_id": "research-centers",
+      "entity_type": "institution",
+      "official_name": "Shanghai Artificial Intelligence Laboratory",
+      "official_url": "https://ror.org/03wkvpx79",
+      "jurisdiction": "China",
+      "authority_tier": 2,
+      "source_manifest": [
+        {
+          "url": "https://api.ror.org/organizations?query=artificial%20intelligence",
+          "sha256": "3560aa0c98fe57bfe405bd2ce986399b4ddfd2a834c215895d7aa2a7a28e6851",
+          "retrieved_at": "2026-08-05T20:25:53.352058Z",
+          "connector": "ror"
+        }
+      ],
+      "discovery_query_id": "missao::artificial intelligence",
+      "first_seen_at": "2026-08-05T20:25:53.352110Z",
+      "last_verification_at": "2026-08-05T20:25:53.352111Z",
+      "claim_class": "FACT",
+      "license": {
+        "license_id": "CC0-1.0",
+        "license_url": "https://ror.org/about/"
+      },
+      "human_review": {
+        "required": true,
+        "status": "pending"
+      },
+      "poc_status": "production"
+    },
+    {
+      "source_id": "https://ror.org/00536t873",
+      "category_id": "research-centers",
+      "entity_type": "institution",
+      "official_name": "Artificial Intelligence & Technology Office",
+      "official_url": "https://ror.org/00536t873",
+      "jurisdiction": "United States",
+      "authority_tier": 2,
+      "source_manifest": [
+        {
+          "url": "https://api.ror.org/organizations?query=artificial%20intelligence",
+          "sha256": "3560aa0c98fe57bfe405bd2ce986399b4ddfd2a834c215895d7aa2a7a28e6851",
+          "retrieved_at": "2026-08-05T20:25:53.352058Z",
+          "connector": "ror"
+        }
+      ],
+      "discovery_query_id": "missao::artificial intelligence",
+      "first_seen_at": "2026-08-05T20:25:53.352114Z",
+      "last_verification_at": "2026-08-05T20:25:53.352116Z",
+      "claim_class": "FACT",
+      "license": {
+        "license_id": "CC0-1.0",
+        "license_url": "https://ror.org/about/"
+      },
+      "human_review": {
+        "required": true,
+        "status": "pending"
+      },
+      "poc_status": "production"
+    },
+    {
+      "source_id": "https://ror.org/03c0ach84",
+      "category_id": "research-centers",
+      "entity_type": "institution",
+      "official_name": "Artificial Intelligence Research Institute",
+      "official_url": "https://ror.org/03c0ach84",
+      "jurisdiction": "Spain",
+      "authority_tier": 2,
+      "source_manifest": [
+        {
+          "url": "https://api.ror.org/organizations?query=artificial%20intelligence",
+          "sha256": "3560aa0c98fe57bfe405bd2ce986399b4ddfd2a834c215895d7aa2a7a28e6851",
+          "retrieved_at": "2026-08-05T20:25:53.352058Z",
+          "connector": "ror"
+        }
+      ],
+      "discovery_query_id": "missao::artificial intelligence",
+      "first_seen_at": "2026-08-05T20:25:53.352118Z",
+      "last_verification_at": "2026-08-05T20:25:53.352119Z",
+      "claim_class": "FACT",
+      "license": {
+        "license_id": "CC0-1.0",
+        "license_url": "https://ror.org/about/"
+      },
+      "human_review": {
+        "required": true,
+        "status": "pending"
+      },
+      "poc_status": "production"
+    },
+    {
+      "source_id": "https://ror.org/01zthd343",
+      "category_id": "research-centers",
+      "entity_type": "institution",
+      "official_name": "REGALIA: Régulation de l'Intelligence Artificielle",
+      "official_url": "https://ror.org/01zthd343",
+      "jurisdiction": "France",
+      "authority_tier": 2,
+      "source_manifest": [
+        {
+          "url": "https://api.ror.org/organizations?query=artificial%20intelligence",
+          "sha256": "3560aa0c98fe57bfe405bd2ce986399b4ddfd2a834c215895d7aa2a7a28e6851",
+          "retrieved_at": "2026-08-05T20:25:53.352058Z",
+          "connector": "ror"
+        }
+      ],
+      "discovery_query_id": "missao::artificial intelligence",
+      "first_seen_at": "2026-08-05T20:25:53.352122Z",
+      "last_verification_at": "2026-08-05T20:25:53.352123Z",
+      "claim_class": "FACT",
+      "license": {
+        "license_id": "CC0-1.0",
+        "license_url": "https://ror.org/about/"
+      },
+      "human_review": {
+        "required": true,
+        "status": "pending"
+      },
+      "poc_status": "production"
+    },
+    {
+      "source_id": "https://ror.org/013x8r926",
+      "category_id": "research-centers",
+      "entity_type": "institution",
+      "official_name": "Laboratório de Inteligência Artificial Aplicada",
+      "official_url": "https://ror.org/013x8r926",
+      "jurisdiction": "Portugal",
+      "authority_tier": 2,
+      "source_manifest": [
+        {
+          "url": "https://api.ror.org/organizations?query=artificial%20intelligence",
+          "sha256": "3560aa0c98fe57bfe405bd2ce986399b4ddfd2a834c215895d7aa2a7a28e6851",
+          "retrieved_at": "2026-08-05T20:25:53.352058Z",
+          "connector": "ror"
+        }
+      ],
+      "discovery_query_id": "missao::artificial intelligence",
+      "first_seen_at": "2026-08-05T20:25:53.352125Z",
+      "last_verification_at": "2026-08-05T20:25:53.352126Z",
+      "claim_class": "FACT",
+      "license": {
+        "license_id": "CC0-1.0",
+        "license_url": "https://ror.org/about/"
+      },
+      "human_review": {
+        "required": true,
+        "status": "pending"
+      },
+      "poc_status": "production"
+    },
+    {
+      "source_id": "https://ror.org/02fvcqy63",
+      "category_id": "research-centers",
+      "entity_type": "institution",
+      "official_name": "Finnish Artificial Intelligence Society (FAIS)",
+      "official_url": "https://ror.org/02fvcqy63",
+      "jurisdiction": "Finland",
+      "authority_tier": 2,
+      "source_manifest": [
+        {
+          "url": "https://api.ror.org/organizations?query=artificial%20intelligence",
+          "sha256": "3560aa0c98fe57bfe405bd2ce986399b4ddfd2a834c215895d7aa2a7a28e6851",
+          "retrieved_at": "2026-08-05T20:25:53.352058Z",
+          "connector": "ror"
+        }
+      ],
+      "discovery_query_id": "missao::artificial intelligence",
+      "first_seen_at": "2026-08-05T20:25:53.352127Z",
+      "last_verification_at": "2026-08-05T20:25:53.352129Z",
+      "claim_class": "FACT",
+      "license": {
+        "license_id": "CC0-1.0",
+        "license_url": "https://ror.org/about/"
+      },
+      "human_review": {
+        "required": true,
+        "status": "pending"
+      },
+      "poc_status": "production"
+    },
+    {
+      "source_id": "https://ror.org/05c22rx21",
+      "category_id": "research-centers",
+      "entity_type": "institution",
+      "official_name": "Mila - Quebec Artificial Intelligence Institute",
+      "official_url": "https://ror.org/05c22rx21",
+      "jurisdiction": "Canada",
+      "authority_tier": 2,
+      "source_manifest": [
+        {
+          "url": "https://api.ror.org/organizations?query=artificial%20intelligence",
+          "sha256": "3560aa0c98fe57bfe405bd2ce986399b4ddfd2a834c215895d7aa2a7a28e6851",
+          "retrieved_at": "2026-08-05T20:25:53.352058Z",
+          "connector": "ror"
+        }
+      ],
+      "discovery_query_id": "missao::artificial intelligence",
+      "first_seen_at": "2026-08-05T20:25:53.352130Z",
+      "last_verification_at": "2026-08-05T20:25:53.352131Z",
+      "claim_class": "FACT",
+      "license": {
+        "license_id": "CC0-1.0",
+        "license_url": "https://ror.org/about/"
+      },
+      "human_review": {
+        "required": true,
+        "status": "pending"
+      },
+      "poc_status": "production"
+    },
+    {
+      "source_id": "https://ror.org/00z1h4239",
+      "category_id": "research-centers",
+      "entity_type": "institution",
+      "official_name": "Artificial Intelligence Talentum, SL (Spain)",
+      "official_url": "https://ror.org/00z1h4239",
+      "jurisdiction": "Spain",
+      "authority_tier": 2,
+      "source_manifest": [
+        {
+          "url": "https://api.ror.org/organizations?query=artificial%20intelligence",
+          "sha256": "3560aa0c98fe57bfe405bd2ce986399b4ddfd2a834c215895d7aa2a7a28e6851",
+          "retrieved_at": "2026-08-05T20:25:53.352058Z",
+          "connector": "ror"
+        }
+      ],
+      "discovery_query_id": "missao::artificial intelligence",
+      "first_seen_at": "2026-08-05T20:25:53.352133Z",
+      "last_verification_at": "2026-08-05T20:25:53.352134Z",
+      "claim_class": "FACT",
+      "license": {
+        "license_id": "CC0-1.0",
+        "license_url": "https://ror.org/about/"
+      },
+      "human_review": {
+        "required": true,
+        "status": "pending"
+      },
+      "poc_status": "production"
+    },
+    {
+      "source_id": "https://ror.org/013jm0v29",
+      "category_id": "research-centers",
+      "entity_type": "institution",
+      "official_name": "Solutions of Artificial Intelligence Applications",
+      "official_url": "https://ror.org/013jm0v29",
+      "jurisdiction": "Romania",
+      "authority_tier": 2,
+      "source_manifest": [
+        {
+          "url": "https://api.ror.org/organizations?query=artificial%20intelligence",
+          "sha256": "3560aa0c98fe57bfe405bd2ce986399b4ddfd2a834c215895d7aa2a7a28e6851",
+          "retrieved_at": "2026-08-05T20:25:53.352058Z",
+          "connector": "ror"
+        }
+      ],
+      "discovery_query_id": "missao::artificial intelligence",
+      "first_seen_at": "2026-08-05T20:25:53.352135Z",
+      "last_verification_at": "2026-08-05T20:25:53.352136Z",
+      "claim_class": "FACT",
+      "license": {
+        "license_id": "CC0-1.0",
+        "license_url": "https://ror.org/about/"
+      },
+      "human_review": {
+        "required": true,
+        "status": "pending"
+      },
+      "poc_status": "production"
+    },
+    {
+      "source_id": "doaj:2097-406X",
+      "category_id": "academics-and-researchers",
+      "entity_type": "journal",
+      "official_name": "Big Data Mining and Analytics",
+      "official_url": "https://doaj.org/toc/2097-406X",
+      "jurisdiction": "CN",
+      "authority_tier": 2,
+      "source_manifest": [
+        {
+          "url": "https://doaj.org/api/search/journals/artificial%20intelligence?pageSize=10",
+          "sha256": "f758e5b3fb0faf776664b91ce56cda1c08edb41756dc4e9e8c8313071ef15e93",
+          "retrieved_at": "2026-08-05T20:25:53.572961Z",
+          "connector": "doaj"
+        }
+      ],
+      "discovery_query_id": "missao::artificial intelligence",
+      "first_seen_at": "2026-08-05T20:25:53.573009Z",
+      "last_verification_at": "2026-08-05T20:25:53.573012Z",
+      "claim_class": "FACT",
+      "license": {
+        "license_id": "declarada-pela-fonte",
+        "license_url": "https://doaj.org/docs/faq/"
+      },
+      "human_review": {
+        "required": true,
+        "status": "pending"
+      },
+      "poc_status": "production"
+    },
+    {
+      "source_id": "doaj:2797-9016",
+      "category_id": "academics-and-researchers",
+      "entity_type": "journal",
+      "official_name": "Journal of Internet and Software Engineering",
+      "official_url": "https://doaj.org/toc/2797-9016",
+      "jurisdiction": "ID",
+      "authority_tier": 2,
+      "source_manifest": [
+        {
+          "url": "https://doaj.org/api/search/journals/artificial%20intelligence?pageSize=10",
+          "sha256": "f758e5b3fb0faf776664b91ce56cda1c08edb41756dc4e9e8c8313071ef15e93",
+          "retrieved_at": "2026-08-05T20:25:53.572961Z",
+          "connector": "doaj"
+        }
+      ],
+      "discovery_query_id": "missao::artificial intelligence",
+      "first_seen_at": "2026-08-05T20:25:53.573019Z",
+      "last_verification_at": "2026-08-05T20:25:53.573021Z",
+      "claim_class": "FACT",
+      "license": {
+        "license_id": "declarada-pela-fonte",
+        "license_url": "https://doaj.org/docs/faq/"
+      },
+      "human_review": {
+        "required": true,
+        "status": "pending"
+      },
+      "poc_status": "production"
+    },
+    {
+      "source_id": "doaj:2614-8404",
+      "category_id": "academics-and-researchers",
+      "entity_type": "journal",
+      "official_name": "JISA (Jurnal Informatika dan Sains)",
+      "official_url": "https://doaj.org/toc/2614-8404",
+      "jurisdiction": "ID",
+      "authority_tier": 2,
+      "source_manifest": [
+        {
+          "url": "https://doaj.org/api/search/journals/artificial%20intelligence?pageSize=10",
+          "sha256": "f758e5b3fb0faf776664b91ce56cda1c08edb41756dc4e9e8c8313071ef15e93",
+          "retrieved_at": "2026-08-05T20:25:53.572961Z",
+          "connector": "doaj"
+        }
+      ],
+      "discovery_query_id": "missao::artificial intelligence",
+      "first_seen_at": "2026-08-05T20:25:53.573025Z",
+      "last_verification_at": "2026-08-05T20:25:53.573026Z",
+      "claim_class": "FACT",
+      "license": {
+        "license_id": "declarada-pela-fonte",
+        "license_url": "https://doaj.org/docs/faq/"
+      },
+      "human_review": {
+        "required": true,
+        "status": "pending"
+      },
+      "poc_status": "production"
+    },
+    {
+      "source_id": "doaj:3049-575X",
+      "category_id": "academics-and-researchers",
+      "entity_type": "journal",
+      "official_name": "BMJ Digital Health & AI",
+      "official_url": "https://doaj.org/toc/3049-575X",
+      "jurisdiction": "GB",
+      "authority_tier": 2,
+      "source_manifest": [
+        {
+          "url": "https://doaj.org/api/search/journals/artificial%20intelligence?pageSize=10",
+          "sha256": "f758e5b3fb0faf776664b91ce56cda1c08edb41756dc4e9e8c8313071ef15e93",
+          "retrieved_at": "2026-08-05T20:25:53.572961Z",
+          "connector": "doaj"
+        }
+      ],
+      "discovery_query_id": "missao::artificial intelligence",
+      "first_seen_at": "2026-08-05T20:25:53.573029Z",
+      "last_verification_at": "2026-08-05T20:25:53.573031Z",
+      "claim_class": "FACT",
+      "license": {
+        "license_id": "declarada-pela-fonte",
+        "license_url": "https://doaj.org/docs/faq/"
+      },
+      "human_review": {
+        "required": true,
+        "status": "pending"
+      },
+      "poc_status": "production"
+    },
+    {
+      "source_id": "doaj:2580-829X",
+      "category_id": "academics-and-researchers",
+      "entity_type": "journal",
+      "official_name": "Data Science",
+      "official_url": "https://doaj.org/toc/2580-829X",
+      "jurisdiction": "ID",
+      "authority_tier": 2,
+      "source_manifest": [
+        {
+          "url": "https://doaj.org/api/search/journals/artificial%20intelligence?pageSize=10",
+          "sha256": "f758e5b3fb0faf776664b91ce56cda1c08edb41756dc4e9e8c8313071ef15e93",
+          "retrieved_at": "2026-08-05T20:25:53.572961Z",
+          "connector": "doaj"
+        }
+      ],
+      "discovery_query_id": "missao::artificial intelligence",
+      "first_seen_at": "2026-08-05T20:25:53.573034Z",
+      "last_verification_at": "2026-08-05T20:25:53.573035Z",
+      "claim_class": "FACT",
+      "license": {
+        "license_id": "declarada-pela-fonte",
+        "license_url": "https://doaj.org/docs/faq/"
+      },
+      "human_review": {
+        "required": true,
+        "status": "pending"
+      },
+      "poc_status": "production"
+    },
+    {
+      "source_id": "doaj:2666-6510",
+      "category_id": "academics-and-researchers",
+      "entity_type": "journal",
+      "official_name": "AI Open",
+      "official_url": "https://doaj.org/toc/2666-6510",
+      "jurisdiction": "CN",
+      "authority_tier": 2,
+      "source_manifest": [
+        {
+          "url": "https://doaj.org/api/search/journals/artificial%20intelligence?pageSize=10",
+          "sha256": "f758e5b3fb0faf776664b91ce56cda1c08edb41756dc4e9e8c8313071ef15e93",
+          "retrieved_at": "2026-08-05T20:25:53.572961Z",
+          "connector": "doaj"
+        }
+      ],
+      "discovery_query_id": "missao::artificial intelligence",
+      "first_seen_at": "2026-08-05T20:25:53.573037Z",
+      "last_verification_at": "2026-08-05T20:25:53.573039Z",
+      "claim_class": "FACT",
+      "license": {
+        "license_id": "declarada-pela-fonte",
+        "license_url": "https://doaj.org/docs/faq/"
+      },
+      "human_review": {
+        "required": true,
+        "status": "pending"
+      },
+      "poc_status": "production"
+    },
+    {
+      "source_id": "doaj:2314-7172",
+      "category_id": "academics-and-researchers",
+      "entity_type": "journal",
+      "official_name": "Journal of Electrical Systems and Information Technology",
+      "official_url": "https://doaj.org/toc/2314-7172",
+      "jurisdiction": "GB",
+      "authority_tier": 2,
+      "source_manifest": [
+        {
+          "url": "https://doaj.org/api/search/journals/artificial%20intelligence?pageSize=10",
+          "sha256": "f758e5b3fb0faf776664b91ce56cda1c08edb41756dc4e9e8c8313071ef15e93",
+          "retrieved_at": "2026-08-05T20:25:53.572961Z",
+          "connector": "doaj"
+        }
+      ],
+      "discovery_query_id": "missao::artificial intelligence",
+      "first_seen_at": "2026-08-05T20:25:53.573041Z",
+      "last_verification_at": "2026-08-05T20:25:53.573043Z",
+      "claim_class": "FACT",
+      "license": {
+        "license_id": "declarada-pela-fonte",
+        "license_url": "https://doaj.org/docs/faq/"
+      },
+      "human_review": {
+        "required": true,
+        "status": "pending"
+      },
+      "poc_status": "production"
+    },
+    {
+      "source_id": "doaj:2631-6315",
+      "category_id": "academics-and-researchers",
+      "entity_type": "journal",
+      "official_name": "IET Cyber-systems and Robotics",
+      "official_url": "https://doaj.org/toc/2631-6315",
+      "jurisdiction": "GB",
+      "authority_tier": 2,
+      "source_manifest": [
+        {
+          "url": "https://doaj.org/api/search/journals/artificial%20intelligence?pageSize=10",
+          "sha256": "f758e5b3fb0faf776664b91ce56cda1c08edb41756dc4e9e8c8313071ef15e93",
+          "retrieved_at": "2026-08-05T20:25:53.572961Z",
+          "connector": "doaj"
+        }
+      ],
+      "discovery_query_id": "missao::artificial intelligence",
+      "first_seen_at": "2026-08-05T20:25:53.573046Z",
+      "last_verification_at": "2026-08-05T20:25:53.573047Z",
+      "claim_class": "FACT",
+      "license": {
+        "license_id": "declarada-pela-fonte",
+        "license_url": "https://doaj.org/docs/faq/"
+      },
+      "human_review": {
+        "required": true,
+        "status": "pending"
+      },
+      "poc_status": "production"
+    },
+    {
+      "source_id": "doaj:2214-3173",
+      "category_id": "academics-and-researchers",
+      "entity_type": "journal",
+      "official_name": "Information Processing in Agriculture",
+      "official_url": "https://doaj.org/toc/2214-3173",
+      "jurisdiction": "NL",
+      "authority_tier": 2,
+      "source_manifest": [
+        {
+          "url": "https://doaj.org/api/search/journals/artificial%20intelligence?pageSize=10",
+          "sha256": "f758e5b3fb0faf776664b91ce56cda1c08edb41756dc4e9e8c8313071ef15e93",
+          "retrieved_at": "2026-08-05T20:25:53.572961Z",
+          "connector": "doaj"
+        }
+      ],
+      "discovery_query_id": "missao::artificial intelligence",
+      "first_seen_at": "2026-08-05T20:25:53.573051Z",
+      "last_verification_at": "2026-08-05T20:25:53.573052Z",
+      "claim_class": "FACT",
+      "license": {
+        "license_id": "declarada-pela-fonte",
+        "license_url": "https://doaj.org/docs/faq/"
+      },
+      "human_review": {
+        "required": true,
+        "status": "pending"
+      },
+      "poc_status": "production"
+    },
+    {
+      "source_id": "doaj:2713-3206",
+      "category_id": "academics-and-researchers",
+      "entity_type": "journal",
+      "official_name": "Информатика и автоматизация",
+      "official_url": "https://doaj.org/toc/2713-3206",
+      "jurisdiction": "RU",
+      "authority_tier": 2,
+      "source_manifest": [
+        {
+          "url": "https://doaj.org/api/search/journals/artificial%20intelligence?pageSize=10",
+          "sha256": "f758e5b3fb0faf776664b91ce56cda1c08edb41756dc4e9e8c8313071ef15e93",
+          "retrieved_at": "2026-08-05T20:25:53.572961Z",
+          "connector": "doaj"
+        }
+      ],
+      "discovery_query_id": "missao::artificial intelligence",
+      "first_seen_at": "2026-08-05T20:25:53.573054Z",
+      "last_verification_at": "2026-08-05T20:25:53.573056Z",
+      "claim_class": "FACT",
+      "license": {
+        "license_id": "declarada-pela-fonte",
+        "license_url": "https://doaj.org/docs/faq/"
+      },
+      "human_review": {
+        "required": true,
+        "status": "pending"
+      },
+      "poc_status": "production"
+    },
+    {
+      "source_id": "https://ror.org/04p2fa809",
+      "category_id": "research-centers",
+      "entity_type": "institution",
+      "official_name": "Institute for Machine Learning",
+      "official_url": "https://ror.org/04p2fa809",
+      "jurisdiction": "Switzerland",
+      "authority_tier": 2,
+      "source_manifest": [
+        {
+          "url": "https://api.ror.org/organizations?query=machine%20learning",
+          "sha256": "4234aa1f47f885f722a7e62e2b1addd0a456414c168caf47957e19894612a487",
+          "retrieved_at": "2026-08-05T20:25:54.843749Z",
+          "connector": "ror"
+        }
+      ],
+      "discovery_query_id": "missao::machine learning",
+      "first_seen_at": "2026-08-05T20:25:54.843837Z",
+      "last_verification_at": "2026-08-05T20:25:54.843844Z",
+      "claim_class": "FACT",
+      "license": {
+        "license_id": "CC0-1.0",
+        "license_url": "https://ror.org/about/"
+      },
+      "human_review": {
+        "required": true,
+        "status": "pending"
+      },
+      "poc_status": "production"
+    },
+    {
+      "source_id": "https://ror.org/0485z7y90",
+      "category_id": "research-centers",
+      "entity_type": "institution",
+      "official_name": "SIERRA: Apprentissage Statistique et optimisation",
+      "official_url": "https://ror.org/0485z7y90",
+      "jurisdiction": "France",
+      "authority_tier": 2,
+      "source_manifest": [
+        {
+          "url": "https://api.ror.org/organizations?query=machine%20learning",
+          "sha256": "4234aa1f47f885f722a7e62e2b1addd0a456414c168caf47957e19894612a487",
+          "retrieved_at": "2026-08-05T20:25:54.843749Z",
+          "connector": "ror"
+        }
+      ],
+      "discovery_query_id": "missao::machine learning",
+      "first_seen_at": "2026-08-05T20:25:54.843854Z",
+      "last_verification_at": "2026-08-05T20:25:54.843857Z",
+      "claim_class": "FACT",
+      "license": {
+        "license_id": "CC0-1.0",
+        "license_url": "https://ror.org/about/"
+      },
+      "human_review": {
+        "required": true,
+        "status": "pending"
+      },
+      "poc_status": "production"
+    },
+    {
+      "source_id": "https://ror.org/02nfy3535",
+      "category_id": "research-centers",
+      "entity_type": "institution",
+      "official_name": "Munich Center for Machine Learning",
+      "official_url": "https://ror.org/02nfy3535",
+      "jurisdiction": "Germany",
+      "authority_tier": 2,
+      "source_manifest": [
+        {
+          "url": "https://api.ror.org/organizations?query=machine%20learning",
+          "sha256": "4234aa1f47f885f722a7e62e2b1addd0a456414c168caf47957e19894612a487",
+          "retrieved_at": "2026-08-05T20:25:54.843749Z",
+          "connector": "ror"
+        }
+      ],
+      "discovery_query_id": "missao::machine learning",
+      "first_seen_at": "2026-08-05T20:25:54.843863Z",
+      "last_verification_at": "2026-08-05T20:25:54.843866Z",
+      "claim_class": "FACT",
+      "license": {
+        "license_id": "CC0-1.0",
+        "license_url": "https://ror.org/about/"
+      },
+      "human_review": {
+        "required": true,
+        "status": "pending"
+      },
+      "poc_status": "production"
+    },
+    {
+      "source_id": "https://ror.org/02e0efw43",
+      "category_id": "research-centers",
+      "entity_type": "institution",
+      "official_name": "Institute for Foundations of Machine Learning",
+      "official_url": "https://ror.org/02e0efw43",
+      "jurisdiction": "United States",
+      "authority_tier": 2,
+      "source_manifest": [
+        {
+          "url": "https://api.ror.org/organizations?query=machine%20learning",
+          "sha256": "4234aa1f47f885f722a7e62e2b1addd0a456414c168caf47957e19894612a487",
+          "retrieved_at": "2026-08-05T20:25:54.843749Z",
+          "connector": "ror"
+        }
+      ],
+      "discovery_query_id": "missao::machine learning",
+      "first_seen_at": "2026-08-05T20:25:54.843871Z",
+      "last_verification_at": "2026-08-05T20:25:54.843874Z",
+      "claim_class": "FACT",
+      "license": {
+        "license_id": "CC0-1.0",
+        "license_url": "https://ror.org/about/"
+      },
+      "human_review": {
+        "required": true,
+        "status": "pending"
+      },
+      "poc_status": "production"
+    },
+    {
+      "source_id": "https://ror.org/01jc9hv70",
+      "category_id": "research-centers",
+      "entity_type": "institution",
+      "official_name": "MAGNET: Machine Learning in Information Networks",
+      "official_url": "https://ror.org/01jc9hv70",
+      "jurisdiction": "France",
+      "authority_tier": 2,
+      "source_manifest": [
+        {
+          "url": "https://api.ror.org/organizations?query=machine%20learning",
+          "sha256": "4234aa1f47f885f722a7e62e2b1addd0a456414c168caf47957e19894612a487",
+          "retrieved_at": "2026-08-05T20:25:54.843749Z",
+          "connector": "ror"
+        }
+      ],
+      "discovery_query_id": "missao::machine learning",
+      "first_seen_at": "2026-08-05T20:25:54.843879Z",
+      "last_verification_at": "2026-08-05T20:25:54.843882Z",
+      "claim_class": "FACT",
+      "license": {
+        "license_id": "CC0-1.0",
+        "license_url": "https://ror.org/about/"
+      },
+      "human_review": {
+        "required": true,
+        "status": "pending"
+      },
+      "poc_status": "production"
+    },
+    {
+      "source_id": "https://ror.org/005g9fg60",
+      "category_id": "research-centers",
+      "entity_type": "institution",
+      "official_name": "MALT: Apprentissage Automatique avec Contraintes Temporelles",
+      "official_url": "https://ror.org/005g9fg60",
+      "jurisdiction": "France",
+      "authority_tier": 2,
+      "source_manifest": [
+        {
+          "url": "https://api.ror.org/organizations?query=machine%20learning",
+          "sha256": "4234aa1f47f885f722a7e62e2b1addd0a456414c168caf47957e19894612a487",
+          "retrieved_at": "2026-08-05T20:25:54.843749Z",
+          "connector": "ror"
+        }
+      ],
+      "discovery_query_id": "missao::machine learning",
+      "first_seen_at": "2026-08-05T20:25:54.843887Z",
+      "last_verification_at": "2026-08-05T20:25:54.843890Z",
+      "claim_class": "FACT",
+      "license": {
+        "license_id": "CC0-1.0",
+        "license_url": "https://ror.org/about/"
+      },
+      "human_review": {
+        "required": true,
+        "status": "pending"
+      },
+      "poc_status": "production"
+    },
+    {
+      "source_id": "https://ror.org/03de2ht59",
+      "category_id": "research-centers",
+      "entity_type": "institution",
+      "official_name": "MACARON: Apprentissage automatique pour des méthodes numériques optimisées",
+      "official_url": "https://ror.org/03de2ht59",
+      "jurisdiction": "France",
+      "authority_tier": 2,
+      "source_manifest": [
+        {
+          "url": "https://api.ror.org/organizations?query=machine%20learning",
+          "sha256": "4234aa1f47f885f722a7e62e2b1addd0a456414c168caf47957e19894612a487",
+          "retrieved_at": "2026-08-05T20:25:54.843749Z",
+          "connector": "ror"
+        }
+      ],
+      "discovery_query_id": "missao::machine learning",
+      "first_seen_at": "2026-08-05T20:25:54.843895Z",
+      "last_verification_at": "2026-08-05T20:25:54.843898Z",
+      "claim_class": "FACT",
+      "license": {
+        "license_id": "CC0-1.0",
+        "license_url": "https://ror.org/about/"
+      },
+      "human_review": {
+        "required": true,
+        "status": "pending"
+      },
+      "poc_status": "production"
+    },
+    {
+      "source_id": "https://ror.org/04s11ea33",
+      "category_id": "research-centers",
+      "entity_type": "institution",
+      "official_name": "Lamarr Institute for Machine Learning and Artificial Intelligence",
+      "official_url": "https://ror.org/04s11ea33",
+      "jurisdiction": "Germany",
+      "authority_tier": 2,
+      "source_manifest": [
+        {
+          "url": "https://api.ror.org/organizations?query=machine%20learning",
+          "sha256": "4234aa1f47f885f722a7e62e2b1addd0a456414c168caf47957e19894612a487",
+          "retrieved_at": "2026-08-05T20:25:54.843749Z",
+          "connector": "ror"
+        }
+      ],
+      "discovery_query_id": "missao::machine learning",
+      "first_seen_at": "2026-08-05T20:25:54.843903Z",
+      "last_verification_at": "2026-08-05T20:25:54.843906Z",
+      "claim_class": "FACT",
+      "license": {
+        "license_id": "CC0-1.0",
+        "license_url": "https://ror.org/about/"
+      },
+      "human_review": {
+        "required": true,
+        "status": "pending"
+      },
+      "poc_status": "production"
+    },
+    {
+      "source_id": "https://ror.org/02hrr9v50",
+      "category_id": "research-centers",
+      "entity_type": "institution",
+      "official_name": "Machine Science",
+      "official_url": "https://ror.org/02hrr9v50",
+      "jurisdiction": "United States",
+      "authority_tier": 2,
+      "source_manifest": [
+        {
+          "url": "https://api.ror.org/organizations?query=machine%20learning",
+          "sha256": "4234aa1f47f885f722a7e62e2b1addd0a456414c168caf47957e19894612a487",
+          "retrieved_at": "2026-08-05T20:25:54.843749Z",
+          "connector": "ror"
+        }
+      ],
+      "discovery_query_id": "missao::machine learning",
+      "first_seen_at": "2026-08-05T20:25:54.843911Z",
+      "last_verification_at": "2026-08-05T20:25:54.843914Z",
+      "claim_class": "FACT",
+      "license": {
+        "license_id": "CC0-1.0",
+        "license_url": "https://ror.org/about/"
+      },
+      "human_review": {
+        "required": true,
+        "status": "pending"
+      },
+      "poc_status": "production"
+    },
+    {
+      "source_id": "https://ror.org/013sh5r34",
+      "category_id": "research-centers",
+      "entity_type": "institution",
+      "official_name": "Sugino Machine Limited (Japan)",
+      "official_url": "https://ror.org/013sh5r34",
+      "jurisdiction": "Japan",
+      "authority_tier": 2,
+      "source_manifest": [
+        {
+          "url": "https://api.ror.org/organizations?query=machine%20learning",
+          "sha256": "4234aa1f47f885f722a7e62e2b1addd0a456414c168caf47957e19894612a487",
+          "retrieved_at": "2026-08-05T20:25:54.843749Z",
+          "connector": "ror"
+        }
+      ],
+      "discovery_query_id": "missao::machine learning",
+      "first_seen_at": "2026-08-05T20:25:54.843919Z",
+      "last_verification_at": "2026-08-05T20:25:54.843922Z",
+      "claim_class": "FACT",
+      "license": {
+        "license_id": "CC0-1.0",
+        "license_url": "https://ror.org/about/"
+      },
+      "human_review": {
+        "required": true,
+        "status": "pending"
+      },
+      "poc_status": "production"
+    },
+    {
+      "source_id": "doaj:2576-9898",
+      "category_id": "academics-and-researchers",
+      "entity_type": "journal",
+      "official_name": "Engineered Science",
+      "official_url": "https://doaj.org/toc/2576-9898",
+      "jurisdiction": "US",
+      "authority_tier": 2,
+      "source_manifest": [
+        {
+          "url": "https://doaj.org/api/search/journals/machine%20learning?pageSize=10",
+          "sha256": "389591f002cfcc785cb0e1a133fc9c141ad189c1f23a81019ac916dc8b1583da",
+          "retrieved_at": "2026-08-05T20:25:55.055181Z",
+          "connector": "doaj"
+        }
+      ],
+      "discovery_query_id": "missao::machine learning",
+      "first_seen_at": "2026-08-05T20:25:55.055221Z",
+      "last_verification_at": "2026-08-05T20:25:55.055223Z",
+      "claim_class": "FACT",
+      "license": {
+        "license_id": "declarada-pela-fonte",
+        "license_url": "https://doaj.org/docs/faq/"
+      },
+      "human_review": {
+        "required": true,
+        "status": "pending"
+      },
+      "poc_status": "production"
+    },
+    {
+      "source_id": "doaj:2667-2596",
+      "category_id": "academics-and-researchers",
+      "entity_type": "journal",
+      "official_name": "Sustainability Analytics and Modeling",
+      "official_url": "https://doaj.org/toc/2667-2596",
+      "jurisdiction": "GB",
+      "authority_tier": 2,
+      "source_manifest": [
+        {
+          "url": "https://doaj.org/api/search/journals/machine%20learning?pageSize=10",
+          "sha256": "389591f002cfcc785cb0e1a133fc9c141ad189c1f23a81019ac916dc8b1583da",
+          "retrieved_at": "2026-08-05T20:25:55.055181Z",
+          "connector": "doaj"
+        }
+      ],
+      "discovery_query_id": "missao::machine learning",
+      "first_seen_at": "2026-08-05T20:25:55.055227Z",
+      "last_verification_at": "2026-08-05T20:25:55.055228Z",
+      "claim_class": "FACT",
+      "license": {
+        "license_id": "declarada-pela-fonte",
+        "license_url": "https://doaj.org/docs/faq/"
+      },
+      "human_review": {
+        "required": true,
+        "status": "pending"
+      },
+      "poc_status": "production"
+    },
+    {
+      "source_id": "doaj:2667-0968",
+      "category_id": "academics-and-researchers",
+      "entity_type": "journal",
+      "official_name": "International Journal of Information Management Data Insights",
+      "official_url": "https://doaj.org/toc/2667-0968",
+      "jurisdiction": "GB",
+      "authority_tier": 2,
+      "source_manifest": [
+        {
+          "url": "https://doaj.org/api/search/journals/machine%20learning?pageSize=10",
+          "sha256": "389591f002cfcc785cb0e1a133fc9c141ad189c1f23a81019ac916dc8b1583da",
+          "retrieved_at": "2026-08-05T20:25:55.055181Z",
+          "connector": "doaj"
+        }
+      ],
+      "discovery_query_id": "missao::machine learning",
+      "first_seen_at": "2026-08-05T20:25:55.055230Z",
+      "last_verification_at": "2026-08-05T20:25:55.055232Z",
+      "claim_class": "FACT",
+      "license": {
+        "license_id": "declarada-pela-fonte",
+        "license_url": "https://doaj.org/docs/faq/"
+      },
+      "human_review": {
+        "required": true,
+        "status": "pending"
+      },
+      "poc_status": "production"
+    },
+    {
+      "source_id": "doaj:2949-7159",
+      "category_id": "academics-and-researchers",
+      "entity_type": "journal",
+      "official_name": "Journal of Information and Intelligence",
+      "official_url": "https://doaj.org/toc/2949-7159",
+      "jurisdiction": "CN",
+      "authority_tier": 2,
+      "source_manifest": [
+        {
+          "url": "https://doaj.org/api/search/journals/machine%20learning?pageSize=10",
+          "sha256": "389591f002cfcc785cb0e1a133fc9c141ad189c1f23a81019ac916dc8b1583da",
+          "retrieved_at": "2026-08-05T20:25:55.055181Z",
+          "connector": "doaj"
+        }
+      ],
+      "discovery_query_id": "missao::machine learning",
+      "first_seen_at": "2026-08-05T20:25:55.055234Z",
+      "last_verification_at": "2026-08-05T20:25:55.055235Z",
+      "claim_class": "FACT",
+      "license": {
+        "license_id": "declarada-pela-fonte",
+        "license_url": "https://doaj.org/docs/faq/"
+      },
+      "human_review": {
+        "required": true,
+        "status": "pending"
+      },
+      "poc_status": "production"
+    },
+    {
+      "source_id": "doaj:2735-3257",
+      "category_id": "academics-and-researchers",
+      "entity_type": "journal",
+      "official_name": "IJCI International Journal of Computers and Information",
+      "official_url": "https://doaj.org/toc/2735-3257",
+      "jurisdiction": "EG",
+      "authority_tier": 2,
+      "source_manifest": [
+        {
+          "url": "https://doaj.org/api/search/journals/machine%20learning?pageSize=10",
+          "sha256": "389591f002cfcc785cb0e1a133fc9c141ad189c1f23a81019ac916dc8b1583da",
+          "retrieved_at": "2026-08-05T20:25:55.055181Z",
+          "connector": "doaj"
+        }
+      ],
+      "discovery_query_id": "missao::machine learning",
+      "first_seen_at": "2026-08-05T20:25:55.055237Z",
+      "last_verification_at": "2026-08-05T20:25:55.055239Z",
+      "claim_class": "FACT",
+      "license": {
+        "license_id": "declarada-pela-fonte",
+        "license_url": "https://doaj.org/docs/faq/"
+      },
+      "human_review": {
+        "required": true,
+        "status": "pending"
+      },
+      "poc_status": "production"
+    },
+    {
+      "source_id": "doaj:2949-8554",
+      "category_id": "academics-and-researchers",
+      "entity_type": "journal",
+      "official_name": "Journal of Automation and Intelligence",
+      "official_url": "https://doaj.org/toc/2949-8554",
+      "jurisdiction": "CN",
+      "authority_tier": 2,
+      "source_manifest": [
+        {
+          "url": "https://doaj.org/api/search/journals/machine%20learning?pageSize=10",
+          "sha256": "389591f002cfcc785cb0e1a133fc9c141ad189c1f23a81019ac916dc8b1583da",
+          "retrieved_at": "2026-08-05T20:25:55.055181Z",
+          "connector": "doaj"
+        }
+      ],
+      "discovery_query_id": "missao::machine learning",
+      "first_seen_at": "2026-08-05T20:25:55.055240Z",
+      "last_verification_at": "2026-08-05T20:25:55.055242Z",
+      "claim_class": "FACT",
+      "license": {
+        "license_id": "declarada-pela-fonte",
+        "license_url": "https://doaj.org/docs/faq/"
+      },
+      "human_review": {
+        "required": true,
+        "status": "pending"
+      },
+      "poc_status": "production"
+    },
+    {
+      "source_id": "doaj:3049-477X",
+      "category_id": "academics-and-researchers",
+      "entity_type": "journal",
+      "official_name": "Machine Learning: Health",
+      "official_url": "https://doaj.org/toc/3049-477X",
+      "jurisdiction": "GB",
+      "authority_tier": 2,
+      "source_manifest": [
+        {
+          "url": "https://doaj.org/api/search/journals/machine%20learning?pageSize=10",
+          "sha256": "389591f002cfcc785cb0e1a133fc9c141ad189c1f23a81019ac916dc8b1583da",
+          "retrieved_at": "2026-08-05T20:25:55.055181Z",
+          "connector": "doaj"
+        }
+      ],
+      "discovery_query_id": "missao::machine learning",
+      "first_seen_at": "2026-08-05T20:25:55.055244Z",
+      "last_verification_at": "2026-08-05T20:25:55.055245Z",
+      "claim_class": "FACT",
+      "license": {
+        "license_id": "declarada-pela-fonte",
+        "license_url": "https://doaj.org/docs/faq/"
+      },
+      "human_review": {
+        "required": true,
+        "status": "pending"
+      },
+      "poc_status": "production"
+    },
+    {
+      "source_id": "doaj:1883-8014",
+      "category_id": "academics-and-researchers",
+      "entity_type": "journal",
+      "official_name": "Journal of Advanced Computational Intelligence and Intelligent Informatics",
+      "official_url": "https://doaj.org/toc/1883-8014",
+      "jurisdiction": "JP",
+      "authority_tier": 2,
+      "source_manifest": [
+        {
+          "url": "https://doaj.org/api/search/journals/machine%20learning?pageSize=10",
+          "sha256": "389591f002cfcc785cb0e1a133fc9c141ad189c1f23a81019ac916dc8b1583da",
+          "retrieved_at": "2026-08-05T20:25:55.055181Z",
+          "connector": "doaj"
+        }
+      ],
+      "discovery_query_id": "missao::machine learning",
+      "first_seen_at": "2026-08-05T20:25:55.055247Z",
+      "last_verification_at": "2026-08-05T20:25:55.055248Z",
+      "claim_class": "FACT",
+      "license": {
+        "license_id": "declarada-pela-fonte",
+        "license_url": "https://doaj.org/docs/faq/"
+      },
+      "human_review": {
+        "required": true,
+        "status": "pending"
+      },
+      "poc_status": "production"
+    },
+    {
+      "source_id": "https://ror.org/02c9ets03",
+      "category_id": "research-centers",
+      "entity_type": "institution",
+      "official_name": "PiDust Quantum Computing (Greece)",
+      "official_url": "https://ror.org/02c9ets03",
+      "jurisdiction": "Greece",
+      "authority_tier": 2,
+      "source_manifest": [
+        {
+          "url": "https://api.ror.org/organizations?query=quantum%20computing",
+          "sha256": "8dd9a2e868ea9bb86d8adb64c9f3373d606920a9faca6b8895b3b3659f80b592",
+          "retrieved_at": "2026-08-05T20:25:55.949076Z",
+          "connector": "ror"
+        }
+      ],
+      "discovery_query_id": "missao::quantum computing",
+      "first_seen_at": "2026-08-05T20:25:55.949142Z",
+      "last_verification_at": "2026-08-05T20:25:55.949146Z",
+      "claim_class": "FACT",
+      "license": {
+        "license_id": "CC0-1.0",
+        "license_url": "https://ror.org/about/"
+      },
+      "human_review": {
+        "required": true,
+        "status": "pending"
+      },
+      "poc_status": "production"
+    },
+    {
+      "source_id": "https://ror.org/0574vhp63",
+      "category_id": "research-centers",
+      "entity_type": "institution",
+      "official_name": "Nordic Quantum Computing Group (Norway)",
+      "official_url": "https://ror.org/0574vhp63",
+      "jurisdiction": "Norway",
+      "authority_tier": 2,
+      "source_manifest": [
+        {
+          "url": "https://api.ror.org/organizations?query=quantum%20computing",
+          "sha256": "8dd9a2e868ea9bb86d8adb64c9f3373d606920a9faca6b8895b3b3659f80b592",
+          "retrieved_at": "2026-08-05T20:25:55.949076Z",
+          "connector": "ror"
+        }
+      ],
+      "discovery_query_id": "missao::quantum computing",
+      "first_seen_at": "2026-08-05T20:25:55.949153Z",
+      "last_verification_at": "2026-08-05T20:25:55.949155Z",
+      "claim_class": "FACT",
+      "license": {
+        "license_id": "CC0-1.0",
+        "license_url": "https://ror.org/about/"
+      },
+      "human_review": {
+        "required": true,
+        "status": "pending"
+      },
+      "poc_status": "production"
+    },
+    {
+      "source_id": "https://ror.org/00adasd53",
+      "category_id": "research-centers",
+      "entity_type": "institution",
+      "official_name": "Paris Centre for Quantum Technologies",
+      "official_url": "https://ror.org/00adasd53",
+      "jurisdiction": "France",
+      "authority_tier": 2,
+      "source_manifest": [
+        {
+          "url": "https://api.ror.org/organizations?query=quantum%20computing",
+          "sha256": "8dd9a2e868ea9bb86d8adb64c9f3373d606920a9faca6b8895b3b3659f80b592",
+          "retrieved_at": "2026-08-05T20:25:55.949076Z",
+          "connector": "ror"
+        }
+      ],
+      "discovery_query_id": "missao::quantum computing",
+      "first_seen_at": "2026-08-05T20:25:55.949159Z",
+      "last_verification_at": "2026-08-05T20:25:55.949162Z",
+      "claim_class": "FACT",
+      "license": {
+        "license_id": "CC0-1.0",
+        "license_url": "https://ror.org/about/"
+      },
+      "human_review": {
+        "required": true,
+        "status": "pending"
+      },
+      "poc_status": "production"
+    },
+    {
+      "source_id": "https://ror.org/02tt21044",
+      "category_id": "research-centers",
+      "entity_type": "institution",
+      "official_name": "RIKEN Center for Quantum Computing",
+      "official_url": "https://ror.org/02tt21044",
+      "jurisdiction": "Japan",
+      "authority_tier": 2,
+      "source_manifest": [
+        {
+          "url": "https://api.ror.org/organizations?query=quantum%20computing",
+          "sha256": "8dd9a2e868ea9bb86d8adb64c9f3373d606920a9faca6b8895b3b3659f80b592",
+          "retrieved_at": "2026-08-05T20:25:55.949076Z",
+          "connector": "ror"
+        }
+      ],
+      "discovery_query_id": "missao::quantum computing",
+      "first_seen_at": "2026-08-05T20:25:55.949166Z",
+      "last_verification_at": "2026-08-05T20:25:55.949168Z",
+      "claim_class": "FACT",
+      "license": {
+        "license_id": "CC0-1.0",
+        "license_url": "https://ror.org/about/"
+      },
+      "human_review": {
+        "required": true,
+        "status": "pending"
+      },
+      "poc_status": "production"
+    },
+    {
+      "source_id": "https://ror.org/058cy9h95",
+      "category_id": "research-centers",
+      "entity_type": "institution",
+      "official_name": "Origin Quantum Computing Technology Company (China)",
+      "official_url": "https://ror.org/058cy9h95",
+      "jurisdiction": "China",
+      "authority_tier": 2,
+      "source_manifest": [
+        {
+          "url": "https://api.ror.org/organizations?query=quantum%20computing",
+          "sha256": "8dd9a2e868ea9bb86d8adb64c9f3373d606920a9faca6b8895b3b3659f80b592",
+          "retrieved_at": "2026-08-05T20:25:55.949076Z",
+          "connector": "ror"
+        }
+      ],
+      "discovery_query_id": "missao::quantum computing",
+      "first_seen_at": "2026-08-05T20:25:55.949171Z",
+      "last_verification_at": "2026-08-05T20:25:55.949173Z",
+      "claim_class": "FACT",
+      "license": {
+        "license_id": "CC0-1.0",
+        "license_url": "https://ror.org/about/"
+      },
+      "human_review": {
+        "required": true,
+        "status": "pending"
+      },
+      "poc_status": "production"
+    },
+    {
+      "source_id": "https://ror.org/00dkdd931",
+      "category_id": "research-centers",
+      "entity_type": "institution",
+      "official_name": "Quantum Group (United States)",
+      "official_url": "https://ror.org/00dkdd931",
+      "jurisdiction": "United States",
+      "authority_tier": 2,
+      "source_manifest": [
+        {
+          "url": "https://api.ror.org/organizations?query=quantum%20computing",
+          "sha256": "8dd9a2e868ea9bb86d8adb64c9f3373d606920a9faca6b8895b3b3659f80b592",
+          "retrieved_at": "2026-08-05T20:25:55.949076Z",
+          "connector": "ror"
+        }
+      ],
+      "discovery_query_id": "missao::quantum computing",
+      "first_seen_at": "2026-08-05T20:25:55.949177Z",
+      "last_verification_at": "2026-08-05T20:25:55.949179Z",
+      "claim_class": "FACT",
+      "license": {
+        "license_id": "CC0-1.0",
+        "license_url": "https://ror.org/about/"
+      },
+      "human_review": {
+        "required": true,
+        "status": "pending"
+      },
+      "poc_status": "production"
+    },
+    {
+      "source_id": "https://ror.org/00bp6rb10",
+      "category_id": "research-centers",
+      "entity_type": "institution",
+      "official_name": "Quantum (Australia)",
+      "official_url": "https://ror.org/00bp6rb10",
+      "jurisdiction": "Australia",
+      "authority_tier": 2,
+      "source_manifest": [
+        {
+          "url": "https://api.ror.org/organizations?query=quantum%20computing",
+          "sha256": "8dd9a2e868ea9bb86d8adb64c9f3373d606920a9faca6b8895b3b3659f80b592",
+          "retrieved_at": "2026-08-05T20:25:55.949076Z",
+          "connector": "ror"
+        }
+      ],
+      "discovery_query_id": "missao::quantum computing",
+      "first_seen_at": "2026-08-05T20:25:55.949182Z",
+      "last_verification_at": "2026-08-05T20:25:55.949184Z",
+      "claim_class": "FACT",
+      "license": {
+        "license_id": "CC0-1.0",
+        "license_url": "https://ror.org/about/"
+      },
+      "human_review": {
+        "required": true,
+        "status": "pending"
+      },
+      "poc_status": "production"
+    },
+    {
+      "source_id": "https://ror.org/03q899w56",
+      "category_id": "research-centers",
+      "entity_type": "institution",
+      "official_name": "Quantum CodeX (United States)",
+      "official_url": "https://ror.org/03q899w56",
+      "jurisdiction": "United States",
+      "authority_tier": 2,
+      "source_manifest": [
+        {
+          "url": "https://api.ror.org/organizations?query=quantum%20computing",
+          "sha256": "8dd9a2e868ea9bb86d8adb64c9f3373d606920a9faca6b8895b3b3659f80b592",
+          "retrieved_at": "2026-08-05T20:25:55.949076Z",
+          "connector": "ror"
+        }
+      ],
+      "discovery_query_id": "missao::quantum computing",
+      "first_seen_at": "2026-08-05T20:25:55.949187Z",
+      "last_verification_at": "2026-08-05T20:25:55.949189Z",
+      "claim_class": "FACT",
+      "license": {
+        "license_id": "CC0-1.0",
+        "license_url": "https://ror.org/about/"
+      },
+      "human_review": {
+        "required": true,
+        "status": "pending"
+      },
+      "poc_status": "production"
+    },
+    {
+      "source_id": "https://ror.org/056jz8j95",
+      "category_id": "research-centers",
+      "entity_type": "institution",
+      "official_name": "Spinal Elements (United States)",
+      "official_url": "https://ror.org/056jz8j95",
+      "jurisdiction": "United States",
+      "authority_tier": 2,
+      "source_manifest": [
+        {
+          "url": "https://api.ror.org/organizations?query=quantum%20computing",
+          "sha256": "8dd9a2e868ea9bb86d8adb64c9f3373d606920a9faca6b8895b3b3659f80b592",
+          "retrieved_at": "2026-08-05T20:25:55.949076Z",
+          "connector": "ror"
+        }
+      ],
+      "discovery_query_id": "missao::quantum computing",
+      "first_seen_at": "2026-08-05T20:25:55.949192Z",
+      "last_verification_at": "2026-08-05T20:25:55.949194Z",
+      "claim_class": "FACT",
+      "license": {
+        "license_id": "CC0-1.0",
+        "license_url": "https://ror.org/about/"
+      },
+      "human_review": {
+        "required": true,
+        "status": "pending"
+      },
+      "poc_status": "production"
+    },
+    {
+      "source_id": "https://ror.org/05044k006",
+      "category_id": "research-centers",
+      "entity_type": "institution",
+      "official_name": "Beijing Zhongchuangwei Quantum Communication Technology (China)",
+      "official_url": "https://ror.org/05044k006",
+      "jurisdiction": "China",
+      "authority_tier": 2,
+      "source_manifest": [
+        {
+          "url": "https://api.ror.org/organizations?query=quantum%20computing",
+          "sha256": "8dd9a2e868ea9bb86d8adb64c9f3373d606920a9faca6b8895b3b3659f80b592",
+          "retrieved_at": "2026-08-05T20:25:55.949076Z",
+          "connector": "ror"
+        }
+      ],
+      "discovery_query_id": "missao::quantum computing",
+      "first_seen_at": "2026-08-05T20:25:55.949197Z",
+      "last_verification_at": "2026-08-05T20:25:55.949199Z",
+      "claim_class": "FACT",
+      "license": {
+        "license_id": "CC0-1.0",
+        "license_url": "https://ror.org/about/"
+      },
+      "human_review": {
+        "required": true,
+        "status": "pending"
+      },
+      "poc_status": "production"
+    },
+    {
+      "source_id": "doaj:2633-4356",
+      "category_id": "academics-and-researchers",
+      "entity_type": "journal",
+      "official_name": "Materials for Quantum Technology",
+      "official_url": "https://doaj.org/toc/2633-4356",
+      "jurisdiction": "GB",
+      "authority_tier": 2,
+      "source_manifest": [
+        {
+          "url": "https://doaj.org/api/search/journals/quantum%20computing?pageSize=10",
+          "sha256": "6dd5dc35f2c03f7d16ed8b47944e2aba039cdb3059bf9887b9a9736c5108317a",
+          "retrieved_at": "2026-08-05T20:25:56.292607Z",
+          "connector": "doaj"
+        }
+      ],
+      "discovery_query_id": "missao::quantum computing",
+      "first_seen_at": "2026-08-05T20:25:56.292659Z",
+      "last_verification_at": "2026-08-05T20:25:56.292664Z",
+      "claim_class": "FACT",
+      "license": {
+        "license_id": "declarada-pela-fonte",
+        "license_url": "https://doaj.org/docs/faq/"
+      },
+      "human_review": {
+        "required": true,
+        "status": "pending"
+      },
+      "poc_status": "production"
+    },
+    {
+      "source_id": "doaj:2691-3399",
+      "category_id": "academics-and-researchers",
+      "entity_type": "journal",
+      "official_name": "PRX Quantum",
+      "official_url": "https://doaj.org/toc/2691-3399",
+      "jurisdiction": "US",
+      "authority_tier": 2,
+      "source_manifest": [
+        {
+          "url": "https://doaj.org/api/search/journals/quantum%20computing?pageSize=10",
+          "sha256": "6dd5dc35f2c03f7d16ed8b47944e2aba039cdb3059bf9887b9a9736c5108317a",
+          "retrieved_at": "2026-08-05T20:25:56.292607Z",
+          "connector": "doaj"
+        }
+      ],
+      "discovery_query_id": "missao::quantum computing",
+      "first_seen_at": "2026-08-05T20:25:56.292672Z",
+      "last_verification_at": "2026-08-05T20:25:56.292674Z",
+      "claim_class": "FACT",
+      "license": {
+        "license_id": "declarada-pela-fonte",
+        "license_url": "https://doaj.org/docs/faq/"
+      },
+      "human_review": {
+        "required": true,
+        "status": "pending"
+      },
+      "poc_status": "production"
+    },
+    {
+      "source_id": "doaj:2056-6387",
+      "category_id": "academics-and-researchers",
+      "entity_type": "journal",
+      "official_name": "npj Quantum Information",
+      "official_url": "https://doaj.org/toc/2056-6387",
+      "jurisdiction": "GB",
+      "authority_tier": 2,
+      "source_manifest": [
+        {
+          "url": "https://doaj.org/api/search/journals/quantum%20computing?pageSize=10",
+          "sha256": "6dd5dc35f2c03f7d16ed8b47944e2aba039cdb3059bf9887b9a9736c5108317a",
+          "retrieved_at": "2026-08-05T20:25:56.292607Z",
+          "connector": "doaj"
+        }
+      ],
+      "discovery_query_id": "missao::quantum computing",
+      "first_seen_at": "2026-08-05T20:25:56.292678Z",
+      "last_verification_at": "2026-08-05T20:25:56.292680Z",
+      "claim_class": "FACT",
+      "license": {
+        "license_id": "declarada-pela-fonte",
+        "license_url": "https://doaj.org/docs/faq/"
+      },
+      "human_review": {
+        "required": true,
+        "status": "pending"
+      },
+      "poc_status": "production"
+    },
+    {
+      "source_id": "doaj:1557-2862",
+      "category_id": "academics-and-researchers",
+      "entity_type": "journal",
+      "official_name": "Theory of Computing",
+      "official_url": "https://doaj.org/toc/1557-2862",
+      "jurisdiction": "US",
+      "authority_tier": 2,
+      "source_manifest": [
+        {
+          "url": "https://doaj.org/api/search/journals/quantum%20computing?pageSize=10",
+          "sha256": "6dd5dc35f2c03f7d16ed8b47944e2aba039cdb3059bf9887b9a9736c5108317a",
+          "retrieved_at": "2026-08-05T20:25:56.292607Z",
+          "connector": "doaj"
+        }
+      ],
+      "discovery_query_id": "missao::quantum computing",
+      "first_seen_at": "2026-08-05T20:25:56.292684Z",
+      "last_verification_at": "2026-08-05T20:25:56.292686Z",
+      "claim_class": "FACT",
+      "license": {
+        "license_id": "declarada-pela-fonte",
+        "license_url": "https://doaj.org/docs/faq/"
+      },
+      "human_review": {
+        "required": true,
+        "status": "pending"
+      },
+      "poc_status": "production"
+    },
+    {
+      "source_id": "doaj:2837-6714",
+      "category_id": "academics-and-researchers",
+      "entity_type": "journal",
+      "official_name": "Optica Quantum",
+      "official_url": "https://doaj.org/toc/2837-6714",
+      "jurisdiction": "US",
+      "authority_tier": 2,
+      "source_manifest": [
+        {
+          "url": "https://doaj.org/api/search/journals/quantum%20computing?pageSize=10",
+          "sha256": "6dd5dc35f2c03f7d16ed8b47944e2aba039cdb3059bf9887b9a9736c5108317a",
+          "retrieved_at": "2026-08-05T20:25:56.292607Z",
+          "connector": "doaj"
+        }
+      ],
+      "discovery_query_id": "missao::quantum computing",
+      "first_seen_at": "2026-08-05T20:25:56.292689Z",
+      "last_verification_at": "2026-08-05T20:25:56.292692Z",
+      "claim_class": "FACT",
+      "license": {
+        "license_id": "declarada-pela-fonte",
+        "license_url": "https://doaj.org/docs/faq/"
+      },
+      "human_review": {
+        "required": true,
+        "status": "pending"
+      },
+      "poc_status": "production"
+    },
+    {
+      "source_id": "doaj:3064-979X",
+      "category_id": "academics-and-researchers",
+      "entity_type": "journal",
+      "official_name": "Academia Quantum",
+      "official_url": "https://doaj.org/toc/3064-979X",
+      "jurisdiction": "US",
+      "authority_tier": 2,
+      "source_manifest": [
+        {
+          "url": "https://doaj.org/api/search/journals/quantum%20computing?pageSize=10",
+          "sha256": "6dd5dc35f2c03f7d16ed8b47944e2aba039cdb3059bf9887b9a9736c5108317a",
+          "retrieved_at": "2026-08-05T20:25:56.292607Z",
+          "connector": "doaj"
+        }
+      ],
+      "discovery_query_id": "missao::quantum computing",
+      "first_seen_at": "2026-08-05T20:25:56.292695Z",
+      "last_verification_at": "2026-08-05T20:25:56.292698Z",
+      "claim_class": "FACT",
+      "license": {
+        "license_id": "declarada-pela-fonte",
+        "license_url": "https://doaj.org/docs/faq/"
+      },
+      "human_review": {
+        "required": true,
+        "status": "pending"
+      },
+      "poc_status": "production"
+    },
+    {
+      "source_id": "doaj:2772-2724",
+      "category_id": "academics-and-researchers",
+      "entity_type": "journal",
+      "official_name": "Chip",
+      "official_url": "https://doaj.org/toc/2772-2724",
+      "jurisdiction": "NL",
+      "authority_tier": 2,
+      "source_manifest": [
+        {
+          "url": "https://doaj.org/api/search/journals/quantum%20computing?pageSize=10",
+          "sha256": "6dd5dc35f2c03f7d16ed8b47944e2aba039cdb3059bf9887b9a9736c5108317a",
+          "retrieved_at": "2026-08-05T20:25:56.292607Z",
+          "connector": "doaj"
+        }
+      ],
+      "discovery_query_id": "missao::quantum computing",
+      "first_seen_at": "2026-08-05T20:25:56.292703Z",
+      "last_verification_at": "2026-08-05T20:25:56.292706Z",
+      "claim_class": "FACT",
+      "license": {
+        "license_id": "declarada-pela-fonte",
+        "license_url": "https://doaj.org/docs/faq/"
+      },
+      "human_review": {
+        "required": true,
+        "status": "pending"
+      },
+      "poc_status": "production"
+    },
+    {
+      "source_id": "doaj:2632-8925",
+      "category_id": "academics-and-researchers",
+      "entity_type": "journal",
+      "official_name": "IET Quantum Communication",
+      "official_url": "https://doaj.org/toc/2632-8925",
+      "jurisdiction": "GB",
+      "authority_tier": 2,
+      "source_manifest": [
+        {
+          "url": "https://doaj.org/api/search/journals/quantum%20computing?pageSize=10",
+          "sha256": "6dd5dc35f2c03f7d16ed8b47944e2aba039cdb3059bf9887b9a9736c5108317a",
+          "retrieved_at": "2026-08-05T20:25:56.292607Z",
+          "connector": "doaj"
+        }
+      ],
+      "discovery_query_id": "missao::quantum computing",
+      "first_seen_at": "2026-08-05T20:25:56.292709Z",
+      "last_verification_at": "2026-08-05T20:25:56.292711Z",
+      "claim_class": "FACT",
+      "license": {
+        "license_id": "declarada-pela-fonte",
+        "license_url": "https://doaj.org/docs/faq/"
+      },
+      "human_review": {
+        "required": true,
+        "status": "pending"
+      },
+      "poc_status": "production"
+    },
+    {
+      "source_id": "doaj:2835-0103",
+      "category_id": "academics-and-researchers",
+      "entity_type": "journal",
+      "official_name": "APL Quantum",
+      "official_url": "https://doaj.org/toc/2835-0103",
+      "jurisdiction": "US",
+      "authority_tier": 2,
+      "source_manifest": [
+        {
+          "url": "https://doaj.org/api/search/journals/quantum%20computing?pageSize=10",
+          "sha256": "6dd5dc35f2c03f7d16ed8b47944e2aba039cdb3059bf9887b9a9736c5108317a",
+          "retrieved_at": "2026-08-05T20:25:56.292607Z",
+          "connector": "doaj"
+        }
+      ],
+      "discovery_query_id": "missao::quantum computing",
+      "first_seen_at": "2026-08-05T20:25:56.292714Z",
+      "last_verification_at": "2026-08-05T20:25:56.292717Z",
+      "claim_class": "FACT",
+      "license": {
+        "license_id": "declarada-pela-fonte",
+        "license_url": "https://doaj.org/docs/faq/"
+      },
+      "human_review": {
+        "required": true,
+        "status": "pending"
+      },
+      "poc_status": "production"
+    },
+    {
+      "source_id": "doaj:3088-7941",
+      "category_id": "academics-and-researchers",
+      "entity_type": "journal",
+      "official_name": "Systems and Computing",
+      "official_url": "https://doaj.org/toc/3088-7941",
+      "jurisdiction": "DZ",
+      "authority_tier": 2,
+      "source_manifest": [
+        {
+          "url": "https://doaj.org/api/search/journals/quantum%20computing?pageSize=10",
+          "sha256": "6dd5dc35f2c03f7d16ed8b47944e2aba039cdb3059bf9887b9a9736c5108317a",
+          "retrieved_at": "2026-08-05T20:25:56.292607Z",
+          "connector": "doaj"
+        }
+      ],
+      "discovery_query_id": "missao::quantum computing",
+      "first_seen_at": "2026-08-05T20:25:56.292720Z",
+      "last_verification_at": "2026-08-05T20:25:56.292722Z",
+      "claim_class": "FACT",
+      "license": {
+        "license_id": "declarada-pela-fonte",
+        "license_url": "https://doaj.org/docs/faq/"
+      },
+      "human_review": {
+        "required": true,
+        "status": "pending"
+      },
+      "poc_status": "production"
+    },
+    {
+      "source_id": "https://ror.org/018samx11",
+      "category_id": "research-centers",
+      "entity_type": "institution",
+      "official_name": "Zone01 Robotics",
+      "official_url": "https://ror.org/018samx11",
+      "jurisdiction": "Canada",
+      "authority_tier": 2,
+      "source_manifest": [
+        {
+          "url": "https://api.ror.org/organizations?query=robotics",
+          "sha256": "6e19283177b56e8a909e08078162e5425306a3b947d84fa8dc8a17284e6ef80c",
+          "retrieved_at": "2026-08-05T20:25:57.412174Z",
+          "connector": "ror"
+        }
+      ],
+      "discovery_query_id": "missao::robotics",
+      "first_seen_at": "2026-08-05T20:25:57.412212Z",
+      "last_verification_at": "2026-08-05T20:25:57.412214Z",
+      "claim_class": "FACT",
+      "license": {
+        "license_id": "CC0-1.0",
+        "license_url": "https://ror.org/about/"
+      },
+      "human_review": {
+        "required": true,
+        "status": "pending"
+      },
+      "poc_status": "production"
+    },
+    {
+      "source_id": "https://ror.org/01e507517",
+      "category_id": "research-centers",
+      "entity_type": "institution",
+      "official_name": "CBot (Sweden)",
+      "official_url": "https://ror.org/01e507517",
+      "jurisdiction": "Sweden",
+      "authority_tier": 2,
+      "source_manifest": [
+        {
+          "url": "https://api.ror.org/organizations?query=robotics",
+          "sha256": "6e19283177b56e8a909e08078162e5425306a3b947d84fa8dc8a17284e6ef80c",
+          "retrieved_at": "2026-08-05T20:25:57.412174Z",
+          "connector": "ror"
+        }
+      ],
+      "discovery_query_id": "missao::robotics",
+      "first_seen_at": "2026-08-05T20:25:57.412218Z",
+      "last_verification_at": "2026-08-05T20:25:57.412219Z",
+      "claim_class": "FACT",
+      "license": {
+        "license_id": "CC0-1.0",
+        "license_url": "https://ror.org/about/"
+      },
+      "human_review": {
+        "required": true,
+        "status": "pending"
+      },
+      "poc_status": "production"
+    },
+    {
+      "source_id": "https://ror.org/02h1gvb73",
+      "category_id": "research-centers",
+      "entity_type": "institution",
+      "official_name": "Oliver Crispin Robotics (United Kingdom)",
+      "official_url": "https://ror.org/02h1gvb73",
+      "jurisdiction": "United Kingdom",
+      "authority_tier": 2,
+      "source_manifest": [
+        {
+          "url": "https://api.ror.org/organizations?query=robotics",
+          "sha256": "6e19283177b56e8a909e08078162e5425306a3b947d84fa8dc8a17284e6ef80c",
+          "retrieved_at": "2026-08-05T20:25:57.412174Z",
+          "connector": "ror"
+        }
+      ],
+      "discovery_query_id": "missao::robotics",
+      "first_seen_at": "2026-08-05T20:25:57.412222Z",
+      "last_verification_at": "2026-08-05T20:25:57.412223Z",
+      "claim_class": "FACT",
+      "license": {
+        "license_id": "CC0-1.0",
+        "license_url": "https://ror.org/about/"
+      },
+      "human_review": {
+        "required": true,
+        "status": "pending"
+      },
+      "poc_status": "production"
+    },
+    {
+      "source_id": "https://ror.org/02msvh720",
+      "category_id": "research-centers",
+      "entity_type": "institution",
+      "official_name": "SoftBank Robotics (France)",
+      "official_url": "https://ror.org/02msvh720",
+      "jurisdiction": "France",
+      "authority_tier": 2,
+      "source_manifest": [
+        {
+          "url": "https://api.ror.org/organizations?query=robotics",
+          "sha256": "6e19283177b56e8a909e08078162e5425306a3b947d84fa8dc8a17284e6ef80c",
+          "retrieved_at": "2026-08-05T20:25:57.412174Z",
+          "connector": "ror"
+        }
+      ],
+      "discovery_query_id": "missao::robotics",
+      "first_seen_at": "2026-08-05T20:25:57.412225Z",
+      "last_verification_at": "2026-08-05T20:25:57.412226Z",
+      "claim_class": "FACT",
+      "license": {
+        "license_id": "CC0-1.0",
+        "license_url": "https://ror.org/about/"
+      },
+      "human_review": {
+        "required": true,
+        "status": "pending"
+      },
+      "poc_status": "production"
+    },
+    {
+      "source_id": "https://ror.org/02rdd8804",
+      "category_id": "research-centers",
+      "entity_type": "institution",
+      "official_name": "National Centre of Competence in Research Robotics",
+      "official_url": "https://ror.org/02rdd8804",
+      "jurisdiction": "Switzerland",
+      "authority_tier": 2,
+      "source_manifest": [
+        {
+          "url": "https://api.ror.org/organizations?query=robotics",
+          "sha256": "6e19283177b56e8a909e08078162e5425306a3b947d84fa8dc8a17284e6ef80c",
+          "retrieved_at": "2026-08-05T20:25:57.412174Z",
+          "connector": "ror"
+        }
+      ],
+      "discovery_query_id": "missao::robotics",
+      "first_seen_at": "2026-08-05T20:25:57.412227Z",
+      "last_verification_at": "2026-08-05T20:25:57.412228Z",
+      "claim_class": "FACT",
+      "license": {
+        "license_id": "CC0-1.0",
+        "license_url": "https://ror.org/about/"
+      },
+      "human_review": {
+        "required": true,
+        "status": "pending"
+      },
+      "poc_status": "production"
+    },
+    {
+      "source_id": "https://ror.org/05cmv6g68",
+      "category_id": "research-centers",
+      "entity_type": "institution",
+      "official_name": "Horizon Robotics (China)",
+      "official_url": "https://ror.org/05cmv6g68",
+      "jurisdiction": "China",
+      "authority_tier": 2,
+      "source_manifest": [
+        {
+          "url": "https://api.ror.org/organizations?query=robotics",
+          "sha256": "6e19283177b56e8a909e08078162e5425306a3b947d84fa8dc8a17284e6ef80c",
+          "retrieved_at": "2026-08-05T20:25:57.412174Z",
+          "connector": "ror"
+        }
+      ],
+      "discovery_query_id": "missao::robotics",
+      "first_seen_at": "2026-08-05T20:25:57.412230Z",
+      "last_verification_at": "2026-08-05T20:25:57.412231Z",
+      "claim_class": "FACT",
+      "license": {
+        "license_id": "CC0-1.0",
+        "license_url": "https://ror.org/about/"
+      },
+      "human_review": {
+        "required": true,
+        "status": "pending"
+      },
+      "poc_status": "production"
+    },
+    {
+      "source_id": "https://ror.org/01e7h5v19",
+      "category_id": "research-centers",
+      "entity_type": "institution",
+      "official_name": "CRC Robotics",
+      "official_url": "https://ror.org/01e7h5v19",
+      "jurisdiction": "Canada",
+      "authority_tier": 2,
+      "source_manifest": [
+        {
+          "url": "https://api.ror.org/organizations?query=robotics",
+          "sha256": "6e19283177b56e8a909e08078162e5425306a3b947d84fa8dc8a17284e6ef80c",
+          "retrieved_at": "2026-08-05T20:25:57.412174Z",
+          "connector": "ror"
+        }
+      ],
+      "discovery_query_id": "missao::robotics",
+      "first_seen_at": "2026-08-05T20:25:57.412233Z",
+      "last_verification_at": "2026-08-05T20:25:57.412234Z",
+      "claim_class": "FACT",
+      "license": {
+        "license_id": "CC0-1.0",
+        "license_url": "https://ror.org/about/"
+      },
+      "human_review": {
+        "required": true,
+        "status": "pending"
+      },
+      "poc_status": "production"
+    },
+    {
+      "source_id": "https://ror.org/04vaamd89",
+      "category_id": "research-centers",
+      "entity_type": "institution",
+      "official_name": "Differential Robotics (Hangzhou) Technology Co., Ltd. (China)",
+      "official_url": "https://ror.org/04vaamd89",
+      "jurisdiction": "China",
+      "authority_tier": 2,
+      "source_manifest": [
+        {
+          "url": "https://api.ror.org/organizations?query=robotics",
+          "sha256": "6e19283177b56e8a909e08078162e5425306a3b947d84fa8dc8a17284e6ef80c",
+          "retrieved_at": "2026-08-05T20:25:57.412174Z",
+          "connector": "ror"
+        }
+      ],
+      "discovery_query_id": "missao::robotics",
+      "first_seen_at": "2026-08-05T20:25:57.412236Z",
+      "last_verification_at": "2026-08-05T20:25:57.412238Z",
+      "claim_class": "FACT",
+      "license": {
+        "license_id": "CC0-1.0",
+        "license_url": "https://ror.org/about/"
+      },
+      "human_review": {
+        "required": true,
+        "status": "pending"
+      },
+      "poc_status": "production"
+    },
+    {
+      "source_id": "https://ror.org/00wh8n595",
+      "category_id": "research-centers",
+      "entity_type": "institution",
+      "official_name": "Westlake Robotics (China)",
+      "official_url": "https://ror.org/00wh8n595",
+      "jurisdiction": "China",
+      "authority_tier": 2,
+      "source_manifest": [
+        {
+          "url": "https://api.ror.org/organizations?query=robotics",
+          "sha256": "6e19283177b56e8a909e08078162e5425306a3b947d84fa8dc8a17284e6ef80c",
+          "retrieved_at": "2026-08-05T20:25:57.412174Z",
+          "connector": "ror"
+        }
+      ],
+      "discovery_query_id": "missao::robotics",
+      "first_seen_at": "2026-08-05T20:25:57.412239Z",
+      "last_verification_at": "2026-08-05T20:25:57.412240Z",
+      "claim_class": "FACT",
+      "license": {
+        "license_id": "CC0-1.0",
+        "license_url": "https://ror.org/about/"
+      },
+      "human_review": {
+        "required": true,
+        "status": "pending"
+      },
+      "poc_status": "production"
+    },
+    {
+      "source_id": "https://ror.org/051vakf19",
+      "category_id": "research-centers",
+      "entity_type": "institution",
+      "official_name": "Unitree (China)",
+      "official_url": "https://ror.org/051vakf19",
+      "jurisdiction": "China",
+      "authority_tier": 2,
+      "source_manifest": [
+        {
+          "url": "https://api.ror.org/organizations?query=robotics",
+          "sha256": "6e19283177b56e8a909e08078162e5425306a3b947d84fa8dc8a17284e6ef80c",
+          "retrieved_at": "2026-08-05T20:25:57.412174Z",
+          "connector": "ror"
+        }
+      ],
+      "discovery_query_id": "missao::robotics",
+      "first_seen_at": "2026-08-05T20:25:57.412242Z",
+      "last_verification_at": "2026-08-05T20:25:57.412243Z",
+      "claim_class": "FACT",
+      "license": {
+        "license_id": "CC0-1.0",
+        "license_url": "https://ror.org/about/"
+      },
+      "human_review": {
+        "required": true,
+        "status": "pending"
+      },
+      "poc_status": "production"
+    },
+    {
+      "source_id": "doaj:1662-5218",
+      "category_id": "academics-and-researchers",
+      "entity_type": "journal",
+      "official_name": "Frontiers in Neurorobotics",
+      "official_url": "https://doaj.org/toc/1662-5218",
+      "jurisdiction": "CH",
+      "authority_tier": 2,
+      "source_manifest": [
+        {
+          "url": "https://doaj.org/api/search/journals/robotics?pageSize=10",
+          "sha256": "a6a36b948242e9ce0bb3bdbb941721a6782900a3d7b45381a68ae2ca3e30cad0",
+          "retrieved_at": "2026-08-05T20:25:57.949582Z",
+          "connector": "doaj"
+        }
+      ],
+      "discovery_query_id": "missao::robotics",
+      "first_seen_at": "2026-08-05T20:25:57.949631Z",
+      "last_verification_at": "2026-08-05T20:25:57.949635Z",
+      "claim_class": "FACT",
+      "license": {
+        "license_id": "declarada-pela-fonte",
+        "license_url": "https://doaj.org/docs/faq/"
+      },
+      "human_review": {
+        "required": true,
+        "status": "pending"
+      },
+      "poc_status": "production"
+    },
+    {
+      "source_id": "doaj:2950-6433",
+      "category_id": "academics-and-researchers",
+      "entity_type": "journal",
+      "official_name": "Digital Dentistry Journal",
+      "official_url": "https://doaj.org/toc/2950-6433",
+      "jurisdiction": "GB",
+      "authority_tier": 2,
+      "source_manifest": [
+        {
+          "url": "https://doaj.org/api/search/journals/robotics?pageSize=10",
+          "sha256": "a6a36b948242e9ce0bb3bdbb941721a6782900a3d7b45381a68ae2ca3e30cad0",
+          "retrieved_at": "2026-08-05T20:25:57.949582Z",
+          "connector": "doaj"
+        }
+      ],
+      "discovery_query_id": "missao::robotics",
+      "first_seen_at": "2026-08-05T20:25:57.949641Z",
+      "last_verification_at": "2026-08-05T20:25:57.949642Z",
+      "claim_class": "FACT",
+      "license": {
+        "license_id": "declarada-pela-fonte",
+        "license_url": "https://doaj.org/docs/faq/"
+      },
+      "human_review": {
+        "required": true,
+        "status": "pending"
+      },
+      "poc_status": "production"
+    },
+    {
+      "source_id": "doaj:2731-0809",
+      "category_id": "academics-and-researchers",
+      "entity_type": "journal",
+      "official_name": "Discover Artificial Intelligence",
+      "official_url": "https://doaj.org/toc/2731-0809",
+      "jurisdiction": "CH",
+      "authority_tier": 2,
+      "source_manifest": [
+        {
+          "url": "https://doaj.org/api/search/journals/robotics?pageSize=10",
+          "sha256": "a6a36b948242e9ce0bb3bdbb941721a6782900a3d7b45381a68ae2ca3e30cad0",
+          "retrieved_at": "2026-08-05T20:25:57.949582Z",
+          "connector": "doaj"
+        }
+      ],
+      "discovery_query_id": "missao::robotics",
+      "first_seen_at": "2026-08-05T20:25:57.949646Z",
+      "last_verification_at": "2026-08-05T20:25:57.949648Z",
+      "claim_class": "FACT",
+      "license": {
+        "license_id": "declarada-pela-fonte",
+        "license_url": "https://doaj.org/docs/faq/"
+      },
+      "human_review": {
+        "required": true,
+        "status": "pending"
+      },
+      "poc_status": "production"
+    },
+    {
+      "source_id": "doaj:2950-550X",
+      "category_id": "academics-and-researchers",
+      "entity_type": "journal",
+      "official_name": "Digital Engineering",
+      "official_url": "https://doaj.org/toc/2950-550X",
+      "jurisdiction": "NL",
+      "authority_tier": 2,
+      "source_manifest": [
+        {
+          "url": "https://doaj.org/api/search/journals/robotics?pageSize=10",
+          "sha256": "a6a36b948242e9ce0bb3bdbb941721a6782900a3d7b45381a68ae2ca3e30cad0",
+          "retrieved_at": "2026-08-05T20:25:57.949582Z",
+          "connector": "doaj"
+        }
+      ],
+      "discovery_query_id": "missao::robotics",
+      "first_seen_at": "2026-08-05T20:25:57.949651Z",
+      "last_verification_at": "2026-08-05T20:25:57.949652Z",
+      "claim_class": "FACT",
+      "license": {
+        "license_id": "declarada-pela-fonte",
+        "license_url": "https://doaj.org/docs/faq/"
+      },
+      "human_review": {
+        "required": true,
+        "status": "pending"
+      },
+      "poc_status": "production"
+    },
+    {
+      "source_id": "doaj:3049-4761",
+      "category_id": "academics-and-researchers",
+      "entity_type": "journal",
+      "official_name": "Machine Learning. Engineering",
+      "official_url": "https://doaj.org/toc/3049-4761",
+      "jurisdiction": "GB",
+      "authority_tier": 2,
+      "source_manifest": [
+        {
+          "url": "https://doaj.org/api/search/journals/robotics?pageSize=10",
+          "sha256": "a6a36b948242e9ce0bb3bdbb941721a6782900a3d7b45381a68ae2ca3e30cad0",
+          "retrieved_at": "2026-08-05T20:25:57.949582Z",
+          "connector": "doaj"
+        }
+      ],
+      "discovery_query_id": "missao::robotics",
+      "first_seen_at": "2026-08-05T20:25:57.949656Z",
+      "last_verification_at": "2026-08-05T20:25:57.949657Z",
+      "claim_class": "FACT",
+      "license": {
+        "license_id": "declarada-pela-fonte",
+        "license_url": "https://doaj.org/docs/faq/"
+      },
+      "human_review": {
+        "required": true,
+        "status": "pending"
+      },
+      "poc_status": "production"
+    },
+    {
+      "source_id": "https://ror.org/00c9pnr51",
+      "category_id": "research-centers",
+      "entity_type": "institution",
+      "official_name": "I4S: Inférence pour les InfraStructures Intelligentes et Instrumentées",
+      "official_url": "https://ror.org/00c9pnr51",
+      "jurisdiction": "France",
+      "authority_tier": 2,
+      "source_manifest": [
+        {
+          "url": "https://api.ror.org/organizations?query=causal%20inference",
+          "sha256": "3ab382700f0a280f79c7385eb85694daca08a1881d7b98ccebea97042702eaea",
+          "retrieved_at": "2026-08-05T20:25:58.694431Z",
+          "connector": "ror"
+        }
+      ],
+      "discovery_query_id": "missao::causal inference",
+      "first_seen_at": "2026-08-05T20:25:58.694462Z",
+      "last_verification_at": "2026-08-05T20:25:58.694464Z",
+      "claim_class": "FACT",
+      "license": {
+        "license_id": "CC0-1.0",
+        "license_url": "https://ror.org/about/"
+      },
+      "human_review": {
+        "required": true,
+        "status": "pending"
+      },
+      "poc_status": "production"
+    },
+    {
+      "source_id": "https://ror.org/02pkbtk91",
+      "category_id": "research-centers",
+      "entity_type": "institution",
+      "official_name": "ASTRAL: Méthodes avancées d'apprentissage statistique et de contrôle",
+      "official_url": "https://ror.org/02pkbtk91",
+      "jurisdiction": "France",
+      "authority_tier": 2,
+      "source_manifest": [
+        {
+          "url": "https://api.ror.org/organizations?query=causal%20inference",
+          "sha256": "3ab382700f0a280f79c7385eb85694daca08a1881d7b98ccebea97042702eaea",
+          "retrieved_at": "2026-08-05T20:25:58.694431Z",
+          "connector": "ror"
+        }
+      ],
+      "discovery_query_id": "missao::causal inference",
+      "first_seen_at": "2026-08-05T20:25:58.694468Z",
+      "last_verification_at": "2026-08-05T20:25:58.694469Z",
+      "claim_class": "FACT",
+      "license": {
+        "license_id": "CC0-1.0",
+        "license_url": "https://ror.org/about/"
+      },
+      "human_review": {
+        "required": true,
+        "status": "pending"
+      },
+      "poc_status": "production"
+    },
+    {
+      "source_id": "https://ror.org/00dfknt61",
+      "category_id": "research-centers",
+      "entity_type": "institution",
+      "official_name": "MIND: modèles et inférence pour les données de Neuroimagerie",
+      "official_url": "https://ror.org/00dfknt61",
+      "jurisdiction": "France",
+      "authority_tier": 2,
+      "source_manifest": [
+        {
+          "url": "https://api.ror.org/organizations?query=causal%20inference",
+          "sha256": "3ab382700f0a280f79c7385eb85694daca08a1881d7b98ccebea97042702eaea",
+          "retrieved_at": "2026-08-05T20:25:58.694431Z",
+          "connector": "ror"
+        }
+      ],
+      "discovery_query_id": "missao::causal inference",
+      "first_seen_at": "2026-08-05T20:25:58.694471Z",
+      "last_verification_at": "2026-08-05T20:25:58.694472Z",
+      "claim_class": "FACT",
+      "license": {
+        "license_id": "CC0-1.0",
+        "license_url": "https://ror.org/about/"
+      },
+      "human_review": {
+        "required": true,
+        "status": "pending"
+      },
+      "poc_status": "production"
+    },
+    {
+      "source_id": "https://ror.org/050y2w676",
+      "category_id": "research-centers",
+      "entity_type": "institution",
+      "official_name": "PREMEDICAL: Médecine de précision par intégration de données et inférence causale",
+      "official_url": "https://ror.org/050y2w676",
+      "jurisdiction": "France",
+      "authority_tier": 2,
+      "source_manifest": [
+        {
+          "url": "https://api.ror.org/organizations?query=causal%20inference",
+          "sha256": "3ab382700f0a280f79c7385eb85694daca08a1881d7b98ccebea97042702eaea",
+          "retrieved_at": "2026-08-05T20:25:58.694431Z",
+          "connector": "ror"
+        }
+      ],
+      "discovery_query_id": "missao::causal inference",
+      "first_seen_at": "2026-08-05T20:25:58.694475Z",
+      "last_verification_at": "2026-08-05T20:25:58.694476Z",
+      "claim_class": "FACT",
+      "license": {
+        "license_id": "CC0-1.0",
+        "license_url": "https://ror.org/about/"
+      },
+      "human_review": {
+        "required": true,
+        "status": "pending"
+      },
+      "poc_status": "production"
+    },
+    {
+      "source_id": "https://ror.org/008kj1d63",
+      "category_id": "research-centers",
+      "entity_type": "institution",
+      "official_name": "SIMBA: Inférence Statistique et Modélisation pour les Applications Biologiques",
+      "official_url": "https://ror.org/008kj1d63",
+      "jurisdiction": "France",
+      "authority_tier": 2,
+      "source_manifest": [
+        {
+          "url": "https://api.ror.org/organizations?query=causal%20inference",
+          "sha256": "3ab382700f0a280f79c7385eb85694daca08a1881d7b98ccebea97042702eaea",
+          "retrieved_at": "2026-08-05T20:25:58.694431Z",
+          "connector": "ror"
+        }
+      ],
+      "discovery_query_id": "missao::causal inference",
+      "first_seen_at": "2026-08-05T20:25:58.694478Z",
+      "last_verification_at": "2026-08-05T20:25:58.694479Z",
+      "claim_class": "FACT",
+      "license": {
+        "license_id": "CC0-1.0",
+        "license_url": "https://ror.org/about/"
+      },
+      "human_review": {
+        "required": true,
+        "status": "pending"
+      },
+      "poc_status": "production"
+    },
+    {
+      "source_id": "https://ror.org/04n901n71",
+      "category_id": "research-centers",
+      "entity_type": "institution",
+      "official_name": "CAIMed - Niedersächsisches Zentrum für KI und Kausale Methoden in der Medizin",
+      "official_url": "https://ror.org/04n901n71",
+      "jurisdiction": "Germany",
+      "authority_tier": 2,
+      "source_manifest": [
+        {
+          "url": "https://api.ror.org/organizations?query=causal%20inference",
+          "sha256": "3ab382700f0a280f79c7385eb85694daca08a1881d7b98ccebea97042702eaea",
+          "retrieved_at": "2026-08-05T20:25:58.694431Z",
+          "connector": "ror"
+        }
+      ],
+      "discovery_query_id": "missao::causal inference",
+      "first_seen_at": "2026-08-05T20:25:58.694480Z",
+      "last_verification_at": "2026-08-05T20:25:58.694481Z",
+      "claim_class": "FACT",
+      "license": {
+        "license_id": "CC0-1.0",
+        "license_url": "https://ror.org/about/"
+      },
+      "human_review": {
+        "required": true,
+        "status": "pending"
+      },
+      "poc_status": "production"
+    },
+    {
+      "source_id": "https://ror.org/043ja9593",
+      "category_id": "research-centers",
+      "entity_type": "institution",
+      "official_name": "DYLISS: Dynamics, Logics and Inference for biological Systems and Sequences",
+      "official_url": "https://ror.org/043ja9593",
+      "jurisdiction": "France",
+      "authority_tier": 2,
+      "source_manifest": [
+        {
+          "url": "https://api.ror.org/organizations?query=causal%20inference",
+          "sha256": "3ab382700f0a280f79c7385eb85694daca08a1881d7b98ccebea97042702eaea",
+          "retrieved_at": "2026-08-05T20:25:58.694431Z",
+          "connector": "ror"
+        }
+      ],
+      "discovery_query_id": "missao::causal inference",
+      "first_seen_at": "2026-08-05T20:25:58.694483Z",
+      "last_verification_at": "2026-08-05T20:25:58.694484Z",
+      "claim_class": "FACT",
+      "license": {
+        "license_id": "CC0-1.0",
+        "license_url": "https://ror.org/about/"
+      },
+      "human_review": {
+        "required": true,
+        "status": "pending"
+      },
+      "poc_status": "production"
+    },
+    {
+      "source_id": "doaj:2193-3685",
+      "category_id": "academics-and-researchers",
+      "entity_type": "journal",
+      "official_name": "Journal of Causal Inference",
+      "official_url": "https://doaj.org/toc/2193-3685",
+      "jurisdiction": "PL",
+      "authority_tier": 2,
+      "source_manifest": [
+        {
+          "url": "https://doaj.org/api/search/journals/causal%20inference?pageSize=10",
+          "sha256": "14636750fece4f82fa88eb71deddb2c00609dba3507d0432954445809e716b9a",
+          "retrieved_at": "2026-08-05T20:25:58.899512Z",
+          "connector": "doaj"
+        }
+      ],
+      "discovery_query_id": "missao::causal inference",
+      "first_seen_at": "2026-08-05T20:25:58.899551Z",
+      "last_verification_at": "2026-08-05T20:25:58.899555Z",
+      "claim_class": "FACT",
+      "license": {
+        "license_id": "declarada-pela-fonte",
+        "license_url": "https://doaj.org/docs/faq/"
+      },
+      "human_review": {
+        "required": true,
+        "status": "pending"
+      },
+      "poc_status": "production"
+    },
+    {
+      "source_id": "doaj:2767-3324",
+      "category_id": "academics-and-researchers",
+      "entity_type": "journal",
+      "official_name": "Observational Studies",
+      "official_url": "https://doaj.org/toc/2767-3324",
+      "jurisdiction": "US",
+      "authority_tier": 2,
+      "source_manifest": [
+        {
+          "url": "https://doaj.org/api/search/journals/causal%20inference?pageSize=10",
+          "sha256": "14636750fece4f82fa88eb71deddb2c00609dba3507d0432954445809e716b9a",
+          "retrieved_at": "2026-08-05T20:25:58.899512Z",
+          "connector": "doaj"
+        }
+      ],
+      "discovery_query_id": "missao::causal inference",
+      "first_seen_at": "2026-08-05T20:25:58.899561Z",
+      "last_verification_at": "2026-08-05T20:25:58.899563Z",
+      "claim_class": "FACT",
+      "license": {
+        "license_id": "declarada-pela-fonte",
+        "license_url": "https://doaj.org/docs/faq/"
+      },
+      "human_review": {
+        "required": true,
+        "status": "pending"
+      },
+      "poc_status": "production"
+    },
+    {
+      "source_id": "https://ror.org/0337ppb66",
+      "category_id": "research-centers",
+      "entity_type": "institution",
+      "official_name": "Technologie-Institut für Metall und Engineering (TIME)",
+      "official_url": "https://ror.org/0337ppb66",
+      "jurisdiction": "Germany",
+      "authority_tier": 2,
+      "source_manifest": [
+        {
+          "url": "https://api.ror.org/organizations?query=time%20series",
+          "sha256": "3990686e92d558501216fa9a360d67d65bcae4a63e7326ebb6b584b0c561c1a9",
+          "retrieved_at": "2026-08-05T20:25:59.851661Z",
+          "connector": "ror"
+        }
+      ],
+      "discovery_query_id": "missao::time series",
+      "first_seen_at": "2026-08-05T20:25:59.851700Z",
+      "last_verification_at": "2026-08-05T20:25:59.851702Z",
+      "claim_class": "FACT",
+      "license": {
+        "license_id": "CC0-1.0",
+        "license_url": "https://ror.org/about/"
+      },
+      "human_review": {
+        "required": true,
+        "status": "pending"
+      },
+      "poc_status": "production"
+    },
+    {
+      "source_id": "https://ror.org/00cyf6533",
+      "category_id": "research-centers",
+      "entity_type": "institution",
+      "official_name": "Tashkent Institute of Management and Economics",
+      "official_url": "https://ror.org/00cyf6533",
+      "jurisdiction": "Uzbekistan",
+      "authority_tier": 2,
+      "source_manifest": [
+        {
+          "url": "https://api.ror.org/organizations?query=time%20series",
+          "sha256": "3990686e92d558501216fa9a360d67d65bcae4a63e7326ebb6b584b0c561c1a9",
+          "retrieved_at": "2026-08-05T20:25:59.851661Z",
+          "connector": "ror"
+        }
+      ],
+      "discovery_query_id": "missao::time series",
+      "first_seen_at": "2026-08-05T20:25:59.851706Z",
+      "last_verification_at": "2026-08-05T20:25:59.851707Z",
+      "claim_class": "FACT",
+      "license": {
+        "license_id": "CC0-1.0",
+        "license_url": "https://ror.org/about/"
+      },
+      "human_review": {
+        "required": true,
+        "status": "pending"
+      },
+      "poc_status": "production"
+    },
+    {
+      "source_id": "https://ror.org/02ed0ha62",
+      "category_id": "research-centers",
+      "entity_type": "institution",
+      "official_name": "STMIK TIME",
+      "official_url": "https://ror.org/02ed0ha62",
+      "jurisdiction": "Indonesia",
+      "authority_tier": 2,
+      "source_manifest": [
+        {
+          "url": "https://api.ror.org/organizations?query=time%20series",
+          "sha256": "3990686e92d558501216fa9a360d67d65bcae4a63e7326ebb6b584b0c561c1a9",
+          "retrieved_at": "2026-08-05T20:25:59.851661Z",
+          "connector": "ror"
+        }
+      ],
+      "discovery_query_id": "missao::time series",
+      "first_seen_at": "2026-08-05T20:25:59.851709Z",
+      "last_verification_at": "2026-08-05T20:25:59.851711Z",
+      "claim_class": "FACT",
+      "license": {
+        "license_id": "CC0-1.0",
+        "license_url": "https://ror.org/about/"
+      },
+      "human_review": {
+        "required": true,
+        "status": "pending"
+      },
+      "poc_status": "production"
+    },
+    {
+      "source_id": "https://ror.org/03y2yf271",
+      "category_id": "research-centers",
+      "entity_type": "institution",
+      "official_name": "Time Université",
+      "official_url": "https://ror.org/03y2yf271",
+      "jurisdiction": "Tunisia",
+      "authority_tier": 2,
+      "source_manifest": [
+        {
+          "url": "https://api.ror.org/organizations?query=time%20series",
+          "sha256": "3990686e92d558501216fa9a360d67d65bcae4a63e7326ebb6b584b0c561c1a9",
+          "retrieved_at": "2026-08-05T20:25:59.851661Z",
+          "connector": "ror"
+        }
+      ],
+      "discovery_query_id": "missao::time series",
+      "first_seen_at": "2026-08-05T20:25:59.851713Z",
+      "last_verification_at": "2026-08-05T20:25:59.851714Z",
+      "claim_class": "FACT",
+      "license": {
+        "license_id": "CC0-1.0",
+        "license_url": "https://ror.org/about/"
+      },
+      "human_review": {
+        "required": true,
+        "status": "pending"
+      },
+      "poc_status": "production"
+    },
+    {
+      "source_id": "https://ror.org/045xx6g59",
+      "category_id": "research-centers",
+      "entity_type": "institution",
+      "official_name": "Time Warner (United States)",
+      "official_url": "https://ror.org/045xx6g59",
+      "jurisdiction": "United States",
+      "authority_tier": 2,
+      "source_manifest": [
+        {
+          "url": "https://api.ror.org/organizations?query=time%20series",
+          "sha256": "3990686e92d558501216fa9a360d67d65bcae4a63e7326ebb6b584b0c561c1a9",
+          "retrieved_at": "2026-08-05T20:25:59.851661Z",
+          "connector": "ror"
+        }
+      ],
+      "discovery_query_id": "missao::time series",
+      "first_seen_at": "2026-08-05T20:25:59.851715Z",
+      "last_verification_at": "2026-08-05T20:25:59.851717Z",
+      "claim_class": "FACT",
+      "license": {
+        "license_id": "CC0-1.0",
+        "license_url": "https://ror.org/about/"
+      },
+      "human_review": {
+        "required": true,
+        "status": "pending"
+      },
+      "poc_status": "production"
+    },
+    {
+      "source_id": "https://ror.org/008ja9m31",
+      "category_id": "research-centers",
+      "entity_type": "institution",
+      "official_name": "IT'S TIME TEXAS",
+      "official_url": "https://ror.org/008ja9m31",
+      "jurisdiction": "United States",
+      "authority_tier": 2,
+      "source_manifest": [
+        {
+          "url": "https://api.ror.org/organizations?query=time%20series",
+          "sha256": "3990686e92d558501216fa9a360d67d65bcae4a63e7326ebb6b584b0c561c1a9",
+          "retrieved_at": "2026-08-05T20:25:59.851661Z",
+          "connector": "ror"
+        }
+      ],
+      "discovery_query_id": "missao::time series",
+      "first_seen_at": "2026-08-05T20:25:59.851718Z",
+      "last_verification_at": "2026-08-05T20:25:59.851719Z",
+      "claim_class": "FACT",
+      "license": {
+        "license_id": "CC0-1.0",
+        "license_url": "https://ror.org/about/"
+      },
+      "human_review": {
+        "required": true,
+        "status": "pending"
+      },
+      "poc_status": "production"
+    },
+    {
+      "source_id": "https://ror.org/02qar2r61",
+      "category_id": "research-centers",
+      "entity_type": "institution",
+      "official_name": "Enigio Time (Sweden)",
+      "official_url": "https://ror.org/02qar2r61",
+      "jurisdiction": "Sweden",
+      "authority_tier": 2,
+      "source_manifest": [
+        {
+          "url": "https://api.ror.org/organizations?query=time%20series",
+          "sha256": "3990686e92d558501216fa9a360d67d65bcae4a63e7326ebb6b584b0c561c1a9",
+          "retrieved_at": "2026-08-05T20:25:59.851661Z",
+          "connector": "ror"
+        }
+      ],
+      "discovery_query_id": "missao::time series",
+      "first_seen_at": "2026-08-05T20:25:59.851721Z",
+      "last_verification_at": "2026-08-05T20:25:59.851722Z",
+      "claim_class": "FACT",
+      "license": {
+        "license_id": "CC0-1.0",
+        "license_url": "https://ror.org/about/"
+      },
+      "human_review": {
+        "required": true,
+        "status": "pending"
+      },
+      "poc_status": "production"
+    },
+    {
+      "source_id": "https://ror.org/02295tc31",
+      "category_id": "research-centers",
+      "entity_type": "institution",
+      "official_name": "NOAA Geostationary Operation Environmental Satellite-R Series",
+      "official_url": "https://ror.org/02295tc31",
+      "jurisdiction": "United States",
+      "authority_tier": 2,
+      "source_manifest": [
+        {
+          "url": "https://api.ror.org/organizations?query=time%20series",
+          "sha256": "3990686e92d558501216fa9a360d67d65bcae4a63e7326ebb6b584b0c561c1a9",
+          "retrieved_at": "2026-08-05T20:25:59.851661Z",
+          "connector": "ror"
+        }
+      ],
+      "discovery_query_id": "missao::time series",
+      "first_seen_at": "2026-08-05T20:25:59.851724Z",
+      "last_verification_at": "2026-08-05T20:25:59.851725Z",
+      "claim_class": "FACT",
+      "license": {
+        "license_id": "CC0-1.0",
+        "license_url": "https://ror.org/about/"
+      },
+      "human_review": {
+        "required": true,
+        "status": "pending"
+      },
+      "poc_status": "production"
+    },
+    {
+      "source_id": "https://ror.org/04nderh91",
+      "category_id": "research-centers",
+      "entity_type": "institution",
+      "official_name": "Time Critical Networks (Sweden)",
+      "official_url": "https://ror.org/04nderh91",
+      "jurisdiction": "Sweden",
+      "authority_tier": 2,
+      "source_manifest": [
+        {
+          "url": "https://api.ror.org/organizations?query=time%20series",
+          "sha256": "3990686e92d558501216fa9a360d67d65bcae4a63e7326ebb6b584b0c561c1a9",
+          "retrieved_at": "2026-08-05T20:25:59.851661Z",
+          "connector": "ror"
+        }
+      ],
+      "discovery_query_id": "missao::time series",
+      "first_seen_at": "2026-08-05T20:25:59.851727Z",
+      "last_verification_at": "2026-08-05T20:25:59.851728Z",
+      "claim_class": "FACT",
+      "license": {
+        "license_id": "CC0-1.0",
+        "license_url": "https://ror.org/about/"
+      },
+      "human_review": {
+        "required": true,
+        "status": "pending"
+      },
+      "poc_status": "production"
+    },
+    {
+      "source_id": "https://ror.org/03k08vb24",
+      "category_id": "research-centers",
+      "entity_type": "institution",
+      "official_name": "Breast Cancer Over Time",
+      "official_url": "https://ror.org/03k08vb24",
+      "jurisdiction": "United States",
+      "authority_tier": 2,
+      "source_manifest": [
+        {
+          "url": "https://api.ror.org/organizations?query=time%20series",
+          "sha256": "3990686e92d558501216fa9a360d67d65bcae4a63e7326ebb6b584b0c561c1a9",
+          "retrieved_at": "2026-08-05T20:25:59.851661Z",
+          "connector": "ror"
+        }
+      ],
+      "discovery_query_id": "missao::time series",
+      "first_seen_at": "2026-08-05T20:25:59.851730Z",
+      "last_verification_at": "2026-08-05T20:25:59.851731Z",
+      "claim_class": "FACT",
+      "license": {
+        "license_id": "CC0-1.0",
+        "license_url": "https://ror.org/about/"
+      },
+      "human_review": {
+        "required": true,
+        "status": "pending"
+      },
+      "poc_status": "production"
+    },
+    {
+      "source_id": "doaj:2571-905X",
+      "category_id": "academics-and-researchers",
+      "entity_type": "journal",
+      "official_name": "Stats",
+      "official_url": "https://doaj.org/toc/2571-905X",
+      "jurisdiction": "CH",
+      "authority_tier": 2,
+      "source_manifest": [
+        {
+          "url": "https://doaj.org/api/search/journals/time%20series?pageSize=10",
+          "sha256": "3ecc3efe75f1f2bc00730f365d31c94d9b027139c3c61dca1b3e7a6d734892df",
+          "retrieved_at": "2026-08-05T20:26:00.068893Z",
+          "connector": "doaj"
+        }
+      ],
+      "discovery_query_id": "missao::time series",
+      "first_seen_at": "2026-08-05T20:26:00.068944Z",
+      "last_verification_at": "2026-08-05T20:26:00.068950Z",
+      "claim_class": "FACT",
+      "license": {
+        "license_id": "declarada-pela-fonte",
+        "license_url": "https://doaj.org/docs/faq/"
+      },
+      "human_review": {
+        "required": true,
+        "status": "pending"
+      },
+      "poc_status": "production"
+    },
+    {
+      "source_id": "doaj:2664-2956",
+      "category_id": "academics-and-researchers",
+      "entity_type": "journal",
+      "official_name": "المجلة العراقية للعلوم الاحصائية",
+      "official_url": "https://doaj.org/toc/2664-2956",
+      "jurisdiction": "IQ",
+      "authority_tier": 2,
+      "source_manifest": [
+        {
+          "url": "https://doaj.org/api/search/journals/time%20series?pageSize=10",
+          "sha256": "3ecc3efe75f1f2bc00730f365d31c94d9b027139c3c61dca1b3e7a6d734892df",
+          "retrieved_at": "2026-08-05T20:26:00.068893Z",
+          "connector": "doaj"
+        }
+      ],
+      "discovery_query_id": "missao::time series",
+      "first_seen_at": "2026-08-05T20:26:00.068960Z",
+      "last_verification_at": "2026-08-05T20:26:00.068964Z",
+      "claim_class": "FACT",
+      "license": {
+        "license_id": "declarada-pela-fonte",
+        "license_url": "https://doaj.org/docs/faq/"
+      },
+      "human_review": {
+        "required": true,
+        "status": "pending"
+      },
+      "poc_status": "production"
+    },
+    {
+      "source_id": "doaj:1607-7946",
+      "category_id": "academics-and-researchers",
+      "entity_type": "journal",
+      "official_name": "Nonlinear Processes in Geophysics",
+      "official_url": "https://doaj.org/toc/1607-7946",
+      "jurisdiction": "DE",
+      "authority_tier": 2,
+      "source_manifest": [
+        {
+          "url": "https://doaj.org/api/search/journals/time%20series?pageSize=10",
+          "sha256": "3ecc3efe75f1f2bc00730f365d31c94d9b027139c3c61dca1b3e7a6d734892df",
+          "retrieved_at": "2026-08-05T20:26:00.068893Z",
+          "connector": "doaj"
+        }
+      ],
+      "discovery_query_id": "missao::time series",
+      "first_seen_at": "2026-08-05T20:26:00.068971Z",
+      "last_verification_at": "2026-08-05T20:26:00.068974Z",
+      "claim_class": "FACT",
+      "license": {
+        "license_id": "declarada-pela-fonte",
+        "license_url": "https://doaj.org/docs/faq/"
+      },
+      "human_review": {
+        "required": true,
+        "status": "pending"
+      },
+      "poc_status": "production"
+    },
+    {
+      "source_id": "doaj:2459-5616",
+      "category_id": "academics-and-researchers",
+      "entity_type": "journal",
+      "official_name": "Croatian Review of Economic, Business and Social Statistics",
+      "official_url": "https://doaj.org/toc/2459-5616",
+      "jurisdiction": "HR",
+      "authority_tier": 2,
+      "source_manifest": [
+        {
+          "url": "https://doaj.org/api/search/journals/time%20series?pageSize=10",
+          "sha256": "3ecc3efe75f1f2bc00730f365d31c94d9b027139c3c61dca1b3e7a6d734892df",
+          "retrieved_at": "2026-08-05T20:26:00.068893Z",
+          "connector": "doaj"
+        }
+      ],
+      "discovery_query_id": "missao::time series",
+      "first_seen_at": "2026-08-05T20:26:00.068979Z",
+      "last_verification_at": "2026-08-05T20:26:00.068982Z",
+      "claim_class": "FACT",
+      "license": {
+        "license_id": "declarada-pela-fonte",
+        "license_url": "https://doaj.org/docs/faq/"
+      },
+      "human_review": {
+        "required": true,
+        "status": "pending"
+      },
+      "poc_status": "production"
+    },
+    {
+      "source_id": "doaj:2477-0647",
+      "category_id": "academics-and-researchers",
+      "entity_type": "journal",
+      "official_name": "Media Statistika",
+      "official_url": "https://doaj.org/toc/2477-0647",
+      "jurisdiction": "ID",
+      "authority_tier": 2,
+      "source_manifest": [
+        {
+          "url": "https://doaj.org/api/search/journals/time%20series?pageSize=10",
+          "sha256": "3ecc3efe75f1f2bc00730f365d31c94d9b027139c3c61dca1b3e7a6d734892df",
+          "retrieved_at": "2026-08-05T20:26:00.068893Z",
+          "connector": "doaj"
+        }
+      ],
+      "discovery_query_id": "missao::time series",
+      "first_seen_at": "2026-08-05T20:26:00.068988Z",
+      "last_verification_at": "2026-08-05T20:26:00.068991Z",
+      "claim_class": "FACT",
+      "license": {
+        "license_id": "declarada-pela-fonte",
+        "license_url": "https://doaj.org/docs/faq/"
+      },
+      "human_review": {
+        "required": true,
+        "status": "pending"
+      },
+      "poc_status": "production"
+    },
+    {
+      "source_id": "https://ror.org/056dkgp19",
+      "category_id": "research-centers",
+      "entity_type": "institution",
+      "official_name": "Health Forecasting",
+      "official_url": "https://ror.org/056dkgp19",
+      "jurisdiction": "United States",
+      "authority_tier": 2,
+      "source_manifest": [
+        {
+          "url": "https://api.ror.org/organizations?query=forecasting",
+          "sha256": "e15ed6c763a77ea040ddd806de05a96a596935334010f4111c6e0619beabe85d",
+          "retrieved_at": "2026-08-05T20:26:01.075644Z",
+          "connector": "ror"
+        }
+      ],
+      "discovery_query_id": "missao::forecasting",
+      "first_seen_at": "2026-08-05T20:26:01.075695Z",
+      "last_verification_at": "2026-08-05T20:26:01.075699Z",
+      "claim_class": "FACT",
+      "license": {
+        "license_id": "CC0-1.0",
+        "license_url": "https://ror.org/about/"
+      },
+      "human_review": {
+        "required": true,
+        "status": "pending"
+      },
+      "poc_status": "production"
+    },
+    {
+      "source_id": "https://ror.org/05b5a6q69",
+      "category_id": "research-centers",
+      "entity_type": "institution",
+      "official_name": "Institute for Forecasting of the Slovak Academy of Sciences",
+      "official_url": "https://ror.org/05b5a6q69",
+      "jurisdiction": "Slovakia",
+      "authority_tier": 2,
+      "source_manifest": [
+        {
+          "url": "https://api.ror.org/organizations?query=forecasting",
+          "sha256": "e15ed6c763a77ea040ddd806de05a96a596935334010f4111c6e0619beabe85d",
+          "retrieved_at": "2026-08-05T20:26:01.075644Z",
+          "connector": "ror"
+        }
+      ],
+      "discovery_query_id": "missao::forecasting",
+      "first_seen_at": "2026-08-05T20:26:01.075705Z",
+      "last_verification_at": "2026-08-05T20:26:01.075707Z",
+      "claim_class": "FACT",
+      "license": {
+        "license_id": "CC0-1.0",
+        "license_url": "https://ror.org/about/"
+      },
+      "human_review": {
+        "required": true,
+        "status": "pending"
+      },
+      "poc_status": "production"
+    },
+    {
+      "source_id": "https://ror.org/00zq1dy58",
+      "category_id": "research-centers",
+      "entity_type": "institution",
+      "official_name": "Forecasting Research Institute",
+      "official_url": "https://ror.org/00zq1dy58",
+      "jurisdiction": "United States",
+      "authority_tier": 2,
+      "source_manifest": [
+        {
+          "url": "https://api.ror.org/organizations?query=forecasting",
+          "sha256": "e15ed6c763a77ea040ddd806de05a96a596935334010f4111c6e0619beabe85d",
+          "retrieved_at": "2026-08-05T20:26:01.075644Z",
+          "connector": "ror"
+        }
+      ],
+      "discovery_query_id": "missao::forecasting",
+      "first_seen_at": "2026-08-05T20:26:01.075711Z",
+      "last_verification_at": "2026-08-05T20:26:01.075713Z",
+      "claim_class": "FACT",
+      "license": {
+        "license_id": "CC0-1.0",
+        "license_url": "https://ror.org/about/"
+      },
+      "human_review": {
+        "required": true,
+        "status": "pending"
+      },
+      "poc_status": "production"
+    },
+    {
+      "source_id": "https://ror.org/01p8wcy85",
+      "category_id": "research-centers",
+      "entity_type": "institution",
+      "official_name": "Institute of Economic Forecasting",
+      "official_url": "https://ror.org/01p8wcy85",
+      "jurisdiction": "Russia",
+      "authority_tier": 2,
+      "source_manifest": [
+        {
+          "url": "https://api.ror.org/organizations?query=forecasting",
+          "sha256": "e15ed6c763a77ea040ddd806de05a96a596935334010f4111c6e0619beabe85d",
+          "retrieved_at": "2026-08-05T20:26:01.075644Z",
+          "connector": "ror"
+        }
+      ],
+      "discovery_query_id": "missao::forecasting",
+      "first_seen_at": "2026-08-05T20:26:01.075717Z",
+      "last_verification_at": "2026-08-05T20:26:01.075718Z",
+      "claim_class": "FACT",
+      "license": {
+        "license_id": "CC0-1.0",
+        "license_url": "https://ror.org/about/"
+      },
+      "human_review": {
+        "required": true,
+        "status": "pending"
+      },
+      "poc_status": "production"
+    },
+    {
+      "source_id": "https://ror.org/03hnz5h47",
+      "category_id": "research-centers",
+      "entity_type": "institution",
+      "official_name": "Forecasting International (United States)",
+      "official_url": "https://ror.org/03hnz5h47",
+      "jurisdiction": "United States",
+      "authority_tier": 2,
+      "source_manifest": [
+        {
+          "url": "https://api.ror.org/organizations?query=forecasting",
+          "sha256": "e15ed6c763a77ea040ddd806de05a96a596935334010f4111c6e0619beabe85d",
+          "retrieved_at": "2026-08-05T20:26:01.075644Z",
+          "connector": "ror"
+        }
+      ],
+      "discovery_query_id": "missao::forecasting",
+      "first_seen_at": "2026-08-05T20:26:01.075722Z",
+      "last_verification_at": "2026-08-05T20:26:01.075723Z",
+      "claim_class": "FACT",
+      "license": {
+        "license_id": "CC0-1.0",
+        "license_url": "https://ror.org/about/"
+      },
+      "human_review": {
+        "required": true,
+        "status": "pending"
+      },
+      "poc_status": "production"
+    },
+    {
+      "source_id": "https://ror.org/04b3f3k27",
+      "category_id": "research-centers",
+      "entity_type": "institution",
+      "official_name": "Global Viral",
+      "official_url": "https://ror.org/04b3f3k27",
+      "jurisdiction": "United States",
+      "authority_tier": 2,
+      "source_manifest": [
+        {
+          "url": "https://api.ror.org/organizations?query=forecasting",
+          "sha256": "e15ed6c763a77ea040ddd806de05a96a596935334010f4111c6e0619beabe85d",
+          "retrieved_at": "2026-08-05T20:26:01.075644Z",
+          "connector": "ror"
+        }
+      ],
+      "discovery_query_id": "missao::forecasting",
+      "first_seen_at": "2026-08-05T20:26:01.075727Z",
+      "last_verification_at": "2026-08-05T20:26:01.075729Z",
+      "claim_class": "FACT",
+      "license": {
+        "license_id": "CC0-1.0",
+        "license_url": "https://ror.org/about/"
+      },
+      "human_review": {
+        "required": true,
+        "status": "pending"
+      },
+      "poc_status": "production"
+    },
+    {
+      "source_id": "https://ror.org/03a2d0d33",
+      "category_id": "research-centers",
+      "entity_type": "institution",
+      "official_name": "Institute of Earthquake Forecasting, China Earthquake Administration",
+      "official_url": "https://ror.org/03a2d0d33",
+      "jurisdiction": "China",
+      "authority_tier": 2,
+      "source_manifest": [
+        {
+          "url": "https://api.ror.org/organizations?query=forecasting",
+          "sha256": "e15ed6c763a77ea040ddd806de05a96a596935334010f4111c6e0619beabe85d",
+          "retrieved_at": "2026-08-05T20:26:01.075644Z",
+          "connector": "ror"
+        }
+      ],
+      "discovery_query_id": "missao::forecasting",
+      "first_seen_at": "2026-08-05T20:26:01.075732Z",
+      "last_verification_at": "2026-08-05T20:26:01.075734Z",
+      "claim_class": "FACT",
+      "license": {
+        "license_id": "CC0-1.0",
+        "license_url": "https://ror.org/about/"
+      },
+      "human_review": {
+        "required": true,
+        "status": "pending"
+      },
+      "poc_status": "production"
+    },
+    {
+      "source_id": "https://ror.org/035wv3h26",
+      "category_id": "research-centers",
+      "entity_type": "institution",
+      "official_name": "Roffer’s Ocean Fishing Forecasting Service",
+      "official_url": "https://ror.org/035wv3h26",
+      "jurisdiction": "United States",
+      "authority_tier": 2,
+      "source_manifest": [
+        {
+          "url": "https://api.ror.org/organizations?query=forecasting",
+          "sha256": "e15ed6c763a77ea040ddd806de05a96a596935334010f4111c6e0619beabe85d",
+          "retrieved_at": "2026-08-05T20:26:01.075644Z",
+          "connector": "ror"
+        }
+      ],
+      "discovery_query_id": "missao::forecasting",
+      "first_seen_at": "2026-08-05T20:26:01.075737Z",
+      "last_verification_at": "2026-08-05T20:26:01.075739Z",
+      "claim_class": "FACT",
+      "license": {
+        "license_id": "CC0-1.0",
+        "license_url": "https://ror.org/about/"
+      },
+      "human_review": {
+        "required": true,
+        "status": "pending"
+      },
+      "poc_status": "production"
+    },
+    {
+      "source_id": "https://ror.org/047hznt06",
+      "category_id": "research-centers",
+      "entity_type": "institution",
+      "official_name": "National Marine Environmental Forecasting Center",
+      "official_url": "https://ror.org/047hznt06",
+      "jurisdiction": "China",
+      "authority_tier": 2,
+      "source_manifest": [
+        {
+          "url": "https://api.ror.org/organizations?query=forecasting",
+          "sha256": "e15ed6c763a77ea040ddd806de05a96a596935334010f4111c6e0619beabe85d",
+          "retrieved_at": "2026-08-05T20:26:01.075644Z",
+          "connector": "ror"
+        }
+      ],
+      "discovery_query_id": "missao::forecasting",
+      "first_seen_at": "2026-08-05T20:26:01.075742Z",
+      "last_verification_at": "2026-08-05T20:26:01.075744Z",
+      "claim_class": "FACT",
+      "license": {
+        "license_id": "CC0-1.0",
+        "license_url": "https://ror.org/about/"
+      },
+      "human_review": {
+        "required": true,
+        "status": "pending"
+      },
+      "poc_status": "production"
+    },
+    {
+      "source_id": "https://ror.org/04d81ed36",
+      "category_id": "research-centers",
+      "entity_type": "institution",
+      "official_name": "Technology Information, Forecasting and Assessment Council",
+      "official_url": "https://ror.org/04d81ed36",
+      "jurisdiction": "India",
+      "authority_tier": 2,
+      "source_manifest": [
+        {
+          "url": "https://api.ror.org/organizations?query=forecasting",
+          "sha256": "e15ed6c763a77ea040ddd806de05a96a596935334010f4111c6e0619beabe85d",
+          "retrieved_at": "2026-08-05T20:26:01.075644Z",
+          "connector": "ror"
+        }
+      ],
+      "discovery_query_id": "missao::forecasting",
+      "first_seen_at": "2026-08-05T20:26:01.075747Z",
+      "last_verification_at": "2026-08-05T20:26:01.075749Z",
+      "claim_class": "FACT",
+      "license": {
+        "license_id": "CC0-1.0",
+        "license_url": "https://ror.org/about/"
+      },
+      "human_review": {
+        "required": true,
+        "status": "pending"
+      },
+      "poc_status": "production"
+    },
+    {
+      "source_id": "doaj:2674-0494",
+      "category_id": "academics-and-researchers",
+      "entity_type": "journal",
+      "official_name": "Meteorology",
+      "official_url": "https://doaj.org/toc/2674-0494",
+      "jurisdiction": "CH",
+      "authority_tier": 2,
+      "source_manifest": [
+        {
+          "url": "https://doaj.org/api/search/journals/forecasting?pageSize=10",
+          "sha256": "b3865c341bc116502def7a3bc5b5a3ed27fb326dbfcd546af404c2496f85455d",
+          "retrieved_at": "2026-08-05T20:26:01.281683Z",
+          "connector": "doaj"
+        }
+      ],
+      "discovery_query_id": "missao::forecasting",
+      "first_seen_at": "2026-08-05T20:26:01.281736Z",
+      "last_verification_at": "2026-08-05T20:26:01.281740Z",
+      "claim_class": "FACT",
+      "license": {
+        "license_id": "declarada-pela-fonte",
+        "license_url": "https://doaj.org/docs/faq/"
+      },
+      "human_review": {
+        "required": true,
+        "status": "pending"
+      },
+      "poc_status": "production"
+    },
+    {
+      "source_id": "doaj:2949-8635",
+      "category_id": "academics-and-researchers",
+      "entity_type": "journal",
+      "official_name": "Supply Chain Analytics",
+      "official_url": "https://doaj.org/toc/2949-8635",
+      "jurisdiction": "GB",
+      "authority_tier": 2,
+      "source_manifest": [
+        {
+          "url": "https://doaj.org/api/search/journals/forecasting?pageSize=10",
+          "sha256": "b3865c341bc116502def7a3bc5b5a3ed27fb326dbfcd546af404c2496f85455d",
+          "retrieved_at": "2026-08-05T20:26:01.281683Z",
+          "connector": "doaj"
+        }
+      ],
+      "discovery_query_id": "missao::forecasting",
+      "first_seen_at": "2026-08-05T20:26:01.281748Z",
+      "last_verification_at": "2026-08-05T20:26:01.281750Z",
+      "claim_class": "FACT",
+      "license": {
+        "license_id": "declarada-pela-fonte",
+        "license_url": "https://doaj.org/docs/faq/"
+      },
+      "human_review": {
+        "required": true,
+        "status": "pending"
+      },
+      "poc_status": "production"
+    },
+    {
+      "source_id": "doaj:2391-6060",
+      "category_id": "academics-and-researchers",
+      "entity_type": "journal",
+      "official_name": "Operations Research and Decisions",
+      "official_url": "https://doaj.org/toc/2391-6060",
+      "jurisdiction": "PL",
+      "authority_tier": 2,
+      "source_manifest": [
+        {
+          "url": "https://doaj.org/api/search/journals/forecasting?pageSize=10",
+          "sha256": "b3865c341bc116502def7a3bc5b5a3ed27fb326dbfcd546af404c2496f85455d",
+          "retrieved_at": "2026-08-05T20:26:01.281683Z",
+          "connector": "doaj"
+        }
+      ],
+      "discovery_query_id": "missao::forecasting",
+      "first_seen_at": "2026-08-05T20:26:01.281756Z",
+      "last_verification_at": "2026-08-05T20:26:01.281758Z",
+      "claim_class": "FACT",
+      "license": {
+        "license_id": "declarada-pela-fonte",
+        "license_url": "https://doaj.org/docs/faq/"
+      },
+      "human_review": {
+        "required": true,
+        "status": "pending"
+      },
+      "poc_status": "production"
+    },
+    {
+      "source_id": "doaj:3049-4753",
+      "category_id": "academics-and-researchers",
+      "entity_type": "journal",
+      "official_name": "Machine Learning. Earth",
+      "official_url": "https://doaj.org/toc/3049-4753",
+      "jurisdiction": "GB",
+      "authority_tier": 2,
+      "source_manifest": [
+        {
+          "url": "https://doaj.org/api/search/journals/forecasting?pageSize=10",
+          "sha256": "b3865c341bc116502def7a3bc5b5a3ed27fb326dbfcd546af404c2496f85455d",
+          "retrieved_at": "2026-08-05T20:26:01.281683Z",
+          "connector": "doaj"
+        }
+      ],
+      "discovery_query_id": "missao::forecasting",
+      "first_seen_at": "2026-08-05T20:26:01.281762Z",
+      "last_verification_at": "2026-08-05T20:26:01.281764Z",
+      "claim_class": "FACT",
+      "license": {
+        "license_id": "declarada-pela-fonte",
+        "license_url": "https://doaj.org/docs/faq/"
+      },
+      "human_review": {
+        "required": true,
+        "status": "pending"
+      },
+      "poc_status": "production"
+    },
+    {
+      "source_id": "doaj:2950-3604",
+      "category_id": "academics-and-researchers",
+      "entity_type": "journal",
+      "official_name": "Wind Energy and Engineering Research",
+      "official_url": "https://doaj.org/toc/2950-3604",
+      "jurisdiction": "NL",
+      "authority_tier": 2,
+      "source_manifest": [
+        {
+          "url": "https://doaj.org/api/search/journals/forecasting?pageSize=10",
+          "sha256": "b3865c341bc116502def7a3bc5b5a3ed27fb326dbfcd546af404c2496f85455d",
+          "retrieved_at": "2026-08-05T20:26:01.281683Z",
+          "connector": "doaj"
+        }
+      ],
+      "discovery_query_id": "missao::forecasting",
+      "first_seen_at": "2026-08-05T20:26:01.281767Z",
+      "last_verification_at": "2026-08-05T20:26:01.281769Z",
+      "claim_class": "FACT",
+      "license": {
+        "license_id": "declarada-pela-fonte",
+        "license_url": "https://doaj.org/docs/faq/"
+      },
+      "human_review": {
+        "required": true,
+        "status": "pending"
+      },
+      "poc_status": "production"
+    },
+    {
+      "source_id": "doaj:2717-1647",
+      "category_id": "academics-and-researchers",
+      "entity_type": "journal",
+      "official_name": "مدیریت زنجیره تأمین",
+      "official_url": "https://doaj.org/toc/2717-1647",
+      "jurisdiction": "IR",
+      "authority_tier": 2,
+      "source_manifest": [
+        {
+          "url": "https://doaj.org/api/search/journals/forecasting?pageSize=10",
+          "sha256": "b3865c341bc116502def7a3bc5b5a3ed27fb326dbfcd546af404c2496f85455d",
+          "retrieved_at": "2026-08-05T20:26:01.281683Z",
+          "connector": "doaj"
+        }
+      ],
+      "discovery_query_id": "missao::forecasting",
+      "first_seen_at": "2026-08-05T20:26:01.281785Z",
+      "last_verification_at": "2026-08-05T20:26:01.281788Z",
+      "claim_class": "FACT",
+      "license": {
+        "license_id": "declarada-pela-fonte",
+        "license_url": "https://doaj.org/docs/faq/"
+      },
+      "human_review": {
+        "required": true,
+        "status": "pending"
+      },
+      "poc_status": "production"
+    },
+    {
+      "source_id": "doaj:2518-735X",
+      "category_id": "academics-and-researchers",
+      "entity_type": "journal",
+      "official_name": "Український соціум",
+      "official_url": "https://doaj.org/toc/2518-735X",
+      "jurisdiction": "UA",
+      "authority_tier": 2,
+      "source_manifest": [
+        {
+          "url": "https://doaj.org/api/search/journals/forecasting?pageSize=10",
+          "sha256": "b3865c341bc116502def7a3bc5b5a3ed27fb326dbfcd546af404c2496f85455d",
+          "retrieved_at": "2026-08-05T20:26:01.281683Z",
+          "connector": "doaj"
+        }
+      ],
+      "discovery_query_id": "missao::forecasting",
+      "first_seen_at": "2026-08-05T20:26:01.281794Z",
+      "last_verification_at": "2026-08-05T20:26:01.281797Z",
+      "claim_class": "FACT",
+      "license": {
+        "license_id": "declarada-pela-fonte",
+        "license_url": "https://doaj.org/docs/faq/"
+      },
+      "human_review": {
+        "required": true,
+        "status": "pending"
+      },
+      "poc_status": "production"
+    },
+    {
+      "source_id": "doaj:2617-3778",
+      "category_id": "academics-and-researchers",
+      "entity_type": "journal",
+      "official_name": "Техніко-технологічні аспекти розвитку та випробування нової техніки і технологій для сільського господарства України",
+      "official_url": "https://doaj.org/toc/2617-3778",
+      "jurisdiction": "UA",
+      "authority_tier": 2,
+      "source_manifest": [
+        {
+          "url": "https://doaj.org/api/search/journals/forecasting?pageSize=10",
+          "sha256": "b3865c341bc116502def7a3bc5b5a3ed27fb326dbfcd546af404c2496f85455d",
+          "retrieved_at": "2026-08-05T20:26:01.281683Z",
+          "connector": "doaj"
+        }
+      ],
+      "discovery_query_id": "missao::forecasting",
+      "first_seen_at": "2026-08-05T20:26:01.281801Z",
+      "last_verification_at": "2026-08-05T20:26:01.281802Z",
+      "claim_class": "FACT",
+      "license": {
+        "license_id": "declarada-pela-fonte",
+        "license_url": "https://doaj.org/docs/faq/"
+      },
+      "human_review": {
+        "required": true,
+        "status": "pending"
+      },
+      "poc_status": "production"
+    },
+    {
+      "source_id": "doaj:2632-2153",
+      "category_id": "academics-and-researchers",
+      "entity_type": "journal",
+      "official_name": "Machine Learning: Science and Technology",
+      "official_url": "https://doaj.org/toc/2632-2153",
+      "jurisdiction": "GB",
+      "authority_tier": 2,
+      "source_manifest": [
+        {
+          "url": "https://doaj.org/api/search/journals/quantum%20machine%20learning?pageSize=10",
+          "sha256": "711d27d5f3a5a1501bf7af62edf0afe07aadfc8a2126bf0f3649e3630603633e",
+          "retrieved_at": "2026-08-05T20:26:02.468066Z",
+          "connector": "doaj"
+        }
+      ],
+      "discovery_query_id": "missao::quantum machine learning",
+      "first_seen_at": "2026-08-05T20:26:02.468095Z",
+      "last_verification_at": "2026-08-05T20:26:02.468097Z",
+      "claim_class": "FACT",
+      "license": {
+        "license_id": "declarada-pela-fonte",
+        "license_url": "https://doaj.org/docs/faq/"
+      },
+      "human_review": {
+        "required": true,
+        "status": "pending"
+      },
+      "poc_status": "production"
+    }
+  ]
+}

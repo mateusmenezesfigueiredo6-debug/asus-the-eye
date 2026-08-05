@@ -195,8 +195,18 @@ def main(argv: Sequence[str] | None = None) -> int:
             write_reports,
         )
 
-        coverage = build_coverage([])
+        # As fontes descobertas vivem em disco; ler [] aqui era o motivo de a
+        # cobertura aparecer 0,0% mesmo depois de a descoberta ter rodado.
+        fontes_path = Path("data/source-graph/sources.json")
+        fontes = []
+        if fontes_path.exists():
+            fontes = json.loads(fontes_path.read_text(encoding="utf-8")).get("sources", [])
+        coverage = build_coverage(fontes)
         tracks = coverage_by_track(coverage)
+        if fontes:
+            pendentes = sum(1 for f in fontes
+                            if f.get("human_review", {}).get("status") == "pending")
+            print(f"fontes carregadas: {len(fontes)} ({pendentes} aguardando revisao humana)")
         print("=" * 62)
         print("GRAFO DE FONTES — COBERTURA")
         print("=" * 62)

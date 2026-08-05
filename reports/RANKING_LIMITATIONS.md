@@ -1,6 +1,6 @@
 # Limitações do ranking
 
-Gerado em 2026-08-03 · metodologia 1.0.0 · snapshot `4fb49afdef7372ca…`
+Gerado em 2026-08-05 · metodologia 1.0.0 · snapshot `3c7da12fdcb10c60…`
 
 O que os números desta plataforma **não** significam.
 
