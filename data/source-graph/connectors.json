@@ -1,6 +1,6 @@
 {
   "connector_version": "1.0.0",
-  "note": "Cada conector declara sua licença, seus termos, seu intervalo mínimo e — obrigatoriamente — o que NÃO entrega. Nenhuma licença é deduzida de página: se um conector não declara license_id aqui, o registry recusa carregá-lo. min_interval_seconds default global é 3.0 (o limite do arXiv, o mais estrito do conjunto): errar para o lado educado. enabled=false significa que o Estágio 1 não usa; nada com requires_key=true é habilitado.",
+  "note": "enabled=false por governanca: habilitar conector promove o projeto do Estagio 1 (offline) para o 2, e nenhuma fase promove sem aprovacao humana registrada (docs/governance/IMPLEMENTATION_ROADMAP.md). ready_to_enable=true marca o que ja tem implementacao em codigo e verificacao datada — pronto para o dono decidir, nao decidido.",
   "default_min_interval_seconds": 3.0,
   "default_max_bytes": 5242880,
   "connectors": [
@@ -16,7 +16,12 @@
       "max_bytes": 5242880,
       "requires_key": false,
       "enabled": false,
-      "provides": ["identidade canônica de organização de pesquisa", "país", "tipos", "relações"],
+      "provides": [
+        "identidade canônica de organização de pesquisa",
+        "país",
+        "tipos",
+        "relações"
+      ],
       "does_not_provide": [
         "ranking ou medida de qualidade",
         "produção científica",
@@ -25,7 +30,11 @@
       "limitations": [
         "2.000 req/5 min por IP hoje; a partir do 3º tri/2026 exige client ID grátis, senão cai para 50 req/5 min",
         "máximo 10.000 registros por consulta — para o conjunto completo (120k+ orgs) usar o data dump"
-      ]
+      ],
+      "implementation": "src/asus_theye/source_graph/connectors/academico.py",
+      "last_verified_at": "2026-08-05T20:32:21.771657Z",
+      "verification_note": "HTTP 200 em 05/08/2026; a v2 mudou name->names[] e country->locations[]",
+      "ready_to_enable": true
     },
     {
       "connector_id": "crossref",
@@ -39,7 +48,12 @@
       "max_bytes": 10485760,
       "requires_key": false,
       "enabled": false,
-      "provides": ["metadados de artigos e periódicos", "DOI", "ISSN", "contagem de citações parcial"],
+      "provides": [
+        "metadados de artigos e periódicos",
+        "DOI",
+        "ISSN",
+        "contagem de citações parcial"
+      ],
       "does_not_provide": [
         "texto completo",
         "contagem de citações completa ou auditável",
@@ -49,7 +63,11 @@
         "limites revisados em 01/12/2025: público 5 req/s por DOI, 1 req/s para listas, 1 conexão",
         "polite pool (com mailto) sobe para 10 req/s e 3 conexões — mas exige identificação",
         "abstracts podem ter copyright do editor"
-      ]
+      ],
+      "implementation": "src/asus_theye/source_graph/connectors/academico.py",
+      "last_verified_at": "2026-08-05T20:32:21.771657Z",
+      "verification_note": "HTTP 200; NAO suporta busca por frase — usa query.title",
+      "ready_to_enable": true
     },
     {
       "connector_id": "arxiv",
@@ -63,12 +81,22 @@
       "max_bytes": 5242880,
       "requires_key": false,
       "enabled": false,
-      "provides": ["metadados de preprints", "resumos", "categorias"],
+      "provides": [
+        "metadados de preprints",
+        "resumos",
+        "categorias"
+      ],
       "does_not_provide": [
         "artigos revisados por pares (só preprints)",
         "redistribuição de PDF a partir do seu servidor"
       ],
-      "limitations": ["1 requisição a cada 3 s, 1 conexão — o mais estrito do conjunto"]
+      "limitations": [
+        "1 requisição a cada 3 s, 1 conexão — o mais estrito do conjunto"
+      ],
+      "implementation": "src/asus_theye/source_graph/connectors/academico.py",
+      "last_verified_at": "2026-08-05T20:32:21.771657Z",
+      "verification_note": "HTTP 200; aspas obrigatorias, sem elas casa palavras soltas (500x)",
+      "ready_to_enable": true
     },
     {
       "connector_id": "openlibrary",
@@ -82,7 +110,12 @@
       "max_bytes": 5242880,
       "requires_key": false,
       "enabled": false,
-      "provides": ["metadados bibliográficos de livros", "ISBN", "autores", "edições"],
+      "provides": [
+        "metadados bibliográficos de livros",
+        "ISBN",
+        "autores",
+        "edições"
+      ],
       "does_not_provide": [
         "dados de vendas",
         "ranking comercial",
@@ -91,7 +124,8 @@
       "limitations": [
         "1 req/s anônimo, 3 req/s identificado; User-Agent com contato é exigido",
         "a documentação declara explicitamente que a plataforma não é infraestrutura comercial"
-      ]
+      ],
+      "implementation": null
     },
     {
       "connector_id": "doaj",
@@ -105,9 +139,21 @@
       "max_bytes": 5242880,
       "requires_key": false,
       "enabled": false,
-      "provides": ["periódicos open access verificados", "critérios de qualidade editorial"],
-      "does_not_provide": ["periódicos por assinatura", "fator de impacto"],
-      "limitations": ["cobertura restrita a OA; ~2 req/s"]
+      "provides": [
+        "periódicos open access verificados",
+        "critérios de qualidade editorial"
+      ],
+      "does_not_provide": [
+        "periódicos por assinatura",
+        "fator de impacto"
+      ],
+      "limitations": [
+        "cobertura restrita a OA; ~2 req/s"
+      ],
+      "implementation": "src/asus_theye/source_graph/connectors/academico.py",
+      "last_verified_at": "2026-08-05T20:32:21.771657Z",
+      "verification_note": "HTTP 200",
+      "ready_to_enable": true
     },
     {
       "connector_id": "openalex",
@@ -121,12 +167,18 @@
       "max_bytes": 10485760,
       "requires_key": true,
       "enabled": false,
-      "provides": ["obras, autores, instituições, tópicos", "contagem de citações"],
-      "does_not_provide": ["acesso gratuito ilimitado desde fev/2026"],
+      "provides": [
+        "obras, autores, instituições, tópicos",
+        "contagem de citações"
+      ],
+      "does_not_provide": [
+        "acesso gratuito ilimitado desde fev/2026"
+      ],
       "limitations": [
         "BLOQUEADO NO ESTÁGIO 1: desde fev/2026 exige chave e cobra por uso (US$1/dia grátis). O AGENTS.md proíbe criar custos",
         "caminho correto é o dump CC0 no S3 — grátis, sem chave, Estágio 2"
-      ]
+      ],
+      "implementation": null
     },
     {
       "connector_id": "sec-edgar",
@@ -140,9 +192,19 @@
       "max_bytes": 20971520,
       "requires_key": false,
       "enabled": false,
-      "provides": ["arquivamentos de empresas listadas nos EUA", "CIK", "demonstrações financeiras"],
-      "does_not_provide": ["empresas fechadas", "empresas não listadas nos EUA"],
-      "limitations": ["User-Agent com contato é OBRIGATÓRIO — sem isso a SEC bloqueia; 10 req/s"]
+      "provides": [
+        "arquivamentos de empresas listadas nos EUA",
+        "CIK",
+        "demonstrações financeiras"
+      ],
+      "does_not_provide": [
+        "empresas fechadas",
+        "empresas não listadas nos EUA"
+      ],
+      "limitations": [
+        "User-Agent com contato é OBRIGATÓRIO — sem isso a SEC bloqueia; 10 req/s"
+      ],
+      "implementation": null
     },
     {
       "connector_id": "dados-gov-br",
@@ -154,11 +216,19 @@
       "access_basis": "api_terms",
       "min_interval_seconds": 3.0,
       "max_bytes": 20971520,
-      "requires_key": false,
+      "requires_key": true,
       "enabled": false,
-      "provides": ["catálogo federal de dados abertos (CKAN)"],
-      "does_not_provide": ["dados estaduais e municipais não federados"],
-      "limitations": ["base legal: Lei 12.527/2011 + Decreto 8.777/2016"]
+      "provides": [
+        "catálogo federal de dados abertos (CKAN)"
+      ],
+      "does_not_provide": [
+        "dados estaduais e municipais não federados"
+      ],
+      "limitations": [
+        "base legal: Lei 12.527/2011 + Decreto 8.777/2016"
+      ],
+      "verification_note": "HTTP 401 em 05/08/2026 — declaracao anterior estava desatualizada",
+      "last_verified_at": "2026-08-05T20:32:21.771657Z"
     },
     {
       "connector_id": "anp",
@@ -172,9 +242,19 @@
       "max_bytes": 52428800,
       "requires_key": false,
       "enabled": false,
-      "provides": ["produção de petróleo e gás", "poços", "preços de combustíveis"],
-      "does_not_provide": ["dados de empresas privadas não reguladas", "previsão de preço"],
-      "limitations": ["publicação por arquivo, não por API REST em todos os conjuntos"]
+      "provides": [
+        "produção de petróleo e gás",
+        "poços",
+        "preços de combustíveis"
+      ],
+      "does_not_provide": [
+        "dados de empresas privadas não reguladas",
+        "previsão de preço"
+      ],
+      "limitations": [
+        "publicação por arquivo, não por API REST em todos os conjuntos"
+      ],
+      "implementation": null
     },
     {
       "connector_id": "snis",
@@ -188,9 +268,19 @@
       "max_bytes": 52428800,
       "requires_key": false,
       "enabled": false,
-      "provides": ["estações de tratamento de água e esgoto", "indicadores por município", "cobertura de saneamento"],
-      "does_not_provide": ["telemetria em tempo real de estação", "dados operacionais internos de concessionária"],
-      "limitations": ["série anual com defasagem; autodeclarado pelos prestadores"]
+      "provides": [
+        "estações de tratamento de água e esgoto",
+        "indicadores por município",
+        "cobertura de saneamento"
+      ],
+      "does_not_provide": [
+        "telemetria em tempo real de estação",
+        "dados operacionais internos de concessionária"
+      ],
+      "limitations": [
+        "série anual com defasagem; autodeclarado pelos prestadores"
+      ],
+      "implementation": null
     },
     {
       "connector_id": "ibm-quantum",
@@ -205,13 +295,19 @@
       "requires_key": true,
       "enabled": false,
       "category": "quantum_cloud",
-      "provides": ["~10 min de QPU real por janela de 28 dias", "simuladores locais ilimitados via Qiskit"],
+      "provides": [
+        "~10 min de QPU real por janela de 28 dias",
+        "simuladores locais ilimitados via Qiskit"
+      ],
       "does_not_provide": [
         "vantagem quântica em previsão prática — QML ainda não supera XGBoost",
         "acesso anônimo: exige conta identificada",
         "endereço .onion — não existe nuvem quântica via Tor"
       ],
-      "limitations": ["JÁ EM USO NESTE PROJETO: job d9ngkpcsfqic73ar17vg em ibm_kingston, 3,94 s de QPU"]
+      "limitations": [
+        "JÁ EM USO NESTE PROJETO: job d9ngkpcsfqic73ar17vg em ibm_kingston, 3,94 s de QPU"
+      ],
+      "implementation": null
     },
     {
       "connector_id": "amazon-braket",
@@ -226,9 +322,16 @@
       "requires_key": true,
       "enabled": false,
       "category": "quantum_cloud",
-      "provides": ["1 h de simulador grátis/mês para novos usuários"],
-      "does_not_provide": ["hardware real gratuito — IonQ/Rigetti/QuEra são pagos"],
-      "limitations": ["cria custo além da cota — bloqueado pelo AGENTS.md"]
+      "provides": [
+        "1 h de simulador grátis/mês para novos usuários"
+      ],
+      "does_not_provide": [
+        "hardware real gratuito — IonQ/Rigetti/QuEra são pagos"
+      ],
+      "limitations": [
+        "cria custo além da cota — bloqueado pelo AGENTS.md"
+      ],
+      "implementation": null
     },
     {
       "connector_id": "dwave-leap",
@@ -243,9 +346,18 @@
       "requires_key": true,
       "enabled": false,
       "category": "quantum_cloud",
-      "provides": ["minutos mensais grátis em annealer quântico", "bom para otimização combinatória"],
-      "does_not_provide": ["computação quântica de porta universal", "acesso anônimo"],
-      "limitations": ["annealer resolve uma classe restrita de problema; não roda QAOA de porta"]
+      "provides": [
+        "minutos mensais grátis em annealer quântico",
+        "bom para otimização combinatória"
+      ],
+      "does_not_provide": [
+        "computação quântica de porta universal",
+        "acesso anônimo"
+      ],
+      "limitations": [
+        "annealer resolve uma classe restrita de problema; não roda QAOA de porta"
+      ],
+      "implementation": null
     }
   ]
 }

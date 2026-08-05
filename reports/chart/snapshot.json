@@ -96,20 +96,23 @@
       "completion_pct": 0
     }
   },
-  "generated_at": "2026-08-05T20:26:46.267668Z",
-  "commit": "dd76457",
+  "generated_at": "2026-08-05T20:32:54.547484Z",
+  "commit": "829847e",
   "knowledge": {
     "available": true,
     "methodology_version": "1.0.0",
+    "sources_loaded": 116,
+    "sources_pending_human_review": 116,
     "tracks": {
       "academico": {
         "categories": 5,
-        "qualified": 0,
+        "qualified": 67,
         "target": 500,
         "blocking_reasons": {
-          "not_yet_attempted": 5
+          "not_yet_attempted": 4,
+          "none": 1
         },
-        "coverage_pct": 0.0
+        "coverage_pct": 13.4
       },
       "fundacao": {
         "categories": 4,
@@ -122,12 +125,13 @@
       },
       "gated_dpia": {
         "categories": 4,
-        "qualified": 0,
+        "qualified": 49,
         "target": 400,
         "blocking_reasons": {
-          "requires_dpia": 4
+          "none": 1,
+          "requires_dpia": 3
         },
-        "coverage_pct": 0.0
+        "coverage_pct": 12.25
       },
       "setorial": {
         "categories": 6,
@@ -142,7 +146,7 @@
     "connectors": {
       "declared": 13,
       "enabled": 0,
-      "blocked_by_cost_or_key": 4
+      "blocked_by_cost_or_key": 5
     },
     "artifacts": {
       "declared": 23,
@@ -183,7 +187,7 @@
         "what_would_unblock": "Estágio 2: habilitar conectores e executar a primeira corrida limitada"
       }
     ],
-    "coverage_snapshot_hash": "4fb49afdef7372cac25f599354146c3b5b94ad3089f637ccab3dbd316b414b90"
+    "coverage_snapshot_hash": "3c7da12fdcb10c60a752e188d4c562699997269bf00119a6947cf555898e4c6d"
   },
   "totals": {
     "projects": 12,
@@ -552,8 +556,8 @@
         "artifacts_declared": 35,
         "artifacts_missing": [],
         "completion_pct": 100,
-        "commits": 5,
-        "last_commit": "dd76457 2026-08-05"
+        "commits": 6,
+        "last_commit": "829847e 2026-08-05"
       },
       "unknown_niches": []
     },

@@ -35,8 +35,8 @@
  footer { margin-top:2rem; color:#5c6880; font-size:.75rem; }
 </style></head><body>
 <h1>Mistress Chart</h1>
-<div class="sub">commit dd76457 · 2026-08-05T20:26:46.267668Z<br>
-snapshot sha256: 35241377b49eacc58c27be8196676c37cafc9c57cf634c4994957376ab7939f9</div>
+<div class="sub">commit 829847e · 2026-08-05T20:32:54.547484Z<br>
+snapshot sha256: 7680f9399fa0487ac7e42ceda1ce6e9e8a815c763684c4c5080c1bc342543bd2</div>
 <div class="cards">
 <div class="card"><div class="label">Projetos</div><div class="value">12</div></div>
 <div class="card"><div class="label">Completos</div><div class="value">11</div></div>
@@ -75,11 +75,11 @@ snapshot sha256: 35241377b49eacc58c27be8196676c37cafc9c57cf634c4994957376ab7939f
 
 <h2>Grafo de fontes — onde estamos em cada trilha</h2>
 <table><thead><tr><th>Trilha</th><th>Qualificadas</th><th>Cobertura</th>
-<th>Motivo</th></tr></thead><tbody><tr><td><strong>Acadêmico — universidades, centros de pesquisa, observatórios</strong></td><td class="num">0/500</td><td class="barcell"><div class="track"><div class="fill" style="width:0.0%"></div></div><span class="pct">0.0%</span></td><td class="muted small">ainda não tentado ×5</td></tr><tr><td><strong>Fundação — periódicos, datasets oficiais, associações, conferências</strong></td><td class="num">0/400</td><td class="barcell"><div class="track"><div class="fill" style="width:0.0%"></div></div><span class="pct">0.0%</span></td><td class="muted small">ainda não tentado ×4</td></tr><tr><td><strong>Bloqueado por DPIA — categorias que descrevem pessoas (L4)</strong></td><td class="num">0/400</td><td class="barcell"><div class="track"><div class="fill" style="width:0.0%"></div></div><span class="pct">0.0%</span></td><td class="muted small">exige DPIA humana ×4</td></tr><tr><td><strong>Setorial — reguladores, tribunais, instituições, veículos</strong></td><td class="num">0/600</td><td class="barcell"><div class="track"><div class="fill" style="width:0.0%"></div></div><span class="pct">0.0%</span></td><td class="muted small">ainda não tentado ×6</td></tr></tbody></table>
+<th>Motivo</th></tr></thead><tbody><tr><td><strong>Acadêmico — universidades, centros de pesquisa, observatórios</strong></td><td class="num">67/500</td><td class="barcell"><div class="track"><div class="fill" style="width:13.4%"></div></div><span class="pct">13.4%</span></td><td class="muted small">coberto ×1 · ainda não tentado ×4</td></tr><tr><td><strong>Fundação — periódicos, datasets oficiais, associações, conferências</strong></td><td class="num">0/400</td><td class="barcell"><div class="track"><div class="fill" style="width:0.0%"></div></div><span class="pct">0.0%</span></td><td class="muted small">ainda não tentado ×4</td></tr><tr><td><strong>Bloqueado por DPIA — categorias que descrevem pessoas (L4)</strong></td><td class="num">49/400</td><td class="barcell"><div class="track"><div class="fill" style="width:12.25%"></div></div><span class="pct">12.25%</span></td><td class="muted small">coberto ×1 · exige DPIA humana ×3</td></tr><tr><td><strong>Setorial — reguladores, tribunais, instituições, veículos</strong></td><td class="num">0/600</td><td class="barcell"><div class="track"><div class="fill" style="width:0.0%"></div></div><span class="pct">0.0%</span></td><td class="muted small">ainda não tentado ×6</td></tr></tbody></table>
 
 <div class="cards" style="margin-top:1rem">
 <div class="card"><div class="label">Conectores</div><div class="value">13</div>
-<div class="muted small">0 habilitados · 4 exigem chave/custo</div></div>
+<div class="muted small">0 habilitados · 5 exigem chave/custo</div></div>
 <div class="card"><div class="label">Bibliotecas com PoC</div><div class="value">23</div>
 <div class="muted small">production: 17, research: 6</div></div>
 <div class="card"><div class="label">Comunidades</div><div class="value">22</div>
@@ -89,14 +89,16 @@ snapshot sha256: 35241377b49eacc58c27be8196676c37cafc9c57cf634c4994957376ab7939f
 <h2>Mapa das trilhas</h2>
 <pre class="mermaid">graph LR
   GRAFO[Grafo de fontes]
-  GRAFO --&gt; T0[&quot;academico&lt;br/&gt;0/500&quot;]
-  T0 -.-&gt; T0R328[&quot;ainda não tentado&lt;br/&gt;5 categoria(s)&quot;]
+  GRAFO --&gt; T0[&quot;academico&lt;br/&gt;67/500&quot;]
+  T0 --&gt; T0R706[&quot;coberto&lt;br/&gt;1 categoria(s)&quot;]
+  T0 -.-&gt; T0R701[&quot;ainda não tentado&lt;br/&gt;4 categoria(s)&quot;]
   GRAFO --&gt; T1[&quot;fundacao&lt;br/&gt;0/400&quot;]
-  T1 -.-&gt; T1R328[&quot;ainda não tentado&lt;br/&gt;4 categoria(s)&quot;]
-  GRAFO --&gt; T2[&quot;gated dpia&lt;br/&gt;0/400&quot;]
-  T2 -.-&gt; T2R299[&quot;exige DPIA humana&lt;br/&gt;4 categoria(s)&quot;]
+  T1 -.-&gt; T1R701[&quot;ainda não tentado&lt;br/&gt;4 categoria(s)&quot;]
+  GRAFO --&gt; T2[&quot;gated dpia&lt;br/&gt;49/400&quot;]
+  T2 --&gt; T2R706[&quot;coberto&lt;br/&gt;1 categoria(s)&quot;]
+  T2 -.-&gt; T2R917[&quot;exige DPIA humana&lt;br/&gt;3 categoria(s)&quot;]
   GRAFO --&gt; T3[&quot;setorial&lt;br/&gt;0/600&quot;]
-  T3 -.-&gt; T3R328[&quot;ainda não tentado&lt;br/&gt;6 categoria(s)&quot;]</pre>
+  T3 -.-&gt; T3R701[&quot;ainda não tentado&lt;br/&gt;6 categoria(s)&quot;]</pre>
 
 <h2>Lacunas — e o que destravaria cada uma</h2>
 <table><thead><tr><th>Motivo</th><th>Lacuna</th><th>O que destravaria</th></tr></thead>

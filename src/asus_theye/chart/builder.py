@@ -104,7 +104,14 @@ def _knowledge_section() -> dict[str, Any]:
     connectors = load("connectors.json")["connectors"]
     artifacts = load("software_artifacts.json")["artifacts"]
     communities = load("communities.json")["communities"]
-    coverage = build_coverage([])
+
+    # As fontes descobertas vivem em sources.json. Passar [] aqui fazia o chart
+    # publicar 0,0% enquanto o relatorio de cobertura ja mostrava 13,4% — o
+    # mesmo defeito existia no CLI e foi corrigido em 829847e.
+    fontes_path = source_graph_dir / "sources.json"
+    fontes = (json.loads(fontes_path.read_text(encoding="utf-8")).get("sources", [])
+              if fontes_path.exists() else [])
+    coverage = build_coverage(fontes)
 
     by_poc: dict[str, int] = {}
     for artifact in artifacts:
@@ -113,6 +120,9 @@ def _knowledge_section() -> dict[str, Any]:
     return {
         "available": True,
         "methodology_version": coverage["methodology_version"],
+        "sources_loaded": len(fontes),
+        "sources_pending_human_review": sum(
+            1 for f in fontes if f.get("human_review", {}).get("status") == "pending"),
         "tracks": coverage_by_track(coverage),
         "connectors": {
             "declared": len(connectors),
