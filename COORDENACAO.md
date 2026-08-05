@@ -32,12 +32,26 @@ escrever.
 
 ## Git: como nao sobrescrever
 
-Cada agente trabalha no proprio ramo e integra por merge, nunca por force.
+ATENCAO — o protocolo original estava ERRADO e custou uma correcao em 05/08.
 
-    # Codex
-    git checkout -b codex/<assunto>   # ex: codex/medicao-12-projetos
-    # Claude
-    git checkout -b claude/<assunto>
+Os dois agentes compartilham UM diretorio de trabalho. `git checkout` de um
+move o outro sem aviso: o Codex trocou para `codex/medicao-12-projetos` e os
+12 commits seguintes, meus e dele, foram para esse ramo. `git push origin main`
+respondia "Everything up-to-date" porque o main local nao tinha se movido.
+Nada se perdeu, mas so porque foi notado.
+
+**Regra corrigida: NAO trocar de ramo no diretorio compartilhado.** Quem quiser
+ramo proprio usa worktree, que da um diretorio separado:
+
+    git worktree add ../eye-codex -b codex/<assunto>
+    cd ../eye-codex        # o Codex trabalha aqui, sem mover o diretorio principal
+
+    git worktree add ../eye-claude -b claude/<assunto>
+
+Quem ficar no diretorio principal trabalha em `main`. Antes de commitar,
+SEMPRE conferir:
+
+    git branch --show-current
 
 Antes de qualquer commit:
 
