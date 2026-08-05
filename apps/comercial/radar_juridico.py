@@ -176,12 +176,53 @@ conferencia. Inteligencia de mercado; nao constitui aconselhamento juridico.</di
 </main></html>"""
 
 
+def render_recusado(nicho: dict) -> str:
+    """Pagina que explica a recusa. Nao carrega nenhum trecho de diario."""
+    e = html_mod.escape
+    return f"""<!doctype html><html lang=pt-BR><meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<title>Radar Juridico — {e(nicho['objeto_juridico'])}</title>
+<style>
+body{{font-family:Georgia,serif;background:#FAFAF7;color:#1A1A18;margin:0;
+line-height:1.6}}
+.capa{{background:#0E4B3A;color:#EDF5F1;padding:40px 6vw 30px}}
+.orgao{{font-family:'Arial Narrow',Arial,sans-serif;font-size:12px;
+letter-spacing:4px;text-transform:uppercase;opacity:.8}}
+h1{{font-family:'Arial Narrow',Arial,sans-serif;font-weight:700;
+text-transform:uppercase;font-size:clamp(26px,5vw,40px);margin:10px 0}}
+main{{max-width:680px;margin:0 auto;padding:28px 6vw 60px}}
+.aviso{{background:#fff;border:1px solid #E3E1D8;border-left:4px solid #B3261E;
+padding:18px 22px;font-size:15px}}
+</style>
+<header class=capa>
+<div class=orgao>Radar Juridico — Diarios Oficiais do Brasil</div>
+<h1>{e(nicho['objeto_juridico'])}</h1>
+</header>
+<main><div class=aviso>
+<p><b>Este nicho nao e coberto por decisao de projeto.</b></p>
+<p>{e(nicho.get('sem_extracao_motivo', 'a parte nomeada nestes atos e pessoa fisica'))}.</p>
+<p>Os atos existem e sao publicos, mas montar e distribuir uma lista de pessoas
+fisicas a partir deles nao e o que esta plataforma faz. A contagem agregada do
+nicho continua alimentando a analise de demanda, porque estatistica nao e
+cadastro.</p>
+</div></main></html>"""
+
+
 def gerar(niche_id: str, dias: int = 14) -> Path:
     nicho = next(n for n in ONT["nichos"] if n["niche_id"] == niche_id)
-    gazettes, total = buscar(nicho, dias)
-    leads = extrair(nicho, gazettes)
     dest = BASE / f"reports/commercial/radar_{niche_id}.html"
     dest.parent.mkdir(parents=True, exist_ok=True)
+
+    # A politica da ontologia vale no CODIGO, nao so no dado: nicho cuja parte
+    # nomeada e pessoa fisica nao gera edicao. O excerto bruto desses atos traz
+    # nome completo de beneficiario, e a plataforma nao monta lista de individuos.
+    if nicho.get("tipo_parte") == "fisica":
+        dest.write_text(render_recusado(nicho), encoding="utf-8")
+        print(f"OK {dest.name} — RECUSADO: {nicho.get('sem_extracao_motivo', 'parte e pessoa fisica')}")
+        return dest
+
+    gazettes, total = buscar(nicho, dias)
+    leads = extrair(nicho, gazettes)
     dest.write_text(render(nicho, leads, total, dias), encoding="utf-8")
     print(f"OK {dest.name} — {len(leads)} leads com entidade / {total:,} publicacoes")
     return dest

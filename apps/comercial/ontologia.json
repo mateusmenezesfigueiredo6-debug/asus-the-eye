@@ -15,7 +15,8 @@
       "objeto_juridico": "cobrança de tributos",
       "busca_lead": "execução fiscal",
       "regex_entidade": "(?:executad[oa]|devedor|contribuinte|em face de)\\s*:?\\s*([A-ZÀ-Ú][A-ZÀ-Ú&.\\-/ ]{4,70})",
-      "regex_ruido": "certid[aã]o negativa|modelo de edital|disp[oõ]e sobre|regulamenta"
+      "regex_ruido": "certid[aã]o negativa|modelo de edital|disp[oõ]e sobre|regulamenta",
+      "tipo_parte": "juridica"
     },
     {
       "niche_id": "trabalhista",
@@ -35,7 +36,11 @@
     {
       "niche_id": "contratos",
       "termo_sinal": "rescisão contratual",
-      "objeto_juridico": "contratos e obrigações"
+      "objeto_juridico": "contratos e obrigações",
+      "busca_lead": "rescisão contratual",
+      "regex_entidade": "(?:contratada|contratado)\\s*:?\\s*([A-ZÀ-Úa-zà-ú][A-ZÀ-Úa-zà-ú&.\\-/ ]{8,70})",
+      "regex_ruido": "minuta|modelo de contrato|disp[oõ]e sobre|clausula padr",
+      "tipo_parte": "juridica"
     },
     {
       "niche_id": "imobiliario",
@@ -43,12 +48,17 @@
       "objeto_juridico": "propriedade imobiliária",
       "busca_lead": "desapropriação",
       "regex_entidade": "(?:im[oó]vel|[aá]rea|lote|matr[ií]cula)\\s+([^,;.]{10,70})",
-      "regex_ruido": "certid[aã]o negativa|disp[oõ]e sobre"
+      "regex_ruido": "certid[aã]o negativa|disp[oõ]e sobre",
+      "tipo_parte": "juridica"
     },
     {
       "niche_id": "societario",
       "termo_sinal": "sociedade empresária",
-      "objeto_juridico": "estrutura societária"
+      "objeto_juridico": "estrutura societária",
+      "busca_lead": "sociedade empresária",
+      "regex_entidade": "\\b([A-ZÀ-Ú][A-ZÀ-Ú&.\\-/ ]{6,60}\\s+(?:LTDA|S/?A|EIRELI|ME|EPP))\\b",
+      "regex_ruido": "disp[oõ]e sobre|conte[uú]do program|cnae|classifica[cç][aã]o",
+      "tipo_parte": "juridica"
     },
     {
       "niche_id": "recuperacao",
@@ -56,32 +66,47 @@
       "objeto_juridico": "insolvência empresarial",
       "busca_lead": "em recuperação judicial",
       "regex_entidade": "([A-ZÀ-Ú][A-ZÀ-Ú&.\\-/ ]{4,70}?)\\s*(?:LTDA|S\\.?\\s?A\\.?|EIRELI|ME|EPP)?\\s*[-–]?\\s*EM RECUPERA[CÇ][AÃ]O JUDICIAL",
-      "regex_ruido": "certid[aã]o negativa|negativa de fal[eê]ncia|qualifica[cç][aã]o econ[oô]mic|habilita[cç][aã]o|plano de recupera[cç][aã]o homologado pelo ju[ií]zo, em vigor"
+      "regex_ruido": "certid[aã]o negativa|negativa de fal[eê]ncia|qualifica[cç][aã]o econ[oô]mic|habilita[cç][aã]o|plano de recupera[cç][aã]o homologado pelo ju[ií]zo, em vigor",
+      "tipo_parte": "juridica"
     },
     {
       "niche_id": "bancario",
       "termo_sinal": "instituição financeira",
-      "objeto_juridico": "operações bancárias"
+      "objeto_juridico": "operações bancárias",
+      "busca_lead": "instituição financeira",
+      "regex_entidade": "\\b(BANCO\\s+[A-ZÀ-Ú][A-ZÀ-Ú&.\\-/() ]{3,50}|CAIXA ECON[OÔ]MICA FEDERAL|[A-ZÀ-Ú][A-ZÀ-Ú&.\\- ]{4,45}\\s+S/?A)\\b",
+      "regex_ruido": "dever[aá] manter|comprovante de conta|margem consign[aá]vel|isenta de tarifas",
+      "tipo_parte": "juridica"
     },
     {
       "niche_id": "previdenciario",
       "termo_sinal": "aposentadoria",
-      "objeto_juridico": "benefícios previdenciários"
+      "objeto_juridico": "benefícios previdenciários",
+      "tipo_parte": "fisica",
+      "sem_extracao_motivo": "o ato nomeia o beneficiario (pessoa fisica); listar individuos a partir de diario oficial nao e tratamento que a plataforma faz"
     },
     {
       "niche_id": "familia",
       "termo_sinal": "pensão alimentícia",
-      "objeto_juridico": "relações familiares"
+      "objeto_juridico": "relações familiares",
+      "tipo_parte": "fisica",
+      "sem_extracao_motivo": "pensao e guarda envolvem pessoa fisica e dado sensivel"
     },
     {
       "niche_id": "sucessoes",
       "termo_sinal": "inventário",
-      "objeto_juridico": "transmissão patrimonial"
+      "objeto_juridico": "transmissão patrimonial",
+      "tipo_parte": "fisica",
+      "sem_extracao_motivo": "inventario nomeia herdeiros (pessoa fisica)"
     },
     {
       "niche_id": "agronegocio",
       "termo_sinal": "crédito rural",
-      "objeto_juridico": "atividade agropecuária"
+      "objeto_juridico": "atividade agropecuária",
+      "busca_lead": "crédito rural",
+      "regex_entidade": "(?:credenciada|contratada|cooperativa)\\s*:?\\s*([A-ZÀ-Úa-zà-ú][A-ZÀ-Úa-zà-ú&.\\-/ ]{8,70})",
+      "regex_ruido": "cnae|classifica[cç][aã]o nacional|disp[oõ]e sobre|conte[uú]do program|6424-|6431-",
+      "tipo_parte": "juridica"
     },
     {
       "niche_id": "protecao-dados",
@@ -91,8 +116,13 @@
     {
       "niche_id": "penal-empresarial",
       "termo_sinal": "improbidade administrativa",
-      "objeto_juridico": "responsabilização empresarial"
+      "objeto_juridico": "responsabilização empresarial",
+      "busca_lead": "improbidade administrativa",
+      "regex_entidade": "(?:compromiss[aá]ri[ao]|investigad[ao]|requerid[ao]|em face de|contra)\\s*:?\\s*([A-ZÀ-Ú][A-ZÀ-Ú&.\\-/ ]{6,70})",
+      "regex_ruido": "disp[oõ]e sobre|lei n[°º.]?\\s*8\\.429|conte[uú]do program|edital de concurso|disciplina|bibliografia",
+      "tipo_parte": "juridica"
     }
   ],
-  "nota_extracao": "Nichos com busca_lead/regex_entidade extraem a ENTIDADE nomeada no ato (empresa, executado, imovel) e descartam texto padrao de edital via regex_ruido. Nichos sem esses campos caem no modo generico (excerto bruto)."
+  "nota_extracao": "Nichos com busca_lead/regex_entidade extraem a ENTIDADE nomeada no ato (empresa, executado, imovel) e descartam texto padrao de edital via regex_ruido. Nichos sem esses campos caem no modo generico (excerto bruto).",
+  "politica_extracao": "Extracao de entidade so ocorre quando a parte nomeada no ato e pessoa juridica. Nichos cuja parte tipica e pessoa fisica (previdenciario, familia, sucessoes) tem tipo_parte=fisica e nao recebem extracao: a plataforma nao monta lista de individuos a partir de diario oficial. O sinal agregado (contagem mensal) continua sendo coletado, pois e estatistica, nao cadastro."
 }
