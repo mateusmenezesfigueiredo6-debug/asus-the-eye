@@ -83,3 +83,10 @@ fonte para as 145 áreas e salvou 138 contagens, 7 ausências e 6 termos suspeit
 mas consulta com retorno não prova adequação. Não existe matriz área→fonte nem
 definição operacional de “equivalente”. O número sem fonte adequada permanece
 desconhecido até pesquisa primária e validação.
+
+## U106 — Utilidade comercial da QKP depois da correção dos dados
+
+Não há custos por área, evidência de sinergia comercial nem validação de que a
+contagem máxima entre aliases mede demanda. O ótimo matemático da formulação
+atual não responde quais áreas devem receber orçamento. Isso exige dados
+observados, critérios de fonte e análise de sensibilidade antes de nova seleção.

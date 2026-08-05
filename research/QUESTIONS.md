@@ -151,7 +151,7 @@ Classes: `FACT` · `DERIVED` · `INFERENCE` · `RECOMMENDATION` · `UNKNOWN` ·
 - **Confiança:** alta nas cardinalidades; alta em classificar os demais totais
   como `UNKNOWN`.
 - **Limitações:** não houve pesquisa de fontes alternativas por área nem corpus
-  rotulado; o snapshot 138/145 precede a última revisão do coletor.
+  rotulado; o snapshot 138/145 foi lido, não reexecutado, por esta análise.
 - **O que mudaria:** decisão do dono de segmentar, seguida de matriz
   área→produto→tipo de parte→fonte→padrão revisada e testada.
 
@@ -173,3 +173,23 @@ Classes: `FACT` · `DERIVED` · `INFERENCE` · `RECOMMENDATION` · `UNKNOWN` ·
   houve operação externa.
 - **O que mudaria:** decisão do dono, revisão legal, teste ponta a ponta ou nova
   evidência de produto.
+
+## Q011 — A QKP da taxonomia está correta e justifica uma execução quântica?
+
+- **Classe:** `FACT` para o ótimo da formulação; `RECOMMENDATION` para não usar
+  QPU; `UNKNOWN` para utilidade comercial.
+- **Evidência primária:** snapshot de 145 áreas, formulação salva com 138
+  variáveis e referência por recozimento; verificador exato independente por
+  programação dinâmica entre grupos (C107–C110, T107).
+- **Melhor evidência contrária:** 138 variáveis parecem formar uma instância
+  combinatória grande e 12 partidas independentes convergiram no mesmo valor.
+- **Justificativa:** pesos unitários, capacidade efetiva 13, sinergias positivas
+  apenas dentro dos 22 grupos e ausência de arestas entre grupos permitem ótimo
+  exato por DP. O valor é 39.087, mas quatro termos suspeitos concentram 77,8%
+  da demanda-base selecionada.
+- **Confiança:** alta para a matemática e os dados salvos; baixa para valor de
+  negócio.
+- **Limitações:** a fonte é apenas um proxy, peso e sinergia não foram medidos e
+  sete áreas não têm contagem.
+- **O que mudaria:** custos observados, sinergias validadas, fontes adequadas por
+  área e uma formulação cuja estrutura não admita solução clássica barata.

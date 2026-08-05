@@ -16,6 +16,13 @@ Os registros auditáveis desta rodada estão em:
 - `research/UNKNOWNS.md`, U101–U105;
 - `research/TEST_RESULTS.md`, T101–T106.
 
+Uma validação posterior da QKP está em
+`research/QKP_VALIDATION_2026-08-05.md` e nos registros Q011, X105–X106, D105,
+U106 e T107. O valor 39.087 foi confirmado como ótimo global por programação
+dinâmica exata. Isso não valida a decisão comercial: quatro termos suspeitos
+concentram 77,8% da demanda-base selecionada, e a estrutura da instância não
+justifica QPU.
+
 Não houve execução quântica, publicação, deploy, escrita externa, modificação de
 Kalshi ou alteração em território de implementação do Claude.
 

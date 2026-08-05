@@ -1,23 +1,23 @@
-Refazer a QKP com o sinal completo da taxonomia.
+QAOA foi medido e PERDE nesta classe de problema. Nao insistir sem mudar algo.
 
-CONTEXTO: a coleta ampliada (todos os aliases das 145 areas) estava rodando.
-A versao anterior usava um alias por heuristica e deixou 75 areas com zero, o
-que derrubou a densidade da sinergia para 0,9% e tornou a QKP trivial — guloso
-e busca local empataram.
+MEDIDO (instancias reduzidas, capacidade 40%, sinergia 3x):
+  N=10  QAOA 74,0% do alvo do recozimento
+  N=14  QAOA 66,3%
+  N=16  QAOA 60,9%   -- piora conforme n cresce, e leva 10,5s contra 0,5s
+QAOA nem sequer bate o guloso a partir de N=14.
 
-ARQUIVO A CONFERIR PRIMEIRO:
-  reports/commercial/sinal_taxonomia.json
-  campo "cobertura" e quantos "mencoes": 0 restaram
+O alvo real da instancia completa (138 areas, cap 10%, sinergia 3x) e 39.087,
+confirmado por 16 partidas independentes de recozimento com movimento de troca.
 
-COMANDO:
-  cd /home/sexexes/asus_the_eye
-  .venv/bin/python apps/comercial/sinal_taxonomia.py 30     # se ainda nao rodou
-  .venv/bin/python apps/comercial/qkp_taxonomia.py 0.30 0.15
+NAO FAZER:
+  - rodar em QPU real da IBM: 138 qubits cabe no Heron mas a cota e ~133s de 600
+    e a extrapolacao mostra QAOA abaixo de 61% ja em 16 qubits
+  - aumentar n esperando virada: a tendencia medida e de piora
 
-CRITERIO DE PRONTO:
-  - zeros abaixo de 30 (eram 75)
-  - densidade da sinergia registrada no relatorio
-  - dizer se a busca local passou a ganhar do guloso e por quanto
+SE FOR CONTINUAR, mudar o que importa:
+  - camadas do QAOA (layers=2 hoje) e o otimizador variacional
+  - formulacao da penalidade da restricao de capacidade
+  - ou trocar de classe de problema
 
-CUIDADO: nao rodar quantum. O valor das 145 areas e PROXY DE DEMANDA (mencoes),
-nunca receita — conversao e ticket so existem para o recorte comercial de 15.
+ARQUIVOS: reports/commercial/otimo_referencia.json (alvo 39.087)
+          reports/commercial/qkp_taxonomia.json (instancia)

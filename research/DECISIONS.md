@@ -130,3 +130,16 @@ plataforma; o benchmark clássico/QUBO/QAOA continua sendo medição técnica.
 plataforma e o mesmo pipeline.
 
 **Reverteria:** ordem explícita do dono alterando a estratégia.
+
+## D105 — Não executar QPU para a QKP atual
+
+**Decisão:** usar 39.087 como baseline clássico exato e suspender qualquer
+justificativa de QPU para esta formulação.
+
+**Razão:** a estrutura por grupos admite DP exata barata. O gargalo real é a
+validade dos dados: termos genéricos dominam a solução, todos os custos valem 1
+e a sinergia 3,0 é declarada, não medida.
+
+**Reverteria:** nova formulação baseada em custos e sinergias observados, com
+qualidade de fonte validada, para a qual métodos clássicos adequados tenham sido
+medidos e se mostrem insuficientes.

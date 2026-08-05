@@ -37,10 +37,11 @@
 - Comando: leitura local de `reports/commercial/sinal_taxonomia.json`, sem rede
   e sem reexecutar o coletor.
 - Status: exit 0.
-- Resultado: timestamp 2026-08-05T19:20:01Z; 145 linhas; cobertura declarada
-  138/145; 7 sem `mencoes`; 6 com `suspeita_termo_generico=true`.
-- Limitação: o snapshot precede o commit `26ebc79`; não valida o código atual nem
-  a adequação semântica do Querido Diário para cada área.
+- Resultado final revalidado: timestamp 2026-08-05T19:29:53Z; 145 linhas;
+  cobertura declarada 138/145; 7 sem `mencoes`, 44 zeros e 6 com
+  `suspeita_termo_generico=true`.
+- Limitação: o snapshot valida a saída salva, não a execução do código nem a
+  adequação semântica do Querido Diário para cada área.
 
 ## T106 — Isolamento do commit em diretório compartilhado
 
@@ -51,3 +52,16 @@
   benchmark do território dele.
 - Tratamento: preservar a história; não resetar, não reescrever e criar um commit
   final isolado apenas com este registro de handoff.
+
+## T107 — Validação exata da QKP da taxonomia
+
+- Comando: `python3 research/validate_qkp_taxonomy.py`.
+- Status: exit 0.
+- Resultado: 145 linhas e ids únicos, correspondência integral de ids e grupos
+  com a taxonomia; a DP coincidiu com força bruta em 50/50 casos sintéticos.
+  Para a instância real, a capacidade efetiva é 13 e o ótimo global é 39.087. O
+  recozimento salvo coincide com o ótimo. Quatro das 13 áreas selecionadas são
+  suspeitas e concentram 77,8% da demanda-base; excluindo os seis termos
+  suspeitos, o ótimo é 18.523, queda de 52,6%.
+- Limitação: valida a formulação e os snapshots locais; não valida a fonte como
+  medida de demanda nem os parâmetros de custo e sinergia.

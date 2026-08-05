@@ -24,3 +24,18 @@ produtos não são medidas equivalentes. THE EYE continua sendo uma plataforma
 O recorte atual consulta Querido Diário para todos os nichos, mas isso não prova
 que o corpus seja adequado a cada área nem que exista uma fonte equivalente para
 as demais. Sem critérios de cobertura e resolução, a contagem é UNKNOWN.
+
+## X105 — Número de variáveis versus dificuldade efetiva
+
+A QKP tem 138 variáveis, mas isso não basta para classificá-la como difícil. Os
+pesos são unitários, a capacidade efetiva é 13 e as sinergias positivas existem
+somente dentro dos grupos taxonômicos. Para cada quantidade escolhida num grupo,
+os maiores valores dominam; uma DP entre 22 grupos prova o ótimo 39.087. A
+dimensão bruta não justifica QPU.
+
+## X106 — Ótimo matemático versus sinal comercial confiável
+
+O recozimento encontrou e a DP confirmou o ótimo da formulação. Ainda assim,
+quatro das 13 áreas escolhidas usam termos marcados como genéricos e concentram
+77,8% da demanda-base da seleção. Sem os seis termos suspeitos do conjunto, o
+ótimo cai 52,6%. Correção matemática não implica validade do proxy.
