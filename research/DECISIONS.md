@@ -89,3 +89,44 @@ membros é perfilar pessoas. A linha é clara e o teste a trava (nenhuma chave c
 `follower`, `engagement` ou `sentiment` pode existir no registro).
 
 **Reverteria:** nada.
+
+## D101 — Medição usa existência binária, sem peso e sem status declarado
+
+**Decisão:** contar somente `Path.exists()` para os caminhos em `artifacts`.
+
+**Razão:** é a definição do chart e impede que documentação de status substitua
+realidade. Qualidade, testes e operação são dimensões separadas.
+
+**Reverteria:** nova versão explícita do contrato de medição.
+
+## D102 — Segmentação opcional separa áreas e produtos
+
+**Decisão:** manter THE EYE como uma plataforma única. Somente no cenário
+opcional de ampliar nichos, publicar dois custos: relações para 106 áreas ainda
+fora do recorte e 130 linhas adicionais se o alvo for 145 nichos um-a-um.
+
+**Razão:** os 15 nichos atuais agregam 39 áreas; um único número apagaria essa
+cardinalidade muitos-para-muitos.
+
+**Reverteria:** decisão de produto do dono que imponha uma segmentação diferente.
+
+## D103 — Contagens sem campos viram UNKNOWN
+
+**Decisão:** não inferir, pelo nome da área, necessidade de regex, tipo da parte
+ou ausência de fonte pública.
+
+**Razão:** a taxonomia não guarda esses atributos; inferência nominal seria
+apresentada como medição.
+
+**Reverteria:** matriz revisada e testada das 145 áreas.
+
+## D104 — Benchmarks têm papéis distintos dentro da mesma plataforma
+
+**Decisão:** não criar módulos Palantir ou Kalshi. Palantir orienta a ontologia e
+a linhagem únicas; Kalshi orienta preço e resolução nas claims dessa mesma
+plataforma; o benchmark clássico/QUBO/QAOA continua sendo medição técnica.
+
+**Razão:** os papéis são distintos em `AGENTS.md`, mas todos orientam a mesma
+plataforma e o mesmo pipeline.
+
+**Reverteria:** ordem explícita do dono alterando a estratégia.

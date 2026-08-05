@@ -107,3 +107,69 @@ Classes: `FACT` · `DERIVED` · `INFERENCE` · `RECOMMENDATION` · `UNKNOWN` ·
   exigem contato, ou só dumps.
 - **Status:** **não bloqueia o Estágio 1**, que é inteiramente offline. Decidir
   antes do primeiro fetch real.
+
+## Q007 — Quantos artefatos existem nos 12 recortes de medição do chart?
+
+- **Classe:** `FACT`
+- **Evidência primária:** `data/mistress-chart/projects.json` e teste T101.
+- **Melhor evidência contrária:** presença no disco não prova conteúdo correto,
+  cobertura de teste ou operação.
+- **Justificativa:** a pergunta mede existência literal, conforme definido pelo
+  próprio chart; 103 de 106 caminhos existem.
+- **Confiança:** alta.
+- **Limitações:** snapshot local de 2026-08-05.
+- **O que mudaria:** criação, remoção ou renomeação de um artefato declarado.
+
+## Q008 — Qual projeto não recebe trabalho há mais tempo?
+
+- **Classe:** `DERIVED`.
+- **Evidência primária:** `git log --since=2026-07-30 --name-only`, último
+  commit por escopo e `mtime` dos artefatos (T102).
+- **Melhor evidência contrária:** o corte antecede o primeiro commit disponível e
+  o commit estrutural de 03/08 tocou vários projetos sem avanço de domínio.
+- **Justificativa:** `public-verifier` não tem arquivo nem commit; entre projetos
+  existentes, `benchmark-engine` tem a mudança substantiva mais antiga (01/08).
+- **Confiança:** alta para ausência; média para a leitura de estagnação.
+- **Limitações:** `mtime` não demonstra autoria e não há baseline em 30/07.
+- **O que mudaria:** histórico anterior, snapshot externo ou novo commit de
+  domínio.
+
+## Q009 — Qual seria o custo mensurável de segmentar de 15 para 145 nichos?
+
+- **Classe:** `DERIVED` para cardinalidades; `UNKNOWN` para regex, pessoas e
+  fontes.
+- **Evidência primária:** taxonomia com 145 áreas/22 grupos; configuração com 15
+  nichos referenciando 39 áreas; ontologia com 8 regex, 3 bloqueios físicos e 4
+  modos genéricos (T103). A coleta salva do Querido Diário contém sinal em
+  138/145 áreas, 7 sem contagem e 6 termos suspeitos (T105).
+- **Melhor evidência contrária:** THE EYE é uma plataforma única e não tem meta
+  atual de 145 produtos; a taxonomia pode ser exposta por menos nichos
+  agregadores. Nomes das áreas não classificam a parte nem a fonte.
+- **Justificativa:** se essa segmentação for escolhida, configuração um-a-um pede
+  +130 linhas e cobertura agregada pede relações para 106 áreas ainda não
+  ligadas ao recorte. As outras contagens dependem de matriz inexistente.
+- **Confiança:** alta nas cardinalidades; alta em classificar os demais totais
+  como `UNKNOWN`.
+- **Limitações:** não houve pesquisa de fontes alternativas por área nem corpus
+  rotulado; o snapshot 138/145 precede a última revisão do coletor.
+- **O que mudaria:** decisão do dono de segmentar, seguida de matriz
+  área→produto→tipo de parte→fonte→padrão revisada e testada.
+
+## Q010 — Como Palantir e Kalshi devem orientar o roadmap?
+
+- **Classe:** `RECOMMENDATION`.
+- **Evidência primária:** `AGENTS.md` distingue Palantir como arquitetura e
+  Kalshi como produto; a branch preservada `kalshi-20260725` existe e contém
+  ciclo de mercado/resolução em modo somente-leitura e dinheiro desligado.
+- **Melhor evidência contrária:** transpor código legado diretamente criaria um
+  subsistema paralelo; qualquer liquidez real traz requisitos regulatórios e
+  externos.
+- **Justificativa:** manter uma ontologia e uma cadeia de eventos. Palantir exige
+  a linhagem transversal dessa plataforma única; Kalshi orienta atributos e
+  comportamento de produto nas mesmas claims: preço, resolução e liquidez
+  mensurada.
+- **Confiança:** média-alta.
+- **Limitações:** recomendação arquitetural; nenhum código foi transplantado nem
+  houve operação externa.
+- **O que mudaria:** decisão do dono, revisão legal, teste ponta a ponta ou nova
+  evidência de produto.

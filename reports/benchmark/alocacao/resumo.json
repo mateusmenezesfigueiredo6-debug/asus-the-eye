@@ -1,0 +1,28 @@
+{
+  "problema": "alocacao_nichos_v1",
+  "n_nichos": 9,
+  "capacidade": 20.0,
+  "otimo_busca_exaustiva": {
+    "escolhidos": [
+      "societario",
+      "previdenciario",
+      "protecao-dados",
+      "penal-empresarial"
+    ],
+    "valor_esperado_kbrl": 44597.0,
+    "peso_usado": 20.0,
+    "combinacoes_avaliadas": 512
+  },
+  "engine_concorda_com_exaustiva": true,
+  "qar": {
+    "qar": 1.0,
+    "interpretation": "empate nas condições atuais; não constitui prova científica"
+  },
+  "conclusao": "Classical solver achieved equal or better quality under the current problem size.",
+  "limitacoes": [
+    "QAOA result uses a controlled local simulator, not a real QPU.",
+    "A single demo problem cannot establish general performance or quantum advantage.",
+    "Wall-clock measurements depend on the local machine and concurrent workload."
+  ],
+  "relatorio_completo": "/home/sexexes/asus_the_eye/reports/benchmark/alocacao/latest.json"
+}

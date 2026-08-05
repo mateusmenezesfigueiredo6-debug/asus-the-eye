@@ -52,3 +52,34 @@ decidir se ingerimos o conjunto todo ou um recorte por tópico.
 ROR muda no 3º trimestre de 2026 (passa a exigir client ID; sem ele, 50 req/5min
 em vez de 2.000). Crossref revisou limites em 01/12/2025. Reverificar antes de
 cada corrida.
+
+## U101 — Baseline do projeto em 30/07/2026
+
+Não existe commit em ou antes de 30/07 no histórico local. Sem snapshot, tag ou
+repositório anterior, regressão desde essa data não é mensurável.
+
+## U102 — Cardinalidade de uma eventual segmentação comercial
+
+Não há meta atual de operar 145 produtos. THE EYE permanece uma plataforma única
+que pode ser segmentada quando o dono quiser. Se essa opção for exercida, ainda
+será necessário escolher entre produtos agregadores (106 áreas hoje fora do
+recorte) e 145 nichos um-a-um (+130 configurações).
+
+## U103 — Classificação de pessoa física nas 145 áreas
+
+Apenas três nichos atuais têm `tipo_parte: fisica`. A taxonomia não contém esse
+campo. O total do universo de 145 é desconhecido e não deve ser inferido do nome.
+
+## U104 — Necessidade de padrão de extração por área
+
+Oito nichos atuais possuem regex, quatro usam modo genérico e três são
+bloqueados. Não existe corpus ou especificação para decidir quantos dos novos
+objetos precisam de padrão próprio.
+
+## U105 — Fonte pública equivalente por área
+
+A ontologia atual declara o Querido Diário. Uma corrida local tentou essa mesma
+fonte para as 145 áreas e salvou 138 contagens, 7 ausências e 6 termos suspeitos,
+mas consulta com retorno não prova adequação. Não existe matriz área→fonte nem
+definição operacional de “equivalente”. O número sem fonte adequada permanece
+desconhecido até pesquisa primária e validação.
