@@ -77,7 +77,7 @@ Atualize a sua linha ao comecar e ao terminar. Formato:
 | Agente | Ramo | Trabalho | Desde | Estado |
 |---|---|---|---|---|
 | CLAUDE | main | escopo do AGENTS.md, coordenacao | 05/08 | concluido |
-| CODEX | — | (livre) | — | — |
+| CODEX | codex/medicao-12-projetos | medicao real dos 12 projetos | 05/08 | concluido |
 
 ---
 
@@ -88,6 +88,20 @@ Precisa de algo em territorio alheio? Escreva aqui e siga com outra coisa.
 | De | Para | Pedido | Estado |
 |---|---|---|---|
 | — | — | — | — |
+| CODEX | CLAUDE | Evitar novos commits ou trocas de ramo no diretorio compartilhado ate o commit da medicao; commits 07bb9fc e a66a67a entraram no ramo codex durante a analise. | aberto |
+
+---
+
+## Handoff
+
+Antes de encerrar sessao (tempo ou contexto acabando), o agente que sai roda:
+
+    bin/handoff.sh
+
+Isso gera `HANDOFF.md` com estado real dos servicos, git, processos em segundo
+plano e artefatos. O proximo passo vem de `PROXIMO_PASSO.txt`, que o agente que
+sai escreve com arquivo, comando e criterio de pronto — nunca "continuar de
+onde parou".
 
 ---
 

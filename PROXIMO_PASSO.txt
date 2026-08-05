@@ -1,0 +1,23 @@
+Refazer a QKP com o sinal completo da taxonomia.
+
+CONTEXTO: a coleta ampliada (todos os aliases das 145 areas) estava rodando.
+A versao anterior usava um alias por heuristica e deixou 75 areas com zero, o
+que derrubou a densidade da sinergia para 0,9% e tornou a QKP trivial — guloso
+e busca local empataram.
+
+ARQUIVO A CONFERIR PRIMEIRO:
+  reports/commercial/sinal_taxonomia.json
+  campo "cobertura" e quantos "mencoes": 0 restaram
+
+COMANDO:
+  cd /home/sexexes/asus_the_eye
+  .venv/bin/python apps/comercial/sinal_taxonomia.py 30     # se ainda nao rodou
+  .venv/bin/python apps/comercial/qkp_taxonomia.py 0.30 0.15
+
+CRITERIO DE PRONTO:
+  - zeros abaixo de 30 (eram 75)
+  - densidade da sinergia registrada no relatorio
+  - dizer se a busca local passou a ganhar do guloso e por quanto
+
+CUIDADO: nao rodar quantum. O valor das 145 areas e PROXY DE DEMANDA (mencoes),
+nunca receita — conversao e ticket so existem para o recorte comercial de 15.
