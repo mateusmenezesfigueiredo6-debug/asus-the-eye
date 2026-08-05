@@ -1,3 +1,96 @@
+<!-- BEGIN PROJECT SCOPE — read this before anything else -->
+
+# ASUS + THE EYE — project scope
+
+Read this section first. It exists because recent sessions repeatedly narrowed
+the project to a fraction of itself and then worked inside that fraction.
+
+## What the project is
+
+THE EYE is an **auditable-evidence platform**: everything that happens becomes a
+hash-chained event that nobody — not even the owner — can rewrite afterwards.
+
+The whole project is ONE pipeline of seven stages, measured by artifacts that
+exist, never by declared status:
+
+    ingestion -> classification -> processing -> operation -> evidence
+              -> verification -> publication
+
+The register that measures intent against reality is
+`data/mistress-chart/projects.json`. Consult it before assuming what exists.
+
+## Twelve projects, not one
+
+| Stage | Project | Declared artifacts |
+|---|---|---|
+| 1-ingestion | Knowledge source graph (Phase C) | 35 |
+| 2-classification | Decision context (Phase G — judiciary) | 14 |
+| 2-classification | Legal taxonomy (145 areas) | 8 |
+| 3-processing | Benchmark engine (classical / QUBO / QAOA) | 5 |
+| 3-processing | Audited local LLM (Ollama) | 3 |
+| 3-processing | IBM Quantum adapter (gated) | 2 |
+| 4-operation | Commercial platform (legal vertical) | 9 |
+| 5-evidence | Audit core (hash chain, Merkle, verifier) | 10 |
+| 5-evidence | Production ledger (Cloudflare D1 + R2 + Worker) | 5 |
+| 6-verification | Governance (publish lock, protocol, leak check) | 8 |
+| 6-verification | Anchoring contract (Base Sepolia) | 4 |
+| 7-publication | Public verification surface | 3 |
+
+Working on one of these is legitimate. Presenting one of these as "the project"
+is not.
+
+## Scope of the taxonomy — this is not Brazilian-law-only
+
+`data/legal-taxonomy/legal_areas.master.json` holds **145 areas across 22
+groups**:
+
+    civil-and-consumer, corporate-and-transactions, criminal-and-compliance,
+    crypto-and-web3, defense-security-and-space, energy-and-natural-resources,
+    environment-and-climate, financial-services, health-and-life-sciences,
+    infrastructure-and-transport, insolvency-competition-trade,
+    intellectual-property, international-and-human-rights,
+    labor-and-social-security, legal-profession-and-operations,
+    media-and-consumer-brands, political-and-legislative,
+    procedure-and-disputes, public-law, sports-games-and-betting,
+    technology-data-and-cyber, third-sector-and-religion
+
+`data/commercial/niches.json` holds a **15-niche commercial slice**. That slice
+is an operating subset of project 4, never the taxonomy. Do not treat 15 as the
+universe.
+
+## Two strategic benchmarks — and one technical benchmark that is NOT one of them
+
+**Palantir — architecture benchmark.** How to build: object ontology with
+explicit relations, data lineage down to the primary source, decisions grounded
+in traceable evidence, refusal to assert what was not measured.
+
+**Kalshi — product benchmark.** What to deliver: prediction market, event
+pricing, objective resolution, liquidity. PRESERVED by owner's standing order:
+branch `kalshi-20260725` in `~/asus`. Never delete anything Kalshi.
+
+**Technical benchmark (not strategic).** `src/asus_theye/benchmark/` pits
+classical, QUBO and QAOA against the same problem and publishes QAR with an
+honest caveat. This measures performance; it is not a strategic reference. Do
+not conflate the three.
+
+## Inviolable rules
+
+1. **Quantum runs only with the owner's explicit authorization.** Gate at
+   `/home/sexexes/Downloads/projeto-algoritmos/quantum/GATE.py` (requires
+   `QUANTUM_OK=1`). IBM quota is scarce: about 133s of 600 per 28-day window.
+2. **Never delete anything Kalshi.**
+3. **No emojis** in any output, including generated pages.
+4. **Statistical honesty**: never assert what was not measured. If the model
+   does not beat the simple mean, publish that.
+5. **Personal data**: niches whose named party is a natural person carry
+   `tipo_parte: fisica` and get no entity extraction. Aggregate statistics yes,
+   a register of individuals no.
+6. **Nothing leaves the machine without the passphrase**: `scripts/publish_lock.py`.
+7. No L0-L6 phase promotes without recorded human approval
+   (`docs/governance/IMPLEMENTATION_ROADMAP.md`).
+
+<!-- END PROJECT SCOPE -->
+
 <!-- BEGIN THE EYE MASTER AUTONOMOUS POLICY -->
 
 # ASUS + THE EYE - Master Autonomous Policy
