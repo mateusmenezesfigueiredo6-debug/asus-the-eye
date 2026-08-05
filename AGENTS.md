@@ -73,6 +73,18 @@ classical, QUBO and QAOA against the same problem and publishes QAR with an
 honest caveat. This measures performance; it is not a strategic reference. Do
 not conflate the three.
 
+## Licensing — changed 05/08/2026
+
+Code is **AGPL-3.0** (`LICENSE`, `LICENSE.md`). Anyone offering this software as
+a network service must publish their modified source. This replaced MIT, which
+allowed closing the code and reselling it.
+
+`data/` is **not** under AGPL. The 145-area taxonomy, the 354 PT-BR aliases and
+the historical series are curation under a restricted licence (`data/LICENSE`):
+readable for verification and audit, not extractable for derived products.
+
+Do not reintroduce MIT anywhere, and do not treat `data/` as open.
+
 ## Inviolable rules
 
 1. **Quantum runs only with the owner's explicit authorization.** Gate at

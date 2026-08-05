@@ -1,0 +1,29 @@
+LICENCA DE DADOS — RESTRITA
+
+Copyright (c) 2026 Mateus Menezes Figueiredo. Todos os direitos reservados.
+
+Este diretorio contem trabalho de curadoria, nao codigo, e NAO esta coberto pela
+AGPL-3.0 que licencia o restante do repositorio:
+
+  - taxonomia de 145 areas juridicas organizadas em 22 grupos
+  - 354 aliases PT-BR validados
+  - mapeamentos CNJ e internacional
+  - registro de projetos e esquemas do vertical comercial
+
+PERMITIDO
+  Ler, verificar e auditar o funcionamento da plataforma; usar em avaliacao
+  academica ou jornalistica com atribuicao.
+
+NAO PERMITIDO sem autorizacao escrita do titular
+  Extrair, copiar ou redistribuir os conjuntos, no todo ou em parte substancial;
+  usar como base de produto, servico ou dataset derivado; treinar modelo cujo
+  proposito seja reproduzir a curadoria.
+
+DADOS DE TERCEIROS
+  Contagens e excertos obtidos do Querido Diario (Open Knowledge Brasil) seguem
+  a licenca da fonte. Atos publicados em diario oficial sao publicos por
+  definicao legal. Esta licenca cobre a CURADORIA — a organizacao, a taxonomia e
+  os aliases —, nunca os atos oficiais em si.
+
+CONTATO
+  mateusmenezesfigueiredo6@gmail.com

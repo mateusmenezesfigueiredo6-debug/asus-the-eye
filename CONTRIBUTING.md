@@ -80,3 +80,14 @@ por desenho**.
 
 Mensagem que explica **por quê**, não o quê — o diff já mostra o quê. Se a
 mudança envolve uma decisão não óbvia, ela vira um ADR em `docs/adr/`.
+
+## Licenciamento da sua contribuicao
+
+O codigo deste projeto esta sob **AGPL-3.0** (ver `LICENSE` e `LICENSE.md`).
+Ao enviar contribuicao voce concorda que ela entra sob a mesma licenca.
+
+O diretorio `data/` NAO esta sob AGPL: a taxonomia e os aliases sao trabalho de
+curadoria sob licenca restrita (`data/LICENSE`). Contribuicao que toque `data/`
+precisa de acordo previo com o titular.
+
+O projeto usou MIT ate 05/08/2026. A troca foi feita enquanto havia autor unico.
