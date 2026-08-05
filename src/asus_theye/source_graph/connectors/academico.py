@@ -94,7 +94,10 @@ def ror(termo: str, limite: int = 5) -> dict[str, Any]:
 
 # -------------------------------------------------------------- Crossref
 def crossref(termo: str, limite: int = 5) -> dict[str, Any]:
-    url = (f"https://api.crossref.org/works?query={urllib.parse.quote(termo)}"
+    # O Crossref NAO tem busca por frase: aspas sao ignoradas (medido — "AI for
+    # science" devolve os mesmos 15,6 milhoes com e sem). query.title restringe
+    # ao titulo, que e o mais proximo disponivel, e o retorno declara isso.
+    url = (f"https://api.crossref.org/works?query.title={urllib.parse.quote(termo)}"
            f"&rows={limite}&select=DOI,title,issued,type,publisher")
     corpo, sha = _buscar(url)
     msg = json.loads(corpo).get("message", {})
@@ -106,6 +109,7 @@ def crossref(termo: str, limite: int = 5) -> dict[str, Any]:
         "editora": x.get("publisher"),
     } for x in (msg.get("items") or [])]
     return {"conector": "crossref", "total": msg.get("total-results", 0),
+            "casamento": "titulo, palavras soltas — o Crossref nao suporta frase",
             "itens": itens, "proveniencia": _proveniencia(url, sha, "crossref")}
 
 
@@ -113,8 +117,12 @@ def crossref(termo: str, limite: int = 5) -> dict[str, Any]:
 def arxiv(termo: str, limite: int = 5) -> dict[str, Any]:
     """arXiv devolve Atom; extrai-se sem dependencia de parser externo."""
     import re
-    url = (f"https://export.arxiv.org/api/query?search_query=all:"
-           f"{urllib.parse.quote(termo)}&max_results={limite}")
+    # ASPAS IMPORTAM: sem elas o arXiv casa as palavras soltas. Medido em
+    # 05/08/2026: "quantum machine learning" devolve 981.053 solto e 1.939 em
+    # frase exata — diferenca de 500x. O numero solto nao significa nada.
+    frase = urllib.parse.quote(f'"{termo}"')
+    url = (f"https://export.arxiv.org/api/query?search_query=all:{frase}"
+           f"&max_results={limite}")
     corpo, sha = _buscar(url)
     texto = corpo.decode("utf-8", "ignore")
     total_m = re.search(r"<opensearch:totalResults[^>]*>(\d+)<", texto)
@@ -131,6 +139,7 @@ def arxiv(termo: str, limite: int = 5) -> dict[str, Any]:
             "revisado_por_pares": False,  # preprint nunca e evidencia revisada
         })
     return {"conector": "arxiv", "total": int(total_m.group(1)) if total_m else None,
+            "casamento": "frase exata",
             "itens": itens, "proveniencia": _proveniencia(url, sha, "arxiv")}
 
 
