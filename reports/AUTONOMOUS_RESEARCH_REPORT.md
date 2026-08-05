@@ -14,7 +14,15 @@ Os registros auditáveis desta rodada estão em:
 - `research/CONTRADICTIONS.md`, X101–X104;
 - `research/DECISIONS.md`, D101–D104;
 - `research/UNKNOWNS.md`, U101–U105;
-- `research/TEST_RESULTS.md`, T101–T105.
+- `research/TEST_RESULTS.md`, T101–T106.
 
 Não houve execução quântica, publicação, deploy, escrita externa, modificação de
 Kalshi ou alteração em território de implementação do Claude.
+
+## Handoff Git
+
+Os nove arquivos desta entrega foram preparados de forma explícita, mas o índice
+Git é compartilhado pelo mesmo diretório. O commit concorrente `165e3f6` os
+capturou junto com artefatos do território do Claude. A história não foi
+reescrita e nenhum arquivo alheio foi removido. O commit final do Codex registra
+esta ocorrência e a validação da entrega, sem push.

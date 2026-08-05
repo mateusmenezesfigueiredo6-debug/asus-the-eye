@@ -41,3 +41,13 @@
   138/145; 7 sem `mencoes`; 6 com `suspeita_termo_generico=true`.
 - Limitação: o snapshot precede o commit `26ebc79`; não valida o código atual nem
   a adequação semântica do Querido Diário para cada área.
+
+## T106 — Isolamento do commit em diretório compartilhado
+
+- Verificação: `git diff --cached --name-only` confirmou somente os nove arquivos
+  do território Codex antes do fechamento.
+- Resultado: `CONFLICTED`. O agente concorrente executou o commit `165e3f6`
+  enquanto o índice estava preparado e incluiu os nove arquivos com artefatos de
+  benchmark do território dele.
+- Tratamento: preservar a história; não resetar, não reescrever e criar um commit
+  final isolado apenas com este registro de handoff.
