@@ -1,14 +1,85 @@
-<!-- BEGIN PROJECT SCOPE — read this before anything else -->
+<!-- BEGIN MISSION — read before the scope, before anything -->
+
+# THE EYE — mission
+
+Recorded 05/08/2026 from the owner's own statement to Codex
+(`prompts/THE_EYE_MASTER_MISSION.md`, mirrored in `~/.codex/history.jsonl`).
+It is written here because two sessions rebuilt the project from whatever was
+most recently active instead of from its purpose, and narrowed it twice.
+
+## What this platform is for
+
+> Build a **local, incremental, auditable and reproducible platform** to
+> research, organise, relate, analyse and track:
+
+1. **The 500 greatest innovations** in artificial intelligence, machine
+   learning, prediction, forecasting, time series, causality, decision
+   intelligence, agents, multimodal models, robotics, AI for Science, AI
+   hardware, quantum computing, quantum machine learning, hybrid
+   quantum-classical algorithms, cloud quantum computing, **and emerging areas
+   the owner does not yet know about**.
+
+2. **The 500 people of greatest influence and technical standing** in those
+   fields: researchers, professors, founders, engineers, inventors, authors,
+   lab leaders, open-source developers, and the people behind algorithms,
+   models, datasets and platforms.
+
+3. **The 300 most relevant universities** for AI, machine learning,
+   prediction, data science, computing, applied mathematics, computational
+   physics, quantum computing, QML, algorithms and optimisation.
+
+4. **All public and authorised content** useful to understand algorithms,
+   models, libraries, repositories, datasets, benchmarks, patents, theses,
+   papers, talks, interviews, podcasts, courses, forums, technical
+   discussions, public social media, news, announcements, cloud platforms,
+   quantum computers and simulators, and tools still in development.
+
+## The part that is easy to miss
+
+> The goal is **not** merely to confirm subjects already known. The system must
+> systematically discover: new terms, new clusters, little-publicised
+> technologies, growing areas, unexpected connections between fields, new or
+> resurgent algorithms, emerging research groups, **underrated people**,
+> universities outside the conventional rankings, open projects with abnormal
+> growth, and technologies still far from the general press.
+
+Discovery is the mission. A platform that only confirms what the owner already
+typed in has failed, however well it is engineered.
+
+## What this means for anyone working here
+
+**The source graph (stage 1) is the engine of the mission, not plumbing.** ROR,
+Crossref, arXiv, DOAJ, OpenAlex, the library and community registries — these
+exist to map innovation, people and universities. Treating stage 1 as
+infrastructure and leaving its connectors at 0% leaves the mission unstarted.
+
+**The legal taxonomy is a classifier inside the platform, not the platform.**
+The 145 areas organise material; they are not the subject matter.
+
+**Radar Juridico is one commercial vertical**, created when the owner asked for
+something sellable quickly. It is stage 4 of the pipeline and 9 of 106
+artifacts. It funds and validates. It is not the product of record.
+
+**Do not present the platform as a legal product.** The public site currently
+does exactly that, and it is wrong. Fixing it is open work.
+
+<!-- END MISSION -->
+
+<!-- BEGIN PROJECT SCOPE — read after the mission -->
 
 # ASUS + THE EYE — project scope
 
-Read this section first. It exists because recent sessions repeatedly narrowed
-the project to a fraction of itself and then worked inside that fraction.
+Read this after the mission above. It exists because recent sessions repeatedly
+narrowed the project to a fraction of itself and then worked inside that
+fraction. The scope below says what the platform is MADE OF; the mission says
+what it is FOR. Neither replaces the other.
 
 ## What the project is
 
 THE EYE is an **auditable-evidence platform**: everything that happens becomes a
 hash-chained event that nobody — not even the owner — can rewrite afterwards.
+That property serves the mission: discovery is only worth something if the trail
+from claim to primary source cannot be rewritten later.
 
 The whole project is ONE pipeline of seven stages, measured by artifacts that
 exist, never by declared status:
