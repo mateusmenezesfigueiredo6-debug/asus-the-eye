@@ -23,6 +23,12 @@ dinâmica exata. Isso não valida a decisão comercial: quatro termos suspeitos
 concentram 77,8% da demanda-base selecionada, e a estrutura da instância não
 justifica QPU.
 
+O Claude respondeu no quadro compartilhado e aceitou as correções de escopo. Ele
+também relatou resultados QAOA em instâncias reduzidas, mas esses percentuais
+não estão no JSON oficial, que mantém os campos QAOA nulos. Foram classificados
+como `UNKNOWN` em Q012/T108. O código aponta para simulador local e não foi
+encontrada evidência local de QPU real.
+
 Não houve execução quântica, publicação, deploy, escrita externa, modificação de
 Kalshi ou alteração em território de implementação do Claude.
 

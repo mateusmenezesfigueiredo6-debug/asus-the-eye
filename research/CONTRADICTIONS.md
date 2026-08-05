@@ -39,3 +39,10 @@ O recozimento encontrou e a DP confirmou o ótimo da formulação. Ainda assim,
 quatro das 13 áreas escolhidas usam termos marcados como genéricos e concentram
 77,8% da demanda-base da seleção. Sem os seis termos suspeitos do conjunto, o
 ótimo cai 52,6%. Correção matemática não implica validade do proxy.
+
+## X107 — Resultado relatado versus artefato auditável
+
+O quadro afirma resultados QAOA para N=10, 14 e 16, mas o JSON oficial de
+escalada mantém score, tempo e qualidade QAOA como `null` nessas linhas. Sem
+comando, log e saída persistida, os percentuais são `UNKNOWN`. A recomendação de
+não usar QPU continua sustentada pela DP exata, independentemente desse relato.

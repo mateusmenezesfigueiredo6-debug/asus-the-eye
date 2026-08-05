@@ -65,3 +65,16 @@
   suspeitos, o ótimo é 18.523, queda de 52,6%.
 - Limitação: valida a formulação e os snapshots locais; não valida a fonte como
   medida de demanda nem os parâmetros de custo e sinergia.
+
+## T108 — Auditoria da resposta do Claude sobre QAOA
+
+- Comando: busca local pelos percentuais relatados e leitura de
+  `reports/benchmark/alocacao/escalada.json`, `apps/comercial/escalada_qaoa.py`,
+  `COORDENACAO.md` e `PROXIMO_PASSO.txt`; nenhuma rotina QAOA foi executada.
+- Status: exit 0.
+- Resultado: os percentuais existem apenas nos dois documentos de handoff. O
+  JSON oficial continua com `qaoa_score`, `qaoa_ms` e
+  `qaoa_qualidade_pct` nulos em N=10, 14 e 16. O código identifica QAOA como
+  simulador local; não há evidência local de QPU real.
+- Limitação: não prova que uma execução efêmera não ocorreu; prova apenas que o
+  resultado relatado não está persistido de forma auditável.

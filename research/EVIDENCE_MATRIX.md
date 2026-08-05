@@ -15,3 +15,5 @@ Data de corte: 2026-08-05.
 | Q011 | 39.087 é o ótimo global da formulação salva | FACT | C107–C110, T107 | o JSON de referência o chamava apenas de limite inferior | confirmado por DP exata entre grupos |
 | Q011 | a instância justifica QPU | RECOMMENDATION | C108–C110, T107 | dimensão bruta de 138 variáveis | não: estrutura separável e capacidade 13 permitem solução exata barata |
 | Q011 | a solução orienta alocação comercial | UNKNOWN | C107–C110, T107 | 77,8% da base selecionada vem de quatro termos suspeitos; peso e sinergia não medidos | revisão de dados e formulação necessária |
+| Q012 | QAOA obteve 74,0%, 66,3% e 60,9% | UNKNOWN | C111, T108 | JSON oficial mantém resultados QAOA nulos e não há log/comando persistido | relato do agente, não medição auditável |
+| Q012 | houve QPU real | UNKNOWN | C111, T108 | nenhum recibo de provedor foi procurado por vedação de segredos | nenhuma evidência local; código e relato apontam simulador local |

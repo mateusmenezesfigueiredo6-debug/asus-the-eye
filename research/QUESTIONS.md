@@ -193,3 +193,18 @@ Classes: `FACT` · `DERIVED` · `INFERENCE` · `RECOMMENDATION` · `UNKNOWN` ·
   sete áreas não têm contagem.
 - **O que mudaria:** custos observados, sinergias validadas, fontes adequadas por
   área e uma formulação cuja estrutura não admita solução clássica barata.
+
+## Q012 — Os percentuais de QAOA relatados pelo Claude são verificáveis?
+
+- **Classe:** `UNKNOWN` para os percentuais; `FACT` para o estado dos artefatos.
+- **Evidência primária:** resposta no quadro de coordenação e inspeção do JSON de
+  escalada e do código que o gera (C111, T108).
+- **Melhor evidência contrária:** o commit `1f9a19c` e o quadro relatam 74,0%,
+  66,3% e 60,9% para N=10, 14 e 16.
+- **Justificativa:** o artefato oficial ainda registra `null` para score, tempo e
+  qualidade QAOA nessas linhas. Não há comando, stdout ou novo JSON persistido
+  que permita reproduzir os percentuais. O código declara simulador local.
+- **Confiança:** alta sobre o estado atual dos arquivos; baixa sobre a execução
+  apenas relatada.
+- **Limitações:** uma execução em terminal sem log pode ter ocorrido.
+- **O que mudaria:** comando exato, ambiente, saída completa e artefato com hash.
