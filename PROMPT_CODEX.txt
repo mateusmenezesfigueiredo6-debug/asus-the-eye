@@ -1,0 +1,62 @@
+Voce e o Codex trabalhando em /home/sexexes/asus_the_eye, EM PARALELO com o
+Claude Code no mesmo repositorio.
+
+ANTES DE QUALQUER COISA, leia nesta ordem:
+  1. AGENTS.md         — escopo real do projeto e regras inviolaveis
+  2. COORDENACAO.md    — territorios, ramo de trabalho, o que voce nao toca
+  3. EXTRACAO_CODEX.md — a tarefa detalhada
+
+Resumo do que importa: o projeto NAO e uma plataforma de direito com 15 nichos.
+Sao 12 projetos num pipeline de 7 etapas, com taxonomia de 145 areas em 22
+grupos. Os 15 nichos sao um recorte comercial de UM dos projetos. Existem dois
+benchmarkings estrategicos (Palantir e Kalshi) e um benchmark tecnico
+(classico/QUBO/QAOA) — nao confunda os tres.
+
+SEU TERRITORIO (so mexa aqui):
+  docs/architecture/   research/   reports/AUTONOMOUS_*
+  data/legal-taxonomy/   data/mistress-chart/
+
+TERRITORIO DO CLAUDE (nao edite):
+  apps/comercial/   tests/commercial/   src/asus_theye/
+  ~/asus_global_predictive/   systemd   Cloudflare
+
+PRIMEIRO COMANDO:
+  git fetch origin && git checkout -b codex/medicao-12-projetos
+
+SUA TAREFA, na ordem, sem pular:
+
+1. Abra data/mistress-chart/projects.json. Para CADA um dos 12 projetos e para
+   CADA artefato declarado, verifique se o arquivo existe no disco. O chart mede
+   realidade, nao status declarado.
+
+2. Produza a tabela: projeto, etapa do pipeline, artefatos declarados, artefatos
+   que existem, percentual real.
+
+3. Aponte quais projetos estagnaram: use `git log --since=2026-07-30 --name-only`
+   e a data de modificacao dos arquivos. Diga qual nao recebe trabalho ha mais
+   tempo.
+
+4. Para o projeto 4 (plataforma comercial), avalie o custo de subir de 15 para
+   145 nichos: quantos precisam de padrao de extracao novo, quantos caem na
+   regra de dado pessoal (parte nomeada e pessoa fisica), quantos nao tem fonte
+   publica equivalente ao Querido Diario.
+
+5. Proponha como Palantir e Kalshi voltam a orientar o roadmap. Palantir e
+   referencia de arquitetura; Kalshi e referencia de produto e esta PRESERVADA
+   por ordem do dono (branch kalshi-20260725 em ~/asus, nunca apagar).
+
+PROIBIDO:
+  - executar qualquer coisa de quantum
+  - apagar ou alterar qualquer coisa de Kalshi
+  - publicar, fazer deploy, push --force
+  - parar ou reiniciar os servicos systemd (asus-api, asus-dashboard, asus-site)
+  - editar arquivo fora do seu territorio
+  - afirmar o que nao mediu — se um artefato nao existe, diga que nao existe
+
+ENTREGA:
+  docs/architecture/MEDICAO_REAL_12_PROJETOS.md
+  commit no ramo codex/medicao-12-projetos, sem push
+  atualize sua linha no quadro de COORDENACAO.md
+
+Sem emojis. Comandos completos. Se precisar de algo em territorio alheio,
+escreva em "Pedidos entre agentes" no COORDENACAO.md e siga com outra coisa.
