@@ -19,7 +19,7 @@ jobs:
       - run: python scripts/event_coverage.py
   security:
     runs-on: ubuntu-latest
-    permissions: {contents: read, security-events: write}
+    permissions: {contents: read, security-events: write, pull-requests: read}
     steps:
       - uses: actions/checkout@v4
       - uses: gitleaks/gitleaks-action@v2
