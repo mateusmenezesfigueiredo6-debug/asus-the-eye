@@ -48,6 +48,19 @@ ramo proprio usa worktree, que da um diretorio separado:
 
     git worktree add ../eye-claude -b claude/<assunto>
 
+**A regra foi violada de novo em 08/08, e desta vez a culpa foi do CLAUDE.** Ele
+abriu o VS Code apontando para o diretorio compartilhado a pedido do dono; o
+Codex de la criou `docs/licenca-agpl-adr`, abriu a PR #1 e trocou o ramo do
+diretorio. Onze commits do CLAUDE, incluindo dois merges, foram parar nesse
+ramo. `git push origin main` respondeu com sucesso e nao enviou nada, porque o
+`main` local nao tinha se movido — o mesmo falso positivo de 05/08, com outra
+roupa. Resolvido mesclando a PR #1, que estava com os oito checks verdes.
+
+**Divisao a partir de 08/08:** o diretorio principal `~/asus_the_eye` e do
+CODEX. O CLAUDE trabalha em `~/asus_the_eye_claude`, ramo
+`claude/painel-e-medicao`. Quem abrir editor ou agente novo aponta para o
+worktree do dono daquele territorio, nunca para o principal.
+
 Quem ficar no diretorio principal trabalha em `main`. Antes de commitar,
 SEMPRE conferir:
 
@@ -94,6 +107,9 @@ Atualize a sua linha ao comecar e ao terminar. Formato:
 | CODEX | codex/medicao-12-projetos | validar QKP e consolidar medicao | 05/08 | concluido |
 | CLAUDE | main | landing da raiz deixa de vender produto juridico e passa a apresentar a plataforma; Radar movido para /radar/ | 08/08 | concluido (6af9b8e) |
 | CODEX | codex/etapa-7-verificador | etapa 7: worker publico de verificacao, wrangler e README | 08/08 | concluido; commit criado pelo CLAUDE preservando autoria, merge em main |
+| CODEX | codex/defeitos-medidos | tres defeitos medidos por auditoria: monitoramento, audit-verify, fetcher | 08/08 | concluido, merge em main (7a8b36b) |
+| CODEX | docs/licenca-agpl-adr | ADR-013 da troca MIT->AGPL, AUTHORS.md e conserto dos 8 checks do CI | 08/08 | concluido, PR #1 mesclada (5d18bf2) |
+| CLAUDE | claude/painel-e-medicao | paineis, registro de dominios, expurgo do dado sintetico | 08/08 | em curso — saiu do diretorio principal para nao colidir com o Codex |
 
 ---
 
@@ -144,6 +160,32 @@ lido.
   cada execucao, inclusive pelo cron das 06:15. Corrigir o HTML na mao nao
   adiantava — voltava sozinho no dia seguinte. Se algum dia a raiz voltar a
   vender Radar, o defeito esta nesse gerador, nao no HTML.
+- **CLAUDE, 08/08:** nove avaliacoes independentes (mercado, produto, marketing,
+  publicidade, programacao, LLM, IA, predicao, estatistica) deram nota media
+  **2,9 de 10** ao pipeline. Os achados que mais importam, todos com evidencia
+  medida: (1) nenhum dos 13 arquivos que produzem valor esta entre os 112
+  declarados, e `touch` nos 5 arquivos faltantes de `src/asus_theye/markets`
+  levaria a 112/112 sem uma linha de capacidade; (2) o Brier 0,003293 do voto
+  legislativo perde para um palpite constante na taxa historica (0,001671); (3)
+  o skill macro vira 0,1053 ou 0,3401 conforme a definicao de climatologia —
+  fator 3, o que prova que a manchete e escolha do autor; (4) `LIMITE_BRIER=0,35`
+  e um portao calibrado acima do pior forecast possivel, que nunca fecha; (5) o
+  ledger de producao sela 11 campos enquanto `audit/schema.py` exige 37, os dois
+  declarando `schema_version 1.0.0`, entao o verificador offline NAO verifica o
+  ledger de producao.
+- **CLAUDE, 08/08:** expurgado o dado sintetico. `reports/commercial/pipeline.jsonl`
+  tinha 606 oportunidades com `claim_class: FACT`, zero procedencia e nenhum
+  gerador reexecutavel — e `metrics.py` calculava ranking de nicho em cima
+  delas. Em quarentena, com o motivo versionado. O `_demo()` do
+  `kalshi_conector.py` passou a exigir `ASUS_DEMO=1`: o placar de 66,7% que
+  circulava saia de la, com tres divergencias escritas a mao, e a tabela
+  `kalshi_divergencia` nunca foi criada.
+- **CLAUDE, 08/08:** a pagina publica anunciava R$ 297, R$ 697 e R$ 1.997 por
+  mes, entrega toda segunda-feira e leitura de 5.000 diarios por dia. O disco
+  diz: `assinantes.json` com UMA linha, o proprio dono, trial desde 03/08; e
+  quatro `.eml` na caixa de saida, todos para ele mesmo, parados em 04/08.
+  Retirado do gerador em `asus_global_predictive`. Se algum dia voltar, a causa
+  esta em `bin/gerar_site.py`, nao no HTML.
 - **CLAUDE, 05/08:** `published_until` da API do Querido Diario e INCLUSIVO.
   Janela mensal terminando no dia 1 do mes seguinte conta o dia duas vezes.
   Ja corrigido em `apps/comercial/serie_historica.py`, mas vale para qualquer
