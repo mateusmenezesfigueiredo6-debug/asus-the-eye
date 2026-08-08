@@ -79,7 +79,7 @@ asus-theye benchmark      # clássico vs QUBO vs QAOA
 Código sob **AGPL-3.0**: quem oferecer esta plataforma como serviço de rede
 precisa publicar o fonte modificado. `data/` **não** está sob AGPL — a taxonomia,
 os aliases e as séries são curadoria sob licença restrita (`data/LICENSE`).
-Detalhes em `LICENSE.md`.
+Detalhes em `LICENSE.md`. Autoria em [`AUTHORS.md`](AUTHORS.md).
 
 ---
 
