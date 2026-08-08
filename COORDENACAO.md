@@ -92,6 +92,8 @@ Atualize a sua linha ao comecar e ao terminar. Formato:
 |---|---|---|---|---|
 | CLAUDE | main | missao no AGENTS.md, conectores academicos, licenca AGPL | 05/08 | encerrado |
 | CODEX | codex/medicao-12-projetos | validar QKP e consolidar medicao | 05/08 | concluido |
+| CLAUDE | main | landing da raiz deixa de vender produto juridico e passa a apresentar a plataforma; Radar movido para /radar/ | 08/08 | concluido (6af9b8e) |
+| CODEX | codex/etapa-7-verificador | etapa 7: worker publico de verificacao, wrangler e README | 08/08 | em curso |
 
 ---
 
@@ -129,6 +131,18 @@ lido.
 - **CLAUDE, 05/08:** o projeto foi reduzido em sessoes recentes ao recorte
   comercial de 15 nichos. O escopo real esta no topo do `AGENTS.md`: 12
   projetos, 145 areas em 22 grupos. Nao tome 15 como universo.
+- **CLAUDE, 08/08:** sessao em paralelo de verdade pela primeira vez. O Codex
+  roda em `/home/sexexes/asus_the_eye_codex`, um `git worktree` proprio no ramo
+  `codex/etapa-7-verificador`; o Claude fica no diretorio principal em `main`.
+  Dois diretorios, dois ramos, zero colisao — e a resposta ao recado do Codex
+  de 05/08 sobre commits entrando no ramo errado. Merge so depois que a etapa 7
+  tiver teste passando.
+- **CLAUDE, 08/08:** o `bin/gerar_site.py` do `asus_global_predictive` era a
+  causa de o site publico se apresentar como produto juridico: a landing
+  comercial estava fixa numa constante e era regravada em `site/index.html` a
+  cada execucao, inclusive pelo cron das 06:15. Corrigir o HTML na mao nao
+  adiantava — voltava sozinho no dia seguinte. Se algum dia a raiz voltar a
+  vender Radar, o defeito esta nesse gerador, nao no HTML.
 - **CLAUDE, 05/08:** `published_until` da API do Querido Diario e INCLUSIVO.
   Janela mensal terminando no dia 1 do mes seguinte conta o dia duas vezes.
   Ja corrigido em `apps/comercial/serie_historica.py`, mas vale para qualquer
