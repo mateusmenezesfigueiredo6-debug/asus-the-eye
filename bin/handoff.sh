@@ -22,14 +22,25 @@ echo "- systemd: $(systemctl --user is-active asus-api asus-dashboard asus-site 
 echo
 echo "## Git"
 for d in "$PWD" "$HOME/asus_global_predictive" "$HOME/Downloads/projeto-algoritmos"; do
-  [ -d "$d/.git" ] || continue
+  [ -e "$d/.git" ] || continue   # -e, nao -d: em worktree o .git e arquivo
   cd "$d"
   echo "- $(basename "$d"): $(git log --oneline -1 | cut -c1-56) | sujo: $(git status --porcelain | wc -l) | pendentes: $(git log --oneline @{u}..HEAD 2>/dev/null | wc -l)"
 done
 cd "$RAIZ" || exit 1
 echo
 echo "## Testes"
-echo "- $(timeout 120 .venv/bin/python -m pytest tests/ 2>&1 | tail -1 | tr -d '=' | xargs)"
+PY=""
+for cand in "$RAIZ/.venv/bin/python" "$HOME/asus_the_eye/.venv/bin/python" "$(command -v python3)"; do
+  [ -x "$cand" ] && { PY="$cand"; break; }
+done
+if [ -n "$PY" ]; then
+  RES=$(PYTHONPATH="$RAIZ/src" timeout 300 "$PY" -m pytest tests/ -p no:cacheprovider 2>&1 \
+        | grep -aoE "[0-9]+ (passed|failed|error)[^|]*" | tail -1)
+  echo "- ${RES:-NAO MEDIDO: pytest nao devolveu resumo}"
+  echo "- interpretador: $PY"
+else
+  echo "- NAO MEDIDO: nenhum interpretador encontrado"
+fi
 echo
 echo "## Processos em segundo plano"
 pgrep -af "python.*(sinal_taxonomia|serie_historica|qkp_|escalada|previsao|monitoramento)" 2>/dev/null \

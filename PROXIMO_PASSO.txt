@@ -1,60 +1,159 @@
-A MISSAO ESTA ESCRITA. Retomar a etapa 1, que e o motor dela.
+DESPUBLICAR, EXPURGAR, CONSERTAR — e so entao carimbar.
 
-CONTEXTO — por que este handoff existe
-  Duas sessoes estreitaram o projeto: primeiro para a plataforma comercial,
-  depois para o vertical juridico. O dono interrompeu com "pare, nao e uma
-  plataforma so juridica" e apontou que ja havia dito ao Codex: e UMA unica
-  plataforma. A causa raiz era o AGENTS.md descrever as partes sem declarar o
-  proposito. Corrigido no commit 93e4dd0: a missao agora abre o arquivo.
+Escrito em 08/08/2026 pelo Claude, depois de uma auditoria por nove lentes
+independentes que deu ao pipeline NOTA MEDIA 2,9 DE 10. Este arquivo substitui
+o anterior, que mandava retomar a etapa 1. Retomar a etapa 1 agora seria o erro
+mais caro disponivel, e a razao esta abaixo.
 
-A MISSAO, EM UMA LINHA
-  Observatorio auditavel de fronteira tecnologica: 500 inovacoes, 500 pessoas,
-  300 universidades e o conteudo publico que as sustenta — com DESCOBERTA de
-  termos novos, pessoas subestimadas e universidades fora dos rankings, nao
-  apenas confirmacao do ja conhecido.
+================================================================================
+A INVERSAO DE ORDEM QUE MUDA TUDO
+================================================================================
 
-O QUE ISSO REORDENA
-  A etapa 1 (grafo de fontes, 35 artefatos, a maior do pipeline) e o motor da
-  missao. Ela aparece 100% no chart porque os arquivos existem, mas as trilhas
-  academica, fundacao, setorial e gated_dpia estao TODAS em 0,0% de cobertura
-  real: nenhum conector havia sido executado.
+O instinto do projeto e construir mais. A auditoria mostrou que a ordem certa e
+o contrario: DESPUBLICAR, EXPURGAR, CONSERTAR, e so depois deixar a cadeia
+criptografica carimbar o que o produto faz.
 
-O QUE JA FOI FEITO NESSA DIRECAO (nao refazer)
-  src/asus_theye/source_graph/connectors/academico.py — ROR, Crossref, arXiv e
-  DOAJ implementados e testados ao vivo. Com "direito digital": 262
-  instituicoes, 68 mil trabalhos, 2001 preprints. Proveniencia com SHA-256 em
-  toda resposta; metrica social nunca vira score; preprint marcado como nao
-  revisado.
-  Bug ja corrigido: a v2 do ROR trocou name por names[] e country por
-  locations[]; sem o ajuste devolvia nulo em silencio.
+O motivo, na formulacao do consolidador: a cadeia nao torna o erro detectavel,
+ela torna o erro IMUTAVEL, DATADO E ASSINADO. Carimbar antes de expurgar e selar
+a mentira. E um fornecedor flagrado inflando metrica e exatamente o fornecedor
+de quem ninguem compra log a prova de adulteracao.
 
-PROXIMO PASSO CONCRETO
-  1. Rodar os conectores academicos sobre os TERMOS DA MISSAO, nao juridicos:
-       .venv/bin/python -m asus_theye.source_graph.connectors.academico "quantum machine learning"
-     e repetir para os campos da missao (causalidade, decision intelligence,
-     agentes, AI for Science, hardware de IA, algoritmos hibridos).
-  2. Ligar a saida ao grafo de fontes para a cobertura sair de 0,0%:
-     ver src/asus_theye/source_graph/coverage.py e o schema
-     data/source-graph/knowledge-source.schema.json
-  3. dados-gov-br passou a exigir chave (retorna 401) — a declaracao em
-     connectors.json esta desatualizada. Corrigir o status la.
-  4. openalex tem caminho gratuito pelo dump CC0 no S3, sem chave; a lacuna
-     registrada no chart ja diz isso.
+================================================================================
+O QUE JA FOI FEITO EM 08/08 — nao refaca
+================================================================================
 
-TRABALHO EM ABERTO, REGISTRADO
-  O site publico (theyeofgod.pages.dev) apresenta a plataforma como produto
-  juridico. Esta errado e nao foi corrigido. A etapa 7 (superficie publica de
-  verificacao) segue em 0 de 3 — e o unico gargalo real do pipeline.
+  1. Etapa 7 fechada (Codex): apps/public-verifier com worker, wrangler e
+     README. 6 testes offline. Projeto continua L5, nada publicado.
+  2. Tres defeitos medidos corrigidos (Codex): monitoramento.py atribuia ao
+     modelo campeao o erro de uma previsao ingenua num historico append-only;
+     audit-verify nao lia o arquivo que audit-batch escreve; academico.py saia
+     na rede sem o PoliteFetcher testado. 325 testes passam.
+  3. Registro de dominios criado: data/domains/domains.json com direito (145
+     areas), mercados-preditivos (10) e fronteira-tecnologica (16). Antes disso
+     `niches_total` era len(areas juridicas) e ate o source-graph declarava seu
+     escopo em vocabulario de direito.
+  4. Doutrina corrigida: MEDICAO_REAL_12_PROJETOS.md dizia "nada deve ser
+     copiado ou integrado como um subsistema Kalshi". Foi obedecida, e por isso
+     dez nichos com 41 resolucoes contra fonte oficial ficaram fora da medicao.
+  5. Pagina publica limpa: anunciava R$ 297/697/1.997 por mes, entrega toda
+     segunda-feira e leitura de 5.000 diarios/dia. Nada disso aconteceu.
+  6. Dado sintetico em quarentena: 606 oportunidades com claim_class FACT, zero
+     procedencia, nenhum gerador. O _demo() do kalshi_conector exige ASUS_DEMO=1.
+  7. PR #1 mesclada (5d18bf2), ADR-013 e AUTHORS.md registrados.
 
-NAO FAZER
-  Nao tratar o Radar Juridico como o produto da plataforma.
-  Nao rodar quantum sem autorizacao (GATE.py, cota IBM ~133s de 600).
-  Nao apagar nada de Kalshi.
-  Nao trocar de ramo no diretorio compartilhado — usar git worktree.
+================================================================================
+O PROXIMO PASSO, COM CRITERIO DE PRONTO
+================================================================================
 
-ESTADO TECNICO NO FECHAMENTO
-  300 testes verdes, lint limpo, 4 repositorios privados sincronizados.
-  Servicos sob systemd: asus-api 8713, asus-dashboard 8712, asus-site 8790.
-  Licenca: AGPL-3.0 no codigo, restrita em data/.
-  QAOA medido e reprovado nesta classe (60,9% do alvo em 16 qubits).
-  Otimo de referencia da instancia de 138 areas: 39.087, 16 partidas convergiram.
+PASSO 1 — RECONCILIAR O SCHEMA DO LEDGER (o furo mais grave, e ninguem viu antes)
+
+  infra/cloudflare/staging/worker.ts sela 11 campos.
+  src/asus_theye/audit/schema.py exige 37.
+  Os dois declaram schema_version "1.0.0".
+
+  Consequencia medida: rodar validate_event sobre um evento no formato exato do
+  worker FALHA com 27 campos ausentes. O verificador offline — que E o produto —
+  nao verifica o ledger de producao. A frase "qualquer um verifica nossa cadeia"
+  e falsa hoje, e a versao de schema identica esconde isso em vez de denunciar.
+
+  Faca: decidir qual conjunto e o contrato, versionar o outro como 2.0.0, e
+  ensaiar num tenant descartavel antes de tocar em tenant-demo.
+
+  PRONTO QUANDO: um evento lido de GET /events?tenant=<descartavel> passa por
+  validate_event sem erro, e o comando que prova isso esta num teste.
+
+PASSO 2 — LIGAR A CADEIA AO PRODUTO
+
+  Os 16 eventos do ledger de producao sao benchmark.completed, chart.snapshot,
+  release.checked e llm.call.completed. Zero eventos de produto, parados em
+  03/08. A cadeia esta auditando o construtor, nao o construido — e o Art. 12
+  do EU AI Act (exigivel desde 02/08/2026) pede registro das operacoes do
+  sistema, nao do CI de quem o fez.
+
+  Faca: apps/comercial/radar_juridico.py e src/asus_theye/commercial/pipeline.py
+  passam a chamar publish_event. Depende do passo 1: nao carimbe no schema errado.
+
+  PRONTO QUANDO: gerar uma edicao do Radar cria evento na cadeia, e
+  audit-verify sobre esse evento devolve leaf_proof_root true.
+
+PASSO 3 — O PORTAO QUE NUNCA FECHA
+
+  LIMITE_BRIER=0,35 esta calibrado ACIMA do pior forecast possivel: previsao
+  constante em 0,5 da Brier 0,25 sempre. Um portao que aprova tudo nao e portao.
+
+  Faca: o limite passa a ser relativo ao baseline da propria serie, nao
+  absoluto. Publicar "sem ganho preditivo" e resultado valido, nao falha.
+
+  PRONTO QUANDO: existe um caso de teste em que o modelo perde para a taxa base
+  e o portao REPROVA.
+
+PASSO 4 — A METRICA QUE MEDE CAPACIDADE, NAO ARQUIVO
+
+  Nenhum dos 13 arquivos que produzem valor hoje esta entre os 112 declarados.
+  Apagar apps/comercial/ontologia.json quebra o Radar e o chart segue em 100%.
+  E a prova simetrica: `touch` nos 5 arquivos faltantes de src/asus_theye/markets
+  leva o projeto a 112/112 sem uma linha de capacidade nova.
+
+  Faca: o manifesto passa a declarar os arquivos de execucao, e o gate falha
+  quando qualquer um some.
+
+  PRONTO QUANDO: `touch` nos 5 arquivos de markets NAO aumenta a metrica de
+  nenhum projeto. Este teste e executavel hoje e deve virar teste de verdade.
+
+PASSO 5 — DEZ CONVERSAS
+
+  apps/comercial/assinantes.json tem UMA linha: o proprio dono, "Mateus (teste
+  interno)", trial desde 03/08. A caixa de saida tem quatro .eml, todos para ele
+  mesmo, parados em 04/08. O produto nunca foi visto por um humano que nao seja
+  o autor, entao todo julgamento de valor feito ate hoje e autoavaliacao.
+
+  Este passo nao depende de codigo nenhum e pode comecar hoje.
+
+  PRONTO QUANDO: dez conversas registradas com pessoa real, com o que ela paga
+  HOJE para resolver o problema.
+
+================================================================================
+O QUE NAO FAZER
+================================================================================
+
+  - NAO retomar a etapa 1 nem acrescentar fonte ao grafo. Ha 116 fontes com
+    revisao humana pendente, sem fila, sem comando e sem registro de revisao.
+    Cada fonte nova aumenta uma divida que ninguem esta pagando. A restricao
+    "nenhuma fase L0-L6 sem aprovacao humana" hoje e um campo de banco, nao um
+    mecanismo.
+  - NAO citar o Brier 0,003293 como calibracao. Sao 40 contratos de UMA votacao,
+    todos com resultado 1, e o palpite constante na taxa historica (0,959126,
+    medida em 68.234 pares) da 0,001671 — cerca de duas vezes melhor.
+  - NAO citar o skill macro 0,4168. O mesmo modelo produz 0,1053 ou 0,3401
+    conforme a definicao de climatologia. Fator 3 de diferenca prova que a
+    manchete e escolha do autor, nao propriedade do modelo.
+  - NAO rodar quantum. Cota esgotada (qpu.log termina com "Cota de QPU
+    esgotada"), ultimos jobs em 1x o acaso, e a instancia QKP tem otimo exato
+    por programacao dinamica.
+  - NAO publicar. scripts/publish_lock.py exige passphrase do dono.
+
+================================================================================
+ONDE CADA UM TRABALHA — mudou em 08/08
+================================================================================
+
+  ~/asus_the_eye           main                      CODEX (diretorio principal)
+  ~/asus_the_eye_claude    claude/painel-e-medicao   CLAUDE
+  ~/asus_the_eye_codex     codex/etapa-7-verificador  mesclado
+  ~/asus_the_eye_codex2    codex/defeitos-medidos     mesclado
+
+  Onze commits do Claude foram parar em docs/licenca-agpl-adr porque o Codex
+  trocou o ramo do diretorio compartilhado. `git push origin main` respondeu
+  sucesso e nao enviou nada. Antes de commitar: git branch --show-current.
+
+================================================================================
+PENDENCIA QUE SO O DONO RESOLVE
+================================================================================
+
+  Chave OpenRouter exposta como NOME de dois diretorios vazios:
+    /home/sexexes/PQPAR_AgentOS_V2/sk-or-v1-<chave>
+    /home/sexexes/RESGATE_SEAGATE/home/sexexes/PQPAR_AgentOS_V2/sk-or-v1-<chave>
+
+  Nunca entrou em git (conferido com git log --all -S em tres repositorios).
+  Revogar no painel da OpenRouter PRIMEIRO, apagar depois:
+
+    find /home/sexexes -maxdepth 7 -name 'sk-or-v1-*' -type d -empty -delete
