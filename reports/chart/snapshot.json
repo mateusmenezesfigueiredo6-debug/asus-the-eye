@@ -97,8 +97,8 @@
       "completion_pct": 100
     }
   },
-  "generated_at": "2026-08-08T15:49:05.774748Z",
-  "commit": "575d4cc",
+  "generated_at": "2026-08-08T15:58:29.120147Z",
+  "commit": "86f8ffa",
   "knowledge": {
     "available": true,
     "methodology_version": "1.0.0",
@@ -698,8 +698,8 @@
           "tests/markets/test_markets.py"
         ],
         "completion_pct": 17,
-        "commits": 0,
-        "last_commit": ""
+        "commits": 1,
+        "last_commit": "b3ce9d1 2026-08-08"
       },
       "unknown_niches": []
     }

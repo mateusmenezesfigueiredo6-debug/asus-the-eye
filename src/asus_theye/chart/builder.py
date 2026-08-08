@@ -188,8 +188,9 @@ def build_chart(ledger_events: list[dict[str, Any]] | None = None) -> dict[str, 
     # Sem registro de dominios o comportamento antigo continua valendo, para
     # que o chart nunca dependa de um arquivo novo para rodar.
     if not dominios:
-        dominios = {DOMINIO_PADRAO: {"domain_id": DOMINIO_PADRAO, "name": "Direito",
-                                     "areas": areas, "classifier_found": True}}
+        dominios = {
+            DOMINIO_PADRAO: {"domain_id": DOMINIO_PADRAO, "name": "Direito", "areas": areas, "classifier_found": True}
+        }
 
     projects = []
     for project in registry["projects"]:
@@ -200,9 +201,14 @@ def build_chart(ledger_events: list[dict[str, Any]] | None = None) -> dict[str, 
         # mercado contado como area de direito.
         conhecidas = dominios.get(dom, {}).get("areas", {})
         unknown = [n for n in project.get("niches", []) if n not in conhecidas and n != "*"]
-        projects.append({
-            **project, "domain_id": dom, "evidence": evidence, "unknown_niches": unknown,
-        })
+        projects.append(
+            {
+                **project,
+                "domain_id": dom,
+                "evidence": evidence,
+                "unknown_niches": unknown,
+            }
+        )
 
     # Cobertura por nicho, agora por dominio: qual area tem ao menos um projeto.
     # A chave e (dominio, area) porque dois dominios podem ter ids homonimos.
@@ -233,8 +239,7 @@ def build_chart(ledger_events: list[dict[str, Any]] | None = None) -> dict[str, 
             # apresenta-lo como medicao sem estar mentindo por escrito.
             "coverage_kind": "declared",
             "coverage_caveat": (
-                "cobertura declarada: conta area listada em projects.json, nao "
-                "area com dado processado"
+                "cobertura declarada: conta area listada em projects.json, nao area com dado processado"
             ),
             "classifier_found": d.get("classifier_found", False),
             "projects": sorted(p["project_id"] for p in projects if p["domain_id"] == did),
