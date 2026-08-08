@@ -208,3 +208,38 @@ Classes: `FACT` · `DERIVED` · `INFERENCE` · `RECOMMENDATION` · `UNKNOWN` ·
   apenas relatada.
 - **Limitações:** uma execução em terminal sem log pode ter ocorrido.
 - **O que mudaria:** comando exato, ambiente, saída completa e artefato com hash.
+
+## Q013 — A superfície pública verifica provas sem revelar dados registrados?
+
+- **Classe:** `FACT` para o código local; `UNKNOWN` para operação publicada.
+- **Evidência primária:** Worker e teste de resposta sem tenant ou conteúdo
+  (C112–C115, T109–T110 e T113).
+- **Melhor evidência contrária:** o binding D1 é uma capacidade técnica de banco,
+  não uma credencial SQL limitada a `SELECT`; a garantia de leitura está no
+  código revisado e no contrato de rota.
+- **Justificativa:** nenhuma rota autentica, persiste ou devolve documentos. A
+  única consulta seleciona quatro hashes de âncoras confirmadas, sem campos de
+  evento, lote identificador ou tenant.
+- **Confiança:** alta para a implementação local.
+- **Limitações:** não houve deploy, teste remoto, revisão independente ou dado
+  confirmado real no D1.
+- **O que mudaria:** deploy autorizado seguido de teste de integração e revisão
+  das permissões/bindings no ambiente Cloudflare.
+
+## Q014 — A implementação TypeScript preserva a semântica criptográfica local?
+
+- **Classe:** `FACT` para os vetores e casos testados.
+- **Evidência primária:** contratos Python de canonicalização, cadeia e Merkle;
+  evento selado fixo e vetores Keccak/Merkle cruzados (C113–C115, T109–T111).
+- **Melhor evidência contrária:** o verificador Python aceita uma lista cujo
+  primeiro número seja maior que 1, enquanto a tarefa exige continuidade até a
+  gênese.
+- **Justificativa:** SHA-256 canônico, Keccak-256 com separação de domínio,
+  ordenação de nós e ruptura de cadeia coincidiram com vetores Python. O Worker
+  deliberadamente exige sequência 1 e os 64 zeros para cumprir o contrato mais
+  estrito da etapa 7.
+- **Confiança:** alta para os vetores cobertos.
+- **Limitações:** não houve auditoria criptográfica externa nem fuzzing entre
+  runtimes para todo o domínio I-JSON.
+- **O que mudaria:** vetor divergente, fuzzing diferencial ou revisão externa
+  que identifique incompatibilidade.

@@ -1,6 +1,6 @@
 # Relatório de pesquisa autônoma
 
-Data: 2026-08-05.
+Última atualização: 2026-08-08.
 
 A medição técnica completa da plataforma única nos 12 recortes do chart está em
 `docs/architecture/MEDICAO_REAL_12_PROJETOS.md`. Resultado principal: 103 de 106
@@ -31,6 +31,27 @@ encontrada evidência local de QPU real.
 
 Não houve execução quântica, publicação, deploy, escrita externa, modificação de
 Kalshi ou alteração em território de implementação do Claude.
+
+## Etapa 7 — superfície pública de verificação
+
+Os três artefatos declarados de `public-verifier` agora existem. O Worker é uma
+superfície anônima, sem segredo e sem persistência: verifica em memória eventos,
+cadeias completas desde a gênese e provas Merkle; documento inválido retorna
+HTTP 200 com a primeira ruptura. A única leitura remota possível é um `SELECT`
+de âncoras confirmadas por data, projetado para quatro hashes e sem tenant,
+evento, conteúdo, lote identificador ou dado pessoal.
+
+A semântica foi cruzada com vetores Python para SHA-256 canônico, Keccak-256 e
+Merkle. O teste Node offline, o TypeScript estrito e a suíte Python passaram
+(T109–T111). O chart mede 3/3 na etapa 7 e conserva a classe L5 e a indicação de
+que nada foi publicado (T112). Não houve deploy, escrita externa, segredo,
+execução quântica ou promoção de fase. Os limites de runtime/deploy e a ausência
+de fuzzing diferencial completo permanecem em U107–U108.
+
+O commit solicitado ficou bloqueado pelo sandbox: o diretório administrativo do
+worktree está montado somente leitura e o Git não conseguiu criar `index.lock`
+(T114). A implementação e as validações permanecem íntegras no branch correto;
+o bloqueio também foi registrado em `COORDENACAO.md`.
 
 ## Handoff Git
 

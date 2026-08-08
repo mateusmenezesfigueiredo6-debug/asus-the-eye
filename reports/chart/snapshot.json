@@ -88,16 +88,16 @@
       "projects": [
         "public-verifier"
       ],
-      "artifacts_present": 0,
+      "artifacts_present": 3,
       "artifacts_declared": 3,
       "release_classes": [
         "L5"
       ],
-      "completion_pct": 0
+      "completion_pct": 100
     }
   },
-  "generated_at": "2026-08-08T14:17:55.289288Z",
-  "commit": "2611b83",
+  "generated_at": "2026-08-08T14:46:53.572012Z",
+  "commit": "8041be8",
   "knowledge": {
     "available": true,
     "methodology_version": "1.0.0",
@@ -191,7 +191,7 @@
   },
   "totals": {
     "projects": 12,
-    "projects_complete": 11,
+    "projects_complete": 12,
     "tests": 300,
     "niches_total": 145,
     "niches_covered": 24,
@@ -399,8 +399,8 @@
         "artifacts_declared": 3,
         "artifacts_missing": [],
         "completion_pct": 100,
-        "commits": 1,
-        "last_commit": "1666450 2026-08-03"
+        "commits": 2,
+        "last_commit": "8041be8 2026-08-08"
       },
       "unknown_niches": []
     },
@@ -580,14 +580,10 @@
       "pipeline_stage": "7-publicacao",
       "pipeline_order": 7,
       "evidence": {
-        "artifacts_present": 0,
+        "artifacts_present": 3,
         "artifacts_declared": 3,
-        "artifacts_missing": [
-          "apps/public-verifier/worker.ts",
-          "apps/public-verifier/wrangler.toml",
-          "apps/public-verifier/README.md"
-        ],
-        "completion_pct": 0,
+        "artifacts_missing": [],
+        "completion_pct": 100,
         "commits": 0,
         "last_commit": ""
       },

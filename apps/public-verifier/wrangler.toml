@@ -1,0 +1,15 @@
+name = "the-eye-public-verifier"
+main = "worker.ts"
+compatibility_date = "2026-08-01"
+workers_dev = true
+
+# Binding sem segredo para consultas SELECT de raízes confirmadas. O Worker não
+# contém nenhuma instrução de escrita e nunca consulta eventos ou tenants.
+[[d1_databases]]
+binding = "ROOTS"
+database_name = "the-eye-audit-staging"
+database_id = "6a7a2c73-653f-4a2e-9d9d-62f7d83914ea"
+
+[observability]
+enabled = true
+head_sampling_rate = 0.1
