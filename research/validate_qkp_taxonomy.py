@@ -29,11 +29,7 @@ def group_options(areas: list[dict], capacity: int) -> list[tuple[float, list[st
     for k in range(min(capacity, len(ordered)) + 1):
         chosen = ordered[:k]
         base = sum(area["mencoes"] for area in chosen)
-        pair = sum(
-            min(chosen[i]["mencoes"], chosen[j]["mencoes"])
-            for i in range(k)
-            for j in range(i + 1, k)
-        )
+        pair = sum(min(chosen[i]["mencoes"], chosen[j]["mencoes"]) for i in range(k) for j in range(i + 1, k))
         options.append((base + SYNERGY * pair, [a["legal_area_id"] for a in chosen]))
     return options
 
@@ -51,9 +47,7 @@ def exact_solution(areas: list[dict], capacity: int, exclude_suspect: bool = Fal
     for group in sorted(groups):
         next_dp: dict[int, tuple[float, list[str]]] = {}
         for used, (value, selected) in dp.items():
-            for k, (group_value, group_selected) in enumerate(
-                group_options(groups[group], capacity)
-            ):
+            for k, (group_value, group_selected) in enumerate(group_options(groups[group], capacity)):
                 total = used + k
                 if total > capacity:
                     break
@@ -96,10 +90,7 @@ def self_test_exact_solution(cases: int = 50) -> None:
             for chosen in combinations(areas, count)
         )
         if dp_value != brute_value:
-            raise AssertionError(
-                f"DP divergiu da força bruta no caso {case}: "
-                f"{dp_value} != {brute_value}"
-            )
+            raise AssertionError(f"DP divergiu da força bruta no caso {case}: {dp_value} != {brute_value}")
 
 
 def main() -> None:
@@ -110,18 +101,12 @@ def main() -> None:
     areas = signal["areas"]
     taxonomy_by_id = {area["legal_area_id"]: area for area in taxonomy["areas"]}
     signal_by_id = {area["legal_area_id"]: area for area in areas}
-    capacity = math.floor(
-        sum(area.get("mencoes") is not None for area in areas) * CAPACITY_PCT
-    )
+    capacity = math.floor(sum(area.get("mencoes") is not None for area in areas) * CAPACITY_PCT)
     used, (optimum, selected) = exact_solution(areas, capacity)
-    _, (clean_optimum, clean_selected) = exact_solution(
-        areas, capacity, exclude_suspect=True
-    )
+    _, (clean_optimum, clean_selected) = exact_solution(areas, capacity, exclude_suspect=True)
     selected_base = sum(signal_by_id[area_id]["mencoes"] for area_id in selected)
     suspect_base = sum(
-        signal_by_id[area_id]["mencoes"]
-        for area_id in selected
-        if signal_by_id[area_id].get("suspeita_termo_generico")
+        signal_by_id[area_id]["mencoes"] for area_id in selected if signal_by_id[area_id].get("suspeita_termo_generico")
     )
 
     result = {
@@ -147,8 +132,7 @@ def main() -> None:
         "annealing_matches_exact": reference["melhor_encontrado"] == optimum,
         "selected": sorted(selected),
         "selected_suspect_count": sum(
-            bool(signal_by_id[area_id].get("suspeita_termo_generico"))
-            for area_id in selected
+            bool(signal_by_id[area_id].get("suspeita_termo_generico")) for area_id in selected
         ),
         "selected_suspect_base_share": suspect_base / selected_base,
         "exact_without_suspect_terms": clean_optimum,

@@ -19,28 +19,19 @@ jobs:
       - run: python scripts/event_coverage.py
   security:
     runs-on: ubuntu-latest
-    permissions: {contents: read, security-events: write}
+    permissions: {contents: read, security-events: write, pull-requests: read}
     steps:
       - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
       - uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - uses: anchore/sbom-action@v0
         with: {path: ".", format: "cyclonedx-json", output-file: "sbom.cdx.json"}
-  dependency-review:
-    if: github.event_name == 'pull_request'
-    runs-on: ubuntu-latest
-    permissions: {contents: read}
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/dependency-review-action@v4
-  codeql:
-    runs-on: ubuntu-latest
-    permissions: {contents: read, security-events: write}
-    strategy: {matrix: {language: [python, javascript-typescript]}}
-    steps:
-      - uses: actions/checkout@v4
-      - uses: github/codeql-action/init@v3
-        with: {languages: "${{ matrix.language }}"}
-      - uses: github/codeql-action/analyze@v3
+  # dependency-review e codeql (setup avancado) exigem GitHub Advanced Security.
+  # Em repositorio privado isso e recurso pago por committer ativo — conflita com
+  # a regra do projeto de nao criar dependencia paga a terceiro. Desligados aqui;
+  # religar exigiria decisao consciente de pagar pelo GHAS ou tornar o repo publico.
   contract:
     runs-on: ubuntu-latest
     steps:

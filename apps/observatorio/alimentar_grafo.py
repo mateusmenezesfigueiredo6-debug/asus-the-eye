@@ -27,6 +27,7 @@ disse que ela presta.
 Uso: python3 apps/observatorio/alimentar_grafo.py [--aplicar]
 Saida: data/source-graph/sources.json (so com --aplicar)
 """
+
 import json
 import sys
 from datetime import datetime, timezone
@@ -40,8 +41,13 @@ from asus_theye.source_graph.coverage import build_coverage  # noqa: E402
 
 DESTINO = BASE / "data/source-graph/sources.json"
 CAMPOS = [
-    "artificial intelligence", "machine learning", "quantum computing",
-    "robotics", "causal inference", "time series", "forecasting",
+    "artificial intelligence",
+    "machine learning",
+    "quantum computing",
+    "robotics",
+    "causal inference",
+    "time series",
+    "forecasting",
     "quantum machine learning",
 ]
 
@@ -50,8 +56,17 @@ def _agora() -> str:
     return datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
 
 
-def _base(source_id: str, categoria: str, tipo: str, nome: str, url: str,
-          jurisdicao: str, tier: int, consulta: str, prov: dict) -> dict:
+def _base(
+    source_id: str,
+    categoria: str,
+    tipo: str,
+    nome: str,
+    url: str,
+    jurisdicao: str,
+    tier: int,
+    consulta: str,
+    prov: dict,
+) -> dict:
     """Os 14 campos que o schema exige, preenchidos com o que se mediu."""
     return {
         "source_id": source_id,
@@ -61,20 +76,21 @@ def _base(source_id: str, categoria: str, tipo: str, nome: str, url: str,
         "official_url": url,
         "jurisdiction": jurisdicao,
         "authority_tier": tier,
-        "source_manifest": [{
-            "url": prov["url"],
-            "sha256": prov["sha256_resposta"],
-            "retrieved_at": prov["coletado_em_utc"],
-            "connector": prov["conector"],
-        }],
+        "source_manifest": [
+            {
+                "url": prov["url"],
+                "sha256": prov["sha256_resposta"],
+                "retrieved_at": prov["coletado_em_utc"],
+                "connector": prov["conector"],
+            }
+        ],
         "discovery_query_id": f"missao::{consulta}",
         "first_seen_at": _agora(),
         "last_verification_at": _agora(),
         "claim_class": "FACT",
         "license": {
             "license_id": "CC0-1.0" if prov["conector"] == "ror" else "declarada-pela-fonte",
-            "license_url": ("https://ror.org/about/" if prov["conector"] == "ror"
-                            else "https://doaj.org/docs/faq/"),
+            "license_url": ("https://ror.org/about/" if prov["conector"] == "ror" else "https://doaj.org/docs/faq/"),
         },
         "human_review": {"required": True, "status": "pending"},
         "poc_status": "production",
@@ -95,9 +111,19 @@ def coletar_fontes() -> tuple[list[dict], list[str]]:
                 if not sid or sid in vistos or not it.get("nome"):
                     continue
                 vistos.add(sid)
-                fontes.append(_base(
-                    sid, "research-centers", "institution", it["nome"], sid,
-                    it.get("pais") or "unknown", 2, campo, r["proveniencia"]))
+                fontes.append(
+                    _base(
+                        sid,
+                        "research-centers",
+                        "institution",
+                        it["nome"],
+                        sid,
+                        it.get("pais") or "unknown",
+                        2,
+                        campo,
+                        r["proveniencia"],
+                    )
+                )
 
         try:
             d = doaj(campo, limite=10)
@@ -110,10 +136,19 @@ def coletar_fontes() -> tuple[list[dict], list[str]]:
             if not sid or sid in vistos or not it.get("titulo"):
                 continue
             vistos.add(sid)
-            fontes.append(_base(
-                sid, "academics-and-researchers", "journal", it["titulo"],
-                f"https://doaj.org/toc/{issn}", it.get("pais") or "unknown",
-                2, campo, d["proveniencia"]))
+            fontes.append(
+                _base(
+                    sid,
+                    "academics-and-researchers",
+                    "journal",
+                    it["titulo"],
+                    f"https://doaj.org/toc/{issn}",
+                    it.get("pais") or "unknown",
+                    2,
+                    campo,
+                    d["proveniencia"],
+                )
+            )
     return fontes, notas
 
 
@@ -128,11 +163,12 @@ def main(aplicar: bool = False) -> None:
     print(f"fontes qualificadas montadas: {len(fontes)}")
     if notas:
         print(f"  falhas registradas: {notas}")
-    print(f"  categorias com cobertura: antes {len(cobertas(antes))}, "
-          f"depois {len(cobertas(depois))}")
+    print(f"  categorias com cobertura: antes {len(cobertas(antes))}, depois {len(cobertas(depois))}")
     for c in cobertas(depois):
-        print(f"    {c['category_id']:<28} {c['qualified_count']:>4} fontes  "
-              f"{c['coverage_pct']:>6.2f}%  motivo={c['blocking_reason']}")
+        print(
+            f"    {c['category_id']:<28} {c['qualified_count']:>4} fontes  "
+            f"{c['coverage_pct']:>6.2f}%  motivo={c['blocking_reason']}"
+        )
 
     por_tipo: dict[str, int] = {}
     for f in fontes:
@@ -141,13 +177,23 @@ def main(aplicar: bool = False) -> None:
     print("  revisao humana: todas pendentes (o schema exige pessoa, nao automatismo)")
 
     if aplicar:
-        DESTINO.write_text(json.dumps(
-            {"generated_at": _agora(),
-             "note": ("fontes descobertas pela varredura da missao; toda entrada "
-                      "tem manifesto com SHA-256 da resposta e revisao humana "
-                      "pendente"),
-             "discovery_fields": CAMPOS,
-             "sources": fontes}, ensure_ascii=False, indent=2), encoding="utf-8")
+        DESTINO.write_text(
+            json.dumps(
+                {
+                    "generated_at": _agora(),
+                    "note": (
+                        "fontes descobertas pela varredura da missao; toda entrada "
+                        "tem manifesto com SHA-256 da resposta e revisao humana "
+                        "pendente"
+                    ),
+                    "discovery_fields": CAMPOS,
+                    "sources": fontes,
+                },
+                ensure_ascii=False,
+                indent=2,
+            ),
+            encoding="utf-8",
+        )
         print(f"\nOK {DESTINO.relative_to(BASE)} — {len(fontes)} fontes gravadas")
     else:
         print("\n(simulacao — use --aplicar para gravar em data/source-graph/sources.json)")

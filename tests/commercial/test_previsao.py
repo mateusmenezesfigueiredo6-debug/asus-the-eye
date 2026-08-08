@@ -107,7 +107,7 @@ def test_serie_curta_e_recusada_sem_inventar_previsao():
 def test_buraco_antes_do_primeiro_mes_e_cortado_nao_inventado():
     """O defeito real: np.interp extrapolava para tras, fabricando historico."""
     ms = meses(18)
-    pontos = {m: 50 for m in ms[3:]}          # os 3 primeiros meses nunca medidos
+    pontos = {m: 50 for m in ms[3:]}  # os 3 primeiros meses nunca medidos
     r = avaliar_nicho("teste", pontos, ms, 1)
     assert r["status"] == "avaliado"
     assert r["pontos_observados"] == 15

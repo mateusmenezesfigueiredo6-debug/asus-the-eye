@@ -135,9 +135,29 @@ universe.
 explicit relations, data lineage down to the primary source, decisions grounded
 in traceable evidence, refusal to assert what was not measured.
 
-**Kalshi — product benchmark.** What to deliver: prediction market, event
-pricing, objective resolution, liquidity. PRESERVED by owner's standing order:
-branch `kalshi-20260725` in `~/asus`. Never delete anything Kalshi.
+**Prediction markets — a DOMAIN of this platform, not an external benchmark.**
+Corrected 08/08/2026 by the owner: "a Kalshi e um dos nichos da plataforma".
+Registered in `data/domains/domains.json` with its own classifier in
+`data/domains/mercados_preditivos.json` and its own entry in `projects.json`.
+
+Ten products already emit markets in `~/asus/asus_teste.duckdb`: 50 markets, 41
+settled against a named official source, 41 resolutions. That is the only place
+in the whole platform with calibration measured against real outcomes — and it
+was outside the measurement because the doctrine in
+`docs/architecture/MEDICAO_REAL_12_PROJETOS.md` called it "historical reference,
+not a package to be grafted". That doctrine was obeyed and has been corrected.
+
+Kalshi itself is a COMPARATOR, never a resolution source: a market price is
+aggregated opinion, not an outcome. Resolving against it would measure agreement
+with another forecast instead of accuracy against the world. PRESERVED by
+owner's standing order: branch `kalshi-20260725` in `~/asus`. Never delete
+anything Kalshi.
+
+Read the published Brier numbers with the caveat that comes with them: the
+0.0033 of `voto_legislativo` covers 40 contracts from ONE vote session, all
+outcomes equal to 1, and a constant guess at the historical party-following rate
+(0.959126, measured over 68,234 pairs) scores 0.001671 — better than the model.
+Rule 4 below applies to our own showcase number.
 
 **Technical benchmark (not strategic).** `src/asus_theye/benchmark/` pits
 classical, QUBO and QAOA against the same problem and publishes QAR with an

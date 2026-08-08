@@ -71,6 +71,7 @@ def test_mes_corrente_nunca_entra():
 
 def test_contar_devolve_none_sem_estourar(monkeypatch):
     """Fonte fora do ar vira None registrado, nunca zero silencioso."""
+
     def falha(*_args, **_kwargs):
         raise OSError("rede indisponivel")
 

@@ -22,6 +22,7 @@ forma de resolver mochila.
 Uso: python3 apps/comercial/escalada_qaoa.py [n_max]
 Saida: reports/benchmark/alocacao/escalada.json
 """
+
 import json
 import random
 import sys
@@ -103,15 +104,14 @@ def main(n_max: int = N_MAX_PADRAO, com_qaoa: bool = True) -> None:
 
     linhas = []
     print(f"ancorado em {n_real} nichos reais; acima disso a instancia e sintetica\n")
-    print(f"{'n':>3} {'exaustivo':>12} {'guloso':>9} {'dinamico':>10} {'QAOA':>9}  "
-          f"{'qualidade QAOA':>15}")
+    print(f"{'n':>3} {'exaustivo':>12} {'guloso':>9} {'dinamico':>10} {'QAOA':>9}  {'qualidade QAOA':>15}")
     print("-" * 68)
 
     for n in range(n_real, n_max + 1):
         v, p = instancia(base_v, base_p, n, rng)
         cap = sum(p) * 0.4
 
-        if 2 ** n <= 2 ** 24:
+        if 2**n <= 2**24:
             otimo_ex, t_ex = cronometrar(exaustivo, v, p, cap)
         else:
             otimo_ex, t_ex = None, None
@@ -119,12 +119,10 @@ def main(n_max: int = N_MAX_PADRAO, com_qaoa: bool = True) -> None:
         otimo_dp, t_dp = cronometrar(dinamico, v, p, cap)
 
         if com_qaoa:
-            prob = BenchmarkProblem(name=f"escala_{n}", values=tuple(v),
-                                    weights=tuple(p), capacity=cap)
+            prob = BenchmarkProblem(name=f"escala_{n}", values=tuple(v), weights=tuple(p), capacity=cap)
             t = time.perf_counter()
             try:
-                score_q = run_qaoa_benchmark(prob, shots=1024, layers=2,
-                                             seed=SEMENTE).get("score", 0.0)
+                score_q = run_qaoa_benchmark(prob, shots=1024, layers=2, seed=SEMENTE).get("score", 0.0)
             except Exception:
                 score_q = 0.0
             t_qa = (time.perf_counter() - t) * 1000
@@ -132,17 +130,21 @@ def main(n_max: int = N_MAX_PADRAO, com_qaoa: bool = True) -> None:
             score_q, t_qa = None, None
 
         qualidade = (score_q / otimo_dp * 100) if (otimo_dp and score_q) else None
-        linhas.append({
-            "n": n, "sintetico": n > n_real, "capacidade": round(cap, 1),
-            "exaustivo_ms": None if t_ex is None else round(t_ex, 2),
-            "guloso_ms": round(t_gu, 3), "dinamico_ms": round(t_dp, 3),
-            "qaoa_ms": None if t_qa is None else round(t_qa, 1),
-            "otimo": round(otimo_dp, 1),
-            "qaoa_score": None if score_q is None else round(score_q, 1),
-            "qaoa_qualidade_pct": None if qualidade is None else round(qualidade, 2),
-            "exaustivo_bate_dinamico": (None if otimo_ex is None
-                                        else abs(otimo_ex - otimo_dp) < 0.5),
-        })
+        linhas.append(
+            {
+                "n": n,
+                "sintetico": n > n_real,
+                "capacidade": round(cap, 1),
+                "exaustivo_ms": None if t_ex is None else round(t_ex, 2),
+                "guloso_ms": round(t_gu, 3),
+                "dinamico_ms": round(t_dp, 3),
+                "qaoa_ms": None if t_qa is None else round(t_qa, 1),
+                "otimo": round(otimo_dp, 1),
+                "qaoa_score": None if score_q is None else round(score_q, 1),
+                "qaoa_qualidade_pct": None if qualidade is None else round(qualidade, 2),
+                "exaustivo_bate_dinamico": (None if otimo_ex is None else abs(otimo_ex - otimo_dp) < 0.5),
+            }
+        )
         ex = "estourou" if t_ex is None else f"{t_ex:>10.1f}ms"
         qa = "  (pulado)" if t_qa is None else f"{t_qa:>7.0f}ms"
         q = "        —" if qualidade is None else f"{qualidade:>13.2f}%"
@@ -150,16 +152,24 @@ def main(n_max: int = N_MAX_PADRAO, com_qaoa: bool = True) -> None:
 
     dest = BASE / "reports/benchmark/alocacao/escalada.json"
     dest.parent.mkdir(parents=True, exist_ok=True)
-    dest.write_text(json.dumps({
-        "metodologia": (f"itens acima de {n_real} sao sinteticos, amostrados da "
-                        f"distribuicao real com semente {SEMENTE}; servem para "
-                        "estudar o algoritmo, nunca para decidir alocacao"),
-        "n_real": n_real,
-        "linhas": linhas,
-    }, ensure_ascii=False, indent=2), encoding="utf-8")
+    dest.write_text(
+        json.dumps(
+            {
+                "metodologia": (
+                    f"itens acima de {n_real} sao sinteticos, amostrados da "
+                    f"distribuicao real com semente {SEMENTE}; servem para "
+                    "estudar o algoritmo, nunca para decidir alocacao"
+                ),
+                "n_real": n_real,
+                "linhas": linhas,
+            },
+            ensure_ascii=False,
+            indent=2,
+        ),
+        encoding="utf-8",
+    )
     print(f"\nOK {dest}")
 
 
 if __name__ == "__main__":
-    main(int(sys.argv[1]) if len(sys.argv) > 1 else N_MAX_PADRAO,
-         com_qaoa="--sem-qaoa" not in sys.argv)
+    main(int(sys.argv[1]) if len(sys.argv) > 1 else N_MAX_PADRAO, com_qaoa="--sem-qaoa" not in sys.argv)

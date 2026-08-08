@@ -23,12 +23,16 @@ Diagnóstico medido antes de mexer:
 
 ## Decisões
 
-### 1. Licença MIT
+### 1. Licença
 
-Pedida explicitamente. Permissiva, curta, universalmente compreendida — e
-coerente com um projeto cujo valor está na verificabilidade, não no segredo do
-código. O repositório continua **privado**; a licença define os termos para
-quando e se isso mudar.
+Adotada a MIT em 03/08/2026, por pedido explícito: permissiva, curta,
+universalmente compreendida.
+
+> **Superada em 05/08/2026.** O projeto passou para **AGPL-3.0-or-later**, e o
+> diretório `data/` saiu para licença restrita própria. O raciocínio da troca
+> está no [ADR-013](ADR-013-LICENCA-AGPL.md). Esta seção fica registrada como
+> histórico: um ADR narra o que foi decidido *naquele momento* e é superado por
+> outro, nunca reescrito para fingir que a decisão anterior não existiu.
 
 ### 2. Layout `src/` (recomendação da PyPA)
 

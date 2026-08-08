@@ -12,6 +12,7 @@ por entidade. O que sobra e o que um advogado usaria.
 Uso: python3 apps/comercial/radar_juridico.py <niche_id> [dias]
 Saida: reports/commercial/radar_<niche_id>.html
 """
+
 import html as html_mod
 import json
 import re
@@ -80,14 +81,16 @@ def extrair(nicho: dict, gazettes: list) -> list[dict]:
             if k in vistos:
                 continue
             vistos.add(k)
-            leads.append({
-                "entidade": nome,
-                "trecho": trecho,
-                "municipio": g["territory_name"],
-                "uf": g["state_code"],
-                "data": g["date"],
-                "url": g["url"],
-            })
+            leads.append(
+                {
+                    "entidade": nome,
+                    "trecho": trecho,
+                    "municipio": g["territory_name"],
+                    "uf": g["state_code"],
+                    "data": g["date"],
+                    "url": g["url"],
+                }
+            )
             break  # um lead por publicacao
     return leads[:MAX_LEADS]
 
@@ -95,8 +98,10 @@ def extrair(nicho: dict, gazettes: list) -> list[dict]:
 def buscar(nicho: dict, dias: int) -> tuple[list, int]:
     termo = nicho.get("busca_lead") or nicho["termo_sinal"]
     desde = (datetime.now(timezone.utc) - timedelta(days=dias)).strftime("%Y-%m-%d")
-    url = (f"{API}?querystring={urllib.parse.quote(chr(34) + termo + chr(34))}"
-           f"&published_since={desde}&size=60&excerpt_size=340&number_of_excerpts=2")
+    url = (
+        f"{API}?querystring={urllib.parse.quote(chr(34) + termo + chr(34))}"
+        f"&published_since={desde}&size=60&excerpt_size=340&number_of_excerpts=2"
+    )
     payload = json.loads(urllib.request.urlopen(url, timeout=40).read())
     return payload.get("gazettes", []), payload.get("total_gazettes", 0)
 
@@ -109,20 +114,22 @@ def render(nicho: dict, leads: list, total: int, dias: int) -> str:
         titulo = e(ld["entidade"]) if ld["entidade"] else f"{e(ld['municipio'])} / {e(ld['uf'])}"
         cards += f"""<article class=lead>
 <div class=cab><span class=num>{i:02d}</span><h2>{titulo}</h2></div>
-<div class=onde>{e(ld['municipio'])} · {e(ld['uf'])} · publicado em {e(ld['data'])}</div>
-<p>{e(ld['trecho'][:330])}…</p>
-<a class=selo href="{e(ld['url'])}" target=_blank rel=noopener>Conferir no diario oficial</a>
+<div class=onde>{e(ld["municipio"])} · {e(ld["uf"])} · publicado em {e(ld["data"])}</div>
+<p>{e(ld["trecho"][:330])}…</p>
+<a class=selo href="{e(ld["url"])}" target=_blank rel=noopener>Conferir no diario oficial</a>
 </article>"""
     if not leads:
-        cards = ("<article class=lead><p>Nenhum caso novo com entidade identificada "
-                 "nesta janela. Nao preenchemos a edicao com ruido: quando nao ha lead, "
-                 "a edicao vem curta.</p></article>")
+        cards = (
+            "<article class=lead><p>Nenhum caso novo com entidade identificada "
+            "nesta janela. Nao preenchemos a edicao com ruido: quando nao ha lead, "
+            "a edicao vem curta.</p></article>"
+        )
 
     agora = datetime.now()
     fonte = ONT["fonte_sinal_externo"]
     return f"""<!doctype html><html lang=pt-BR><meta charset=utf-8>
 <meta name=viewport content="width=device-width,initial-scale=1">
-<title>Radar Juridico — {e(nicho['objeto_juridico'])}</title>
+<title>Radar Juridico — {e(nicho["objeto_juridico"])}</title>
 <style>
 :root{{--verde:#0E4B3A;--papel:#FAFAF7;--tinta:#1A1A18;--cinza:#6B6B65;
 --linha:#E3E1D8;--carimbo:#B3261E;--branco:#FFF}}
@@ -160,8 +167,8 @@ border-top:1px solid var(--linha);padding-top:14px;max-width:62ch}}
 </style>
 <header class=capa>
 <div class=orgao>Radar Juridico — Diarios Oficiais do Brasil</div>
-<h1>{e(nicho['objeto_juridico'])}</h1>
-<div class=linha-edicao>EDICAO DE {agora.strftime('%d/%m/%Y')} ·
+<h1>{e(nicho["objeto_juridico"])}</h1>
+<div class=linha-edicao>EDICAO DE {agora.strftime("%d/%m/%Y")} ·
 JANELA DE {dias} DIAS · EXPRESSAO: "{e(termo.upper())}"</div>
 </header>
 <main>
@@ -170,7 +177,7 @@ entre {total:,} publicacoes que citaram a expressao no periodo. Exigencias de
 certidao e texto padrao de edital foram descartados — aqui so entra ato que
 nomeia alguem.</div>
 {cards}
-<div class=rodape>Fonte: {e(fonte['nome'])} ({e(fonte['operador'])}), diarios
+<div class=rodape>Fonte: {e(fonte["nome"])} ({e(fonte["operador"])}), diarios
 oficiais municipais de acesso publico. Cada caso remete ao PDF de origem para
 conferencia. Inteligencia de mercado; nao constitui aconselhamento juridico.</div>
 </main></html>"""
@@ -181,7 +188,7 @@ def render_recusado(nicho: dict) -> str:
     e = html_mod.escape
     return f"""<!doctype html><html lang=pt-BR><meta charset=utf-8>
 <meta name=viewport content="width=device-width,initial-scale=1">
-<title>Radar Juridico — {e(nicho['objeto_juridico'])}</title>
+<title>Radar Juridico — {e(nicho["objeto_juridico"])}</title>
 <style>
 body{{font-family:Georgia,serif;background:#FAFAF7;color:#1A1A18;margin:0;
 line-height:1.6}}
@@ -196,11 +203,11 @@ padding:18px 22px;font-size:15px}}
 </style>
 <header class=capa>
 <div class=orgao>Radar Juridico — Diarios Oficiais do Brasil</div>
-<h1>{e(nicho['objeto_juridico'])}</h1>
+<h1>{e(nicho["objeto_juridico"])}</h1>
 </header>
 <main><div class=aviso>
 <p><b>Este nicho nao e coberto por decisao de projeto.</b></p>
-<p>{e(nicho.get('sem_extracao_motivo', 'a parte nomeada nestes atos e pessoa fisica'))}.</p>
+<p>{e(nicho.get("sem_extracao_motivo", "a parte nomeada nestes atos e pessoa fisica"))}.</p>
 <p>Os atos existem e sao publicos, mas montar e distribuir uma lista de pessoas
 fisicas a partir deles nao e o que esta plataforma faz. A contagem agregada do
 nicho continua alimentando a analise de demanda, porque estatistica nao e

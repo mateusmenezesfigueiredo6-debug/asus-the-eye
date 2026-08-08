@@ -9,6 +9,7 @@ Cada ponto guarda a janela consultada e a URL exata, para auditoria.
 Uso: python3 apps/comercial/serie_historica.py [meses]
 Saida: reports/commercial/serie_mensal.json
 """
+
 import json
 import sys
 import time
@@ -43,8 +44,10 @@ def meses_ate(hoje: date, quantos: int) -> list[tuple[str, str, str]]:
 
 def contar(termo: str, ini: str, fim: str, tentativas: int = 4) -> tuple[int | None, str]:
     """Consulta com retentativa e espera crescente — a API limita rajadas."""
-    url = (f"{API}?querystring={urllib.parse.quote(chr(34) + termo + chr(34))}"
-           f"&published_since={ini}&published_until={fim}&size=1")
+    url = (
+        f"{API}?querystring={urllib.parse.quote(chr(34) + termo + chr(34))}"
+        f"&published_since={ini}&published_until={fim}&size=1"
+    )
     for n in range(tentativas):
         try:
             payload = json.loads(urllib.request.urlopen(url, timeout=40).read())
@@ -85,10 +88,8 @@ def coletar(quantos: int = MESES_PADRAO) -> dict:
     dest.parent.mkdir(parents=True, exist_ok=True)
     dest.write_text(json.dumps(saida, ensure_ascii=False, indent=2), encoding="utf-8")
 
-    completos = sum(1 for s in series.values()
-                    if all(v is not None for v in s["pontos"].values()))
-    print(f"OK {dest.name} — {len(series)} nichos x {len(janelas)} meses "
-          f"({completos} series completas)")
+    completos = sum(1 for s in series.values() if all(v is not None for v in s["pontos"].values()))
+    print(f"OK {dest.name} — {len(series)} nichos x {len(janelas)} meses ({completos} series completas)")
     for nid, s in list(series.items())[:5]:
         vals = [s["pontos"][m] for m in saida["meses"][-6:]]
         print(f"   {nid:<20} ultimos 6 meses: {vals}")

@@ -46,14 +46,15 @@
     "4-operacao": {
       "order": 4,
       "projects": [
-        "comercial"
+        "comercial",
+        "prediction-markets"
       ],
-      "artifacts_present": 9,
-      "artifacts_declared": 9,
+      "artifacts_present": 10,
+      "artifacts_declared": 15,
       "release_classes": [
         "L1"
       ],
-      "completion_pct": 100
+      "completion_pct": 67
     },
     "5-evidencia": {
       "order": 5,
@@ -96,8 +97,8 @@
       "completion_pct": 100
     }
   },
-  "generated_at": "2026-08-08T14:58:16.815766Z",
-  "commit": "1cb4c9e",
+  "generated_at": "2026-08-08T15:58:29.120147Z",
+  "commit": "86f8ffa",
   "knowledge": {
     "available": true,
     "methodology_version": "1.0.0",
@@ -190,12 +191,14 @@
     "coverage_snapshot_hash": "3c7da12fdcb10c60a752e188d4c562699997269bf00119a6947cf555898e4c6d"
   },
   "totals": {
-    "projects": 12,
+    "projects": 13,
     "projects_complete": 12,
-    "tests": 315,
-    "niches_total": 145,
-    "niches_covered": 24,
-    "niche_coverage_pct": 17
+    "tests": 325,
+    "niches_total": 171,
+    "niches_covered": 34,
+    "niche_coverage_pct": 20,
+    "domains_total": 3,
+    "domains_with_coverage": 2
   },
   "ledger": {
     "events": 0,
@@ -224,6 +227,7 @@
       ],
       "pipeline_stage": "3-processamento",
       "pipeline_order": 3,
+      "domain_id": "direito",
       "evidence": {
         "artifacts_present": 5,
         "artifacts_declared": 5,
@@ -260,13 +264,14 @@
       ],
       "pipeline_stage": "5-evidencia",
       "pipeline_order": 5,
+      "domain_id": "direito",
       "evidence": {
         "artifacts_present": 10,
         "artifacts_declared": 10,
         "artifacts_missing": [],
         "completion_pct": 100,
-        "commits": 2,
-        "last_commit": "1666450 2026-08-03"
+        "commits": 4,
+        "last_commit": "fdcbd5f 2026-08-08"
       },
       "unknown_niches": []
     },
@@ -290,6 +295,7 @@
       ],
       "pipeline_stage": "5-evidencia",
       "pipeline_order": 5,
+      "domain_id": "direito",
       "evidence": {
         "artifacts_present": 5,
         "artifacts_declared": 5,
@@ -333,6 +339,7 @@
       ],
       "pipeline_stage": "2-classificacao",
       "pipeline_order": 2,
+      "domain_id": "direito",
       "evidence": {
         "artifacts_present": 14,
         "artifacts_declared": 14,
@@ -366,6 +373,7 @@
       ],
       "pipeline_stage": "2-classificacao",
       "pipeline_order": 2,
+      "domain_id": "direito",
       "evidence": {
         "artifacts_present": 8,
         "artifacts_declared": 8,
@@ -394,6 +402,7 @@
       ],
       "pipeline_stage": "3-processamento",
       "pipeline_order": 3,
+      "domain_id": "direito",
       "evidence": {
         "artifacts_present": 3,
         "artifacts_declared": 3,
@@ -421,6 +430,7 @@
       ],
       "pipeline_stage": "3-processamento",
       "pipeline_order": 3,
+      "domain_id": "direito",
       "evidence": {
         "artifacts_present": 2,
         "artifacts_declared": 2,
@@ -455,6 +465,7 @@
       ],
       "pipeline_stage": "6-verificacao",
       "pipeline_order": 6,
+      "domain_id": "direito",
       "evidence": {
         "artifacts_present": 8,
         "artifacts_declared": 8,
@@ -485,6 +496,7 @@
       ],
       "pipeline_stage": "6-verificacao",
       "pipeline_order": 6,
+      "domain_id": "direito",
       "evidence": {
         "artifacts_present": 4,
         "artifacts_declared": 4,
@@ -551,13 +563,14 @@
       ],
       "pipeline_stage": "1-ingestao",
       "pipeline_order": 1,
+      "domain_id": "direito",
       "evidence": {
         "artifacts_present": 35,
         "artifacts_declared": 35,
         "artifacts_missing": [],
         "completion_pct": 100,
-        "commits": 7,
-        "last_commit": "931d6e3 2026-08-05"
+        "commits": 9,
+        "last_commit": "fdcbd5f 2026-08-08"
       },
       "unknown_niches": []
     },
@@ -579,6 +592,7 @@
       ],
       "pipeline_stage": "7-publicacao",
       "pipeline_order": 7,
+      "domain_id": "direito",
       "evidence": {
         "artifacts_present": 3,
         "artifacts_declared": 3,
@@ -629,13 +643,63 @@
       ],
       "pipeline_stage": "4-operacao",
       "pipeline_order": 4,
+      "domain_id": "direito",
       "evidence": {
         "artifacts_present": 9,
         "artifacts_declared": 9,
         "artifacts_missing": [],
         "completion_pct": 100,
-        "commits": 22,
-        "last_commit": "0be11c2 2026-08-05"
+        "commits": 24,
+        "last_commit": "fdcbd5f 2026-08-08"
+      },
+      "unknown_niches": []
+    },
+    {
+      "project_id": "prediction-markets",
+      "name": "Mercados preditivos (nicho, com Kalshi como comparador)",
+      "purpose": "Pergunta binaria com prazo, resolvida contra fonte oficial nomeada, com probabilidade e erro medido contra baseline",
+      "release_class": "L1",
+      "domain_id": "mercados-preditivos",
+      "niches": [
+        "voto-legislativo",
+        "macroeconomia",
+        "commodities",
+        "risco-geopolitico",
+        "cyber",
+        "energia",
+        "juros",
+        "cambio",
+        "cripto",
+        "clima"
+      ],
+      "paths": [
+        "src/asus_theye/markets",
+        "data/domains"
+      ],
+      "artifacts": [
+        "data/domains/mercados_preditivos.json",
+        "src/asus_theye/markets/__init__.py",
+        "src/asus_theye/markets/claim.py",
+        "src/asus_theye/markets/resolution.py",
+        "src/asus_theye/markets/scoring.py",
+        "tests/markets/test_markets.py"
+      ],
+      "pipeline_stage": "4-operacao",
+      "pipeline_order": 4,
+      "nota": "O trabalho medido vive hoje em /home/sexexes/asus (banco asus_teste.duckdb: 50 mercados, 41 liquidados, 41 resolucoes) e NAO neste repositorio. Declarar os artefatos aqui e o que torna a lacuna visivel em vez de invisivel: enquanto eles nao existirem, a etapa 4 deixa de marcar 100% e passa a dizer a verdade.",
+      "evidence": {
+        "artifacts_present": 1,
+        "artifacts_declared": 6,
+        "artifacts_missing": [
+          "src/asus_theye/markets/__init__.py",
+          "src/asus_theye/markets/claim.py",
+          "src/asus_theye/markets/resolution.py",
+          "src/asus_theye/markets/scoring.py",
+          "tests/markets/test_markets.py"
+        ],
+        "completion_pct": 17,
+        "commits": 1,
+        "last_commit": "b3ce9d1 2026-08-08"
       },
       "unknown_niches": []
     }
@@ -656,9 +720,18 @@
     "blockchain-and-smart-contracts": [
       "anchor-contract"
     ],
+    "cambio": [
+      "prediction-markets"
+    ],
     "civil-procedure": [
       "comercial",
       "decision-context"
+    ],
+    "clima": [
+      "prediction-markets"
+    ],
+    "commodities": [
+      "prediction-markets"
     ],
     "consumer": [
       "comercial"
@@ -672,14 +745,23 @@
     "corporate-law": [
       "comercial"
     ],
+    "cripto": [
+      "prediction-markets"
+    ],
     "cryptoassets": [
       "anchor-contract"
+    ],
+    "cyber": [
+      "prediction-markets"
     ],
     "data-protection": [
       "comercial"
     ],
     "employment": [
       "comercial"
+    ],
+    "energia": [
+      "prediction-markets"
     ],
     "enforcement": [
       "decision-context"
@@ -694,14 +776,23 @@
       "decision-context",
       "source-graph"
     ],
+    "juros": [
+      "prediction-markets"
+    ],
     "legal-management-and-knowledge-management": [
       "source-graph"
+    ],
+    "macroeconomia": [
+      "prediction-markets"
     ],
     "precedents-and-repetitive-litigation": [
       "decision-context"
     ],
     "real-estate": [
       "comercial"
+    ],
+    "risco-geopolitico": [
+      "prediction-markets"
     ],
     "science-research-integrity-and-technology-transfer": [
       "source-graph"
@@ -714,6 +805,9 @@
     ],
     "tax": [
       "comercial"
+    ],
+    "voto-legislativo": [
+      "prediction-markets"
     ]
   },
   "group_coverage": {
@@ -804,6 +898,53 @@
     "third-sector-and-religion": {
       "areas": 3,
       "covered": 0
+    }
+  },
+  "domain_coverage": {
+    "direito": {
+      "name": "Direito",
+      "areas_total": 145,
+      "areas_covered": 24,
+      "coverage_pct": 16.6,
+      "coverage_kind": "declared",
+      "coverage_caveat": "cobertura declarada: conta area listada em projects.json, nao area com dado processado",
+      "classifier_found": true,
+      "projects": [
+        "anchor-contract",
+        "audit-core",
+        "benchmark-engine",
+        "comercial",
+        "decision-context",
+        "governance",
+        "ledger-staging",
+        "legal-taxonomy",
+        "local-llm",
+        "public-verifier",
+        "quantum-adapter",
+        "source-graph"
+      ]
+    },
+    "fronteira-tecnologica": {
+      "name": "Fronteira tecnologica",
+      "areas_total": 16,
+      "areas_covered": 0,
+      "coverage_pct": 0.0,
+      "coverage_kind": "declared",
+      "coverage_caveat": "cobertura declarada: conta area listada em projects.json, nao area com dado processado",
+      "classifier_found": true,
+      "projects": []
+    },
+    "mercados-preditivos": {
+      "name": "Mercados preditivos",
+      "areas_total": 10,
+      "areas_covered": 10,
+      "coverage_pct": 100.0,
+      "coverage_kind": "declared",
+      "coverage_caveat": "cobertura declarada: conta area listada em projects.json, nao area com dado processado",
+      "classifier_found": true,
+      "projects": [
+        "prediction-markets"
+      ]
     }
   }
 }

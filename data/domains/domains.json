@@ -1,0 +1,38 @@
+{
+  "registry_version": "1.0.0",
+  "generated_at": "2026-08-08",
+  "note": "Registro de DOMINIOS — a taxonomia do nivel de cima, que ate 08/08/2026 nao existia. Sem ela, `niches_total` no chart era `len(areas juridicas)` e todo projeto so conseguia declarar escopo em vocabulario de direito, inclusive o source-graph, cuja missao e mapear inovacao em IA e computacao quantica. O efeito pratico era que a taxonomia legal virava a taxonomia da plataforma, e um nicho de mercado preditivo so entraria classificado como area de direito sobre apostas. Cada dominio aponta o proprio classificador; o direito passa a ser um dominio entre varios.",
+  "regra": "Um projeto declara `domain_id` e `niches`. Os niches sao validados contra o classificador daquele dominio, nunca contra o de outro. Projeto sem `domain_id` e tratado como `direito` por compatibilidade com o registro anterior, e isso e divida a pagar, nao desenho.",
+  "domains": [
+    {
+      "domain_id": "direito",
+      "name": "Direito",
+      "purpose": "Classificar materia juridica brasileira em areas e grupos. E um classificador dentro da plataforma, nao a plataforma.",
+      "classifier": "data/legal-taxonomy/legal_areas.master.json",
+      "collection": "areas",
+      "id_field": "legal_area_id",
+      "group_field": "group",
+      "evidence": "145 areas em 22 grupos, com 354 aliases PT-BR"
+    },
+    {
+      "domain_id": "mercados-preditivos",
+      "name": "Mercados preditivos",
+      "purpose": "Perguntas binarias com prazo, resolvidas contra fonte oficial nomeada, com probabilidade e erro medido. E o unico dominio da plataforma com calibracao contra desfecho real.",
+      "classifier": "data/domains/mercados_preditivos.json",
+      "collection": "areas",
+      "id_field": "market_area_id",
+      "group_field": "group",
+      "evidence": "10 produtos emitindo mercado em ~/asus/asus_teste.duckdb: 50 mercados, 41 liquidados, 41 resolucoes"
+    },
+    {
+      "domain_id": "fronteira-tecnologica",
+      "name": "Fronteira tecnologica",
+      "purpose": "Os campos que a MISSAO declara: IA, aprendizado de maquina, predicao, series temporais, causalidade, agentes, robotica, hardware de IA, computacao quantica e as areas emergentes ainda sem nome. E o assunto do observatorio, nao um classificador de materia.",
+      "classifier": "data/domains/fronteira_tecnologica.json",
+      "collection": "areas",
+      "id_field": "field_id",
+      "group_field": "group",
+      "evidence": "16 campos varridos por apps/observatorio/varredura_missao.py contra ROR, Crossref, arXiv e DOAJ"
+    }
+  ]
+}

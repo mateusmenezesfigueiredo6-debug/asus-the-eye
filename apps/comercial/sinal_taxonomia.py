@@ -20,6 +20,7 @@ descartada em silencio — quem decide se o termo serve e revisao humana.
 Uso: python3 apps/comercial/sinal_taxonomia.py [dias]
 Saida: reports/commercial/sinal_taxonomia.json
 """
+
 import json
 import statistics
 import sys
@@ -31,10 +32,8 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 BASE = Path(__file__).resolve().parents[2]
-TAX = json.loads(
-    (BASE / "data/legal-taxonomy/legal_areas.master.json").read_text(encoding="utf-8"))
-ALIAS = json.loads(
-    (BASE / "data/legal-taxonomy/legal_area_aliases.json").read_text(encoding="utf-8"))
+TAX = json.loads((BASE / "data/legal-taxonomy/legal_areas.master.json").read_text(encoding="utf-8"))
+ALIAS = json.loads((BASE / "data/legal-taxonomy/legal_area_aliases.json").read_text(encoding="utf-8"))
 API = "https://api.queridodiario.ok.org.br/gazettes"
 DIAS_PADRAO = 30
 
@@ -44,8 +43,7 @@ def aliases_de(area_id: str) -> list[str]:
 
 
 def contar(termo: str, desde: str, tentativas: int = 3) -> tuple[int | None, str]:
-    url = (f"{API}?querystring={urllib.parse.quote(chr(34) + termo + chr(34))}"
-           f"&published_since={desde}&size=1")
+    url = f"{API}?querystring={urllib.parse.quote(chr(34) + termo + chr(34))}&published_since={desde}&size=1"
     for n in range(tentativas):
         try:
             with urllib.request.urlopen(url, timeout=40) as r:
@@ -64,9 +62,14 @@ def main(dias: int = DIAS_PADRAO) -> None:
     def uma(a):
         aliases = aliases_de(a["legal_area_id"])
         if not aliases:
-            return {"legal_area_id": a["legal_area_id"], "name_en": a["name_en"],
-                    "group": a["group"], "termo": None, "mencoes": None,
-                    "erro": "sem alias"}
+            return {
+                "legal_area_id": a["legal_area_id"],
+                "name_en": a["name_en"],
+                "group": a["group"],
+                "termo": None,
+                "mencoes": None,
+                "erro": "sem alias",
+            }
         por_alias, url_venc = {}, None
         for t in aliases:
             n, u = contar(t, desde)
@@ -75,20 +78,32 @@ def main(dias: int = DIAS_PADRAO) -> None:
                 url_venc = u
         validos = {t: n for t, n in por_alias.items() if n is not None}
         if not validos:
-            return {"legal_area_id": a["legal_area_id"], "name_en": a["name_en"],
-                    "group": a["group"], "termo": None, "mencoes": None,
-                    "por_alias": por_alias, "erro": "todas as consultas falharam"}
+            return {
+                "legal_area_id": a["legal_area_id"],
+                "name_en": a["name_en"],
+                "group": a["group"],
+                "termo": None,
+                "mencoes": None,
+                "por_alias": por_alias,
+                "erro": "todas as consultas falharam",
+            }
         vencedor = max(validos, key=lambda t: validos[t])
-        return {"legal_area_id": a["legal_area_id"], "name_en": a["name_en"],
-                "group": a["group"], "termo": vencedor, "mencoes": validos[vencedor],
-                "por_alias": por_alias, "aliases_testados": len(aliases),
-                "url": url_venc}
+        return {
+            "legal_area_id": a["legal_area_id"],
+            "name_en": a["name_en"],
+            "group": a["group"],
+            "termo": vencedor,
+            "mencoes": validos[vencedor],
+            "por_alias": por_alias,
+            "aliases_testados": len(aliases),
+            "url": url_venc,
+        }
 
     with ThreadPoolExecutor(max_workers=3) as pool:
         pontos = list(pool.map(uma, areas))
 
     validos = [p["mencoes"] for p in pontos if p.get("mencoes") is not None]
-    corte = (statistics.quantiles(validos, n=20)[18] if len(validos) >= 20 else None)
+    corte = statistics.quantiles(validos, n=20)[18] if len(validos) >= 20 else None
     for p in pontos:
         m = p.get("mencoes")
         p["suspeita_termo_generico"] = bool(corte and m is not None and m > corte)
@@ -102,29 +117,29 @@ def main(dias: int = DIAS_PADRAO) -> None:
         "gerado_em_utc": datetime.now(timezone.utc).isoformat(),
         "janela_dias": dias,
         "fonte": "Querido Diario (Open Knowledge Brasil)",
-        "criterio_termo": ("todos os aliases da area sao consultados; vence o de "
-                           "maior retorno; a contagem de cada um fica em por_alias"),
+        "criterio_termo": (
+            "todos os aliases da area sao consultados; vence o de "
+            "maior retorno; a contagem de cada um fica em por_alias"
+        ),
         "corte_suspeita_p95": corte,
         "cobertura": f"{len(validos)}/{len(areas)}",
         "areas": sorted(pontos, key=lambda p: -(p.get("mencoes") or 0)),
-        "por_grupo": {g: {"areas": len(v), "mencoes_totais": sum(v),
-                          "mediana": statistics.median(v)}
-                      for g, v in sorted(por_grupo.items())},
+        "por_grupo": {
+            g: {"areas": len(v), "mencoes_totais": sum(v), "mediana": statistics.median(v)}
+            for g, v in sorted(por_grupo.items())
+        },
     }
     dest = BASE / "reports/commercial/sinal_taxonomia.json"
     dest.write_text(json.dumps(saida, ensure_ascii=False, indent=2), encoding="utf-8")
 
     susp = sum(1 for p in pontos if p["suspeita_termo_generico"])
-    print(f"OK {dest.name} — {len(validos)}/{len(areas)} com sinal, "
-          f"{susp} marcadas como termo possivelmente generico")
+    print(f"OK {dest.name} — {len(validos)}/{len(areas)} com sinal, {susp} marcadas como termo possivelmente generico")
     print("\n  maiores demandas (sem as suspeitas):")
-    limpos = [p for p in saida["areas"] if not p["suspeita_termo_generico"]
-              and p.get("mencoes")]
+    limpos = [p for p in saida["areas"] if not p["suspeita_termo_generico"] and p.get("mencoes")]
     for p in limpos[:10]:
-        print(f"    {p['mencoes']:>6}  {p['legal_area_id'][:44]:<46} \"{p['termo']}\"")
+        print(f'    {p["mencoes"]:>6}  {p["legal_area_id"][:44]:<46} "{p["termo"]}"')
     print("\n  grupos por volume:")
-    for g, v in sorted(saida["por_grupo"].items(),
-                       key=lambda x: -x[1]["mencoes_totais"])[:8]:
+    for g, v in sorted(saida["por_grupo"].items(), key=lambda x: -x[1]["mencoes_totais"])[:8]:
         print(f"    {v['mencoes_totais']:>8}  {g:<34} ({v['areas']} areas)")
 
 
