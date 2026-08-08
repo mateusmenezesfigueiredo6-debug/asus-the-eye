@@ -26,5 +26,10 @@ reports/llm/calls.jsonl
 reports/audit/proofs/
 reports/releases/
 reports/commercial/
+# Excecao: decisao de expurgo precisa viajar com o repositorio. Uma quarentena
+# que so existe no disco de uma maquina nao e decisao registrada — some no
+# proximo clone, e o proximo agente reintroduz o dado sem saber por que saiu.
+!reports/commercial/quarentena/
+!reports/commercial/quarentena/LEIA.md
 reports/source-graph/
 HANDOFF.md
