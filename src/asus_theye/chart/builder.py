@@ -13,6 +13,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import os
 import subprocess
 from datetime import datetime, timezone
 from pathlib import Path
@@ -78,13 +79,29 @@ def _git(args: list[str]) -> str:
 
 
 def _count_tests() -> int:
+    # O caminho fixo REPO_ROOT/.venv nao existe em git worktree, e o chart
+    # reportava 0 testes num repositorio com 325 passando — a medicao que mede
+    # a honestidade do projeto mentindo por caminho fixo. Procura em tres
+    # lugares e desiste declarando, nunca devolvendo zero como se fosse medida.
+    import shutil
+    import sys as _sys
+
+    candidatos = [
+        REPO_ROOT / ".venv/bin/python",
+        Path.home() / "asus_the_eye/.venv/bin/python",
+        Path(_sys.executable),
+    ]
+    interpretador = next((str(c) for c in candidatos if c.exists()), shutil.which("python3"))
+    if not interpretador:
+        return 0
     try:
         out = subprocess.run(
-            [str(REPO_ROOT / ".venv/bin/python"), "-m", "pytest", "--collect-only", "-q", "tests/"],
+            [interpretador, "-m", "pytest", "--collect-only", "-q", "tests/"],
             cwd=REPO_ROOT,
             capture_output=True,
             text=True,
             timeout=300,
+            env={**os.environ, "PYTHONPATH": str(REPO_ROOT / "src")},
         ).stdout
     except Exception:
         return 0
