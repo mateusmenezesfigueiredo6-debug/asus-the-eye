@@ -24,6 +24,7 @@ erro que a plataforma combate.
 Uso: python3 apps/comercial/alocacao_quantica.py [capacidade]
 Saida: reports/commercial/alocacao.json
 """
+
 import json
 import sys
 import urllib.request
@@ -61,22 +62,33 @@ def montar_problema() -> dict:
             ignorados.append({"niche_id": nid, "motivo": "sem previsao ou sem metrica"})
             continue
         if not m.get("sample_sufficient"):
-            ignorados.append({"niche_id": nid,
-                              "motivo": f"amostra insuficiente ({m.get('denominator')} < "
-                                        f"{m.get('minimum_sample')})"})
+            ignorados.append(
+                {
+                    "niche_id": nid,
+                    "motivo": f"amostra insuficiente ({m.get('denominator')} < {m.get('minimum_sample')})",
+                }
+            )
             continue
 
         demanda = av["previsao"][0]
         conversao = m.get("win_rate") or 0.0
         ticket = m.get("average_ticket_brl") or 0.0
-        valor = demanda * conversao * ticket / 1000.0     # em milhares de R$
+        valor = demanda * conversao * ticket / 1000.0  # em milhares de R$
         peso = float(n.get("esforco_relativo", ESFORCO_PADRAO))
         if valor <= 0:
             ignorados.append({"niche_id": nid, "motivo": "valor esperado zero"})
             continue
-        itens.append({"niche_id": nid, "valor_kbrl": round(valor, 1), "peso": peso,
-                      "demanda_prevista": demanda, "conversao": conversao,
-                      "ticket_brl": ticket, "regime": av.get("regime")})
+        itens.append(
+            {
+                "niche_id": nid,
+                "valor_kbrl": round(valor, 1),
+                "peso": peso,
+                "demanda_prevista": demanda,
+                "conversao": conversao,
+                "ticket_brl": ticket,
+                "regime": av.get("regime"),
+            }
+        )
 
     return {"itens": itens, "ignorados": ignorados}
 
@@ -98,7 +110,7 @@ def resolver(itens: list[dict], capacidade: float) -> dict:
         "escolhidos": escolhidos,
         "valor_esperado_kbrl": round(melhor_valor, 1),
         "peso_usado": sum(itens[i]["peso"] for i in melhor),
-        "combinacoes_avaliadas": 2 ** n,
+        "combinacoes_avaliadas": 2**n,
     }
 
 
@@ -111,6 +123,7 @@ def como_problema_benchmark(itens: list[dict], capacidade: float):
     conversao medida e ticket real.
     """
     from asus_theye.problem import BenchmarkProblem
+
     return BenchmarkProblem(
         name="alocacao_nichos_v1",
         values=tuple(i["valor_kbrl"] for i in itens),
@@ -127,8 +140,7 @@ def main(capacidade: float = CAPACIDADE_PADRAO) -> None:
         return
 
     sol = resolver(itens, capacidade)
-    tem_ciclo_real = any(
-        (metricas(i["niche_id"]) or {}).get("median_cycle_days", 0) > 0 for i in itens)
+    tem_ciclo_real = any((metricas(i["niche_id"]) or {}).get("median_cycle_days", 0) > 0 for i in itens)
 
     saida = {
         "gerado_em_utc": datetime.now(timezone.utc).isoformat(),
@@ -139,16 +151,20 @@ def main(capacidade: float = CAPACIDADE_PADRAO) -> None:
         "solucao_exata": sol,
         "peso_e_medido": tem_ciclo_real,
         "ressalva_peso": (
-            "peso medido a partir do ciclo real" if tem_ciclo_real else
-            "PESO DECLARADO, NAO MEDIDO: o funil registra ciclo zero, entao o "
+            "peso medido a partir do ciclo real"
+            if tem_ciclo_real
+            else "PESO DECLARADO, NAO MEDIDO: o funil registra ciclo zero, entao o "
             "esforco vem de valor fixo por nicho. A escolha e valida como "
-            "exercicio de alocacao, nao como recomendacao operacional."),
+            "exercicio de alocacao, nao como recomendacao operacional."
+        ),
         "pronto_para_qaoa": {
             "n_variaveis": len(itens),
             "formulacao": "QUBO por penalizacao da restricao de capacidade",
-            "observacao": ("com este numero de variaveis a busca exaustiva da o "
-                           "otimo em milissegundos; o QAOA so se justifica quando "
-                           "a instancia crescer o bastante para isso deixar de valer"),
+            "observacao": (
+                "com este numero de variaveis a busca exaustiva da o "
+                "otimo em milissegundos; o QAOA so se justifica quando "
+                "a instancia crescer o bastante para isso deixar de valer"
+            ),
         },
     }
     problema = como_problema_benchmark(itens, capacidade)
@@ -158,16 +174,16 @@ def main(capacidade: float = CAPACIDADE_PADRAO) -> None:
         "values": list(problema.values),
         "weights": list(problema.weights),
         "capacity": problema.capacity,
-        "como_usar": ("run_benchmark_suite(problem=como_problema_benchmark(itens, cap)) "
-                      "faz classico, QUBO e QAOA disputarem este problema real"),
+        "como_usar": (
+            "run_benchmark_suite(problem=como_problema_benchmark(itens, cap)) "
+            "faz classico, QUBO e QAOA disputarem este problema real"
+        ),
     }
     dest = BASE / "reports/commercial/alocacao.json"
     dest.write_text(json.dumps(saida, ensure_ascii=False, indent=2), encoding="utf-8")
 
-    print(f"OK alocacao.json — {len(itens)} nichos elegiveis, "
-          f"{len(p['ignorados'])} fora")
-    print(f"   capacidade {capacidade} · peso usado {sol['peso_usado']} · "
-          f"{sol['combinacoes_avaliadas']} combinacoes")
+    print(f"OK alocacao.json — {len(itens)} nichos elegiveis, {len(p['ignorados'])} fora")
+    print(f"   capacidade {capacidade} · peso usado {sol['peso_usado']} · {sol['combinacoes_avaliadas']} combinacoes")
     print(f"   escolhidos: {', '.join(sol['escolhidos']) or '(nenhum cabe)'}")
     print(f"   receita esperada: R$ {sol['valor_esperado_kbrl']:,.1f} mil")
     if not tem_ciclo_real:

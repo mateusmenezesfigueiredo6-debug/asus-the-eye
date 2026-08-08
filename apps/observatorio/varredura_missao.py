@@ -24,6 +24,7 @@ TERMOS EM INGLES: ROR, Crossref, arXiv e DOAJ sao fontes internacionais. Buscar
 Uso: python3 apps/observatorio/varredura_missao.py
 Saida: reports/observatorio/varredura_missao.json
 """
+
 import json
 import sys
 from datetime import datetime, timezone
@@ -62,7 +63,9 @@ def sinais(r: dict) -> dict:
     dj = (r["resultados"].get("doaj") or {}).get("total") or 0
     razao = (ax / cr) if cr else None
     return {
-        "crossref_titulo": cr, "arxiv_frase": ax, "doaj": dj,
+        "crossref_titulo": cr,
+        "arxiv_frase": ax,
+        "doaj": dj,
         "razao_preprint_publicado": None if razao is None else round(razao, 5),
     }
 
@@ -75,8 +78,8 @@ def marcar(linhas: list[dict]) -> None:
     razao passa o terceiro quartil da propria varredura.
     """
     import statistics
-    razoes = [x["razao_preprint_publicado"] for x in linhas
-              if x["razao_preprint_publicado"] is not None]
+
+    razoes = [x["razao_preprint_publicado"] for x in linhas if x["razao_preprint_publicado"] is not None]
     corte = statistics.quantiles(razoes, n=4)[2] if len(razoes) >= 4 else None
     doajs = sorted(x["doaj"] for x in linhas)
     corte_doaj = doajs[len(doajs) // 4] if doajs else 0
@@ -97,22 +100,23 @@ def main() -> None:
     for termo, rotulo in CAMPOS:
         r = coletar(termo, limite=3)
         s = sinais(r)
-        linhas.append({
-            "termo": termo, "rotulo": rotulo, **s,
-            "instituicoes_ror": (r["resultados"].get("ror") or {}).get("total"),
-            "conectores_com_falha": r["conectores_com_falha"],
-            "amostra_arxiv": [i.get("titulo") for i in
-                              (r["resultados"].get("arxiv") or {}).get("itens", [])[:2]],
-            "proveniencia": {k: v["proveniencia"] for k, v in r["resultados"].items()},
-        })
-        print(f"{rotulo:<26} {s['crossref_titulo']:>10,} {s['arxiv_frase']:>8,} "
-              f"{s['doaj']:>6}")
+        linhas.append(
+            {
+                "termo": termo,
+                "rotulo": rotulo,
+                **s,
+                "instituicoes_ror": (r["resultados"].get("ror") or {}).get("total"),
+                "conectores_com_falha": r["conectores_com_falha"],
+                "amostra_arxiv": [i.get("titulo") for i in (r["resultados"].get("arxiv") or {}).get("itens", [])[:2]],
+                "proveniencia": {k: v["proveniencia"] for k, v in r["resultados"].items()},
+            }
+        )
+        print(f"{rotulo:<26} {s['crossref_titulo']:>10,} {s['arxiv_frase']:>8,} {s['doaj']:>6}")
 
     corte, corte_doaj = marcar(linhas)
     print(f"\nlimiares desta varredura: razao > {corte:.4f} (Q3), doaj <= {corte_doaj}")
     for x in linhas:
-        marcas = [m for m, v in (("emergente", x["emergente"]),
-                                 ("subexposto", x["subexposto"])) if v]
+        marcas = [m for m, v in (("emergente", x["emergente"]), ("subexposto", x["subexposto"])) if v]
         if marcas:
             print(f"  {x['rotulo']:<26} {' '.join(marcas)}")
 
@@ -125,13 +129,16 @@ def main() -> None:
         "nota_metodo": (
             "razao preprint/publicado e contagem de periodicos abertos sao PISTAS "
             "de descoberta, nunca prova. Volume de publicacao nao mede qualidade "
-            "nem importancia, e a missao proibe ranquear por metrica social."),
+            "nem importancia, e a missao proibe ranquear por metrica social."
+        ),
         "campos": len(linhas),
         "limiar_emergente_q3": corte,
         "limiar_doaj_q1": corte_doaj,
-        "casamento": {"arxiv": "frase exata", "crossref": "titulo, palavras soltas",
-                      "aviso": ("o Crossref nao suporta busca por frase; os numeros "
-                                "dele sao maiores que a realidade do termo")},
+        "casamento": {
+            "arxiv": "frase exata",
+            "crossref": "titulo, palavras soltas",
+            "aviso": ("o Crossref nao suporta busca por frase; os numeros dele sao maiores que a realidade do termo"),
+        },
         "emergentes": [x["rotulo"] for x in emergentes],
         "subexpostos": [x["rotulo"] for x in subexpostos],
         "linhas": sorted(linhas, key=lambda x: -(x["razao_preprint_publicado"] or 0)),

@@ -17,6 +17,7 @@ Formato de ~/.config/radar/env (chmod 600):
 Uso: python3 apps/comercial/enviar_radar.py            # entrega (ou outbox)
      python3 apps/comercial/enviar_radar.py --dry-run  # só mostra o plano
 """
+
 import json
 import smtplib
 import sys

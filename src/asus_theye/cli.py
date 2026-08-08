@@ -239,8 +239,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         coverage = build_coverage(fontes)
         tracks = coverage_by_track(coverage)
         if fontes:
-            pendentes = sum(1 for f in fontes
-                            if f.get("human_review", {}).get("status") == "pending")
+            pendentes = sum(1 for f in fontes if f.get("human_review", {}).get("status") == "pending")
             print(f"fontes carregadas: {len(fontes)} ({pendentes} aguardando revisao humana)")
         print("=" * 62)
         print("GRAFO DE FONTES — COBERTURA")

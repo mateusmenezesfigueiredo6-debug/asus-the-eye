@@ -15,6 +15,7 @@ nunca reescrita — o historico e a evidencia).
 
 Uso: python3 apps/comercial/monitoramento.py
 """
+
 import json
 import sys
 from datetime import datetime, timezone
@@ -104,20 +105,22 @@ def aferir() -> dict:
         erro = abs(float(observado) - previsto)
         erro_pct = (erro / observado * 100) if observado else None
 
-        aferições.append({
-            "aferido_em_utc": datetime.now(timezone.utc).isoformat(),
-            "mes_alvo": ultimo,
-            "niche_id": nid,
-            "regime": av.get("regime"),
-            "modelo": campeao,
-            "previsto": previsto,
-            "observado": observado,
-            "erro_absoluto": erro,
-            "erro_pct": None if erro_pct is None else round(erro_pct, 1),
-            "mae_esperado_backtest": av["backtest"][campeao]["mae"],
-            # Campo ausente identifica registros legados anteriores a correcao.
-            "versao_metodologia_afericao": VERSAO_METODOLOGIA_AFERICAO,
-        })
+        aferições.append(
+            {
+                "aferido_em_utc": datetime.now(timezone.utc).isoformat(),
+                "mes_alvo": ultimo,
+                "niche_id": nid,
+                "regime": av.get("regime"),
+                "modelo": campeao,
+                "previsto": previsto,
+                "observado": observado,
+                "erro_absoluto": erro,
+                "erro_pct": None if erro_pct is None else round(erro_pct, 1),
+                "mae_esperado_backtest": av["backtest"][campeao]["mae"],
+                # Campo ausente identifica registros legados anteriores a correcao.
+                "versao_metodologia_afericao": VERSAO_METODOLOGIA_AFERICAO,
+            }
+        )
     return {"novas": aferições, "historico": historico, "mes_alvo": ultimo}
 
 
@@ -136,15 +139,16 @@ def alertas(historico: list[dict]) -> list[dict]:
         anteriores = regs[:-1]
         media = sum(r["erro_absoluto"] for r in anteriores) / len(anteriores)
         if media > 0 and recente["erro_absoluto"] > media * FATOR_ALERTA:
-            saida.append({
-                "niche_id": nid,
-                "mes": recente["mes_alvo"],
-                "erro_recente": recente["erro_absoluto"],
-                "media_anterior": round(media, 2),
-                "razao": round(recente["erro_absoluto"] / media, 1),
-                "leitura": ("erro muito acima do historico — possivel quebra de "
-                            "regime ou mudanca na fonte"),
-            })
+            saida.append(
+                {
+                    "niche_id": nid,
+                    "mes": recente["mes_alvo"],
+                    "erro_recente": recente["erro_absoluto"],
+                    "media_anterior": round(media, 2),
+                    "razao": round(recente["erro_absoluto"] / media, 1),
+                    "leitura": ("erro muito acima do historico — possivel quebra de regime ou mudanca na fonte"),
+                }
+            )
     return saida
 
 
@@ -169,17 +173,21 @@ def main() -> None:
     for mes in sorted(por_mes):
         regs = por_mes[mes]
         pcts = [x["erro_pct"] for x in regs if x["erro_pct"] is not None]
-        tendencia.append({
-            "mes": mes,
-            "nichos_aferidos": len(regs),
-            "erro_pct_mediano": round(sorted(pcts)[len(pcts) // 2], 1) if pcts else None,
-        })
+        tendencia.append(
+            {
+                "mes": mes,
+                "nichos_aferidos": len(regs),
+                "erro_pct_mediano": round(sorted(pcts)[len(pcts) // 2], 1) if pcts else None,
+            }
+        )
 
     painel = {
         "gerado_em_utc": datetime.now(timezone.utc).isoformat(),
-        "metodologia": ("a cada execucao, o valor observado do ultimo mes fechado "
-                        "e confrontado com o que a plataforma preveria treinando "
-                        "so ate o mes anterior; historico append-only"),
+        "metodologia": (
+            "a cada execucao, o valor observado do ultimo mes fechado "
+            "e confrontado com o que a plataforma preveria treinando "
+            "so ate o mes anterior; historico append-only"
+        ),
         "mes_alvo_desta_rodada": r["mes_alvo"],
         "afericoes_novas": len(novas),
         "afericoes_totais": len(historico),
@@ -189,11 +197,12 @@ def main() -> None:
     }
     PAINEL.write_text(json.dumps(painel, ensure_ascii=False, indent=2), encoding="utf-8")
 
-    print(f"OK monitoramento.json — {len(novas)} afericoes novas, "
-          f"{len(historico)} no historico, {len(por_mes)} meses cobertos")
+    print(
+        f"OK monitoramento.json — {len(novas)} afericoes novas, "
+        f"{len(historico)} no historico, {len(por_mes)} meses cobertos"
+    )
     for t in tendencia[-4:]:
-        print(f"   {t['mes']}  nichos={t['nichos_aferidos']:<3} "
-              f"erro mediano={t['erro_pct_mediano']}%")
+        print(f"   {t['mes']}  nichos={t['nichos_aferidos']:<3} erro mediano={t['erro_pct_mediano']}%")
     for a in painel["alertas"]:
         print(f"   ALERTA {a['niche_id']}: erro {a['razao']}x acima do historico")
     if len(por_mes) < 2:

@@ -23,8 +23,14 @@ from apps.comercial.previsao import METODOS
 
 
 def registro(nid: str, mes: str, erro: float) -> dict:
-    return {"niche_id": nid, "mes_alvo": mes, "erro_absoluto": erro,
-            "erro_pct": erro, "previsto": 100, "observado": 100 + erro}
+    return {
+        "niche_id": nid,
+        "mes_alvo": mes,
+        "erro_absoluto": erro,
+        "erro_pct": erro,
+        "previsto": 100,
+        "observado": 100 + erro,
+    }
 
 
 def test_aferir_recalcula_previsao_com_o_modelo_campeao(tmp_path, monkeypatch):
@@ -33,16 +39,18 @@ def test_aferir_recalcula_previsao_com_o_modelo_campeao(tmp_path, monkeypatch):
     valores = [10, 20, 30, 50]
     serie = {
         "meses": meses,
-        "series": {"nicho-teste": {"pontos": dict(zip(meses, valores))}},
+        "series": {"nicho-teste": {"pontos": dict(zip(meses, valores, strict=True))}},
     }
     previsao = {
-        "avaliacoes": [{
-            "niche_id": "nicho-teste",
-            "status": "avaliado",
-            "regime": "tendencia",
-            "modelo_campeao": "holt",
-            "backtest": {"holt": {"mae": 3.5}},
-        }],
+        "avaliacoes": [
+            {
+                "niche_id": "nicho-teste",
+                "status": "avaliado",
+                "regime": "tendencia",
+                "modelo_campeao": "holt",
+                "backtest": {"holt": {"mae": 3.5}},
+            }
+        ],
     }
     serie_path = tmp_path / "serie.json"
     previsao_path = tmp_path / "previsao.json"
@@ -102,29 +110,30 @@ def test_erro_muito_acima_do_historico_alerta():
 
 def test_alerta_compara_com_a_media_anterior_nao_inclui_o_proprio_mes():
     """Incluir o mes recente na media diluiria o desvio que se quer detectar."""
-    h = [registro("x", "2026-05", 10), registro("x", "2026-06", 10),
-         registro("x", "2026-07", 100)]
+    h = [registro("x", "2026-05", 10), registro("x", "2026-06", 10), registro("x", "2026-07", 100)]
     saida = alertas(h)
     assert saida[0]["media_anterior"] == 10.0
     assert saida[0]["razao"] == 10.0
 
 
 def test_alerta_usa_o_mes_mais_recente_mesmo_fora_de_ordem():
-    h = [registro("x", "2026-07", 100), registro("x", "2026-05", 10),
-         registro("x", "2026-06", 10)]
+    h = [registro("x", "2026-07", 100), registro("x", "2026-05", 10), registro("x", "2026-06", 10)]
     saida = alertas(h)
     assert saida and saida[0]["mes"] == "2026-07"
 
 
 def test_media_zero_nao_divide_por_zero():
-    h = [registro("x", "2026-05", 0), registro("x", "2026-06", 0),
-         registro("x", "2026-07", 5)]
+    h = [registro("x", "2026-05", 0), registro("x", "2026-06", 0), registro("x", "2026-07", 5)]
     assert alertas(h) == []
 
 
 def test_nichos_sao_avaliados_de_forma_independente():
-    h = [registro("a", "2026-06", 10), registro("a", "2026-07", 100),
-         registro("b", "2026-06", 10), registro("b", "2026-07", 11)]
+    h = [
+        registro("a", "2026-06", 10),
+        registro("a", "2026-07", 100),
+        registro("b", "2026-06", 10),
+        registro("b", "2026-07", 11),
+    ]
     saida = alertas(h)
     assert {s["niche_id"] for s in saida} == {"a"}
 

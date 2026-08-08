@@ -8,6 +8,7 @@ timestamp UTC e SHA-256 do payload — auditável de ponta a ponta.
 Uso: python3 apps/comercial/sinal_externo.py
 Saída: reports/commercial/sinais_externos.json
 """
+
 import hashlib
 import json
 import urllib.parse
@@ -27,9 +28,9 @@ JANELA_DIAS = 30  # janela recente: evita o teto de 10.000 da API e mede demanda
 def medir(nicho: dict) -> dict:
     termo = nicho["termo_sinal"]
     from datetime import timedelta
+
     desde = (datetime.now(timezone.utc) - timedelta(days=JANELA_DIAS)).strftime("%Y-%m-%d")
-    url = (f"{API}?querystring={urllib.parse.quote(termo)}"
-           f"&published_since={desde}&size=1")
+    url = f"{API}?querystring={urllib.parse.quote(termo)}&published_since={desde}&size=1"
     try:
         raw = urllib.request.urlopen(url, timeout=25).read()
         payload = json.loads(raw)
@@ -46,8 +47,7 @@ def medir(nicho: dict) -> dict:
             },
         }
     except Exception as e:  # sinal indisponível é registrado, nunca inventado
-        return {"niche_id": nicho["niche_id"], "termo": termo,
-                "mencoes_diarios_oficiais": None, "erro": str(e)[:80]}
+        return {"niche_id": nicho["niche_id"], "termo": termo, "mencoes_diarios_oficiais": None, "erro": str(e)[:80]}
 
 
 def main() -> None:

@@ -42,12 +42,12 @@ def test_pagina_de_recusa_nao_traz_trecho_de_diario(nicho):
 
 @pytest.mark.parametrize("nicho", PROTEGIDOS, ids=lambda n: n["niche_id"])
 def test_nicho_protegido_nao_recebe_padrao_de_extracao(nicho):
-    assert "regex_entidade" not in nicho, (
-        "marcar como pessoa fisica e depois dar regex de extracao e contradicao")
+    assert "regex_entidade" not in nicho, "marcar como pessoa fisica e depois dar regex de extracao e contradicao"
 
 
 def test_gerar_nicho_protegido_nao_consulta_a_api(monkeypatch):
     """A recusa acontece ANTES da busca: nem chega a baixar o ato."""
+
     def nao_deve_ser_chamado(*_a, **_k):
         raise AssertionError("nicho protegido nao pode consultar a fonte")
 

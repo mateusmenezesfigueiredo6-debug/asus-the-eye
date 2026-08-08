@@ -21,6 +21,7 @@ essa vantagem implicita.
 Uso: python3 apps/comercial/qkp_taxonomia.py [capacidade_pct] [sinergia]
 Saida: reports/commercial/qkp_taxonomia.json
 """
+
 import json
 import random
 import sys
@@ -44,14 +45,16 @@ def carregar() -> list[dict]:
         m = a.get("mencoes")
         if m is None:
             continue
-        itens.append({
-            "id": a["legal_area_id"],
-            "grupo": a["group"],
-            "valor": float(m),
-            "peso": 1.0,
-            "termo": a.get("termo"),
-            "suspeita": a.get("suspeita_termo_generico", False),
-        })
+        itens.append(
+            {
+                "id": a["legal_area_id"],
+                "grupo": a["group"],
+                "valor": float(m),
+                "peso": 1.0,
+                "termo": a.get("termo"),
+                "suspeita": a.get("suspeita_termo_generico", False),
+            }
+        )
     return itens
 
 
@@ -74,8 +77,7 @@ def valor_de(sel: set, itens, s) -> float:
 
 
 def guloso(itens, s, cap) -> tuple[set, float]:
-    ordem = sorted(range(len(itens)), key=lambda i: itens[i]["valor"] / itens[i]["peso"],
-                   reverse=True)
+    ordem = sorted(range(len(itens)), key=lambda i: itens[i]["valor"] / itens[i]["peso"], reverse=True)
     sel, usado = set(), 0.0
     for i in ordem:
         if usado + itens[i]["peso"] <= cap:
@@ -128,8 +130,10 @@ def main(cap_pct: float = CAP_PCT_PADRAO, intensidade: float = SINERGIA_PADRAO) 
 
     print(f"QKP na taxonomia: {n} areas, {len(grupos)} grupos")
     print(f"  capacidade {cap:.0f} de {sum(i['peso'] for i in itens):.0f} ({cap_pct:.0%})")
-    print(f"  pares com sinergia: {len(s):,} de {pares_possiveis:,} "
-          f"(densidade {densidade:.1%}) — bloco-diagonal por grupo")
+    print(
+        f"  pares com sinergia: {len(s):,} de {pares_possiveis:,} "
+        f"(densidade {densidade:.1%}) — bloco-diagonal por grupo"
+    )
     print(f"  espaco de busca: 2^{n} — exaustivo impossivel")
     print()
 
@@ -143,16 +147,19 @@ def main(cap_pct: float = CAP_PCT_PADRAO, intensidade: float = SINERGIA_PADRAO) 
 
     ganho = (val_bl / val_gu - 1) * 100 if val_gu else 0
     print(f"  guloso      : {val_gu:>12,.0f} em {t_gu:>8.2f}ms  ({len(sel_gu)} areas)")
-    print(f"  busca local : {val_bl:>12,.0f} em {t_bl:>8.0f}ms  ({len(sel_bl)} areas)"
-          f"  ganho {ganho:+.2f}%")
+    print(f"  busca local : {val_bl:>12,.0f} em {t_bl:>8.0f}ms  ({len(sel_bl)} areas)  ganho {ganho:+.2f}%")
 
     # Ate onde o simulador quantico chegaria nesta instancia?
     limite_sim = 30
     print()
-    print(f"  QAOA em simulador: impossivel — {n} qubits exigiria 2^{n} amplitudes; "
-          f"o limite pratico e ~{limite_sim} qubits")
-    print(f"  QAOA em QPU real: {n} qubits cabe em hardware de 127-156 qubits "
-          f"(IBM Heron), mas EXIGE autorizacao e queima cota")
+    print(
+        f"  QAOA em simulador: impossivel — {n} qubits exigiria 2^{n} amplitudes; "
+        f"o limite pratico e ~{limite_sim} qubits"
+    )
+    print(
+        f"  QAOA em QPU real: {n} qubits cabe em hardware de 127-156 qubits "
+        f"(IBM Heron), mas EXIGE autorizacao e queima cota"
+    )
 
     por_grupo_sel = {}
     for i in sel_bl:
@@ -170,34 +177,40 @@ def main(cap_pct: float = CAP_PCT_PADRAO, intensidade: float = SINERGIA_PADRAO) 
         "ressalva_valor": (
             "valor = mencoes em diarios oficiais (demanda). Conversao e ticket so "
             "existem para o recorte comercial de 15 nichos, entao nenhum numero "
-            "aqui e receita esperada."),
+            "aqui e receita esperada."
+        ),
         "sinergia": {
             "origem": "co-participacao em grupo da taxonomia (dado estrutural)",
             "pares": len(s),
             "pares_possiveis": pares_possiveis,
             "densidade": round(densidade, 4),
-            "estrutura": ("bloco-diagonal: cada area pertence a um unico grupo, "
-                          "entao nao ha aresta entre grupos. Isso e mais facil que "
-                          "uma QKP densa geral."),
+            "estrutura": (
+                "bloco-diagonal: cada area pertence a um unico grupo, "
+                "entao nao ha aresta entre grupos. Isso e mais facil que "
+                "uma QKP densa geral."
+            ),
         },
         "exaustivo_viavel": False,
-        "solucao_gulosa": {"valor": round(val_gu, 1), "areas": len(sel_gu),
-                           "tempo_ms": round(t_gu, 2)},
-        "solucao_busca_local": {"valor": round(val_bl, 1), "areas": len(sel_bl),
-                                "tempo_ms": round(t_bl, 1),
-                                "ganho_sobre_guloso_pct": round(ganho, 2),
-                                "selecionadas": sorted(itens[i]["id"] for i in sel_bl)},
-        "distribuicao_por_grupo": dict(sorted(por_grupo_sel.items(),
-                                              key=lambda x: -x[1])),
+        "solucao_gulosa": {"valor": round(val_gu, 1), "areas": len(sel_gu), "tempo_ms": round(t_gu, 2)},
+        "solucao_busca_local": {
+            "valor": round(val_bl, 1),
+            "areas": len(sel_bl),
+            "tempo_ms": round(t_bl, 1),
+            "ganho_sobre_guloso_pct": round(ganho, 2),
+            "selecionadas": sorted(itens[i]["id"] for i in sel_bl),
+        },
+        "distribuicao_por_grupo": dict(sorted(por_grupo_sel.items(), key=lambda x: -x[1])),
         "quantico": {
             "simulador_viavel": False,
             "motivo_simulador": f"{n} qubits exigiria 2^{n} amplitudes",
             "qpu_real_cabe": n <= 156,
             "hardware_compativel": "IBM Heron (127-156 qubits)",
             "exige_autorizacao": True,
-            "observacao": ("esta e a primeira instancia do projeto grande demais "
-                           "para exaustivo E para simulacao quantica, e ao mesmo "
-                           "tempo dentro do alcance de hardware real"),
+            "observacao": (
+                "esta e a primeira instancia do projeto grande demais "
+                "para exaustivo E para simulacao quantica, e ao mesmo "
+                "tempo dentro do alcance de hardware real"
+            ),
         },
     }
     dest = BASE / "reports/commercial/qkp_taxonomia.json"
@@ -210,5 +223,4 @@ def main(cap_pct: float = CAP_PCT_PADRAO, intensidade: float = SINERGIA_PADRAO) 
 
 if __name__ == "__main__":
     args = [a for a in sys.argv[1:] if not a.startswith("--")]
-    main(float(args[0]) if args else CAP_PCT_PADRAO,
-         float(args[1]) if len(args) > 1 else SINERGIA_PADRAO)
+    main(float(args[0]) if args else CAP_PCT_PADRAO, float(args[1]) if len(args) > 1 else SINERGIA_PADRAO)

@@ -119,6 +119,7 @@ def ror(termo: str, limite: int = 5) -> dict[str, Any]:
     url = f"https://api.ror.org/organizations?query={urllib.parse.quote(termo)}"
     resultado = _buscar(url, "ror")
     d = json.loads(resultado.body)
+
     # A v2 do ROR trocou `name` por `names[]` e `country` por `locations[]`.
     # Sem este ajuste o conector devolvia nome e pais nulos em silencio.
     def _nome(x):
@@ -131,14 +132,21 @@ def ror(termo: str, limite: int = 5) -> dict[str, Any]:
         loc = (x.get("locations") or [{}])[0]
         return (loc.get("geonames_details") or {}).get("country_name")
 
-    itens = [{
-        "ror_id": x.get("id"),
-        "nome": _nome(x),
-        "pais": _pais(x),
-        "tipos": x.get("types", []),
-    } for x in (d.get("items") or [])[:limite]]
-    return {"conector": "ror", "total": (d.get("number_of_results") or 0),
-            "itens": itens, "proveniencia": _proveniencia(resultado)}
+    itens = [
+        {
+            "ror_id": x.get("id"),
+            "nome": _nome(x),
+            "pais": _pais(x),
+            "tipos": x.get("types", []),
+        }
+        for x in (d.get("items") or [])[:limite]
+    ]
+    return {
+        "conector": "ror",
+        "total": (d.get("number_of_results") or 0),
+        "itens": itens,
+        "proveniencia": _proveniencia(resultado),
+    }
 
 
 # -------------------------------------------------------------- Crossref
@@ -146,32 +154,41 @@ def crossref(termo: str, limite: int = 5) -> dict[str, Any]:
     # O Crossref NAO tem busca por frase: aspas sao ignoradas (medido — "AI for
     # science" devolve os mesmos 15,6 milhoes com e sem). query.title restringe
     # ao titulo, que e o mais proximo disponivel, e o retorno declara isso.
-    url = (f"https://api.crossref.org/works?query.title={urllib.parse.quote(termo)}"
-           f"&rows={limite}&select=DOI,title,issued,type,publisher")
+    url = (
+        f"https://api.crossref.org/works?query.title={urllib.parse.quote(termo)}"
+        f"&rows={limite}&select=DOI,title,issued,type,publisher"
+    )
     resultado = _buscar(url, "crossref")
     msg = json.loads(resultado.body).get("message", {})
-    itens = [{
-        "doi": x.get("DOI"),
-        "titulo": (x.get("title") or [""])[0][:120],
-        "ano": ((x.get("issued") or {}).get("date-parts") or [[None]])[0][0],
-        "tipo": x.get("type"),
-        "editora": x.get("publisher"),
-    } for x in (msg.get("items") or [])]
-    return {"conector": "crossref", "total": msg.get("total-results", 0),
-            "casamento": "titulo, palavras soltas — o Crossref nao suporta frase",
-            "itens": itens, "proveniencia": _proveniencia(resultado)}
+    itens = [
+        {
+            "doi": x.get("DOI"),
+            "titulo": (x.get("title") or [""])[0][:120],
+            "ano": ((x.get("issued") or {}).get("date-parts") or [[None]])[0][0],
+            "tipo": x.get("type"),
+            "editora": x.get("publisher"),
+        }
+        for x in (msg.get("items") or [])
+    ]
+    return {
+        "conector": "crossref",
+        "total": msg.get("total-results", 0),
+        "casamento": "titulo, palavras soltas — o Crossref nao suporta frase",
+        "itens": itens,
+        "proveniencia": _proveniencia(resultado),
+    }
 
 
 # ----------------------------------------------------------------- arXiv
 def arxiv(termo: str, limite: int = 5) -> dict[str, Any]:
     """arXiv devolve Atom; extrai-se sem dependencia de parser externo."""
     import re
+
     # ASPAS IMPORTAM: sem elas o arXiv casa as palavras soltas. Medido em
     # 05/08/2026: "quantum machine learning" devolve 981.053 solto e 1.939 em
     # frase exata — diferenca de 500x. O numero solto nao significa nada.
     frase = urllib.parse.quote(f'"{termo}"')
-    url = (f"https://export.arxiv.org/api/query?search_query=all:{frase}"
-           f"&max_results={limite}")
+    url = f"https://export.arxiv.org/api/query?search_query=all:{frase}&max_results={limite}"
     resultado = _buscar(url, "arxiv")
     texto = resultado.body.decode("utf-8", "ignore")
     total_m = re.search(r"<opensearch:totalResults[^>]*>(\d+)<", texto)
@@ -181,31 +198,38 @@ def arxiv(termo: str, limite: int = 5) -> dict[str, Any]:
         t = re.search(r"<title>(.*?)</title>", e, re.S)
         i = re.search(r"<id>(.*?)</id>", e)
         p = re.search(r"<published>(.*?)</published>", e)
-        itens.append({
-            "id": i.group(1) if i else None,
-            "titulo": " ".join(t.group(1).split())[:120] if t else None,
-            "publicado": p.group(1)[:10] if p else None,
-            "revisado_por_pares": False,  # preprint nunca e evidencia revisada
-        })
-    return {"conector": "arxiv", "total": int(total_m.group(1)) if total_m else None,
-            "casamento": "frase exata",
-            "itens": itens, "proveniencia": _proveniencia(resultado)}
+        itens.append(
+            {
+                "id": i.group(1) if i else None,
+                "titulo": " ".join(t.group(1).split())[:120] if t else None,
+                "publicado": p.group(1)[:10] if p else None,
+                "revisado_por_pares": False,  # preprint nunca e evidencia revisada
+            }
+        )
+    return {
+        "conector": "arxiv",
+        "total": int(total_m.group(1)) if total_m else None,
+        "casamento": "frase exata",
+        "itens": itens,
+        "proveniencia": _proveniencia(resultado),
+    }
 
 
 # ------------------------------------------------------------------ DOAJ
 def doaj(termo: str, limite: int = 5) -> dict[str, Any]:
-    url = (f"https://doaj.org/api/search/journals/{urllib.parse.quote(termo)}"
-           f"?pageSize={limite}")
+    url = f"https://doaj.org/api/search/journals/{urllib.parse.quote(termo)}?pageSize={limite}"
     resultado = _buscar(url, "doaj")
     d = json.loads(resultado.body)
-    itens = [{
-        "titulo": ((x.get("bibjson") or {}).get("title") or "")[:120],
-        "issn": (x.get("bibjson") or {}).get("eissn"),
-        "pais": ((x.get("bibjson") or {}).get("publisher") or {}).get("country"),
-        "acesso_aberto_verificado": True,  # estar no DOAJ ja e a verificacao
-    } for x in (d.get("results") or [])]
-    return {"conector": "doaj", "total": d.get("total", 0), "itens": itens,
-            "proveniencia": _proveniencia(resultado)}
+    itens = [
+        {
+            "titulo": ((x.get("bibjson") or {}).get("title") or "")[:120],
+            "issn": (x.get("bibjson") or {}).get("eissn"),
+            "pais": ((x.get("bibjson") or {}).get("publisher") or {}).get("country"),
+            "acesso_aberto_verificado": True,  # estar no DOAJ ja e a verificacao
+        }
+        for x in (d.get("results") or [])
+    ]
+    return {"conector": "doaj", "total": d.get("total", 0), "itens": itens, "proveniencia": _proveniencia(resultado)}
 
 
 CONECTORES = {"ror": ror, "crossref": crossref, "arxiv": arxiv, "doaj": doaj}
@@ -219,13 +243,18 @@ def coletar(termo: str, limite: int = 5) -> dict[str, Any]:
             saida[nome] = fn(termo, limite)
         except ConectorError as e:
             falhas[nome] = str(e)
-    return {"termo": termo, "gerado_em_utc": _utc_now(),
-            "conectores_ok": sorted(saida), "conectores_com_falha": falhas,
-            "resultados": saida}
+    return {
+        "termo": termo,
+        "gerado_em_utc": _utc_now(),
+        "conectores_ok": sorted(saida),
+        "conectores_com_falha": falhas,
+        "resultados": saida,
+    }
 
 
 if __name__ == "__main__":
     import sys
+
     termo = sys.argv[1] if len(sys.argv) > 1 else "legal informatics"
     r = coletar(termo)
     print(f"termo: {r['termo']}")

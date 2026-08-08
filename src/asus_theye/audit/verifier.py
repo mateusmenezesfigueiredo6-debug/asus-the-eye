@@ -24,9 +24,7 @@ def _infer_kind(document: dict[str, Any]) -> str:
     if "event_hash_sha256" in document and "proof" in document:
         candidates.append("proof")
     if len(candidates) > 1:
-        raise ValueError(
-            "ambiguous verification document: matches " + ", ".join(candidates)
-        )
+        raise ValueError("ambiguous verification document: matches " + ", ".join(candidates))
     if not candidates:
         raise ValueError("cannot infer verification kind from document shape")
     return candidates[0]
@@ -52,13 +50,9 @@ def _verify_batch(document: dict[str, Any]) -> dict[str, Any]:
     else:
         manifest_body = dict(manifest)
         claimed_hash = manifest_body.pop("manifest_hash_sha256", None)
-        manifest_valid = (
-            isinstance(claimed_hash, str) and hash_json(manifest_body) == claimed_hash
-        )
+        manifest_valid = isinstance(claimed_hash, str) and hash_json(manifest_body) == claimed_hash
         proof_count_valid = (
-            bool(proofs)
-            and isinstance(manifest.get("event_count"), int)
-            and len(proofs) == manifest["event_count"]
+            bool(proofs) and isinstance(manifest.get("event_count"), int) and len(proofs) == manifest["event_count"]
         )
         proofs_valid = proof_count_valid and all(
             _proof_matches_root(item, manifest.get("merkle_root")) for item in proofs

@@ -20,6 +20,7 @@ publica quantas partidas chegaram ao melhor.
 Uso: python3 apps/comercial/otimo_referencia.py [partidas] [iteracoes]
 Saida: reports/commercial/otimo_referencia.json
 """
+
 import json
 import math
 import random
@@ -82,8 +83,10 @@ def main(partidas: int = PARTIDAS_PADRAO, iteracoes: int = ITERACOES_PADRAO) -> 
     s = sinergia(itens, INTENSIDADE)
 
     _, val_gu = guloso(itens, s, cap)
-    print(f"instancia: {len(itens)} areas, capacidade {cap:.0f} ({CAP_PCT:.0%}), "
-          f"sinergia {INTENSIDADE}x, {len(s)} arestas")
+    print(
+        f"instancia: {len(itens)} areas, capacidade {cap:.0f} ({CAP_PCT:.0%}), "
+        f"sinergia {INTENSIDADE}x, {len(s)} arestas"
+    )
     print(f"referencias: guloso {val_gu:,.0f}")
     print(f"rodando {partidas} partidas de {iteracoes:,} iteracoes\n")
 
@@ -94,9 +97,15 @@ def main(partidas: int = PARTIDAS_PADRAO, iteracoes: int = ITERACOES_PADRAO) -> 
         t = time.perf_counter()
         sel, val = recozer(itens, s, cap, rng, iteracoes)
         dt = time.perf_counter() - t
-        resultados.append({"partida": p, "valor": val, "areas": len(sel),
-                           "segundos": round(dt, 1),
-                           "selecao": sorted(itens[i]["id"] for i in sel)})
+        resultados.append(
+            {
+                "partida": p,
+                "valor": val,
+                "areas": len(sel),
+                "segundos": round(dt, 1),
+                "selecao": sorted(itens[i]["id"] for i in sel),
+            }
+        )
         print(f"  partida {p:>2}: {val:>12,.0f}  ({dt:.1f}s)")
     t_total = time.perf_counter() - t_total
 
@@ -108,14 +117,19 @@ def main(partidas: int = PARTIDAS_PADRAO, iteracoes: int = ITERACOES_PADRAO) -> 
     print(f"\nmelhor encontrado: {melhor:,.0f}")
     print(f"  {convergiram}/{partidas} partidas chegaram nesse valor")
     print(f"  dispersao entre partidas: {dispersao:.2f}%")
-    print(f"  ganho sobre o guloso: {(melhor/val_gu-1)*100:+.2f}%")
+    print(f"  ganho sobre o guloso: {(melhor / val_gu - 1) * 100:+.2f}%")
     print(f"  tempo total: {t_total:.0f}s")
 
     consenso = convergiram >= max(2, partidas // 2)
     saida = {
         "gerado_em_utc": datetime.now(timezone.utc).isoformat(),
-        "instancia": {"n": len(itens), "capacidade": cap, "capacidade_pct": CAP_PCT,
-                      "intensidade_sinergia": INTENSIDADE, "arestas": len(s)},
+        "instancia": {
+            "n": len(itens),
+            "capacidade": cap,
+            "capacidade_pct": CAP_PCT,
+            "intensidade_sinergia": INTENSIDADE,
+            "arestas": len(s),
+        },
         "metodo": "recozimento simulado, partidas independentes com semente propria",
         "partidas": partidas,
         "iteracoes_por_partida": iteracoes,
@@ -127,13 +141,15 @@ def main(partidas: int = PARTIDAS_PADRAO, iteracoes: int = ITERACOES_PADRAO) -> 
         "ganho_sobre_guloso_pct": round((melhor / val_gu - 1) * 100, 2),
         "tempo_total_s": round(t_total, 1),
         "leitura": (
-            "varias partidas independentes pararam no mesmo valor: evidencia de "
-            "otimo ou vizinhanca dele" if consenso else
-            "partidas divergiram: o espaco tem otimos locais distantes e o melhor "
-            "valor aqui provavelmente esta abaixo do otimo"),
+            "varias partidas independentes pararam no mesmo valor: evidencia de otimo ou vizinhanca dele"
+            if consenso
+            else "partidas divergiram: o espaco tem otimos locais distantes e o melhor "
+            "valor aqui provavelmente esta abaixo do otimo"
+        ),
         "alvo_para_metodo_quantico": (
             f"qualquer QAOA nesta instancia precisa superar {melhor:,.0f}, nao os "
-            f"{val_gu:,.0f} do guloso. Vencer heuristica fraca nao prova nada."),
+            f"{val_gu:,.0f} do guloso. Vencer heuristica fraca nao prova nada."
+        ),
         "resultados": resultados,
     }
     dest = BASE / "reports/commercial/otimo_referencia.json"
@@ -144,5 +160,4 @@ def main(partidas: int = PARTIDAS_PADRAO, iteracoes: int = ITERACOES_PADRAO) -> 
 
 if __name__ == "__main__":
     args = [a for a in sys.argv[1:] if not a.startswith("--")]
-    main(int(args[0]) if args else PARTIDAS_PADRAO,
-         int(args[1]) if len(args) > 1 else ITERACOES_PADRAO)
+    main(int(args[0]) if args else PARTIDAS_PADRAO, int(args[1]) if len(args) > 1 else ITERACOES_PADRAO)

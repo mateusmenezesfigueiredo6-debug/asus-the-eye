@@ -109,8 +109,7 @@ def _knowledge_section() -> dict[str, Any]:
     # publicar 0,0% enquanto o relatorio de cobertura ja mostrava 13,4% — o
     # mesmo defeito existia no CLI e foi corrigido em 829847e.
     fontes_path = source_graph_dir / "sources.json"
-    fontes = (json.loads(fontes_path.read_text(encoding="utf-8")).get("sources", [])
-              if fontes_path.exists() else [])
+    fontes = json.loads(fontes_path.read_text(encoding="utf-8")).get("sources", []) if fontes_path.exists() else []
     coverage = build_coverage(fontes)
 
     by_poc: dict[str, int] = {}
@@ -121,8 +120,7 @@ def _knowledge_section() -> dict[str, Any]:
         "available": True,
         "methodology_version": coverage["methodology_version"],
         "sources_loaded": len(fontes),
-        "sources_pending_human_review": sum(
-            1 for f in fontes if f.get("human_review", {}).get("status") == "pending"),
+        "sources_pending_human_review": sum(1 for f in fontes if f.get("human_review", {}).get("status") == "pending"),
         "tracks": coverage_by_track(coverage),
         "connectors": {
             "declared": len(connectors),
@@ -187,9 +185,7 @@ def build_chart(ledger_events: list[dict[str, Any]] | None = None) -> dict[str, 
         stage_bucket["release_classes"].add(project["release_class"])
     for stage_bucket in stages.values():
         declared = stage_bucket["artifacts_declared"]
-        stage_bucket["completion_pct"] = (
-            round(100 * stage_bucket["artifacts_present"] / declared) if declared else 0
-        )
+        stage_bucket["completion_pct"] = round(100 * stage_bucket["artifacts_present"] / declared) if declared else 0
         stage_bucket["release_classes"] = sorted(stage_bucket["release_classes"])
     pipeline = dict(sorted(stages.items(), key=lambda item: item[1]["order"]))
 
