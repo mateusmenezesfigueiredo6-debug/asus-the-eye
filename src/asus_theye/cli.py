@@ -48,6 +48,21 @@ def _parser() -> argparse.ArgumentParser:
     )
     llm.add_argument("--ledger-url", default=os.environ.get("THE_EYE_LEDGER_URL", ""))
     llm.add_argument("--tenant", default=DEFAULT_TENANT)
+    adjudicate_parser = subcommands.add_parser(
+        "adjudicate",
+        help="two models, one proposes and the other refutes; disagreement yields CONFLICTED",
+    )
+    adjudicate_parser.add_argument("question")
+    adjudicate_parser.add_argument(
+        "--proposer", default="openai", choices=("local", "openai", "anthropic"), help="model that answers"
+    )
+    adjudicate_parser.add_argument(
+        "--challenger", default="anthropic", choices=("local", "openai", "anthropic"), help="model that attacks"
+    )
+    adjudicate_parser.add_argument("--proposer-model", default=None)
+    adjudicate_parser.add_argument("--challenger-model", default=None)
+    adjudicate_parser.add_argument("--temperature", type=float, default=0.2)
+    adjudicate_parser.add_argument("--ledger-url", default=os.environ.get("THE_EYE_LEDGER_URL", ""))
     extract = subcommands.add_parser(
         "extract-decision",
         help="extract schema-validated procedural facts from a public decision text file",
@@ -153,6 +168,26 @@ def main(argv: Sequence[str] | None = None) -> int:
         if outcome["ledger_receipt"] is not None:
             print(f"[audit] ledger_sequence={outcome['ledger_receipt']['sequence']}")
         return 0
+    if args.command == "adjudicate":
+        from asus_theye.llm import DualModelError, RemoteLLMError, adjudicate
+
+        try:
+            verdict = adjudicate(
+                args.question,
+                proposer=args.proposer,
+                challenger=args.challenger,
+                proposer_model=args.proposer_model,
+                challenger_model=args.challenger_model,
+                temperature=args.temperature,
+                ledger_url=args.ledger_url or None,
+            )
+        except (DualModelError, RemoteLLMError) as error:
+            print(f"adjudicate: {error}")
+            return 1
+        print(json.dumps(verdict, ensure_ascii=False, indent=2))
+        # A split verdict is a real outcome, not a crash — but it must not read
+        # as success to a script that only checks the exit code.
+        return 0 if verdict["claim_class"] != "CONFLICTED" else 2
     if args.command == "extract-decision":
         from asus_theye.decision_context import extract_decision_fields
 

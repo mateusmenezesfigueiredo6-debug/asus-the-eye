@@ -15,7 +15,6 @@ from collections import defaultdict
 from itertools import combinations
 from pathlib import Path
 
-
 ROOT = Path(__file__).resolve().parents[1]
 SIGNAL = ROOT / "reports/commercial/sinal_taxonomia.json"
 REFERENCE = ROOT / "reports/commercial/otimo_referencia.json"
