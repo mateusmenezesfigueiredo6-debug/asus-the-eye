@@ -96,8 +96,8 @@
       "completion_pct": 0
     }
   },
-  "generated_at": "2026-08-05T20:32:54.547484Z",
-  "commit": "829847e",
+  "generated_at": "2026-08-08T14:17:55.289288Z",
+  "commit": "2611b83",
   "knowledge": {
     "available": true,
     "methodology_version": "1.0.0",
@@ -556,8 +556,8 @@
         "artifacts_declared": 35,
         "artifacts_missing": [],
         "completion_pct": 100,
-        "commits": 6,
-        "last_commit": "829847e 2026-08-05"
+        "commits": 7,
+        "last_commit": "931d6e3 2026-08-05"
       },
       "unknown_niches": []
     },

@@ -64,7 +64,9 @@ class AuditedLocalLLM:
         record = {
             "called_at": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
             "model": result["model"],
-            "backend": "ollama_local",
+            # Derived, never assumed: with remote providers wired in, a hardcoded
+            # "ollama_local" would make the hash chain attest to the wrong origin.
+            "backend": getattr(self.client, "provider", "ollama_local"),
             "prompt_sha256": _sha256(prompt),
             "system_sha256": _sha256(system) if system else None,
             "response_sha256": _sha256(result["content"]),
