@@ -46,3 +46,19 @@ O quadro afirma resultados QAOA para N=10, 14 e 16, mas o JSON oficial de
 escalada mantém score, tempo e qualidade QAOA como `null` nessas linhas. Sem
 comando, log e saída persistida, os percentuais são `UNKNOWN`. A recomendação de
 não usar QPU continua sustentada pela DP exata, independentemente desse relato.
+
+## X108 — Verificador Python de recorte versus continuidade até a gênese
+
+`verify_chain` inicia a sequência esperada no primeiro evento recebido e pode
+validar um recorte que comece depois de 1. A tarefa da superfície pública exige
+explicitamente ausência de buracos até a gênese. O Worker público começa sempre
+em sequência 1 e exige `previous_event_hash_sha256` igual aos 64 zeros; isso é
+uma restrição adicional documentada, não uma mudança silenciosa no núcleo.
+
+## X109 — Binding D1 versus privilégio SQL somente leitura
+
+O código do Worker contém apenas `SELECT` e não expõe uma rota de SQL, mas um
+binding D1 não é, por si só, uma função de banco restrita a leitura. Portanto,
+“somente leitura” está confirmado como propriedade da implementação local, não
+como controle de infraestrutura independente. Um banco/serviço de réplica
+somente de raízes reduziria esse risco após decisão de publicação.

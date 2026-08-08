@@ -78,3 +78,57 @@
   simulador local; não há evidência local de QPU real.
 - Limitação: não prova que uma execução efêmera não ocorreu; prova apenas que o
   resultado relatado não está persistido de forma auditável.
+
+## T109 — Teste offline do Worker público
+
+- Comando: `node --test apps/public-verifier/worker.test.mjs`.
+- Status: exit 0.
+- Resultado: evento fixo e cadeia desde a gênese válidos; cadeia quebrada
+  identificou sequência e hashes esperado/recebido; vetores Keccak vazio e
+  Merkle multinível coincidiram com Python; documento HTTP inválido retornou
+  200; health não revelou tenant; rota de raiz projetou somente quatro hashes.
+
+## T110 — Checagem estrita do TypeScript
+
+- Comando: `tsc --noEmit --target es2022 --module es2022 --moduleResolution
+  bundler --strict --lib es2022,webworker apps/public-verifier/worker.ts`.
+- Status: exit 0 com TypeScript 7.0.2.
+- Resultado: Worker válido para ES2022/Web Worker sem dependência de tipos ou
+  pacotes remotos.
+
+## T111 — Regressão Python completa
+
+- Comando: `PYTHONPATH=src python3 -m pytest`.
+- Status: exit 0.
+- Resultado: 299 testes passaram e 1 foi ignorado; nenhuma execução quântica ou
+  de rede ocorreu.
+
+## T112 — Mistress Chart após os artefatos
+
+- Comando efetivo: `PYTHONPATH=src python3 -m asus_theye.cli chart`, com
+  `.venv/bin/python` temporariamente apontado para `/usr/bin/python3` porque o
+  gerador fixa esse caminho e o worktree não contém `.venv`.
+- Status: exit 0; apontador temporário removido após a execução.
+- Resultado: etapa `7-publicacao` em 3/3 e 100%, projeto `public-verifier` em L5,
+  12/12 recortes com artefatos e 300 testes coletados. O relatório declara
+  “nada publicado”.
+
+## T113 — Revisão de superfície e privacidade
+
+- Comando: busca local por autenticação, segredos, DML, campos de evento/tenant
+  e revisão do diff completo.
+- Status: exit 0.
+- Resultado: nenhuma autenticação ou variável secreta; nenhuma instrução DML;
+  a consulta de raízes não seleciona tenant, evento ou manifesto; respostas de
+  verificação não repetem documento nem identificadores. O teste contém dados
+  sintéticos identificados como fixture.
+
+## T114 — Tentativa de commit no worktree
+
+- Comando: `git add` com lista explícita dos artefatos, testes, chart e registros
+  de pesquisa; `TAREFA_CODEX.md` deliberadamente excluído.
+- Status: exit 128.
+- Resultado: bloqueado antes do stage porque o sandbox monta
+  `/home/sexexes/asus_the_eye/.git/worktrees/asus_the_eye_codex` somente leitura
+  e o Git não pôde criar `index.lock`. Nenhum arquivo foi staged, descartado ou
+  sobrescrito. Bloqueio registrado em `COORDENACAO.md`.

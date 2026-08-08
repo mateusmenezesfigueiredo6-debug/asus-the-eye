@@ -90,3 +90,17 @@ Não há custos por área, evidência de sinergia comercial nem validação de q
 contagem máxima entre aliases mede demanda. O ótimo matemático da formulação
 atual não responde quais áreas devem receber orçamento. Isso exige dados
 observados, critérios de fonte e análise de sensibilidade antes de nova seleção.
+
+## U107 — Comportamento do verificador em Cloudflare
+
+Não houve deploy, consulta ao D1 remoto, criação de recurso, custo ou teste de
+integração externo. Compatibilidade do runtime, existência de âncoras confirmadas
+e política operacional de logs continuam `UNKNOWN` até publicação autorizada
+pelo dono e passagem pelo `publish_lock.py`.
+
+## U108 — Equivalência para todo o domínio I-JSON
+
+Os vetores fixos de evento, Keccak e prova Merkle coincidem entre Python e
+TypeScript, e a checagem estrita de tipos passa. Não houve fuzzing diferencial
+de todos os números IEEE-754, Unicode e estruturas aninhadas aceitas. A
+equivalência está confirmada nos casos cobertos, não universalmente provada.

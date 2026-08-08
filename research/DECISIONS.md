@@ -143,3 +143,36 @@ e a sinergia 3,0 é declarada, não medida.
 **Reverteria:** nova formulação baseada em custos e sinergias observados, com
 qualidade de fonte validada, para a qual métodos clássicos adequados tenham sido
 medidos e se mostrem insuficientes.
+
+## D106 — A rota de raízes projeta hashes, não lotes
+
+**Decisão:** consultar apenas âncoras confirmadas por data e projetar
+`merkle_root`, `manifest_hash_sha256`, `tx_hash` e `block_hash`.
+
+**Razão:** IDs de lote, tenant, intervalos, contagens e horários detalhados não
+são necessários para comparar compromissos criptográficos e aumentariam a
+superfície de correlação.
+
+**Reverteria:** novo protocolo de prova aprovado que demonstre necessidade de
+outro campo não identificador.
+
+## D107 — Continuidade pública começa obrigatoriamente na gênese
+
+**Decisão:** a cadeia pública começa na sequência 1 e no `GENESIS_HASH`, mesmo
+que o helper Python atual aceite recortes iniciados depois.
+
+**Razão:** a tarefa exige ausência de buracos até a gênese. Aceitar apenas um
+segmento provaria ligação interna do recorte, não continuidade completa.
+
+**Reverteria:** criação explícita de um segundo tipo de documento para recortes,
+com cabeçalho anterior verificável e contrato próprio.
+
+## D108 — Falha de documento é dado de domínio, não erro HTTP
+
+**Decisão:** JSON malformado, tipo não suportado, evento inválido, cadeia
+quebrada e prova inválida respondem HTTP 200 com `valido: false`.
+
+**Razão:** permite automação previsível e conserva no motivo somente sequência,
+nomes fixos de campo e hashes seguros, sem ecoar conteúdo recebido.
+
+**Reverteria:** nova versão formal do contrato público.

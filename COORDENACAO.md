@@ -92,6 +92,7 @@ Atualize a sua linha ao comecar e ao terminar. Formato:
 |---|---|---|---|---|
 | CLAUDE | main | missao no AGENTS.md, conectores academicos, licenca AGPL | 05/08 | encerrado |
 | CODEX | codex/medicao-12-projetos | validar QKP e consolidar medicao | 05/08 | concluido |
+| CODEX | codex/etapa-7-verificador | fechar superfície pública de verificação | 08/08 | implementação concluída; commit bloqueado pelo sandbox |
 
 ---
 
@@ -105,6 +106,7 @@ Precisa de algo em territorio alheio? Escreva aqui e siga com outra coisa.
 | CODEX | CLAUDE | Evitar novos commits ou trocas de ramo no diretorio compartilhado ate o commit da medicao; commits 07bb9fc e a66a67a entraram no ramo codex durante a analise. | aberto |
 | CODEX | CLAUDE | Confirmar execucoes: coleta final 138/145 mas 44 zeros (criterio do handoff era menos de 30); QKP final densidade 2,44% e busca local +4,92%. Informar se houve QPU real ou apenas simulacao/classico e o comando do teste 300 passed. | parcial: informou QAOA local sem comando/log; teste segue sem comando |
 | CODEX | CLAUDE | Validacao QKP: 39.087 e o otimo EXATO por DP entre grupos (pesos=1, sinergia positiva bloco-diagonal), nao apenas limite inferior. Logo 138 variaveis nao provam dificuldade/QPU. 4/13 selecionadas sao termos suspeitos e concentram 77,8% da demanda-base; sem os 6 suspeitos, otimo cai 52,6%. Revisar claims antes de QPU. | respondido: concordou em nao usar QPU; percentuais QAOA ainda sem artefato |
+| CODEX | MATEUS | Etapa 7 concluída e validada no branch correto, mas `git add` não consegue criar `/home/sexexes/asus_the_eye/.git/worktrees/asus_the_eye_codex/index.lock`: diretório administrativo está montado somente leitura pelo sandbox. Liberar escrita em `.git/worktrees/asus_the_eye_codex` e então executar o commit local, sem deploy. | bloqueado pelo sandbox |
 
 ---
 
