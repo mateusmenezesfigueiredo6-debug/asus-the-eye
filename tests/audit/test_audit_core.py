@@ -6,12 +6,14 @@ import sqlite3
 
 import pytest
 
+from asus_theye.audit.batching import build_batch
 from asus_theye.audit.canonical import CanonicalizationError, canonicalize
 from asus_theye.audit.keccak import keccak256
 from asus_theye.audit.manifest import build_manifest
 from asus_theye.audit.merkle import MerkleTree, verify_proof
 from asus_theye.audit.schema import GENESIS_HASH, SCHEMA_VERSION, seal_event, verify_chain, verify_event
 from asus_theye.audit.sdk import AuditSDK, AuditUnavailableError, SQLiteAuditStore, redact
+from asus_theye.audit.verifier import verify_document
 
 
 def event(sequence: int, previous: str = GENESIS_HASH, *, tenant: str = "tenant-a"):
@@ -111,6 +113,34 @@ def test_manifest_is_pre_anchor_and_hashes_all_fields():
     assert manifest["event_count"] == 3
     assert manifest["blockchain_tx_hash"] is None
     assert len(manifest["manifest_hash_sha256"]) == 64
+
+
+def test_verifier_infere_e_valida_o_lote_emitido_pelo_batcher():
+    batch = build_batch(chain())
+
+    recibo = verify_document(batch)
+
+    assert recibo["target_type"] == "batch"
+    assert recibo["target_id"] == batch["manifest"]["batch_id"]
+    assert recibo["checks"] == {"leaf_proof_root": True, "manifest_hash": True}
+    assert recibo["status"] == "not_anchored"
+
+
+def test_verifier_rejeita_documento_sem_kind_com_forma_ambigua():
+    ambiguo = build_batch(chain()) | {"event": chain(1)[0]}
+
+    with pytest.raises(ValueError, match="ambiguous verification document.*batch.*event"):
+        verify_document(ambiguo)
+
+
+def test_verifier_de_lote_rejeita_raiz_que_nao_e_a_do_manifesto():
+    batch = build_batch(chain())
+    batch["proofs"][0]["proof"]["root"] = "0" * 64
+
+    recibo = verify_document(batch)
+
+    assert recibo["checks"] == {"leaf_proof_root": False, "manifest_hash": True}
+    assert recibo["status"] == "invalid"
 
 
 def test_sdk_redaction_pseudonymization_idempotency_and_outbox():
