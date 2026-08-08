@@ -1,0 +1,37 @@
+{
+  "taxonomy_version": "1.0.0",
+  "domain_id": "fronteira-tecnologica",
+  "generated_from": "os campos da MISSAO no topo do AGENTS.md, na ordem em que ela os lista; sao os mesmos varridos por apps/observatorio/varredura_missao.py",
+  "note": "Este e o ASSUNTO do observatorio — o que a plataforma persegue. Ate 08/08/2026 o projeto source-graph, que e o motor da missao, declarava seu escopo em cinco areas da taxonomia JURIDICA, porque nao havia outro vocabulario disponivel. Era a prova mais dura de que a taxonomia legal tinha virado a plataforma: o grafo cuja missao e mapear 500 inovacoes em IA so conseguia se descrever em vocabulario de direito.",
+  "aviso_de_metodo": "Volume de publicacao nao mede qualidade nem importancia, e a missao proibe ranquear por metrica social. Os sinais registrados por campo (razao preprint/publicado, periodicos de acesso aberto) sao PISTAS de descoberta para investigacao humana, nunca prova.",
+  "area_count": 16,
+  "groups": [
+    {"group": "aprendizado-e-modelos", "name": "Aprendizado e modelos"},
+    {"group": "predicao-e-decisao", "name": "Predicao e decisao"},
+    {"group": "agentes-e-corpos", "name": "Agentes e corpos"},
+    {"group": "quantica", "name": "Computacao quantica"},
+    {"group": "infraestrutura", "name": "Infraestrutura"}
+  ],
+  "areas": [
+    {"field_id": "artificial-intelligence", "termo": "artificial intelligence", "name": "Inteligencia artificial", "group": "aprendizado-e-modelos"},
+    {"field_id": "machine-learning", "termo": "machine learning", "name": "Aprendizado de maquina", "group": "aprendizado-e-modelos"},
+    {"field_id": "multimodal-models", "termo": "multimodal models", "name": "Modelos multimodais", "group": "aprendizado-e-modelos"},
+    {"field_id": "prediction", "termo": "prediction", "name": "Predicao", "group": "predicao-e-decisao"},
+    {"field_id": "forecasting", "termo": "forecasting", "name": "Forecasting", "group": "predicao-e-decisao"},
+    {"field_id": "time-series", "termo": "time series", "name": "Series temporais", "group": "predicao-e-decisao"},
+    {"field_id": "causal-inference", "termo": "causal inference", "name": "Causalidade", "group": "predicao-e-decisao"},
+    {"field_id": "decision-intelligence", "termo": "decision intelligence", "name": "Decision intelligence", "group": "predicao-e-decisao"},
+    {"field_id": "autonomous-agents", "termo": "autonomous agents", "name": "Agentes autonomos", "group": "agentes-e-corpos"},
+    {"field_id": "robotics", "termo": "robotics", "name": "Robotica", "group": "agentes-e-corpos"},
+    {"field_id": "ai-for-science", "termo": "AI for science", "name": "AI for Science", "group": "aprendizado-e-modelos"},
+    {"field_id": "ai-hardware", "termo": "AI hardware accelerator", "name": "Hardware de IA", "group": "infraestrutura"},
+    {"field_id": "quantum-computing", "termo": "quantum computing", "name": "Computacao quantica", "group": "quantica"},
+    {"field_id": "quantum-machine-learning", "termo": "quantum machine learning", "name": "Quantum ML", "group": "quantica"},
+    {"field_id": "hybrid-quantum-classical", "termo": "hybrid quantum-classical algorithm", "name": "Algoritmos hibridos", "group": "quantica"},
+    {"field_id": "cloud-quantum", "termo": "cloud quantum computing", "name": "Quantica em nuvem", "group": "quantica"}
+  ],
+  "areas_emergentes": {
+    "regra": "A missao exige descobrir areas que o dono ainda nao conhece. Campo emergente detectado pela varredura NAO entra nesta lista automaticamente: entra em reports/observatorio/varredura_missao.json como pista, e so vira area depois de revisao humana. Taxonomia que cresce sozinha deixa de ser taxonomia.",
+    "estado": "nenhuma area emergente promovida ate 08/08/2026"
+  }
+}

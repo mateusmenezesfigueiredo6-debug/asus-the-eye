@@ -22,7 +22,8 @@
         "docs/BENCHMARK_ENGINE.md"
       ],
       "pipeline_stage": "3-processamento",
-      "pipeline_order": 3
+      "pipeline_order": 3,
+      "domain_id": "direito"
     },
     {
       "project_id": "audit-core",
@@ -49,7 +50,8 @@
         "tests/audit/test_audit_core.py"
       ],
       "pipeline_stage": "5-evidencia",
-      "pipeline_order": 5
+      "pipeline_order": 5,
+      "domain_id": "direito"
     },
     {
       "project_id": "ledger-staging",
@@ -70,7 +72,8 @@
         "tests/apps/test_verifier_app.py"
       ],
       "pipeline_stage": "5-evidencia",
-      "pipeline_order": 5
+      "pipeline_order": 5,
+      "domain_id": "direito"
     },
     {
       "project_id": "decision-context",
@@ -104,7 +107,8 @@
         "tests/decision_context/test_schemas.py"
       ],
       "pipeline_stage": "2-classificacao",
-      "pipeline_order": 2
+      "pipeline_order": 2,
+      "domain_id": "direito"
     },
     {
       "project_id": "legal-taxonomy",
@@ -128,7 +132,8 @@
         "docs/legal-intelligence/TAXONOMY_METHODOLOGY.md"
       ],
       "pipeline_stage": "2-classificacao",
-      "pipeline_order": 2
+      "pipeline_order": 2,
+      "domain_id": "direito"
     },
     {
       "project_id": "local-llm",
@@ -147,7 +152,8 @@
         "tests/llm/test_audited_llm.py"
       ],
       "pipeline_stage": "3-processamento",
-      "pipeline_order": 3
+      "pipeline_order": 3,
+      "domain_id": "direito"
     },
     {
       "project_id": "quantum-adapter",
@@ -165,7 +171,8 @@
         "tests/benchmark/test_ibm_backend_gate.py"
       ],
       "pipeline_stage": "3-processamento",
-      "pipeline_order": 3
+      "pipeline_order": 3,
+      "domain_id": "direito"
     },
     {
       "project_id": "governance",
@@ -190,7 +197,8 @@
         "tests/scripts/test_publish_guard.py"
       ],
       "pipeline_stage": "6-verificacao",
-      "pipeline_order": 6
+      "pipeline_order": 6,
+      "domain_id": "direito"
     },
     {
       "project_id": "anchor-contract",
@@ -211,7 +219,8 @@
         "contracts/audit-anchor/README.md"
       ],
       "pipeline_stage": "6-verificacao",
-      "pipeline_order": 6
+      "pipeline_order": 6,
+      "domain_id": "direito"
     },
     {
       "project_id": "source-graph",
@@ -268,7 +277,8 @@
         "tests/source_graph/test_events.py"
       ],
       "pipeline_stage": "1-ingestao",
-      "pipeline_order": 1
+      "pipeline_order": 1,
+      "domain_id": "direito"
     },
     {
       "project_id": "public-verifier",
@@ -287,7 +297,8 @@
         "apps/public-verifier/README.md"
       ],
       "pipeline_stage": "7-publicacao",
-      "pipeline_order": 7
+      "pipeline_order": 7,
+      "domain_id": "direito"
     },
     {
       "project_id": "comercial",
@@ -328,7 +339,42 @@
         "tests/commercial/test_commercial.py"
       ],
       "pipeline_stage": "4-operacao",
-      "pipeline_order": 4
+      "pipeline_order": 4,
+      "domain_id": "direito"
+    },
+    {
+      "project_id": "prediction-markets",
+      "name": "Mercados preditivos (nicho, com Kalshi como comparador)",
+      "purpose": "Pergunta binaria com prazo, resolvida contra fonte oficial nomeada, com probabilidade e erro medido contra baseline",
+      "release_class": "L1",
+      "domain_id": "mercados-preditivos",
+      "niches": [
+        "voto-legislativo",
+        "macroeconomia",
+        "commodities",
+        "risco-geopolitico",
+        "cyber",
+        "energia",
+        "juros",
+        "cambio",
+        "cripto",
+        "clima"
+      ],
+      "paths": [
+        "src/asus_theye/markets",
+        "data/domains"
+      ],
+      "artifacts": [
+        "data/domains/mercados_preditivos.json",
+        "src/asus_theye/markets/__init__.py",
+        "src/asus_theye/markets/claim.py",
+        "src/asus_theye/markets/resolution.py",
+        "src/asus_theye/markets/scoring.py",
+        "tests/markets/test_markets.py"
+      ],
+      "pipeline_stage": "4-operacao",
+      "pipeline_order": 4,
+      "nota": "O trabalho medido vive hoje em /home/sexexes/asus (banco asus_teste.duckdb: 50 mercados, 41 liquidados, 41 resolucoes) e NAO neste repositorio. Declarar os artefatos aqui e o que torna a lacuna visivel em vez de invisivel: enquanto eles nao existirem, a etapa 4 deixa de marcar 100% e passa a dizer a verdade."
     }
   ],
   "pipeline_note": "O projeto inteiro e UM pipeline: dado bruto -> classificacao -> processamento -> operacao -> evidencia -> verificacao -> publicacao. Cada etapa e medida pelos artefatos que existem, nunca por status declarado. A ultima etapa esta vazia de proposito: nada foi publicado."

@@ -245,9 +245,31 @@ está errado.
 
 A branch preservada `kalshi-20260725` foi confirmada, sem alteração, em
 `/home/sexexes/asus`. Seu commit de ponta observado é `fe5d93e` (28/07), cujo
-assunto declara conector a mercados abertos com dinheiro desligado. Ela é
-referência histórica de produto, não um pacote a ser enxertado. Nada deve ser
-copiado ou integrado como um subsistema Kalshi. Os princípios observados em
+assunto declara conector a mercados abertos com dinheiro desligado. **CORRIGIDO EM 08/08/2026 POR ORDEM DO DONO.** O texto anterior dizia que ela
+era "referência histórica de produto, não um pacote a ser enxertado" e que
+"nada deve ser copiado ou integrado como um subsistema Kalshi". Essa doutrina
+foi escrita, foi obedecida, e produziu exatamente o resultado que o dono
+reclamou em 08/08: "a Kalshi não está aí por quê? A Kalshi é um dos nichos da
+plataforma."
+
+A auditoria daquele dia mediu o que a doutrina custou: `grep -i kalshi` em todo
+o `asus_the_eye` devolve 16 linhas, todas em documento — zero em `data/`,
+`src/`, `apps/` ou `tests/`. Enquanto isso, `~/asus/asus_teste.duckdb` guarda
+50 mercados, 41 liquidados contra fonte oficial e 41 resoluções, em dez
+produtos que emitem mercado. Não era uma referência histórica; era metade do
+produto, fora da medição.
+
+**A regra passa a ser:** mercados preditivos são um DOMÍNIO da plataforma,
+registrado em `data/domains/domains.json`, com classificador próprio em
+`data/domains/mercados_preditivos.json` e projeto próprio no
+`projects.json`. A Kalshi entra como COMPARADOR — nunca como fonte de
+resolução, porque preço de mercado é opinião agregada e não desfecho.
+
+O que o texto antigo acertava e continua valendo: não se copia código de um
+repositório para o outro como subsistema paralelo. Os princípios — pergunta
+imutável, cotações append-only, `EM_RESOLUCAO`, fonte oficial, Brier realizado
+e trava financeira — são expressos no mesmo modelo e na mesma cadeia de eventos
+da THE EYE. Os princípios observados em
 somente-leitura — pergunta imutável, cotações append-only, `EM_RESOLUCAO`, fonte
 oficial, Brier realizado e trava financeira — devem ser expressos no mesmo
 modelo e na mesma cadeia de eventos da THE EYE.

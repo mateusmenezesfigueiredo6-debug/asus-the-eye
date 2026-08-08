@@ -1,0 +1,57 @@
+{
+  "taxonomy_version": "1.0.0",
+  "domain_id": "mercados-preditivos",
+  "generated_from": "select distinct produto from mercados em /home/sexexes/asus/asus_teste.duckdb, lido em 08/08/2026",
+  "note": "Nenhuma area aqui foi inventada: cada uma corresponde a um produto que ja emite mercado no banco. A coluna `estado` diz onde cada uma esta no ciclo, e o ciclo so fecha quando ha resolucao contra fonte oficial com erro medido. Emitir mercado nao e prova de nada; liquidar contra fonte e o que separa previsao de palpite.",
+  "aviso_de_desenho": "Sete dos nove mercados abertos tem probabilidade proxima de 0,50 porque produtos/_core/produto_serie.py escolhe deliberadamente o limiar de maxima incerteza (mediana da janela de 12 meses). Isso e escolha de gerador, nao acaso: nesse limiar o produto nao consegue demonstrar skill mesmo funcionando perfeitamente. Corrigir e desenho de produto, nao de modelo.",
+  "area_count": 10,
+  "groups": [
+    {"group": "macro-financeiro", "name": "Macro e financeiro"},
+    {"group": "fisico-e-recursos", "name": "Fisico e recursos"},
+    {"group": "institucional", "name": "Institucional"},
+    {"group": "tecnologico", "name": "Tecnologico"}
+  ],
+  "areas": [
+    {
+      "market_area_id": "voto-legislativo",
+      "produto": "voto_legislativo",
+      "name": "Voto legislativo",
+      "group": "institucional",
+      "fonte_resolucao": "dadosabertos.camara.leg.br",
+      "estado": "liquidado",
+      "mercados": 40,
+      "liquidados": 40,
+      "brier": 0.003293,
+      "ressalva": "Os 40 contratos vem de UMA votacao (2637721-10, 14/07/2026), agrupados em 7 partidos, e todos os resultados sao 1. Um palpite constante na taxa historica de seguimento partidario (0,959126, medida em 68.234 pares) da Brier 0,001671 — melhor que o modelo. Nao ha skill demonstravel aqui, e a regra 4 do AGENTS.md manda publicar isso."
+    },
+    {
+      "market_area_id": "macroeconomia",
+      "produto": "macroeconomia",
+      "name": "Macroeconomia",
+      "group": "macro-financeiro",
+      "fonte_resolucao": "api.bcb.gov.br (SGS)",
+      "estado": "liquidado",
+      "mercados": 2,
+      "liquidados": 1,
+      "brier": 0.111089,
+      "ressalva": "Unico produto com skill genuina medida: skill score 0,4168 em 546 meses (1981-2026). Mas cai para 0,1053 nos ultimos 120 meses — a manchete esta inflada pelo regime de hiperinflacao pre-1994, quando prever era trivial. O numero honesto para o regime atual e ~10% de reducao de Brier, e a janela precisa ser sempre declarada."
+    },
+    {"market_area_id": "commodities", "produto": "commodities", "name": "Commodities", "group": "fisico-e-recursos", "fonte_resolucao": "fao.org", "estado": "aberto", "mercados": 1, "liquidados": 0, "brier": null, "ressalva": "limiar de maxima incerteza; nada resolvido"},
+    {"market_area_id": "risco-geopolitico", "produto": "risco_geopolitico", "name": "Risco geopolitico", "group": "institucional", "fonte_resolucao": "GDELT", "estado": "aberto", "mercados": 1, "liquidados": 0, "brier": null, "ressalva": "backtest pendente declarado pelo proprio produto"},
+    {"market_area_id": "cyber", "produto": "cyber", "name": "Cyber", "group": "tecnologico", "fonte_resolucao": "cisa.gov (KEV) e NVD", "estado": "aberto", "mercados": 1, "liquidados": 0, "brier": null, "ressalva": "1.603 CVEs ingeridos; limiar de maxima incerteza"},
+    {"market_area_id": "energia", "produto": "energia", "name": "Energia", "group": "fisico-e-recursos", "fonte_resolucao": "a declarar", "estado": "aberto", "mercados": 1, "liquidados": 0, "brier": null, "ressalva": "limiar de maxima incerteza; nada resolvido"},
+    {"market_area_id": "juros", "produto": "juros", "name": "Juros", "group": "macro-financeiro", "fonte_resolucao": "api.bcb.gov.br (Selic)", "estado": "aberto", "mercados": 1, "liquidados": 0, "brier": null, "ressalva": "limiar de maxima incerteza; nada resolvido"},
+    {"market_area_id": "cambio", "produto": "cambio", "name": "Cambio", "group": "macro-financeiro", "fonte_resolucao": "api.bcb.gov.br (PTAX)", "estado": "aberto", "mercados": 1, "liquidados": 0, "brier": null, "ressalva": "limiar de maxima incerteza; nada resolvido"},
+    {"market_area_id": "cripto", "produto": "cripto", "name": "Cripto", "group": "macro-financeiro", "fonte_resolucao": "a declarar", "estado": "aberto", "mercados": 1, "liquidados": 0, "brier": null, "ressalva": "limiar de maxima incerteza; nada resolvido"},
+    {"market_area_id": "clima", "produto": "clima", "name": "Clima", "group": "fisico-e-recursos", "fonte_resolucao": "a declarar", "estado": "aberto", "mercados": 1, "liquidados": 0, "brier": null, "ressalva": "limiar de maxima incerteza; nada resolvido"}
+  ],
+  "comparadores": [
+    {
+      "nome": "Kalshi",
+      "papel": "COMPARADOR, nunca resolvedor",
+      "api": "https://api.elections.kalshi.com/trade-api/v2 (leitura, sem autenticacao)",
+      "por_que_nao_e_fonte_de_resolucao": "Kalshi e um mercado, e o preco de um mercado e opiniao agregada, nao desfecho. Resolver contra ela seria medir concordancia com outra previsao em vez de acerto contra o mundo. Ela entra como comparador para registrar divergencia e quem acertou depois que o evento resolve contra a fonte oficial.",
+      "estado": "instrumento pronto, ZERO medicoes — a tabela kalshi_divergencia nunca foi criada no banco; os 66,7% que circulam saem de _demo() com numeros escritos a mao"
+    }
+  ]
+}

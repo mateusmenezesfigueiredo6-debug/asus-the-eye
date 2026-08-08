@@ -21,6 +21,47 @@ from typing import Any
 REPO_ROOT = Path(__file__).resolve().parents[3]
 REGISTRY_PATH = REPO_ROOT / "data" / "mistress-chart" / "projects.json"
 TAXONOMY_PATH = REPO_ROOT / "data" / "legal-taxonomy" / "legal_areas.master.json"
+DOMAINS_PATH = REPO_ROOT / "data" / "domains" / "domains.json"
+
+# Compatibilidade com o registro anterior, que nao tinha dominio: projeto sem
+# `domain_id` conta como direito. E divida a pagar, nao desenho — enquanto
+# existir, um projeto de outro assunto pode entrar no denominador errado por
+# esquecimento.
+DOMINIO_PADRAO = "direito"
+
+
+def _load_domains() -> dict[str, dict[str, Any]]:
+    """Carrega o classificador de cada dominio.
+
+    Ate 08/08/2026 esta funcao nao existia e `areas` vinha so da taxonomia
+    juridica, de modo que `niches_total` era `len(areas juridicas)` e qualquer
+    projeto so conseguia declarar escopo em vocabulario de direito — inclusive
+    o source-graph, cuja missao e mapear inovacao em IA e computacao quantica.
+    A taxonomia legal tinha virado a taxonomia da plataforma por omissao.
+
+    Dominio cujo classificador nao existe em disco e ignorado com as areas
+    vazias, nunca silenciosamente fundido com outro: preferimos denominador
+    faltando a denominador errado.
+    """
+    if not DOMAINS_PATH.exists():
+        return {}
+    registro = json.loads(DOMAINS_PATH.read_text(encoding="utf-8"))
+    dominios: dict[str, dict[str, Any]] = {}
+    for d in registro.get("domains", []):
+        caminho = REPO_ROOT / d["classifier"]
+        areas: dict[str, dict[str, Any]] = {}
+        if caminho.exists():
+            bruto = json.loads(caminho.read_text(encoding="utf-8"))
+            for area in bruto.get(d.get("collection", "areas"), []):
+                chave = area.get(d["id_field"])
+                if chave:
+                    areas[chave] = area
+        dominios[d["domain_id"]] = {
+            **d,
+            "areas": areas,
+            "classifier_found": caminho.exists(),
+        }
+    return dominios
 
 
 def _canonical(value: Any) -> str:
@@ -143,19 +184,64 @@ def build_chart(ledger_events: list[dict[str, Any]] | None = None) -> dict[str, 
     taxonomy = json.loads(TAXONOMY_PATH.read_text(encoding="utf-8"))
     areas = {area["legal_area_id"]: area for area in taxonomy["areas"]}
 
+    dominios = _load_domains()
+    # Sem registro de dominios o comportamento antigo continua valendo, para
+    # que o chart nunca dependa de um arquivo novo para rodar.
+    if not dominios:
+        dominios = {DOMINIO_PADRAO: {"domain_id": DOMINIO_PADRAO, "name": "Direito",
+                                     "areas": areas, "classifier_found": True}}
+
     projects = []
     for project in registry["projects"]:
         evidence = _evidence_for(project)
-        unknown = [n for n in project.get("niches", []) if n not in areas and n != "*"]
-        projects.append({**project, "evidence": evidence, "unknown_niches": unknown})
+        dom = project.get("domain_id", DOMINIO_PADRAO)
+        # O nicho e validado contra o classificador do PROPRIO dominio. Validar
+        # contra outro produziria unknown_niches falso ou, pior, um nicho de
+        # mercado contado como area de direito.
+        conhecidas = dominios.get(dom, {}).get("areas", {})
+        unknown = [n for n in project.get("niches", []) if n not in conhecidas and n != "*"]
+        projects.append({
+            **project, "domain_id": dom, "evidence": evidence, "unknown_niches": unknown,
+        })
 
-    # Cobertura por nicho: quais das 145 áreas têm ao menos um projeto ativo.
+    # Cobertura por nicho, agora por dominio: qual area tem ao menos um projeto.
+    # A chave e (dominio, area) porque dois dominios podem ter ids homonimos.
     covered: dict[str, list[str]] = {}
+    covered_por_dominio: dict[str, set[str]] = {d: set() for d in dominios}
     for project in projects:
+        dom = project["domain_id"]
         for niche in project.get("niches", []):
             if niche == "*":
                 continue
             covered.setdefault(niche, []).append(project["project_id"])
+            covered_por_dominio.setdefault(dom, set()).add(niche)
+
+    domain_coverage = {}
+    for did, d in dominios.items():
+        total = len(d["areas"])
+        cob = len(covered_por_dominio.get(did, set()) & set(d["areas"]))
+        domain_coverage[did] = {
+            "name": d.get("name", did),
+            "areas_total": total,
+            "areas_covered": cob,
+            "coverage_pct": round(100 * cob / total, 1) if total else 0.0,
+            # Este numero mede DECLARACAO, nao dado processado: uma area conta
+            # como coberta porque algum projeto a listou no campo `niches`, e
+            # sobe se alguem editar um JSON. Coberto NAO significa que exista
+            # lead extraido, fonte no grafo ou mercado resolvido naquela area.
+            # O rotulo viaja junto com o numero para que nenhum painel possa
+            # apresenta-lo como medicao sem estar mentindo por escrito.
+            "coverage_kind": "declared",
+            "coverage_caveat": (
+                "cobertura declarada: conta area listada em projects.json, nao "
+                "area com dado processado"
+            ),
+            "classifier_found": d.get("classifier_found", False),
+            "projects": sorted(p["project_id"] for p in projects if p["domain_id"] == did),
+        }
+
+    areas_todas = sum(len(d["areas"]) for d in dominios.values())
+    cobertas_todas = sum(v["areas_covered"] for v in domain_coverage.values())
 
     groups: dict[str, dict[str, int]] = {}
     for area_id, area in areas.items():
@@ -199,14 +285,20 @@ def build_chart(ledger_events: list[dict[str, Any]] | None = None) -> dict[str, 
             "projects": len(projects),
             "projects_complete": sum(1 for p in projects if p["evidence"]["completion_pct"] == 100),
             "tests": _count_tests(),
-            "niches_total": len(areas),
-            "niches_covered": len(covered),
-            "niche_coverage_pct": round(100 * len(covered) / len(areas)) if areas else 0,
+            # O denominador agora soma TODOS os dominios. Antes era so o
+            # juridico, o que fazia a cobertura da plataforma inteira ser
+            # reportada como fracao de 145 areas de direito.
+            "niches_total": areas_todas,
+            "niches_covered": cobertas_todas,
+            "niche_coverage_pct": round(100 * cobertas_todas / areas_todas) if areas_todas else 0,
+            "domains_total": len(dominios),
+            "domains_with_coverage": sum(1 for v in domain_coverage.values() if v["areas_covered"]),
         },
         "ledger": _ledger_evidence(ledger_events),
         "projects": projects,
         "niche_coverage": {area_id: sorted(ids) for area_id, ids in sorted(covered.items())},
         "group_coverage": dict(sorted(groups.items())),
+        "domain_coverage": dict(sorted(domain_coverage.items())),
     }
     return snapshot
 
