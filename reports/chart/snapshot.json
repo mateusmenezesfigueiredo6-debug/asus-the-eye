@@ -96,8 +96,8 @@
       "completion_pct": 100
     }
   },
-  "generated_at": "2026-08-08T14:46:53.572012Z",
-  "commit": "8041be8",
+  "generated_at": "2026-08-08T14:58:16.815766Z",
+  "commit": "1cb4c9e",
   "knowledge": {
     "available": true,
     "methodology_version": "1.0.0",
@@ -192,7 +192,7 @@
   "totals": {
     "projects": 12,
     "projects_complete": 12,
-    "tests": 300,
+    "tests": 315,
     "niches_total": 145,
     "niches_covered": 24,
     "niche_coverage_pct": 17
@@ -399,8 +399,8 @@
         "artifacts_declared": 3,
         "artifacts_missing": [],
         "completion_pct": 100,
-        "commits": 2,
-        "last_commit": "8041be8 2026-08-08"
+        "commits": 3,
+        "last_commit": "18d2f16 2026-08-08"
       },
       "unknown_niches": []
     },
@@ -584,8 +584,8 @@
         "artifacts_declared": 3,
         "artifacts_missing": [],
         "completion_pct": 100,
-        "commits": 0,
-        "last_commit": ""
+        "commits": 1,
+        "last_commit": "de03eb7 2026-08-08"
       },
       "unknown_niches": []
     },
