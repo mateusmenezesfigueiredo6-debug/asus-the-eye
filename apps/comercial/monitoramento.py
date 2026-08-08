@@ -20,6 +20,13 @@ import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
+import numpy as np
+
+try:
+    from .previsao import METODOS
+except ImportError:  # Permite executar este arquivo diretamente a partir da raiz.
+    from previsao import METODOS
+
 BASE = Path(__file__).resolve().parents[2]
 SERIE = BASE / "reports/commercial/serie_mensal.json"
 PREVISAO = BASE / "reports/commercial/previsao.json"
@@ -28,6 +35,7 @@ PAINEL = BASE / "reports/commercial/monitoramento.json"
 
 # Alerta quando o erro do mes supera a media historica por esta margem.
 FATOR_ALERTA = 2.0
+VERSAO_METODOLOGIA_AFERICAO = 2
 
 
 def mes_anterior(rotulo: str) -> str:
@@ -73,12 +81,27 @@ def aferir() -> dict:
         if (ultimo, nid) in ja_aferido:
             continue
 
-        # O que a plataforma teria previsto para o ultimo mes, treinando so ate
-        # o mes anterior — e a mesma logica do backtest, aplicada ao presente.
-        anterior = pontos.get(mes_anterior(ultimo))
-        if anterior is None:
+        # Reconstrui a mesma serie numerica interpolada usada no backtest e
+        # treino o campeao somente ate o mes anterior ao alvo.
+        valores = [pontos.get(mes) for mes in meses]
+        tem = np.array([valor is not None for valor in valores])
+        if not tem.any():
             continue
-        erro = abs(observado - anterior)
+        primeiro = int(np.flatnonzero(tem)[0])
+        valores = valores[primeiro:]
+        tem = tem[primeiro:]
+        idx = np.arange(len(valores), dtype=float)
+        y = np.interp(
+            idx,
+            idx[tem],
+            np.array([valor for valor in valores if valor is not None], dtype=float),
+        )
+        treino = y[:-1]
+        if not len(treino):
+            continue
+        campeao = av["modelo_campeao"]
+        previsto = float(METODOS[campeao](treino, 1)[0])
+        erro = abs(float(observado) - previsto)
         erro_pct = (erro / observado * 100) if observado else None
 
         aferições.append({
@@ -86,12 +109,14 @@ def aferir() -> dict:
             "mes_alvo": ultimo,
             "niche_id": nid,
             "regime": av.get("regime"),
-            "modelo": av.get("modelo_campeao"),
-            "previsto": anterior,
+            "modelo": campeao,
+            "previsto": previsto,
             "observado": observado,
             "erro_absoluto": erro,
             "erro_pct": None if erro_pct is None else round(erro_pct, 1),
-            "mae_esperado_backtest": av["backtest"][av["modelo_campeao"]]["mae"],
+            "mae_esperado_backtest": av["backtest"][campeao]["mae"],
+            # Campo ausente identifica registros legados anteriores a correcao.
+            "versao_metodologia_afericao": VERSAO_METODOLOGIA_AFERICAO,
         })
     return {"novas": aferições, "historico": historico, "mes_alvo": ultimo}
 
