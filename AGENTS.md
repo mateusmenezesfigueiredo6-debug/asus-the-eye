@@ -65,6 +65,33 @@ does exactly that, and it is wrong. Fixing it is open work.
 
 <!-- END MISSION -->
 
+## The three agents — one brain, one board, one router
+
+Unified 10/08/2026 by the owner's order: "quero tudo junto, sem perder nada".
+
+**One brain.** This file is read by all three agents under their own name:
+`CLAUDE.md -> AGENTS.md` (Claude Code), `AGENTS.md` itself (Codex),
+`GEMINI.md -> AGENTS.md` (Gemini CLI). Editing any of the three names edits the
+same file; there is exactly one source of truth and it is this one.
+
+**One board.** `COORDENACAO.md` is the message board and territory map for ALL
+agents, not just two. New agent joins by adding a line to the work table there,
+and works in its own `git worktree` — never by switching branches in a shared
+directory (that collision has already cost commits twice).
+
+**One router.** The `roteador` MCP server
+(`~/.claude/mcp-servers/roteador/server.py`, backed up in git and in
+`~/Backups-Proton/MCP_E_OLLAMA/`) lets Claude delegate mid-session:
+`ask_gpt` (GPT via Codex CLI, tested), `ask_local` (Ollama offline, tested),
+`ask_gemini` / `ask_openrouter` (need keys). In-code, `asus_theye.llm.dual`
+runs ChatGPT and Claude as an adversarial pair behind `THE_EYE_REMOTE_LLM=1`;
+disagreement resolves to CONFLICTED, never to a winner.
+
+**Nothing is hidden.** Every cross-model call is visible in session logs and
+each model states its real name when asked. Private is fine; disguised is the
+disease this platform exists to fight.
+
+
 <!-- BEGIN PROJECT SCOPE — read after the mission -->
 
 # ASUS + THE EYE — project scope
