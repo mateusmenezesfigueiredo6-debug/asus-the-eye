@@ -176,3 +176,20 @@ quebrada e prova inválida respondem HTTP 200 com `valido: false`.
 nomes fixos de campo e hashes seguros, sem ecoar conteúdo recebido.
 
 **Reverteria:** nova versão formal do contrato público.
+
+## D109 — ChatGPT e Claude são apelidos, não provedores novos
+
+**Decisão:** os nomes "chatgpt", "gpt" e "claude" resolvem para os provedores
+canônicos "openai" e "anthropic" em um único ponto (`normalize_provider`), e a
+adjudicação normaliza antes da guarda de auto-revisão. O modelo Anthropic
+padrão passa a ser `claude-opus-5` (sobrescrevível por
+`THE_EYE_ANTHROPIC_MODEL`). A camada permanece stdlib puro (urllib), sem SDK.
+
+**Razão:** o dono fala "chatGPT" e "Claude"; a trilha de auditoria fala
+"openai" e "anthropic". Sem normalização única, a cadeia de hash registraria
+dois nomes para uma mesma origem, e `adjudicate(proposer="chatgpt",
+challenger="openai")` burlaria a regra de que um modelo não revisa a si mesmo.
+SDKs de terceiros contrariariam a política de dependências vazias do projeto.
+
+**Reverteria:** adoção formal de dependências externas no `pyproject.toml`, ou
+um terceiro provedor cujo vocabulário colida com os apelidos atuais.

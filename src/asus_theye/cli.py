@@ -53,11 +53,12 @@ def _parser() -> argparse.ArgumentParser:
         help="two models, one proposes and the other refutes; disagreement yields CONFLICTED",
     )
     adjudicate_parser.add_argument("question")
+    providers = ("local", "ollama", "openai", "chatgpt", "gpt", "anthropic", "claude")
     adjudicate_parser.add_argument(
-        "--proposer", default="openai", choices=("local", "openai", "anthropic"), help="model that answers"
+        "--proposer", default="openai", choices=providers, help="model that answers"
     )
     adjudicate_parser.add_argument(
-        "--challenger", default="anthropic", choices=("local", "openai", "anthropic"), help="model that attacks"
+        "--challenger", default="anthropic", choices=providers, help="model that attacks"
     )
     adjudicate_parser.add_argument("--proposer-model", default=None)
     adjudicate_parser.add_argument("--challenger-model", default=None)

@@ -12,6 +12,7 @@ from asus_theye.llm.remote_client import (
     OpenAIClient,
     RemoteLLMError,
     build_client,
+    normalize_provider,
     remote_enabled,
 )
 
@@ -26,5 +27,6 @@ __all__ = [
     "RemoteLLMError",
     "adjudicate",
     "build_client",
+    "normalize_provider",
     "remote_enabled",
 ]

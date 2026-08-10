@@ -27,7 +27,30 @@ ANTHROPIC_URL = "https://api.anthropic.com/v1/messages"
 ANTHROPIC_VERSION = "2023-06-01"
 
 DEFAULT_OPENAI_MODEL = os.environ.get("THE_EYE_OPENAI_MODEL", "gpt-4o")
-DEFAULT_ANTHROPIC_MODEL = os.environ.get("THE_EYE_ANTHROPIC_MODEL", "claude-sonnet-5")
+DEFAULT_ANTHROPIC_MODEL = os.environ.get("THE_EYE_ANTHROPIC_MODEL", "claude-opus-5")
+
+# The owner says "chatGPT" and "Claude"; the audit trail says "openai" and
+# "anthropic". Both vocabularies resolve to the same canonical provider so the
+# hash chain never records two names for one origin.
+PROVIDER_ALIASES = {
+    "local": "local",
+    "ollama": "local",
+    "openai": "openai",
+    "chatgpt": "openai",
+    "gpt": "openai",
+    "anthropic": "anthropic",
+    "claude": "anthropic",
+}
+
+
+def normalize_provider(provider: str) -> str:
+    """Map a provider name or alias onto local, openai, or anthropic."""
+    normalized = PROVIDER_ALIASES.get(provider.strip().lower())
+    if normalized is None:
+        raise RemoteLLMError(
+            f"unknown provider {provider!r}; expected one of {sorted(set(PROVIDER_ALIASES))}"
+        )
+    return normalized
 
 
 class RemoteLLMError(RuntimeError):
@@ -160,14 +183,15 @@ class AnthropicClient:
 
 
 def build_client(provider: str, model: str | None = None) -> Any:
-    """Return a chat client for ``provider``: local, openai, or anthropic."""
-    normalized = provider.strip().lower()
-    if normalized in ("local", "ollama"):
+    """Return a chat client for ``provider``: local, openai, or anthropic.
+
+    Accepts the aliases in ``PROVIDER_ALIASES`` (chatgpt, gpt, claude, ollama).
+    """
+    normalized = normalize_provider(provider)
+    if normalized == "local":
         from asus_theye.llm.ollama_client import OllamaClient
 
         return OllamaClient(model=model) if model else OllamaClient()
     if normalized == "openai":
         return OpenAIClient(model=model or DEFAULT_OPENAI_MODEL)
-    if normalized == "anthropic":
-        return AnthropicClient(model=model or DEFAULT_ANTHROPIC_MODEL)
-    raise RemoteLLMError(f"unknown provider {provider!r}; expected local, openai, or anthropic")
+    return AnthropicClient(model=model or DEFAULT_ANTHROPIC_MODEL)

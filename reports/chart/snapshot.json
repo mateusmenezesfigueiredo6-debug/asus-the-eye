@@ -34,8 +34,8 @@
         "local-llm",
         "quantum-adapter"
       ],
-      "artifacts_present": 10,
-      "artifacts_declared": 10,
+      "artifacts_present": 14,
+      "artifacts_declared": 14,
       "release_classes": [
         "L0",
         "L1",
@@ -97,8 +97,8 @@
       "completion_pct": 100
     }
   },
-  "generated_at": "2026-08-08T17:19:40.367285Z",
-  "commit": "0bb7a30",
+  "generated_at": "2026-08-10T22:14:14.141991Z",
+  "commit": "52be054",
   "knowledge": {
     "available": true,
     "methodology_version": "1.0.0",
@@ -193,7 +193,7 @@
   "totals": {
     "projects": 13,
     "projects_complete": 12,
-    "tests": 325,
+    "tests": 344,
     "niches_total": 171,
     "niches_covered": 34,
     "niche_coverage_pct": 20,
@@ -386,8 +386,8 @@
     },
     {
       "project_id": "local-llm",
-      "name": "LLM local auditado (Ollama)",
-      "purpose": "Inferência que nunca sai da máquina, com registro encadeado de cada chamada",
+      "name": "LLM auditado (Ollama local + OpenAI/Anthropic sob porta)",
+      "purpose": "Inferência local por padrão, com registro encadeado de cada chamada; ChatGPT (OpenAI) e Claude (Anthropic) entram apenas sob a porta THE_EYE_REMOTE_LLM=1, pareados adversarialmente em adjudicate",
       "release_class": "L0",
       "niches": [
         "*"
@@ -398,14 +398,18 @@
       "artifacts": [
         "src/asus_theye/llm/ollama_client.py",
         "src/asus_theye/llm/audited.py",
-        "tests/llm/test_audited_llm.py"
+        "src/asus_theye/llm/remote_client.py",
+        "src/asus_theye/llm/dual.py",
+        "tests/llm/test_audited_llm.py",
+        "tests/llm/test_remote_client.py",
+        "tests/llm/test_dual.py"
       ],
       "pipeline_stage": "3-processamento",
       "pipeline_order": 3,
       "domain_id": "direito",
       "evidence": {
-        "artifacts_present": 3,
-        "artifacts_declared": 3,
+        "artifacts_present": 7,
+        "artifacts_declared": 7,
         "artifacts_missing": [],
         "completion_pct": 100,
         "commits": 3,
