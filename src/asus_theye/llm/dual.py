@@ -23,7 +23,7 @@ import re
 from typing import Any
 
 from asus_theye.llm.audited import AuditedLocalLLM
-from asus_theye.llm.remote_client import build_client
+from asus_theye.llm.remote_client import build_client, normalize_provider
 
 CLAIM_CLASSES = ("FACT", "DERIVED", "INFERENCE", "RECOMMENDATION", "UNKNOWN", "CONFLICTED", "BLOCKED")
 
@@ -123,6 +123,10 @@ def adjudicate(
     ``proposer`` and ``challenger`` are provider names: local, openai, or
     anthropic. Remote providers require ``THE_EYE_REMOTE_LLM=1``.
     """
+    # Aliases collapse first ("chatgpt" and "openai" are one provider), so the
+    # self-review guard cannot be dodged by naming the same provider twice.
+    proposer = normalize_provider(proposer)
+    challenger = normalize_provider(challenger)
     if proposer == challenger and proposer_model == challenger_model:
         raise DualModelError(
             "proposer and challenger are the same model; a model cannot adversarially "

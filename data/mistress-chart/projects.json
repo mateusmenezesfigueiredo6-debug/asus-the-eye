@@ -137,8 +137,8 @@
     },
     {
       "project_id": "local-llm",
-      "name": "LLM local auditado (Ollama)",
-      "purpose": "Inferência que nunca sai da máquina, com registro encadeado de cada chamada",
+      "name": "LLM auditado (Ollama local + OpenAI/Anthropic sob porta)",
+      "purpose": "Inferência local por padrão, com registro encadeado de cada chamada; ChatGPT (OpenAI) e Claude (Anthropic) entram apenas sob a porta THE_EYE_REMOTE_LLM=1, pareados adversarialmente em adjudicate",
       "release_class": "L0",
       "niches": [
         "*"
@@ -149,7 +149,11 @@
       "artifacts": [
         "src/asus_theye/llm/ollama_client.py",
         "src/asus_theye/llm/audited.py",
-        "tests/llm/test_audited_llm.py"
+        "src/asus_theye/llm/remote_client.py",
+        "src/asus_theye/llm/dual.py",
+        "tests/llm/test_audited_llm.py",
+        "tests/llm/test_remote_client.py",
+        "tests/llm/test_dual.py"
       ],
       "pipeline_stage": "3-processamento",
       "pipeline_order": 3,

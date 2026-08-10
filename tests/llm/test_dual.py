@@ -175,6 +175,24 @@ def test_a_model_cannot_review_itself():
         adjudicate("qualquer", proposer="openai", challenger="openai")
 
 
+def test_an_alias_cannot_dodge_the_self_review_guard():
+    """ "chatgpt" and "openai" are one provider; the guard sees through the alias."""
+    with pytest.raises(DualModelError, match="cannot adversarially"):
+        adjudicate("qualquer", proposer="chatgpt", challenger="openai")
+
+
+def test_aliases_are_recorded_under_their_canonical_names(monkeypatch):
+    _patch_clients(
+        monkeypatch,
+        StubClient("openai", PROPOSAL),
+        StubClient("anthropic", AGREEING_CHALLENGE),
+    )
+    verdict = adjudicate("A cadeia é encadeada?", proposer="chatgpt", challenger="claude")
+
+    assert verdict["proposer"]["provider"] == "openai"
+    assert verdict["challenger"]["provider"] == "anthropic"
+
+
 def test_empty_claim_is_rejected(monkeypatch):
     _patch_clients(
         monkeypatch,

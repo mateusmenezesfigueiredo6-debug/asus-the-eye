@@ -10,7 +10,7 @@ EXTRAS  := .[telemetry,dashboard,dev]
 LEDGER  ?= https://the-eye-audit-staging.mateusmenezesfigueiredo6.workers.dev
 
 .DEFAULT_GOAL := help
-.PHONY: help setup check test lint fmt types cov chart run-comercial run-dash \
+.PHONY: help setup check test lint fmt fmt-check types cov chart run-comercial run-dash \
         source-graph leak gates package clean
 
 help:  ## lista os comandos
@@ -31,10 +31,13 @@ clean:  ## remove artefatos de build e cache
 
 # ------------------------------------------------------------------ qualidade
 
-check: lint types test  ## tudo que o CI roda
+check: lint fmt-check types test  ## tudo que o CI roda
 
 lint:  ## ruff (lint + import order)
 	$(RUFF) check .
+
+fmt-check:  ## formatação, do mesmo jeito que o CI cobra (não corrige)
+	$(RUFF) format --check .
 
 fmt:  ## corrige o que o ruff sabe corrigir
 	$(RUFF) check . --fix
