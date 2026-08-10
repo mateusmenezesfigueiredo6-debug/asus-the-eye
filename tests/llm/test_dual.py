@@ -176,7 +176,7 @@ def test_a_model_cannot_review_itself():
 
 
 def test_an_alias_cannot_dodge_the_self_review_guard():
-    """"chatgpt" and "openai" are one provider; the guard sees through the alias."""
+    """ "chatgpt" and "openai" are one provider; the guard sees through the alias."""
     with pytest.raises(DualModelError, match="cannot adversarially"):
         adjudicate("qualquer", proposer="chatgpt", challenger="openai")
 

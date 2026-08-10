@@ -47,9 +47,7 @@ def normalize_provider(provider: str) -> str:
     """Map a provider name or alias onto local, openai, or anthropic."""
     normalized = PROVIDER_ALIASES.get(provider.strip().lower())
     if normalized is None:
-        raise RemoteLLMError(
-            f"unknown provider {provider!r}; expected one of {sorted(set(PROVIDER_ALIASES))}"
-        )
+        raise RemoteLLMError(f"unknown provider {provider!r}; expected one of {sorted(set(PROVIDER_ALIASES))}")
     return normalized
 
 
