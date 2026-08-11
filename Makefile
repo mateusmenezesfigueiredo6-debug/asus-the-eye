@@ -10,7 +10,7 @@ EXTRAS  := .[telemetry,dashboard,dev]
 LEDGER  ?= https://the-eye-audit-staging.mateusmenezesfigueiredo6.workers.dev
 
 .DEFAULT_GOAL := help
-.PHONY: help setup check test lint fmt fmt-check types cov chart run-comercial run-dash \
+.PHONY: help setup check test lint fmt fmt-check types cov chart adjudicate run-comercial run-dash \
         source-graph leak gates package clean
 
 help:  ## lista os comandos
@@ -60,6 +60,11 @@ chart:  ## Mistress Chart (pipeline, nichos, grafo de fontes)
 
 source-graph:  ## cobertura do grafo de fontes + relatórios da Fase C
 	$(PY) -m asus_theye.cli source-graph --reports
+
+# O único alvo que manda conteúdo para fora: confere as pré-condições e avisa
+# antes de enviar. PROPOSER/CHALLENGER sobrescrevem os padrões chatgpt/claude.
+adjudicate:  ## adjudicação real com dois modelos: make adjudicate Q="sua pergunta"
+	@bash scripts/adjudicate_real.sh "$(Q)"
 
 run-comercial:  ## app do diretor comercial em localhost:8713
 	$(PY) -m uvicorn apps.comercial.api:create_app --factory --port 8713
