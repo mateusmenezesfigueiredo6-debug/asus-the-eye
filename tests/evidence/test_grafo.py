@@ -149,6 +149,53 @@ def test_resolucao_e_mercado_nao_colidem(tmp_path: Path) -> None:
     assert (RESOLUCAO, "res:MACRO-01::2026-07") in g.nos
 
 
+def test_sucede_nao_vaza_fonte_de_evento_anterior(tmp_path: Path) -> None:
+    """Semântica: fonte de um evento é a da sua resolução, não a dos anteriores.
+
+    Dois eventos em corrente (SUCEDE), cada um selando uma resolução de fonte
+    diferente. fontes_de(evento_2) deve devolver só a fonte do evento 2.
+    """
+    base = tmp_path / "markets"
+    base.mkdir(parents=True)
+    (base / "registro.json").write_text(json.dumps({"versao": 1, "mercados": []}), encoding="utf-8")
+    (base / "resolucoes.jsonl").write_text(
+        json.dumps({"claim_id": "A", "outcome": 1, "resolution_source": "fonte-A", "brier_do_contrato": 0.1})
+        + "\n"
+        + json.dumps({"claim_id": "B", "outcome": 0, "resolution_source": "fonte-B", "brier_do_contrato": 0.2})
+        + "\n",
+        encoding="utf-8",
+    )
+    (base / "eventos.jsonl").write_text(
+        json.dumps(
+            {
+                "event_id": "e1",
+                "sequence": 1,
+                "event_hash_sha256": "1" * 64,
+                "previous_event_hash_sha256": "0" * 64,
+                "correlation_id": "A",
+            }
+        )
+        + "\n"
+        + json.dumps(
+            {
+                "event_id": "e2",
+                "sequence": 2,
+                "event_hash_sha256": "2" * 64,
+                "previous_event_hash_sha256": "1" * 64,
+                "correlation_id": "B",
+            }
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+    g = construir_grafo(base)
+    # derivação (padrão): e2 só chega em fonte-B
+    assert [f.id for f in fontes_de(g, EVENTO, "e2")] == ["fonte-B"]
+    # seguindo TODAS as relações (inclui SUCEDE), aí sim alcança fonte-A também
+    todas = {n.id for n in linhagem_ascendente(g, EVENTO, "e2", relacoes=None) if n.tipo == FONTE}
+    assert todas == {"fonte-A", "fonte-B"}
+
+
 def test_as_dict_serializa(tmp_path: Path) -> None:
     g = construir_grafo(_montar_base(tmp_path))
     d = g.as_dict()

@@ -41,9 +41,15 @@ CONSULTA = "CONSULTA"  # Mercado → Fonte
 MEDE = "MEDE"  # Resolucao → Mercado
 CONTRA = "CONTRA"  # Resolucao → Fonte
 SELA = "SELA"  # EventoSelado → Resolucao
-SUCEDE = "SUCEDE"  # EventoSelado → EventoSelado anterior
+SUCEDE = "SUCEDE"  # EventoSelado → EventoSelado anterior (integridade de corrente)
 AGREGA = "AGREGA"  # LoteMerkle → EventoSelado
 ANCORA_REL = "ANCORA"  # Ancora → LoteMerkle
+
+# Arestas de DERIVAÇÃO (de onde o dado vem). SUCEDE fica de fora: é ordenação
+# temporal/integridade, não derivação — seguir SUCEDE faria um evento parecer
+# embasado pelas Fontes de todos os anteriores. A âncora já alcança todos os
+# eventos do lote por AGREGA, então excluir SUCEDE não encurta a linhagem real.
+DERIVACAO = (CONSULTA, MEDE, CONTRA, SELA, AGREGA, ANCORA_REL)
 
 
 class GrafoError(RuntimeError):
@@ -182,19 +188,24 @@ def construir_grafo(base: Path = BASE_PADRAO) -> Grafo:
     return Grafo(nos=nos, arestas=arestas)
 
 
-def _adjacencia(grafo: Grafo) -> dict[Chave, list[Chave]]:
+def _adjacencia(grafo: Grafo, relacoes: tuple[str, ...] | None) -> dict[Chave, list[Chave]]:
     adj: dict[Chave, list[Chave]] = defaultdict(list)
     for a in grafo.arestas:
-        adj[a.origem].append(a.destino)
+        if relacoes is None or a.relacao in relacoes:
+            adj[a.origem].append(a.destino)
     return adj
 
 
-def linhagem_ascendente(grafo: Grafo, tipo: str, id: str) -> list[No]:
-    """Todos os nós upstream alcançáveis a partir de (tipo, id), em ordem de BFS."""
+def linhagem_ascendente(grafo: Grafo, tipo: str, id: str, *, relacoes: tuple[str, ...] | None = DERIVACAO) -> list[No]:
+    """Nós upstream alcançáveis a partir de (tipo, id), em ordem de BFS.
+
+    ``relacoes`` filtra as arestas seguidas; o padrão é só derivação (``SUCEDE``
+    fica de fora). Passe ``None`` para seguir todas (inclui a corrente temporal).
+    """
     inicio: Chave = (tipo, id)
     if inicio not in grafo.nos:
         raise GrafoError(f"nó inexistente no grafo: {inicio}")
-    adj = _adjacencia(grafo)
+    adj = _adjacencia(grafo, relacoes)
     vistos: set[Chave] = set()
     ordem: list[No] = []
     fila: deque[Chave] = deque(adj.get(inicio, []))
