@@ -24,6 +24,16 @@ from asus_theye.markets.claim import (
     make_claim,
     resolution_source_for,
 )
+from asus_theye.markets.duckdb_source import (
+    DB_ENV,
+    MarketsSourceError,
+    SettledContract,
+    load_settled,
+    produto_to_area,
+    reconcile,
+    recover_probability,
+    resolve_db_path,
+)
 from asus_theye.markets.resolution import (
     ComparatorDivergence,
     Resolution,
@@ -39,19 +49,27 @@ from asus_theye.markets.scoring import (
 )
 
 __all__ = [
+    "DB_ENV",
     "ComparatorDivergence",
     "MarketClaim",
     "MarketClaimError",
+    "MarketsSourceError",
     "Resolution",
     "ResolutionError",
     "ScoringError",
+    "SettledContract",
     "base_rate",
     "brier_score",
     "load_areas",
     "load_classifier",
+    "load_settled",
     "make_claim",
+    "produto_to_area",
+    "recover_probability",
+    "reconcile",
     "record_comparator",
     "resolution_source_for",
     "resolve",
+    "resolve_db_path",
     "skill_score",
 ]
