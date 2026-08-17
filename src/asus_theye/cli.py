@@ -167,6 +167,11 @@ def _parser() -> argparse.ArgumentParser:
         help="escuta em 0.0.0.0 e EXIGE THE_EYE_DASHBOARD_TOKEN (falha-fechada)",
     )
     serve.add_argument("--markets-db", type=Path, default=None)
+    maxcut = subcommands.add_parser("benchmark-maxcut", help="Max-Cut 12–16 qubits: QAOA vs ótimo exato (curva QAR×p)")
+    maxcut.add_argument("--nodes", type=int, default=14, help="nº de nós/qubits (par, 4–20)")
+    maxcut.add_argument("--layers", default="1,2,3", help="camadas p do QAOA, ex.: 1,2,3")
+    maxcut.add_argument("--grid", type=int, default=12, help="resolução da busca de ângulos")
+    maxcut.add_argument("--json", dest="json_out", action="store_true", help="saída em JSON")
     return parser
 
 
@@ -546,6 +551,31 @@ def main(argv: Sequence[str] | None = None) -> int:
             print("serve: instale o extra do dashboard (pip install 'asus-the-eye[dashboard]')")
             return 1
         uvicorn.run(app, host=host, port=args.port, log_level="info")
+        return 0
+    if args.command == "benchmark-maxcut":
+        from asus_theye.benchmark.maxcut import MaxCutError, benchmark_maxcut, grafo_3_regular
+
+        try:
+            problema = grafo_3_regular(args.nodes)
+            ps = tuple(int(x) for x in str(args.layers).split(","))
+            relatorio = benchmark_maxcut(problema, ps=ps, grid=args.grid)
+        except (MaxCutError, ValueError) as error:
+            print(f"benchmark-maxcut: {error}")
+            return 1
+        if args.json_out:
+            print(json.dumps(relatorio, ensure_ascii=False, indent=2))
+            return 0
+        print("=" * 62)
+        print(f"MAX-CUT — {relatorio['n_qubits']} QUBITS (QAOA local × ótimo exato)")
+        print("=" * 62)
+        print(f"\nótimo clássico EXATO (força bruta 2^N): {relatorio['otimo_classico_exato']}")
+        print("\ncurva QAR × p:")
+        for pt in relatorio["curva_qar_por_p"]:
+            print(
+                f"  p={pt['p']}  ⟨corte⟩={pt['expected_cut']:.3f}  "
+                f"QAR={pt['qar']:.4f}  mais_provável={pt['most_probable_cut']}"
+            )
+        print(f"\nressalva: {relatorio['ressalva']}")
         return 0
     return 2
 
