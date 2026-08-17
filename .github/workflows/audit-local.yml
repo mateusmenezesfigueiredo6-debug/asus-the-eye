@@ -19,7 +19,11 @@ jobs:
       - run: python scripts/event_coverage.py
   security:
     runs-on: ubuntu-latest
-    permissions: {contents: read, security-events: write, pull-requests: read}
+    # security-events:write exige GitHub Advanced Security, que este repo privado
+    # nao tem (ver nota abaixo). Pedir uma permissao nao-concedivel degradava o
+    # grant do token e o gitleaks perdia acesso a /pulls/{n}/commits (403 em PR).
+    # Fica so o que e concedivel e necessario: ler conteudo e commits do PR.
+    permissions: {contents: read, pull-requests: read}
     steps:
       - uses: actions/checkout@v4
         with: {fetch-depth: 0}
