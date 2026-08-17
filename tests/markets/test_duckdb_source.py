@@ -24,6 +24,7 @@ from asus_theye.markets import (
     reconcile,
     recover_probability,
     resolve_db_path,
+    skill_report,
 )
 
 duckdb = pytest.importorskip("duckdb")
@@ -116,6 +117,25 @@ def test_reconcile_tie_out_por_contrato(synthetic_db: str) -> None:
     rep = reconcile(synthetic_db)
     assert rep["settled_total"] == 2
     assert all(area["per_contract_matches"] for area in rep["areas"]), "cada contrato reproduz o brier do banco"
+
+
+def test_skill_report_declara_janela_por_area(synthetic_db: str) -> None:
+    rep = skill_report(synthetic_db)
+    assert rep["settled_total"] == 2
+    areas = {a["area_id"]: a for a in rep["areas"]}
+    # janela sempre presente, uma por área
+    assert all(a["window"].endswith(f"({a['area_id']})") for a in rep["areas"])
+    # juros: 1 contrato, desfecho 1 -> taxa-base 1.0 -> baseline perfeito -> skill indefinida
+    assert areas["juros"]["skill_score"] is None
+    assert areas["juros"]["baseline_beats_model"] is True
+
+
+def test_skill_report_baseline_externo_muda_a_resposta(synthetic_db: str) -> None:
+    # com um baseline externo != desfecho, a skill deixa de ser indefinida
+    rep = skill_report(synthetic_db, baseline_probability=0.7)
+    juros = next(a for a in rep["areas"] if a["area_id"] == "juros")
+    assert juros["skill_score"] is not None
+    assert juros["baseline_probability"] == pytest.approx(0.7)
 
 
 def test_kalshi_como_fonte_no_banco_levanta(tmp_path: Path) -> None:

@@ -33,6 +33,7 @@ from asus_theye.markets.duckdb_source import (
     reconcile,
     recover_probability,
     resolve_db_path,
+    skill_report,
 )
 from asus_theye.markets.resolution import (
     ComparatorDivergence,
@@ -71,5 +72,6 @@ __all__ = [
     "resolution_source_for",
     "resolve",
     "resolve_db_path",
+    "skill_report",
     "skill_score",
 ]

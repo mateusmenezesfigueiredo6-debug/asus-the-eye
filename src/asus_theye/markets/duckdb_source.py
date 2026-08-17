@@ -32,7 +32,7 @@ from asus_theye.markets.claim import (
     load_classifier,
 )
 from asus_theye.markets.resolution import Resolution
-from asus_theye.markets.scoring import brier_score
+from asus_theye.markets.scoring import brier_score, skill_score
 
 DB_ENV = "ASUS_MARKETS_DB"  # aponta para o asus_teste.duckdb (fora do repo)
 TIE_OUT_TOLERANCE = 1e-6
@@ -217,3 +217,37 @@ def reconcile(path: str | os.PathLike[str] | None = None) -> dict[str, Any]:
         "areas": areas_report,
         "tie_out": tie_out,
     }
+
+
+def skill_report(
+    path: str | os.PathLike[str] | None = None,
+    *,
+    baseline_probability: float | None = None,
+) -> dict[str, Any]:
+    """Skill por área contra um palpite constante, com a janela declarada.
+
+    ``baseline_probability=None`` usa a taxa-base observada de cada área (um
+    palpite constante honesto in-sample). Passar um valor fixa o mesmo baseline
+    para todas as áreas — útil, por exemplo, para medir o voto contra a taxa
+    histórica de seguimento partidário (0,959126), onde o baseline vence o modelo.
+
+    Áreas cujo desfecho é constante (ex.: voto, todos 1) têm taxa-base perfeita e,
+    sem baseline externo, a skill fica indefinida — é o limiar de máxima incerteza,
+    não uma falha.
+    """
+    settled = load_settled(path)
+    by_area: dict[str, list[SettledContract]] = defaultdict(list)
+    for contract in settled:
+        by_area[contract.claim.market_area_id].append(contract)
+
+    areas_report: list[dict[str, Any]] = []
+    for area_id, contracts in sorted(by_area.items()):
+        pairs = [(c.probability, c.resolution.outcome) for c in contracts]
+        result = skill_score(
+            pairs,
+            window=f"{len(contracts)} contratos ({area_id})",
+            baseline_probability=baseline_probability,
+        )
+        areas_report.append({"area_id": area_id, **result})
+
+    return {"settled_total": len(settled), "areas": areas_report}

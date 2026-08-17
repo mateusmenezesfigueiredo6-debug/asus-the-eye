@@ -77,3 +77,24 @@ def test_reconcile_banco_ausente(tmp_path: Path, capsys: pytest.CaptureFixture[s
     out = capsys.readouterr().out
     assert "markets-reconcile:" in out
     assert code == 1
+
+
+def test_reconcile_com_skill(tmp_path: Path, capsys: pytest.CaptureFixture[str]) -> None:
+    db = tmp_path / "mini.duckdb"
+    _tiny_db(db)
+    main(["markets-reconcile", "--db", str(db), "--skill"])
+    out = capsys.readouterr().out
+    assert "SKILL vs baseline" in out
+    assert "juros" in out
+    # desfecho único = 1 -> taxa-base perfeita -> skill indefinida, baseline vence
+    assert "indefinida" in out
+
+
+def test_reconcile_skill_json(tmp_path: Path, capsys: pytest.CaptureFixture[str]) -> None:
+    db = tmp_path / "mini.duckdb"
+    _tiny_db(db)
+    main(["markets-reconcile", "--db", str(db), "--skill", "--baseline", "0.7", "--json"])
+    payload = json.loads(capsys.readouterr().out)
+    assert "skill" in payload
+    juros = next(a for a in payload["skill"]["areas"] if a["area_id"] == "juros")
+    assert juros["baseline_probability"] == 0.7
