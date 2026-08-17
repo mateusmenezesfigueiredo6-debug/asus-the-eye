@@ -39,8 +39,16 @@ LINHA = {
 }
 
 
-def sdk_efemero(tmp_path: Path):
-    return abrir_auditoria(tmp_path / "ledger.db", chave=b"chave-de-teste-32-bytes-ok!!")
+CHAVE_TESTE = b"chave-de-teste-32-bytes-ok!!"
+
+
+def sdk_efemero(tmp_path: Path, *, db: str = "ledger.db", chave: bytes = CHAVE_TESTE):
+    return abrir_auditoria(
+        tmp_path / db,
+        chave=chave,
+        eventos=tmp_path / "eventos.jsonl",
+        fingerprint=tmp_path / "chave.fingerprint",
+    )
 
 
 # --------------------------------------------------------------- selagem
@@ -157,3 +165,100 @@ def test_chave_corrompida_no_arquivo_levanta(tmp_path: Path, monkeypatch: pytest
     caminho.write_text("isto-nao-e-hex", encoding="utf-8")
     with pytest.raises(AuditoriaError, match="corrompida"):
         carregar_chave(caminho)
+
+
+# ------------------------------------------------- achados da revisão adversarial
+
+
+def test_export_perdido_e_reparado_na_rodada_seguinte(tmp_path: Path) -> None:
+    """BLOQUEADOR corrigido: queda entre o commit SQLite e o append do export
+    não perde o evento — a próxima selagem (duplicate) repara o arquivo."""
+    sdk = sdk_efemero(tmp_path)
+    eventos = tmp_path / "eventos.jsonl"
+    selar_liquidacao(sdk, LINHA, eventos=eventos)
+    eventos.unlink()  # simula o export perdido após o commit
+    recibo = selar_liquidacao(sdk, LINHA, eventos=eventos)
+    assert recibo["duplicate"] is True and recibo.get("export_reparado") is True
+    selado = json.loads(eventos.read_text(encoding="utf-8").strip())
+    assert selado["sequence"] == 1 and verify_event(selado)
+
+
+def test_clone_fresco_nao_bifurca_ressincroniza_do_export(tmp_path: Path) -> None:
+    """BLOQUEADOR corrigido: banco apagado + corrente versionada presente →
+    o banco é ressincronizado do arquivo; selar de novo é duplicate, nunca fork."""
+    sdk1 = sdk_efemero(tmp_path)
+    eventos = tmp_path / "eventos.jsonl"
+    selar_liquidacao(sdk1, LINHA, eventos=eventos)
+    # "clone fresco": outro banco, MESMA corrente versionada e mesma chave
+    sdk2 = sdk_efemero(tmp_path, db="ledger2.db")
+    assert cabeca_da_corrente(sdk2) == 1, "abrir já ressincroniza o banco do export"
+    recibo = selar_liquidacao(sdk2, LINHA, eventos=eventos)
+    assert recibo["duplicate"] is True
+    selados = [json.loads(li) for li in eventos.read_text(encoding="utf-8").strip().splitlines()]
+    assert [evento["sequence"] for evento in selados] == [1], "sem seq duplicada no arquivo"
+    assert verify_chain(selados)
+
+
+def test_chave_trocada_e_recusada_pela_impressao_digital(tmp_path: Path) -> None:
+    sdk1 = sdk_efemero(tmp_path)
+    selar_liquidacao(sdk1, LINHA, eventos=tmp_path / "eventos.jsonl")
+    with pytest.raises(AuditoriaError, match="chave"):
+        sdk_efemero(tmp_path, db="ledger2.db", chave=b"outra-chave-de-32-bytes-!!!!")
+
+
+def test_divergencia_de_conteudo_no_dedupe_levanta(tmp_path: Path) -> None:
+    sdk = sdk_efemero(tmp_path)
+    eventos = tmp_path / "eventos.jsonl"
+    selar_liquidacao(sdk, LINHA, eventos=eventos)
+    adulterada = {**LINHA, "outcome": 1, "valor_observado": 9.99}
+    with pytest.raises(AuditoriaError, match="diverge"):
+        selar_liquidacao(sdk, adulterada, eventos=eventos)
+
+
+def test_corrente_versionada_adulterada_recusa_abrir(tmp_path: Path) -> None:
+    sdk1 = sdk_efemero(tmp_path)
+    eventos = tmp_path / "eventos.jsonl"
+    selar_liquidacao(sdk1, LINHA, eventos=eventos)
+    selado = json.loads(eventos.read_text(encoding="utf-8").strip())
+    selado["content_hash_sha256"] = "0" * 64  # adultera
+    eventos.write_text(json.dumps(selado) + "\n", encoding="utf-8")
+    with pytest.raises(AuditoriaError, match="não verifica"):
+        sdk_efemero(tmp_path, db="ledger2.db")
+
+
+def test_content_hash_do_evento_bate_com_a_linha_publicada(tmp_path: Path) -> None:
+    """Tie-out: o hash selado é exatamente o hash da linha do resolucoes.jsonl."""
+    from asus_theye.audit.schema import hash_json
+
+    registro = {"versao": 1, "mercados": []}
+    emitir_macro(registro, "2026-07", agora="2026-07-01T00:00:00Z")
+    store = tmp_path / "registro.json"
+    salvar_registro(store, registro)
+    sdk = sdk_efemero(tmp_path)
+
+    def auditor(linha: dict) -> dict:
+        return selar_liquidacao(sdk, linha, eventos=tmp_path / "eventos.jsonl")
+
+    resolver_pendentes(lambda mes: 0.07, store=store, hoje=HOJE, emitir_seguinte=False, auditor=auditor)
+    linha_publicada = json.loads((store.with_name("resolucoes.jsonl")).read_text(encoding="utf-8").strip())
+    selado = json.loads((tmp_path / "eventos.jsonl").read_text(encoding="utf-8").strip())
+    assert selado["content_hash_sha256"] == hash_json(linha_publicada)
+
+
+def test_rodadas_simultaneas_sao_recusadas_pela_trava(tmp_path: Path) -> None:
+    import fcntl
+
+    from asus_theye.markets.live import LiveMarketError
+
+    registro = {"versao": 1, "mercados": []}
+    emitir_macro(registro, "2026-07", agora="2026-07-01T00:00:00Z")
+    store = tmp_path / "registro.json"
+    salvar_registro(store, registro)
+    trava = (store.with_name(".lock")).open("w")
+    fcntl.flock(trava, fcntl.LOCK_EX | fcntl.LOCK_NB)  # simula outra rodada viva
+    try:
+        with pytest.raises(LiveMarketError, match="andamento"):
+            resolver_pendentes(lambda mes: 0.07, store=store, hoje=HOJE)
+    finally:
+        fcntl.flock(trava, fcntl.LOCK_UN)
+        trava.close()

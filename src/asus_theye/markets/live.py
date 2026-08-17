@@ -27,6 +27,7 @@ nem funcionando. Trocar o gerador é trabalho de modelo, não deste laço.
 
 from __future__ import annotations
 
+import fcntl
 import json
 import re
 from calendar import monthrange
@@ -245,6 +246,34 @@ def resolver_pendentes(
     liquidação recém-feita E qualquer LIQUIDADO antigo ainda não selado).
     """
     hoje = hoje or datetime.now(timezone.utc).date()
+
+    # Trava exclusiva pela rodada inteira: duas rodadas simultâneas fariam
+    # last-writer-wins no registro (podendo reverter um LIQUIDADO) e uma
+    # corrida TOCTOU no apêndice. Falha rápido, nunca espera em silêncio.
+    store.parent.mkdir(parents=True, exist_ok=True)
+    trava = (store.with_name(".lock")).open("w")
+    try:
+        fcntl.flock(trava, fcntl.LOCK_EX | fcntl.LOCK_NB)
+    except OSError as exc:
+        trava.close()
+        raise LiveMarketError("outra rodada de resolução em andamento (trava ocupada)") from exc
+    try:
+        return _resolver_pendentes_travado(
+            fetcher, store=store, hoje=hoje, emitir_seguinte=emitir_seguinte, auditor=auditor
+        )
+    finally:
+        fcntl.flock(trava, fcntl.LOCK_UN)
+        trava.close()
+
+
+def _resolver_pendentes_travado(
+    fetcher: Fetcher,
+    *,
+    store: Path,
+    hoje: date,
+    emitir_seguinte: bool,
+    auditor: Auditor | None,
+) -> list[dict[str, Any]]:
     registro = carregar_registro(store)
     acoes: list[dict[str, Any]] = []
 
@@ -380,6 +409,14 @@ def resolver_pendentes(
                         "claim_id": mercado["claim_id"],
                         "acao": "selado",
                         "event_hash": str(recibo.get("event_hash_sha256", ""))[:16],
+                    }
+                )
+            elif recibo.get("export_reparado"):
+                acoes.append(
+                    {
+                        "claim_id": mercado["claim_id"],
+                        "acao": "export_reparado",
+                        "motivo": "evento já selado estava ausente do export versionado — reapendado",
                     }
                 )
 

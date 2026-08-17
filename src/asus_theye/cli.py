@@ -403,12 +403,25 @@ def main(argv: Sequence[str] | None = None) -> int:
         from asus_theye.markets.fonte_bcb import FonteBCBError, ipca_mensal
         from asus_theye.markets.live import LiveMarketError, resolver_pendentes
 
+        # caminhos de auditoria ancorados no --store: rodar de outro diretório
+        # não pode criar uma corrente paralela em silêncio
+        pasta = args.store.parent
+        caminho_eventos = pasta / "eventos.jsonl"
         try:
-            sdk = None if args.no_audit else abrir_auditoria()
+            sdk = (
+                None
+                if args.no_audit
+                else abrir_auditoria(
+                    pasta.parent / "audit" / "markets-ledger.db",
+                    caminho_chave=pasta.parent / "audit" / "pseudonimos.key",
+                    eventos=caminho_eventos,
+                    fingerprint=pasta / "chave.fingerprint",
+                )
+            )
         except AuditoriaError as error:
             print(f"markets-resolve: {error}")
             return 1
-        auditor = None if sdk is None else (lambda linha: selar_liquidacao(sdk, linha))
+        auditor = None if sdk is None else (lambda linha: selar_liquidacao(sdk, linha, eventos=caminho_eventos))
         try:
             acoes = resolver_pendentes(ipca_mensal, store=args.store, auditor=auditor)
         except (FonteBCBError, LiveMarketError, MarketClaimError, ResolutionError, ScoringError) as error:
