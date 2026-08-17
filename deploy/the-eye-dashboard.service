@@ -1,0 +1,30 @@
+# Unit systemd versionada — o "servir" deixa de morar só na cabeça de uma máquina.
+# Instalar:
+#   sudo cp deploy/the-eye-dashboard.service /etc/systemd/system/
+#   sudo systemctl edit the-eye-dashboard   # criar o token (ver [Service] abaixo)
+#   sudo systemctl enable --now the-eye-dashboard
+[Unit]
+Description=THE EYE dashboard (fail-closed auth)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=theeye
+WorkingDirectory=/opt/the-eye
+# O token NÃO fica aqui. Crie um drop-in com:
+#   [Service]
+#   Environment=THE_EYE_DASHBOARD_TOKEN=<token forte>
+# Sem o token, o serviço recusa subir (falha-fechada) — comportamento desejado.
+ExecStart=/opt/the-eye/.venv/bin/asus-theye serve --expose --port 8712
+Restart=on-failure
+RestartSec=5
+# Endurecimento: sem privilégios novos, sistema de arquivos protegido.
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+ReadWritePaths=/opt/the-eye/reports
+
+[Install]
+WantedBy=multi-user.target

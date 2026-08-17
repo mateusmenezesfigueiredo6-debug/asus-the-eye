@@ -158,6 +158,15 @@ def _parser() -> argparse.ArgumentParser:
         "--rpc", default=os.environ.get("THE_EYE_ANCHOR_RPC", ""), help="RPC (padrão: sepolia.base.org)"
     )
     markets_anchor.add_argument("--json", dest="json_out", action="store_true", help="saída em JSON")
+    serve = subcommands.add_parser("serve", help="sobe o dashboard (localhost por padrão; --expose exige token)")
+    serve.add_argument("--host", default="127.0.0.1", help="padrão 127.0.0.1 (só local)")
+    serve.add_argument("--port", type=int, default=8712)
+    serve.add_argument(
+        "--expose",
+        action="store_true",
+        help="escuta em 0.0.0.0 e EXIGE THE_EYE_DASHBOARD_TOKEN (falha-fechada)",
+    )
+    serve.add_argument("--markets-db", type=Path, default=None)
     return parser
 
 
@@ -518,6 +527,25 @@ def main(argv: Sequence[str] | None = None) -> int:
             print(f"gás: deploy={ensaio['gas_deploy']}  anchor={ensaio['gas_anchor']}")
             print("\nbroadcast real: markets-anchor --execute (exige THE_EYE_ANCHOR_EXECUTE=1,")
             print("carteira fundada na Base Sepolia; mainnet é recusada por construção)")
+        return 0
+    if args.command == "serve":
+        from asus_theye.dashboard.app import create_dashboard_app
+        from asus_theye.dashboard.auth import AuthConfigError
+
+        host = "0.0.0.0" if args.expose else args.host  # noqa: S104 - só com --expose e token
+        try:
+            app = create_dashboard_app(markets_db=args.markets_db, require_auth=args.expose)
+        except AuthConfigError as error:
+            print(f"serve: {error}")
+            return 1
+        alcance = "EXPOSTO (0.0.0.0, com token)" if args.expose else "local (127.0.0.1)"
+        print(f"dashboard em http://{host}:{args.port}  [{alcance}]")
+        try:
+            import uvicorn
+        except ImportError:
+            print("serve: instale o extra do dashboard (pip install 'asus-the-eye[dashboard]')")
+            return 1
+        uvicorn.run(app, host=host, port=args.port, log_level="info")
         return 0
     return 2
 
