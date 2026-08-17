@@ -123,6 +123,17 @@ def _parser() -> argparse.ArgumentParser:
         default=None,
         help="baseline constante fixo p/ todas as áreas do --skill (padrão: taxa-base de cada área)",
     )
+    markets_resolve = subcommands.add_parser(
+        "markets-resolve",
+        help="resolve mercados vencidos contra a fonte oficial (BCB) e grava no registro do repo",
+    )
+    markets_resolve.add_argument(
+        "--store",
+        type=Path,
+        default=Path("reports/markets/registro.json"),
+        help="registro de mercados (padrão: reports/markets/registro.json)",
+    )
+    markets_resolve.add_argument("--json", dest="json_out", action="store_true", help="saída em JSON")
     return parser
 
 
@@ -280,8 +291,10 @@ def main(argv: Sequence[str] | None = None) -> int:
             if not args.ledger_url:
                 print("\nsource-graph: --publish requer --ledger-url ou THE_EYE_LEDGER_URL")
                 return 1
+            # len(fontes), nao 0: o literal antigo fazia a medicao ancorada
+            # subnotificar para zero mesmo com fontes carregadas.
             snapshot = {
-                "sources_total": 0,
+                "sources_total": len(fontes),
                 "by_category": {e["category_id"]: e["qualified_count"] for e in coverage["by_category"]},
                 "methodology_version": coverage["methodology_version"],
             }
@@ -374,6 +387,40 @@ def main(argv: Sequence[str] | None = None) -> int:
                 print(f"  {area['area_id']:20s} n={area['n']:3d}  skill={valor:>11s}  [{marca}]")
         # tie_out False (ou banco ausente) sai com código != 0 para um script pegar.
         return 0 if report["tie_out"] else 1
+    if args.command == "markets-resolve":
+        from asus_theye.markets import MarketClaimError, ResolutionError, ScoringError
+        from asus_theye.markets.fonte_bcb import FonteBCBError, ipca_mensal
+        from asus_theye.markets.live import LiveMarketError, resolver_pendentes
+
+        try:
+            acoes = resolver_pendentes(ipca_mensal, store=args.store)
+        except (FonteBCBError, LiveMarketError, MarketClaimError, ResolutionError, ScoringError) as error:
+            print(f"markets-resolve: {error}")
+            return 1
+        houve_erro = any(acao["acao"] == "erro" for acao in acoes)
+        if args.json_out:
+            print(json.dumps(acoes, ensure_ascii=False, indent=2))
+            return 1 if houve_erro else 0
+        print("=" * 62)
+        print("MERCADOS — RESOLUÇÃO CONTRA A FONTE OFICIAL")
+        print("=" * 62)
+        if not acoes:
+            print("\nregistro vazio — nada a resolver")
+        for acao in acoes:
+            rotulo = acao["acao"].upper()
+            detalhe = ""
+            if acao["acao"] == "liquidado":
+                ressalva = (
+                    " [p no limiar de máxima incerteza — desenho do gerador]" if acao.get("max_uncertainty") else ""
+                )
+                detalhe = (
+                    f" desfecho={acao['outcome']} valor={acao['valor_observado']}"
+                    f" brier={acao['brier_do_contrato']} fonte={acao['fonte']!r}{ressalva}"
+                )
+            elif "motivo" in acao:
+                detalhe = f" — {acao['motivo']}"
+            print(f"  [{rotulo:12s}] {acao['claim_id']}{detalhe}")
+        return 1 if houve_erro else 0
     return 2
 
 
