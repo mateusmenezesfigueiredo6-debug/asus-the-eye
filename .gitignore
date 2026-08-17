@@ -24,6 +24,9 @@ reports/autonomous/*/launcher.log
 # END THE EYE AUTONOMOUS RUNTIME
 reports/llm/calls.jsonl
 reports/audit/proofs/
+# corrente local de auditoria dos mercados: o SQLite e operacional (fora do
+# git); o export verificavel viaja em reports/markets/eventos.jsonl
+reports/audit/*.db
 reports/releases/
 reports/commercial/
 # Excecao: decisao de expurgo precisa viajar com o repositorio. Uma quarentena
