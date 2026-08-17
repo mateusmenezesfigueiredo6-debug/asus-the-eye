@@ -65,6 +65,10 @@ CAMPOS_OBRIGATORIOS = (
 # valor publicado ou None. Injetável para a suíte rodar offline.
 Fetcher = Callable[[str], float | None]
 
+# Sela uma liquidação na cadeia auditável: recebe a linha do ledger e devolve o
+# recibo ({"duplicate": bool, ...}). Injetável; deve ser idempotente por claim_id.
+Auditor = Callable[[dict[str, Any]], dict[str, Any]]
+
 
 class LiveMarketError(RuntimeError):
     """Registro corrompido ou transição inválida. Sempre levanta."""
@@ -228,13 +232,17 @@ def resolver_pendentes(
     store: Path = STORE_PADRAO,
     hoje: date | None = None,
     emitir_seguinte: bool = True,
+    auditor: Auditor | None = None,
 ) -> list[dict[str, Any]]:
     """Percorre o registro e aplica a máquina de estados. Devolve as ações.
 
     Cada ação: ``{"claim_id", "acao": "liquidado"|"em_resolucao"|"aguardando"|
-    "emitido"|"reparado"|"erro", ...detalhes}``. Erros de fonte em um mercado
-    não abortam os demais. A ordem de escrita por mercado é: registro em disco
-    primeiro, apêndice no ledger depois (idempotente) — ver docstring do módulo.
+    "emitido"|"reparado"|"selado"|"auditoria_falhou"|"erro", ...detalhes}``.
+    Erros de fonte em um mercado não abortam os demais. A ordem de escrita por
+    mercado é: registro em disco primeiro, apêndice no ledger depois
+    (idempotente) — ver docstring do módulo. Com ``auditor``, toda liquidação é
+    selada na cadeia auditável ao fim da rodada (varredura idempotente: cobre a
+    liquidação recém-feita E qualquer LIQUIDADO antigo ainda não selado).
     """
     hoje = hoje or datetime.now(timezone.utc).date()
     registro = carregar_registro(store)
@@ -352,4 +360,27 @@ def resolver_pendentes(
                 )
 
     salvar_registro(store, registro)
+
+    # Varredura de selagem: todo LIQUIDADO vira evento na cadeia auditável.
+    # Idempotente (o auditor deduplica por claim_id), então cobre tanto a
+    # liquidação desta rodada quanto backfill de liquidações antigas. Falha de
+    # auditoria é VISÍVEL (ação própria) mas nunca desfaz nem aborta a medição.
+    if auditor is not None:
+        for mercado in registro["mercados"]:
+            if mercado["estado"] != "LIQUIDADO":
+                continue
+            try:
+                recibo = auditor(_linha_de_resolucao(mercado))
+            except Exception as erro:  # noqa: BLE001 - auditoria não pode derrubar a medição
+                acoes.append({"claim_id": mercado["claim_id"], "acao": "auditoria_falhou", "motivo": str(erro)})
+                continue
+            if not recibo.get("duplicate"):
+                acoes.append(
+                    {
+                        "claim_id": mercado["claim_id"],
+                        "acao": "selado",
+                        "event_hash": str(recibo.get("event_hash_sha256", ""))[:16],
+                    }
+                )
+
     return acoes

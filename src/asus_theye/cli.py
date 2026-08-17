@@ -134,6 +134,11 @@ def _parser() -> argparse.ArgumentParser:
         help="registro de mercados (padrão: reports/markets/registro.json)",
     )
     markets_resolve.add_argument("--json", dest="json_out", action="store_true", help="saída em JSON")
+    markets_resolve.add_argument(
+        "--no-audit",
+        action="store_true",
+        help="não selar liquidações na cadeia auditável (padrão: sela, idempotente)",
+    )
     return parser
 
 
@@ -389,15 +394,27 @@ def main(argv: Sequence[str] | None = None) -> int:
         return 0 if report["tie_out"] else 1
     if args.command == "markets-resolve":
         from asus_theye.markets import MarketClaimError, ResolutionError, ScoringError
+        from asus_theye.markets.auditoria import (
+            AuditoriaError,
+            abrir_auditoria,
+            cabeca_da_corrente,
+            selar_liquidacao,
+        )
         from asus_theye.markets.fonte_bcb import FonteBCBError, ipca_mensal
         from asus_theye.markets.live import LiveMarketError, resolver_pendentes
 
         try:
-            acoes = resolver_pendentes(ipca_mensal, store=args.store)
+            sdk = None if args.no_audit else abrir_auditoria()
+        except AuditoriaError as error:
+            print(f"markets-resolve: {error}")
+            return 1
+        auditor = None if sdk is None else (lambda linha: selar_liquidacao(sdk, linha))
+        try:
+            acoes = resolver_pendentes(ipca_mensal, store=args.store, auditor=auditor)
         except (FonteBCBError, LiveMarketError, MarketClaimError, ResolutionError, ScoringError) as error:
             print(f"markets-resolve: {error}")
             return 1
-        houve_erro = any(acao["acao"] == "erro" for acao in acoes)
+        houve_erro = any(acao["acao"] in ("erro", "auditoria_falhou") for acao in acoes)
         if args.json_out:
             print(json.dumps(acoes, ensure_ascii=False, indent=2))
             return 1 if houve_erro else 0
@@ -417,9 +434,13 @@ def main(argv: Sequence[str] | None = None) -> int:
                     f" desfecho={acao['outcome']} valor={acao['valor_observado']}"
                     f" brier={acao['brier_do_contrato']} fonte={acao['fonte']!r}{ressalva}"
                 )
+            elif acao["acao"] == "selado":
+                detalhe = f" evento={acao['event_hash']}…"
             elif "motivo" in acao:
                 detalhe = f" — {acao['motivo']}"
             print(f"  [{rotulo:12s}] {acao['claim_id']}{detalhe}")
+        if sdk is not None:
+            print(f"\ncadeia auditável: topo na sequência {cabeca_da_corrente(sdk)}")
         return 1 if houve_erro else 0
     return 2
 
