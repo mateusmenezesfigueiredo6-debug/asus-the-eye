@@ -7,6 +7,7 @@ from typing import Any
 
 from .auth import registrar_auth
 from .benchmark import register_benchmark_routes
+from .evidencia import register_evidencia_routes
 from .markets import register_markets_routes
 
 
@@ -36,4 +37,5 @@ def create_dashboard_app(
 
     register_benchmark_routes(app, report_path)
     register_markets_routes(app, markets_db)
+    register_evidencia_routes(app)
     return app
