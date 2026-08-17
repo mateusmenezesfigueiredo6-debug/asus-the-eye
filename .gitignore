@@ -36,3 +36,5 @@ reports/commercial/
 !reports/commercial/quarentena/LEIA.md
 reports/source-graph/
 HANDOFF.md
+# trava de concorrencia do resolvedor (artefato operacional)
+reports/markets/.lock

@@ -139,6 +139,25 @@ def _parser() -> argparse.ArgumentParser:
         action="store_true",
         help="não selar liquidações na cadeia auditável (padrão: sela, idempotente)",
     )
+    markets_anchor = subcommands.add_parser(
+        "markets-anchor",
+        help="ancora o lote Merkle da corrente na Base Sepolia (padrão: ensaio offline)",
+    )
+    markets_anchor.add_argument(
+        "--eventos",
+        type=Path,
+        default=Path("reports/markets/eventos.jsonl"),
+        help="corrente versionada de eventos selados",
+    )
+    markets_anchor.add_argument(
+        "--execute",
+        action="store_true",
+        help="broadcast REAL na Base Sepolia (exige THE_EYE_ANCHOR_EXECUTE=1 e carteira fundada)",
+    )
+    markets_anchor.add_argument(
+        "--rpc", default=os.environ.get("THE_EYE_ANCHOR_RPC", ""), help="RPC (padrão: sepolia.base.org)"
+    )
+    markets_anchor.add_argument("--json", dest="json_out", action="store_true", help="saída em JSON")
     return parser
 
 
@@ -455,6 +474,51 @@ def main(argv: Sequence[str] | None = None) -> int:
         if sdk is not None:
             print(f"\ncadeia auditável: topo na sequência {cabeca_da_corrente(sdk)}")
         return 1 if houve_erro else 0
+    if args.command == "markets-anchor":
+        from asus_theye.audit.anchor import (
+            RPC_PADRAO,
+            AncoragemError,
+            ancorar_na_base_sepolia,
+            ensaiar_offline,
+            lote_da_corrente,
+            registrar_ancora,
+        )
+
+        try:
+            batch = lote_da_corrente(args.eventos)
+            manifest = batch["manifest"]
+            if args.execute:
+                tx_info = ancorar_na_base_sepolia(batch, executar=True, rpc=args.rpc or RPC_PADRAO)
+                registrar_ancora(args.eventos.parent.parent / "audit" / "markets-ledger.db", batch, tx_info)
+                resultado = {"lote": manifest, "ancora": tx_info, "registro": "gravado"}
+            else:
+                ensaio = ensaiar_offline(batch)
+                resultado = {"lote": manifest, "ensaio": ensaio}
+        except AncoragemError as error:
+            print(f"markets-anchor: {error}")
+            return 1
+        if args.json_out:
+            print(json.dumps(resultado, ensure_ascii=False, indent=2))
+            return 0
+        print("=" * 62)
+        print("ANCORAGEM — LOTE MERKLE DA CORRENTE")
+        print("=" * 62)
+        print(f"\neventos: {manifest['event_count']} (seq {manifest['first_sequence']}–{manifest['last_sequence']})")
+        print(f"merkle_root:   {manifest['merkle_root']}")
+        print(f"manifest_hash: {manifest['manifest_hash_sha256']}")
+        if args.execute:
+            print(f"\nANCORADO na Base Sepolia (chain {resultado['ancora']['chain_id']})")
+            print(f"contrato: {resultado['ancora']['contrato']}")
+            print(f"tx:       {resultado['ancora']['tx_hash']}")
+            print(f"bloco:    {resultado['ancora']['block_number']}")
+            print("registro: audit_batches + audit_anchors + reports/markets/ancoras.jsonl")
+        else:
+            ensaio = resultado["ensaio"]
+            print(f"\nENSAIO OFFLINE ok: contrato {ensaio['contrato']} (EVM em memória)")
+            print(f"gás: deploy={ensaio['gas_deploy']}  anchor={ensaio['gas_anchor']}")
+            print("\nbroadcast real: markets-anchor --execute (exige THE_EYE_ANCHOR_EXECUTE=1,")
+            print("carteira fundada na Base Sepolia; mainnet é recusada por construção)")
+        return 0
     return 2
 
 
