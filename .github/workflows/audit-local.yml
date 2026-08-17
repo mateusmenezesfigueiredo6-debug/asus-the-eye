@@ -19,11 +19,15 @@ jobs:
       - run: python scripts/event_coverage.py
   security:
     runs-on: ubuntu-latest
-    # security-events:write exige GitHub Advanced Security, que este repo privado
-    # nao tem (ver nota abaixo). Pedir uma permissao nao-concedivel degradava o
-    # grant do token e o gitleaks perdia acesso a /pulls/{n}/commits (403 em PR).
-    # Fica so o que e concedivel e necessario: ler conteudo e commits do PR.
-    permissions: {contents: read, pull-requests: read}
+    # Em pull_request, o gitleaks-action chama GET /pulls/{n}/commits e recebe
+    # 403 ("Resource not accessible by integration") mesmo com pull-requests:read
+    # declarado: o default_workflow_permissions do repo e "read" e nao eleva o
+    # escopo de forma confiavel para esse evento. Em push funciona, e o trigger
+    # push:branches-ignore[main] ja dispara em todo branch de PR — entao o scan de
+    # segredos roda em cada commit sem depender da API de PR. security-events:write
+    # foi removido: exigiria GitHub Advanced Security, desligado neste repo.
+    if: github.event_name != 'pull_request'
+    permissions: {contents: read}
     steps:
       - uses: actions/checkout@v4
         with: {fetch-depth: 0}
