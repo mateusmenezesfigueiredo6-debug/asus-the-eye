@@ -101,6 +101,28 @@ def _parser() -> argparse.ArgumentParser:
     quantum.add_argument("--backend", default=None)
     quantum.add_argument("--shots", type=int, default=1_024)
     quantum.add_argument("--layers", type=int, default=2)
+    markets = subcommands.add_parser(
+        "markets-reconcile",
+        help="reconcilia o scoring do módulo contra o banco medido (asus_teste.duckdb)",
+    )
+    markets.add_argument(
+        "--db",
+        type=Path,
+        default=None,
+        help="caminho do asus_teste.duckdb (padrão: variável de ambiente ASUS_MARKETS_DB)",
+    )
+    markets.add_argument("--json", dest="json_out", action="store_true", help="saída em JSON em vez da tabela")
+    markets.add_argument(
+        "--skill",
+        action="store_true",
+        help="também reporta skill por área contra um palpite constante (janela declarada)",
+    )
+    markets.add_argument(
+        "--baseline",
+        type=float,
+        default=None,
+        help="baseline constante fixo p/ todas as áreas do --skill (padrão: taxa-base de cada área)",
+    )
     return parser
 
 
@@ -319,6 +341,39 @@ def main(argv: Sequence[str] | None = None) -> int:
             outcome = dry_run(problem, layers=args.layers, shots=args.shots)
         print(json.dumps(outcome, ensure_ascii=False, indent=2))
         return 0
+    if args.command == "markets-reconcile":
+        from asus_theye.markets import MarketsSourceError, reconcile, skill_report
+
+        try:
+            report = reconcile(args.db)
+            skill = skill_report(args.db, baseline_probability=args.baseline) if args.skill else None
+        except MarketsSourceError as error:
+            print(f"markets-reconcile: {error}")
+            return 1
+        if args.json_out:
+            output = {**report, "skill": skill} if args.skill else report
+            print(json.dumps(output, ensure_ascii=False, indent=2))
+            return 0 if report["tie_out"] else 1
+        print("=" * 62)
+        print("MERCADOS PREDITIVOS — RECONCILIAÇÃO CONTRA O BANCO MEDIDO")
+        print("=" * 62)
+        print(f"\nliquidados: {report['settled_total']}    tie_out: {report['tie_out']}\n")
+        for area in report["areas"]:
+            ok = area["aggregate_matches"] and area["per_contract_matches"]
+            print(
+                f"  {area['area_id']:20s} n={area['n']:3d}  "
+                f"módulo={area['module_brier']}  publicado={area['published_brier']}  "
+                f"[{'ok' if ok else 'DIVERGE'}]"
+            )
+        if skill is not None:
+            fixo = f"{args.baseline}" if args.baseline is not None else "taxa-base por área"
+            print(f"\nSKILL vs baseline ({fixo}):")
+            for area in skill["areas"]:
+                valor = "indefinida" if area["skill_score"] is None else f"{area['skill_score']:+.4f}"
+                marca = "BASELINE VENCE" if area["baseline_beats_model"] else "tem skill"
+                print(f"  {area['area_id']:20s} n={area['n']:3d}  skill={valor:>11s}  [{marca}]")
+        # tie_out False (ou banco ausente) sai com código != 0 para um script pegar.
+        return 0 if report["tie_out"] else 1
     return 2
 
 
