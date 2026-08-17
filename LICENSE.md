@@ -28,6 +28,17 @@ sao trabalho de curadoria, nao codigo. Estao disponiveis para leitura,
 verificacao e auditoria do funcionamento da plataforma, e nao para extracao,
 redistribuicao ou uso em produto derivado sem autorizacao escrita.
 
+## Medicoes geradas — `reports/`
+
+As medicoes versionadas em `reports/` (registro de mercados, resolucoes contra
+fonte oficial, eventos selados da cadeia auditavel, ancoras e snapshots) sao
+obra do titular: Copyright (c) 2026 Mateus Menezes Figueiredo. Ficam
+disponiveis para leitura e verificacao independente — e a verificabilidade e o
+proposito delas —, mas extracao ou redistribuicao como dataset segue a mesma
+regra de `data/`: exige autorizacao escrita do titular. Os fatos subjacentes
+(IPCA publicado pelo BCB, votacoes da Camara) sao publicos por definicao;
+esta clausula cobre a MEDICAO — a serie, o erro calculado e a curadoria.
+
 ## Por que nao MIT
 
 O projeto usou MIT ate 05/08/2026. MIT permite fechar o codigo e revender sem
