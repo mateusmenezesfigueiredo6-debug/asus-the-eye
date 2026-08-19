@@ -626,6 +626,14 @@ def main(argv: Sequence[str] | None = None) -> int:
         print(f"\ncaminho mínimo: {caminho['pct']}%  ({caminho['metodo']})")
         for fase in caminho["fases"]:
             print(f"  {fase['id']}  {float(fase['peso_concluido']) * 100:5.0f}%  {fase['estado']:9s}  {fase['nome']}")
+        produtos = snap["produtos"]
+        if produtos["fases"]:
+            print(f"\nroteiro dos produtos: {produtos['pct']}%  (checklist vivo — {len(produtos['fases'])} fases)")
+            for fase in produtos["fases"]:
+                print(
+                    f"  {fase['id']:3s}  {float(fase['peso_concluido']) * 100:5.0f}%  "
+                    f"{fase['estado']:9s}  {fase['nome']}"
+                )
         corrente = snap["corrente"]
         print(f"\ncorrente: {corrente['eventos']} eventos  verifica={corrente['verifica']}")
         print(
