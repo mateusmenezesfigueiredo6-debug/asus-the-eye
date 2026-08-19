@@ -170,6 +170,12 @@ def _parser() -> argparse.ArgumentParser:
         "--rpc", default=os.environ.get("THE_EYE_ANCHOR_RPC", ""), help="RPC (padrão: sepolia.base.org)"
     )
     markets_anchor.add_argument("--json", dest="json_out", action="store_true", help="saída em JSON")
+    export_static = subcommands.add_parser(
+        "export-static",
+        help="renderiza os painéis do dashboard como HTML estático em dist/",
+    )
+    export_static.add_argument("--out", type=Path, default=Path("dist"), help="diretório de saída (padrão: dist)")
+    export_static.add_argument("--json", dest="json_out", action="store_true", help="saída em JSON")
     serve = subcommands.add_parser("serve", help="sobe o dashboard (localhost por padrão; --expose exige token)")
     serve.add_argument("--host", default="127.0.0.1", help="padrão 127.0.0.1 (só local)")
     serve.add_argument("--port", type=int, default=8712)
@@ -581,6 +587,22 @@ def main(argv: Sequence[str] | None = None) -> int:
             print(f"gás: deploy={ensaio['gas_deploy']}  anchor={ensaio['gas_anchor']}")
             print("\nbroadcast real: markets-anchor --execute (exige THE_EYE_ANCHOR_EXECUTE=1,")
             print("carteira fundada na Base Sepolia; mainnet é recusada por construção)")
+        return 0
+    if args.command == "export-static":
+        from asus_theye.dashboard.export_static import exportar
+
+        resultado = exportar(args.out)
+        if args.json_out:
+            print(json.dumps(resultado, ensure_ascii=False, indent=2))
+            return 0
+        print("=" * 62)
+        print("EXPORT STATIC — DASHBOARD HTML")
+        print("=" * 62)
+        print(f"\ndestino: {args.out}")
+        for caminho in resultado["gerados"]:
+            print(f"  gerado: {caminho}")
+        for item in resultado["pulados"]:
+            print(f"  pulado: {item}")
         return 0
     if args.command == "serve":
         from asus_theye.dashboard.app import create_dashboard_app
