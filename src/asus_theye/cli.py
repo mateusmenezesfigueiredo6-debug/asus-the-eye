@@ -144,6 +144,18 @@ def _parser() -> argparse.ArgumentParser:
         action="store_true",
         help="emite o próximo mês sem consultar sinais (padrão: WPAM Focus/IPCA-15; falha de sinal degrada p/ 0,50)",
     )
+    markets_comparar = subcommands.add_parser(
+        "markets-comparar",
+        help="mede e SELA a divergência vs comparador (Kalshi) — comparador nunca resolve",
+    )
+    markets_comparar.add_argument("--claim", required=True, help="claim_id do registro (ex.: MACRO-01::2026-08)")
+    markets_comparar.add_argument("--preco", type=float, required=True, help="preço do comparador em [0,1]")
+    markets_comparar.add_argument("--ticker", required=True, help="ticker/mercado do comparador (proveniência)")
+    markets_comparar.add_argument(
+        "--nota", required=True, help="nota de mapeamento: o que o ticker mede e por que é comparável"
+    )
+    markets_comparar.add_argument("--json", dest="json_out", action="store_true", help="saída em JSON")
+    markets_comparar.add_argument("--no-audit", action="store_true", help="não selar na cadeia")
     markets_sinais = subcommands.add_parser(
         "markets-sinais",
         help="mostra os sinais REAIS (Focus/IPCA-15) e a probabilidade WPAM da pergunta do mês",
@@ -727,6 +739,45 @@ def main(argv: Sequence[str] | None = None) -> int:
             selagem = resultado["selagem"]
             estado_selo = "dedupe na cadeia" if selagem.get("duplicate") else "EVENTO ml.run SELADO"
             print(f"selagem: {estado_selo} — event_hash {selagem['event_hash_sha256'][:16]}…")
+        return 0
+    if args.command == "markets-comparar":
+        from asus_theye.markets.auditoria import AuditoriaError, abrir_auditoria
+        from asus_theye.markets.comparador import ComparadorError, observar_divergencia
+        from asus_theye.markets.resolution import ResolutionError
+
+        try:
+            sdk_comparar = None if args.no_audit else abrir_auditoria(Path("reports/audit/markets-ledger.db"))
+            resultado = observar_divergencia(
+                claim_id=args.claim,
+                comparator_price=args.preco,
+                ticker=args.ticker,
+                nota_de_mapeamento=args.nota,
+                sdk=sdk_comparar,
+            )
+        except (ComparadorError, ResolutionError, AuditoriaError) as error:
+            print(f"markets-comparar: {error}")
+            return 1
+        if args.json_out:
+            print(
+                json.dumps(resultado["registro"] | {"duplicate": resultado["duplicate"]}, ensure_ascii=False, indent=2)
+            )
+            return 0
+        registro = resultado["registro"]
+        print("=" * 62)
+        print("DIVERGÊNCIA VS COMPARADOR — medida, nunca resolutora")
+        print("=" * 62)
+        print(f"\nclaim: {registro['claim_id']}  |  ticker: {registro['ticker']}")
+        print(f"nossa probabilidade: {registro['our_probability']:.4f}")
+        print(f"preço {registro['comparator']}: {registro['comparator_price']:.4f}")
+        print(f"divergência: {registro['divergence']:.4f}")
+        print(f"\nmapeamento: {registro['nota_de_mapeamento']}")
+        print(f"{registro['note']}")
+        if resultado["duplicate"]:
+            print("\n(observação idêntica já registrada — dedupe)")
+        if resultado["selagem"] is not None:
+            selo = resultado["selagem"]
+            estado_selo = "dedupe na cadeia" if selo.get("duplicate") else "EVENTO market.comparator SELADO"
+            print(f"selagem: {estado_selo} — event_hash {selo['event_hash_sha256'][:16]}…")
         return 0
     if args.command == "markets-sinais":
         from asus_theye.markets.gerador import GeradorError
