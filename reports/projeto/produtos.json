@@ -12,9 +12,9 @@
     {
       "id": "N1",
       "nome": "Nuvem: corrente real sincronizada no D1",
-      "estado": "pendente",
-      "peso_concluido": 0.0,
-      "metodo": "GET /events do worker the-eye-audit-staging == reports/markets/eventos.jsonl local; re-rodar o sync não duplica"
+      "estado": "concluida",
+      "peso_concluido": 1.0,
+      "metodo": "asus-theye ledger-sync: 8 espelhos no D1 == 8 eventos locais (GET /events confere); 2ª rodada = 100% dedupe (idempotente por event_hash)"
     },
     {
       "id": "N2",
