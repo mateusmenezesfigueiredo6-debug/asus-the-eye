@@ -187,6 +187,14 @@ def _parser() -> argparse.ArgumentParser:
     mlops.add_argument("--stability-runs", type=int, default=10)
     mlops.add_argument("--json", dest="json_out", action="store_true", help="saída em JSON")
     mlops.add_argument("--no-audit", action="store_true", help="rastreia no store sem selar na cadeia")
+    ledger_sync = subcommands.add_parser(
+        "ledger-sync",
+        help="espelha a corrente selada no ledger restrito da nuvem (D1) — idempotente por conteúdo",
+    )
+    ledger_sync.add_argument("--ledger-url", default=os.environ.get("THE_EYE_LEDGER_URL", ""))
+    ledger_sync.add_argument("--eventos", type=Path, default=Path("reports/markets/eventos.jsonl"))
+    ledger_sync.add_argument("--tenant", default=DEFAULT_TENANT)
+    ledger_sync.add_argument("--json", dest="json_out", action="store_true", help="saída em JSON")
     return parser
 
 
@@ -699,6 +707,29 @@ def main(argv: Sequence[str] | None = None) -> int:
             selagem = resultado["selagem"]
             estado_selo = "dedupe na cadeia" if selagem.get("duplicate") else "EVENTO ml.run SELADO"
             print(f"selagem: {estado_selo} — event_hash {selagem['event_hash_sha256'][:16]}…")
+        return 0
+    if args.command == "ledger-sync":
+        from asus_theye.audit.remote_ledger import LedgerPublishError
+        from asus_theye.audit.sync_ledger import SyncError, sincronizar
+
+        if not args.ledger_url:
+            print("ledger-sync: exige --ledger-url ou THE_EYE_LEDGER_URL")
+            return 1
+        try:
+            placar = sincronizar(args.ledger_url, eventos=args.eventos, tenant=args.tenant)
+        except (SyncError, LedgerPublishError) as error:
+            print(f"ledger-sync: {error}")
+            return 1
+        if args.json_out:
+            print(json.dumps(placar, ensure_ascii=False, indent=2))
+            return 0
+        print("=" * 62)
+        print("ESPELHO DA CORRENTE NA NUVEM (D1)")
+        print("=" * 62)
+        print(
+            f"\neventos locais: {placar['eventos_locais']}  |  novos: {placar['novos']}  |  dedupe: {placar['dedupe']}"
+        )
+        print(f"\n{placar['metodo']}")
         return 0
     return 2
 
