@@ -1,0 +1,21 @@
+# Exceções cirúrgicas do gitleaks — THE EYE
+#
+# As correntes auditáveis são hex de alta entropia POR CONSTRUÇÃO: hashes
+# SHA-256 (event_hash, content_hash, corrida_id), HMACs de pseudonimização e
+# chaves de idempotência derivadas de conteúdo. Para um detector de entropia,
+# isso é indistinguível de credencial vazada — mas não há segredo nesses
+# arquivos (verificado achado a achado no PR #15). A allowlist é POR CAMINHO e
+# cobre só os stores versionados de evidência; o scanner continua valendo para
+# todo o resto do repo, inclusive o código.
+
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Stores versionados de evidência: hex de hashes, não segredos"
+paths = [
+  '''reports/markets/eventos\.jsonl''',
+  '''reports/markets/resolucoes\.jsonl''',
+  '''reports/markets/chave\.fingerprint''',
+  '''reports/mlops/.*\.jsonl''',
+]

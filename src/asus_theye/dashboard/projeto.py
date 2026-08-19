@@ -51,7 +51,7 @@ def projeto_page(base: Path | None = None) -> str:
 <div class="card"><div class="label">Liquidados / resoluções</div>
 <div class="value">{medicao["liquidados"]} / {medicao["resolucoes"]}</div></div>
 <div class="card"><div class="label">Âncoras on-chain</div><div class="value">{ancoragem["ancoras"]}</div></div>
-<div class="card"><div class="label">Corridas ML (seladas)</div>
+<div class="card"><div class="label">Corridas ML</div>
 <div class="value">{snap["mlops"]["corridas"]}</div></div>
 </section>
 <p class="muted">hash da medição: <code>{snap["hash_da_medicao"]}</code> · topo da corrente: <code>{topo}…</code></p>

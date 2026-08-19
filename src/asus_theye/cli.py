@@ -639,6 +639,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         print(f"\n{snap['ressalva']}")
         return 0
     if args.command == "mlops-benchmark":
+        from asus_theye.audit.schema import EventValidationError
         from asus_theye.markets.auditoria import AuditoriaError, abrir_auditoria
         from asus_theye.mlops import MLOpsError, registrar_corrida, registrar_modelo, registrar_versao
         from asus_theye.mlops.producers import MODELO_BENCHMARK, corrida_do_benchmark, versao_do_benchmark
@@ -667,7 +668,7 @@ def main(argv: Sequence[str] | None = None) -> int:
                 ),
                 sdk=sdk_ml,
             )
-        except (MLOpsError, AuditoriaError) as error:
+        except (MLOpsError, AuditoriaError, EventValidationError) as error:
             print(f"mlops-benchmark: {error}")
             return 1
         if args.json_out:

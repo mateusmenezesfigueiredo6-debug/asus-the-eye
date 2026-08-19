@@ -100,7 +100,10 @@ def medir_projeto(base: Path = BASE_PADRAO, *, fases_path: Path | None = None) -
         "mlops": {
             "modelos": len(_jsonl(base / "mlops" / "modelos.jsonl")),
             "corridas": len(_jsonl(base / "mlops" / "corridas.jsonl")),
-            "metodo": "reports/mlops/{modelos,corridas}.jsonl — corridas seladas como ml.run na corrente",
+            "metodo": (
+                "reports/mlops/{modelos,corridas}.jsonl — contagem do store; "
+                "corridas selam como ml.run quando a auditoria está aberta"
+            ),
         },
         "chart": {
             "tests": chart_tests,
