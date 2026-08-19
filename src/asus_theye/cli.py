@@ -149,7 +149,12 @@ def _parser() -> argparse.ArgumentParser:
         help="mede e SELA a divergência vs comparador (Kalshi) — comparador nunca resolve",
     )
     markets_comparar.add_argument("--claim", required=True, help="claim_id do registro (ex.: MACRO-01::2026-08)")
-    markets_comparar.add_argument("--preco", type=float, required=True, help="preço do comparador em [0,1]")
+    markets_comparar.add_argument(
+        "--preco",
+        type=float,
+        default=None,
+        help="preço do comparador em [0,1]; omita para buscar AO VIVO na API pública da Kalshi pelo --ticker",
+    )
     markets_comparar.add_argument("--ticker", required=True, help="ticker/mercado do comparador (proveniência)")
     markets_comparar.add_argument(
         "--nota", required=True, help="nota de mapeamento: o que o ticker mede e por que é comparável"
@@ -743,18 +748,33 @@ def main(argv: Sequence[str] | None = None) -> int:
     if args.command == "markets-comparar":
         from asus_theye.markets.auditoria import AuditoriaError, abrir_auditoria
         from asus_theye.markets.comparador import ComparadorError, observar_divergencia
+        from asus_theye.markets.fonte_kalshi import FonteKalshiError, preco_kalshi
         from asus_theye.markets.resolution import ResolutionError
 
         try:
+            preco = args.preco
+            if preco is None:  # busca AO VIVO na API pública (só leitura, sem chave)
+                observado = preco_kalshi(args.ticker)
+                if observado is None:
+                    print(f"markets-comparar: ticker {args.ticker!r} não existe na Kalshi")
+                    return 1
+                if observado.status != "active":
+                    print(
+                        f"markets-comparar: mercado {args.ticker} está {observado.status!r} — "
+                        "preço fora de negociação não é observação de comparador"
+                    )
+                    return 1
+                preco = observado.probabilidade_implicita
+                print(f"preço ao vivo ({observado.metodo_do_preco}): {preco:.4f} — {observado.title}")
             sdk_comparar = None if args.no_audit else abrir_auditoria(Path("reports/audit/markets-ledger.db"))
             resultado = observar_divergencia(
                 claim_id=args.claim,
-                comparator_price=args.preco,
+                comparator_price=preco,
                 ticker=args.ticker,
                 nota_de_mapeamento=args.nota,
                 sdk=sdk_comparar,
             )
-        except (ComparadorError, ResolutionError, AuditoriaError) as error:
+        except (ComparadorError, ResolutionError, AuditoriaError, FonteKalshiError) as error:
             print(f"markets-comparar: {error}")
             return 1
         if args.json_out:

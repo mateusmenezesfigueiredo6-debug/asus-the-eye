@@ -54,9 +54,9 @@
     {
       "id": "M4",
       "nome": "Markets: divergência vs Kalshi medida de verdade",
-      "estado": "pendente",
-      "peso_concluido": 0.0,
-      "metodo": "primeira ComparatorDivergence real selada como market.comparator na corrente (Kalshi comparador, nunca resolutor)"
+      "estado": "concluida",
+      "peso_concluido": 1.0,
+      "metodo": "PRIMEIRA ComparatorDivergence REAL selada (evento market.comparator e21971ca…): preço ao vivo da API pública da Kalshi (KXCPI-26AUG-T0.3, meio do spread 0,6150) vs p=0,50 → divergência 0,1150, com nota de mapeamento indireto obrigatória; client fonte_kalshi + CLI markets-comparar; Kalshi nunca resolve"
     },
     {
       "id": "L1",
