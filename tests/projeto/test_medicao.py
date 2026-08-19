@@ -72,6 +72,17 @@ def test_corrente_e_contada_e_verificada(tmp_path: Path) -> None:
     assert snap["corrente"]["topo_hash"] == "a" * 64
 
 
+def test_eixo_mlops_conta_corridas_e_entra_no_hash(tmp_path: Path) -> None:
+    base = _base(tmp_path)
+    antes = medir_projeto(base)
+    assert antes["mlops"] == {"modelos": 0, "corridas": 0, "metodo": antes["mlops"]["metodo"]}
+    (base / "mlops").mkdir()
+    (base / "mlops" / "corridas.jsonl").write_text('{"corrida_id": "c1"}\n', encoding="utf-8")
+    depois = medir_projeto(base)
+    assert depois["mlops"]["corridas"] == 1
+    assert depois["hash_da_medicao"] != antes["hash_da_medicao"]  # corrida nova = estado novo
+
+
 def test_fase_sem_metodo_levanta(tmp_path: Path) -> None:
     ruim = {"versao": 1, "fases": [{"id": "F0", "nome": "A", "estado": "x", "peso_concluido": 1.0}]}
     with pytest.raises(MedicaoError, match="metodo"):
@@ -170,6 +181,7 @@ def test_painel_projeto_renderiza(tmp_path: Path) -> None:
     page = projeto_page(_base(tmp_path))
     assert "MEDIÇÃO DO PROJETO" in page and "75.0%" in page
     assert "hash da medição" in page
+    assert "Corridas ML" in page
 
 
 def test_painel_degrada_sem_fases(tmp_path: Path) -> None:
