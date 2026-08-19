@@ -74,7 +74,10 @@ def exportar(destino: Path) -> dict[str, list[str]]:
         (destino / "markets.html").write_text(markets_page(db_env), encoding="utf-8")
         gerados.append("markets.html")
     else:
-        motivo = "markets: ASUS_MARKETS_DB ausente" if not db_env else f"markets: arquivo não encontrado ({db_env})"
+        if not db_env:
+            motivo = "markets: ASUS_MARKETS_DB ausente"
+        else:
+            motivo = f"markets: arquivo não encontrado ({db_env})"
         pulados.append(motivo)
 
     # --- index.html ----------------------------------------------------------
