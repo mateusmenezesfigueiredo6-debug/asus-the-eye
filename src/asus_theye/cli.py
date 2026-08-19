@@ -172,6 +172,11 @@ def _parser() -> argparse.ArgumentParser:
     maxcut.add_argument("--layers", default="1,2,3", help="camadas p do QAOA, ex.: 1,2,3")
     maxcut.add_argument("--grid", type=int, default=12, help="resolução da busca de ângulos")
     maxcut.add_argument("--json", dest="json_out", action="store_true", help="saída em JSON")
+    projeto = subcommands.add_parser(
+        "projeto-medir", help="mede o projeto (método declarado) e sela a medição na cadeia (hash)"
+    )
+    projeto.add_argument("--json", dest="json_out", action="store_true", help="saída em JSON")
+    projeto.add_argument("--no-audit", action="store_true", help="só medir, sem selar na cadeia")
     return parser
 
 
@@ -454,7 +459,13 @@ def main(argv: Sequence[str] | None = None) -> int:
         except AuditoriaError as error:
             print(f"markets-resolve: {error}")
             return 1
-        auditor = None if sdk is None else (lambda linha: selar_liquidacao(sdk, linha, eventos=caminho_eventos))
+        auditor = None
+        if sdk is not None:
+            sdk_vivo = sdk  # variável estreitada: mypy não estreita capturas em lambda
+
+            def auditor(linha: dict) -> dict:
+                return selar_liquidacao(sdk_vivo, linha, eventos=caminho_eventos)
+
         try:
             acoes = resolver_pendentes(ipca_mensal, store=args.store, auditor=auditor)
         except (FonteBCBError, LiveMarketError, MarketClaimError, ResolutionError, ScoringError) as error:
@@ -576,6 +587,46 @@ def main(argv: Sequence[str] | None = None) -> int:
                 f"QAR={pt['qar']:.4f}  mais_provável={pt['most_probable_cut']}"
             )
         print(f"\nressalva: {relatorio['ressalva']}")
+        return 0
+    if args.command == "projeto-medir":
+        from asus_theye.markets.auditoria import AuditoriaError, abrir_auditoria, cabeca_da_corrente
+        from asus_theye.projeto import MedicaoError, medir_projeto, selar_projeto
+
+        try:
+            snap = medir_projeto()
+        except MedicaoError as error:
+            print(f"projeto-medir: {error}")
+            return 1
+        recibo = None
+        sdk = None
+        if not args.no_audit:
+            try:
+                sdk = abrir_auditoria()
+                recibo = selar_projeto(sdk, snap)
+            except AuditoriaError as error:
+                print(f"projeto-medir: {error}")
+                return 1
+        if args.json_out:
+            print(json.dumps({"medicao": snap, "selagem": recibo}, ensure_ascii=False, indent=2))
+            return 0
+        caminho = snap["caminho_minimo"]
+        print("=" * 62)
+        print("MEDIÇÃO DO PROJETO — sempre em hash")
+        print("=" * 62)
+        print(f"\ncaminho mínimo: {caminho['pct']}%  ({caminho['metodo']})")
+        for fase in caminho["fases"]:
+            print(f"  {fase['id']}  {float(fase['peso_concluido']) * 100:5.0f}%  {fase['estado']:9s}  {fase['nome']}")
+        corrente = snap["corrente"]
+        print(f"\ncorrente: {corrente['eventos']} eventos  verifica={corrente['verifica']}")
+        print(
+            f"medição contínua: {snap['medicao_continua']['liquidados']} liquidados, "
+            f"{snap['medicao_continua']['resolucoes']} resoluções | âncoras: {snap['ancoragem']['ancoras']}"
+        )
+        print(f"\nhash da medição: {snap['hash_da_medicao']}")
+        if recibo is not None and sdk is not None:
+            estado = "dedupe (estado inalterado)" if recibo.get("duplicate") else "EVENTO NOVO selado"
+            print(f"selagem: {estado} — cadeia no topo {cabeca_da_corrente(sdk)}")
+        print(f"\n{snap['ressalva']}")
         return 0
     return 2
 
