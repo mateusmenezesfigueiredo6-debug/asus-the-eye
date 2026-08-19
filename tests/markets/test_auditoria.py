@@ -67,7 +67,10 @@ def test_evento_exportado_e_verificavel_sem_o_banco(tmp_path: Path) -> None:
     eventos = tmp_path / "eventos.jsonl"
     selar_liquidacao(sdk, LINHA, eventos=eventos)
     selado = json.loads(eventos.read_text(encoding="utf-8").strip())
-    assert verify_event(selado), "o evento de 40 campos verifica sozinho (hash + esquema)"
+    assert verify_event(selado), (
+        "o evento de 37 campos obrigatórios (38 no schema JSON, + hash de selagem no arquivo) "
+        "verifica sozinho (hash + esquema)"
+    )
     assert verify_chain([selado]), "e encadeia a partir do gênesis"
     assert selado["event_type"] == "market.settlement"
     assert selado["sequence"] == 1

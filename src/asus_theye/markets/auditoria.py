@@ -1,14 +1,16 @@
 """F2 — a liquidação sela um evento REAL na cadeia auditável.
 
-Até aqui a cadeia tinha 0 eventos: o núcleo de auditoria (evento de 40 campos,
-RFC 8785 + SHA-256, corrente por tenant) existia testado mas desligado de
+Até aqui a cadeia tinha 0 eventos: o núcleo de auditoria (evento de 37 campos
+obrigatórios; 38 no schema JSON, + hash de selagem no arquivo; RFC 8785 +
+SHA-256, corrente por tenant) existia testado mas desligado de
 qualquer mutação real. Este adaptador liga a medição da F1 ao ``AuditSDK``:
 cada mercado LIQUIDADO vira um evento ``market.settlement`` selado.
 
 Decisões de desenho (endurecidas pela revisão adversarial):
 
 1. **O mesmo evento que o verificador valida.** Nada de esquema paralelo: o
-   evento selado é o de 40 campos que ``verify_event``/``verify_chain`` aceitam.
+   evento selado é o de 37 campos obrigatórios (38 no schema JSON, + hash de
+   selagem no arquivo) que ``verify_event``/``verify_chain`` aceitam.
 2. **O arquivo versionado é a corrente canônica; o SQLite é cache operacional.**
    ``reports/markets/eventos.jsonl`` viaja com o repo e qualquer um verifica sem
    o banco. Na abertura, o banco é RESSINCRONIZADO a partir do arquivo
