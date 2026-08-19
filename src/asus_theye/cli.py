@@ -227,6 +227,16 @@ def _parser() -> argparse.ArgumentParser:
     mlops.add_argument("--stability-runs", type=int, default=10)
     mlops.add_argument("--json", dest="json_out", action="store_true", help="saída em JSON")
     mlops.add_argument("--no-audit", action="store_true", help="rastreia no store sem selar na cadeia")
+    mlops_promover = subcommands.add_parser(
+        "mlops-promover",
+        help="promove uma versão de modelo a campeão/desafiante e sela a decisão na cadeia",
+    )
+    mlops_promover.add_argument("--modelo", required=True, help="modelo_id (slug)")
+    mlops_promover.add_argument("--versao", required=True, help="versão do modelo (slug)")
+    mlops_promover.add_argument("--papel", required=True, choices=("campeao", "desafiante"), help="papel da versão")
+    mlops_promover.add_argument("--motivo", required=True, help="motivo da promoção (obrigatório)")
+    mlops_promover.add_argument("--json", dest="json_out", action="store_true", help="saída em JSON")
+    mlops_promover.add_argument("--no-audit", action="store_true", help="registra sem selar na cadeia")
     ledger_sync = subcommands.add_parser(
         "ledger-sync",
         help="espelha a corrente selada no ledger restrito da nuvem (D1) — idempotente por conteúdo",
@@ -924,6 +934,44 @@ def main(argv: Sequence[str] | None = None) -> int:
             print(f"  gerado: {args.out / nome}")
         for motivo in resultado["pulados"]:
             print(f"  pulado: {motivo}")
+        return 0
+    if args.command == "mlops-promover":
+        from asus_theye.audit.schema import EventValidationError
+        from asus_theye.audit.sdk import utc_now
+        from asus_theye.markets.auditoria import AuditoriaError, abrir_auditoria
+        from asus_theye.mlops import MLOpsError, campeao_atual, promover
+
+        sdk_ml = None
+        if not args.no_audit:
+            try:
+                sdk_ml = abrir_auditoria()
+            except AuditoriaError as error:
+                print(f"mlops-promover: {error}")
+                return 1
+        try:
+            resultado = promover(
+                modelo_id=args.modelo,
+                versao=args.versao,
+                papel=args.papel,
+                motivo=args.motivo,
+                promovido_em=utc_now(),
+                sdk=sdk_ml,
+            )
+        except (MLOpsError, AuditoriaError, EventValidationError) as error:
+            print(f"mlops-promover: {error}")
+            return 1
+        campiao = campeao_atual(args.modelo)
+        if args.json_out:
+            print(json.dumps({"resultado": resultado, "campeao_atual": campiao}, ensure_ascii=False, indent=2))
+            return 0
+        reg = resultado["registro"]
+        print(f"papel: {reg['papel']}")
+        print(f"modelo: {reg['modelo_id']}@{reg['versao']}")
+        print(f"motivo: {reg['motivo']}")
+        if campiao:
+            print(f"campeao atual: {campiao['modelo_id']}@{campiao['versao']} (promovido_em {campiao['promovido_em']})")
+        else:
+            print("campeao atual: nenhum")
         return 0
     return 2
 
