@@ -35,14 +35,16 @@ ALPHAS = (0.01, 0.1, 1.0, 10.0, 100.0)  # NOWCAST_IPCA_SPEC.md, seção 4.1.
 JANELA_TREINO = 120  # Dez anos mensais, conforme a seção 4.2 da spec.
 MIN_RESIDUOS = 24  # Porta probabilística mínima da seção 4.3 da spec.
 LIMIAR_IPCA = 0.5  # Claim operacional vigente: IPCA mensal >= 0,50%.
-TIMEOUT = 30
+TIMEOUT = 60  # o SGS demora em janelas diárias longas; 30s cortava consulta legítima
 MAX_BYTES = 10_000_000
 ARTEFATOS_DIR = Path("reports/mlops/artefatos")
 # Um primeiro Brier exige 120 meses de treino, 24 resíduos anteriores e o mês
 # avaliado (seções 4.2 e 4.3). A coleta diária retrocede o necessário para isso.
 MESES_MINIMOS_CORRIDA = JANELA_TREINO + MIN_RESIDUOS + 1
 # Limite devolvido pela própria API SGS para séries diárias (HTTP 406).
-ANOS_MAXIMOS_POR_CONSULTA_DIARIA = 10
+# 10 anos de série diária estoura o timeout do SGS em produção (verificado
+# 19/08/2026: 432 em 2013–2022 → read timeout, 2x). 5 anos ≈ 1.250 pontos passa.
+ANOS_MAXIMOS_POR_CONSULTA_DIARIA = 5
 MOTIVO_FOCUS_BLOQUEADO = (
     "Sem vintage Focus reproduzível no mesmo corte do modelo; dados revisados dariam vantagem informacional."
 )
