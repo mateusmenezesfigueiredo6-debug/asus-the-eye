@@ -26,7 +26,7 @@ o ponto da política.
 ## O que o nosso faz que a origem não faz
 
 Cada registro (modelo, versão, corrida, promoção) é **selado na cadeia
-auditável** (evento de 40 campos, RFC 8785 + SHA-256, corrente por tenant) —
+auditável** (evento de 37 campos obrigatórios (38 no schema), RFC 8785 + SHA-256, corrente por tenant) —
 run tracking com prova criptográfica. A identidade da corrida é o hash
 canônico do conteúdo (dedupe honesto, divergência levanta), e o store é
 versionado no repo (`reports/mlops/*.jsonl`): qualquer clone confere o

@@ -40,16 +40,16 @@
     {
       "id": "M2",
       "nome": "Markets: 2ª área liquidando (juros/Selic)",
-      "estado": "pendente",
-      "peso_concluido": 0.0,
-      "metodo": "conector fonte_selic (issue #16, Copilot) + registry de áreas no resolvedor; mês liquida contra SGS 432"
+      "estado": "parcial",
+      "peso_concluido": 0.5,
+      "metodo": "conector fonte_selic mergeado (PR #19, Copilot, revisado; SGS 432, UNKNOWN honesto, suíte verde); os 0,5 restantes = registry multi-área no resolvedor + 1ª liquidação real de juros"
     },
     {
       "id": "M3",
       "nome": "Markets: 3ª área liquidando (câmbio/PTAX)",
-      "estado": "pendente",
-      "peso_concluido": 0.0,
-      "metodo": "conector fonte_ptax (issue #17, Copilot); mês liquida contra SGS 1 (último ponto do mês)"
+      "estado": "parcial",
+      "peso_concluido": 0.5,
+      "metodo": "conector fonte_ptax mergeado (PR #20, Copilot, revisado; SGS 1, último ponto do mês); os 0,5 restantes = registry multi-área + 1ª liquidação real de câmbio"
     },
     {
       "id": "M4",
@@ -82,9 +82,9 @@
     {
       "id": "L4",
       "nome": "Ledger: números de venda = código",
-      "estado": "pendente",
-      "peso_concluido": 0.0,
-      "metodo": "grep '40 campos' vazio no repo; textos batem com REQUIRED_FIELDS/schema (issue #18, Copilot)"
+      "estado": "concluida",
+      "peso_concluido": 1.0,
+      "metodo": "grep '40 campos' zerado no repo (PR #21 do Copilot + sobra na proveniência corrigida); textos = 37 obrigatórios/38 no schema, batendo com REQUIRED_FIELDS"
     }
   ]
 }
