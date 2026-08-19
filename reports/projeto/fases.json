@@ -1,0 +1,48 @@
+{
+  "versao": 1,
+  "nota": "O método da medição do caminho mínimo. Editar aqui É editar a medição — e a mudança vira evento novo na cadeia (hash muda).",
+  "fases": [
+    {
+      "id": "F0",
+      "nome": "Ambiente reproduzível",
+      "estado": "concluida",
+      "peso_concluido": 1.0,
+      "metodo": "venv recriado; import sem PYTHONPATH; suíte verde (17/08/2026)"
+    },
+    {
+      "id": "F1",
+      "nome": "Medição contínua",
+      "estado": "concluida",
+      "peso_concluido": 1.0,
+      "metodo": "resolução automática contra o BCB; liquidação real de jul/2026 no ledger (PR #6)"
+    },
+    {
+      "id": "F2",
+      "nome": "Cadeia auditável",
+      "estado": "concluida",
+      "peso_concluido": 1.0,
+      "metodo": "evento selado real; corrente canônica versionada; fingerprint de chave (PRs #6)"
+    },
+    {
+      "id": "F3",
+      "nome": "Ancoragem Base Sepolia",
+      "estado": "parcial",
+      "peso_concluido": 0.7,
+      "metodo": "contrato compilado+testado (17 testes) e ensaio offline ok (PR #7); os 0.3 restantes são o broadcast, que aguarda faucet do dono"
+    },
+    {
+      "id": "F4",
+      "nome": "Verificador público",
+      "estado": "concluida",
+      "peso_concluido": 1.0,
+      "metodo": "worker no ar (the-eye-public-verifier…workers.dev) validando a corrente real (17/08/2026)"
+    },
+    {
+      "id": "F5",
+      "nome": "Empacotamento + auth",
+      "estado": "concluida",
+      "peso_concluido": 1.0,
+      "metodo": "serve fail-closed + Docker/compose/systemd/runbook (PR #9)"
+    }
+  ]
+}

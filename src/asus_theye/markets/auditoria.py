@@ -174,41 +174,50 @@ def abrir_auditoria(
     return sdk
 
 
-def selar_liquidacao(
+def selar_registro(
     sdk: AuditSDK,
-    linha: dict[str, Any],
+    conteudo: dict[str, Any],
     *,
+    tipo_evento: str,
+    recurso: str,
+    correlation_id: str,
+    action: str | None = None,
+    occurred_at: str = "",
     tenant: str = TENANT_PADRAO,
     eventos: Path = EVENTOS_PADRAO,
 ) -> dict[str, Any]:
-    """Sela a liquidação como ``market.settlement`` e garante o export.
+    """Sela QUALQUER medição na corrente e garante o export — a via genérica.
 
-    Idempotente por ``claim_id``; divergência de conteúdo LEVANTA; o export é
-    auto-reparador (presença conferida por ``event_id`` em toda selagem).
-    O recibo ganha ``export_reparado=True`` quando a rodada só reparou o export.
+    Toda medição da plataforma vira evento com hash por aqui: liquidações,
+    medições do projeto, corridas de ML. Garantias herdadas do endurecimento F2:
+    idempotente por ``(tipo_evento, correlation_id)``; divergência de conteúdo no
+    dedupe LEVANTA; export auto-reparador (presença por ``event_id`` em toda
+    selagem, com ``export_reparado=True`` quando a rodada só reparou).
     """
-    claim_id = str(linha["claim_id"])
-    conteudo_hash = hash_json(redact(linha))
-    if conteudo_hash != hash_json(linha):
+    conteudo_hash = hash_json(redact(conteudo))
+    if conteudo_hash != hash_json(conteudo):
         raise AuditoriaError(
-            f"{claim_id}: a linha contém campo tratado como sensível pelo redator — o hash "
-            "selado divergiria do ledger publicado (resolucoes.jsonl); renomeie o campo"
+            f"{correlation_id}: o conteúdo tem campo tratado como sensível pelo redator — o hash "
+            "selado divergiria do artefato publicado; renomeie o campo"
         )
 
+    extras: dict[str, Any] = {}
+    if occurred_at:  # vazio: sdk.record usa o agora — string vazia não é ISO 8601
+        extras["occurred_at"] = occurred_at
     recibo = sdk.record(
         tenant_id=tenant,
-        event_type="market.settlement",
-        action="settle",
-        correlation_id=claim_id,
+        event_type=tipo_evento,
+        action=action or tipo_evento.split(".")[-1],
+        correlation_id=correlation_id,
         actor_id=SERVICO,
         actor_type="service",
         actor_role="resolver",
-        resource_id=claim_id,
-        resource_type="market",
+        resource_id=correlation_id,
+        resource_type=recurso,
         classification="internal",
-        occurred_at=str(linha.get("resolved_at") or ""),
-        idempotency_key=hash_json(["market.settlement", claim_id]),
-        content=linha,
+        idempotency_key=hash_json([tipo_evento, correlation_id]),
+        content=conteudo,
+        **extras,
     )
 
     selado = next(
@@ -216,14 +225,14 @@ def selar_liquidacao(
         None,
     )
     if selado is None:  # pragma: no cover - append bem-sucedido garante presença
-        raise AuditoriaError(f"{claim_id}: evento gravado mas não encontrado para export")
+        raise AuditoriaError(f"{correlation_id}: evento gravado mas não encontrado para export")
 
-    # dedupe NUNCA esconde divergência: mesmo claim com conteúdo diferente levanta
+    # dedupe NUNCA esconde divergência: mesma correlação com conteúdo diferente levanta
     if recibo.get("duplicate") and selado["content_hash_sha256"] != conteudo_hash:
         raise AuditoriaError(
-            f"{claim_id}: a liquidação atual diverge da já selada "
+            f"{correlation_id}: o conteúdo atual diverge do já selado "
             f"(content_hash {conteudo_hash[:16]}… ≠ {selado['content_hash_sha256'][:16]}…) — "
-            "investigue o registro antes de qualquer selagem nova"
+            "investigue antes de qualquer selagem nova"
         )
 
     # export auto-reparador: presença por event_id, nunca condicionada a duplicate
@@ -235,6 +244,28 @@ def selar_liquidacao(
         if recibo.get("duplicate"):
             recibo["export_reparado"] = True
     return recibo
+
+
+def selar_liquidacao(
+    sdk: AuditSDK,
+    linha: dict[str, Any],
+    *,
+    tenant: str = TENANT_PADRAO,
+    eventos: Path = EVENTOS_PADRAO,
+) -> dict[str, Any]:
+    """Sela a liquidação como ``market.settlement`` — atalho sobre a via genérica."""
+    claim_id = str(linha["claim_id"])
+    return selar_registro(
+        sdk,
+        linha,
+        tipo_evento="market.settlement",
+        recurso="market",
+        correlation_id=claim_id,
+        action="settle",
+        occurred_at=str(linha.get("resolved_at") or ""),
+        tenant=tenant,
+        eventos=eventos,
+    )
 
 
 def cabeca_da_corrente(sdk: AuditSDK, *, tenant: str = TENANT_PADRAO) -> int:
