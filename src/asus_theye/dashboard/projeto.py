@@ -39,13 +39,16 @@ def projeto_page(base: Path | None = None) -> str:
         return _shell(corpo)
 
     caminho = snap["caminho_minimo"]
+    produtos = snap["produtos"]
     corrente = snap["corrente"]
     medicao = snap["medicao_continua"]
     ancoragem = snap["ancoragem"]
     verifica = '<span class="ok">✓</span>' if corrente["verifica"] else '<span class="bad">✗</span>'
     topo = (corrente["topo_hash"] or "—")[:16]
+    pct_produtos = "—" if produtos["pct"] is None else f"{produtos['pct']}%"
     corpo = f"""<section class="cards">
 <div class="card"><div class="label">Caminho mínimo</div><div class="value">{caminho["pct"]}%</div></div>
+<div class="card"><div class="label">Roteiro dos produtos</div><div class="value">{pct_produtos}</div></div>
 <div class="card"><div class="label">Corrente (eventos)</div>
 <div class="value">{corrente["eventos"]} {verifica}</div></div>
 <div class="card"><div class="label">Liquidados / resoluções</div>
@@ -55,13 +58,26 @@ def projeto_page(base: Path | None = None) -> str:
 <div class="value">{snap["mlops"]["corridas"]}</div></div>
 </section>
 <p class="muted">hash da medição: <code>{snap["hash_da_medicao"]}</code> · topo da corrente: <code>{topo}…</code></p>
+<h2>Caminho mínimo (F0–F5)</h2>
 <table><thead><tr><th>fase</th><th>nome</th><th>estado</th><th>%</th><th>método</th></tr></thead>
 <tbody>
 {"".join(_fase_linha(f) for f in caminho["fases"])}
 </tbody></table>
+{_tabela_produtos(produtos)}
 <p class="muted">{html.escape(str(snap["ressalva"]))} Selagem: <code>asus-theye projeto-medir</code> —
 mesmo estado não re-sela (dedupe); estado novo vira evento novo na cadeia.</p>"""
     return _shell(corpo)
+
+
+def _tabela_produtos(produtos: dict[str, Any]) -> str:
+    """O checklist vivo do roteiro até os 2 produtos — some com honestidade se não declarado."""
+    if not produtos["fases"]:
+        return f'<p class="muted">{html.escape(str(produtos["metodo"]))}</p>'
+    return (
+        "<h2>Roteiro dos produtos (checklist vivo)</h2>"
+        "<table><thead><tr><th>fase</th><th>nome</th><th>estado</th><th>%</th><th>método</th></tr></thead>"
+        f"<tbody>{''.join(_fase_linha(f) for f in produtos['fases'])}</tbody></table>"
+    )
 
 
 def _shell(corpo: str) -> str:
@@ -73,6 +89,7 @@ def _shell(corpo: str) -> str:
 body{{margin:0;background:var(--bg);color:var(--ink);font:16px system-ui}}
 main{{max-width:1100px;margin:auto;padding:40px 20px}}
 h1{{letter-spacing:.08em}}
+h2{{margin:28px 0 12px;font-size:1.05rem;letter-spacing:.05em;color:var(--muted);text-transform:uppercase}}
 .muted{{color:var(--muted)}}
 code{{color:var(--accent);word-break:break-all}}
 .cards{{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:16px;margin-bottom:24px}}

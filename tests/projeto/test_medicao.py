@@ -83,6 +83,32 @@ def test_eixo_mlops_conta_corridas_e_entra_no_hash(tmp_path: Path) -> None:
     assert depois["hash_da_medicao"] != antes["hash_da_medicao"]  # corrida nova = estado novo
 
 
+def test_roteiro_de_produtos_ausente_e_honesto_e_declarado_mede(tmp_path: Path) -> None:
+    base = _base(tmp_path)
+    antes = medir_projeto(base)
+    assert antes["produtos"]["pct"] is None  # ausente ≠ 0% — é "não declarado"
+    assert antes["produtos"]["fases"] == []
+    roteiro = {
+        "versao": 1,
+        "fases": [
+            {"id": "P0", "nome": "Feito", "estado": "concluida", "peso_concluido": 1.0, "metodo": "m"},
+            {"id": "N1", "nome": "Nuvem", "estado": "pendente", "peso_concluido": 0.0, "metodo": "m"},
+        ],
+    }
+    (base / "projeto" / "produtos.json").write_text(json.dumps(roteiro), encoding="utf-8")
+    depois = medir_projeto(base)
+    assert depois["produtos"]["pct"] == 50.0
+    assert depois["hash_da_medicao"] != antes["hash_da_medicao"]  # declarar o roteiro muda o estado
+
+
+def test_roteiro_de_produtos_tambem_exige_metodo(tmp_path: Path) -> None:
+    base = _base(tmp_path)
+    ruim = {"versao": 1, "fases": [{"id": "P0", "nome": "A", "estado": "x", "peso_concluido": 1.0}]}
+    (base / "projeto" / "produtos.json").write_text(json.dumps(ruim), encoding="utf-8")
+    with pytest.raises(MedicaoError, match="metodo"):
+        medir_projeto(base)
+
+
 def test_fase_sem_metodo_levanta(tmp_path: Path) -> None:
     ruim = {"versao": 1, "fases": [{"id": "F0", "nome": "A", "estado": "x", "peso_concluido": 1.0}]}
     with pytest.raises(MedicaoError, match="metodo"):
@@ -182,6 +208,20 @@ def test_painel_projeto_renderiza(tmp_path: Path) -> None:
     assert "MEDIÇÃO DO PROJETO" in page and "75.0%" in page
     assert "hash da medição" in page
     assert "Corridas ML" in page
+    assert "Roteiro dos produtos" in page  # card sempre presente ("—" quando não declarado)
+
+
+def test_painel_renderiza_checklist_dos_produtos(tmp_path: Path) -> None:
+    from asus_theye.dashboard.projeto import projeto_page
+
+    base = _base(tmp_path)
+    roteiro = {
+        "versao": 1,
+        "fases": [{"id": "M1", "nome": "WPAM ligado", "estado": "pendente", "peso_concluido": 0.0, "metodo": "m"}],
+    }
+    (base / "projeto" / "produtos.json").write_text(json.dumps(roteiro), encoding="utf-8")
+    page = projeto_page(base)
+    assert "checklist vivo" in page and "WPAM ligado" in page
 
 
 def test_painel_degrada_sem_fases(tmp_path: Path) -> None:

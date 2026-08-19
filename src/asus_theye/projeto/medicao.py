@@ -37,6 +37,11 @@ def _fases(caminho: Path) -> list[dict[str, Any]]:
     if not caminho.exists():
         raise MedicaoError(f"fases não declaradas: {caminho} — a medição exige o método, não chuta")
     fases = json.loads(caminho.read_text(encoding="utf-8"))["fases"]
+    _validar_fases(fases)
+    return fases
+
+
+def _validar_fases(fases: list[dict[str, Any]]) -> list[dict[str, Any]]:
     for fase in fases:
         peso = fase.get("peso_concluido")
         if not isinstance(peso, (int, float)) or isinstance(peso, bool) or not 0.0 <= float(peso) <= 1.0:
@@ -44,6 +49,26 @@ def _fases(caminho: Path) -> list[dict[str, Any]]:
         if not fase.get("metodo"):
             raise MedicaoError(f"{fase.get('id')}: fase sem 'metodo' — número sem método não entra")
     return fases
+
+
+def _pct(fases: list[dict[str, Any]]) -> float:
+    return round(100.0 * sum(float(f["peso_concluido"]) for f in fases) / len(fases), 1)
+
+
+def _roteiro_de_produtos(caminho: Path) -> dict[str, Any]:
+    """Segundo checklist (roteiro até os produtos) — opcional, mas com método sempre.
+
+    O caminho mínimo F0–F5 é obrigatório e histórico; o roteiro dos produtos é
+    declarado quando existe. Ausente não é 0% — é "não declarado", dito como tal.
+    """
+    if not caminho.exists():
+        return {"pct": None, "fases": [], "metodo": f"{caminho} ausente — roteiro não declarado"}
+    fases = _validar_fases(json.loads(caminho.read_text(encoding="utf-8"))["fases"])
+    return {
+        "pct": _pct(fases),
+        "metodo": "média dos pesos declarados por fase em reports/projeto/produtos.json (roteiro até os 2 produtos)",
+        "fases": fases,
+    }
 
 
 def medir_projeto(base: Path = BASE_PADRAO, *, fases_path: Path | None = None) -> dict[str, Any]:
@@ -68,15 +93,14 @@ def medir_projeto(base: Path = BASE_PADRAO, *, fases_path: Path | None = None) -
     if chart_path.exists():
         chart_tests = json.loads(chart_path.read_text(encoding="utf-8")).get("totals", {}).get("tests")
 
-    pct = round(100.0 * sum(float(f["peso_concluido"]) for f in fases) / len(fases), 1)
-
     snapshot: dict[str, Any] = {
         "versao": 2,
         "caminho_minimo": {
-            "pct": pct,
+            "pct": _pct(fases),
             "metodo": "média dos pesos declarados por fase em reports/projeto/fases.json",
             "fases": fases,
         },
+        "produtos": _roteiro_de_produtos(base / "projeto" / "produtos.json"),
         "corrente": {
             "eventos": len(eventos),
             "topo_hash": eventos[-1]["event_hash_sha256"] if eventos else None,

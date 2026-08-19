@@ -1,0 +1,90 @@
+{
+  "versao": 1,
+  "nota": "Roteiro até os 2 produtos vendáveis (THE EYE Markets / THE EYE Ledger). Editar este arquivo É editar a medição: cada avanço de fase muda o hash e vira evento novo na cadeia (asus-theye projeto-medir). Portões do dono: publish_lock (N2), faucet Base Sepolia (L1), codex login (trilha P).",
+  "fases": [
+    {
+      "id": "P0",
+      "nome": "Passo 0 — endurecimento + CI + rota /projeto",
+      "estado": "concluida",
+      "peso_concluido": 1.0,
+      "metodo": "PR #15 mergeado (db2b039): 11 achados da revisão adversarial corrigidos, .gitleaks.toml, /projeto montada no servidor"
+    },
+    {
+      "id": "N1",
+      "nome": "Nuvem: corrente real sincronizada no D1",
+      "estado": "pendente",
+      "peso_concluido": 0.0,
+      "metodo": "GET /events do worker the-eye-audit-staging == reports/markets/eventos.jsonl local; re-rodar o sync não duplica"
+    },
+    {
+      "id": "N2",
+      "nome": "Nuvem: painéis estáticos publicados",
+      "estado": "pendente",
+      "peso_concluido": 0.0,
+      "metodo": "asus-theye export-static gera dist/; publicação como worker de assets passa pelo publish_lock (portão do dono)"
+    },
+    {
+      "id": "N3",
+      "nome": "Nuvem: operação contínua sem humano",
+      "estado": "pendente",
+      "peso_concluido": 0.0,
+      "metodo": "GitHub Action agendada roda markets-resolve + selagem + sync; dry-run aprovado via workflow_dispatch antes do cron"
+    },
+    {
+      "id": "M1",
+      "nome": "Markets: WPAM ligado a sinais reais",
+      "estado": "pendente",
+      "peso_concluido": 0.0,
+      "metodo": "claim novo abre com p != 0,50 e sinais com fontes nomeadas (BCB Focus/IPCA-15); sem sinal disponível volta a 0,50 honesto"
+    },
+    {
+      "id": "M2",
+      "nome": "Markets: 2ª área liquidando (juros/Selic)",
+      "estado": "pendente",
+      "peso_concluido": 0.0,
+      "metodo": "conector fonte_selic (issue #16, Copilot) + registry de áreas no resolvedor; mês liquida contra SGS 432"
+    },
+    {
+      "id": "M3",
+      "nome": "Markets: 3ª área liquidando (câmbio/PTAX)",
+      "estado": "pendente",
+      "peso_concluido": 0.0,
+      "metodo": "conector fonte_ptax (issue #17, Copilot); mês liquida contra SGS 1 (último ponto do mês)"
+    },
+    {
+      "id": "M4",
+      "nome": "Markets: divergência vs Kalshi medida de verdade",
+      "estado": "pendente",
+      "peso_concluido": 0.0,
+      "metodo": "primeira ComparatorDivergence real selada como market.comparator na corrente (Kalshi comparador, nunca resolutor)"
+    },
+    {
+      "id": "L1",
+      "nome": "Ledger: corrente ancorada on-chain",
+      "estado": "pendente",
+      "peso_concluido": 0.0,
+      "metodo": "broadcast Base Sepolia pela carteira 0xeDd9…cC76; reports/markets/ancoras.jsonl >= 1 (portão: faucet do dono)"
+    },
+    {
+      "id": "L2",
+      "nome": "Ledger: raiz pública no verificador",
+      "estado": "pendente",
+      "peso_concluido": 0.0,
+      "metodo": "âncora confirmada gravada no D1; GET /root/AAAA-MM-DD responde 200 no the-eye-public-verifier"
+    },
+    {
+      "id": "L3",
+      "nome": "Ledger: ontologia completa (Artefato/Recibo)",
+      "estado": "pendente",
+      "peso_concluido": 0.0,
+      "metodo": "entidades materializadas em evidence/entidades.py; painel /evidencia exibe 'Fonte provada + ancorada'"
+    },
+    {
+      "id": "L4",
+      "nome": "Ledger: números de venda = código",
+      "estado": "pendente",
+      "peso_concluido": 0.0,
+      "metodo": "grep '40 campos' vazio no repo; textos batem com REQUIRED_FIELDS/schema (issue #18, Copilot)"
+    }
+  ]
+}
