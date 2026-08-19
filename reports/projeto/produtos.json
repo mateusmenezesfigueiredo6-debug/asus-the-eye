@@ -26,9 +26,9 @@
     {
       "id": "N3",
       "nome": "Nuvem: operação contínua sem humano",
-      "estado": "pendente",
-      "peso_concluido": 0.0,
-      "metodo": "GitHub Action agendada roda markets-resolve + selagem + sync; dry-run aprovado via workflow_dispatch antes do cron"
+      "estado": "parcial",
+      "peso_concluido": 0.7,
+      "metodo": "workflow operacao-continua na main (cron 11-15/mês) com ensaio workflow_dispatch VERDE no runner; 100% quando o dono plantar os 2 segredos (gh secret set) e a 1ª rodada real do cron liquidar/selar sozinha"
     },
     {
       "id": "M1",
