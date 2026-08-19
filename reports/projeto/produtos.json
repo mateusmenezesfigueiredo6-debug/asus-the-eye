@@ -19,9 +19,9 @@
     {
       "id": "N2",
       "nome": "Nuvem: painéis estáticos publicados",
-      "estado": "pendente",
-      "peso_concluido": 0.0,
-      "metodo": "asus-theye export-static gera dist/; publicação como worker de assets passa pelo publish_lock (portão do dono)"
+      "estado": "parcial",
+      "peso_concluido": 0.7,
+      "metodo": "export-static mergeado (PR #27, Copilot, revisado) e PROVADO: dist/ com as 5 páginas geradas (projeto, evidencia, benchmark, markets com o banco real, index). Os 0,3 restantes = publicação como worker de assets — portão do dono (publish_lock)"
     },
     {
       "id": "N3",
