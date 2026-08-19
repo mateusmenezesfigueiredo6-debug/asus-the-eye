@@ -45,10 +45,21 @@ def evidencia_page(base: str | Path | None = None) -> str:
 
     tipos = [chave[0] for chave in grafo.nos]
     tem_ancora = any(t == "Ancora" for t in tipos)
+    no_recibo = next((n for n in grafo.nos.values() if n.tipo == "Recibo"), None)
+    if no_recibo is None:
+        recibo_html = "—"
+    else:
+        estado_recibo = str(no_recibo.dados.get("estado"))
+        classe_recibo = (
+            "ok" if estado_recibo == "valid" else ("bad" if estado_recibo in ("tampered", "invalid") else "warn")
+        )
+        recibo_html = f'<span class="{classe_recibo}">{estado_recibo}</span>'
     cards = f"""<section class="cards">
 <div class="card"><div class="label">Objetos</div><div class="value">{len(grafo.nos)}</div></div>
 <div class="card"><div class="label">Relações</div><div class="value">{len(grafo.arestas)}</div></div>
 <div class="card"><div class="label">Eventos selados</div><div class="value">{tipos.count("EventoSelado")}</div></div>
+<div class="card"><div class="label">Artefatos de fonte</div><div class="value">{tipos.count("Artefato")}</div></div>
+<div class="card"><div class="label">Recibo do verificador</div><div class="value">{recibo_html}</div></div>
 <div class="card"><div class="label">Ancorado on-chain</div>
 <div class="value">{'<span class="ok">sim</span>' if tem_ancora else '<span class="warn">ainda não</span>'}</div></div>
 </section>"""

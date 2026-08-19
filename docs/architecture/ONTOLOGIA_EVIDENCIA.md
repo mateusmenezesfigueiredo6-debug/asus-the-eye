@@ -88,6 +88,17 @@ O resultado de uma verificação (o que o worker público devolve).
 ### 3.8 `Comparador` (Kalshi)
 Entidade separada, deliberadamente **fora** da linhagem de resolução.
 - Relações: `DIVERGE_DE →` `Mercado` (registro de divergência), nunca `RESOLVE`.
+- O evento selado da observação (`market.comparator`) liga-se por
+  `REGISTRA → Mercado` (e por ele alcança a Fonte declarada do claim);
+  `DIVERGE_DE` fica FORA de `DERIVACAO` — a opinião do comparador não é
+  linhagem de ninguém.
+
+> **Estado L3 (implementado)**: `Artefato` materializa de
+> `reports/markets/artefatos.jsonl` (dado bruto de Fonte oficial com sha256 e
+> `retrieved_at`; primeiro exemplar real: resposta SGS 433 que liquidou
+> jul/2026). `Recibo` materializa do resultado REAL de `verify_chain` na
+> montagem do grafo (`valid|not_anchored|tampered`), com `ATESTA →` o topo da
+> corrente — `ATESTA` fora de `DERIVACAO` (recibo atesta; dado não deriva dele).
 
 ## 4. Linhagem — a consulta que a plataforma precisa responder
 

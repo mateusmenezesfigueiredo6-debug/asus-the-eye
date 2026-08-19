@@ -21,16 +21,21 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
+from asus_theye.audit.schema import verify_chain
 from asus_theye.evidence.entidades import (
+    ANCORA,
     FONTE,
     TIPOS,
     Chave,
     No,
     ancora,
+    artefato,
+    comparador,
     evento,
     fonte,
     lote,
     mercado,
+    recibo,
     resolucao,
 )
 
@@ -44,12 +49,20 @@ SELA = "SELA"  # EventoSelado → Resolucao
 SUCEDE = "SUCEDE"  # EventoSelado → EventoSelado anterior (integridade de corrente)
 AGREGA = "AGREGA"  # LoteMerkle → EventoSelado
 ANCORA_REL = "ANCORA"  # Ancora → LoteMerkle
+DERIVA_DE = "DERIVA_DE"  # Artefato → Fonte (dado bruto com hash)
+DIVERGE_DE = "DIVERGE_DE"  # Comparador → Mercado (registro de divergência; NUNCA resolve)
+REGISTRA = "REGISTRA"  # EventoSelado(market.comparator) → Mercado observado
+ATESTA = "ATESTA"  # Recibo → EventoSelado (resultado real da verificação)
 
 # Arestas de DERIVAÇÃO (de onde o dado vem). SUCEDE fica de fora: é ordenação
 # temporal/integridade, não derivação — seguir SUCEDE faria um evento parecer
 # embasado pelas Fontes de todos os anteriores. A âncora já alcança todos os
 # eventos do lote por AGREGA, então excluir SUCEDE não encurta a linhagem real.
-DERIVACAO = (CONSULTA, MEDE, CONTRA, SELA, AGREGA, ANCORA_REL)
+# DIVERGE_DE também fica de fora (o comparador é deliberadamente EXTERNO à
+# linhagem de resolução — spec 3.8) e ATESTA idem (recibo atesta; dado não
+# deriva dele). REGISTRA entra: o evento de comparação deriva do Mercado que
+# observa (e por ele alcança a Fonte declarada do claim).
+DERIVACAO = (CONSULTA, MEDE, CONTRA, SELA, AGREGA, ANCORA_REL, DERIVA_DE, REGISTRA)
 
 
 class GrafoError(RuntimeError):
@@ -133,6 +146,29 @@ def construir_grafo(base: Path = BASE_PADRAO) -> Grafo:
             liga(no_r, MEDE, mercado_existente)
         liga(no_r, CONTRA, por(fonte(linha["resolution_source"])))
 
+    # Artefatos (artefatos.jsonl) → Fonte: o dado bruto com hash, a evidência primária
+    for art in _linhas_jsonl(base / "artefatos.jsonl"):
+        no_art = por(
+            artefato(
+                art["id"],
+                fonte_nome=art["fonte"],
+                sha256=art["sha256"],
+                retrieved_at=art["retrieved_at"],
+                descricao=art.get("descricao", ""),
+            )
+        )
+        liga(no_art, DERIVA_DE, por(fonte(art["fonte"])))
+
+    # Comparador (comparador.jsonl) → DIVERGE_DE → Mercado. Fora da linhagem de
+    # resolução por desenho (spec 3.8): comparador NUNCA resolve.
+    mercado_por_observacao: dict[str, No] = {}
+    for obs in _linhas_jsonl(base / "comparador.jsonl"):
+        alvo_mercado = nos.get(("Mercado", obs["claim_id"]))
+        if alvo_mercado is not None:
+            no_c = por(comparador(obs.get("comparator", "Kalshi")))
+            liga(no_c, DIVERGE_DE, alvo_mercado)
+            mercado_por_observacao[f"comparador:{str(obs['observacao_id'])[:32]}"] = alvo_mercado
+
     # Eventos selados (eventos.jsonl) → Resolucao e evento anterior
     eventos_por_hash: dict[str, No] = {}
     eventos_ordenados: list[No] = []
@@ -151,6 +187,10 @@ def construir_grafo(base: Path = BASE_PADRAO) -> Grafo:
         alvo = por_claim_resolucao.get(e.get("correlation_id", ""))
         if alvo is not None:
             liga(no_e, SELA, alvo)
+        # REGISTRA: evento de comparação → Mercado observado (e, por ele, a Fonte)
+        alvo_observado = mercado_por_observacao.get(e.get("correlation_id", ""))
+        if alvo_observado is not None:
+            liga(no_e, REGISTRA, alvo_observado)
         # SUCEDE: aponta ao evento cujo hash == previous_event_hash
         anterior = eventos_por_hash.get(e.get("previous_event_hash_sha256", ""))
         if anterior is not None:
@@ -181,6 +221,35 @@ def construir_grafo(base: Path = BASE_PADRAO) -> Grafo:
             seq = int(no_e.dados["sequence"])
             if manifest["first_sequence"] <= seq <= manifest["last_sequence"]:
                 liga(no_lote, AGREGA, no_e)
+
+    # Recibo — o resultado REAL da verificação da corrente NESTA montagem
+    # (mesmos estados do verificador público). Recibo atesta o topo; dado não
+    # deriva dele — ATESTA fica fora de DERIVACAO.
+    selados = _linhas_jsonl(base / "eventos.jsonl")
+    if selados:
+        try:
+            integra = verify_chain(selados)
+        except Exception:  # noqa: BLE001 - evento fora do esquema NÃO verifica; o recibo diz isso
+            integra = False
+        ancoras_presentes = sum(1 for chave in nos if chave[0] == ANCORA)
+        if not integra:
+            estado = "tampered"
+        elif ancoras_presentes:
+            estado = "valid"
+        else:
+            estado = "not_anchored"
+        no_rec = por(
+            recibo(
+                estado,
+                verificacoes={
+                    "eventos": len(selados),
+                    "verify_chain": integra,
+                    "ancoras": ancoras_presentes,
+                },
+            )
+        )
+        if eventos_ordenados:
+            liga(no_rec, ATESTA, eventos_ordenados[-1])
 
     for chave in nos:
         if chave[0] not in TIPOS:  # pragma: no cover - guarda de sanidade
