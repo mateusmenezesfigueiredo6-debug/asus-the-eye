@@ -167,3 +167,14 @@ lido.
   vertical juridico e 9 de 106 artefatos. A etapa 1 (grafo de fontes) e o motor
   da missao e esta com cobertura real 0,0% apesar de aparecer 100% no chart.
   Ver PROXIMO_PASSO.txt. Quadro liberado: assumo nada, o Codex segue.
+- **CLAUDE, 19/08:** o dono pediu um projeto novo. Ele nasceu no repositorio
+  `mateusmenezesfigueiredo6-debug/THEYE` (ramo `claude/novo-projeto-8x9c87`):
+  nucleo limpo do observatorio da missao — ledger encadeado por hash,
+  conectores ROR/Crossref/arXiv/DOAJ/OpenAlex com parse puro testavel
+  offline, registros 500/500/300 que so aceitam candidato com evidencia,
+  deteccao de emergentes por janelas medidas e cobertura calculada. 25
+  testes verdes. A rede da sessao bloqueou as cinco APIs (CONNECT 403);
+  o bloqueio e o evento 1 do ledger de la, classe BLOCKED. Nada deste
+  repositorio foi movido ou reescrito; o novo repo NAO substitui este —
+  e o motor da etapa 1 sem o vertical juridico. Primeiro passo em rede
+  liberada: `theye harvest --missao`.
