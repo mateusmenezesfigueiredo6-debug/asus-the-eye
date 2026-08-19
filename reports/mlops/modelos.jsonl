@@ -1,0 +1,1 @@
+{"modelo_id": "qaoa-benchmark", "nome": "Suíte de benchmark QAOA × clássico", "area": "quantum", "objetivo": "medir o QAR (razão de vantagem quântica) do QAOA local contra o solver clássico no problema demo"}

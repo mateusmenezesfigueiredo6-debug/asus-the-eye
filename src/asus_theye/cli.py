@@ -177,6 +177,16 @@ def _parser() -> argparse.ArgumentParser:
     )
     projeto.add_argument("--json", dest="json_out", action="store_true", help="saída em JSON")
     projeto.add_argument("--no-audit", action="store_true", help="só medir, sem selar na cadeia")
+    mlops = subcommands.add_parser(
+        "mlops-benchmark",
+        help="roda a suíte de benchmark como corrida ML rastreada e SELADA (estilo MLflow, com prova)",
+    )
+    mlops.add_argument("--shots", type=int, default=1_024)
+    mlops.add_argument("--layers", type=int, default=2)
+    mlops.add_argument("--seed", type=int, default=42)
+    mlops.add_argument("--stability-runs", type=int, default=10)
+    mlops.add_argument("--json", dest="json_out", action="store_true", help="saída em JSON")
+    mlops.add_argument("--no-audit", action="store_true", help="rastreia no store sem selar na cadeia")
     return parser
 
 
@@ -627,6 +637,60 @@ def main(argv: Sequence[str] | None = None) -> int:
             estado = "dedupe (estado inalterado)" if recibo.get("duplicate") else "EVENTO NOVO selado"
             print(f"selagem: {estado} — cadeia no topo {cabeca_da_corrente(sdk)}")
         print(f"\n{snap['ressalva']}")
+        return 0
+    if args.command == "mlops-benchmark":
+        from asus_theye.audit.schema import EventValidationError
+        from asus_theye.markets.auditoria import AuditoriaError, abrir_auditoria
+        from asus_theye.mlops import MLOpsError, registrar_corrida, registrar_modelo, registrar_versao
+        from asus_theye.mlops.producers import MODELO_BENCHMARK, corrida_do_benchmark, versao_do_benchmark
+
+        sdk_ml = None
+        if not args.no_audit:
+            try:
+                sdk_ml = abrir_auditoria()
+            except AuditoriaError as error:
+                print(f"mlops-benchmark: {error}")
+                return 1
+        report, path = run_benchmark_suite(
+            shots=args.shots, layers=args.layers, seed=args.seed, stability_runs=args.stability_runs
+        )
+        try:
+            registrar_modelo(MODELO_BENCHMARK, sdk=sdk_ml)
+            registrar_versao(versao_do_benchmark(), sdk=sdk_ml)
+            resultado = registrar_corrida(
+                corrida_do_benchmark(
+                    report,
+                    path,
+                    shots=args.shots,
+                    layers=args.layers,
+                    seed=args.seed,
+                    stability_runs=args.stability_runs,
+                ),
+                sdk=sdk_ml,
+            )
+        except (MLOpsError, AuditoriaError, EventValidationError) as error:
+            print(f"mlops-benchmark: {error}")
+            return 1
+        if args.json_out:
+            print(json.dumps(resultado, ensure_ascii=False, indent=2))
+            return 0
+        corrida = resultado["registro"]
+        print("=" * 62)
+        print("CORRIDA ML RASTREADA — estilo MLflow, com prova")
+        print("=" * 62)
+        print(f"\nmodelo: {corrida['modelo_id']}@{corrida['versao']}")
+        for nome, valor in corrida["metricas"].items():
+            print(f"  {nome}: {valor}")
+        print(f"\ncorrida_id: {corrida['corrida_id']}")
+        print(f"artefato: {corrida['artefatos'][0]['caminho']} (sha256 {corrida['artefatos'][0]['sha256'][:16]}…)")
+        if resultado["duplicate"]:
+            print("\nstore: dedupe — corrida byte-idêntica já rastreada")
+        else:
+            print("\nstore: corrida NOVA em reports/mlops/corridas.jsonl")
+        if resultado["selagem"] is not None:
+            selagem = resultado["selagem"]
+            estado_selo = "dedupe na cadeia" if selagem.get("duplicate") else "EVENTO ml.run SELADO"
+            print(f"selagem: {estado_selo} — event_hash {selagem['event_hash_sha256'][:16]}…")
         return 0
     return 2
 

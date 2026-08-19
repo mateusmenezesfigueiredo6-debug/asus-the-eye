@@ -71,7 +71,7 @@ def medir_projeto(base: Path = BASE_PADRAO, *, fases_path: Path | None = None) -
     pct = round(100.0 * sum(float(f["peso_concluido"]) for f in fases) / len(fases), 1)
 
     snapshot: dict[str, Any] = {
-        "versao": 1,
+        "versao": 2,
         "caminho_minimo": {
             "pct": pct,
             "metodo": "média dos pesos declarados por fase em reports/projeto/fases.json",
@@ -96,6 +96,14 @@ def medir_projeto(base: Path = BASE_PADRAO, *, fases_path: Path | None = None) -
         "ancoragem": {
             "ancoras": len(ancoras),
             "metodo": "reports/markets/ancoras.jsonl (0 = broadcast aguardando o dono)",
+        },
+        "mlops": {
+            "modelos": len(_jsonl(base / "mlops" / "modelos.jsonl")),
+            "corridas": len(_jsonl(base / "mlops" / "corridas.jsonl")),
+            "metodo": (
+                "reports/mlops/{modelos,corridas}.jsonl — contagem do store; "
+                "corridas selam como ml.run quando a auditoria está aberta"
+            ),
         },
         "chart": {
             "tests": chart_tests,
