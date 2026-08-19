@@ -20,9 +20,11 @@ busca a fonte oficial e liquida o que venceu. Regras estruturais:
 5. **O critério é derivado do limiar, nunca digitado.** Texto e número não podem
    divergir; divergência no registro levanta em vez de medir a coisa errada.
 
-A emissão nasce no limiar de máxima incerteza (p = 0,50) — desenho do gerador
-herdado, declarado no classificador: nesse limiar o produto não demonstra skill
-nem funcionando. Trocar o gerador é trabalho de modelo, não deste laço.
+A emissão aceita uma :class:`Probabilidade` do gerador WPAM (M1): com sinais
+reais de fonte nomeada o mercado nasce fora do 0,50 cego e carrega o bloco
+``gerador`` (pesos, fontes, prior) no registro. Sem sinais — ou com a fonte de
+sinais fora do ar — nasce no limiar de máxima incerteza (p = 0,50), dito como
+tal: falha de sinal NUNCA bloqueia a emissão nem vira convicção inventada.
 """
 
 from __future__ import annotations
@@ -38,6 +40,7 @@ from typing import Any
 
 from asus_theye.markets.claim import make_claim
 from asus_theye.markets.fonte_bcb import FonteBCBError
+from asus_theye.markets.gerador import Probabilidade
 from asus_theye.markets.resolution import resolve
 from asus_theye.markets.scoring import brier_score
 
@@ -69,6 +72,11 @@ Fetcher = Callable[[str], float | None]
 # Sela uma liquidação na cadeia auditável: recebe a linha do ledger e devolve o
 # recibo ({"duplicate": bool, ...}). Injetável; deve ser idempotente por claim_id.
 Auditor = Callable[[dict[str, Any]], dict[str, Any]]
+
+# Gera a probabilidade WPAM do mês a emitir: recebe (mes_referencia, limiar) e
+# devolve a Probabilidade com proveniência. Injetável; falha aqui NUNCA bloqueia
+# a emissão — o mercado nasce no prior honesto e a ação diz por quê.
+GeradorDeSinais = Callable[[str, float], Probabilidade]
 
 
 class LiveMarketError(RuntimeError):
@@ -184,9 +192,14 @@ def emitir_macro(
     *,
     agora: str | None = None,
     limiar: float = 0.5,
+    probabilidade: Probabilidade | None = None,
 ) -> dict[str, Any] | None:
-    """Emite o mercado macro do mês, se ainda não existir. p = 0,50 (limiar).
+    """Emite o mercado macro do mês, se ainda não existir.
 
+    Sem ``probabilidade``, nasce em p = 0,50 (limiar de máxima incerteza —
+    comportamento histórico). Com uma :class:`Probabilidade` do gerador WPAM,
+    nasce na probabilidade gerada e carrega o bloco ``gerador`` completo
+    (pesos, fontes, prior) — a proveniência auditável da convicção.
     Devolve o mercado emitido, ou ``None`` se o mês já tem mercado.
     """
     claim_id = f"MACRO-01::{mes_referencia}"
@@ -199,7 +212,8 @@ def emitir_macro(
         market_area_id=AREA_DESTE_RESOLVEDOR,
         question=(f"A inflação oficial (IPCA) de {mes_referencia} fica em {limiar:.2f}% ou mais?"),
         deadline=fim.isoformat(),
-        probability=0.5,  # limiar de máxima incerteza — desenho do gerador, declarado
+        # sem sinais: limiar de máxima incerteza (desenho do gerador, declarado)
+        probability=0.5 if probabilidade is None else float(probabilidade.valor),
         created_at=criado,
     )
     mercado = {
@@ -211,6 +225,8 @@ def emitir_macro(
         "estado": "ABERTO",
         "tentativas": [],
     }
+    if probabilidade is not None:
+        mercado["gerador"] = probabilidade.as_dict()  # a convicção com proveniência
     registro["mercados"].append(mercado)
     return mercado
 
@@ -234,6 +250,7 @@ def resolver_pendentes(
     hoje: date | None = None,
     emitir_seguinte: bool = True,
     auditor: Auditor | None = None,
+    gerador_de_sinais: GeradorDeSinais | None = None,
 ) -> list[dict[str, Any]]:
     """Percorre o registro e aplica a máquina de estados. Devolve as ações.
 
@@ -259,7 +276,12 @@ def resolver_pendentes(
         raise LiveMarketError("outra rodada de resolução em andamento (trava ocupada)") from exc
     try:
         return _resolver_pendentes_travado(
-            fetcher, store=store, hoje=hoje, emitir_seguinte=emitir_seguinte, auditor=auditor
+            fetcher,
+            store=store,
+            hoje=hoje,
+            emitir_seguinte=emitir_seguinte,
+            auditor=auditor,
+            gerador_de_sinais=gerador_de_sinais,
         )
     finally:
         fcntl.flock(trava, fcntl.LOCK_UN)
@@ -273,6 +295,7 @@ def _resolver_pendentes_travado(
     hoje: date,
     emitir_seguinte: bool,
     auditor: Auditor | None,
+    gerador_de_sinais: GeradorDeSinais | None = None,
 ) -> list[dict[str, Any]]:
     registro = carregar_registro(store)
     acoes: list[dict[str, Any]] = []
@@ -371,22 +394,33 @@ def _resolver_pendentes_travado(
             # não pode desfazê-la nem duplicá-la — por isso o guarda amplo aqui.
             try:
                 proximo = _primeiro_mes_nao_terminado(mes, hoje)
-                emitido = emitir_macro(registro, proximo)
+                probabilidade = None
+                motivo_sem_sinal = ""
+                if gerador_de_sinais is not None:
+                    # Falha de sinal NUNCA bloqueia a emissão: o mercado nasce
+                    # no prior honesto e a ação diz por quê (UNKNOWN over guess).
+                    try:
+                        probabilidade = gerador_de_sinais(proximo, 0.5)
+                    except Exception as erro_sinal:  # noqa: BLE001 - fallback declarado
+                        probabilidade = None
+                        motivo_sem_sinal = f"; sinais indisponíveis ({erro_sinal})"
+                emitido = emitir_macro(registro, proximo, probabilidade=probabilidade)
             except Exception as erro:  # noqa: BLE001 - emissão nunca pode orfanar a resolução
                 emitido = None
                 acoes.append({"claim_id": f"MACRO-01::{mes}", "acao": "nao_emitido", "motivo": str(erro)})
             if emitido is not None:
                 salvar_registro(store, registro)
-                acoes.append(
-                    {
-                        "claim_id": emitido["claim_id"],
-                        "acao": "emitido",
-                        "motivo": (
-                            "próximo mês não-terminado entra no limiar de "
-                            "máxima incerteza (p=0,50) — desenho do gerador"
-                        ),
-                    }
-                )
+                if probabilidade is not None and not probabilidade.max_uncertainty:
+                    motivo = (
+                        f"emitido em p={emitido['probability']:.4f} pelo gerador WPAM "
+                        f"(fontes: {', '.join(probabilidade.fontes)})"
+                    )
+                else:
+                    motivo = (
+                        "próximo mês não-terminado entra no limiar de "
+                        f"máxima incerteza (p=0,50) — sem sinal, sem convicção{motivo_sem_sinal}"
+                    )
+                acoes.append({"claim_id": emitido["claim_id"], "acao": "emitido", "motivo": motivo})
 
     salvar_registro(store, registro)
 

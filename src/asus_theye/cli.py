@@ -139,6 +139,18 @@ def _parser() -> argparse.ArgumentParser:
         action="store_true",
         help="não selar liquidações na cadeia auditável (padrão: sela, idempotente)",
     )
+    markets_resolve.add_argument(
+        "--sem-sinais",
+        action="store_true",
+        help="emite o próximo mês sem consultar sinais (padrão: WPAM Focus/IPCA-15; falha de sinal degrada p/ 0,50)",
+    )
+    markets_sinais = subcommands.add_parser(
+        "markets-sinais",
+        help="mostra os sinais REAIS (Focus/IPCA-15) e a probabilidade WPAM da pergunta do mês",
+    )
+    markets_sinais.add_argument("--mes", required=True, help="mês de referência, aaaa-mm")
+    markets_sinais.add_argument("--limiar", type=float, default=0.5)
+    markets_sinais.add_argument("--json", dest="json_out", action="store_true", help="saída em JSON")
     markets_anchor = subcommands.add_parser(
         "markets-anchor",
         help="ancora o lote Merkle da corrente na Base Sepolia (padrão: ensaio offline)",
@@ -458,6 +470,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         )
         from asus_theye.markets.fonte_bcb import FonteBCBError, ipca_mensal
         from asus_theye.markets.live import LiveMarketError, resolver_pendentes
+        from asus_theye.markets.sinais_ipca import probabilidade_para_ipca
 
         # caminhos de auditoria ancorados no --store: rodar de outro diretório
         # não pode criar uma corrente paralela em silêncio
@@ -485,7 +498,14 @@ def main(argv: Sequence[str] | None = None) -> int:
                 return selar_liquidacao(sdk_vivo, linha, eventos=caminho_eventos)
 
         try:
-            acoes = resolver_pendentes(ipca_mensal, store=args.store, auditor=auditor)
+            acoes = resolver_pendentes(
+                ipca_mensal,
+                store=args.store,
+                auditor=auditor,
+                # M1: emissão com sinais reais por padrão; falha de sinal já
+                # degrada para o prior honesto dentro do resolvedor
+                gerador_de_sinais=None if args.sem_sinais else probabilidade_para_ipca,
+            )
         except (FonteBCBError, LiveMarketError, MarketClaimError, ResolutionError, ScoringError) as error:
             print(f"markets-resolve: {error}")
             return 1
@@ -707,6 +727,40 @@ def main(argv: Sequence[str] | None = None) -> int:
             selagem = resultado["selagem"]
             estado_selo = "dedupe na cadeia" if selagem.get("duplicate") else "EVENTO ml.run SELADO"
             print(f"selagem: {estado_selo} — event_hash {selagem['event_hash_sha256'][:16]}…")
+        return 0
+    if args.command == "markets-sinais":
+        from asus_theye.markets.gerador import GeradorError
+        from asus_theye.markets.sinais_ipca import SinaisError, probabilidade_para_ipca, sinais_para_ipca
+
+        try:
+            sinais = sinais_para_ipca(args.mes, args.limiar)
+            prob = probabilidade_para_ipca(args.mes, args.limiar)
+        except (SinaisError, GeradorError) as error:
+            print(f"markets-sinais: {error}")
+            return 1
+        if args.json_out:
+            print(
+                json.dumps(
+                    {
+                        "mes": args.mes,
+                        "limiar": args.limiar,
+                        "sinais": [{"direcao": s.direcao, "peso": s.peso, "fonte": s.fonte} for s in sinais],
+                        "probabilidade": prob.as_dict(),
+                    },
+                    ensure_ascii=False,
+                    indent=2,
+                )
+            )
+            return 0
+        print("=" * 62)
+        print(f"SINAIS REAIS — IPCA {args.mes} >= {args.limiar:.2f}%?")
+        print("=" * 62)
+        if not sinais:
+            print("\nnenhuma fonte publicou ainda — sem sinal, sem convicção (p = 0,50)")
+        for sinal in sinais:
+            print(f"\n[{sinal.direcao.upper():3s}] peso {sinal.peso:.0f} — {sinal.fonte}")
+        print(f"\nprobabilidade WPAM: {prob.valor:.4f}  (prior {prob.p_inicial} × {prob.peso_inicial:.0f})")
+        print(f"max_uncertainty: {prob.max_uncertainty}")
         return 0
     if args.command == "ledger-sync":
         from asus_theye.audit.remote_ledger import LedgerPublishError

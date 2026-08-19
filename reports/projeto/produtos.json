@@ -33,9 +33,9 @@
     {
       "id": "M1",
       "nome": "Markets: WPAM ligado a sinais reais",
-      "estado": "pendente",
-      "peso_concluido": 0.0,
-      "metodo": "claim novo abre com p != 0,50 e sinais com fontes nomeadas (BCB Focus/IPCA-15); sem sinal disponível volta a 0,50 honesto"
+      "estado": "parcial",
+      "peso_concluido": 0.8,
+      "metodo": "WPAM ligado à emissão (resolver_pendentes + emitir_macro) e provado com sinal REAL: markets-sinais 2026-09 → Focus 0,52% ≥ 0,50 → p=0,8333 com fonte nomeada; falha de sinal degrada p/ 0,50 (testado). 100% quando o claim de 2026-09 NASCER do gerador na liquidação de agosto"
     },
     {
       "id": "M2",
