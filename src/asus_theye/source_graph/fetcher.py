@@ -16,6 +16,7 @@ from __future__ import annotations
 
 import hashlib
 import random
+import threading
 import time
 from collections.abc import Callable, Mapping
 from dataclasses import dataclass, field
@@ -90,6 +91,10 @@ class PoliteFetcher:
     jitter: Callable[[], float] = random.random
     robots: RobotsCache | None = None
     _last_request_at: dict[str, float] = field(default_factory=dict)
+    # Protege o par (ler _last_request_at, decidir, gravar) sob concorrência.
+    # O sono acontece FORA do lock (senão um host lento serializaria os outros);
+    # por isso _wait_for_slot reconfere o slot depois de dormir.
+    _lock: threading.Lock = field(default_factory=threading.Lock)
 
     def __post_init__(self) -> None:
         if not self.license_id:
@@ -127,16 +132,18 @@ class PoliteFetcher:
 
     def _wait_for_slot(self, url: str) -> float:
         host = urlsplit(url).netloc
-        now = self.clock()
-        last = self._last_request_at.get(host)
         waited = 0.0
-        if last is not None:
-            elapsed = now - last
-            if elapsed < self.policy.min_interval_seconds:
-                waited = self.policy.min_interval_seconds - elapsed
-                self.sleeper(waited)
-        self._last_request_at[host] = self.clock()
-        return waited
+        while True:
+            with self._lock:
+                now = self.clock()
+                last = self._last_request_at.get(host)
+                if last is None or now - last >= self.policy.min_interval_seconds:
+                    self._last_request_at[host] = self.clock()
+                    return waited
+                falta = self.policy.min_interval_seconds - (now - last)
+            # dorme FORA do lock e reconfere: outra thread pode ter tomado o slot
+            self.sleeper(falta)
+            waited += falta
 
     def _backoff(self, attempt: int, retry_after: str | None) -> float:
         if retry_after:
