@@ -50,6 +50,31 @@ MES_RE = re.compile(r"\d{4}-(0[1-9]|1[0-2])")
 AREA_DESTE_RESOLVEDOR = "macroeconomia"
 SERIE_DESTE_RESOLVEDOR = 433
 
+# Registry das áreas RESOLVÍVEIS por este laço: série oficial + moldes de
+# pergunta/critério (o texto é DERIVADO do limiar — regra 5). Área fora do
+# registry nunca liquida: fonte errada não mede nada. O fetcher de cada área é
+# INJETADO na chamada (a suíte roda offline; a CLI liga os conectores reais).
+AREAS_RESOLVIVEIS: dict[str, dict[str, Any]] = {
+    "macroeconomia": {
+        "serie": 433,
+        "prefixo": "MACRO-01",
+        "pergunta": "A inflação oficial (IPCA) de {mes} fica em {limiar:.2f}% ou mais?",
+        "criterio": "IPCA mensal >= {limiar:.2f}%",
+    },
+    "juros": {
+        "serie": 432,
+        "prefixo": "JUROS-01",
+        "pergunta": "A meta da Selic vigente ao fim de {mes} fica em {limiar:.2f}% a.a. ou mais?",
+        "criterio": "Selic meta (fim do mês) >= {limiar:.2f}% a.a.",
+    },
+    "cambio": {
+        "serie": 1,
+        "prefixo": "CAMBIO-01",
+        "pergunta": "O dólar PTAX (venda) ao fim de {mes} fica em R$ {limiar:.2f} ou mais?",
+        "criterio": "PTAX venda (último do mês) >= R$ {limiar:.2f}",
+    },
+}
+
 CAMPOS_OBRIGATORIOS = (
     "claim_id",
     "market_area_id",
@@ -87,9 +112,12 @@ def _agora() -> str:
     return datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
 
 
-def _criterio(limiar: float) -> str:
-    """Texto do critério DERIVADO do número — os dois nunca podem divergir."""
-    return f"IPCA mensal >= {float(limiar):.2f}%"
+def _criterio(limiar: float, area: str = AREA_DESTE_RESOLVEDOR) -> str:
+    """Texto do critério DERIVADO do número e da área — nunca digitado à mão."""
+    config = AREAS_RESOLVIVEIS.get(area)
+    if config is None:
+        raise LiveMarketError(f"área {area!r} fora do registry de resolvíveis: {sorted(AREAS_RESOLVIVEIS)}")
+    return str(config["criterio"]).format(limiar=float(limiar))
 
 
 def _fim_do_mes(mes_referencia: object) -> date:
@@ -120,7 +148,7 @@ def _validar_mercado(mercado: dict[str, Any]) -> None:
         raise LiveMarketError(f"{mercado['claim_id']}: limiar deve ser numérico, veio {limiar!r}")
     if not isinstance(mercado["tentativas"], list):
         raise LiveMarketError(f"{mercado['claim_id']}: tentativas deve ser lista")
-    esperado = _criterio(float(limiar))
+    esperado = _criterio(float(limiar), str(mercado["market_area_id"]))
     if mercado["criterio"] != esperado:
         raise LiveMarketError(
             f"{mercado['claim_id']}: criterio {mercado['criterio']!r} não bate com o limiar "
@@ -202,15 +230,43 @@ def emitir_macro(
     (pesos, fontes, prior) — a proveniência auditável da convicção.
     Devolve o mercado emitido, ou ``None`` se o mês já tem mercado.
     """
-    claim_id = f"MACRO-01::{mes_referencia}"
+    return emitir_area(
+        registro,
+        AREA_DESTE_RESOLVEDOR,
+        mes_referencia,
+        limiar=limiar,
+        agora=agora,
+        probabilidade=probabilidade,
+    )
+
+
+def emitir_area(
+    registro: dict[str, Any],
+    area: str,
+    mes_referencia: str,
+    *,
+    limiar: float,
+    agora: str | None = None,
+    probabilidade: Probabilidade | None = None,
+) -> dict[str, Any] | None:
+    """Emite o mercado do mês para QUALQUER área do registry de resolvíveis.
+
+    Pergunta e critério saem do molde da área com o limiar DECLARADO — texto e
+    número nunca divergem. Área fora do registry levanta. Devolve ``None`` se o
+    mês já tem mercado da área.
+    """
+    config = AREAS_RESOLVIVEIS.get(area)
+    if config is None:
+        raise LiveMarketError(f"área {area!r} fora do registry de resolvíveis: {sorted(AREAS_RESOLVIVEIS)}")
+    claim_id = f"{config['prefixo']}::{mes_referencia}"
     if any(m["claim_id"] == claim_id for m in registro["mercados"]):
         return None
     criado = agora or _agora()
     fim = _fim_do_mes(mes_referencia)
     claim = make_claim(
         claim_id=claim_id,
-        market_area_id=AREA_DESTE_RESOLVEDOR,
-        question=(f"A inflação oficial (IPCA) de {mes_referencia} fica em {limiar:.2f}% ou mais?"),
+        market_area_id=area,
+        question=str(config["pergunta"]).format(mes=mes_referencia, limiar=float(limiar)),
         deadline=fim.isoformat(),
         # sem sinais: limiar de máxima incerteza (desenho do gerador, declarado)
         probability=0.5 if probabilidade is None else float(probabilidade.valor),
@@ -220,8 +276,8 @@ def emitir_macro(
         **claim.as_dict(),
         "mes_referencia": mes_referencia,
         "limiar": float(limiar),
-        "criterio": _criterio(limiar),
-        "serie_sgs": SERIE_DESTE_RESOLVEDOR,
+        "criterio": _criterio(limiar, area),
+        "serie_sgs": int(config["serie"]),
         "estado": "ABERTO",
         "tentativas": [],
     }
@@ -251,6 +307,7 @@ def resolver_pendentes(
     emitir_seguinte: bool = True,
     auditor: Auditor | None = None,
     gerador_de_sinais: GeradorDeSinais | None = None,
+    fetchers_por_area: dict[str, Fetcher] | None = None,
 ) -> list[dict[str, Any]]:
     """Percorre o registro e aplica a máquina de estados. Devolve as ações.
 
@@ -282,6 +339,7 @@ def resolver_pendentes(
             emitir_seguinte=emitir_seguinte,
             auditor=auditor,
             gerador_de_sinais=gerador_de_sinais,
+            fetchers_por_area=fetchers_por_area,
         )
     finally:
         fcntl.flock(trava, fcntl.LOCK_UN)
@@ -296,9 +354,13 @@ def _resolver_pendentes_travado(
     emitir_seguinte: bool,
     auditor: Auditor | None,
     gerador_de_sinais: GeradorDeSinais | None = None,
+    fetchers_por_area: dict[str, Fetcher] | None = None,
 ) -> list[dict[str, Any]]:
     registro = carregar_registro(store)
     acoes: list[dict[str, Any]] = []
+    # O fetcher posicional continua sendo o da macroeconomia (compat histórica);
+    # as demais áreas entram pelo mapa. Área sem fetcher AQUI nunca liquida.
+    fetchers = {AREA_DESTE_RESOLVEDOR: fetcher} | (fetchers_por_area or {})
 
     # Passo de reparo: LIQUIDADO sem linha no ledger (queda entre as duas
     # escritas) tem a linha reconstruída a partir do próprio registro.
@@ -318,13 +380,20 @@ def _resolver_pendentes_travado(
         if mercado["estado"] == "LIQUIDADO":
             continue  # terminal: a fonte nem é consultada de novo
 
-        # Este resolvedor liquida SÓ macroeconomia/SGS 433: um fetcher global
-        # liquidando outra área mediria contra a fonte errada. Nunca degrada.
-        if mercado["market_area_id"] != AREA_DESTE_RESOLVEDOR or int(mercado["serie_sgs"]) != SERIE_DESTE_RESOLVEDOR:
+        # Cada área liquida SÓ contra a própria série/fetcher do registry: um
+        # fetcher trocado mediria contra a fonte errada. Nunca degrada.
+        area = str(mercado["market_area_id"])
+        config = AREAS_RESOLVIVEIS.get(area)
+        fetcher_da_area = fetchers.get(area)
+        if config is None or fetcher_da_area is None:
             raise LiveMarketError(
-                f"{mercado['claim_id']}: este resolvedor só liquida "
-                f"{AREA_DESTE_RESOLVEDOR!r} (SGS {SERIE_DESTE_RESOLVEDOR}); "
-                f"veio {mercado['market_area_id']!r}/SGS {mercado['serie_sgs']!r}"
+                f"{mercado['claim_id']}: área {area!r} sem resolvedor "
+                f"(registry: {sorted(AREAS_RESOLVIVEIS)}; fetchers: {sorted(fetchers)})"
+            )
+        if int(mercado["serie_sgs"]) != int(config["serie"]):
+            raise LiveMarketError(
+                f"{mercado['claim_id']}: série {mercado['serie_sgs']!r} não é a da área "
+                f"{area!r} (SGS {config['serie']}) — fonte errada nunca liquida"
             )
 
         mes = mercado["mes_referencia"]
@@ -335,7 +404,7 @@ def _resolver_pendentes_travado(
             continue
 
         try:
-            valor = fetcher(mes)
+            valor = fetcher_da_area(mes)
         except FonteBCBError as erro:
             # erro de fonte em UM mercado não pode abortar os demais nem
             # deixar escrita pela metade
@@ -396,7 +465,9 @@ def _resolver_pendentes_travado(
                 proximo = _primeiro_mes_nao_terminado(mes, hoje)
                 probabilidade = None
                 motivo_sem_sinal = ""
-                if gerador_de_sinais is not None:
+                # sinais WPAM existem hoje só para a pergunta do IPCA; as demais
+                # áreas nascem no prior honesto até terem gerador próprio
+                if gerador_de_sinais is not None and area == AREA_DESTE_RESOLVEDOR:
                     # Falha de sinal NUNCA bloqueia a emissão: o mercado nasce
                     # no prior honesto e a ação diz por quê (UNKNOWN over guess).
                     try:
@@ -404,7 +475,10 @@ def _resolver_pendentes_travado(
                     except Exception as erro_sinal:  # noqa: BLE001 - fallback declarado
                         probabilidade = None
                         motivo_sem_sinal = f"; sinais indisponíveis ({erro_sinal})"
-                emitido = emitir_macro(registro, proximo, probabilidade=probabilidade)
+                # cada área re-emite a si mesma, com o PRÓPRIO limiar do mercado liquidado
+                emitido = emitir_area(
+                    registro, area, proximo, limiar=float(mercado["limiar"]), probabilidade=probabilidade
+                )
             except Exception as erro:  # noqa: BLE001 - emissão nunca pode orfanar a resolução
                 emitido = None
                 acoes.append({"claim_id": f"MACRO-01::{mes}", "acao": "nao_emitido", "motivo": str(erro)})

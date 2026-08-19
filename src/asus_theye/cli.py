@@ -144,6 +144,17 @@ def _parser() -> argparse.ArgumentParser:
         action="store_true",
         help="emite o próximo mês sem consultar sinais (padrão: WPAM Focus/IPCA-15; falha de sinal degrada p/ 0,50)",
     )
+    markets_emitir = subcommands.add_parser(
+        "markets-emitir",
+        help="emite o mercado do mês para uma área do registry (juros, cambio, macroeconomia)",
+    )
+    markets_emitir.add_argument("--area", required=True, help="área do registry de resolvíveis")
+    markets_emitir.add_argument("--mes", required=True, help="mês de referência, aaaa-mm")
+    markets_emitir.add_argument(
+        "--limiar", type=float, required=True, help="limiar DECLARADO da pergunta (critério deriva dele)"
+    )
+    markets_emitir.add_argument("--store", type=Path, default=Path("reports/markets/registro.json"))
+    markets_emitir.add_argument("--json", dest="json_out", action="store_true", help="saída em JSON")
     markets_comparar = subcommands.add_parser(
         "markets-comparar",
         help="mede e SELA a divergência vs comparador (Kalshi) — comparador nunca resolve",
@@ -486,6 +497,8 @@ def main(argv: Sequence[str] | None = None) -> int:
             selar_liquidacao,
         )
         from asus_theye.markets.fonte_bcb import FonteBCBError, ipca_mensal
+        from asus_theye.markets.fonte_ptax import ptax_venda_fim_do_mes
+        from asus_theye.markets.fonte_selic import selic_meta
         from asus_theye.markets.live import LiveMarketError, resolver_pendentes
         from asus_theye.markets.sinais_ipca import probabilidade_para_ipca
 
@@ -522,6 +535,8 @@ def main(argv: Sequence[str] | None = None) -> int:
                 # M1: emissão com sinais reais por padrão; falha de sinal já
                 # degrada para o prior honesto dentro do resolvedor
                 gerador_de_sinais=None if args.sem_sinais else probabilidade_para_ipca,
+                # M2/M3: cada área liquida contra o PRÓPRIO conector oficial
+                fetchers_por_area={"juros": selic_meta, "cambio": ptax_venda_fim_do_mes},
             )
         except (FonteBCBError, LiveMarketError, MarketClaimError, ResolutionError, ScoringError) as error:
             print(f"markets-resolve: {error}")
@@ -744,6 +759,34 @@ def main(argv: Sequence[str] | None = None) -> int:
             selagem = resultado["selagem"]
             estado_selo = "dedupe na cadeia" if selagem.get("duplicate") else "EVENTO ml.run SELADO"
             print(f"selagem: {estado_selo} — event_hash {selagem['event_hash_sha256'][:16]}…")
+        return 0
+    if args.command == "markets-emitir":
+        from asus_theye.markets.live import (
+            LiveMarketError,
+            carregar_registro,
+            emitir_area,
+            salvar_registro,
+        )
+
+        try:
+            registro = carregar_registro(args.store)
+            mercado_novo = emitir_area(registro, args.area, args.mes, limiar=args.limiar)
+            if mercado_novo is None:
+                print(f"markets-emitir: {args.area}/{args.mes} já tem mercado — nada a emitir")
+                return 0
+            salvar_registro(args.store, registro)
+        except LiveMarketError as error:
+            print(f"markets-emitir: {error}")
+            return 1
+        if args.json_out:
+            print(json.dumps(mercado_novo, ensure_ascii=False, indent=2))
+            return 0
+        print("=" * 62)
+        print("MERCADO EMITIDO")
+        print("=" * 62)
+        print(f"\n{mercado_novo['claim_id']}  (p = {mercado_novo['probability']:.2f}, prior honesto)")
+        print(f"{mercado_novo['question']}")
+        print(f"critério: {mercado_novo['criterio']}  |  fonte: {mercado_novo['resolution_source']}")
         return 0
     if args.command == "markets-comparar":
         from asus_theye.markets.auditoria import AuditoriaError, abrir_auditoria

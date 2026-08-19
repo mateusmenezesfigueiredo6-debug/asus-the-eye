@@ -215,7 +215,8 @@ def test_resolvedor_recusa_area_ou_serie_errada(tmp_path: Path) -> None:
     registro = carregar_registro(store)
     registro["mercados"][0]["serie_sgs"] = 999
     salvar_registro(store, registro)
-    with pytest.raises(LiveMarketError, match="só liquida"):
+    # série adulterada ≠ série da área no registry: fonte errada nunca liquida
+    with pytest.raises(LiveMarketError, match="fonte errada"):
         resolver_pendentes(lambda mes: 0.07, store=store, hoje=HOJE)
 
 
@@ -313,3 +314,61 @@ def test_ipca_mensal_mes_duplicado_concordante_devolve_o_valor() -> None:
 def test_ipca_mensal_serie_vazia_levanta() -> None:
     with pytest.raises(FonteBCBError, match="vazia"):
         ipca_mensal("2026-07", transport=TransporteFalso(body=b"[]"))
+
+
+# --------------------------------------------------------------- registry multi-área
+
+
+def test_emitir_area_juros_e_resolver_liquida_contra_o_proprio_fetcher(tmp_path: Path) -> None:
+    from asus_theye.markets.live import emitir_area
+
+    store = tmp_path / "registro.json"
+    registro: dict = {"versao": 1, "mercados": []}
+    emitir_area(registro, "juros", "2026-07", limiar=15.0, agora="2026-07-01T00:00:00Z")
+    salvar_registro(store, registro)
+    # fetcher do IPCA responderia 0.07 — se a área juros usasse o fetcher errado,
+    # liquidaria outcome 0; o fetcher CERTO responde 15.0 → outcome 1
+    acoes = resolver_pendentes(
+        lambda mes: 0.07,
+        store=store,
+        hoje=HOJE,
+        fetchers_por_area={"juros": lambda mes: 15.0},
+    )
+    liq = next(a for a in acoes if a["acao"] == "liquidado")
+    assert liq["claim_id"] == "JUROS-01::2026-07" and liq["outcome"] == 1
+    # e a área re-emitiu o mês seguinte com o MESMO limiar
+    emitido = next(a for a in acoes if a["acao"] == "emitido")
+    assert emitido["claim_id"] == "JUROS-01::2026-08"
+    registro_final = json.loads(store.read_text(encoding="utf-8"))
+    agosto = next(m for m in registro_final["mercados"] if m["claim_id"] == "JUROS-01::2026-08")
+    assert agosto["limiar"] == 15.0 and agosto["serie_sgs"] == 432
+
+
+def test_area_sem_fetcher_levanta(tmp_path: Path) -> None:
+    from asus_theye.markets.live import emitir_area
+
+    store = tmp_path / "registro.json"
+    registro: dict = {"versao": 1, "mercados": []}
+    emitir_area(registro, "cambio", "2026-07", limiar=5.50, agora="2026-07-01T00:00:00Z")
+    salvar_registro(store, registro)
+    with pytest.raises(LiveMarketError, match="sem resolvedor"):
+        resolver_pendentes(lambda mes: 0.07, store=store, hoje=HOJE)  # só macro no mapa
+
+
+def test_area_fora_do_registry_levanta() -> None:
+    from asus_theye.markets.live import emitir_area
+
+    with pytest.raises(LiveMarketError, match="fora do registry"):
+        emitir_area({"versao": 1, "mercados": []}, "cripto", "2026-07", limiar=1.0)
+
+
+def test_serie_trocada_na_area_levanta(tmp_path: Path) -> None:
+    from asus_theye.markets.live import emitir_area
+
+    store = tmp_path / "registro.json"
+    registro: dict = {"versao": 1, "mercados": []}
+    emitir_area(registro, "juros", "2026-07", limiar=15.0, agora="2026-07-01T00:00:00Z")
+    registro["mercados"][0]["serie_sgs"] = 433  # adulteração: série de outra área
+    salvar_registro(store, registro)
+    with pytest.raises(LiveMarketError, match="fonte errada"):
+        resolver_pendentes(lambda mes: 0.07, store=store, hoje=HOJE, fetchers_por_area={"juros": lambda mes: 15.0})

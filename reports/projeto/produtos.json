@@ -41,15 +41,15 @@
       "id": "M2",
       "nome": "Markets: 2ª área liquidando (juros/Selic)",
       "estado": "parcial",
-      "peso_concluido": 0.5,
-      "metodo": "conector fonte_selic mergeado (PR #19, Copilot, revisado; SGS 432, UNKNOWN honesto, suíte verde); os 0,5 restantes = registry multi-área no resolvedor + 1ª liquidação real de juros"
+      "peso_concluido": 0.8,
+      "metodo": "conector Selic (PR #19) + registry multi-área no resolvedor + mercado REAL aberto (JUROS-01::2026-09, limiar 14,00 = meta vigente na emissão); 1,0 na 1ª liquidação (fim de set/2026 via cron)"
     },
     {
       "id": "M3",
       "nome": "Markets: 3ª área liquidando (câmbio/PTAX)",
       "estado": "parcial",
-      "peso_concluido": 0.5,
-      "metodo": "conector fonte_ptax mergeado (PR #20, Copilot, revisado; SGS 1, último ponto do mês); os 0,5 restantes = registry multi-área + 1ª liquidação real de câmbio"
+      "peso_concluido": 0.8,
+      "metodo": "conector PTAX (PR #20) + registry + mercado REAL aberto (CAMBIO-01::2026-09, limiar 5,17 = PTAX vigente na emissão); 1,0 na 1ª liquidação"
     },
     {
       "id": "M4",
