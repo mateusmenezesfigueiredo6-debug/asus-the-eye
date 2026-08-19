@@ -1,0 +1,100 @@
+# N3 — operação contínua sem humano (grátis: GitHub Actions schedule)
+#
+# O gap "a medição contínua depende de alguém rodar a CLI" morre aqui: nos dias
+# 11–15 de cada mês (quando o IBGE/BCB publica o IPCA), o laço roda sozinho:
+#
+#   markets-resolve  → liquida o mês vencido contra a fonte oficial, SELA a
+#                      liquidação na cadeia e emite o mês seguinte com sinais
+#                      REAIS (WPAM/Focus); falha de sinal degrada p/ 0,50
+#   projeto-medir    → sela a medição nova do projeto (estado mudou)
+#   ledger-sync      → espelha a corrente no D1 (idempotente)
+#   commit           → a corrente atualizada volta pro repo (a canônica é o
+#                      arquivo versionado; rodadas sem mudança não commitam)
+#
+# Idempotência por construção: mês já liquidado não re-liquida, selagem
+# deduplica, espelho deduplica — rodar 5 dias seguidos é seguro.
+#
+# Segredos exigidos (atos do dono, uma vez):
+#   THE_EYE_AUDIT_KEY_HEX  = conteúdo de reports/audit/pseudonimos.key
+#                            (a corrente pertence a UMA chave; sem ela a
+#                            selagem é recusada pelo fingerprint — fail-closed)
+#   THE_EYE_LEDGER_TOKEN   = token do ledger restrito (~/.the-eye/staging-token)
+#
+# Ensaio: rode manualmente por workflow_dispatch com somente_verificar=true —
+# executa tudo SEM commitar nem espelhar (prova a fiação sem efeito).
+
+name: operacao-continua
+
+on:
+  schedule:
+    - cron: "0 13 11-15 * *" # 13:00 UTC = 10:00 BRT, dias 11–15 de cada mês
+  workflow_dispatch:
+    inputs:
+      somente_verificar:
+        description: "true = ensaio sem efeito (não sela, não espelha, não commita)"
+        default: "true"
+        required: false
+
+permissions:
+  contents: write # o laço commita a corrente atualizada de volta
+
+jobs:
+  laco:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Instalar o pacote
+        run: |
+          python -m pip install --quiet -e .
+
+      - name: Restaurar a chave da corrente (fingerprint fail-closed)
+        if: ${{ github.event.inputs.somente_verificar != 'true' }}
+        env:
+          CHAVE_HEX: ${{ secrets.THE_EYE_AUDIT_KEY_HEX }}
+        run: |
+          if [ -z "$CHAVE_HEX" ]; then
+            echo "::error::segredo THE_EYE_AUDIT_KEY_HEX ausente — selagem seria recusada. Ato do dono: gh secret set THE_EYE_AUDIT_KEY_HEX < reports/audit/pseudonimos.key"
+            exit 1
+          fi
+          mkdir -p reports/audit
+          printf '%s\n' "$CHAVE_HEX" > reports/audit/pseudonimos.key
+          chmod 600 reports/audit/pseudonimos.key
+
+      - name: Ensaio sem efeito (workflow_dispatch com somente_verificar)
+        if: ${{ github.event.inputs.somente_verificar == 'true' }}
+        run: |
+          python -m asus_theye.cli projeto-medir --json --no-audit > /dev/null
+          echo "fiação OK: medição roda no runner (nada foi selado, nada foi commitado)"
+
+      - name: Resolver, selar e medir
+        if: ${{ github.event.inputs.somente_verificar != 'true' }}
+        run: |
+          python -m asus_theye.cli markets-resolve
+          python -m asus_theye.cli projeto-medir
+
+      - name: Espelhar a corrente no D1
+        if: ${{ github.event.inputs.somente_verificar != 'true' }}
+        env:
+          THE_EYE_LEDGER_TOKEN: ${{ secrets.THE_EYE_LEDGER_TOKEN }}
+          THE_EYE_LEDGER_URL: https://the-eye-audit-staging.mateusmenezesfigueiredo6.workers.dev
+        run: |
+          python -m asus_theye.cli ledger-sync
+
+      - name: Commitar a corrente atualizada (só se mudou)
+        if: ${{ github.event.inputs.somente_verificar != 'true' }}
+        run: |
+          git config user.name "the-eye-operacao-continua"
+          git config user.email "operacao-continua@users.noreply.github.com"
+          git add reports/markets reports/projeto
+          if git diff --cached --quiet; then
+            echo "nada mudou — rodada idempotente, sem commit"
+          else
+            git commit -m "operação contínua: resolução/medição automática ($(date -u +%Y-%m-%d))"
+            git push
+          fi
