@@ -61,7 +61,8 @@ Dado bruto obtido de uma `Fonte`, com hash e `retrieved_at`.
 - Relações: `Resolução —RESOLVE→ Mercado`; `Resolução —CONTRA→ Fonte`.
 
 ### 3.4 `EventoSelado` (de `src/asus_theye/audit/schema.py`)
-O evento canônico de 40 campos (RFC 8785 + SHA-256), corrente por tenant.
+O evento canônico de 37 campos obrigatórios (38 no schema JSON, + hash de
+selagem no arquivo; RFC 8785 + SHA-256), corrente por tenant.
 - Campos-chave: `event_id`, `sequence`, `event_hash_sha256`,
   `previous_event_hash_sha256`, `content_hash_sha256`.
 - Relações: `SELA →` `Resolução` (hoje) / futuramente qualquer mutação;
