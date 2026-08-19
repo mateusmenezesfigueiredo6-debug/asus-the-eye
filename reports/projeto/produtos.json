@@ -75,9 +75,9 @@
     {
       "id": "L3",
       "nome": "Ledger: ontologia completa (Artefato/Recibo)",
-      "estado": "pendente",
-      "peso_concluido": 0.0,
-      "metodo": "entidades materializadas em evidence/entidades.py; painel /evidencia exibe 'Fonte provada + ancorada'"
+      "estado": "parcial",
+      "peso_concluido": 0.8,
+      "metodo": "Artefato/Recibo materializados (spec 3.2/3.7): 1º artefato REAL (resposta bruta SGS 433 sha256 5aeb3a97…, DERIVA_DE Fonte), Recibo do resultado REAL de verify_chain (ATESTA topo; hoje not_anchored honesto), Comparador DIVERGE_DE Mercado fora da linhagem; painel /evidencia exibe. 100% quando a âncora (L1) fizer o Recibo dizer valid e a linhagem exibir 'provada + ancorada'"
     },
     {
       "id": "L4",

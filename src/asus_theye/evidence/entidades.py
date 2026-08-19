@@ -7,8 +7,12 @@ Não há banco novo nem dado duplicado: a ontologia é uma camada de relações.
 Ver docs/architecture/ONTOLOGIA_EVIDENCIA.md. A disciplina de modelagem
 (entidade tipada + relações explícitas + linhagem) foi absorvida de
 OpenMetadata/DataHub (Apache-2.0); nenhuma linha de código deles é usada.
-``Artefato`` e ``Recibo`` estão na spec mas são transitórios (não materializados
-a partir do dado atual): entram quando houver artefato/recibo persistido.
+
+L3 completou a spec: ``Artefato`` materializa de ``reports/markets/
+artefatos.jsonl`` (dado bruto de Fonte oficial, com sha256 e retrieved_at) e
+``Recibo`` materializa do RESULTADO REAL da verificação da corrente no momento
+da montagem do grafo — estados ``valid|not_anchored|tampered`` como no
+verificador público. Recibo atesta; dado não deriva dele.
 """
 
 from __future__ import annotations
@@ -24,8 +28,13 @@ EVENTO = "EventoSelado"
 LOTE = "LoteMerkle"
 ANCORA = "Ancora"
 COMPARADOR = "Comparador"
+ARTEFATO = "Artefato"
+RECIBO = "Recibo"
 
-TIPOS = (FONTE, MERCADO, RESOLUCAO, EVENTO, LOTE, ANCORA, COMPARADOR)
+TIPOS = (FONTE, MERCADO, RESOLUCAO, EVENTO, LOTE, ANCORA, COMPARADOR, ARTEFATO, RECIBO)
+
+# Estados de Recibo — os mesmos que o verificador público devolve.
+ESTADOS_DE_RECIBO = ("valid", "not_anchored", "anchor_unconfirmed", "tampered", "invalid")
 
 Chave = tuple[str, str]  # (tipo, id)
 
@@ -99,3 +108,25 @@ def ancora(tx_hash: str, *, chain_id: int, contrato: str, block_number: int | No
 
 def comparador(nome: str = "Kalshi") -> No:
     return No(tipo=COMPARADOR, id=nome, rotulo=nome)
+
+
+def artefato(artefato_id: str, *, fonte_nome: str, sha256: str, retrieved_at: str, descricao: str) -> No:
+    """Dado bruto obtido de uma Fonte oficial, com hash — a evidência primária."""
+    return No(
+        tipo=ARTEFATO,
+        id=artefato_id,
+        rotulo=descricao or artefato_id,
+        dados={"fonte": fonte_nome, "sha256": sha256, "retrieved_at": retrieved_at, "descricao": descricao},
+    )
+
+
+def recibo(estado: str, *, verificacoes: dict[str, Any]) -> No:
+    """Resultado REAL de uma verificação da corrente (estados do verificador público)."""
+    if estado not in ESTADOS_DE_RECIBO:
+        raise ValueError(f"estado de Recibo desconhecido: {estado!r} (esperado um de {ESTADOS_DE_RECIBO})")
+    return No(
+        tipo=RECIBO,
+        id=f"recibo:{estado}",
+        rotulo=f"verificação: {estado}",
+        dados={"estado": estado, "verificacoes": verificacoes},
+    )

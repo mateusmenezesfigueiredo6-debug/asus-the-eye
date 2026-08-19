@@ -201,3 +201,87 @@ def test_as_dict_serializa(tmp_path: Path) -> None:
     d = g.as_dict()
     assert d["totais"]["nos"] == len(g.nos)
     assert all("origem" in a and "relacao" in a for a in d["arestas"])
+
+
+# --------------------------------------------------------------- L3: Artefato, Recibo, Comparador
+
+
+def test_artefato_deriva_da_fonte(tmp_path: Path) -> None:
+    """Artefato = dado bruto de Fonte oficial, com hash — linhagem direta."""
+    from asus_theye.evidence.entidades import ARTEFATO
+
+    base = _montar_base(tmp_path)
+    (base / "artefatos.jsonl").write_text(
+        json.dumps(
+            {
+                "id": "art-1",
+                "fonte": FONTE_BCB,
+                "sha256": "e" * 64,
+                "retrieved_at": "2026-08-19T00:00:00Z",
+                "descricao": "resposta bruta",
+            }
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+    g = construir_grafo(base)
+    assert (ARTEFATO, "art-1") in g.nos
+    assert [f.id for f in fontes_de(g, ARTEFATO, "art-1")] == [FONTE_BCB]
+
+
+def test_recibo_atesta_o_topo_e_diz_a_verdade(tmp_path: Path) -> None:
+    """Hashes sintéticos NÃO verificam — o Recibo tem de dizer 'tampered'."""
+    from asus_theye.evidence.entidades import RECIBO
+
+    g = construir_grafo(_montar_base(tmp_path))
+    rec = next(n for n in g.nos.values() if n.tipo == RECIBO)
+    assert rec.dados["estado"] == "tampered"
+    assert any(a.relacao == "ATESTA" for a in g.arestas)
+
+
+def test_recibo_da_corrente_real_verifica() -> None:
+    """A corrente REAL do repo: verify_chain True; estado reflete a âncora."""
+    from asus_theye.evidence.entidades import RECIBO
+
+    g = construir_grafo()
+    rec = next(n for n in g.nos.values() if n.tipo == RECIBO)
+    assert rec.dados["verificacoes"]["verify_chain"] is True
+    assert rec.dados["estado"] in ("not_anchored", "valid")
+
+
+def test_comparador_diverge_e_evento_registra_sem_contaminar_linhagem(tmp_path: Path) -> None:
+    """DIVERGE_DE fora de DERIVACAO; o evento da observação chega à Fonte VIA o mercado."""
+    from asus_theye.evidence.entidades import COMPARADOR
+
+    base = _montar_base(tmp_path)
+    (base / "comparador.jsonl").write_text(
+        json.dumps(
+            {
+                "claim_id": "MACRO-01::2026-07",
+                "comparator": "Kalshi",
+                "comparator_price": 0.6,
+                "our_probability": 0.5,
+                "observacao_id": "f" * 64,
+            }
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+    with (base / "eventos.jsonl").open("a", encoding="utf-8") as stream:
+        stream.write(
+            json.dumps(
+                {
+                    "event_id": "ev-2",
+                    "sequence": 2,
+                    "event_hash_sha256": "b" * 64,
+                    "previous_event_hash_sha256": "a" * 64,
+                    "correlation_id": "comparador:" + "f" * 32,
+                }
+            )
+            + "\n"
+        )
+    g = construir_grafo(base)
+    assert (COMPARADOR, "Kalshi") in g.nos
+    assert any(a.relacao == "DIVERGE_DE" for a in g.arestas)
+    assert [f.id for f in fontes_de(g, EVENTO, "ev-2")] == [FONTE_BCB]
+    assert all(n.tipo != COMPARADOR for n in linhagem_ascendente(g, MERCADO, "MACRO-01::2026-07"))
