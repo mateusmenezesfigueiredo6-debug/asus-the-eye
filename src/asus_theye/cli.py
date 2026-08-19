@@ -235,6 +235,17 @@ def _parser() -> argparse.ArgumentParser:
     ledger_sync.add_argument("--eventos", type=Path, default=Path("reports/markets/eventos.jsonl"))
     ledger_sync.add_argument("--tenant", default=DEFAULT_TENANT)
     ledger_sync.add_argument("--json", dest="json_out", action="store_true", help="saída em JSON")
+    export_static = subcommands.add_parser(
+        "export-static",
+        help="renderiza os painéis do dashboard como HTML estático em dist/",
+    )
+    export_static.add_argument(
+        "--out",
+        type=Path,
+        default=Path("dist"),
+        help="diretório de saída (padrão: dist/)",
+    )
+    export_static.add_argument("--json", dest="json_out", action="store_true", help="saída em JSON")
     return parser
 
 
@@ -898,6 +909,21 @@ def main(argv: Sequence[str] | None = None) -> int:
             f"\neventos locais: {placar['eventos_locais']}  |  novos: {placar['novos']}  |  dedupe: {placar['dedupe']}"
         )
         print(f"\n{placar['metodo']}")
+        return 0
+    if args.command == "export-static":
+        from asus_theye.dashboard.export_static import exportar
+
+        resultado = exportar(args.out)
+        if args.json_out:
+            print(json.dumps(resultado, ensure_ascii=False, indent=2))
+            return 0
+        print("=" * 62)
+        print("EXPORT ESTÁTICO DOS PAINÉIS DO DASHBOARD")
+        print("=" * 62)
+        for nome in resultado["gerados"]:
+            print(f"  gerado: {args.out / nome}")
+        for motivo in resultado["pulados"]:
+            print(f"  pulado: {motivo}")
         return 0
     return 2
 
