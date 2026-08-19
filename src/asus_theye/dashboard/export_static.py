@@ -20,7 +20,8 @@ def _escrever(destino: Path, nome: str, conteudo: str) -> str:
 
 def _index_page(paginas: list[str]) -> str:
     itens = "\n".join(
-        f'<li><a href="{html.escape(nome)}">{html.escape(nome.replace(".html", "").title())}</a></li>' for nome in paginas
+        f'<li><a href="{html.escape(nome)}">{html.escape(nome.replace(".html", "").title())}</a></li>'
+        for nome in paginas
     )
     return f"""<!doctype html>
 <html lang="pt-br"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width">

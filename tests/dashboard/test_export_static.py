@@ -33,7 +33,9 @@ def test_exportar_gera_html_e_index_e_pula_markets_sem_env(tmp_path: Path, monke
     assert any("markets.html" in item for item in resultado["pulados"])
 
 
-def test_cli_export_static_json(tmp_path: Path, monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str]) -> None:
+def test_cli_export_static_json(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str]
+) -> None:
     monkeypatch.delenv("ASUS_MARKETS_DB", raising=False)
 
     destino = tmp_path / "saida"

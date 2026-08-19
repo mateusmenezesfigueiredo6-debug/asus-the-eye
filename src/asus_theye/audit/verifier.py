@@ -44,6 +44,7 @@ def _proof_matches_root(item: Any, merkle_root: Any) -> bool:
 def _verify_batch(document: dict[str, Any]) -> dict[str, Any]:
     manifest = document.get("manifest")
     proofs = document.get("proofs")
+    checks: dict[str, bool | None]
     if not isinstance(manifest, dict) or not isinstance(proofs, list):
         checks = {"leaf_proof_root": False, "manifest_hash": False}
         batch_id = "unknown"

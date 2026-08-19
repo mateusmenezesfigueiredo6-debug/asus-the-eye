@@ -33,7 +33,7 @@ from __future__ import annotations
 import json
 import urllib.parse
 from datetime import datetime, timezone
-from typing import Any
+from typing import Any, TypedDict
 
 from asus_theye.source_graph.fetcher import (
     FetchError,
@@ -46,7 +46,14 @@ from asus_theye.source_graph.fetcher import (
 USER_AGENT = "asus-the-eye/0.2 (+mateusmenezesfigueiredo6@gmail.com)"
 TIMEOUT = 30
 
-_CONFIGURACAO = {
+
+class ConfiguracaoConector(TypedDict):
+    license_id: str
+    terms_url: str
+    max_bytes: int
+
+
+_CONFIGURACAO: dict[str, ConfiguracaoConector] = {
     "ror": {
         "license_id": "CC0-1.0",
         "terms_url": "https://ror.org/about/terms/",
