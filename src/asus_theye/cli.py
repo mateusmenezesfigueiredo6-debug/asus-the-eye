@@ -199,6 +199,16 @@ def _parser() -> argparse.ArgumentParser:
     mlops.add_argument("--stability-runs", type=int, default=10)
     mlops.add_argument("--json", dest="json_out", action="store_true", help="saída em JSON")
     mlops.add_argument("--no-audit", action="store_true", help="rastreia no store sem selar na cadeia")
+    mlops_promover = subcommands.add_parser(
+        "mlops-promover",
+        help="promove versão a campeão/desafiante no registry ML (com opção de selagem na cadeia)",
+    )
+    mlops_promover.add_argument("--modelo", required=True, help="identificador do modelo")
+    mlops_promover.add_argument("--versao", required=True, help="versão registrada do modelo")
+    mlops_promover.add_argument("--papel", required=True, choices=("campeao", "desafiante"))
+    mlops_promover.add_argument("--motivo", required=True, help="justificativa da promoção")
+    mlops_promover.add_argument("--json", dest="json_out", action="store_true", help="saída em JSON")
+    mlops_promover.add_argument("--no-audit", action="store_true", help="promove sem selar na cadeia")
     ledger_sync = subcommands.add_parser(
         "ledger-sync",
         help="espelha a corrente selada no ledger restrito da nuvem (D1) — idempotente por conteúdo",
@@ -727,6 +737,47 @@ def main(argv: Sequence[str] | None = None) -> int:
             selagem = resultado["selagem"]
             estado_selo = "dedupe na cadeia" if selagem.get("duplicate") else "EVENTO ml.run SELADO"
             print(f"selagem: {estado_selo} — event_hash {selagem['event_hash_sha256'][:16]}…")
+        return 0
+    if args.command == "mlops-promover":
+        from asus_theye.audit.schema import EventValidationError
+        from asus_theye.audit.sdk import utc_now
+        from asus_theye.markets.auditoria import AuditoriaError, abrir_auditoria
+        from asus_theye.mlops import MLOpsError, campeao_atual, promover
+
+        sdk_ml = None
+        if not args.no_audit:
+            try:
+                sdk_ml = abrir_auditoria()
+            except AuditoriaError as error:
+                print(f"mlops-promover: {error}")
+                return 1
+        try:
+            resultado = promover(
+                modelo_id=args.modelo,
+                versao=args.versao,
+                papel=args.papel,
+                motivo=args.motivo,
+                promovido_em=utc_now(),
+                sdk=sdk_ml,
+            )
+            atual = campeao_atual(args.modelo)
+        except (MLOpsError, AuditoriaError, EventValidationError) as error:
+            print(f"mlops-promover: {error}")
+            return 1
+        if args.json_out:
+            print(json.dumps({**resultado, "campeao_atual": atual}, ensure_ascii=False, indent=2))
+            return 0
+        registro = resultado["registro"]
+        print("=" * 62)
+        print("PROMOÇÃO ML — campeão/desafiante com trilha auditável")
+        print("=" * 62)
+        print(f"\npapel: {registro['papel']}")
+        print(f"modelo: {registro['modelo_id']}@{registro['versao']}")
+        print(f"motivo: {registro['motivo']}")
+        if atual is None:
+            print("campeão atual: nenhum")
+        else:
+            print(f"campeão atual: {atual['modelo_id']}@{atual['versao']}")
         return 0
     if args.command == "markets-sinais":
         from asus_theye.markets.gerador import GeradorError
