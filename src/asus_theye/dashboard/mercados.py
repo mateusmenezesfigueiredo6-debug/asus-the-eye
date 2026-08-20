@@ -23,6 +23,8 @@ import json
 from pathlib import Path
 from typing import Any
 
+from .navegacao import CSS_NAV, barra
+
 BASE_PADRAO = Path("reports/markets")
 
 
@@ -161,7 +163,9 @@ main{{padding:24px 12px}}
 th,td{{padding:10px 8px}}
 th{{font-size:.72rem}}
 }}
+{CSS_NAV}
 </style></head><body><main><h1>MERCADOS — medidos contra a fonte oficial</h1>
+{barra("/mercados")}
 {corpo}
 </main></body></html>"""
 

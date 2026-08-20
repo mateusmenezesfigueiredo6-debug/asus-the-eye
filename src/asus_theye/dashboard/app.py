@@ -12,6 +12,7 @@ from .auth import registrar_auth
 from .benchmark import register_benchmark_routes
 from .corrente import register_corrente_routes
 from .evidencia import register_evidencia_routes
+from .landing import register_landing_routes
 from .markets import register_markets_routes
 from .mercados import register_mercados_routes
 from .mlops import register_mlops_routes
@@ -42,6 +43,7 @@ def create_dashboard_app(
         """Liveness: sempre livre (não expõe dado), usado pelos healthchecks."""
         return {"status": "ok"}
 
+    register_landing_routes(app)
     register_benchmark_routes(app, report_path)
     register_markets_routes(app, markets_db)
     register_evidencia_routes(app)

@@ -18,6 +18,8 @@ import html
 from pathlib import Path
 from typing import Any
 
+from .navegacao import CSS_NAV, barra
+
 _HISTORICO_VOTO = 0.959126  # taxa histórica de seguimento partidário (comparação de vitrine)
 
 
@@ -119,7 +121,9 @@ border:1px solid #253149;border-radius:12px;overflow:hidden}}
 th,td{{padding:12px 14px;text-align:left;border-bottom:1px solid #253149}}
 th{{color:var(--muted);font-size:.78rem;text-transform:uppercase}}
 .ok{{color:var(--ok)}}.bad{{color:var(--bad)}}
+{CSS_NAV}
 </style></head><body><main><h1>MERCADOS PREDITIVOS</h1>
+{barra("/markets")}
 {corpo}
 </main></body></html>"""
 
