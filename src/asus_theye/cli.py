@@ -922,12 +922,25 @@ def main(argv: Sequence[str] | None = None) -> int:
             probabilidade = None
             if not args.sem_gerador:
                 from asus_theye.markets.gerador import GeradorError
-                from asus_theye.markets.sinais_ipca import SinaisError, probabilidade_para_ipca
+                from asus_theye.markets.sinais_cambio import SinaisCambioError
+                from asus_theye.markets.sinais_ipca import SinaisError
+                from asus_theye.markets.sinais_juros import SinaisJurosError
 
                 try:
-                    probabilidade = probabilidade_para_ipca(args.mes, args.limiar)
-                    print(f"gerador: p={probabilidade.valor:.4f} ({probabilidade.metodo})")
-                except (GeradorError, SinaisError) as erro:
+                    if args.area == "juros":
+                        from asus_theye.markets.sinais_juros import probabilidade_para_juros
+
+                        probabilidade = probabilidade_para_juros(args.mes, args.limiar)
+                    elif args.area == "cambio":
+                        from asus_theye.markets.sinais_cambio import probabilidade_para_cambio
+
+                        probabilidade = probabilidade_para_cambio(args.mes, args.limiar)
+                    else:
+                        from asus_theye.markets.sinais_ipca import probabilidade_para_ipca
+
+                        probabilidade = probabilidade_para_ipca(args.mes, args.limiar)
+                    print(f"gerador: p={probabilidade.valor:.4f} (area={args.area})")
+                except (GeradorError, SinaisError, SinaisJurosError, SinaisCambioError) as erro:
                     # falha de sinal NUNCA bloqueia a emissão — o mercado nasce
                     # no prior honesto e a saída diz por quê
                     print(f"gerador indisponível ({erro}) — emitindo no prior 0,50, declarado")
@@ -1225,7 +1238,9 @@ def main(argv: Sequence[str] | None = None) -> int:
         from asus_theye.markets.auditoria import AuditoriaError, abrir_auditoria
         from asus_theye.markets.gerador import GeradorError
         from asus_theye.markets.reprecificar import ReprecificacaoError, reprecificar
-        from asus_theye.markets.sinais_ipca import SinaisError, probabilidade_para_ipca
+        from asus_theye.markets.sinais_cambio import SinaisCambioError
+        from asus_theye.markets.sinais_ipca import SinaisError
+        from asus_theye.markets.sinais_juros import SinaisJurosError
 
         try:
             import json as _json
@@ -1235,12 +1250,33 @@ def main(argv: Sequence[str] | None = None) -> int:
             if alvo is None:
                 print(f"markets-reprecificar: {args.claim} não existe no registro")
                 return 1
-            nova = probabilidade_para_ipca(str(alvo["mes_referencia"]), float(alvo["limiar"]))
+            area_alvo = str(alvo.get("market_area_id", "macro"))
+            mes_alvo = str(alvo["mes_referencia"])
+            limiar_alvo = float(alvo["limiar"])
+            if area_alvo == "juros":
+                from asus_theye.markets.sinais_juros import probabilidade_para_juros
+
+                nova = probabilidade_para_juros(mes_alvo, limiar_alvo)
+            elif area_alvo == "cambio":
+                from asus_theye.markets.sinais_cambio import probabilidade_para_cambio
+
+                nova = probabilidade_para_cambio(mes_alvo, limiar_alvo)
+            else:
+                from asus_theye.markets.sinais_ipca import probabilidade_para_ipca
+
+                nova = probabilidade_para_ipca(mes_alvo, limiar_alvo)
             sdk_rep = None if args.no_audit else abrir_auditoria(Path("reports/audit/markets-ledger.db"))
             resultado = reprecificar(
                 claim_id=args.claim, probabilidade=nova, motivo=args.motivo, store=args.store, sdk=sdk_rep
             )
-        except (ReprecificacaoError, SinaisError, GeradorError, AuditoriaError) as error:
+        except (
+            ReprecificacaoError,
+            SinaisError,
+            SinaisJurosError,
+            SinaisCambioError,
+            GeradorError,
+            AuditoriaError,
+        ) as error:
             print(f"markets-reprecificar: {error}")
             return 1
 
