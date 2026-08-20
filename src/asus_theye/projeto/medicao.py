@@ -24,6 +24,20 @@ from asus_theye.audit.schema import hash_json, verify_chain
 BASE_PADRAO = Path("reports")
 FASES_PADRAO = Path("reports/projeto/fases.json")
 
+# estado deixou de ser decorativo: cada valor conhecido tem uma faixa de
+# peso_concluido coerente com ele. "parcial" cobre o meio do caminho; um
+# estado fora deste dicionário passa sem checagem de coerência (extensível).
+_ESTADOS_COERENTES = {
+    "concluida": lambda peso: peso == 1.0,
+    "pendente": lambda peso: peso == 0.0,
+    "parcial": lambda peso: 0.0 < peso < 1.0,
+}
+
+# A medição EXCLUI retrospectivos (o próprio dado se declara não-previsão) e
+# medições do projeto (senão a medição contaria a si mesma). O que sobra é o
+# que a corrente PROVA em termos prospectivos de mercado.
+_EVENTOS_SEM_CAPACIDADE_REAL = {"market.retrospective_import", "project.measurement"}
+
 
 class MedicaoError(RuntimeError):
     """Insumo da medição corrompido. Sempre levanta — nunca inventa número."""
@@ -50,11 +64,33 @@ def _validar_fases(fases: list[dict[str, Any]]) -> list[dict[str, Any]]:
             raise MedicaoError(f"{fase.get('id')}: peso_concluido deve estar em [0,1], veio {peso!r}")
         if not fase.get("metodo"):
             raise MedicaoError(f"{fase.get('id')}: fase sem 'metodo' — número sem método não entra")
+
+        peso_relativo = fase.get("peso_relativo", 1.0)
+        if (
+            not isinstance(peso_relativo, (int, float))
+            or isinstance(peso_relativo, bool)
+            or float(peso_relativo) <= 0.0
+        ):
+            raise MedicaoError(f"{fase.get('id')}: peso_relativo deve ser > 0, veio {peso_relativo!r}")
+
+        estado = fase.get("estado")
+        coerente = _ESTADOS_COERENTES.get(estado) if isinstance(estado, str) else None
+        if coerente is not None and not coerente(float(peso)):
+            raise MedicaoError(
+                f"{fase.get('id')}: estado {estado!r} incoerente com peso_concluido={peso!r} "
+                "— estado deixou de ser decorativo, ou os dois batem ou a fase é rejeitada"
+            )
+
+        criterio = fase.get("criterio_verificavel")
+        if criterio is not None and not str(criterio).strip():
+            raise MedicaoError(f"{fase.get('id')}: criterio_verificavel declarado mas vazio")
     return fases
 
 
 def _pct(fases: list[dict[str, Any]]) -> float:
-    return round(100.0 * sum(float(f["peso_concluido"]) for f in fases) / len(fases), 1)
+    peso_total = sum(float(f.get("peso_relativo", 1.0)) for f in fases)
+    concluido = sum(float(f["peso_concluido"]) * float(f.get("peso_relativo", 1.0)) for f in fases)
+    return round(100.0 * concluido / peso_total, 1)
 
 
 def _roteiro_de_produtos(caminho: Path) -> dict[str, Any]:
@@ -68,8 +104,41 @@ def _roteiro_de_produtos(caminho: Path) -> dict[str, Any]:
     fases = _validar_fases(json.loads(caminho.read_text(encoding="utf-8"))["fases"])
     return {
         "pct": _pct(fases),
-        "metodo": "média dos pesos declarados por fase em reports/projeto/produtos.json (roteiro até os 2 produtos)",
+        "metodo": (
+            "média ponderada (peso_relativo) dos pesos declarados por fase em "
+            "reports/projeto/produtos.json (roteiro até os 2 produtos)"
+        ),
         "fases": fases,
+    }
+
+
+def _capacidade_real(
+    todos_eventos: list[dict[str, Any]],
+    mercados: list[dict[str, Any]],
+    resolucoes: list[dict[str, Any]],
+) -> dict[str, Any]:
+    """O que a corrente PROVA, separado do que as fases DECLARAM.
+
+    O placar de fases pode dizer "90%" sem nenhum mercado real ter nascido do
+    modelo. Este eixo conta a atividade prospectiva de verdade: eventos que não
+    são import retrospectivo nem medição de projeto, claims cujo preço nasceu
+    de um gerador (bloco 'gerador' no registro, não p=0,50 default), liquidações
+    reais e observações de divergência contra comparadores externos.
+    """
+    prospectivos = [e for e in todos_eventos if e.get("event_type") not in _EVENTOS_SEM_CAPACIDADE_REAL]
+    return {
+        "eventos_prospectivos": len(prospectivos),
+        "claims_com_gerador": sum(1 for m in mercados if "gerador" in m),
+        "liquidacoes": len(resolucoes),
+        "observacoes_comparador": sum(1 for e in todos_eventos if e.get("event_type") == "market.comparator"),
+        "metodo": (
+            "reports/markets/{eventos.jsonl,registro.json,resolucoes.jsonl} — conta o que a "
+            "corrente PROVA, não o que as fases declaram: eventos_prospectivos exclui "
+            "market.retrospective_import e project.measurement; claims_com_gerador exige o "
+            "bloco 'gerador' (nasceu do modelo, não é p=0,50 default); liquidacoes vem de "
+            "resolucoes.jsonl; observacoes_comparador conta market.comparator. É o número que "
+            "o placar de fases sozinho não consegue mostrar."
+        ),
     }
 
 
@@ -99,7 +168,7 @@ def medir_projeto(base: Path = BASE_PADRAO, *, fases_path: Path | None = None) -
         "versao": 2,
         "caminho_minimo": {
             "pct": _pct(fases),
-            "metodo": "média dos pesos declarados por fase em reports/projeto/fases.json",
+            "metodo": "média ponderada (peso_relativo) dos pesos declarados por fase em reports/projeto/fases.json",
             "fases": fases,
         },
         "produtos": _roteiro_de_produtos(base / "projeto" / "produtos.json"),
@@ -113,6 +182,7 @@ def medir_projeto(base: Path = BASE_PADRAO, *, fases_path: Path | None = None) -
                 "não a si mesma — senão o hash nunca estabilizaria)"
             ),
         },
+        "capacidade_real": _capacidade_real(todos_eventos, mercados, resolucoes),
         "medicao_continua": {
             "mercados": len(mercados),
             "liquidados": sum(1 for m in mercados if m.get("estado") == "LIQUIDADO"),
