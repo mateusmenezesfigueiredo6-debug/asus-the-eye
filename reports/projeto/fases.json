@@ -26,9 +26,9 @@
     {
       "id": "F3",
       "nome": "Ancoragem Base Sepolia",
-      "estado": "parcial",
-      "peso_concluido": 0.7,
-      "metodo": "contrato compilado+testado (17 testes) e ensaio offline ok (PR #7); os 0.3 restantes são o broadcast, que aguarda faucet do dono"
+      "estado": "concluida",
+      "peso_concluido": 1.0,
+      "metodo": "corrente ANCORADA na Base Sepolia (tx 113e2875…, bloco 45716129); broadcast real concluído — o 0,3 que faltava era exatamente isso"
     },
     {
       "id": "F4",

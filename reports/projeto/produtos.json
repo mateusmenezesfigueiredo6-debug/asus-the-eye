@@ -61,23 +61,23 @@
     {
       "id": "L1",
       "nome": "Ledger: corrente ancorada on-chain",
-      "estado": "pendente",
-      "peso_concluido": 0.0,
-      "metodo": "broadcast Base Sepolia pela carteira 0xeDd9…cC76; reports/markets/ancoras.jsonl >= 1 (portão: faucet do dono)"
+      "estado": "concluida",
+      "peso_concluido": 1.0,
+      "metodo": "ANCORADO on-chain na Base Sepolia (chain 84532): tx 113e287511ddb21c…, bloco 45716129, contrato 0x910dAa67…3458600, raiz Merkle 2ff778a1… dos 66 eventos; reports/markets/ancoras.jsonl gravado"
     },
     {
       "id": "L2",
       "nome": "Ledger: raiz pública no verificador",
-      "estado": "pendente",
-      "peso_concluido": 0.0,
-      "metodo": "âncora confirmada gravada no D1; GET /root/AAAA-MM-DD responde 200 no the-eye-public-verifier"
+      "estado": "parcial",
+      "peso_concluido": 0.5,
+      "metodo": "âncora on-chain confirmada (L1 ok); falta gravar a âncora no D1 e o GET /root/AAAA-MM-DD do verificador público responder 200 — próximo passo do Claude"
     },
     {
       "id": "L3",
       "nome": "Ledger: ontologia completa (Artefato/Recibo)",
-      "estado": "parcial",
-      "peso_concluido": 0.8,
-      "metodo": "Artefato/Recibo materializados (spec 3.2/3.7): 1º artefato REAL (resposta bruta SGS 433 sha256 5aeb3a97…, DERIVA_DE Fonte), Recibo do resultado REAL de verify_chain (ATESTA topo; hoje not_anchored honesto), Comparador DIVERGE_DE Mercado fora da linhagem; painel /evidencia exibe. 100% quando a âncora (L1) fizer o Recibo dizer valid e a linhagem exibir 'provada + ancorada'"
+      "estado": "concluida",
+      "peso_concluido": 1.0,
+      "metodo": "ontologia completa: Artefato real (BCB sha256) DERIVA_DE Fonte; Recibo do verify_chain agora VALID (âncora on-chain existe); Comparador DIVERGE_DE fora da linhagem; /evidencia exibe 'Fonte provada + ancorada'"
     },
     {
       "id": "L4",
