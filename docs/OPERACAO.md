@@ -65,6 +65,7 @@ O que continua sendo ato humano:
 | `export-static` | Exporta os painéis como HTML estático em `dist/`. | `asus-theye export-static --out dist --json` |
 | `relatorio-mensal` | Gera o extrato mensal em Markdown da atividade da plataforma. | `asus-theye relatorio-mensal --mes 2026-08` |
 | `relatorio-anual` | Consolida o ano por área: Brier médio dos liquidados elegíveis, com as ressalvas de skill. | `asus-theye relatorio-anual --ano 2026` |
+| `doutor` | Diagnóstico local: corrente, chave, prova temporal, mercados, titularidade e backup — com o conserto de cada item. | `asus-theye doutor` |
 
 ## Quando algo quebra
 
