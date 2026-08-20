@@ -1,0 +1,29 @@
+# SPDX-FileCopyrightText: 2026 Mateus Menezes Figueiredo
+# SPDX-License-Identifier: AGPL-3.0-or-later
+#
+# Site estático do THE EYE — as 9 páginas geradas por `asus-theye export-static`.
+#
+# Por que assets estáticos e não um servidor: as páginas são renderizadas do
+# estado real da corrente a cada rodada do cron e publicadas como arquivos. Não
+# há runtime para invadir, não há banco exposto, não há custo por requisição
+# fora da camada gratuita — e o site continua de pé mesmo se tudo o mais cair.
+#
+# Portabilidade declarada: assets estáticos são o primitivo MENOS aprisionante
+# que existe. Sair daqui é copiar a pasta dist/ para qualquer outro host.
+#
+# PUBLICAÇÃO É ATO DO DONO. Nenhum agente publica: o publish_lock exige a
+# passphrase e abre janela de 5 minutos. O comando exato está em PUBLICAR.md.
+
+name = "the-eye-site"
+compatibility_date = "2026-08-01"
+
+[assets]
+directory = "../../dist"
+# serve /mercados a partir de mercados.html, mas os links do site são
+# relativos e explícitos de propósito: não dependemos desta configuração
+html_handling = "auto-trailing-slash"
+not_found_handling = "404-page"
+
+[observability]
+enabled = true
+head_sampling_rate = 0.1

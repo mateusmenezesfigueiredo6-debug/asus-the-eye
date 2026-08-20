@@ -18,7 +18,7 @@ import html
 from pathlib import Path
 from typing import Any
 
-from .navegacao import CSS_NAV, barra
+from .navegacao import CSS_AVISO, CSS_NAV, barra, destino, rodape
 
 PRODUTOS: tuple[dict[str, str], ...] = (
     {
@@ -47,7 +47,7 @@ DOUTRINA: tuple[str, ...] = (
 )
 
 
-def _cartoes_de_prova(base: Path | None) -> str:
+def _cartoes_de_prova(base: Path | None, *, estatico: bool = False) -> str:
     """Os números vivos da corrente. Falha de medição vira aviso, não zero falso."""
     from asus_theye.projeto import MedicaoError, medir_projeto
 
@@ -75,37 +75,39 @@ def _cartoes_de_prova(base: Path | None) -> str:
 <div class="muted">exclui import retrospectivo</div></div>
 </section>
 <p class="muted">Medição selada na cadeia: <code>{snap["hash_da_medicao"][:32]}…</code> ·
-caminho mínimo {snap["caminho_minimo"]["pct"]}% · <a href="/projeto">placar completo</a></p>"""
+caminho mínimo {snap["caminho_minimo"]["pct"]}% ·
+<a href="{destino("/projeto", estatico=estatico)}">placar completo</a></p>"""
 
 
-def _cartao_produto(produto: dict[str, str]) -> str:
+def _cartao_produto(produto: dict[str, str], *, estatico: bool = False) -> str:
     return (
         f'<article class="produto"><h3>{html.escape(produto["nome"])}</h3>'
         f"<p>{html.escape(produto['resumo'])}</p>"
         f'<p class="muted">{produto["prova"]}</p>'
-        f'<p><a class="cta" href="{html.escape(produto["rota"])}">ver o painel →</a></p></article>'
+        f'<p><a class="cta" href="{html.escape(destino(produto["rota"], estatico=estatico))}">'
+        "ver o painel →</a></p></article>"
     )
 
 
-def landing_page(base: Path | None = None) -> str:
+def landing_page(base: Path | None = None, *, estatico: bool = False) -> str:
     """Página inicial: o que é, os dois produtos, os números vivos e para onde ir."""
-    produtos = "".join(_cartao_produto(p) for p in PRODUTOS)
+    produtos = "".join(_cartao_produto(p, estatico=estatico) for p in PRODUTOS)
     doutrina = "".join(f"<li>{item}</li>" for item in DOUTRINA)
     corpo = f"""<p class="lede">Mercados preditivos <strong>auditáveis</strong>: a probabilidade é
 publicada antes do fato, a resolução vem da fonte oficial, e cada passo fica selado numa
 corrente que qualquer pessoa verifica — sem pedir acesso a ninguém.</p>
-{_cartoes_de_prova(base)}
+{_cartoes_de_prova(base, estatico=estatico)}
 <h2>Os dois produtos</h2>
 <section class="produtos">{produtos}</section>
 <h2>A doutrina, em três linhas</h2>
 <ul class="doutrina">{doutrina}</ul>
 <p class="muted">Verificação independente: <code>GET /health</code>, <code>GET /verify</code> e
 <code>GET /root/:data</code> no verificador público respondem <strong>sem token</strong>.
-Ver <a href="/api">a API</a>.</p>"""
-    return _shell(corpo)
+Ver <a href="{destino("/api", estatico=estatico)}">a API</a>.</p>"""
+    return _shell(corpo, estatico=estatico)
 
 
-def _shell(corpo: str) -> str:
+def _shell(corpo: str, *, estatico: bool = False) -> str:
     return f"""<!doctype html>
 <html lang="pt-br"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width">
 <title>ASUS THE EYE — mercados preditivos auditáveis</title><style>
@@ -131,13 +133,14 @@ a{{color:var(--accent)}}
 .doutrina{{max-width:80ch;line-height:1.6;padding-left:20px}}
 .doutrina li{{margin:8px 0}}
 .ok{{color:var(--ok)}}.bad{{color:var(--bad)}}
-{CSS_NAV}
+{CSS_NAV}{CSS_AVISO}
 @media (max-width:640px){{main{{padding:24px 12px}}.cards,.produtos{{grid-template-columns:1fr}}}}
 </style></head><body><main>
 <h1>ASUS THE EYE</h1>
 <p class="muted">mercados preditivos auditáveis</p>
-{barra("/")}
+{barra("/", estatico=estatico)}
 {corpo}
+{rodape()}
 </main></body></html>"""
 
 
