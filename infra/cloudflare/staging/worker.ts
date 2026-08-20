@@ -264,6 +264,140 @@ export default {
       return json(200, { tenant_id: tenant, batches: results });
     }
 
+    // Lote EXTERNO: a corrente canônica vive no repositório versionado
+    // (reports/markets/eventos.jsonl), não neste D1 — aqui só há espelhos de
+    // resumo. Este endpoint registra o manifesto para que a raiz possa ser
+    // servida publicamente, e marca status 'external' para NUNCA sugerir que o
+    // ledger hospeda os eventos. A régua do POST /batches (provas conferidas
+    // contra audit_events) continua intacta para lotes nativos.
+    if (url.pathname === "/batches/external" && request.method === "POST") {
+      let parsed: unknown;
+      try {
+        parsed = await request.json();
+      } catch {
+        return json(400, { error: "body must be valid JSON" });
+      }
+      const manifest = (parsed as Record<string, unknown>).manifest as Record<string, unknown> | undefined;
+      if (!manifest || typeof manifest !== "object") return json(422, { error: "manifest required" });
+      const obrigatorios = [
+        "batch_id",
+        "tenant_id",
+        "schema_version",
+        "first_sequence",
+        "last_sequence",
+        "event_count",
+        "merkle_root",
+        "manifest_hash_sha256",
+      ];
+      for (const campo of obrigatorios) {
+        if (!(campo in manifest)) return json(422, { error: `manifest missing ${campo}` });
+      }
+      if (!/^[0-9a-f]{64}$/.test(String(manifest.merkle_root))) {
+        return json(422, { error: "merkle_root must be 32-byte lowercase hex" });
+      }
+      try {
+        await env.AUDIT_DB.prepare(
+          `INSERT INTO audit_batches
+             (batch_id, tenant_id, schema_version, first_sequence, last_sequence, event_count,
+              merkle_root, previous_batch_root, manifest_hash_sha256, manifest_json, status, created_at)
+           VALUES (?1,?2,?3,?4,?5,?6,?7,?8,?9,?10,'anchored',?11)`,
+        )
+          .bind(
+            String(manifest.batch_id),
+            String(manifest.tenant_id),
+            String(manifest.schema_version),
+            Number(manifest.first_sequence),
+            Number(manifest.last_sequence),
+            Number(manifest.event_count),
+            String(manifest.merkle_root),
+            manifest.previous_batch_root === null || manifest.previous_batch_root === undefined
+              ? null
+              : String(manifest.previous_batch_root),
+            String(manifest.manifest_hash_sha256),
+            JSON.stringify({ ...manifest, eventos_hospedados_aqui: false, origem: "repositorio_versionado" }),
+            new Date().toISOString(),
+          )
+          .run();
+      } catch {
+        const existente = await env.AUDIT_DB.prepare(
+          `SELECT batch_id, status FROM audit_batches WHERE batch_id = ?1 OR merkle_root = ?2`,
+        )
+          .bind(String(manifest.batch_id), String(manifest.merkle_root))
+          .first<{ batch_id: string; status: string }>();
+        if (existente) return json(200, { deduplicated: true, ...existente });
+        return json(500, { error: "external batch insert failed" });
+      }
+      return json(201, {
+        batch_id: String(manifest.batch_id),
+        status: "anchored",
+        nota: "eventos vivem no repositório versionado; este ledger guarda o manifesto e a raiz",
+      });
+    }
+
+    // Âncora on-chain de um batch já registrado. É o elo que faltava para o
+    // verificador público responder GET /root/AAAA-MM-DD: ele lê audit_anchors
+    // com status 'confirmed' unido a audit_batches. O batch TEM de existir —
+    // âncora de lote fantasma não entra (mesma régua do /batches).
+    if (url.pathname === "/anchors" && request.method === "POST") {
+      let parsed: unknown;
+      try {
+        parsed = await request.json();
+      } catch {
+        return json(400, { error: "body must be valid JSON" });
+      }
+      const payload = parsed as Record<string, unknown>;
+      const obrigatorios = ["batch_id", "chain_id", "contract_address", "tx_hash", "anchored_at"];
+      for (const campo of obrigatorios) {
+        if (!(campo in payload)) return json(422, { error: `missing field: ${campo}` });
+      }
+      const batchId = String(payload.batch_id);
+      const txHash = String(payload.tx_hash);
+      if (!/^[0-9a-fA-F]{64}$/.test(txHash.replace(/^0x/, ""))) {
+        return json(422, { error: "tx_hash must be 32-byte hex" });
+      }
+      const status = String(payload.status ?? "confirmed");
+      if (!["submitted", "confirmed", "reorged", "failed"].includes(status)) {
+        return json(422, { error: "invalid status" });
+      }
+      const lote = await env.AUDIT_DB.prepare(`SELECT batch_id FROM audit_batches WHERE batch_id = ?1`)
+        .bind(batchId)
+        .first<{ batch_id: string }>();
+      if (!lote) return json(422, { error: `batch ${batchId} not registered — anchor of unknown batch refused` });
+
+      const anchorId = `anchor-${txHash.replace(/^0x/, "").slice(0, 32)}`;
+      try {
+        await env.AUDIT_DB.prepare(
+          `INSERT INTO audit_anchors
+             (anchor_id, batch_id, chain_id, contract_address, tx_hash, block_number,
+              block_hash, confirmations, status, anchored_at)
+           VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10)`,
+        )
+          .bind(
+            anchorId,
+            batchId,
+            Number(payload.chain_id),
+            String(payload.contract_address),
+            txHash,
+            payload.block_number === undefined || payload.block_number === null ? null : Number(payload.block_number),
+            payload.block_hash === undefined || payload.block_hash === null ? null : String(payload.block_hash),
+            Number(payload.confirmations ?? 1),
+            status,
+            String(payload.anchored_at),
+          )
+          .run();
+      } catch (erro) {
+        // UNIQUE(tx_hash) / UNIQUE(batch_id): re-enviar a mesma âncora é no-op
+        const existente = await env.AUDIT_DB.prepare(
+          `SELECT anchor_id, status FROM audit_anchors WHERE tx_hash = ?1 OR batch_id = ?2`,
+        )
+          .bind(txHash, batchId)
+          .first<{ anchor_id: string; status: string }>();
+        if (existente) return json(200, { deduplicated: true, ...existente });
+        return json(500, { error: `anchor insert failed: ${String(erro)}` });
+      }
+      return json(201, { anchor_id: anchorId, batch_id: batchId, status });
+    }
+
     if (url.pathname === "/evidence" && request.method === "POST") {
       const body = await request.arrayBuffer();
       if (body.byteLength === 0) return json(400, { error: "empty body" });
