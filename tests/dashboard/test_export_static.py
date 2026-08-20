@@ -13,7 +13,7 @@ from asus_theye.dashboard.export_static import exportar
 def test_exportar_gera_html_basico(tmp_path: Path) -> None:
     """Três painéis devem ser gerados sem ASUS_MARKETS_DB; markets é pulado."""
     resultado = exportar(tmp_path)
-    assert set(resultado["gerados"]) == {"projeto.html", "evidencia.html", "benchmark.html", "index.html"}
+    assert set(resultado["gerados"]) == {"projeto.html", "evidencia.html", "benchmark.html", "mlops.html", "index.html"}
     assert len(resultado["pulados"]) == 1
     assert "markets" in resultado["pulados"][0]
 
