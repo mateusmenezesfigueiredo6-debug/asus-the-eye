@@ -159,6 +159,7 @@ def test_relatorio_mensal_com_dados_sinteticos(tmp_path: Path) -> None:
 
     assert "# Relatório mensal da plataforma — 2026-08" in texto
     assert "Mercados emitidos no mês: 1 | liquidações no mês: 1" in texto
+    assert "Mercados emitidos no mês ainda abertos: 1 | divergências medidas: 1" in texto
     assert "| MACRO-01::2026-08 | 1 | 0.2025 | api.bcb.gov.br (SGS) |" in texto
     assert "| MACRO-01::2026-08 | macroeconomia | ABERTO | 0.5500 | 2026-08-01T00:00:00Z |" in texto
     assert "| MACRO-01::2026-08 | Kalshi | 0.6200 | 0.5500 | 0.0700 | KXCPI-26AUG |" in texto
@@ -169,7 +170,15 @@ def test_relatorio_mensal_mes_vazio_diz_nenhum(tmp_path: Path) -> None:
     texto = relatorio_mensal("2026-08", base=tmp_path)
 
     assert "Mercados emitidos no mês: 0 | liquidações no mês: 0" in texto
-    assert texto.count("\nnenhum\n") >= 6
+    for secao in (
+        "## Liquidações do mês\n\nnenhum",
+        "## Mercados emitidos no mês ainda abertos\n\nnenhum",
+        "## Divergências do mês\n\nnenhum",
+        "## Eventos selados do mês\n\nnenhum",
+        "## Âncoras do mês\n\nnenhum",
+        "## Corridas MLOps do mês\n\nnenhum",
+    ):
+        assert secao in texto
     assert "© 2026 Mateus Menezes Figueiredo · AGPL-3.0" in texto
 
 

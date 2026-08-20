@@ -281,6 +281,13 @@ def _parser() -> argparse.ArgumentParser:
     return parser
 
 
+def _reports_base() -> Path:
+    base = Path("reports")
+    if base.is_dir():
+        return base
+    return Path(__file__).resolve().parents[2] / "reports"
+
+
 def main(argv: Sequence[str] | None = None) -> int:
     args = _parser().parse_args(argv)
     if args.command == "benchmark":
@@ -1008,7 +1015,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         from asus_theye.relatorio import relatorio_mensal
 
         try:
-            texto = relatorio_mensal(args.mes)
+            texto = relatorio_mensal(args.mes, base=_reports_base())
         except ValueError as error:
             print(f"relatorio-mensal: {error}")
             return 1

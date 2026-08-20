@@ -82,7 +82,12 @@ def _hash_da_medicao(base: Path) -> str | None:
 
 
 def relatorio_mensal(mes: str | None = None, base: Path = Path("reports")) -> str:
-    """Devolve o extrato mensal em Markdown, só com o que os artefatos realmente dizem."""
+    """Devolve o extrato mensal em Markdown, só com o que os artefatos realmente dizem.
+
+    A seção de mercados "ainda abertos" reflete o estado corrente em
+    ``registro.json`` para os mercados emitidos no mês; ela não reconstrói
+    estado a partir de outros artefatos.
+    """
     mes_ref = _mes_alvo(mes)
     markets = base / "markets"
     mlops = base / "mlops"
@@ -94,7 +99,7 @@ def relatorio_mensal(mes: str | None = None, base: Path = Path("reports")) -> st
     ancoras = _filtrar_por_mes(_jsonl(markets / "ancoras.jsonl"), "registrado_em", mes=mes_ref)
     corridas = _filtrar_por_mes(_jsonl(mlops / "corridas.jsonl"), "executada_em", mes=mes_ref)
     emitidos_no_mes = _filtrar_por_mes(mercados, "created_at", mes=mes_ref)
-    abertos_no_mes = [mercado for mercado in emitidos_no_mes if mercado.get("estado") != "LIQUIDADO"]
+    emitidos_no_mes_ainda_abertos = [mercado for mercado in emitidos_no_mes if mercado.get("estado") != "LIQUIDADO"]
 
     linhas = [
         f"# Relatório mensal da plataforma — {mes_ref}",
@@ -102,7 +107,10 @@ def relatorio_mensal(mes: str | None = None, base: Path = Path("reports")) -> st
         "## Resumo",
         "",
         f"- Mercados emitidos no mês: {len(emitidos_no_mes)} | liquidações no mês: {len(resolucoes)}",
-        f"- Mercados ainda abertos do mês: {len(abertos_no_mes)} | divergências medidas: {len(divergencias)}",
+        (
+            f"- Mercados emitidos no mês ainda abertos: {len(emitidos_no_mes_ainda_abertos)} | "
+            f"divergências medidas: {len(divergencias)}"
+        ),
         f"- Eventos selados: {len(eventos)} | âncoras: {len(ancoras)} | corridas MLOps: {len(corridas)}",
         "",
         "## Liquidações do mês",
@@ -122,7 +130,7 @@ def relatorio_mensal(mes: str | None = None, base: Path = Path("reports")) -> st
             ],
         )
     )
-    linhas.extend(["## Mercados abertos do mês", ""])
+    linhas.extend(["## Mercados emitidos no mês ainda abertos", ""])
     linhas.extend(
         _tabela(
             ["claim", "área", "estado", "p", "criado_em"],
@@ -134,7 +142,7 @@ def relatorio_mensal(mes: str | None = None, base: Path = Path("reports")) -> st
                     _fmt_float(mercado.get("probability")),
                     mercado.get("created_at", "—"),
                 ]
-                for mercado in abertos_no_mes
+                for mercado in emitidos_no_mes_ainda_abertos
             ],
         )
     )
