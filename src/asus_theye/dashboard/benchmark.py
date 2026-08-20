@@ -24,6 +24,55 @@ def _load_history(path: Path) -> list[dict[str, Any]]:
     return entries[-20:]
 
 
+def _svg_bar_chart(
+    points: list[tuple[str, float]],
+    *,
+    aria_label: str,
+    formatter: str = "{value:.3f}",
+    empty_message: str = "No data available.",
+) -> str:
+    if not points:
+        safe_message = html.escape(empty_message)
+        return (
+            '<svg class="chart-svg" viewBox="0 0 582 72" role="img" '
+            f'aria-label="{html.escape(aria_label)}">'
+            '<rect x="12" y="12" width="558" height="48" rx="8" fill="#213047"></rect>'
+            f'<text x="28" y="42" fill="#9aa8bd">{safe_message}</text>'
+            "</svg>"
+        )
+
+    chart_width = 320
+    label_x = 12
+    bar_x = 172
+    value_x = bar_x + chart_width + 10
+    row_height = 30
+    svg_width = value_x + 80
+    svg_height = 16 + (len(points) * row_height)
+    max_value = max((value for _, value in points), default=0.0)
+
+    parts = [
+        (
+            f'<svg class="chart-svg" viewBox="0 0 {svg_width} {svg_height}" '
+            f'role="img" aria-label="{html.escape(aria_label)}">'
+        )
+    ]
+    for index, (name, value) in enumerate(points):
+        y = 22 + (index * row_height)
+        width = 0.0 if max_value <= 0 else max(0.0, chart_width * value / max_value)
+        safe_name = html.escape(name)
+        safe_value = html.escape(formatter.format(value=value))
+        parts.extend(
+            (
+                f'<text x="{label_x}" y="{y}" fill="currentColor">{safe_name}</text>',
+                (f'<rect x="{bar_x}" y="{y - 13}" width="{chart_width}" height="16" rx="4" fill="#213047"></rect>'),
+                (f'<rect x="{bar_x}" y="{y - 13}" width="{width:.2f}" height="16" rx="4" fill="#67e8f9"></rect>'),
+                f'<text x="{value_x}" y="{y}" fill="#9aa8bd">{safe_value}</text>',
+            )
+        )
+    parts.append("</svg>")
+    return "".join(parts)
+
+
 def benchmark_page(report_path: str | Path = "reports/benchmark/latest.json") -> str:
     resolved_report_path = Path(report_path)
     report = _load(resolved_report_path)
@@ -45,7 +94,24 @@ def benchmark_page(report_path: str | Path = "reports/benchmark/latest.json") ->
         }
         for entry in history
     ]
-    payload = json.dumps({"scores": scores, "times": times, "history": history_points}).replace("<", "\\u003c")
+    score_chart = _svg_bar_chart(
+        list(scores.items()),
+        aria_label="Score comparison",
+        formatter="{value:.3f}",
+        empty_message="No benchmark scores yet.",
+    )
+    time_chart = _svg_bar_chart(
+        list(times.items()),
+        aria_label="Execution time",
+        formatter="{value:.3f} ms",
+        empty_message="No benchmark timings yet.",
+    )
+    history_chart = _svg_bar_chart(
+        [(point["date"], float(point["best_score"])) for point in history_points],
+        aria_label="History",
+        formatter="{value:.3f}",
+        empty_message="No benchmark history yet.",
+    )
     conclusion = html.escape(str(report.get("conclusion", "")))
     return f"""<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width">
@@ -57,10 +123,10 @@ main{{max-width:1100px;margin:auto;padding:40px 20px}}
 h1{{letter-spacing:.08em}}
 .cards,.charts{{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:16px}}
 .card,.chart{{background:var(--panel);padding:20px;border:1px solid #253149;border-radius:12px}}
+.chart-svg{{width:100%;height:auto;display:block}}
 .label{{color:var(--muted);font-size:.8rem;text-transform:uppercase}}
+.muted{{color:var(--muted)}}
 .value{{font-size:1.7rem;margin-top:8px;color:var(--accent)}}
-.bar{{height:24px;background:#213047;margin:8px 0;border-radius:5px;overflow:hidden}}
-.bar i{{display:block;height:100%;background:var(--accent)}}
 </style></head><body><main><h1>ASUS THE EYE BENCHMARK</h1>
 <section class="cards"><div class="card">
 <div class="label">Best score</div><div class="value">{best_score}</div></div>
@@ -68,27 +134,11 @@ h1{{letter-spacing:.08em}}
 <div class="card"><div class="label">QAR</div><div class="value">{qar}</div></div>
 <div class="card"><div class="label">Stability σ</div>
 <div class="value">{stability}</div></div></section>
-<section class="charts"><div class="chart"><h2>Score comparison</h2><div id="scores"></div></div>
-<div class="chart"><h2>Execution time</h2><div id="times"></div></div>
+<section class="charts"><div class="chart"><h2>Score comparison</h2>{score_chart}</div>
+<div class="chart"><h2>Execution time</h2>{time_chart}</div>
 <div class="chart"><h2>History</h2>
-<div id="history"></div></div></section>
-<p>{conclusion}</p><script>const data={payload};
-for(const key of ['scores','times']){{
-  const values=data[key], max=Math.max(...Object.values(values),1);
-  const root=document.getElementById(key);
-  for(const [name,value] of Object.entries(values)){{
-    root.innerHTML+=`<span>${{name}}: ${{value.toFixed(3)}}</span>`+
-      `<div class="bar"><i style="width:${{100*value/max}}%"></i></div>`;
-  }}
-}}
-const historyRoot=document.getElementById('history');
-const historyMax=Math.max(...data.history.map(point=>point.best_score),1);
-for(const point of data.history){{
-  historyRoot.innerHTML+=`<span>${{point.date}}: ${{point.best_score.toFixed(3)}}</span>`+
-    `<div class="bar"><i style="width:${{100*point.best_score/historyMax}}%"></i></div>`;
-}}
-if(!data.history.length) historyRoot.textContent='No benchmark history yet.';
-</script>
+{history_chart}</div></section>
+<p>{conclusion}</p>
 </main></body></html>"""
 
 

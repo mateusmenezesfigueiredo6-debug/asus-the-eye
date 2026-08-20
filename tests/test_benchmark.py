@@ -105,3 +105,8 @@ def test_dashboard_contains_required_cards_and_charts(tmp_path: Path, problem):
         "History",
     ):
         assert label in page
+    assert page.count("<svg") == 3
+    assert 'aria-label="Score comparison"' in page
+    assert 'aria-label="Execution time"' in page
+    assert 'aria-label="History"' in page
+    assert "<script>" not in page
