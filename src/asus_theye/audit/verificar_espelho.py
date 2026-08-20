@@ -56,7 +56,8 @@ def _buscar_padrao(ledger_url: str, tenant: str) -> dict[str, Any]:
     req = urllib.request.Request(url, headers=headers, method="GET")
     try:
         with urllib.request.urlopen(req, timeout=_TIMEOUT) as resp:
-            return json.loads(resp.read().decode("utf-8"))  # type: ignore[no-any-return]
+            corpo: dict = json.loads(resp.read().decode("utf-8"))
+            return corpo
     except urllib.error.HTTPError as exc:
         detail = exc.read().decode("utf-8", errors="replace")[:500]
         raise VerificarEspelhoError(f"worker recusou: HTTP {exc.code}: {detail}") from exc
@@ -126,16 +127,25 @@ def verificar(
 
     janela_parcial = n_locais > _JANELA_REMOTA
 
-    # faltantes: hashes locais cujo prefixo não aparece nos espelhos visíveis
+    # O GET atual do worker NÃO devolve idempotency_key (verificado em produção
+    # 20/08/2026): o matching por hash só é possível quando o campo existir na
+    # resposta. Sem ele, afirmar "faltante" seria falso positivo estrutural —
+    # o que dá para PROVAR é a cobertura por contagem da janela visível.
+    matching_por_hash = bool(hashes_espelhados)
     faltantes: list[str] = []
-    for h in hashes_locais:
-        if h[:32] not in hashes_espelhados:
-            faltantes.append(h)
+    if matching_por_hash:
+        faltantes = [h for h in hashes_locais if h[:32] not in hashes_espelhados]
+        if janela_parcial:
+            # fora da janela o hash não aparece mesmo estando espelhado
+            faltantes = faltantes[-_JANELA_REMOTA:] if len(faltantes) > _JANELA_REMOTA else faltantes
+    cobertura_da_janela = n_espelhos >= min(n_locais, _JANELA_REMOTA)
 
     return {
         "locais": n_locais,
         "espelhos_remotos": n_espelhos,
         "faltantes_na_janela": faltantes,
+        "matching_por_hash": matching_por_hash,
+        "cobertura_da_janela": cobertura_da_janela,
         "janela_parcial": janela_parcial,
         "verifica_local": True,
     }

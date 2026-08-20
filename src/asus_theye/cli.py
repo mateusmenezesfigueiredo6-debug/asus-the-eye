@@ -945,17 +945,24 @@ def main(argv: Sequence[str] | None = None) -> int:
             return 1
         if args.json_out:
             print(json.dumps(relatorio, ensure_ascii=False, indent=2))
-            return 0 if not relatorio["faltantes_na_janela"] else 1
+            ok = relatorio["cobertura_da_janela"] and not relatorio["faltantes_na_janela"]
+            return 0 if ok else 1
         print("=" * 62)
         print("VERIFICAÇÃO DO ESPELHO DA CORRENTE (D1)")
         print("=" * 62)
         print(f"\nlocais: {relatorio['locais']}  |  espelhos_remotos: {relatorio['espelhos_remotos']}")
         if relatorio["janela_parcial"]:
             print("\nATENÇÃO: corrente local > 50 eventos — janela parcial (últimos 50 visíveis)")
+        if not relatorio["matching_por_hash"]:
+            print("\nmatching por hash indisponível (o GET do worker não devolve idempotency_key);")
+            print(f"cobertura por contagem da janela: {'OK' if relatorio['cobertura_da_janela'] else 'INCOMPLETA'}")
         if relatorio["faltantes_na_janela"]:
             print(f"\nFALTANTES na janela ({len(relatorio['faltantes_na_janela'])}):")
             for h in relatorio["faltantes_na_janela"]:
                 print(f"  {h}")
+            return 1
+        if not relatorio["cobertura_da_janela"]:
+            print("\ncobertura da janela INCOMPLETA — rode asus-theye ledger-sync")
             return 1
         print("\nespelho em dia — nenhum faltante na janela")
         return 0
