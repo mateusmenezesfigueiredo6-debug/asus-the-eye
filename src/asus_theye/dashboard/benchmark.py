@@ -47,7 +47,7 @@ def benchmark_page(report_path: str | Path = "reports/benchmark/latest.json") ->
         }
         for entry in history
     ]
-    payload = json.dumps({"scores": scores, "times": times, "history": history_points}).replace("<", "\\u003c")
+    payload = {"scores": scores, "times": times, "history": history_points}
     conclusion = html.escape(str(report.get("conclusion", "")))
     corpo = f"""<section class="cards"><div class="card">
 <div class="label">Best score</div><div class="value">{best_score}</div></div>
@@ -55,16 +55,17 @@ def benchmark_page(report_path: str | Path = "reports/benchmark/latest.json") ->
 <div class="card"><div class="label">QAR</div><div class="value">{qar}</div></div>
 <div class="card"><div class="label">Stability σ</div>
 <div class="value">{stability}</div></div></section>
-<div class="table-wrap"><section class="charts">
+<section class="charts">
 <div class="chart"><h2>Score comparison</h2><div id="scores"></div></div>
 <div class="chart"><h2>Execution time</h2><div id="times"></div></div>
 <div class="chart"><h2>History</h2>
-<div id="history"></div></div></section></div>
+<div id="history"></div></div></section>
 <p>{conclusion}</p>"""
     return _shell(corpo, payload)
 
 
-def _shell(corpo: str, payload: str) -> str:
+def _shell(corpo: str, payload: dict[str, Any]) -> str:
+    payload_json = json.dumps(payload).replace("<", "\\u003c")
     return f"""<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width">
 <title>ASUS THE EYE Benchmark</title><style>
@@ -88,7 +89,7 @@ main{{padding:24px 12px}}
 h2{{font-size:1rem}}
 }}
 </style></head><body><main><h1>ASUS THE EYE BENCHMARK</h1>
-{corpo}<script>const data={payload};
+{corpo}<script>const data={payload_json};
 for(const key of ['scores','times']){{
   const values=data[key], max=Math.max(...Object.values(values),1);
   const root=document.getElementById(key);

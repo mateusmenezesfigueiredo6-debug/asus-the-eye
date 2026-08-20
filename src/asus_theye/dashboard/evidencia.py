@@ -97,7 +97,7 @@ def evidencia_page(base: str | Path | None = None) -> str:
         )
     )
     blocos_html = "\n".join(blocos)
-    return _shell(cards + f'<div class="table-wrap">{blocos_html}</div>' + aviso)
+    return _shell(cards + blocos_html + aviso)
 
 
 def _shell(corpo: str) -> str:

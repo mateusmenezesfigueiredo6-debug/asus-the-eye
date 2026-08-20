@@ -12,19 +12,21 @@ RAIZ = Path(__file__).resolve().parents[2]
 
 
 @pytest.mark.parametrize(
-    ("relpath", "marcadores"),
+    ("relpath", "marcadores", "tem_wrapper"),
     [
-        ("src/asus_theye/dashboard/projeto.py", ("MEDIÇÃO DO PROJETO", "Roteiro dos produtos", "Caminho mínimo")),
-        ("src/asus_theye/dashboard/mercados.py", ("MERCADOS", "Mercados vivos", "Divergência vs comparador")),
-        ("src/asus_theye/dashboard/evidencia.py", ("EVIDÊNCIA", "Linhagem verificável", "Fonte provada")),
-        ("src/asus_theye/dashboard/mlops.py", ("MLOPS", "Corridas", "Campeão / Desafiante por modelo")),
-        ("src/asus_theye/dashboard/benchmark.py", ("ASUS THE EYE BENCHMARK", "Best score", "Score comparison")),
+        ("src/asus_theye/dashboard/projeto.py", ("MEDIÇÃO DO PROJETO", "Roteiro dos produtos", "Caminho mínimo"), True),
+        ("src/asus_theye/dashboard/mercados.py", ("MERCADOS", "Mercados vivos", "Divergência vs comparador"), True),
+        ("src/asus_theye/dashboard/evidencia.py", ("EVIDÊNCIA", "Linhagem verificável", "Fonte provada"), False),
+        ("src/asus_theye/dashboard/mlops.py", ("MLOPS", "Corridas", "Campeão / Desafiante por modelo"), True),
+        ("src/asus_theye/dashboard/benchmark.py", ("ASUS THE EYE BENCHMARK", "Best score", "Score comparison"), False),
     ],
 )
-def test_paineis_tem_trava_responsiva_sem_perder_marcadores(relpath: str, marcadores: tuple[str, ...]) -> None:
+def test_paineis_tem_trava_responsiva_sem_perder_marcadores(
+    relpath: str, marcadores: tuple[str, ...], tem_wrapper: bool
+) -> None:
     texto = (RAIZ / relpath).read_text(encoding="utf-8")
     assert "@media (max-width: 640px)" in texto
     assert "overflow-x:auto" in texto
-    assert 'class="table-wrap"' in texto
+    assert ('class="table-wrap"' in texto) is tem_wrapper
     for marcador in marcadores:
         assert marcador in texto
