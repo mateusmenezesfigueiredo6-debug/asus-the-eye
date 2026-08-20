@@ -396,6 +396,77 @@ def _fold_dict(
     }
 
 
+# ------------------------------------------------------ baseline Focus por vintage
+
+
+VINTAGES_MINIMOS = 24
+"""Mínimo de meses com vintage para o baseline sair do BLOCKED (spec §4.3).
+
+Menos que isso não é amostra: seria trocar 'sem dado' por 'número frágil' —
+exatamente o que a doutrina proíbe.
+"""
+
+
+def baseline_focus_por_vintage(
+    avaliados: list[Fold] | None = None,
+    *,
+    base: Path = Path("reports/markets"),
+    limiar: float = LIMIAR_IPCA,
+) -> dict[str, Any]:
+    """Brier do Focus usando SÓ vintages arquivados — sem revisão, sem vantagem.
+
+    Enquanto não houver ``VINTAGES_MINIMOS`` meses distintos arquivados, devolve
+    ``BLOCKED`` com o motivo e quanto falta. O caminho já existe: no dia em que
+    a série existir, o baseline sai do bloqueio sozinho, sem código novo.
+    """
+    from asus_theye.markets.vintage_focus import serie_vintage
+
+    vintages = serie_vintage(base=base)
+    meses = sorted({str(v.get("mes_referencia")) for v in vintages})
+    if len(meses) < VINTAGES_MINIMOS:
+        return {
+            "estado": "BLOCKED",
+            "motivo": (
+                f"{len(meses)} mês(es) com vintage arquivado; a comparação honesta exige "
+                f"{VINTAGES_MINIMOS}. Vintage não se fabrica retroativamente — a série cresce "
+                "uma captura por rodada (asus-theye markets-vintage)."
+            ),
+            "meses_com_vintage": len(meses),
+            "faltam": VINTAGES_MINIMOS - len(meses),
+        }
+
+    # primeiro vintage de cada mês = o consenso disponível no corte, sem revisão
+    primeiro_por_mes: dict[str, dict[str, Any]] = {}
+    for v in vintages:
+        mes = str(v.get("mes_referencia"))
+        if mes not in primeiro_por_mes:
+            primeiro_por_mes[mes] = v
+
+    pares: list[tuple[float, int]] = []
+    for fold in avaliados or []:
+        vintage_do_mes = primeiro_por_mes.get(fold.mes)
+        if vintage_do_mes is None:
+            continue
+        # mesma regra do modelo, com o limiar DO PRÓPRIO fold; o desfecho já
+        # foi apurado contra a série oficial (fold.desfecho), não se recalcula
+        p_focus = 1.0 if float(vintage_do_mes["mediana"]) >= float(fold.limiar) else 0.0
+        pares.append((p_focus, int(fold.desfecho)))
+
+    if not pares:
+        return {
+            "estado": "BLOCKED",
+            "motivo": "há vintages, mas nenhum coincide com os meses avaliados pelo walk-forward",
+            "meses_com_vintage": len(meses),
+        }
+    brier = sum((p - o) ** 2 for p, o in pares) / len(pares)
+    return {
+        "estado": "OK",
+        "brier_focus": round(brier, 6),
+        "n_meses": len(pares),
+        "metodo": "primeiro vintage arquivado de cada mês (consenso do corte, nunca revisado)",
+    }
+
+
 def corrida_do_nowcast(especificacao: str, *, transport: Transport | None = None) -> Corrida:
     """Coleta, avalia e materializa uma corrida local do nowcast desafiante."""
     nome = especificacao.upper()
@@ -427,6 +498,7 @@ def corrida_do_nowcast(especificacao: str, *, transport: Transport | None = None
         }
         for snapshot in painel.snapshots
     ]
+    _baseline = baseline_focus_por_vintage(avaliados)
     manifesto = {
         "modelo_id": "ipca-nowcast-linear",
         "versao": _versao_pacote(),
@@ -444,8 +516,8 @@ def corrida_do_nowcast(especificacao: str, *, transport: Transport | None = None
             "fim": avaliados[-1].mes,
             "cobertura": cobertura,
             "brier_ridge": brier,
-            "brier_focus": "BLOCKED",
-            "motivo_brier_focus": MOTIVO_FOCUS_BLOQUEADO,
+            "brier_focus": _baseline.get("brier_focus", "BLOCKED"),
+            "motivo_brier_focus": _baseline.get("motivo", MOTIVO_FOCUS_BLOQUEADO),
             "diferenca_pareada_media": "BLOCKED",
             "skill": "BLOCKED",
         },
