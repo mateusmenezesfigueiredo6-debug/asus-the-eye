@@ -150,6 +150,15 @@ h1{{letter-spacing:.08em}}
 .label{{color:var(--muted);font-size:.8rem;text-transform:uppercase}}
 .muted{{color:var(--muted)}}
 .value{{font-size:1.7rem;margin-top:8px;color:var(--accent)}}
+.table-wrap{{width:100%;max-width:100%;overflow-x:auto}}
+.chart{{min-width:0}}
+@media (max-width: 640px){{
+main{{padding:24px 12px}}
+.cards{{grid-template-columns:1fr}}
+.charts{{grid-template-columns:1fr}}
+th,td{{padding:10px 8px}}
+th{{font-size:.72rem}}
+}}
 </style></head><body><main><h1>ASUS THE EYE BENCHMARK</h1>
 <section class="cards"><div class="card">
 <div class="label">Best score</div><div class="value">{best_score}</div></div>
