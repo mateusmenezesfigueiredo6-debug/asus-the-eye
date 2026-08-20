@@ -49,12 +49,12 @@
         "comercial",
         "prediction-markets"
       ],
-      "artifacts_present": 10,
+      "artifacts_present": 15,
       "artifacts_declared": 15,
       "release_classes": [
         "L1"
       ],
-      "completion_pct": 67
+      "completion_pct": 100
     },
     "5-evidencia": {
       "order": 5,
@@ -97,8 +97,8 @@
       "completion_pct": 100
     }
   },
-  "generated_at": "2026-08-10T22:14:14.141991Z",
-  "commit": "52be054",
+  "generated_at": "2026-08-17T14:45:15.936660Z",
+  "commit": "1180487",
   "knowledge": {
     "available": true,
     "methodology_version": "1.0.0",
@@ -192,8 +192,8 @@
   },
   "totals": {
     "projects": 13,
-    "projects_complete": 12,
-    "tests": 344,
+    "projects_complete": 13,
+    "tests": 416,
     "niches_total": 171,
     "niches_covered": 34,
     "niche_coverage_pct": 20,
@@ -412,8 +412,8 @@
         "artifacts_declared": 7,
         "artifacts_missing": [],
         "completion_pct": 100,
-        "commits": 3,
-        "last_commit": "18d2f16 2026-08-08"
+        "commits": 5,
+        "last_commit": "de6ab21 2026-08-10"
       },
       "unknown_niches": []
     },
@@ -475,8 +475,8 @@
         "artifacts_declared": 8,
         "artifacts_missing": [],
         "completion_pct": 100,
-        "commits": 5,
-        "last_commit": "1666450 2026-08-03"
+        "commits": 6,
+        "last_commit": "b912fbe 2026-08-11"
       },
       "unknown_niches": []
     },
@@ -692,18 +692,12 @@
       "pipeline_order": 4,
       "nota": "O trabalho medido vive hoje em /home/sexexes/asus (banco asus_teste.duckdb: 50 mercados, 41 liquidados, 41 resolucoes) e NAO neste repositorio. Declarar os artefatos aqui e o que torna a lacuna visivel em vez de invisivel: enquanto eles nao existirem, a etapa 4 deixa de marcar 100% e passa a dizer a verdade.",
       "evidence": {
-        "artifacts_present": 1,
+        "artifacts_present": 6,
         "artifacts_declared": 6,
-        "artifacts_missing": [
-          "src/asus_theye/markets/__init__.py",
-          "src/asus_theye/markets/claim.py",
-          "src/asus_theye/markets/resolution.py",
-          "src/asus_theye/markets/scoring.py",
-          "tests/markets/test_markets.py"
-        ],
-        "completion_pct": 17,
-        "commits": 1,
-        "last_commit": "b3ce9d1 2026-08-08"
+        "artifacts_missing": [],
+        "completion_pct": 100,
+        "commits": 4,
+        "last_commit": "919b5c5 2026-08-17"
       },
       "unknown_niches": []
     }
