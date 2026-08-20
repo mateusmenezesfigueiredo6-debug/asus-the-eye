@@ -21,7 +21,7 @@ regras estruturais:
 from __future__ import annotations
 
 from dataclasses import dataclass
-from datetime import datetime, timezone
+from datetime import date, datetime, timezone
 from typing import Any
 
 from asus_theye.markets.claim import UNDECLARED_SOURCE, MarketClaim, _is_forbidden
@@ -31,8 +31,36 @@ class ResolutionError(RuntimeError):
     """Tentativa de liquidar contra fonte errada, ausente ou proibida. Sempre levanta."""
 
 
+def _hoje() -> str:
+    return datetime.now(timezone.utc).date().isoformat()
+
+
 def _now() -> str:
     return datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
+
+
+# COMO sabemos que o desfecho ficou determinado. O número nunca viaja sem o
+# método — e aqui o método muda o que o número significa.
+#
+# "primeira_observacao": vimos o valor presente na fonte NESTE dia. É um LIMITE
+#   SUPERIOR provável da publicação: o dado existia neste instante ou antes.
+#   Não é a data de publicação, e chamá-la assim seria mentira — a API do SGS
+#   devolve o PERÍODO DE REFERÊNCIA (01/07/2026 = IPCA de julho), nunca quando
+#   o IBGE publicou. Com o cron diário a folga é de no máximo um dia.
+# "calendario_da_fonte": a data veio do calendário oficial de divulgação. Mais
+#   apertado, e o campo já existe para que a história possa MELHORAR depois sem
+#   ser reescrita.
+# "desconhecida": dado LEGADO (import retrospectivo). O banco de origem só traz
+#   resolved_at; quando a fonte publicou é informação que nunca tivemos. A data
+#   fica preenchida com o melhor que existe, mas a base grita que ela NÃO serve
+#   para re-ancorar horizonte — a calibração tem de excluir ou separar estes
+#   pontos, e não pode fazer isso se a ignorância não estiver declarada.
+BASE_PRIMEIRA_OBSERVACAO = "primeira_observacao"
+BASE_CALENDARIO = "calendario_da_fonte"
+BASE_DESCONHECIDA = "desconhecida"
+BASES_DE_DETERMINACAO = (BASE_PRIMEIRA_OBSERVACAO, BASE_CALENDARIO, BASE_DESCONHECIDA)
+# As únicas bases em que o horizonte re-ancorado significa alguma coisa.
+BASES_CONFIAVEIS = (BASE_PRIMEIRA_OBSERVACAO, BASE_CALENDARIO)
 
 
 @dataclass(frozen=True)
@@ -44,6 +72,12 @@ class Resolution:
     outcome: int  # 0 ou 1 — o desfecho observado no mundo
     resolution_source: str
     resolved_at: str
+    # QUANDO o desfecho ficou determinado no mundo — distinto de resolved_at,
+    # que é quando O NOSSO processo rodou. Os dois divergem sempre que a
+    # liquidação atrasa, é refeita ou é migrada; e é este, não o deadline nem o
+    # resolved_at, o relógio contra o qual a calibração deve medir horizonte.
+    determination_date: str
+    determination_basis: str
 
     def as_dict(self) -> dict[str, Any]:
         return {
@@ -52,11 +86,27 @@ class Resolution:
             "outcome": self.outcome,
             "resolution_source": self.resolution_source,
             "resolved_at": self.resolved_at,
+            "determination_date": self.determination_date,
+            "determination_basis": self.determination_basis,
         }
 
 
-def resolve(claim: MarketClaim, *, outcome: int, source: str, resolved_at: str | None = None) -> Resolution:
-    """Liquida a afirmação contra a fonte oficial. Levanta se algo não bate."""
+def resolve(
+    claim: MarketClaim,
+    *,
+    outcome: int,
+    source: str,
+    resolved_at: str | None = None,
+    determination_date: str | None = None,
+    determination_basis: str = BASE_PRIMEIRA_OBSERVACAO,
+) -> Resolution:
+    """Liquida a afirmação contra a fonte oficial. Levanta se algo não bate.
+
+    ``determination_date`` ausente assume o dia de hoje com base
+    ``primeira_observacao``: é hoje que estamos vendo o valor na fonte, logo o
+    dado existe hoje ou antes. Declarar isso é honesto; chamar de "data de
+    publicação" não seria.
+    """
     if isinstance(outcome, bool) or outcome not in (0, 1):
         raise ResolutionError(f"outcome deve ser 0 ou 1 (desfecho binário observado), veio {outcome!r}")
 
@@ -78,12 +128,25 @@ def resolve(claim: MarketClaim, *, outcome: int, source: str, resolved_at: str |
             f"({claim.resolution_source!r}), veio {source!r}. Não se troca a fonte na hora de liquidar."
         )
 
+    if determination_basis not in BASES_DE_DETERMINACAO:
+        raise ResolutionError(
+            f"determination_basis deve ser um de {BASES_DE_DETERMINACAO}, veio {determination_basis!r} "
+            "— data sem método declarado não entra"
+        )
+    determinada = determination_date or _hoje()
+    try:
+        date.fromisoformat(determinada)
+    except (ValueError, TypeError) as exc:
+        raise ResolutionError(f"determination_date deve ser data ISO (YYYY-MM-DD), veio {determinada!r}") from exc
+
     return Resolution(
         claim_id=claim.claim_id,
         market_area_id=claim.market_area_id,
         outcome=int(outcome),
         resolution_source=claim.resolution_source,
         resolved_at=resolved_at or _now(),
+        determination_date=determinada,
+        determination_basis=determination_basis,
     )
 
 

@@ -289,3 +289,66 @@ def test_as_dict_serializa_o_ciclo_completo() -> None:
     assert res.as_dict()["outcome"] == 0
     div = record_comparator(claim, comparator_price=0.5)
     assert div.as_dict()["comparator"] == "Kalshi"
+
+
+# ------------------------------------------------------------ determination_date
+
+
+def test_determinacao_e_distinta_do_resolved_at() -> None:
+    """Dois relógios: o do mundo (determination_date) e o do nosso processo."""
+    from asus_theye.markets.claim import make_claim
+    from asus_theye.markets.resolution import BASE_PRIMEIRA_OBSERVACAO, resolve
+
+    claim = make_claim(
+        claim_id="MACRO-01::2026-07",
+        market_area_id="macroeconomia",
+        question="IPCA de julho >= 0,50%?",
+        deadline="2026-07-31",
+        probability=0.5,
+        created_at="2026-07-01T00:00:00Z",
+    )
+    r = resolve(
+        claim,
+        outcome=0,
+        source=claim.resolution_source,
+        resolved_at="2026-08-17T15:17:37Z",
+        determination_date="2026-08-08",
+    )
+    assert r.determination_date == "2026-08-08"
+    assert r.resolved_at.startswith("2026-08-17")
+    assert r.determination_date[:10] != r.resolved_at[:10]  # o atraso do processo aparece
+    assert r.determination_basis == BASE_PRIMEIRA_OBSERVACAO
+    assert r.as_dict()["determination_date"] == "2026-08-08"
+
+
+def test_base_de_determinacao_invalida_levanta() -> None:
+    """Data sem método declarado não entra — a base muda o que a data significa."""
+    from asus_theye.markets.claim import make_claim
+    from asus_theye.markets.resolution import ResolutionError, resolve
+
+    claim = make_claim(
+        claim_id="MACRO-01::2026-07",
+        market_area_id="macroeconomia",
+        question="IPCA?",
+        deadline="2026-07-31",
+        probability=0.5,
+        created_at="2026-07-01T00:00:00Z",
+    )
+    with pytest.raises(ResolutionError, match="determination_basis"):
+        resolve(claim, outcome=0, source=claim.resolution_source, determination_basis="achismo")
+
+
+def test_determination_date_malformada_levanta() -> None:
+    from asus_theye.markets.claim import make_claim
+    from asus_theye.markets.resolution import ResolutionError, resolve
+
+    claim = make_claim(
+        claim_id="MACRO-01::2026-07",
+        market_area_id="macroeconomia",
+        question="IPCA?",
+        deadline="2026-07-31",
+        probability=0.5,
+        created_at="2026-07-01T00:00:00Z",
+    )
+    with pytest.raises(ResolutionError, match="data ISO"):
+        resolve(claim, outcome=0, source=claim.resolution_source, determination_date="17/08/2026")

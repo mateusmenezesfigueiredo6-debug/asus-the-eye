@@ -206,6 +206,10 @@ def _linha_de_resolucao(mercado: dict[str, Any]) -> dict[str, Any]:
         "outcome": mercado["outcome"],
         "resolution_source": mercado["resolution_source"],
         "resolved_at": mercado["resolved_at"],
+        # O relógio do mundo, ao lado do relógio do nosso processo. É contra
+        # este que a calibração re-ancora o horizonte — nunca contra o deadline.
+        "determination_date": mercado.get("determination_date", ""),
+        "determination_basis": mercado.get("determination_basis", ""),
         "valor_observado": mercado["valor_observado"],
         "probability": mercado["probability"],
         "brier_do_contrato": mercado["brier_do_contrato"],
@@ -445,6 +449,10 @@ def _resolver_pendentes_travado(
         mercado["outcome"] = outcome
         mercado["brier_do_contrato"] = brier
         mercado["resolved_at"] = resolucao.resolved_at
+        # QUANDO o desfecho ficou determinado, distinto de quando NÓS rodamos.
+        # A base viaja junto porque muda o que a data significa.
+        mercado["determination_date"] = resolucao.determination_date
+        mercado["determination_basis"] = resolucao.determination_basis
         # ordem segura: registro em disco ANTES do apêndice no ledger
         salvar_registro(store, registro)
         _apendar_resolucao(store, _linha_de_resolucao(mercado))

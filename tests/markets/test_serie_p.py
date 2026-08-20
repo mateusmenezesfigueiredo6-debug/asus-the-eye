@@ -183,3 +183,60 @@ def test_ponto_sela_na_corrente_e_deduplica(base: tuple[Path, Path], tmp_path: P
     )
     assert r3["selagem"]["duplicate"] is False
     assert cabeca_da_corrente(sdk) == 2
+
+
+# ------------------------------------------------------------ re-ancoragem
+
+
+def test_reancorar_mede_contra_a_determinacao_nao_contra_o_deadline(base: tuple[Path, Path]) -> None:
+    """O achado central: o relógio do contrato não é o relógio do mundo.
+
+    O deadline é 30/09. Se a fonte só publicou em 10/10, um ponto de 31/08 está
+    a 40 dias do desfecho — não a 30. Calibrar contra o deadline embute viés.
+    """
+    from asus_theye.markets.resolution import BASE_PRIMEIRA_OBSERVACAO
+    from asus_theye.markets.serie_p import reancorar
+
+    store, arquivo = base
+    registrar_ponto(claim_id="JUROS-01::2026-09", observado_em="2026-08-31", store=store, arquivo=arquivo)
+    r = reancorar(
+        "JUROS-01::2026-09",
+        determination_date="2026-10-10",
+        determination_basis=BASE_PRIMEIRA_OBSERVACAO,
+        arquivo=arquivo,
+    )
+    ponto = r["pontos"][0]
+    assert ponto["horizonte_dias"] == 30  # contra o deadline 30/09
+    assert ponto["horizonte_reancorado_dias"] == 40  # contra a determinação 10/10
+    assert r["confiavel"] is True
+
+
+def test_reancorar_com_base_desconhecida_nao_e_confiavel(base: tuple[Path, Path]) -> None:
+    """Legado: sem saber quando a fonte publicou, o horizonte é ficção."""
+    from asus_theye.markets.resolution import BASE_DESCONHECIDA
+    from asus_theye.markets.serie_p import reancorar
+
+    store, arquivo = base
+    registrar_ponto(claim_id="JUROS-01::2026-09", observado_em="2026-08-31", store=store, arquivo=arquivo)
+    r = reancorar(
+        "JUROS-01::2026-09", determination_date="2026-10-10", determination_basis=BASE_DESCONHECIDA, arquivo=arquivo
+    )
+    assert r["confiavel"] is False
+    assert "não use" in r["metodo"]
+
+
+def test_reancorar_nao_reescreve_a_serie_selada(base: tuple[Path, Path]) -> None:
+    """História selada não se corrige à mão — o horizonte novo é derivado na leitura."""
+    from asus_theye.markets.resolution import BASE_PRIMEIRA_OBSERVACAO
+    from asus_theye.markets.serie_p import reancorar
+
+    store, arquivo = base
+    registrar_ponto(claim_id="JUROS-01::2026-09", observado_em="2026-08-31", store=store, arquivo=arquivo)
+    antes = arquivo.read_text(encoding="utf-8")
+    reancorar(
+        "JUROS-01::2026-09",
+        determination_date="2026-10-10",
+        determination_basis=BASE_PRIMEIRA_OBSERVACAO,
+        arquivo=arquivo,
+    )
+    assert arquivo.read_text(encoding="utf-8") == antes
