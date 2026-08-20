@@ -18,6 +18,7 @@ def test_exportar_gera_html_basico(tmp_path: Path) -> None:
         "evidencia.html",
         "benchmark.html",
         "mercados.html",
+        "mlops.html",
         "index.html",
     }
     assert len(resultado["pulados"]) == 1
