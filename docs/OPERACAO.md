@@ -58,6 +58,7 @@ O que continua sendo ato humano:
 | `markets-serie` | Grava e sela um ponto da série p(t) por claim vivo — a trajetória sem a qual não existe Brier por horizonte. Idempotente: um ponto por claim por dia. | `asus-theye markets-serie --json` |
 | `markets-consenso` | Mede o erro do consenso Focus (vintage) contra o realizado — a linha de base da calibração. **Recusa** emitir agregado abaixo de 12 pares, e declara em todo resultado que a nossa probabilidade deriva do Focus (logo não há superação a alegar). | `asus-theye markets-consenso --json` |
 | `markets-calibracao` | Mede a calibração: curva de confiabilidade, Brier por horizonte **re-ancorado** e por área, decomposição de Murphy. **Recusa** agregar abaixo de 30 pares — e sela inclusive o 'ainda não dá', que também é informação auditável. | `asus-theye markets-calibracao --json` |
+| `markets-global` | Consulta indicador macro de **qualquer país** na fonte global (Banco Mundial, **CC-BY 4.0** — permite uso comercial). A atribuição exigida pela licença viaja no próprio dado. Ano não publicado devolve UNKNOWN, nunca zero. | `asus-theye markets-global --pais JPN --ano 2024 --json` |
 | `markets-sinais` | Mostra os sinais reais (Focus/IPCA-15) e a probabilidade WPAM. | `asus-theye markets-sinais --mes 2026-09 --limiar 0.5 --json` |
 | `markets-anchor` | Faz ensaio offline de ancoragem ou broadcast real se autorizado. | `asus-theye markets-anchor --minimo 10` |
 | `serve` | Sobe o dashboard local. | `asus-theye serve --port 8712` |

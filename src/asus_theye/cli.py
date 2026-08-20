@@ -203,6 +203,16 @@ def _parser() -> argparse.ArgumentParser:
     )
     markets_calibracao.add_argument("--json", dest="json_out", action="store_true", help="saída em JSON")
     markets_calibracao.add_argument("--no-audit", action="store_true", help="não selar na cadeia")
+    markets_global = subcommands.add_parser(
+        "markets-global",
+        help="consulta indicador macro de QUALQUER país na fonte global CC-BY (Banco Mundial)",
+    )
+    markets_global.add_argument("--pais", required=True, help="código ISO-3 (ex.: BRA, USA, JPN, DEU)")
+    markets_global.add_argument("--ano", required=True, help="ano de referência (AAAA)")
+    markets_global.add_argument(
+        "--indicador", default="FP.CPI.TOTL.ZG", help="indicador registrado (padrão: inflação anual)"
+    )
+    markets_global.add_argument("--json", dest="json_out", action="store_true", help="saída em JSON")
     markets_sinais = subcommands.add_parser(
         "markets-sinais",
         help="mostra os sinais REAIS (Focus/IPCA-15) e a probabilidade WPAM da pergunta do mês",
@@ -1095,6 +1105,38 @@ def main(argv: Sequence[str] | None = None) -> int:
         if selagem is not None:
             estado_selo = "dedupe" if selagem.get("duplicate") else "EVENTO market.calibration SELADO"
             print(f"\nselagem: {estado_selo} — {selagem['event_hash_sha256'][:16]}…")
+        return 0
+    if args.command == "markets-global":
+        from asus_theye.markets.fonte_worldbank import FonteWorldBankError, indicador_anual
+
+        try:
+            observacao = indicador_anual(args.indicador, args.pais, args.ano)
+        except FonteWorldBankError as error:
+            print(f"markets-global: {error}")
+            return 1
+
+        if observacao is None:
+            # UNKNOWN honesto: 'não publicado' nunca vira zero
+            saida = {"pais": args.pais.upper(), "ano": args.ano, "valor": None, "motivo": "ano não publicado"}
+            print(
+                json.dumps(saida, ensure_ascii=False)
+                if args.json_out
+                else f"{args.pais.upper()} {args.ano}: não publicado (UNKNOWN, nunca zero)"
+            )
+            return 0
+
+        if args.json_out:
+            print(json.dumps(observacao.as_dict(), ensure_ascii=False, indent=2))
+            return 0
+
+        print("=" * 62)
+        print("FONTE GLOBAL — indicador macro sob licença permissiva")
+        print("=" * 62)
+        print(f"\n{observacao.nome_do_pais} ({observacao.pais_iso3}) — {observacao.ano}")
+        print(f"  {observacao.nome_do_indicador}: {observacao.valor:.4f} [{observacao.unidade}]")
+        print(f"  periodicidade: {observacao.periodicidade}")
+        print(f"\natribuição (exigida pela licença): {observacao.atribuicao}")
+        print(f"licença: {observacao.licenca} — permite uso comercial, cópia e redistribuição")
         return 0
     if args.command == "markets-sinais":
         from asus_theye.markets.gerador import GeradorError

@@ -47,3 +47,21 @@ A corrente auditável deste projeto está ancorada em blockchain pública:
 A âncora registra publicamente a EXISTÊNCIA e a INTEGRIDADE do conteúdo em uma
 data verificável. Não substitui registro formal de software nem assessoria
 jurídica.
+
+--------------------------------------------------------------------------------
+World Bank Open Data — CC BY 4.0
+--------------------------------------------------------------------------------
+Este produto usa dados do World Bank Open Data (data.worldbank.org), licenciados
+sob Creative Commons Attribution 4.0 International (CC BY 4.0).
+https://creativecommons.org/licenses/by/4.0/
+
+A licença permite uso comercial, cópia, modificação e redistribuição, exigindo
+atribuição e indicação de alterações. A atribuição viaja no próprio dado (campos
+`licenca` e `atribuicao` em cada observação); alterações, quando existem, são
+declaradas no evento selado da corrente auditável.
+
+Os dados permanecem de titularidade do World Bank Group. O conector que os
+consome (src/asus_theye/markets/fonte_worldbank.py) é obra própria de
+Mateus Menezes Figueiredo, AGPL-3.0-or-later.
+
+Registro completo: reports/provenance/WorldBank-open-data.md
