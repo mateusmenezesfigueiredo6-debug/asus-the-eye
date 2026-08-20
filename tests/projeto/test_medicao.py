@@ -63,9 +63,91 @@ def test_hash_muda_quando_o_estado_muda(tmp_path: Path) -> None:
     antes = medir_projeto(base)["hash_da_medicao"]
     novas = json.loads(json.dumps(FASES))
     novas["fases"][1]["peso_concluido"] = 1.0
+    novas["fases"][1]["estado"] = "concluida"  # coerência: 1.0 exige 'concluida', não 'parcial'
     (base / "projeto" / "fases.json").write_text(json.dumps(novas), encoding="utf-8")
     depois = medir_projeto(base)["hash_da_medicao"]
     assert antes != depois
+
+
+def test_estado_incoerente_com_peso_levanta(tmp_path: Path) -> None:
+    ruim = {
+        "versao": 1,
+        "fases": [{"id": "F0", "nome": "A", "estado": "concluida", "peso_concluido": 0.5, "metodo": "m"}],
+    }
+    with pytest.raises(MedicaoError, match="incoerente"):
+        medir_projeto(_base(tmp_path, fases=ruim))
+
+
+def test_peso_relativo_pondera_a_media(tmp_path: Path) -> None:
+    fases = {
+        "versao": 1,
+        "fases": [
+            {
+                "id": "F0",
+                "nome": "A",
+                "estado": "concluida",
+                "peso_concluido": 1.0,
+                "metodo": "m",
+                "peso_relativo": 3.0,
+            },
+            {"id": "F1", "nome": "B", "estado": "pendente", "peso_concluido": 0.0, "metodo": "m", "peso_relativo": 1.0},
+        ],
+    }
+    snap = medir_projeto(_base(tmp_path, fases=fases))
+    assert snap["caminho_minimo"]["pct"] == 75.0  # (1.0*3 + 0.0*1) / 4
+
+
+def test_peso_relativo_invalido_levanta(tmp_path: Path) -> None:
+    ruim = {
+        "versao": 1,
+        "fases": [
+            {"id": "F0", "nome": "A", "estado": "concluida", "peso_concluido": 1.0, "metodo": "m", "peso_relativo": 0}
+        ],
+    }
+    with pytest.raises(MedicaoError, match="peso_relativo"):
+        medir_projeto(_base(tmp_path, fases=ruim))
+
+
+def test_capacidade_real_conta_o_que_a_corrente_prova(tmp_path: Path) -> None:
+    base = _base(tmp_path, com_evento=False)
+    markets = base / "markets"
+    eventos = [
+        {
+            "event_id": "e1",
+            "tenant_id": "tenant-demo",
+            "sequence": 1,
+            "event_type": "market.retrospective_import",
+            "event_hash_sha256": "a" * 64,
+            "previous_event_hash_sha256": "0" * 64,
+        },
+        {
+            "event_id": "e2",
+            "tenant_id": "tenant-demo",
+            "sequence": 2,
+            "event_type": "market.comparator",
+            "event_hash_sha256": "b" * 64,
+            "previous_event_hash_sha256": "a" * 64,
+        },
+        {
+            "event_id": "e3",
+            "tenant_id": "tenant-demo",
+            "sequence": 3,
+            "event_type": "market.settlement",
+            "event_hash_sha256": "c" * 64,
+            "previous_event_hash_sha256": "b" * 64,
+        },
+    ]
+    (markets / "eventos.jsonl").write_text("\n".join(json.dumps(e) for e in eventos) + "\n", encoding="utf-8")
+    (markets / "registro.json").write_text(
+        json.dumps({"mercados": [{"claim_id": "X", "gerador": {"modelo": "wpam"}}, {"claim_id": "Y"}]}),
+        encoding="utf-8",
+    )
+    (markets / "resolucoes.jsonl").write_text(json.dumps({"claim_id": "X"}) + "\n", encoding="utf-8")
+    snap = medir_projeto(base)
+    assert snap["capacidade_real"]["eventos_prospectivos"] == 2  # exclui o retrospective_import
+    assert snap["capacidade_real"]["claims_com_gerador"] == 1
+    assert snap["capacidade_real"]["liquidacoes"] == 1
+    assert snap["capacidade_real"]["observacoes_comparador"] == 1
 
 
 def test_corrente_e_contada_e_verificada(tmp_path: Path) -> None:
