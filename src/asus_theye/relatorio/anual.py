@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 import re
+from collections import defaultdict
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
@@ -45,25 +46,20 @@ def _claim_ids_retrospectivos(retrospectivos: list[dict[str, Any]]) -> set[str]:
     return {str(item["claim_id"]) for item in retrospectivos if item.get("claim_id")}
 
 
-def _fontes_area(resolucoes: list[dict[str, Any]], area: str) -> str:
+def _fontes_area(resolucoes: list[dict[str, Any]]) -> str:
     fontes = sorted(
-        {
-            str(resolucao.get("resolution_source"))
-            for resolucao in resolucoes
-            if resolucao.get("market_area_id") == area and resolucao.get("resolution_source")
-        }
+        {str(resolucao.get("resolution_source")) for resolucao in resolucoes if resolucao.get("resolution_source")}
     )
     if not fontes:
         return "—"
     return "; ".join(fontes)
 
 
-def _media_brier_area(resolucoes: list[dict[str, Any]], area: str) -> float | None:
+def _media_brier_area(resolucoes: list[dict[str, Any]]) -> float | None:
     briers = [
         float(resolucao["brier_do_contrato"])
         for resolucao in resolucoes
-        if resolucao.get("market_area_id") == area
-        and isinstance(resolucao.get("brier_do_contrato"), (int, float))
+        if isinstance(resolucao.get("brier_do_contrato"), (int, float))
         and not isinstance(resolucao.get("brier_do_contrato"), bool)
     ]
     if not briers:
@@ -138,6 +134,11 @@ def relatorio_anual(ano: str | None = None, base: Path = Path("reports")) -> str
         area = resolucao.get("market_area_id")
         if isinstance(area, str) and area and area not in areas:
             areas.append(area)
+    resolucoes_por_area: dict[str, list[dict[str, Any]]] = defaultdict(list)
+    for resolucao in resolucoes:
+        area = resolucao.get("market_area_id")
+        if isinstance(area, str) and area:
+            resolucoes_por_area[area].append(resolucao)
 
     linhas = [
         f"# Relatório anual da plataforma — {ano_ref}",
@@ -156,9 +157,9 @@ def relatorio_anual(ano: str | None = None, base: Path = Path("reports")) -> str
             [
                 [
                     area,
-                    sum(1 for resolucao in resolucoes if resolucao.get("market_area_id") == area),
-                    _fmt_float(_media_brier_area(resolucoes, area)),
-                    _fontes_area(resolucoes, area),
+                    len(resolucoes_por_area.get(area, [])),
+                    _fmt_float(_media_brier_area(resolucoes_por_area.get(area, []))),
+                    _fontes_area(resolucoes_por_area.get(area, [])),
                 ]
                 for area in areas
             ],
@@ -183,7 +184,7 @@ def relatorio_anual(ano: str | None = None, base: Path = Path("reports")) -> str
     linhas.append(_nota_retrospectivos(retrospectivos))
     linhas.extend(["", "---"])
 
-    rodape = "© 2026 Mateus Menezes Figueiredo · AGPL-3.0"
+    rodape = f"© {ano_ref} Mateus Menezes Figueiredo · AGPL-3.0"
     hash_medicao = _hash_da_medicao(base)
     if hash_medicao:
         rodape = f"{rodape} · hash da medição: `{hash_medicao}`"
