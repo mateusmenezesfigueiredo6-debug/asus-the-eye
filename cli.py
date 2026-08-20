@@ -1318,7 +1318,6 @@ def main(argv: Sequence[str] | None = None) -> int:
             "espelho": "espelho",
             "titularidade": "titularidade",
             "backup": "backup",
-            "frescor": "frescor das fontes",
         }
         print("=" * 62)
         print("DOUTOR — DIAGNÓSTICO HONESTO DA PLATAFORMA")
