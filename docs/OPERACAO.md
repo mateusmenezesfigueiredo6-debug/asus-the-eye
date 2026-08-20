@@ -21,6 +21,9 @@ Sozinho, ele faz isto:
 2. fora do modo de ensaio, restaura `reports/audit/pseudonimos.key` a partir do segredo `THE_EYE_AUDIT_KEY_HEX`;
 3. roda `python -m asus_theye.cli markets-resolve`;
 4. tenta arquivar o vintage do mês com `python -m asus_theye.cli markets-vintage --mes "$(date -u +%Y-%m)"`;
+5. fotografa a série p(t) de cada claim vivo com `python -m asus_theye.cli markets-serie`;
+6. mede a linha de base do consenso com `python -m asus_theye.cli markets-consenso`;
+7. mede e sela a calibração com `python -m asus_theye.cli markets-calibracao`;
 5. roda `python -m asus_theye.cli projeto-medir`;
 6. se `THE_EYE_ANCHOR_PK` existir, instala `.[anchor]` e roda `python -m asus_theye.cli markets-anchor --execute --minimo 10`;
 7. roda `python -m asus_theye.cli ledger-sync` para espelhar a corrente no D1;
@@ -52,7 +55,11 @@ O que continua sendo ato humano:
 | `markets-emitir` | Emite um mercado mensal para uma área resolvível. | `asus-theye markets-emitir --area juros --mes 2026-09 --limiar 14.0 --json` |
 | `markets-vintage` | Arquiva o consenso Focus vigente do mês e sela o corte. | `asus-theye markets-vintage --mes 2026-09 --json` |
 | `markets-nowcast` | Executa o nowcast desafiante do IPCA (ridge walk-forward) e grava manifesto. | `asus-theye markets-nowcast --spec R2 --json` |
-| `markets-comparar` | Mede divergência versus Kalshi sem usar Kalshi para resolver. | `asus-theye markets-comparar --claim MACRO-01::2026-08 --ticker INFLATION-26SEP-T500 --nota "CPI/EUA como comparador imperfeito" --preco 0.615 --json` |
+| `markets-comparar` | Registra divergência contra um comparador externo, que **nunca** resolve. O `--preco` é obrigatório: a busca ao vivo na Kalshi foi removida (termos de terceiro). | `asus-theye markets-comparar --claim MACRO-01::2026-08 --ticker COMPARADOR-DEMO-T1 --nota "..." --preco 0.600 --json` |
+| `markets-serie` | Grava e sela um ponto da série p(t) por claim vivo — a trajetória sem a qual não existe Brier por horizonte. Idempotente: um ponto por claim por dia. | `asus-theye markets-serie --json` |
+| `markets-consenso` | Mede o erro do consenso Focus (vintage) contra o realizado — a linha de base da calibração. **Recusa** emitir agregado abaixo de 12 pares, e declara em todo resultado que a nossa probabilidade deriva do Focus (logo não há superação a alegar). | `asus-theye markets-consenso --json` |
+| `markets-calibracao` | Mede a calibração: curva de confiabilidade, Brier por horizonte **re-ancorado** e por área, decomposição de Murphy. **Recusa** agregar abaixo de 30 pares — e sela inclusive o 'ainda não dá', que também é informação auditável. | `asus-theye markets-calibracao --json` |
+| `markets-global` | Consulta indicador macro de **qualquer país** na fonte global (Banco Mundial, **CC-BY 4.0** — permite uso comercial). A atribuição exigida pela licença viaja no próprio dado. Ano não publicado devolve UNKNOWN, nunca zero. | `asus-theye markets-global --pais JPN --ano 2024 --json` |
 | `markets-sinais` | Mostra os sinais reais (Focus/IPCA-15) e a probabilidade WPAM. | `asus-theye markets-sinais --mes 2026-09 --limiar 0.5 --json` |
 | `markets-anchor` | Faz ensaio offline de ancoragem ou broadcast real se autorizado. | `asus-theye markets-anchor --minimo 10` |
 | `serve` | Sobe o dashboard local. | `asus-theye serve --port 8712` |

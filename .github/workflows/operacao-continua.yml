@@ -81,6 +81,16 @@ jobs:
           # vintage do Focus: o consenso de HOJE só existe hoje — arquivar é a
           # única forma de ter Brier comparativo honesto no futuro
           python -m asus_theye.cli markets-vintage --mes "$(date -u +%Y-%m)" || true
+          # série p(t): a trajetória do que se acreditava. Sem um ponto por dia
+          # não existe Brier por horizonte — e Brier sem horizonte diz pouco.
+          # Idempotente: um ponto por claim por dia, rodar 5 dias seguidos é seguro.
+          python -m asus_theye.cli markets-serie
+          # linha de base do consenso: sem começar a parear, nunca existe série.
+          # Recusa agregar abaixo de 12 pares — o número não sai antes da hora.
+          python -m asus_theye.cli markets-consenso
+          # calibração: recusa agregar abaixo de 30 pares, mas sela o estado —
+          # inclusive o "ainda não dá", que também é informação auditável.
+          python -m asus_theye.cli markets-calibracao
           python -m asus_theye.cli projeto-medir
 
       - name: Ancorar on-chain (opcional — só com a chave no cofre)

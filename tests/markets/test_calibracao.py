@@ -1,0 +1,190 @@
+# SPDX-FileCopyrightText: 2026 Mateus Menezes Figueiredo
+# SPDX-License-Identifier: AGPL-3.0-or-later
+"""Testes da calibração — sobretudo da recusa em desenhar curva sobre ruído."""
+
+from __future__ import annotations
+
+import json
+from pathlib import Path
+
+from asus_theye.markets.calibracao import (
+    AMOSTRA_MINIMA,
+    curva_de_confiabilidade,
+    decomposicao_de_murphy,
+    medir,
+    pares,
+)
+from asus_theye.markets.resolution import BASE_DESCONHECIDA, BASE_PRIMEIRA_OBSERVACAO
+
+
+def _escrever(caminho: Path, linhas: list[dict]) -> Path:
+    caminho.write_text("".join(json.dumps(li) + "\n" for li in linhas), encoding="utf-8")
+    return caminho
+
+
+def _ponto(claim: str, dia: str, p: float, area: str = "macroeconomia") -> dict:
+    return {
+        "claim_id": claim,
+        "market_area_id": area,
+        "observado_em": dia,
+        "probability": p,
+        "deadline": "2026-07-31",
+        "horizonte_dias": 10,
+    }
+
+
+def _desfecho(claim: str, outcome: int, determinada: str | None, base: str = BASE_PRIMEIRA_OBSERVACAO) -> dict:
+    linha = {"claim_id": claim, "outcome": outcome, "determination_basis": base}
+    if determinada:
+        linha["determination_date"] = determinada
+    return linha
+
+
+# ------------------------------------------------------------ pareamento
+
+
+def test_horizonte_e_reancorado_contra_a_determinacao(tmp_path: Path) -> None:
+    """O relógio que vale é o da publicação da fonte, não o do contrato."""
+    s = _escrever(tmp_path / "s.jsonl", [_ponto("A::2026-07", "2026-07-01", 0.7)])
+    r = _escrever(tmp_path / "r.jsonl", [_desfecho("A::2026-07", 1, "2026-08-10")])
+    resultado = pares(serie=s, resolucoes=r)
+    assert len(resultado["pares"]) == 1
+    assert resultado["pares"][0]["horizonte_dias"] == 40  # 01/07 -> 10/08
+    assert resultado["pares"][0]["horizonte_ate_deadline"] == 10  # o proxy antigo
+
+
+def test_base_desconhecida_e_excluida(tmp_path: Path) -> None:
+    """Legado: sem saber quando a fonte publicou, o horizonte é ficção."""
+    s = _escrever(tmp_path / "s.jsonl", [_ponto("A::2026-07", "2026-07-01", 0.7)])
+    r = _escrever(tmp_path / "r.jsonl", [_desfecho("A::2026-07", 1, "2026-08-10", BASE_DESCONHECIDA)])
+    resultado = pares(serie=s, resolucoes=r)
+    assert resultado["pares"] == []
+    assert resultado["excluidos"]["base_nao_confiavel"] == 1
+
+
+def test_claim_vivo_nao_entra_e_o_motivo_e_contado(tmp_path: Path) -> None:
+    """É o estado real do repositório hoje — e o painel precisa poder explicá-lo."""
+    s = _escrever(tmp_path / "s.jsonl", [_ponto("VIVO::2026-09", "2026-08-20", 0.5)])
+    r = _escrever(tmp_path / "r.jsonl", [])
+    resultado = pares(serie=s, resolucoes=r)
+    assert resultado["pares"] == []
+    assert resultado["excluidos"]["claim_sem_desfecho"] == 1
+
+
+def test_liquidacao_sem_determination_date_e_excluida(tmp_path: Path) -> None:
+    s = _escrever(tmp_path / "s.jsonl", [_ponto("A::2026-07", "2026-07-01", 0.7)])
+    r = _escrever(tmp_path / "r.jsonl", [_desfecho("A::2026-07", 1, None)])
+    assert pares(serie=s, resolucoes=r)["excluidos"]["sem_determination_date"] == 1
+
+
+# ------------------------------------------------------------ a trava
+
+
+def test_recusa_agregar_abaixo_da_amostra_minima(tmp_path: Path) -> None:
+    """Curva com poucos pontos é ruído desenhado com régua."""
+    s = _escrever(tmp_path / "s.jsonl", [_ponto("A::2026-07", "2026-07-01", 0.7)])
+    r = _escrever(tmp_path / "r.jsonl", [_desfecho("A::2026-07", 1, "2026-08-10")])
+    snap = medir(serie=s, resolucoes=r)
+    assert snap["suficiente"] is False
+    assert snap["brier"] is None and snap["curva"] is None and snap["murphy"] is None
+    assert "insuficiente" in snap["metodo"]
+
+
+def test_agrega_a_partir_da_amostra_minima(tmp_path: Path) -> None:
+    pontos = [_ponto(f"A{i}::2026-07", "2026-07-01", 0.8) for i in range(AMOSTRA_MINIMA)]
+    desfechos = [_desfecho(f"A{i}::2026-07", 1, "2026-08-10") for i in range(AMOSTRA_MINIMA)]
+    snap = medir(serie=_escrever(tmp_path / "s.jsonl", pontos), resolucoes=_escrever(tmp_path / "r.jsonl", desfechos))
+    assert snap["suficiente"] is True
+    assert snap["n"] == AMOSTRA_MINIMA
+    assert snap["brier"] == round((0.8 - 1) ** 2, 4)  # 0.04
+    assert snap["por_horizonte"] is not None and snap["por_area"] is not None
+
+
+# ------------------------------------------------------------ estatística
+
+
+def test_curva_omite_faixa_com_amostra_fraca() -> None:
+    """Frequência estimada com 2 casos não é frequência, é anedota."""
+    itens = [{"probability": 0.9, "outcome": 1}, {"probability": 0.9, "outcome": 0}]
+    faixa = [f for f in curva_de_confiabilidade(itens) if f["faixa"] == "0.8–1.0"][0]
+    assert faixa["n"] == 2
+    assert faixa["frequencia_observada"] is None
+    assert faixa["suficiente"] is False
+
+
+def test_previsor_perfeitamente_calibrado_tem_confiabilidade_zero() -> None:
+    """Dizer 0,8 e acontecer 80% das vezes: erro de nível nulo."""
+    itens = [{"probability": 0.8, "outcome": 1} for _ in range(8)]
+    itens += [{"probability": 0.8, "outcome": 0} for _ in range(2)]
+    murphy = decomposicao_de_murphy(itens)
+    assert murphy is not None
+    assert murphy["confiabilidade"] == 0.0
+    assert murphy["taxa_base"] == 0.8
+
+
+def test_previsor_que_so_diz_a_taxa_base_tem_resolucao_zero() -> None:
+    """Perfeitamente confiável e completamente inútil — só a decomposição mostra.
+
+    É por isso que o Brier sozinho não basta: este previsor não distingue
+    caso nenhum, e ainda assim não erra o nível.
+    """
+    itens = [{"probability": 0.5, "outcome": i % 2} for i in range(10)]
+    murphy = decomposicao_de_murphy(itens)
+    assert murphy is not None
+    assert murphy["resolucao"] == 0.0
+    assert murphy["confiabilidade"] == 0.0
+
+
+def test_brier_por_area_separa_os_dominios(tmp_path: Path) -> None:
+    metade = AMOSTRA_MINIMA // 2
+    pontos = [_ponto(f"M{i}::2026-07", "2026-07-01", 1.0, "macroeconomia") for i in range(metade)]
+    pontos += [_ponto(f"J{i}::2026-07", "2026-07-01", 0.0, "juros") for i in range(AMOSTRA_MINIMA - metade)]
+    desfechos = [_desfecho(f"M{i}::2026-07", 1, "2026-08-10") for i in range(metade)]
+    desfechos += [_desfecho(f"J{i}::2026-07", 1, "2026-08-10") for i in range(AMOSTRA_MINIMA - metade)]
+    snap = medir(serie=_escrever(tmp_path / "s.jsonl", pontos), resolucoes=_escrever(tmp_path / "r.jsonl", desfechos))
+    por_area = {a["area"]: a["brier"] for a in snap["por_area"]}
+    assert por_area["macroeconomia"] == 0.0  # acertou em cheio
+    assert por_area["juros"] == 1.0  # errou em cheio
+
+
+# ------------------------------------------------------------ painel
+
+
+def test_painel_sem_amostra_explica_o_que_falta(tmp_path: Path) -> None:
+    """Vazio útil: em vez de curva bonita sobre nada, diz o que precisa acontecer."""
+    from asus_theye.dashboard.calibracao import calibracao_page
+
+    s = _escrever(tmp_path / "s.jsonl", [_ponto("VIVO::2026-09", "2026-08-20", 0.5)])
+    r = _escrever(tmp_path / "r.jsonl", [])
+    page = calibracao_page(serie=s, resolucoes=r)
+    assert "Amostra insuficiente" in page
+    assert "O que precisa acontecer" in page
+    assert "claim sem desfecho" in page
+    assert "<svg" not in page  # nenhuma curva é desenhada
+
+
+def test_painel_com_amostra_desenha_a_curva(tmp_path: Path) -> None:
+    from asus_theye.dashboard.calibracao import calibracao_page
+
+    pontos = [_ponto(f"A{i}::2026-07", "2026-07-01", 0.9) for i in range(AMOSTRA_MINIMA)]
+    desfechos = [_desfecho(f"A{i}::2026-07", 1, "2026-08-10") for i in range(AMOSTRA_MINIMA)]
+    page = calibracao_page(
+        serie=_escrever(tmp_path / "s.jsonl", pontos), resolucoes=_escrever(tmp_path / "r.jsonl", desfechos)
+    )
+    assert "<svg" in page and "polyline" not in page  # um ponto só: sem linha
+    assert "Curva de confiabilidade" in page
+    assert "Brier por área" in page
+
+
+def test_rota_calibracao_responde_200() -> None:
+    import pytest
+
+    pytest.importorskip("fastapi")
+    pytest.importorskip("httpx")
+    from fastapi.testclient import TestClient
+
+    from asus_theye.dashboard.app import create_dashboard_app
+
+    resposta = TestClient(create_dashboard_app()).get("/calibracao")
+    assert resposta.status_code == 200
+    assert "CALIBRAÇÃO" in resposta.text
