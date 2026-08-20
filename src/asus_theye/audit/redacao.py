@@ -64,6 +64,7 @@ def redigir(
     valor_id: str,
     motivo: str,
     justificativa: str,
+    ator: str = "titular",
     sdk: Any | None = None,
     eventos: Path | None = None,
 ) -> dict[str, Any]:
@@ -75,10 +76,27 @@ def redigir(
     """
     if motivo not in MOTIVOS:
         raise RedacaoError(f"motivo deve ser um de {MOTIVOS}, veio {motivo!r}")
-    if not justificativa.strip():
-        raise RedacaoError("justificativa obrigatória — expurgo sem 'por quê' é indistinguível de encobrimento")
     if not store.exists():
         raise RedacaoError(f"store ausente: {store}")
+
+    # O expurgo é ação sensível registrada: a exigência de justificativa passa
+    # a ser a MESMA do resto do sistema, e o checkpoint é selado ANTES de
+    # qualquer linha sair. Duas regras parecidas em lugares diferentes acabam
+    # divergindo; uma só, não.
+    from .checkpoint import CheckpointError
+    from .checkpoint import registrar as registrar_checkpoint
+
+    try:
+        checkpoint = registrar_checkpoint(
+            acao="expurgar",
+            justificativa=justificativa,
+            ator=ator,
+            alvo=f"{store}:{campo_id}={valor_id}",
+            sdk=sdk,
+            eventos=eventos,
+        )
+    except CheckpointError as erro:
+        raise RedacaoError(str(erro)) from erro
 
     with _trava(store):
         linhas = [json.loads(li) for li in store.read_text(encoding="utf-8").splitlines() if li.strip()]
@@ -96,6 +114,7 @@ def redigir(
             "hash_do_removido": [hash_json(li) for li in removidas],
             "motivo": motivo,
             "justificativa": justificativa,
+            "checkpoint": checkpoint["recibo"],
             "metodo": (
                 "linha removida do store; a corrente NÃO é alterada — ela guarda só o "
                 "content_hash, então o encadeamento e a âncora on-chain seguem válidos. "
@@ -123,4 +142,4 @@ def redigir(
         conteudo = "".join(json.dumps(li, ensure_ascii=False) + "\n" for li in restantes)
         store.write_text(conteudo, encoding="utf-8")
 
-    return {"recibo": recibo, "selagem": selagem}
+    return {"recibo": recibo, "selagem": selagem, "checkpoint": checkpoint}
