@@ -135,3 +135,130 @@ def reprecificar(
     store.write_text(json.dumps(registro, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
     return {"reprecificado": True, "mudanca": mudanca, "selagem": selagem}
+
+
+# ---------------------------------------------------------------- o laço
+
+
+def _gerador_da_area(area: str) -> Any:
+    """O gerador de sinal da área, ou ``None`` se a área ainda não tem um.
+
+    Área sem gerador **não** cai no gerador do IPCA por aproximação: perguntas
+    diferentes têm sinais diferentes, e usar o sinal errado é pior do que ficar
+    no prior honesto de 0,50.
+    """
+    from asus_theye.markets.sinais_cambio import probabilidade_para_cambio
+    from asus_theye.markets.sinais_ipca import probabilidade_para_ipca
+    from asus_theye.markets.sinais_juros import probabilidade_para_juros
+
+    return {
+        "macroeconomia": probabilidade_para_ipca,
+        "juros": probabilidade_para_juros,
+        "cambio": probabilidade_para_cambio,
+    }.get(area)
+
+
+def rodada(
+    *,
+    store: Path = REGISTRO_PADRAO,
+    sdk: Any | None = None,
+    eventos: Path | None = None,
+    serie: Path | None = None,
+    hoje: str | None = None,
+) -> dict[str, Any]:
+    """Percorre os mercados ABERTOS, consulta o gerador e reprecifica o que mudou.
+
+    É o laço que transforma a série p(t) de reta em trajetória. Sem ele, a
+    probabilidade nasce uma vez e ignora o Focus semanal e o IPCA-15 do meio do
+    mês — jogando fora exatamente a informação que chega entre a emissão e a
+    liquidação.
+
+    Cada claim é independente: falha em um NUNCA aborta os demais nem deixa
+    escrita pela metade. Um mercado que não pôde ser precificado hoje volta a
+    ser tentado amanhã, e a razão fica registrada na ação.
+
+    Toda passagem grava ponto na série — inclusive quando ``p`` não se move.
+    Um dia em que a convicção NÃO mudou é informação: a curva de calibração
+    precisa saber que estávamos em 0,75 naquele horizonte, não só nos dias de
+    movimento.
+    """
+    from asus_theye.markets.serie_p import registrar_ponto
+
+    if not store.exists():
+        raise ReprecificacaoError(f"registro de mercados ausente: {store}")
+
+    dia = hoje or _agora()[:10]
+    registro = json.loads(store.read_text(encoding="utf-8"))
+    acoes: list[dict[str, Any]] = []
+
+    for mercado in registro.get("mercados", []):
+        claim_id = str(mercado.get("claim_id", ""))
+        estado = str(mercado.get("estado", "ABERTO")).upper()
+        if estado == "LIQUIDADO":
+            continue  # trajetória encerrada — ponto novo inventaria história
+
+        area = str(mercado.get("market_area_id", ""))
+        gerador = _gerador_da_area(area)
+        if gerador is None:
+            acoes.append({"claim_id": claim_id, "acao": "sem_gerador", "motivo": f"área {area!r} não tem gerador"})
+            continue
+
+        try:
+            nova = gerador(str(mercado["mes_referencia"]), float(mercado["limiar"]))
+        except Exception as erro:  # noqa: BLE001 - falha de fonte não derruba o laço
+            acoes.append({"claim_id": claim_id, "acao": "sinal_indisponivel", "motivo": str(erro)[:200]})
+            # ainda assim fotografa: o dia existiu, e a convicção vigente é fato
+            registrar_ponto(claim_id=claim_id, observado_em=dia, store=store, arquivo=serie, sdk=sdk, eventos=eventos)
+            continue
+
+        try:
+            resultado = reprecificar(
+                claim_id=claim_id,
+                probabilidade=nova,
+                motivo=f"rodada de {dia}: sinal vigente da área {area}",
+                store=store,
+                sdk=sdk,
+                eventos=eventos,
+            )
+        except ReprecificacaoError as erro:
+            acoes.append({"claim_id": claim_id, "acao": "recusado", "motivo": str(erro)[:200]})
+            continue
+
+        if resultado["reprecificado"]:
+            selo = resultado.get("selagem") or {}
+            causa = f"repricing:{selo.get('event_hash_sha256', '')[:32]}" if selo else ""
+            registrar_ponto(
+                claim_id=claim_id,
+                observado_em=dia,
+                causa_id=causa,
+                instante=str(resultado["mudanca"]["reprecificado_em"]),
+                origem="reprecificacao",
+                store=store,
+                arquivo=serie,
+                sdk=sdk,
+                eventos=eventos,
+            )
+            acoes.append(
+                {
+                    "claim_id": claim_id,
+                    "acao": "reprecificado",
+                    "de": resultado["mudanca"]["probabilidade_anterior"],
+                    "para": resultado["mudanca"]["probabilidade_nova"],
+                }
+            )
+        else:
+            registrar_ponto(claim_id=claim_id, observado_em=dia, store=store, arquivo=serie, sdk=sdk, eventos=eventos)
+            acoes.append({"claim_id": claim_id, "acao": "estavel", "motivo": resultado["motivo"]})
+
+    movidos = sum(1 for a in acoes if a["acao"] == "reprecificado")
+    return {
+        "dia": dia,
+        "acoes": acoes,
+        "reprecificados": movidos,
+        "estaveis": sum(1 for a in acoes if a["acao"] == "estavel"),
+        "metodo": (
+            "laço diário sobre mercados ABERTOS; cada claim é independente e falha em um não "
+            "aborta os demais. Ponto de série é gravado SEMPRE — dia sem movimento também é "
+            "informação para a calibração por horizonte."
+        ),
+    }

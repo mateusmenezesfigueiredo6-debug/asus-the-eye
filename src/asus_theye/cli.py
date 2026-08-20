@@ -174,6 +174,12 @@ def _parser() -> argparse.ArgumentParser:
     markets_reprecificar.add_argument("--store", type=Path, default=Path("reports/markets/registro.json"))
     markets_reprecificar.add_argument("--json", dest="json_out", action="store_true", help="saída em JSON")
     markets_reprecificar.add_argument("--no-audit", action="store_true", help="não selar na cadeia")
+    markets_rodada = subcommands.add_parser(
+        "markets-rodada",
+        help="laço diário: consulta o gerador de cada mercado ABERTO e reprecifica o que mudou",
+    )
+    markets_rodada.add_argument("--json", dest="json_out", action="store_true", help="saída em JSON")
+    markets_rodada.add_argument("--no-audit", action="store_true", help="não selar na cadeia")
     projeto_fronteira = subcommands.add_parser(
         "projeto-fronteira",
         help="verifica e SELA que a titularidade, a proveniência e a fronteira de terceiros seguem intactas",
@@ -1324,6 +1330,33 @@ def main(argv: Sequence[str] | None = None) -> int:
                 print(f"\nselagem: {estado_selo} — {selagem['event_hash_sha256'][:16]}…")
         # fronteira rompida SAI COM ERRO: o cron precisa gritar, não sussurrar
         return 0 if snap["intacta"] else 1
+    if args.command == "markets-rodada":
+        from asus_theye.markets.auditoria import AuditoriaError, abrir_auditoria
+        from asus_theye.markets.reprecificar import ReprecificacaoError, rodada
+
+        try:
+            sdk_rodada = None if args.no_audit else abrir_auditoria(Path("reports/audit/markets-ledger.db"))
+            resultado = rodada(sdk=sdk_rodada)
+        except (ReprecificacaoError, AuditoriaError) as error:
+            print(f"markets-rodada: {error}")
+            return 1
+
+        if args.json_out:
+            print(json.dumps(resultado, ensure_ascii=False, indent=2, default=str))
+            return 0
+
+        print("=" * 62)
+        print("RODADA — o que a plataforma acredita hoje")
+        print("=" * 62)
+        print(f"\ndia {resultado['dia']}")
+        for acao in resultado["acoes"]:
+            if acao["acao"] == "reprecificado":
+                print(f"  {acao['claim_id']:22} {acao['de']:.4f} -> {acao['para']:.4f}")
+            else:
+                print(f"  {acao['claim_id']:22} {acao['acao']}  {acao.get('motivo', '')[:50]}")
+        print(f"\n{resultado['reprecificados']} reprecificado(s), {resultado['estaveis']} estável(is).")
+        print("Ponto de série gravado em TODOS — dia sem movimento também é informação.")
+        return 0
     if args.command == "markets-sinais":
         from asus_theye.markets.gerador import GeradorError
         from asus_theye.markets.sinais_ipca import SinaisError, probabilidade_para_ipca, sinais_para_ipca

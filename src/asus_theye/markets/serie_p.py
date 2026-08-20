@@ -44,6 +44,23 @@ REGISTRO_PADRAO = Path("reports/markets/registro.json")
 # origens novas (gerador WPAM, ajuste manual) se declaram ao gravar.
 ORIGEM_REGISTRO = "registro"
 
+# A CAUSA de um ponto entra na identidade, junto com o claim.
+#
+# Antes a identidade era (claim_id, observado_em): um ponto por claim por dia.
+# Isso parecia certo até o laço de reprecificação existir — aí uma mudança de p
+# no mesmo dia em que já houve fotografia era DESCARTADA em silêncio, e a
+# trajetória perdia justamente o movimento que ela existe para registrar.
+#
+# Agora: `snapshot:<dia>` para a fotografia diária (um por dia, idempotente) e o
+# hash do evento de reprecificação para cada mudança (quantas houver no dia).
+# Causas distintas nunca colidem; repetir a mesma causa continua sendo dedupe.
+#
+# Para calibrar, múltiplos pontos no mesmo dia NÃO contam como observações
+# independentes — quem calcula usa o último do dia. Os anteriores continuam
+# auditáveis. Assim o movimento intradiário é preservado sem dar peso
+# estatístico extra a um dia agitado.
+CAUSA_SNAPSHOT = "snapshot"
+
 
 class SerieError(RuntimeError):
     """Ponto inválido ou claim inexistente. Sempre levanta — série não chuta."""
@@ -76,7 +93,14 @@ def _mercados(store: Path) -> list[dict[str, Any]]:
     return json.loads(store.read_text(encoding="utf-8")).get("mercados", [])
 
 
-def _ponto(mercado: dict[str, Any], observado_em: str, probability: float, origem: str) -> dict[str, Any]:
+def _ponto(
+    mercado: dict[str, Any],
+    observado_em: str,
+    probability: float,
+    origem: str,
+    causa_id: str = "",
+    instante: str = "",
+) -> dict[str, Any]:
     try:
         deadline = date.fromisoformat(str(mercado["deadline"]))
         observado = date.fromisoformat(observado_em)
@@ -101,8 +125,12 @@ def _ponto(mercado: dict[str, Any], observado_em: str, probability: float, orige
             "o relógio que importa é o da publicação da fonte, não o do fechamento."
         ),
     }
-    # identidade inclui o dia de propósito: um ponto por claim por dia
-    registro["ponto_id"] = hash_json({"claim_id": registro["claim_id"], "observado_em": observado_em})
+    causa = causa_id or f"{CAUSA_SNAPSHOT}:{observado_em}"
+    registro["causa_id"] = causa
+    # instante preciso: dois pontos do mesmo dia precisam de ordem, e a
+    # calibração usa o ÚLTIMO. Ponto legado sem instante equivale a 00:00:00Z.
+    registro["observado_em_instante"] = instante or f"{observado_em}T00:00:00Z"
+    registro["ponto_id"] = hash_json({"claim_id": registro["claim_id"], "causa_id": causa})
     return registro
 
 
@@ -112,23 +140,26 @@ def registrar_ponto(
     probability: float | None = None,
     observado_em: str | None = None,
     origem: str = ORIGEM_REGISTRO,
+    causa_id: str = "",
+    instante: str = "",
     store: Path = REGISTRO_PADRAO,
-    arquivo: Path = SERIE_PADRAO,
+    arquivo: Path | None = None,
     sdk: AuditSDK | None = None,
     eventos: Path | None = None,
 ) -> dict[str, Any]:
-    """Grava e SELA um ponto de p(t). Mesmo claim no mesmo dia = dedupe.
+    """Grava e SELA um ponto de p(t). Mesma causa = dedupe.
 
     ``probability`` ausente usa o valor vigente no registro de mercados — o caso
     do cron, que fotografa o que a plataforma acredita hoje.
     """
+    arquivo = arquivo or SERIE_PADRAO
     dia = observado_em or _hoje()
     mercado = next((m for m in _mercados(store) if m.get("claim_id") == claim_id), None)
     if mercado is None:
         raise SerieError(f"{claim_id}: claim não existe no registro — série de mercado fantasma não entra")
 
     p = float(mercado["probability"]) if probability is None else float(probability)
-    registro = _ponto(mercado, dia, p, origem)
+    registro = _ponto(mercado, dia, p, origem, causa_id=causa_id, instante=instante)
 
     with _trava(arquivo):
         existente = next((li for li in _linhas(arquivo) if li.get("ponto_id") == registro["ponto_id"]), None)
@@ -156,7 +187,7 @@ def registrar_vivos(
     *,
     observado_em: str | None = None,
     store: Path = REGISTRO_PADRAO,
-    arquivo: Path = SERIE_PADRAO,
+    arquivo: Path | None = None,
     sdk: AuditSDK | None = None,
     eventos: Path | None = None,
 ) -> dict[str, Any]:
