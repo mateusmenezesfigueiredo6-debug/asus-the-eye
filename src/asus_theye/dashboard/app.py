@@ -10,6 +10,7 @@ from .benchmark import register_benchmark_routes
 from .evidencia import register_evidencia_routes
 from .markets import register_markets_routes
 from .mercados import register_mercados_routes
+from .mlops import register_mlops_routes
 from .projeto import register_projeto_routes
 
 
@@ -40,6 +41,7 @@ def create_dashboard_app(
     register_benchmark_routes(app, report_path)
     register_markets_routes(app, markets_db)
     register_evidencia_routes(app)
+    register_mlops_routes(app)
     register_projeto_routes(app)
     register_mercados_routes(app)
     return app
