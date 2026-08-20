@@ -64,6 +64,7 @@ O que continua sendo ato humano:
 | `verificar-espelho` | Compara a corrente local com o espelho remoto e aponta faltas na janela. | `asus-theye verificar-espelho --ledger-url "$THE_EYE_LEDGER_URL" --json` |
 | `export-static` | Exporta os painéis como HTML estático em `dist/`. | `asus-theye export-static --out dist --json` |
 | `relatorio-mensal` | Gera o extrato mensal em Markdown da atividade da plataforma. | `asus-theye relatorio-mensal --mes 2026-08` |
+| `relatorio-anual` | Consolida o ano por área: Brier médio dos liquidados elegíveis, com as ressalvas de skill. | `asus-theye relatorio-anual --ano 2026` |
 
 ## Quando algo quebra
 
