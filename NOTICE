@@ -1,0 +1,46 @@
+ASUS THE EYE — plataforma de mercados preditivos auditáveis
+
+Copyright (C) 2026 Mateus Menezes Figueiredo
+
+Este programa é software livre: você pode redistribuí-lo e/ou modificá-lo sob
+os termos da GNU Affero General Public License, versão 3, publicada pela Free
+Software Foundation.
+
+Este programa é distribuído na esperança de que seja útil, mas SEM NENHUMA
+GARANTIA; sem sequer a garantia implícita de COMERCIABILIDADE ou ADEQUAÇÃO A
+UM FIM ESPECÍFICO. Veja a GNU Affero General Public License para mais detalhes.
+
+Você deve ter recebido uma cópia da licença junto com este programa (arquivo
+LICENSE). Se não, veja <https://www.gnu.org/licenses/>.
+
+--------------------------------------------------------------------------
+TITULARIDADE E OBRAS DE TERCEIROS
+
+Todo o código-fonte, a arquitetura, a doutrina de medição e os artefatos deste
+repositório são de autoria e titularidade de Mateus Menezes Figueiredo, salvo
+onde explicitamente indicado.
+
+Reuso de terceiros: este projeto NÃO incorpora código proprietário. As
+absorções de projetos de código aberto são reimplementações independentes,
+com origem, licença e commit registrados em reports/provenance/:
+
+  - SocialPredict (MIT) ....... estrutura do gerador WPAM
+  - Dask (BSD-3) .............. conceito de agendador por partição
+  - MLflow (Apache-2.0) ....... conceitos de rastreio de corridas
+  - OpenZeppelin (MIT) ........ contratos vendorados em contracts/audit-anchor/lib/
+
+Dados sob licença restrita permanecem FORA deste repositório (ver data/).
+
+--------------------------------------------------------------------------
+PROVA DE ANTERIORIDADE
+
+A corrente auditável deste projeto está ancorada em blockchain pública:
+  rede ....... Base Sepolia (chain 84532)
+  contrato ... 0x910dAa67E74B0367872F7073884aaaB2a3458600
+  raiz ....... 2ff778a1710fb84fe97b9f71d09dce419c330fd67af48b37a26f8b4622cd62d7
+  tx ......... 113e287511ddb21cbf42e8a4d129de4076afb1df3614b5b7759264c0a55ee48f
+  bloco ...... 45716129
+
+A âncora registra publicamente a EXISTÊNCIA e a INTEGRIDADE do conteúdo em uma
+data verificável. Não substitui registro formal de software nem assessoria
+jurídica.

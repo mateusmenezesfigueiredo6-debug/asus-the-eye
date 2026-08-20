@@ -5,6 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 license = { text = "AGPL-3.0-or-later" }
 name = "asus-the-eye"
+authors = [{name = "Mateus Menezes Figueiredo", email = "mateusmenezesfigueiredo6@gmail.com"}]
 version = "0.2.0"
 description = "Reproducible classical, QUBO and local-QAOA benchmark engine"
 readme = "README.md"
