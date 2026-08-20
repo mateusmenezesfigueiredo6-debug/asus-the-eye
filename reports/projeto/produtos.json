@@ -54,9 +54,10 @@
     {
       "id": "M4",
       "nome": "Markets: divergência vs Kalshi medida de verdade",
-      "estado": "concluida",
-      "peso_concluido": 1.0,
-      "metodo": "PRIMEIRA ComparatorDivergence REAL selada (evento market.comparator e21971ca…): preço ao vivo da API pública da Kalshi (KXCPI-26AUG-T0.3, meio do spread 0,6150) vs p=0,50 → divergência 0,1150, com nota de mapeamento indireto obrigatória; client fonte_kalshi + CLI markets-comparar; Kalshi nunca resolve"
+      "estado": "parcial",
+      "peso_concluido": 0.5,
+      "metodo": "A máquina de divergência existe e foi PROVADA de ponta a ponta (evento market.comparator selado, com nota de mapeamento obrigatória). A observação contra a Kalshi foi EXPURGADA (evento data.redaction): os Data Terms of Use dela restringem o uso a pessoal/não-comercial, excluem desenvolvimento de software e proíbem armazenar, compilar e exibir. Comparador oficial passa a ser o consenso Focus/BCB — dado público do banco central, já usado para resolução, e comparação DIRETA (IPCA-BR vs consenso-BR) em vez do comparável indireto que a Kalshi permitia (CPI-EUA vs IPCA-BR). 1,0 quando a série de divergências contra o Focus existir.",
+      "criterio_verificavel": "reports/markets/comparador.jsonl com >=1 observação cujo comparator seja 'Focus/BCB'; nenhum dado de terceiro com termos restritivos no repositório"
     },
     {
       "id": "L1",

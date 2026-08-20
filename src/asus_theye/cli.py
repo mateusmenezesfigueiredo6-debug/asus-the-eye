@@ -910,24 +910,21 @@ def main(argv: Sequence[str] | None = None) -> int:
     if args.command == "markets-comparar":
         from asus_theye.markets.auditoria import AuditoriaError, abrir_auditoria
         from asus_theye.markets.comparador import ComparadorError, observar_divergencia
-        from asus_theye.markets.fonte_kalshi import FonteKalshiError, preco_kalshi
         from asus_theye.markets.resolution import ResolutionError
 
         try:
+            # A busca AO VIVO foi removida junto com o conector da Kalshi: os
+            # termos dela restringem armazenar, compilar e exibir o dado, e este
+            # produto faz as três coisas. O preço agora é informado por quem
+            # observa, com a fonte declarada na nota de mapeamento.
             preco = args.preco
-            if preco is None:  # busca AO VIVO na API pública (só leitura, sem chave)
-                observado = preco_kalshi(args.ticker)
-                if observado is None:
-                    print(f"markets-comparar: ticker {args.ticker!r} não existe na Kalshi")
-                    return 1
-                if observado.status != "active":
-                    print(
-                        f"markets-comparar: mercado {args.ticker} está {observado.status!r} — "
-                        "preço fora de negociação não é observação de comparador"
-                    )
-                    return 1
-                preco = observado.probabilidade_implicita
-                print(f"preço ao vivo ({observado.metodo_do_preco}): {preco:.4f} — {observado.title}")
+            if preco is None:
+                print(
+                    "markets-comparar: --preco é obrigatório. A busca ao vivo na Kalshi foi "
+                    "removida (termos de terceiro). O comparador oficial passa a ser o consenso "
+                    "Focus/BCB — dado público, e comparação DIRETA com o IPCA."
+                )
+                return 1
             sdk_comparar = None if args.no_audit else abrir_auditoria(Path("reports/audit/markets-ledger.db"))
             resultado = observar_divergencia(
                 claim_id=args.claim,
@@ -936,7 +933,7 @@ def main(argv: Sequence[str] | None = None) -> int:
                 nota_de_mapeamento=args.nota,
                 sdk=sdk_comparar,
             )
-        except (ComparadorError, ResolutionError, AuditoriaError, FonteKalshiError) as error:
+        except (ComparadorError, ResolutionError, AuditoriaError) as error:
             print(f"markets-comparar: {error}")
             return 1
         if args.json_out:
