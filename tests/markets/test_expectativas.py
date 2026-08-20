@@ -4,6 +4,8 @@
 
 from __future__ import annotations
 
+from datetime import date
+
 import pytest
 
 from asus_theye.markets.expectativas import (
@@ -139,3 +141,92 @@ def test_valores_historicos_plausíveis_passam(nome: str, valor: float) -> None:
 def test_valores_implausíveis_levantam(nome: str, valor: float) -> None:
     with pytest.raises(ExpectativaViolada):
         verificar({nome: valor})
+
+
+# ------------------------------------------------------------ ligada ao resolvedor
+
+
+def test_valor_absurdo_da_fonte_nao_escreve_nada(tmp_path) -> None:
+    """A prova que importa: a trava está LIGADA ao caminho real de ingestão.
+
+    Um mecanismo de validação que existe mas ninguém chama é decoração — a
+    mesma doença que `estado` tinha antes de a medição validá-lo. Este teste
+    falha se alguém desligar a expectativa do resolvedor.
+    """
+    import json
+
+    from asus_theye.markets.live import resolver_pendentes
+
+    store = tmp_path / "registro.json"
+    registro = {
+        "versao": 1,
+        "mercados": [
+            {
+                "claim_id": "MACRO-01::2026-07",
+                "market_area_id": "macroeconomia",
+                "question": "IPCA de 2026-07 fica em 0,50% ou mais?",
+                "deadline": "2026-07-31",
+                "probability": 0.5,
+                "resolution_source": "api.bcb.gov.br (SGS)",
+                "created_at": "2026-07-01T00:00:00Z",
+                "mes_referencia": "2026-07",
+                "limiar": 0.5,
+                "criterio": "IPCA mensal >= 0.50%",
+                "serie_sgs": 433,
+                "estado": "ABERTO",
+                "tentativas": [],
+            }
+        ],
+    }
+    store.write_text(json.dumps(registro), encoding="utf-8")
+    antes = json.loads(store.read_text(encoding="utf-8"))
+
+    # a fonte devolve algo impossível para IPCA mensal (mudança de unidade? bug?)
+    resultado = resolver_pendentes(
+        store=store, fetcher=lambda _mes: 4200.0, hoje=date(2026, 8, 20), emitir_seguinte=False
+    )
+
+    acoes = {a["acao"] for a in resultado}
+    assert "recusado" in acoes, f"a expectativa não barrou: {resultado}"
+    assert "liquidado" not in acoes
+    # o conteúdo tem de estar intacto — o mercado continua ABERTO, sem desfecho,
+    # sem Brier. (A formatação do arquivo pode mudar; o que não pode mudar é o dado.)
+    assert json.loads(store.read_text(encoding="utf-8")) == antes, "o dado foi alterado apesar da recusa"
+
+
+def test_valor_plausivel_passa_e_liquida(tmp_path) -> None:
+    """A trava não pode ser tão apertada que impeça o trabalho legítimo."""
+    import json
+
+    from asus_theye.markets.live import resolver_pendentes
+
+    store = tmp_path / "registro.json"
+    store.write_text(
+        json.dumps(
+            {
+                "versao": 1,
+                "mercados": [
+                    {
+                        "claim_id": "MACRO-01::2026-07",
+                        "market_area_id": "macroeconomia",
+                        "question": "IPCA de 2026-07 fica em 0,50% ou mais?",
+                        "deadline": "2026-07-31",
+                        "probability": 0.5,
+                        "resolution_source": "api.bcb.gov.br (SGS)",
+                        "created_at": "2026-07-01T00:00:00Z",
+                        "mes_referencia": "2026-07",
+                        "limiar": 0.5,
+                        "criterio": "IPCA mensal >= 0.50%",
+                        "serie_sgs": 433,
+                        "estado": "ABERTO",
+                        "tentativas": [],
+                    }
+                ],
+            }
+        ),
+        encoding="utf-8",
+    )
+    resultado = resolver_pendentes(
+        store=store, fetcher=lambda _mes: 0.07, hoje=date(2026, 8, 20), emitir_seguinte=False
+    )
+    assert "liquidado" in {a["acao"] for a in resultado}

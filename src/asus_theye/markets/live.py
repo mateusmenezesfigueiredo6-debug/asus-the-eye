@@ -64,6 +64,7 @@ AREAS_RESOLVIVEIS: dict[str, dict[str, Any]] = {
         "criterio": "IPCA mensal >= {limiar:.2f}%",
         "indicador": "IPCA mensal",
         "unidade": "percentual_mensal",
+        "expectativa": "ipca_mensal",
     },
     "juros": {
         "serie": 432,
@@ -72,6 +73,7 @@ AREAS_RESOLVIVEIS: dict[str, dict[str, Any]] = {
         "criterio": "Selic meta (fim do mês) >= {limiar:.2f}% a.a.",
         "indicador": "Selic meta (fim do mês)",
         "unidade": "percentual_anual",
+        "expectativa": "selic_meta",
     },
     "cambio": {
         "serie": 1,
@@ -80,6 +82,7 @@ AREAS_RESOLVIVEIS: dict[str, dict[str, Any]] = {
         "criterio": "PTAX venda (último do mês) >= R$ {limiar:.2f}",
         "indicador": "PTAX venda (último do mês)",
         "unidade": "brl",
+        "expectativa": "ptax_venda",
     },
 }
 
@@ -446,6 +449,27 @@ def _resolver_pendentes_travado(
             # deixar escrita pela metade
             acoes.append({"claim_id": mercado["claim_id"], "acao": "erro", "motivo": str(erro)})
             continue
+
+        # A EXPECTATIVA RODA ANTES DE QUALQUER ESCRITA. Um valor fora da faixa
+        # plausível não é dado: é resposta corrompida, mudança de unidade na
+        # fonte, ou bug. Deixar entrar contaminaria a corrente selada — e o que
+        # entra selado não sai sem expurgo. Falha aqui vira ação de erro para
+        # ESTE mercado, sem abortar os demais nem escrever pela metade.
+        nome_da_expectativa = AREAS_RESOLVIVEIS[area].get("expectativa")
+        if nome_da_expectativa and valor is not None:
+            from asus_theye.markets.expectativas import ExpectativaViolada, verificar
+
+            try:
+                verificar({nome_da_expectativa: float(valor)})
+            except ExpectativaViolada as violacao:
+                acoes.append(
+                    {
+                        "claim_id": mercado["claim_id"],
+                        "acao": "recusado",
+                        "motivo": f"expectativa violada, nada foi escrito: {violacao}",
+                    }
+                )
+                continue
 
         if valor is None:
             mercado["estado"] = "EM_RESOLUCAO"
