@@ -164,6 +164,18 @@ def _parser() -> argparse.ArgumentParser:
     markets_vintage.add_argument("--mes", required=True, help="mês de referência, aaaa-mm")
     markets_vintage.add_argument("--json", dest="json_out", action="store_true", help="saída em JSON")
     markets_vintage.add_argument("--no-audit", action="store_true", help="arquiva sem selar na cadeia")
+    markets_nowcast = subcommands.add_parser(
+        "markets-nowcast",
+        help="executa o nowcast desafiante do IPCA (ridge walk-forward) e grava manifesto em reports/mlops/",
+    )
+    markets_nowcast.add_argument(
+        "--spec",
+        dest="especificacao",
+        default="R2",
+        choices=["R2", "R4"],
+        help="especificação de features: R2 (IPCA-15+IGP-M) ou R4 (+ dólar + Selic); padrão: R2",
+    )
+    markets_nowcast.add_argument("--json", dest="json_out", action="store_true", help="saída em JSON")
     markets_comparar = subcommands.add_parser(
         "markets-comparar",
         help="mede e SELA a divergência vs comparador (Kalshi) — comparador nunca resolve",
@@ -896,6 +908,39 @@ def main(argv: Sequence[str] | None = None) -> int:
             s = resultado["selagem"]
             estado_selo = "dedupe" if s.get("duplicate") else "EVENTO market.vintage SELADO"
             print(f"selagem: {estado_selo} — {s['event_hash_sha256'][:16]}…")
+        return 0
+    if args.command == "markets-nowcast":
+        from asus_theye.markets.nowcast import NowcastError, corrida_do_nowcast
+
+        try:
+            corrida = corrida_do_nowcast(args.especificacao)
+        except NowcastError as error:
+            print(f"markets-nowcast: {error}")
+            return 1
+        manifesto_path = corrida.artefatos[0]["caminho"] if corrida.artefatos else "—"
+        if args.json_out:
+            print(
+                json.dumps(
+                    {
+                        "especificacao": args.especificacao,
+                        "manifesto": manifesto_path,
+                        "sha256": corrida.artefatos[0]["sha256"] if corrida.artefatos else None,
+                        "params": corrida.params,
+                        "metricas": corrida.metricas,
+                    },
+                    ensure_ascii=False,
+                    indent=2,
+                )
+            )
+            return 0
+        print("=" * 62)
+        print(f"NOWCAST IPCA — especificação {args.especificacao}")
+        print("=" * 62)
+        print(f"\nmanifesto: {manifesto_path}")
+        brier = corrida.params.get("brier_ridge", "—")
+        n = corrida.params.get("n_meses", "—")
+        print(f"Brier ridge: {brier}  |  meses avaliados: {n}")
+        print("\n(o desafiante permanece com peso zero até cumprir a porta prospectiva da spec)")
         return 0
     if args.command == "markets-comparar":
         from asus_theye.markets.auditoria import AuditoriaError, abrir_auditoria
