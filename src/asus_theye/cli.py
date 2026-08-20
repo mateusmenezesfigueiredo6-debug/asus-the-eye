@@ -181,6 +181,16 @@ def _parser() -> argparse.ArgumentParser:
     )
     markets_comparar.add_argument("--json", dest="json_out", action="store_true", help="saída em JSON")
     markets_comparar.add_argument("--no-audit", action="store_true", help="não selar na cadeia")
+    markets_serie = subcommands.add_parser(
+        "markets-serie",
+        help="grava e sela um ponto da série p(t) — a trajetória, sem a qual não há Brier por horizonte",
+    )
+    markets_serie.add_argument(
+        "--claim", default=None, help="claim_id específico; omitido = todos os claims vivos (uso do cron)"
+    )
+    markets_serie.add_argument("--dia", default=None, help="data da observação (YYYY-MM-DD); padrão = hoje em UTC")
+    markets_serie.add_argument("--json", dest="json_out", action="store_true", help="saída em JSON")
+    markets_serie.add_argument("--no-audit", action="store_true", help="não selar na cadeia")
     markets_sinais = subcommands.add_parser(
         "markets-sinais",
         help="mostra os sinais REAIS (Focus/IPCA-15) e a probabilidade WPAM da pergunta do mês",
@@ -950,6 +960,52 @@ def main(argv: Sequence[str] | None = None) -> int:
             selo = resultado["selagem"]
             estado_selo = "dedupe na cadeia" if selo.get("duplicate") else "EVENTO market.comparator SELADO"
             print(f"selagem: {estado_selo} — event_hash {selo['event_hash_sha256'][:16]}…")
+        return 0
+    if args.command == "markets-serie":
+        from asus_theye.markets.auditoria import AuditoriaError, abrir_auditoria
+        from asus_theye.markets.serie_p import SerieError, registrar_ponto, registrar_vivos
+
+        try:
+            sdk_serie = None if args.no_audit else abrir_auditoria(Path("reports/audit/markets-ledger.db"))
+            if args.claim:
+                resultado = registrar_ponto(claim_id=args.claim, observado_em=args.dia, sdk=sdk_serie)
+                pontos = [resultado]
+            else:
+                varredura = registrar_vivos(observado_em=args.dia, sdk=sdk_serie)
+                pontos = varredura["pontos"]
+        except (SerieError, AuditoriaError) as error:
+            print(f"markets-serie: {error}")
+            return 1
+
+        if args.json_out:
+            print(
+                json.dumps(
+                    [p["registro"] | {"duplicate": p["duplicate"]} for p in pontos], ensure_ascii=False, indent=2
+                )
+            )
+            return 0
+
+        print("=" * 62)
+        print("SÉRIE p(t) — o que se acreditava, e QUANDO")
+        print("=" * 62)
+        if not pontos:
+            print("\nnenhum claim vivo — série não inventa ponto para mercado liquidado")
+            return 0
+        for item in pontos:
+            reg, marca = item["registro"], "dedupe" if item["duplicate"] else "NOVO"
+            print(
+                f"\n{reg['claim_id']}  [{marca}]"
+                f"\n  p = {reg['probability']:.4f}  |  observado em {reg['observado_em']}"
+                f"\n  horizonte: {reg['horizonte_dias']} dia(s) até o deadline {reg['deadline']}"
+            )
+            if item["selagem"] is not None:
+                selo = item["selagem"]
+                estado_selo = "dedupe na cadeia" if selo.get("duplicate") else "EVENTO market.probability_point SELADO"
+                print(f"  selagem: {estado_selo} — {selo['event_hash_sha256'][:16]}…")
+        novos = sum(1 for p in pontos if not p["duplicate"])
+        print(f"\n{novos} ponto(s) novo(s), {len(pontos) - novos} dedupe.")
+        print("O horizonte aqui é contra o DEADLINE. A calibração RE-ANCORA contra")
+        print("determination_date quando ele existir — o relógio da fonte, não o do fechamento.")
         return 0
     if args.command == "markets-sinais":
         from asus_theye.markets.gerador import GeradorError

@@ -81,6 +81,10 @@ jobs:
           # vintage do Focus: o consenso de HOJE só existe hoje — arquivar é a
           # única forma de ter Brier comparativo honesto no futuro
           python -m asus_theye.cli markets-vintage --mes "$(date -u +%Y-%m)" || true
+          # série p(t): a trajetória do que se acreditava. Sem um ponto por dia
+          # não existe Brier por horizonte — e Brier sem horizonte diz pouco.
+          # Idempotente: um ponto por claim por dia, rodar 5 dias seguidos é seguro.
+          python -m asus_theye.cli markets-serie
           python -m asus_theye.cli projeto-medir
 
       - name: Ancorar on-chain (opcional — só com a chave no cofre)
