@@ -14,6 +14,7 @@ from pathlib import Path
 
 from asus_theye.dashboard.api_docs import api_docs_page
 from asus_theye.dashboard.benchmark import benchmark_page
+from asus_theye.dashboard.corrente import corrente_page
 from asus_theye.dashboard.evidencia import evidencia_page
 from asus_theye.dashboard.mercados import mercados_page
 from asus_theye.dashboard.mlops import mlops_page
@@ -66,6 +67,10 @@ def exportar(destino: Path) -> dict[str, list[str]]:
     # --- evidencia.html ------------------------------------------------------
     (destino / "evidencia.html").write_text(evidencia_page(), encoding="utf-8")
     gerados.append("evidencia.html")
+
+    # --- corrente.html -------------------------------------------------------
+    (destino / "corrente.html").write_text(corrente_page(), encoding="utf-8")
+    gerados.append("corrente.html")
 
     # --- mercados.html -------------------------------------------------------
     (destino / "mercados.html").write_text(mercados_page(), encoding="utf-8")
