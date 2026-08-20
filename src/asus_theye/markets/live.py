@@ -62,18 +62,24 @@ AREAS_RESOLVIVEIS: dict[str, dict[str, Any]] = {
         "prefixo": "MACRO-01",
         "pergunta": "A inflação oficial (IPCA) de {mes} fica em {limiar:.2f}% ou mais?",
         "criterio": "IPCA mensal >= {limiar:.2f}%",
+        "indicador": "IPCA mensal",
+        "unidade": "percentual_mensal",
     },
     "juros": {
         "serie": 432,
         "prefixo": "JUROS-01",
         "pergunta": "A meta da Selic vigente ao fim de {mes} fica em {limiar:.2f}% a.a. ou mais?",
         "criterio": "Selic meta (fim do mês) >= {limiar:.2f}% a.a.",
+        "indicador": "Selic meta (fim do mês)",
+        "unidade": "percentual_anual",
     },
     "cambio": {
         "serie": 1,
         "prefixo": "CAMBIO-01",
         "pergunta": "O dólar PTAX (venda) ao fim de {mes} fica em R$ {limiar:.2f} ou mais?",
         "criterio": "PTAX venda (último do mês) >= R$ {limiar:.2f}",
+        "indicador": "PTAX venda (último do mês)",
+        "unidade": "brl",
     },
 }
 
@@ -120,6 +126,29 @@ def _criterio(limiar: float, area: str = AREA_DESTE_RESOLVEDOR) -> str:
     if config is None:
         raise LiveMarketError(f"área {area!r} fora do registry de resolvíveis: {sorted(AREAS_RESOLVIVEIS)}")
     return str(config["criterio"]).format(limiar=float(limiar))
+
+
+def _regra_da_area(area: str, limiar: float, mes_referencia: str, fonte: str) -> dict[str, Any]:
+    """Regra estruturada e EXECUTÁVEL da área — a mesma que liquida o claim.
+
+    O texto do critério continua existindo para leitura humana, mas quem decide
+    o desfecho é :func:`asus_theye.markets.regra.avaliar` sobre este bloco. Ter
+    uma só implementação do comparador é o que impede prosa e desfecho de
+    divergirem em silêncio.
+    """
+    from asus_theye.markets.regra import montar_regra
+
+    config = AREAS_RESOLVIVEIS.get(area)
+    if config is None:
+        raise LiveMarketError(f"área {area!r} fora do registry de resolvíveis: {sorted(AREAS_RESOLVIVEIS)}")
+    return montar_regra(
+        fonte=fonte,
+        serie=int(config["serie"]),
+        indicador=str(config["indicador"]),
+        periodo_referencia=mes_referencia,
+        limiar=float(limiar),
+        unidade=str(config["unidade"]),
+    )
 
 
 def _fim_do_mes(mes_referencia: object) -> date:
@@ -284,6 +313,7 @@ def emitir_area(
         "limiar": float(limiar),
         "criterio": _criterio(limiar, area),
         "serie_sgs": int(config["serie"]),
+        "regra": _regra_da_area(area, limiar, mes_referencia, claim.resolution_source),
         "estado": "ABERTO",
         "tentativas": [],
     }
@@ -440,7 +470,20 @@ def _resolver_pendentes_travado(
             probability=mercado["probability"],
             created_at=mercado["created_at"],
         )
-        outcome = int(float(valor) >= float(mercado["limiar"]))
+        # O desfecho vem da REGRA, não de um comparador escrito aqui. Claim
+        # antigo sem bloco `regra` tem a sua derivada da área na hora — a regra
+        # é função do limiar e da área, então derivar não inventa nada.
+        from asus_theye.markets.regra import avaliar
+
+        regra = mercado.get("regra") or _regra_da_area(
+            mercado["market_area_id"], float(mercado["limiar"]), str(mercado["mes_referencia"]), claim.resolution_source
+        )
+        decidido = avaliar(regra, float(valor))
+        if decidido is None:  # defesa: valor ausente jamais chega aqui como desfecho
+            raise LiveMarketError(
+                f"{mercado['claim_id']}: regra devolveu UNKNOWN com valor presente — insumo corrompido"
+            )
+        outcome = decidido
         resolucao = resolve(claim, outcome=outcome, source=claim.resolution_source)
         brier = brier_score([(claim.probability, outcome)])
 
