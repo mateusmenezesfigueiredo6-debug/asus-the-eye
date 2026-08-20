@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2026 Mateus Menezes Figueiredo
+# SPDX-License-Identifier: AGPL-3.0-or-later
 """Liga a varredura da missao ao grafo de fontes — a etapa 1 deixa de ser 0,0%.
 
 A varredura ja media volume por campo, mas o numero morria num relatorio. O

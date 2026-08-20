@@ -20,16 +20,39 @@ TITULAR = "Mateus Menezes Figueiredo"
 ANO = "2026"
 LICENCA = "AGPL-3.0-or-later"
 MARCA = "SPDX-FileCopyrightText"
-CABECALHO = f"# {MARCA}: {ANO} {TITULAR}\n# SPDX-License-Identifier: {LICENCA}\n"
+# O comentário muda com a linguagem — carimbo que não compila não é carimbo.
+COMENTARIO_POR_EXTENSAO = {
+    ".py": "#",
+    ".sh": "#",
+    ".yml": "#",
+    ".yaml": "#",
+    ".ts": "//",
+    ".mjs": "//",
+    ".sol": "//",
+}
+EXTENSOES = tuple(COMENTARIO_POR_EXTENSAO)
 
-ALVOS = ("src", "tests", "scripts")
-IGNORAR = ("__pycache__", ".venv", "contracts/audit-anchor/lib")
+# Todo diretório com código do titular. `contracts/audit-anchor/lib` fica de
+# FORA por ser código de terceiro (OpenZeppelin/MIT) — carimbar obra alheia com
+# o nome do titular seria o oposto do que este script existe para fazer.
+ALVOS = ("src", "tests", "scripts", "apps", "infra", "contracts", "packages", "bin", ".github")
+IGNORAR = ("__pycache__", ".venv", "node_modules", "contracts/audit-anchor/lib", "dist/")
+
+
+def cabecalho(extensao: str) -> str:
+    marcador = COMENTARIO_POR_EXTENSAO[extensao]
+    return f"{marcador} {MARCA}: {ANO} {TITULAR}\n{marcador} SPDX-License-Identifier: {LICENCA}\n"
 
 
 def arquivos_alvo(raiz: Path) -> list[Path]:
     achados: list[Path] = []
     for pasta in ALVOS:
-        for p in sorted((raiz / pasta).rglob("*.py")):
+        base = raiz / pasta
+        if not base.exists():
+            continue
+        for p in sorted(base.rglob("*")):
+            if p.suffix not in EXTENSOES or not p.is_file():
+                continue
             if any(ig in str(p) for ig in IGNORAR):
                 continue
             achados.append(p)
@@ -37,14 +60,25 @@ def arquivos_alvo(raiz: Path) -> list[Path]:
 
 
 def carimbar(caminho: Path) -> bool:
-    """Insere o cabeçalho se faltar. Devolve True se alterou."""
+    """Insere o cabeçalho se faltar. Devolve True se alterou.
+
+    Se o arquivo JÁ declara uma licença (``SPDX-License-Identifier``), só a
+    titularidade é acrescentada — a licença escolhida para aquele arquivo é
+    preservada. Duas linhas de licença seriam ambíguas juridicamente e, em
+    Solidity, quebram o compilador.
+    """
     texto = caminho.read_text(encoding="utf-8")
     if MARCA in texto.split("\n\n")[0]:
         return False
+    marcador = COMENTARIO_POR_EXTENSAO[caminho.suffix]
+    if "SPDX-License-Identifier" in texto:
+        cabeca = f"{marcador} {MARCA}: {ANO} {TITULAR}\n"
+    else:
+        cabeca = cabecalho(caminho.suffix)
     linhas = texto.splitlines(keepends=True)
     # shebang (se houver) continua sendo a primeira linha do arquivo
     corte = 1 if linhas and linhas[0].startswith("#!") else 0
-    novo = "".join(linhas[:corte]) + CABECALHO + "".join(linhas[corte:])
+    novo = "".join(linhas[:corte]) + cabeca + "".join(linhas[corte:])
     caminho.write_text(novo, encoding="utf-8")
     return True
 

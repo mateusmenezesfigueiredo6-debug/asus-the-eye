@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2026 Mateus Menezes Figueiredo
+# SPDX-License-Identifier: AGPL-3.0-or-later
 """Verifier app: offline receipts plus remote hash-chain verification.
 
 Endpoints (FastAPI, created by :func:`create_verifier_app`):

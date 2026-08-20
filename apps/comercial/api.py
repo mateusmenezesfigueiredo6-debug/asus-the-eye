@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2026 Mateus Menezes Figueiredo
+# SPDX-License-Identifier: AGPL-3.0-or-later
 """API do diretor comercial. Local, sem autenticação externa, nada publicado.
 
 Serve o frontend estático e expõe o funil, as métricas e o classificador. Roda

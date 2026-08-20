@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2026 Mateus Menezes Figueiredo
+# SPDX-License-Identifier: AGPL-3.0-or-later
 """Colheita de sinal externo real por nicho — padrão Palantir: dado com linhagem.
 
 Consulta o Querido Diário (API aberta, diários oficiais municipais) com o termo

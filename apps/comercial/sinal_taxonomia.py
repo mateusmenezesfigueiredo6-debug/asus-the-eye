@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2026 Mateus Menezes Figueiredo
+# SPDX-License-Identifier: AGPL-3.0-or-later
 """Sinal externo para as 145 areas da taxonomia — nao so o recorte de 15.
 
 O vertical comercial opera 15 nichos. A taxonomia do projeto tem 145 areas em

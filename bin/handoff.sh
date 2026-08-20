@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# SPDX-FileCopyrightText: 2026 Mateus Menezes Figueiredo
+# SPDX-License-Identifier: AGPL-3.0-or-later
 # Gera HANDOFF.md com o estado real, para o Codex (ou outra sessao) continuar.
 # Regra do dono: rodar SEMPRE antes de acabar tempo ou contexto.
 set -u

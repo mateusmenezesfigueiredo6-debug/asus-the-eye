@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2026 Mateus Menezes Figueiredo
+# SPDX-License-Identifier: AGPL-3.0-or-later
 """Ate que tamanho o QAOA passa a valer a pena? Medicao, nao torcida.
 
 O problema real da plataforma tem 9 nichos e o classico ganha: empata em

@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2026 Mateus Menezes Figueiredo
+# SPDX-License-Identifier: AGPL-3.0-or-later
 """Estima o otimo da instancia dificil — o alvo que qualquer metodo tem que bater.
 
 A instancia: 138 areas da taxonomia, capacidade 10%, sinergia 3x, densidade
