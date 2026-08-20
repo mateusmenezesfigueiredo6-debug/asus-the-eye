@@ -131,6 +131,36 @@ def parametros_do_contrato(manifest: dict[str, Any]) -> dict[str, Any]:
     }
 
 
+def eventos_sem_ancora(
+    eventos: Path = EVENTOS_PADRAO,
+    ancoras: Path = ANCORAS_PADRAO,
+    *,
+    tenant: str = TENANT_PADRAO,
+) -> int:
+    """Quantos eventos selados ainda NÃO entraram em nenhum lote ancorado.
+
+    A corrente prova a si mesma por encadeamento; a âncora prova QUANDO ela
+    existia. Eventos acima da última ``last_sequence`` ancorada estão íntegros
+    mas sem prova temporal pública — este número é o tamanho dessa lacuna.
+    """
+    if not eventos.exists():
+        return 0
+    selados = [json.loads(li) for li in eventos.read_text(encoding="utf-8").splitlines() if li.strip()]
+    selados = [e for e in selados if e.get("tenant_id") == tenant]
+    if not selados:
+        return 0
+    topo = max(int(e["sequence"]) for e in selados)
+    if not ancoras.exists():
+        return topo
+    ultima = 0
+    for linha in ancoras.read_text(encoding="utf-8").splitlines():
+        if not linha.strip():
+            continue
+        manifesto = json.loads(linha).get("manifest", {})
+        ultima = max(ultima, int(manifesto.get("last_sequence", 0)))
+    return max(0, topo - ultima)
+
+
 # ------------------------------------------------------------------ carteira
 
 
