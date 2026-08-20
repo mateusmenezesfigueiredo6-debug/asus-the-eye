@@ -237,6 +237,12 @@ def _parser() -> argparse.ArgumentParser:
     mlops_promover.add_argument("--motivo", required=True, help="motivo da promoção (obrigatório)")
     mlops_promover.add_argument("--json", dest="json_out", action="store_true", help="saída em JSON")
     mlops_promover.add_argument("--no-audit", action="store_true", help="registra sem selar na cadeia")
+    publicar_ancora = subcommands.add_parser(
+        "publicar-ancora",
+        help="publica lote + âncora no D1 para o verificador público servir GET /root/AAAA-MM-DD",
+    )
+    publicar_ancora.add_argument("--ledger-url", default=os.environ.get("THE_EYE_LEDGER_URL", ""))
+    publicar_ancora.add_argument("--json", dest="json_out", action="store_true", help="saída em JSON")
     ledger_sync = subcommands.add_parser(
         "ledger-sync",
         help="espelha a corrente selada no ledger restrito da nuvem (D1) — idempotente por conteúdo",
@@ -904,6 +910,30 @@ def main(argv: Sequence[str] | None = None) -> int:
             print(f"\n[{sinal.direcao.upper():3s}] peso {sinal.peso:.0f} — {sinal.fonte}")
         print(f"\nprobabilidade WPAM: {prob.valor:.4f}  (prior {prob.p_inicial} × {prob.peso_inicial:.0f})")
         print(f"max_uncertainty: {prob.max_uncertainty}")
+        return 0
+    if args.command == "publicar-ancora":
+        from asus_theye.audit.anchor import AncoragemError
+        from asus_theye.audit.publicar_ancora import PublicacaoError, publicar
+
+        if not args.ledger_url:
+            print("publicar-ancora: exige --ledger-url ou THE_EYE_LEDGER_URL")
+            return 1
+        try:
+            resultado = publicar(args.ledger_url)
+        except (PublicacaoError, AncoragemError) as error:
+            print(f"publicar-ancora: {error}")
+            return 1
+        if args.json_out:
+            print(json.dumps(resultado, ensure_ascii=False, indent=2))
+            return 0
+        print("=" * 62)
+        print("RAIZ PUBLICADA NO VERIFICADOR (D1)")
+        print("=" * 62)
+        print(f"\nmerkle_root: {resultado['merkle_root']}")
+        print(f"tx on-chain: {resultado['tx_hash']}")
+        print(f"lote:   {json.dumps(resultado['lote'], ensure_ascii=False)}")
+        print(f"ancora: {json.dumps(resultado['ancora'], ensure_ascii=False)}")
+        print(f"\n{resultado['metodo']}")
         return 0
     if args.command == "ledger-sync":
         from asus_theye.audit.remote_ledger import LedgerPublishError

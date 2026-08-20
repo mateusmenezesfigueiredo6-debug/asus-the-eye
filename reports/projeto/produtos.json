@@ -68,9 +68,9 @@
     {
       "id": "L2",
       "nome": "Ledger: raiz pública no verificador",
-      "estado": "parcial",
-      "peso_concluido": 0.5,
-      "metodo": "âncora on-chain confirmada (L1 ok); falta gravar a âncora no D1 e o GET /root/AAAA-MM-DD do verificador público responder 200 — próximo passo do Claude"
+      "estado": "concluida",
+      "peso_concluido": 1.0,
+      "metodo": "GET /root/2026-08-20 do verificador PÚBLICO responde 200 com encontrada:true e a raiz 9c0c587a… ligada à tx cec980eb… — endpoints /batches/external e /anchors no worker de ingestão + CLI publicar-ancora; qualquer pessoa confere sem token"
     },
     {
       "id": "L3",
