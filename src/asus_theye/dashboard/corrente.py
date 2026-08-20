@@ -38,6 +38,13 @@ def _linhas_jsonl(caminho: Path) -> list[dict[str, Any]]:
     return [json.loads(linha) for linha in caminho.read_text(encoding="utf-8").splitlines() if linha.strip()]
 
 
+def _int_honesto(valor: Any, padrao: int = 0) -> int:
+    try:
+        return int(valor)
+    except (TypeError, ValueError):
+        return padrao
+
+
 def _verify_chain_honesto(eventos: list[dict[str, Any]]) -> str:
     if not eventos:
         return '<span class="muted">vazia</span>'
@@ -54,8 +61,8 @@ def _faixas_ancoradas(ancoras: list[dict[str, Any]]) -> list[tuple[int, int, str
         manifest = linha.get("manifest", {})
         if "last_sequence" not in manifest:
             continue
-        primeiro = int(manifest.get("first_sequence", 1))
-        ultimo = int(manifest["last_sequence"])
+        primeiro = _int_honesto(manifest.get("first_sequence", 1), 1)
+        ultimo = _int_honesto(manifest["last_sequence"])
         tenant = manifest.get("tenant_id")
         faixas.append((primeiro, ultimo, str(tenant) if tenant is not None else None))
     return faixas
@@ -77,7 +84,7 @@ def _selo_ancora(sequence: int, tenant_id: str | None, faixas: list[tuple[int, i
 
 
 def _linha_evento(evento: dict[str, Any], faixas: list[tuple[int, int, str | None]]) -> str:
-    sequence = int(evento.get("sequence", 0))
+    sequence = _int_honesto(evento.get("sequence", 0))
     tipo = html.escape(str(evento.get("event_type", "—")))
     event_hash = html.escape(str(evento.get("event_hash_sha256", ""))[:16])
     occurred_at = html.escape(str(evento.get("occurred_at", "—")))
@@ -126,7 +133,7 @@ def corrente_page(base: Path | None = None) -> str:
         )
         return _shell(corpo)
 
-    ultimos = sorted(eventos, key=lambda evento: int(evento.get("sequence", 0)), reverse=True)[:50]
+    ultimos = sorted(eventos, key=lambda evento: _int_honesto(evento.get("sequence", 0)), reverse=True)[:50]
     linhas = "".join(_linha_evento(evento, faixas) for evento in ultimos)
     corpo = f"""{cards}
 <h2>Últimos 50 eventos (mais recentes primeiro)</h2>
