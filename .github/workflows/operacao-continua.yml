@@ -85,6 +85,9 @@ jobs:
           # não existe Brier por horizonte — e Brier sem horizonte diz pouco.
           # Idempotente: um ponto por claim por dia, rodar 5 dias seguidos é seguro.
           python -m asus_theye.cli markets-serie
+          # linha de base do consenso: sem começar a parear, nunca existe série.
+          # Recusa agregar abaixo de 12 pares — o número não sai antes da hora.
+          python -m asus_theye.cli markets-consenso
           python -m asus_theye.cli projeto-medir
 
       - name: Ancorar on-chain (opcional — só com a chave no cofre)

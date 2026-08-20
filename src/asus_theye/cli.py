@@ -191,6 +191,12 @@ def _parser() -> argparse.ArgumentParser:
     markets_serie.add_argument("--dia", default=None, help="data da observação (YYYY-MM-DD); padrão = hoje em UTC")
     markets_serie.add_argument("--json", dest="json_out", action="store_true", help="saída em JSON")
     markets_serie.add_argument("--no-audit", action="store_true", help="não selar na cadeia")
+    markets_consenso = subcommands.add_parser(
+        "markets-consenso",
+        help="mede o erro do consenso Focus contra o realizado — a linha de base da calibração",
+    )
+    markets_consenso.add_argument("--json", dest="json_out", action="store_true", help="saída em JSON")
+    markets_consenso.add_argument("--no-audit", action="store_true", help="não selar na cadeia")
     markets_sinais = subcommands.add_parser(
         "markets-sinais",
         help="mostra os sinais REAIS (Focus/IPCA-15) e a probabilidade WPAM da pergunta do mês",
@@ -1003,6 +1009,44 @@ def main(argv: Sequence[str] | None = None) -> int:
         print(f"\n{novos} ponto(s) novo(s), {len(pontos) - novos} dedupe.")
         print("O horizonte aqui é contra o DEADLINE. A calibração RE-ANCORA contra")
         print("determination_date quando ele existir — o relógio da fonte, não o do fechamento.")
+        return 0
+    if args.command == "markets-consenso":
+        from asus_theye.markets.auditoria import AuditoriaError, abrir_auditoria
+        from asus_theye.markets.consenso import ConsensoError, medir, selar
+
+        try:
+            snap = medir()
+            selagem = None
+            if not args.no_audit:
+                selagem = selar(abrir_auditoria(Path("reports/audit/markets-ledger.db")), snap)
+        except (ConsensoError, AuditoriaError) as error:
+            print(f"markets-consenso: {error}")
+            return 1
+
+        if args.json_out:
+            print(json.dumps(snap, ensure_ascii=False, indent=2))
+            return 0
+
+        print("=" * 62)
+        print("CONSENSO FOCUS — a linha de base, medida com honestidade")
+        print("=" * 62)
+        print(f"\npares (consenso vintage x realizado): {snap['n']}  |  mínimo para agregar: {snap['amostra_minima']}")
+        for par in snap["pares"]:
+            print(
+                f"\n  {par['mes_referencia']}: Focus {par['consenso_focus']:.2f}% vs observado "
+                f"{par['valor_observado']:.2f}%  ->  erro {par['erro_absoluto_focus']:.4f}pp [{par['regime']}]"
+            )
+        if snap["suficiente"]:
+            print(f"\nMAE do Focus: {snap['mae_focus']:.4f}pp")
+            for regime, dados in snap["por_regime"].items():
+                mae = "—" if dados["mae"] is None else f"{dados['mae']:.4f}pp"
+                print(f"  {regime:16} n={dados['n']:<3} MAE={mae}")
+        else:
+            print(f"\n{snap['metodo']}")
+        print(f"\nRESSALVA OBRIGATÓRIA: {snap['dependencia_declarada']}")
+        if selagem is not None:
+            estado_selo = "dedupe" if selagem.get("duplicate") else "EVENTO market.consensus_benchmark SELADO"
+            print(f"\nselagem: {estado_selo} — {selagem['event_hash_sha256'][:16]}…")
         return 0
     if args.command == "markets-sinais":
         from asus_theye.markets.gerador import GeradorError
