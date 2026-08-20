@@ -12,6 +12,7 @@ from __future__ import annotations
 import os
 from pathlib import Path
 
+from asus_theye.dashboard.api_docs import api_docs_page
 from asus_theye.dashboard.benchmark import benchmark_page
 from asus_theye.dashboard.evidencia import evidencia_page
 from asus_theye.dashboard.mercados import mercados_page
@@ -77,6 +78,10 @@ def exportar(destino: Path) -> dict[str, list[str]]:
     # --- mlops.html ----------------------------------------------------------
     (destino / "mlops.html").write_text(mlops_page(), encoding="utf-8")
     gerados.append("mlops.html")
+
+    # --- api.html ------------------------------------------------------------
+    (destino / "api.html").write_text(api_docs_page(), encoding="utf-8")
+    gerados.append("api.html")
 
     # --- markets.html --------------------------------------------------------
     db_env = os.environ.get("ASUS_MARKETS_DB", "")

@@ -94,6 +94,7 @@ Atualize a sua linha ao comecar e ao terminar. Formato:
 | CODEX | codex/medicao-12-projetos | validar QKP e consolidar medicao | 05/08 | concluido |
 | CLAUDE | main | landing da raiz deixa de vender produto juridico e passa a apresentar a plataforma; Radar movido para /radar/ | 08/08 | concluido (6af9b8e) |
 | CODEX | codex/etapa-7-verificador | etapa 7: worker publico de verificacao, wrangler e README | 08/08 | concluido; commit criado pelo CLAUDE preservando autoria, merge em main |
+| CODEX | main | lote E: nowcast desafiante do IPCA, somente `markets/nowcast.py` e teste novo | 19/08 | concluído; 9 testes do lote e 187 de markets verdes |
 
 ---
 

@@ -7,6 +7,7 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Any
 
+from .api_docs import register_api_docs_routes
 from .auth import registrar_auth
 from .benchmark import register_benchmark_routes
 from .evidencia import register_evidencia_routes
@@ -46,4 +47,5 @@ def create_dashboard_app(
     register_mlops_routes(app)
     register_projeto_routes(app)
     register_mercados_routes(app)
+    register_api_docs_routes(app)
     return app
