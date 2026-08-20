@@ -7,6 +7,8 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+import pytest
+
 from asus_theye.dashboard.landing import landing_page
 from asus_theye.dashboard.navegacao import PAINEIS, barra
 
@@ -72,6 +74,8 @@ def test_landing_degrada_sem_medicao_mas_mantem_a_navegacao(tmp_path: Path) -> N
 
 def test_rota_raiz_responde_200(tmp_path: Path) -> None:
     """O 404 na raiz era o buraco: quem abria o servidor não via nada."""
+    pytest.importorskip("fastapi")
+    pytest.importorskip("httpx")
     from fastapi.testclient import TestClient
 
     from asus_theye.dashboard.app import create_dashboard_app
