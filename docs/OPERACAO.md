@@ -23,6 +23,7 @@ Sozinho, ele faz isto:
 4. tenta arquivar o vintage do mês com `python -m asus_theye.cli markets-vintage --mes "$(date -u +%Y-%m)"`;
 5. fotografa a série p(t) de cada claim vivo com `python -m asus_theye.cli markets-serie`;
 6. mede a linha de base do consenso com `python -m asus_theye.cli markets-consenso`;
+0. **verifica e sela a fronteira** com `python -m asus_theye.cli projeto-fronteira` (primeiro, e para tudo se romper);
 7. mede e sela a calibração com `python -m asus_theye.cli markets-calibracao`;
 5. roda `python -m asus_theye.cli projeto-medir`;
 6. se `THE_EYE_ANCHOR_PK` existir, instala `.[anchor]` e roda `python -m asus_theye.cli markets-anchor --execute --minimo 10`;
@@ -59,6 +60,8 @@ O que continua sendo ato humano:
 | `markets-serie` | Grava e sela um ponto da série p(t) por claim vivo — a trajetória sem a qual não existe Brier por horizonte. Idempotente: um ponto por claim por dia. | `asus-theye markets-serie --json` |
 | `markets-consenso` | Mede o erro do consenso Focus (vintage) contra o realizado — a linha de base da calibração. **Recusa** emitir agregado abaixo de 12 pares, e declara em todo resultado que a nossa probabilidade deriva do Focus (logo não há superação a alegar). | `asus-theye markets-consenso --json` |
 | `markets-calibracao` | Mede a calibração: curva de confiabilidade, Brier por horizonte **re-ancorado** e por área, decomposição de Murphy. **Recusa** agregar abaixo de 30 pares — e sela inclusive o 'ainda não dá', que também é informação auditável. | `asus-theye markets-calibracao --json` |
+| `markets-reprecificar` | Move `p` de um mercado **aberto** com a proveniência do sinal e **sela a mudança**. O valor antigo fica na corrente; recusa reprecificar claim liquidado (seria fabricar acerto). | `asus-theye markets-reprecificar --claim MACRO-01::2026-08 --motivo "..."` |
+| `projeto-fronteira` | Verifica e **sela** que a titularidade, a proveniência e a ausência de dado de terceiro restritivo seguem intactas. **Sai com erro** se algo rompeu — primeiro passo de toda rodada do cron. | `asus-theye projeto-fronteira --json` |
 | `markets-global` | Consulta indicador macro de **qualquer país** na fonte global (Banco Mundial, **CC-BY 4.0** — permite uso comercial). A atribuição exigida pela licença viaja no próprio dado. Ano não publicado devolve UNKNOWN, nunca zero. | `asus-theye markets-global --pais JPN --ano 2024 --json` |
 | `markets-sinais` | Mostra os sinais reais (Focus/IPCA-15) e a probabilidade WPAM. | `asus-theye markets-sinais --mes 2026-09 --limiar 0.5 --json` |
 | `markets-anchor` | Faz ensaio offline de ancoragem ou broadcast real se autorizado. | `asus-theye markets-anchor --minimo 10` |

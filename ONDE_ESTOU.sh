@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# SPDX-FileCopyrightText: 2026 Mateus Menezes Figueiredo
+# SPDX-License-Identifier: AGPL-3.0-or-later
 # O BOTÃO — responde "onde eu estou?" em uma tela, sem depender de memória
 # (nem sua, nem de IA). Só leitura: não altera, não publica, não gasta nada.
 set -uo pipefail

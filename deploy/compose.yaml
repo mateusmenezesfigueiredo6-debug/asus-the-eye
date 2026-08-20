@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2026 Mateus Menezes Figueiredo
+# SPDX-License-Identifier: AGPL-3.0-or-later
 # THE EYE — dashboard. Sobe fail-closed: sem THE_EYE_DASHBOARD_TOKEN, recusa.
 # Uso:  THE_EYE_DASHBOARD_TOKEN=$(openssl rand -hex 32) docker compose -f deploy/compose.yaml up --build
 services:
