@@ -211,7 +211,70 @@ def test_corrida_grava_manifesto_com_hash_e_focus_bloqueado(tmp_path: Path, monk
     manifesto = json.loads(corpo)
     assert corrida.artefatos[0]["sha256"] == hashlib.sha256(corpo).hexdigest()
     assert manifesto["metricas"]["brier_focus"] == "BLOCKED"
-    assert "vintage Focus" in manifesto["metricas"]["motivo_brier_focus"]
+    assert "vintage" in manifesto["metricas"]["motivo_brier_focus"]
     assert all(len(fold["fontes"]) == len(transporte.urls) for fold in manifesto["folds"])
     assert corrida.params["janela"] == 120
     assert corrida.params["especificacao"] == "R2"
+
+
+# ------------------------------------------------- baseline Focus por vintage
+
+
+def test_baseline_focus_bloqueado_ate_ter_serie(tmp_path) -> None:
+    """Menos que o mínimo de vintages = BLOCKED honesto, com quanto falta."""
+    import json as _json
+
+    from asus_theye.markets.nowcast import VINTAGES_MINIMOS, baseline_focus_por_vintage
+
+    r = baseline_focus_por_vintage(base=tmp_path)
+    assert r["estado"] == "BLOCKED" and r["faltam"] == VINTAGES_MINIMOS
+
+    (tmp_path / "vintage_focus.jsonl").write_text(
+        "\n".join(
+            _json.dumps(
+                {"mes_referencia": f"2026-{m:02d}", "mediana": 0.4, "capturado_em": f"2026-{m:02d}-01T00:00:00Z"}
+            )
+            for m in range(1, 4)
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+    r = baseline_focus_por_vintage(base=tmp_path)
+    assert r["estado"] == "BLOCKED" and r["meses_com_vintage"] == 3
+    assert "não se fabrica retroativamente" in r["motivo"]
+
+
+def test_baseline_usa_o_primeiro_vintage_de_cada_mes(tmp_path) -> None:
+    """Com série suficiente, o baseline sai do bloqueio usando o consenso do corte."""
+    import json as _json
+
+    from asus_theye.markets.nowcast import Fold, baseline_focus_por_vintage
+
+    linhas = []
+    for m in range(1, 25):  # 24 meses = mínimo
+        mes = f"2025-{m:02d}" if m <= 12 else f"2026-{m - 12:02d}"
+        # duas capturas do mesmo mês: a PRIMEIRA é a que vale (sem revisão)
+        linhas.append({"mes_referencia": mes, "mediana": 0.60, "capturado_em": f"{mes}-01T00:00:00Z"})
+        linhas.append({"mes_referencia": mes, "mediana": 0.10, "capturado_em": f"{mes}-28T00:00:00Z"})
+    (tmp_path / "vintage_focus.jsonl").write_text("\n".join(_json.dumps(li) for li in linhas) + "\n", encoding="utf-8")
+    folds = [
+        Fold(
+            mes="2025-01",
+            meses_treino=(),
+            alpha=1.0,
+            intercepto=0.0,
+            coeficientes=(),
+            medias_treino=(),
+            desvios_treino=(),
+            previsao=0.0,
+            observado=0.7,
+            residuo=0.7,
+            limiar=0.5,
+            probabilidade=None,
+            desfecho=1,
+        )
+    ]
+    r = baseline_focus_por_vintage(folds, base=tmp_path)
+    assert r["estado"] == "OK"
+    # primeiro vintage = 0.60 >= 0.50 → p=1; observado 0.7 >= 0.50 → o=1 → Brier 0
+    assert r["brier_focus"] == 0.0 and r["n_meses"] == 1
