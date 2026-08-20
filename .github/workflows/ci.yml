@@ -74,6 +74,24 @@ jobs:
           uv venv
           uv pip install -e '.[dev]'
 
+      - name: FRONTEIRA — titularidade e direitos do titular
+        # A trava mais importante do repositório, e por isso ela roda em TODO
+        # PR, não só no cron. Verifica que cada arquivo versionado declara a
+        # titularidade, que a proveniência está registrada, e que nenhum dado de
+        # terceiro com termos restritivos voltou. Sai com erro se romper —
+        # nenhum PR entra na main afrouxando a autoria do titular.
+        run: .venv/bin/python -m asus_theye.cli projeto-fronteira --no-audit
+
+      - name: Validar os workflows (actionlint)
+        # Um `secrets` dentro de `if:` de step invalidou operacao-continua.yml e
+        # ele falhou 53 vezes em 0s sem ninguém ver. O YAML era VÁLIDO — só
+        # actionlint pega erro de expressão. yamllint não pegaria.
+        run: |
+          curl -sSLo actionlint.tar.gz \
+            https://github.com/rhysd/actionlint/releases/download/v1.7.7/actionlint_1.7.7_linux_amd64.tar.gz
+          tar -xzf actionlint.tar.gz actionlint
+          ./actionlint -color
+
       - name: Portão de política
         # broadcast desligado, nenhum .env real, ABI de ancoragem estreita
         run: .venv/bin/python scripts/policy_gate.py
