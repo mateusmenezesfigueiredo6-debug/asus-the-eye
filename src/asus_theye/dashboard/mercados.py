@@ -23,7 +23,7 @@ import json
 from pathlib import Path
 from typing import Any
 
-from .navegacao import CSS_NAV, barra
+from .navegacao import CSS_AVISO, CSS_NAV, barra, rodape
 
 BASE_PADRAO = Path("reports/markets")
 
@@ -79,7 +79,7 @@ def _linha_divergencia(obs: dict[str, Any]) -> str:
     )
 
 
-def mercados_page(base: Path | None = None) -> str:
+def mercados_page(base: Path | None = None, *, estatico: bool = False) -> str:
     pasta = base if base is not None else BASE_PADRAO
     registro_path = pasta / "registro.json"
     mercados: list[dict[str, Any]] = []
@@ -96,7 +96,7 @@ def mercados_page(base: Path | None = None) -> str:
             '<p class="muted">Registro vazio. Emita com <code>asus-theye markets-emitir</code> '
             "ou deixe o laço de resolução emitir na próxima liquidação.</p>"
         )
-        return _shell(corpo)
+        return _shell(corpo, estatico=estatico)
 
     areas = sorted({str(m["market_area_id"]) for m in mercados})
     com_wpam = sum(1 for m in vivos if m.get("gerador"))
@@ -131,10 +131,10 @@ os demais declaram o prior 0,50 — sem sinal, sem convicção inventada.</p>
 liquidar contra a fonte oficial declarada. Reconstruções retrospectivas do acervo legado NÃO aparecem aqui
 (são inelegíveis como previsão; ver a linhagem em /evidencia). Toda liquidação e divergência é evento selado
 na cadeia auditável.</p>"""
-    return _shell(corpo)
+    return _shell(corpo, estatico=estatico)
 
 
-def _shell(corpo: str) -> str:
+def _shell(corpo: str, *, estatico: bool = False) -> str:
     return f"""<!doctype html>
 <html lang="pt-br"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width">
 <title>ASUS THE EYE — Mercados</title><style>
@@ -163,10 +163,11 @@ main{{padding:24px 12px}}
 th,td{{padding:10px 8px}}
 th{{font-size:.72rem}}
 }}
-{CSS_NAV}
+{CSS_NAV}{CSS_AVISO}
 </style></head><body><main><h1>MERCADOS — medidos contra a fonte oficial</h1>
-{barra("/mercados")}
+{barra("/mercados", estatico=estatico)}
 {corpo}
+{rodape()}
 </main></body></html>"""
 
 

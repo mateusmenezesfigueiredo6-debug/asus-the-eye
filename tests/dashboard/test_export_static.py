@@ -59,7 +59,7 @@ def test_exportar_index_tem_links(tmp_path: Path) -> None:
     assert "projeto.html" in html
     assert "evidencia.html" in html
     assert "corrente.html" in html
-    assert "benchmark.html" in html
+    assert "mercados.html" in html  # a vitrine linka produto, não telemetria
     assert "api.html" in html
     assert "<!doctype html>" in html.lower()
 
@@ -126,3 +126,59 @@ def test_export_inclui_mercados_html(tmp_path, monkeypatch):
     assert "mercados.html" in resultado["gerados"]
     conteudo = (tmp_path / "mercados.html").read_text(encoding="utf-8")
     assert "probabilidade com proveniência" in conteudo or "MERCADOS" in conteudo
+
+
+# ------------------------------------------------------------ o site publicado
+
+
+def test_index_e_a_landing_e_nao_uma_lista_de_arquivos(tmp_path: Path) -> None:
+    """A porta da frente do produto não pode ser um <ul> de nomes de arquivo.
+
+    Havia um _INDEX_TEMPLATE próprio em export_static.py, escrito antes de
+    landing.py existir: o index publicado tinha 963 bytes e listava
+    "projeto.html", "evidencia.html"… A landing real, com os dois produtos e os
+    números vivos, nunca chegava ao dist/. Este teste falha se alguém
+    reintroduzir um índice cru.
+    """
+    from asus_theye.dashboard.export_static import exportar
+
+    exportar(tmp_path)
+    index = (tmp_path / "index.html").read_text(encoding="utf-8")
+    assert "THE EYE Markets" in index and "THE EYE Ledger" in index
+    assert "ASUS THE EYE" in index
+    assert len(index) > 3000, "index pequeno demais para ser a landing"
+
+
+def test_todo_link_do_site_aponta_para_arquivo_existente(tmp_path: Path) -> None:
+    """Link morto em site publicado é pior do que site não publicado.
+
+    A navegação emite rotas absolutas (/mercados) no servidor; no dist/ os
+    arquivos são mercados.html. Depender do host resolver URL sem extensão é
+    apostar numa configuração que pode não existir — este teste prova que não
+    dependemos.
+    """
+    import re
+
+    from asus_theye.dashboard.export_static import exportar
+
+    resultado = exportar(tmp_path)
+    quebrados = []
+    for pagina in resultado["gerados"]:
+        html = (tmp_path / pagina).read_text(encoding="utf-8")
+        for alvo in re.findall(r'href="([^"]+)"', html):
+            if alvo.startswith(("http://", "https://", "#", "mailto:")):
+                continue
+            if not (tmp_path / alvo).exists():
+                quebrados.append(f"{pagina} -> {alvo}")
+    assert not quebrados, f"links mortos no site publicado: {quebrados}"
+
+
+def test_todo_painel_publicado_carrega_o_aviso_de_escopo(tmp_path: Path) -> None:
+    """Sem isto, 'mercados preditivos' em PT-BR pode ser lido como casa de apostas."""
+    from asus_theye.dashboard.export_static import exportar
+
+    resultado = exportar(tmp_path)
+    sem_aviso = [
+        p for p in resultado["gerados"] if "não é casa de apostas" not in (tmp_path / p).read_text(encoding="utf-8")
+    ]
+    assert not sem_aviso, f"páginas publicadas sem o aviso de escopo: {sem_aviso}"

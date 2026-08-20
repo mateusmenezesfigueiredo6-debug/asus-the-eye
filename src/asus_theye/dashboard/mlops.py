@@ -14,7 +14,7 @@ import json
 from pathlib import Path
 from typing import Any
 
-from .navegacao import CSS_NAV, barra
+from .navegacao import CSS_AVISO, CSS_NAV, barra, rodape
 
 
 def _ler_jsonl(caminho: Path) -> list[dict[str, Any]]:
@@ -108,7 +108,7 @@ def _campeao_desafiante_secao(
     return "<h2>Campeão / Desafiante por modelo</h2>" + "".join(secoes)
 
 
-def mlops_page(base: Path | None = None) -> str:  # noqa: PLR0914
+def mlops_page(base: Path | None = None, *, estatico: bool = False) -> str:  # noqa: PLR0914
     """Renderiza o painel MLOps como HTML puro."""
     raiz = Path("reports/mlops") if base is None else base
 
@@ -152,10 +152,10 @@ def mlops_page(base: Path | None = None) -> str:  # noqa: PLR0914
     )
 
     corpo = f"{cards}\n{tabela_corridas}\n{cd_secao}\n{aviso}"
-    return _shell(corpo)
+    return _shell(corpo, estatico=estatico)
 
 
-def _shell(corpo: str) -> str:
+def _shell(corpo: str, *, estatico: bool = False) -> str:
     return f"""<!doctype html>
 <html lang="pt-br"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width">
 <title>ASUS THE EYE — MLOps</title><style>
@@ -186,10 +186,11 @@ main{{padding:24px 12px}}
 th,td{{padding:10px 8px}}
 th{{font-size:.72rem}}
 }}
-{CSS_NAV}
+{CSS_NAV}{CSS_AVISO}
 </style></head><body><main><h1>MLOPS</h1>
-{barra("/mlops")}
+{barra("/mlops", estatico=estatico)}
 {corpo}
+{rodape()}
 </main></body></html>"""
 
 

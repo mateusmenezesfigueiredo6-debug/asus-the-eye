@@ -14,7 +14,7 @@ import html
 from pathlib import Path
 from typing import Any
 
-from .navegacao import CSS_NAV, barra
+from .navegacao import CSS_AVISO, CSS_NAV, barra, rodape
 
 ESTADO_ROTULO = {"concluida": ("ok", "concluída"), "parcial": ("warn", "parcial"), "pendente": ("bad", "pendente")}
 
@@ -29,7 +29,7 @@ def _fase_linha(fase: dict[str, Any]) -> str:
     )
 
 
-def projeto_page(base: Path | None = None) -> str:
+def projeto_page(base: Path | None = None, *, estatico: bool = False) -> str:
     from asus_theye.projeto import MedicaoError, medir_projeto
 
     try:
@@ -40,7 +40,7 @@ def projeto_page(base: Path | None = None) -> str:
             '<div class="value">indisponível</div></div></section>'
             f'<p class="muted">{html.escape(str(error))}</p>'
         )
-        return _shell(corpo)
+        return _shell(corpo, estatico=estatico)
 
     caminho = snap["caminho_minimo"]
     produtos = snap["produtos"]
@@ -71,7 +71,7 @@ def projeto_page(base: Path | None = None) -> str:
 {_tabela_produtos(produtos)}
 <p class="muted">{html.escape(str(snap["ressalva"]))} Selagem: <code>asus-theye projeto-medir</code> —
 mesmo estado não re-sela (dedupe); estado novo vira evento novo na cadeia.</p>"""
-    return _shell(corpo)
+    return _shell(corpo, estatico=estatico)
 
 
 def _tabela_produtos(produtos: dict[str, Any]) -> str:
@@ -86,7 +86,7 @@ def _tabela_produtos(produtos: dict[str, Any]) -> str:
     )
 
 
-def _shell(corpo: str) -> str:
+def _shell(corpo: str, *, estatico: bool = False) -> str:
     return f"""<!doctype html>
 <html lang="pt-br"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width">
 <title>ASUS THE EYE — Projeto</title><style>
@@ -114,10 +114,11 @@ main{{padding:24px 12px}}
 th,td{{padding:10px 8px}}
 th{{font-size:.72rem}}
 }}
-{CSS_NAV}
+{CSS_NAV}{CSS_AVISO}
 </style></head><body><main><h1>MEDIÇÃO DO PROJETO</h1>
-{barra("/projeto")}
+{barra("/projeto", estatico=estatico)}
 {corpo}
+{rodape()}
 </main></body></html>"""
 
 

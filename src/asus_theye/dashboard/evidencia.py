@@ -18,7 +18,7 @@ from typing import Any
 
 from asus_theye.evidence.entidades import EVENTO, FONTE
 
-from .navegacao import CSS_NAV, barra
+from .navegacao import CSS_AVISO, CSS_NAV, barra, rodape
 
 
 def _cor_do_tipo(tipo: str) -> str:
@@ -33,7 +33,7 @@ def _cor_do_tipo(tipo: str) -> str:
     }.get(tipo, "var(--muted)")
 
 
-def evidencia_page(base: str | Path | None = None) -> str:
+def evidencia_page(base: str | Path | None = None, *, estatico: bool = False) -> str:
     from asus_theye.evidence import construir_grafo, linhagem_ascendente
     from asus_theye.evidence.grafo import BASE_PADRAO
 
@@ -45,7 +45,7 @@ def evidencia_page(base: str | Path | None = None) -> str:
             '<p class="muted">Nenhum evento selado ainda. Rode <code>asus-theye markets-resolve</code> '
             "para medir e selar; a linhagem aparece aqui.</p>"
         )
-        return _shell(corpo)
+        return _shell(corpo, estatico=estatico)
 
     tipos = [chave[0] for chave in grafo.nos]
     tem_ancora = any(t == "Ancora" for t in tipos)
@@ -99,10 +99,10 @@ def evidencia_page(base: str | Path | None = None) -> str:
         )
     )
     blocos_html = "\n".join(blocos)
-    return _shell(cards + blocos_html + aviso)
+    return _shell(cards + blocos_html + aviso, estatico=estatico)
 
 
-def _shell(corpo: str) -> str:
+def _shell(corpo: str, *, estatico: bool = False) -> str:
     return f"""<!doctype html>
 <html lang="pt-br"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width">
 <title>ASUS THE EYE — Evidência</title><style>
@@ -128,10 +128,11 @@ main{{padding:24px 12px}}
 .label{{font-size:.74rem}}
 .meta{{font-size:.72rem}}
 }}
-{CSS_NAV}
+{CSS_NAV}{CSS_AVISO}
 </style></head><body><main><h1>EVIDÊNCIA — linhagem verificável</h1>
-{barra("/evidencia")}
+{barra("/evidencia", estatico=estatico)}
 {corpo}
+{rodape()}
 </main></body></html>"""
 
 

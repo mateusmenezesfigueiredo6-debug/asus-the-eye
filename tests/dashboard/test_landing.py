@@ -29,14 +29,30 @@ def _base(tmp: Path) -> Path:
 
 
 def test_barra_marca_a_pagina_corrente() -> None:
-    marcado = barra("/projeto")
-    assert 'href="/projeto" aria-current="page"' in marcado
+    marcado = barra("/mercados")
+    assert 'href="/mercados" aria-current="page"' in marcado
     assert 'href="/corrente" aria-current="page"' not in marcado
 
 
 def test_barra_sem_rota_conhecida_nao_marca_ninguem() -> None:
     """Rota desconhecida degrada para 'nenhum marcado' — melhor que marcar errado."""
     assert 'aria-current="page"' not in barra("/rota-que-nao-existe")
+
+
+def test_a_vitrine_nao_expoe_a_telemetria_interna() -> None:
+    """O cliente vê dois produtos, não a instrumentação de quem os construiu.
+
+    /projeto (percentual de fases), /mlops (corridas de ML) e /benchmark
+    (quântico, legado de outro projeto) continuam servidos e versionados — mas
+    fora do menu. Misturar as duas coisas fazia a porta da frente parecer um
+    painel de engenharia.
+    """
+    from asus_theye.dashboard.navegacao import PAINEIS, PAINEIS_INTERNOS
+
+    publicas = {rota for rota, _ in PAINEIS}
+    for rota, _ in PAINEIS_INTERNOS:
+        assert rota not in publicas, f"{rota} é telemetria interna e não pertence à vitrine"
+    assert "/mercados" in publicas and "/corrente" in publicas  # um de cada produto
 
 
 def test_barra_lista_todos_os_paineis() -> None:
@@ -68,7 +84,7 @@ def test_landing_degrada_sem_medicao_mas_mantem_a_navegacao(tmp_path: Path) -> N
     """Sem fases declaradas a página diz que não sabe — e continua navegável."""
     page = landing_page(tmp_path)  # sem projeto/fases.json
     assert "Medição indisponível" in page
-    assert 'href="/projeto"' in page  # navegação sobrevive à falha da medição
+    assert 'href="/mercados"' in page  # navegação sobrevive à falha da medição
     assert "THE EYE Markets" in page
 
 

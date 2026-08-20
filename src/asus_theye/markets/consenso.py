@@ -30,6 +30,13 @@ import json
 from pathlib import Path
 from typing import Any
 
+# De qual ÁREA cada indicador do Focus fala. Sem isto o pareamento por mês
+# casaria a mediana do IPCA com o valor observado do câmbio — números da mesma
+# data que não respondem à mesma pergunta. O erro resultante seria fabricado, e
+# ele seria SELADO na corrente e ancorado on-chain: exatamente a falha que esta
+# plataforma existe para impedir.
+AREA_DO_INDICADOR = {"IPCA": "macroeconomia", "Selic": "juros", "Câmbio": "cambio"}
+
 VINTAGE_PADRAO = Path("reports/markets/vintage_focus.jsonl")
 RESOLUCOES_PADRAO = Path("reports/markets/resolucoes.jsonl")
 
@@ -78,16 +85,24 @@ def parear(
     arquivamento) simplesmente não formam par — e a ausência é reportada, não
     preenchida.
     """
-    por_mes_realizado = {}
+    # a chave é (área, mês) — nunca só o mês
+    por_area_e_mes: dict[tuple[str, str], dict[str, Any]] = {}
     for linha in _jsonl(resolucoes):
         mes = str(linha.get("mes_referencia", "")) or str(linha.get("claim_id", "")).split("::")[-1]
-        if mes and linha.get("valor_observado") is not None:
-            por_mes_realizado[mes] = linha
+        area = str(linha.get("market_area_id", ""))
+        if mes and area and linha.get("valor_observado") is not None:
+            por_area_e_mes[(area, mes)] = linha
 
     pares = []
     for vintage in _jsonl(vintages):
         mes = str(vintage.get("mes_referencia", ""))
-        realizado = por_mes_realizado.get(mes)
+        indicador = str(vintage.get("indicador", ""))
+        area_do_vintage = AREA_DO_INDICADOR.get(indicador)
+        if area_do_vintage is None:
+            # indicador sem área declarada não pareia com nada: parear às cegas
+            # é como o erro fabricado nasce
+            continue
+        realizado = por_area_e_mes.get((area_do_vintage, mes))
         if realizado is None:
             continue
         mediana = float(vintage["mediana"])
@@ -96,6 +111,8 @@ def parear(
         pares.append(
             {
                 "mes_referencia": mes,
+                "indicador": indicador,
+                "market_area_id": area_do_vintage,
                 "consenso_focus": mediana,
                 "data_do_boletim": vintage.get("data_do_boletim"),
                 "vintage_id": vintage.get("vintage_id"),
