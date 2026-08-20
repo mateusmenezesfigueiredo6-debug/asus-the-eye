@@ -27,8 +27,9 @@
       "id": "N3",
       "nome": "Nuvem: operação contínua sem humano",
       "estado": "parcial",
-      "peso_concluido": 0.7,
-      "metodo": "workflow operacao-continua na main (cron 11-15/mês) com ensaio workflow_dispatch VERDE no runner; 100% quando o dono plantar os 2 segredos (gh secret set) e a 1ª rodada real do cron liquidar/selar sozinha"
+      "peso_concluido": 0.3,
+      "metodo": "RETRATADO em 20/08/2026. O texto anterior afirmava 'ensaio workflow_dispatch VERDE' e 'faltam 2 segredos' — as duas coisas eram falsas. Os segredos THE_EYE_AUDIT_KEY_HEX e THE_EYE_LEDGER_TOKEN estão plantados desde 19/08 22:27. E o workflow estava INVÁLIDO desde 20/08 05:54 (contexto `secrets` em `if:` de step), com 53 execuções falhando em 0s sem log. Corrigido no PR #88. 1,0 quando uma rodada real com somente_verificar=false provar o laço ponta a ponta — o caminho real não roda desde 19/08, antes do expurgo da Kalshi e do fail-closed de ingestão, então é plausível que apareça outro defeito.",
+      "criterio_verificavel": "gh run list --workflow=operacao-continua.yml mostra success com somente_verificar=false"
     },
     {
       "id": "M1",

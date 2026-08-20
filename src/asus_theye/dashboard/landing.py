@@ -66,7 +66,8 @@ def _cartoes_de_prova(base: Path | None) -> str:
 <div class="card"><div class="label">Corrente auditável</div>
 <div class="value">{corrente["eventos"]}</div><div class="muted">eventos — {verifica}</div></div>
 <div class="card"><div class="label">Âncoras on-chain</div>
-<div class="value">{ancoragem["ancoras"]}</div><div class="muted">Base Sepolia</div></div>
+<div class="value">{ancoragem["ancoras"]}</div>
+<div class="muted">Base Sepolia (rede de teste)</div></div>
 <div class="card"><div class="label">Mercados vivos</div>
 <div class="value">{medicao["mercados"] - medicao["liquidados"]}</div>
 <div class="muted">{medicao["liquidados"]} já liquidado(s)</div></div>
