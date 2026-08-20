@@ -43,6 +43,13 @@ class SinaisCambioError(RuntimeError):
     """Fonte de sinal malformada ou fora do ar. Sempre levanta — sinal não se inventa."""
 
 
+def _mes_corrente() -> str:
+    """Mês corrente em UTC — a janela onde a PTAX vigente de fato existe."""
+    from datetime import datetime, timezone
+
+    return datetime.now(timezone.utc).strftime("%Y-%m")
+
+
 def _mes_olinda(mes_referencia: str) -> str:
     """``aaaa-mm`` → ``mm/aaaa`` (o formato de ``DataReferencia`` no Olinda)."""
     try:
@@ -117,18 +124,25 @@ def sinais_para_cambio(
             )
         )
 
+    # A PTAX do MÊS-ALVO não serve como sinal, por dois motivos. Para um mês
+    # futuro ela não existe — a API devolve 404, que é o caso NORMAL de um
+    # mercado aberto, não um erro. E se existisse, seria a própria resposta:
+    # usar o desfecho como insumo da previsão é circular. O sinal legítimo é a
+    # PTAX vigente HOJE, que é informação disponível no momento da aposta.
     try:
-        ptax = ptax_venda_fim_do_mes(mes_referencia, transport=transport)
-    except FontePTAXError as exc:
-        raise SinaisCambioError(f"PTAX (SGS 1) com resposta inválida: {exc}") from exc
+        ptax = ptax_venda_fim_do_mes(_mes_corrente(), transport=transport)
+    except FontePTAXError:
+        # fonte indisponível é AUSÊNCIA DE SINAL, nunca erro fatal: um mercado
+        # aberto não pode deixar de ser precificado porque uma das fontes falhou
+        ptax = None
     if ptax is not None:
         sinais.append(
             Sinal(
                 direcao="sim" if ptax >= limiar else "nao",
                 peso=PESO_PTAX,
                 fonte=(
-                    f"BCB SGS 1 (PTAX venda, último do mês) — "
-                    f"{mes_referencia}: R$ {ptax:.4f} (criterio >= R$ {limiar:.2f})"
+                    f"BCB SGS 1 (PTAX venda vigente, {_mes_corrente()}) — "
+                    f"R$ {ptax:.4f} (criterio do claim {mes_referencia}: >= R$ {limiar:.2f})"
                 ),
             )
         )
