@@ -11,7 +11,7 @@ from typing import Any
 
 from asus_theye.audit.anchor import eventos_sem_ancora
 from asus_theye.audit.schema import verify_chain
-from asus_theye.markets.auditoria import _fingerprint
+from asus_theye.markets.auditoria import fingerprint_da_chave
 from asus_theye.markets.live import carregar_registro
 
 TITULAR = "Mateus Menezes Figueiredo"
@@ -87,7 +87,7 @@ def _resumo_chave(chave_path: Path, fingerprint_path: Path) -> dict[str, Any]:
             "recupere reports/markets/chave.fingerprint versionado junto da corrente original",
         )
     try:
-        atual = _fingerprint(_ler_chave_local(chave_path))
+        atual = fingerprint_da_chave(_ler_chave_local(chave_path))
         gravada = fingerprint_path.read_text(encoding="utf-8").strip()
     except (OSError, UnicodeDecodeError, ValueError) as exc:
         return _item(
@@ -218,6 +218,12 @@ def _resumo_titularidade(raiz: Path) -> dict[str, Any]:
 
 
 def _resumo_backup(backup_dir: Path) -> dict[str, Any]:
+    if not backup_dir.exists():
+        return _item(
+            False,
+            f"diretório de backup ausente: {backup_dir}",
+            "monte/crie o diretório oficial e copie para lá um pacote the-eye-chaves-*.tar.gz.gpg",
+        )
     candidatos = sorted(backup_dir.glob("the-eye-chaves-*.tar.gz.gpg"), key=lambda caminho: caminho.stat().st_mtime)
     if not candidatos:
         return _item(

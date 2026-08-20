@@ -75,6 +75,11 @@ def _fingerprint(chave: bytes) -> str:
     return hmac.new(chave, b"the-eye-markets-key-fingerprint", hashlib.sha256).hexdigest()
 
 
+def fingerprint_da_chave(chave: bytes) -> str:
+    """API pública da impressão da chave, sem expor a chave em si."""
+    return _fingerprint(chave)
+
+
 def _eventos_do_arquivo(eventos: Path) -> list[dict[str, Any]]:
     if not eventos.exists():
         return []
