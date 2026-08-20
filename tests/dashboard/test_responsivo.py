@@ -15,6 +15,7 @@ RAIZ = Path(__file__).resolve().parents[2]
     ("relpath", "marcadores", "tem_wrapper"),
     [
         ("src/asus_theye/dashboard/projeto.py", ("MEDIÇÃO DO PROJETO", "Roteiro dos produtos", "Caminho mínimo"), True),
+        ("src/asus_theye/dashboard/corrente.py", ("CORRENTE", "Legendas por tipo", "conteúdo não sai daqui"), True),
         ("src/asus_theye/dashboard/mercados.py", ("MERCADOS", "Mercados vivos", "Divergência vs comparador"), True),
         ("src/asus_theye/dashboard/evidencia.py", ("EVIDÊNCIA", "Linhagem verificável", "Fonte provada"), False),
         ("src/asus_theye/dashboard/mlops.py", ("MLOPS", "Corridas", "Campeão / Desafiante por modelo"), True),

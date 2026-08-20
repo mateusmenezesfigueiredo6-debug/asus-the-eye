@@ -13,11 +13,12 @@ from asus_theye.dashboard.export_static import exportar
 
 
 def test_exportar_gera_html_basico(tmp_path: Path) -> None:
-    """Três painéis devem ser gerados sem ASUS_MARKETS_DB; markets é pulado."""
+    """Painéis base devem ser gerados sem ASUS_MARKETS_DB; markets é pulado."""
     resultado = exportar(tmp_path)
     assert set(resultado["gerados"]) == {
         "projeto.html",
         "evidencia.html",
+        "corrente.html",
         "benchmark.html",
         "mercados.html",
         "mlops.html",
@@ -56,6 +57,7 @@ def test_exportar_index_tem_links(tmp_path: Path) -> None:
     html = (tmp_path / "index.html").read_text(encoding="utf-8")
     assert "projeto.html" in html
     assert "evidencia.html" in html
+    assert "corrente.html" in html
     assert "benchmark.html" in html
     assert "api.html" in html
     assert "<!doctype html>" in html.lower()
