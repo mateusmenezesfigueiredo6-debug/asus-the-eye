@@ -49,8 +49,9 @@ def _svg_bar_chart(
     svg_width = value_x + 80
     svg_height = 16 + (len(points) * row_height)
     max_value = max((value for _, value in points), default=0.0)
+    has_negative = any(value < 0 for _, value in points)
 
-    if max_value <= 0:
+    if has_negative or max_value <= 0:
         parts = [
             (
                 f'<svg class="chart-svg" viewBox="0 0 {svg_width} {svg_height}" '
