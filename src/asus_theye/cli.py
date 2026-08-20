@@ -157,6 +157,13 @@ def _parser() -> argparse.ArgumentParser:
     )
     markets_emitir.add_argument("--store", type=Path, default=Path("reports/markets/registro.json"))
     markets_emitir.add_argument("--json", dest="json_out", action="store_true", help="saída em JSON")
+    markets_vintage = subcommands.add_parser(
+        "markets-vintage",
+        help="arquiva o consenso Focus vigente (vintage) e sela — destrava o Brier comparativo do nowcast",
+    )
+    markets_vintage.add_argument("--mes", required=True, help="mês de referência, aaaa-mm")
+    markets_vintage.add_argument("--json", dest="json_out", action="store_true", help="saída em JSON")
+    markets_vintage.add_argument("--no-audit", action="store_true", help="arquiva sem selar na cadeia")
     markets_comparar = subcommands.add_parser(
         "markets-comparar",
         help="mede e SELA a divergência vs comparador (Kalshi) — comparador nunca resolve",
@@ -824,6 +831,36 @@ def main(argv: Sequence[str] | None = None) -> int:
         print(f"\n{mercado_novo['claim_id']}  (p = {mercado_novo['probability']:.2f}, prior honesto)")
         print(f"{mercado_novo['question']}")
         print(f"critério: {mercado_novo['criterio']}  |  fonte: {mercado_novo['resolution_source']}")
+        return 0
+    if args.command == "markets-vintage":
+        from asus_theye.markets.auditoria import AuditoriaError, abrir_auditoria
+        from asus_theye.markets.vintage_focus import VintageError, arquivar_vintage
+
+        try:
+            sdk_v = None if args.no_audit else abrir_auditoria()
+            resultado = arquivar_vintage(args.mes, sdk=sdk_v)
+        except (VintageError, AuditoriaError) as error:
+            print(f"markets-vintage: {error}")
+            return 1
+        if args.json_out:
+            print(json.dumps(resultado["registro"], ensure_ascii=False, indent=2))
+            return 0
+        reg = resultado["registro"]
+        print("=" * 62)
+        print("VINTAGE DO FOCUS — o consenso como ele era hoje")
+        print("=" * 62)
+        if reg is None:
+            print(f"\n{args.mes}: {resultado['motivo']} — nada a arquivar (UNKNOWN, não zero)")
+            return 0
+        print(f"\nmês {reg['mes_referencia']} | mediana {reg['mediana']:.2f}% | boletim {reg['data_do_boletim']}")
+        print(f"fonte: {reg['fonte']}")
+        print(f"vintage_id: {reg['vintage_id'][:32]}…")
+        if resultado["duplicate"]:
+            print("\n(mesmo boletim já arquivado — dedupe)")
+        if resultado["selagem"] is not None:
+            s = resultado["selagem"]
+            estado_selo = "dedupe" if s.get("duplicate") else "EVENTO market.vintage SELADO"
+            print(f"selagem: {estado_selo} — {s['event_hash_sha256'][:16]}…")
         return 0
     if args.command == "markets-comparar":
         from asus_theye.markets.auditoria import AuditoriaError, abrir_auditoria

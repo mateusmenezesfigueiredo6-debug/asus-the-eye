@@ -76,6 +76,9 @@ jobs:
         if: ${{ github.event.inputs.somente_verificar != 'true' }}
         run: |
           python -m asus_theye.cli markets-resolve
+          # vintage do Focus: o consenso de HOJE só existe hoje — arquivar é a
+          # única forma de ter Brier comparativo honesto no futuro
+          python -m asus_theye.cli markets-vintage --mes "$(date -u +%Y-%m)" || true
           python -m asus_theye.cli projeto-medir
 
       - name: Espelhar a corrente no D1
