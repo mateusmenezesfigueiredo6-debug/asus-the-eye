@@ -18,16 +18,30 @@ import html
 
 # (rota, rótulo) — a ordem é a da jornada: o que é o produto, depois a prova,
 # depois os bastidores. Rotas que não existem no servidor não entram aqui.
+# A VITRINE — só o que um cliente compraria, agrupado pelos DOIS produtos.
+#
+# O que saiu daqui e por quê: /projeto (percentual de fases), /mlops (corridas
+# de ML) e /benchmark (benchmark quântico, legado de outro projeto) são
+# telemetria INTERNA da obra. Continuam servidos e continuam versionados — mas
+# quem abre a porta da frente tem de ver dois produtos, não a instrumentação de
+# quem os construiu. Misturar as duas coisas foi o que fez a vitrine parecer um
+# painel de engenharia em vez de um produto.
 PAINEIS: tuple[tuple[str, str], ...] = (
     ("/", "início"),
+    # --- Produto 1: THE EYE Markets — a previsão e a prova de que ela vale
     ("/mercados", "mercados"),
-    ("/evidencia", "evidência"),
     ("/calibracao", "calibração"),
+    # --- Produto 2: THE EYE Ledger — a trilha e como conferi-la sozinho
     ("/corrente", "corrente"),
+    ("/evidencia", "evidência"),
+    ("/api", "verificar"),
+)
+
+# Servidos, fora do menu público. Quem sabe a URL chega; ninguém tropeça neles.
+PAINEIS_INTERNOS: tuple[tuple[str, str], ...] = (
     ("/projeto", "projeto"),
-    ("/benchmark", "benchmark"),
     ("/mlops", "mlops"),
-    ("/api", "api"),
+    ("/benchmark", "benchmark"),
 )
 
 CSS_NAV = """

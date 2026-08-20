@@ -59,7 +59,7 @@ def test_exportar_index_tem_links(tmp_path: Path) -> None:
     assert "projeto.html" in html
     assert "evidencia.html" in html
     assert "corrente.html" in html
-    assert "benchmark.html" in html
+    assert "mercados.html" in html  # a vitrine linka produto, não telemetria
     assert "api.html" in html
     assert "<!doctype html>" in html.lower()
 
