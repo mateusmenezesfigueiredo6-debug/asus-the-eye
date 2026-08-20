@@ -291,6 +291,12 @@ def _parser() -> argparse.ArgumentParser:
     )
     relatorio_mensal.add_argument("--mes", default=None, help="mês de referência em AAAA-MM (padrão: mês UTC atual)")
     relatorio_mensal.add_argument("--saida", type=Path, default=None, help="arquivo Markdown de saída")
+    relatorio_anual = subcommands.add_parser(
+        "relatorio-anual",
+        help="gera o consolidado anual em Markdown da atividade real da plataforma",
+    )
+    relatorio_anual.add_argument("--ano", default=None, help="ano de referência em AAAA (padrão: ano UTC atual)")
+    relatorio_anual.add_argument("--saida", type=Path, default=None, help="arquivo Markdown de saída")
     return parser
 
 
@@ -1069,6 +1075,21 @@ def main(argv: Sequence[str] | None = None) -> int:
             texto = relatorio_mensal(args.mes, base=_reports_base())
         except ValueError as error:
             print(f"relatorio-mensal: {error}")
+            return 1
+        if args.saida is not None:
+            args.saida.parent.mkdir(parents=True, exist_ok=True)
+            args.saida.write_text(texto, encoding="utf-8")
+            print(f"relatório: {args.saida}")
+            return 0
+        print(texto)
+        return 0
+    if args.command == "relatorio-anual":
+        from asus_theye.relatorio import relatorio_anual
+
+        try:
+            texto = relatorio_anual(args.ano, base=_reports_base())
+        except ValueError as error:
+            print(f"relatorio-anual: {error}")
             return 1
         if args.saida is not None:
             args.saida.parent.mkdir(parents=True, exist_ok=True)
