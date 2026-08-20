@@ -96,7 +96,8 @@ def evidencia_page(base: str | Path | None = None) -> str:
             "PARCIAL (para no evento selado). Ancore para estendê-la até a raiz Merkle pública.</p>"
         )
     )
-    return _shell(cards + "\n".join(blocos) + aviso)
+    blocos_html = "\n".join(blocos)
+    return _shell(cards + f'<div class="table-wrap">{blocos_html}</div>' + aviso)
 
 
 def _shell(corpo: str) -> str:
@@ -105,7 +106,7 @@ def _shell(corpo: str) -> str:
 <title>ASUS THE EYE — Evidência</title><style>
 :root{{--ink:#e9f0ff;--muted:#9aa8bd;--panel:#151d2b;--accent:#67e8f9;--bg:#080d16;--ok:#4ade80;--bad:#f87171;--warn:#f59e0b}}
 *{{box-sizing:border-box}}
-body{{margin:0;background:var(--bg);color:var(--ink);font:16px system-ui}}
+body{{margin:0;overflow-x:hidden;background:var(--bg);color:var(--ink);font:16px system-ui}}
 main{{max-width:1100px;margin:auto;padding:40px 20px}}
 h1{{letter-spacing:.08em}} h2{{margin-top:28px;font-size:1.1rem}}
 .muted{{color:var(--muted)}} code{{color:var(--accent)}}
@@ -114,10 +115,17 @@ h1{{letter-spacing:.08em}} h2{{margin-top:28px;font-size:1.1rem}}
 .card{{background:var(--panel);padding:20px;border:1px solid #253149;border-radius:12px}}
 .label{{color:var(--muted);font-size:.8rem;text-transform:uppercase}}
 .value{{font-size:1.7rem;margin-top:8px;color:var(--accent)}}
+.table-wrap{{width:100%;max-width:100%;overflow-x:auto}}
 .linha{{background:var(--panel);border:1px solid #253149;border-radius:12px;padding:14px;margin:10px 0}}
 .cadeia{{display:flex;flex-wrap:wrap;gap:8px;align-items:center}}
 .no{{border:1px solid;border-radius:8px;padding:4px 10px;font-size:.85rem}}
 .meta{{color:var(--muted);font-size:.78rem;margin-top:8px;font-family:monospace}}
+@media (max-width: 640px){{
+main{{padding:24px 12px}}
+.cards{{grid-template-columns:1fr}}
+.label{{font-size:.74rem}}
+.meta{{font-size:.72rem}}
+}}
 </style></head><body><main><h1>EVIDÊNCIA — linhagem verificável</h1>
 {corpo}
 </main></body></html>"""

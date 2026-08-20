@@ -49,32 +49,46 @@ def benchmark_page(report_path: str | Path = "reports/benchmark/latest.json") ->
     ]
     payload = json.dumps({"scores": scores, "times": times, "history": history_points}).replace("<", "\\u003c")
     conclusion = html.escape(str(report.get("conclusion", "")))
+    corpo = f"""<section class="cards"><div class="card">
+<div class="label">Best score</div><div class="value">{best_score}</div></div>
+<div class="card"><div class="label">Best time</div><div class="value">{best_time}</div></div>
+<div class="card"><div class="label">QAR</div><div class="value">{qar}</div></div>
+<div class="card"><div class="label">Stability σ</div>
+<div class="value">{stability}</div></div></section>
+<div class="table-wrap"><section class="charts">
+<div class="chart"><h2>Score comparison</h2><div id="scores"></div></div>
+<div class="chart"><h2>Execution time</h2><div id="times"></div></div>
+<div class="chart"><h2>History</h2>
+<div id="history"></div></div></section></div>
+<p>{conclusion}</p>"""
+    return _shell(corpo, payload)
+
+
+def _shell(corpo: str, payload: str) -> str:
     return f"""<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width">
 <title>ASUS THE EYE Benchmark</title><style>
 :root{{--ink:#e9f0ff;--muted:#9aa8bd;--panel:#151d2b;--accent:#67e8f9;--bg:#080d16}}
 *{{box-sizing:border-box}}
-body{{margin:0;background:var(--bg);color:var(--ink);font:16px system-ui}}
+body{{margin:0;overflow-x:hidden;background:var(--bg);color:var(--ink);font:16px system-ui}}
 main{{max-width:1100px;margin:auto;padding:40px 20px}}
 h1{{letter-spacing:.08em}}
 .cards,.charts{{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:16px}}
 .card,.chart{{background:var(--panel);padding:20px;border:1px solid #253149;border-radius:12px}}
 .label{{color:var(--muted);font-size:.8rem;text-transform:uppercase}}
 .value{{font-size:1.7rem;margin-top:8px;color:var(--accent)}}
+.table-wrap{{width:100%;max-width:100%;overflow-x:auto}}
 .bar{{height:24px;background:#213047;margin:8px 0;border-radius:5px;overflow:hidden}}
 .bar i{{display:block;height:100%;background:var(--accent)}}
+.chart{{min-width:0}}
+@media (max-width: 640px){{
+main{{padding:24px 12px}}
+.cards,.charts{{grid-template-columns:1fr}}
+.label{{font-size:.72rem}}
+h2{{font-size:1rem}}
+}}
 </style></head><body><main><h1>ASUS THE EYE BENCHMARK</h1>
-<section class="cards"><div class="card">
-<div class="label">Best score</div><div class="value">{best_score}</div></div>
-<div class="card"><div class="label">Best time</div><div class="value">{best_time}</div></div>
-<div class="card"><div class="label">QAR</div><div class="value">{qar}</div></div>
-<div class="card"><div class="label">Stability σ</div>
-<div class="value">{stability}</div></div></section>
-<section class="charts"><div class="chart"><h2>Score comparison</h2><div id="scores"></div></div>
-<div class="chart"><h2>Execution time</h2><div id="times"></div></div>
-<div class="chart"><h2>History</h2>
-<div id="history"></div></div></section>
-<p>{conclusion}</p><script>const data={payload};
+{corpo}<script>const data={payload};
 for(const key of ['scores','times']){{
   const values=data[key], max=Math.max(...Object.values(values),1);
   const root=document.getElementById(key);

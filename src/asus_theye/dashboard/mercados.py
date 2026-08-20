@@ -109,19 +109,22 @@ def mercados_page(base: Path | None = None) -> str:
 <div class="card"><div class="label">Divergências vs comparador</div><div class="value">{len(divergencias)}</div></div>
 </section>
 <h2>Mercados vivos — probabilidade com proveniência</h2>
-<table><thead><tr><th>claim</th><th>pergunta</th><th>p (origem)</th>
+<div class="table-wrap"><table><thead>
+<tr><th>claim</th><th>pergunta</th><th>p (origem)</th>
 <th>fonte oficial</th><th>prazo</th><th>estado</th></tr></thead>
-<tbody>{"".join(_linha_vivo(m) for m in vivos)}</tbody></table>
+<tbody>{"".join(_linha_vivo(m) for m in vivos)}</tbody></table></div>
 <p class="muted">{com_wpam} de {len(vivos)} vivos nasceram do gerador WPAM (passe o mouse no selo para as fontes);
 os demais declaram o prior 0,50 — sem sinal, sem convicção inventada.</p>
 <h2>Liquidados — o erro medido contra a fonte oficial</h2>
-<table><thead><tr><th>claim</th><th>desfecho</th><th>observado</th>
+<div class="table-wrap"><table><thead>
+<tr><th>claim</th><th>desfecho</th><th>observado</th>
 <th>Brier</th><th>fonte</th></tr></thead>
-<tbody>{corpo_liq}</tbody></table>
+<tbody>{corpo_liq}</tbody></table></div>
 <h2>Divergência vs comparador — medida, nunca resolutora</h2>
-<table><thead><tr><th>claim</th><th>ticker</th><th>nossa p</th><th>preço</th>
+<div class="table-wrap"><table><thead>
+<tr><th>claim</th><th>ticker</th><th>nossa p</th><th>preço</th>
 <th>divergência</th><th>mapeamento</th></tr></thead>
-<tbody>{corpo_div}</tbody></table>
+<tbody>{corpo_div}</tbody></table></div>
 <p class="muted">Kalshi é comparador, nunca fonte de resolução — quem acertou só se sabe depois que o claim
 liquidar contra a fonte oficial declarada. Reconstruções retrospectivas do acervo legado NÃO aparecem aqui
 (são inelegíveis como previsão; ver a linhagem em /evidencia). Toda liquidação e divergência é evento selado
@@ -135,7 +138,7 @@ def _shell(corpo: str) -> str:
 <title>ASUS THE EYE — Mercados</title><style>
 :root{{--ink:#e9f0ff;--muted:#9aa8bd;--panel:#151d2b;--accent:#67e8f9;--bg:#080d16;--ok:#4ade80;--bad:#f87171;--warn:#fbbf24}}
 *{{box-sizing:border-box}}
-body{{margin:0;background:var(--bg);color:var(--ink);font:16px system-ui}}
+body{{margin:0;overflow-x:hidden;background:var(--bg);color:var(--ink);font:16px system-ui}}
 main{{max-width:1100px;margin:auto;padding:40px 20px}}
 h1{{letter-spacing:.08em}}
 h2{{margin:28px 0 12px;font-size:1.05rem;letter-spacing:.05em;color:var(--muted);text-transform:uppercase}}
@@ -145,12 +148,19 @@ code{{color:var(--accent)}}
 .card{{background:var(--panel);padding:20px;border:1px solid #253149;border-radius:12px}}
 .label{{color:var(--muted);font-size:.8rem;text-transform:uppercase}}
 .value{{font-size:1.7rem;margin-top:8px;color:var(--accent)}}
+.table-wrap{{width:100%;max-width:100%;overflow-x:auto}}
 table{{width:100%;border-collapse:collapse;background:var(--panel);
 border:1px solid #253149;border-radius:12px;overflow:hidden}}
 th,td{{padding:12px 14px;text-align:left;border-bottom:1px solid #253149}}
 th{{color:var(--muted);font-size:.78rem;text-transform:uppercase}}
 td.id{{font-weight:700;white-space:nowrap}}
 .ok{{color:var(--ok)}}.bad{{color:var(--bad)}}.warn{{color:var(--warn)}}
+@media (max-width: 640px){{
+main{{padding:24px 12px}}
+.cards{{grid-template-columns:1fr}}
+th,td{{padding:10px 8px}}
+th{{font-size:.72rem}}
+}}
 </style></head><body><main><h1>MERCADOS — medidos contra a fonte oficial</h1>
 {corpo}
 </main></body></html>"""
