@@ -21,6 +21,7 @@ def test_exportar_gera_html_basico(tmp_path: Path) -> None:
         "benchmark.html",
         "mercados.html",
         "mlops.html",
+        "api.html",
         "index.html",
     }
     assert len(resultado["pulados"]) == 1
@@ -56,6 +57,7 @@ def test_exportar_index_tem_links(tmp_path: Path) -> None:
     assert "projeto.html" in html
     assert "evidencia.html" in html
     assert "benchmark.html" in html
+    assert "api.html" in html
     assert "<!doctype html>" in html.lower()
 
 
