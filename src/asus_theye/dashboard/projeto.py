@@ -61,10 +61,11 @@ def projeto_page(base: Path | None = None) -> str:
 </section>
 <p class="muted">hash da medição: <code>{snap["hash_da_medicao"]}</code> · topo da corrente: <code>{topo}…</code></p>
 <h2>Caminho mínimo (F0–F5)</h2>
-<table><thead><tr><th>fase</th><th>nome</th><th>estado</th><th>%</th><th>método</th></tr></thead>
+<div class="table-wrap"><table><thead>
+<tr><th>fase</th><th>nome</th><th>estado</th><th>%</th><th>método</th></tr></thead>
 <tbody>
 {"".join(_fase_linha(f) for f in caminho["fases"])}
-</tbody></table>
+</tbody></table></div>
 {_tabela_produtos(produtos)}
 <p class="muted">{html.escape(str(snap["ressalva"]))} Selagem: <code>asus-theye projeto-medir</code> —
 mesmo estado não re-sela (dedupe); estado novo vira evento novo na cadeia.</p>"""
@@ -77,8 +78,9 @@ def _tabela_produtos(produtos: dict[str, Any]) -> str:
         return f'<p class="muted">{html.escape(str(produtos["metodo"]))}</p>'
     return (
         "<h2>Roteiro dos produtos (checklist vivo)</h2>"
-        "<table><thead><tr><th>fase</th><th>nome</th><th>estado</th><th>%</th><th>método</th></tr></thead>"
-        f"<tbody>{''.join(_fase_linha(f) for f in produtos['fases'])}</tbody></table>"
+        '<div class="table-wrap"><table><thead>'
+        "<tr><th>fase</th><th>nome</th><th>estado</th><th>%</th><th>método</th></tr></thead>"
+        f"<tbody>{''.join(_fase_linha(f) for f in produtos['fases'])}</tbody></table></div>"
     )
 
 
@@ -88,7 +90,7 @@ def _shell(corpo: str) -> str:
 <title>ASUS THE EYE — Projeto</title><style>
 :root{{--ink:#e9f0ff;--muted:#9aa8bd;--panel:#151d2b;--accent:#67e8f9;--bg:#080d16;--ok:#4ade80;--bad:#f87171;--warn:#fbbf24}}
 *{{box-sizing:border-box}}
-body{{margin:0;background:var(--bg);color:var(--ink);font:16px system-ui}}
+body{{margin:0;overflow-x:hidden;background:var(--bg);color:var(--ink);font:16px system-ui}}
 main{{max-width:1100px;margin:auto;padding:40px 20px}}
 h1{{letter-spacing:.08em}}
 h2{{margin:28px 0 12px;font-size:1.05rem;letter-spacing:.05em;color:var(--muted);text-transform:uppercase}}
@@ -98,11 +100,18 @@ code{{color:var(--accent);word-break:break-all}}
 .card{{background:var(--panel);padding:20px;border:1px solid #253149;border-radius:12px}}
 .label{{color:var(--muted);font-size:.8rem;text-transform:uppercase}}
 .value{{font-size:1.7rem;margin-top:8px;color:var(--accent)}}
+.table-wrap{{width:100%;max-width:100%;overflow-x:auto}}
 table{{width:100%;border-collapse:collapse;background:var(--panel);
 border:1px solid #253149;border-radius:12px;overflow:hidden}}
 th,td{{padding:12px 14px;text-align:left;border-bottom:1px solid #253149}}
 th{{color:var(--muted);font-size:.78rem;text-transform:uppercase}}
 .ok{{color:var(--ok)}}.bad{{color:var(--bad)}}.warn{{color:var(--warn)}}
+@media (max-width: 640px){{
+main{{padding:24px 12px}}
+.cards{{grid-template-columns:1fr}}
+th,td{{padding:10px 8px}}
+th{{font-size:.72rem}}
+}}
 </style></head><body><main><h1>MEDIÇÃO DO PROJETO</h1>
 {corpo}
 </main></body></html>"""
