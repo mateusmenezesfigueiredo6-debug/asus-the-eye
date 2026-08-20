@@ -285,7 +285,20 @@ def _parser() -> argparse.ArgumentParser:
         help="diretório de saída (padrão: dist/)",
     )
     export_static.add_argument("--json", dest="json_out", action="store_true", help="saída em JSON")
+    relatorio_mensal = subcommands.add_parser(
+        "relatorio-mensal",
+        help="gera o extrato mensal em Markdown da atividade real da plataforma",
+    )
+    relatorio_mensal.add_argument("--mes", default=None, help="mês de referência em AAAA-MM (padrão: mês UTC atual)")
+    relatorio_mensal.add_argument("--saida", type=Path, default=None, help="arquivo Markdown de saída")
     return parser
+
+
+def _reports_base() -> Path:
+    base = Path("reports")
+    if base.is_dir():
+        return base
+    return Path(__file__).resolve().parents[2] / "reports"
 
 
 def main(argv: Sequence[str] | None = None) -> int:
@@ -1048,6 +1061,21 @@ def main(argv: Sequence[str] | None = None) -> int:
             print("\ncobertura da janela INCOMPLETA — rode asus-theye ledger-sync")
             return 1
         print("\nespelho em dia — nenhum faltante na janela")
+        return 0
+    if args.command == "relatorio-mensal":
+        from asus_theye.relatorio import relatorio_mensal
+
+        try:
+            texto = relatorio_mensal(args.mes, base=_reports_base())
+        except ValueError as error:
+            print(f"relatorio-mensal: {error}")
+            return 1
+        if args.saida is not None:
+            args.saida.parent.mkdir(parents=True, exist_ok=True)
+            args.saida.write_text(texto, encoding="utf-8")
+            print(f"relatório: {args.saida}")
+            return 0
+        print(texto)
         return 0
     if args.command == "export-static":
         from asus_theye.dashboard.export_static import exportar
