@@ -18,6 +18,7 @@ def test_exportar_gera_html_basico(tmp_path: Path) -> None:
     assert set(resultado["gerados"]) == {
         "projeto.html",
         "evidencia.html",
+        "calibracao.html",
         "corrente.html",
         "benchmark.html",
         "mercados.html",

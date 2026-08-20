@@ -10,6 +10,7 @@ from typing import Any
 from .api_docs import register_api_docs_routes
 from .auth import registrar_auth
 from .benchmark import register_benchmark_routes
+from .calibracao import register_calibracao_routes
 from .corrente import register_corrente_routes
 from .evidencia import register_evidencia_routes
 from .landing import register_landing_routes
@@ -44,6 +45,7 @@ def create_dashboard_app(
         return {"status": "ok"}
 
     register_landing_routes(app)
+    register_calibracao_routes(app)
     register_benchmark_routes(app, report_path)
     register_markets_routes(app, markets_db)
     register_evidencia_routes(app)

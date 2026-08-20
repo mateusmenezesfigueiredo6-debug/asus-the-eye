@@ -197,6 +197,12 @@ def _parser() -> argparse.ArgumentParser:
     )
     markets_consenso.add_argument("--json", dest="json_out", action="store_true", help="saída em JSON")
     markets_consenso.add_argument("--no-audit", action="store_true", help="não selar na cadeia")
+    markets_calibracao = subcommands.add_parser(
+        "markets-calibracao",
+        help="mede a calibração (curva, Brier por horizonte e por área) — recusa agregar sem amostra",
+    )
+    markets_calibracao.add_argument("--json", dest="json_out", action="store_true", help="saída em JSON")
+    markets_calibracao.add_argument("--no-audit", action="store_true", help="não selar na cadeia")
     markets_sinais = subcommands.add_parser(
         "markets-sinais",
         help="mostra os sinais REAIS (Focus/IPCA-15) e a probabilidade WPAM da pergunta do mês",
@@ -1046,6 +1052,48 @@ def main(argv: Sequence[str] | None = None) -> int:
         print(f"\nRESSALVA OBRIGATÓRIA: {snap['dependencia_declarada']}")
         if selagem is not None:
             estado_selo = "dedupe" if selagem.get("duplicate") else "EVENTO market.consensus_benchmark SELADO"
+            print(f"\nselagem: {estado_selo} — {selagem['event_hash_sha256'][:16]}…")
+        return 0
+    if args.command == "markets-calibracao":
+        from asus_theye.markets.auditoria import AuditoriaError, abrir_auditoria
+        from asus_theye.markets.calibracao import CalibracaoError
+        from asus_theye.markets.calibracao import medir as medir_calibracao
+        from asus_theye.markets.calibracao import selar as selar_calibracao
+
+        try:
+            snap = medir_calibracao()
+            selagem = None
+            if not args.no_audit:
+                selagem = selar_calibracao(abrir_auditoria(Path("reports/audit/markets-ledger.db")), snap)
+        except (CalibracaoError, AuditoriaError) as error:
+            print(f"markets-calibracao: {error}")
+            return 1
+
+        if args.json_out:
+            print(json.dumps(snap, ensure_ascii=False, indent=2))
+            return 0
+
+        print("=" * 62)
+        print("CALIBRAÇÃO — a probabilidade declarada vale alguma coisa?")
+        print("=" * 62)
+        print(f"\npares utilizáveis: {snap['n']}  |  mínimo para agregar: {snap['amostra_minima']}")
+        if snap["suficiente"]:
+            print(f"\nBrier: {snap['brier']:.4f}")
+            murphy = snap["murphy"] or {}
+            print(
+                f"  confiabilidade {murphy.get('confiabilidade')} (menor melhor) | "
+                f"resolução {murphy.get('resolucao')} (maior melhor)"
+            )
+            for faixa in snap["por_horizonte"]:
+                b = "—" if faixa["brier"] is None else f"{faixa['brier']:.4f}"
+                print(f"  {faixa['faixa']:14} n={faixa['n']:<4} Brier={b}")
+        else:
+            print(f"\n{snap['metodo']}")
+            print("\nexcluídos:")
+            for motivo, qtd in snap["excluidos"].items():
+                print(f"  {motivo.replace('_', ' '):26} {qtd}")
+        if selagem is not None:
+            estado_selo = "dedupe" if selagem.get("duplicate") else "EVENTO market.calibration SELADO"
             print(f"\nselagem: {estado_selo} — {selagem['event_hash_sha256'][:16]}…")
         return 0
     if args.command == "markets-sinais":

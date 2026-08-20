@@ -22,6 +22,7 @@ PAINEIS: tuple[tuple[str, str], ...] = (
     ("/", "início"),
     ("/mercados", "mercados"),
     ("/evidencia", "evidência"),
+    ("/calibracao", "calibração"),
     ("/corrente", "corrente"),
     ("/projeto", "projeto"),
     ("/benchmark", "benchmark"),
