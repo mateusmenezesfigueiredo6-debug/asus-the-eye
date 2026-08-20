@@ -524,7 +524,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         for gap in coverage["gaps"]:
             print(f"  [{gap['blocking_reason']}] {gap['description']}")
         if args.reports:
-            for path in write_reports(coverage, tracks):
+            for path in write_reports(coverage, tracks, output_dir=_reports_base()):
                 print(f"\nRelatório: {path.relative_to(Path.cwd()) if path.is_relative_to(Path.cwd()) else path}")
         if args.publish:
             if not args.ledger_url:

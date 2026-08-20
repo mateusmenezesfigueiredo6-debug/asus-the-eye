@@ -153,14 +153,13 @@ jobs:
         # pacote instalado encontra a migração via importlib.resources.
         run: |
           cd /tmp
-          .venv/bin/python -m pytest \
-            $GITHUB_WORKSPACE/tests/audit/test_installed_package.py -v -s
-        working-directory: ${{ github.workspace }}
+          "$GITHUB_WORKSPACE/.venv/bin/python" -m pytest \
+            "$GITHUB_WORKSPACE/tests/audit/test_installed_package.py" -v -s
 
       - name: Prova no log — imprime event_hash
         run: |
           cd /tmp
-          .venv/bin/python - <<'PYEOF'
+          "$GITHUB_WORKSPACE/.venv/bin/python" - <<'PYEOF'
           import sys
           sys.path.insert(0, "")  # garante que não usa o src local
           from asus_theye.audit.schema import GENESIS_HASH, SCHEMA_VERSION, seal_event
@@ -210,4 +209,3 @@ jobs:
           print(f"event_hash={receipt['event_hash_sha256']}")
           assert len(receipt["event_hash_sha256"]) == 64
           PYEOF
-        working-directory: ${{ github.workspace }}
