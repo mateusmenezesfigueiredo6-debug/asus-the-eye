@@ -13,7 +13,7 @@ import pytest
 from asus_theye.markets.comparador import ComparadorError, observar_divergencia
 from asus_theye.markets.live import emitir_macro, salvar_registro
 
-NOTA = "KXCPI mede CPI dos EUA; comparável INDIRETO do IPCA (BR) — inflações de países distintos."
+NOTA = "COMPARADOR-DEMO mede CPI dos EUA; comparável INDIRETO do IPCA (BR) — inflações de países distintos."
 
 
 def _store(tmp: Path) -> Path:
@@ -28,7 +28,7 @@ def _observar(tmp: Path, **sobrescreve: Any) -> dict[str, Any]:
     campos: dict[str, Any] = {
         "claim_id": "MACRO-01::2026-08",
         "comparator_price": 0.62,
-        "ticker": "KXCPI-26AUG",
+        "ticker": "COMPARADOR-DEMO-26AUG",
         "nota_de_mapeamento": NOTA,
         "store": _store(tmp) if not (tmp / "registro.json").exists() else tmp / "registro.json",
         "arquivo": tmp / "comparador.jsonl",

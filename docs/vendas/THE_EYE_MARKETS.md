@@ -27,9 +27,9 @@ Os três contratos vivos foram emitidos antes dessa integração e **não têm**
 
 ### Liquidação contra o mundo, não contra outra opinião
 
-Cada pergunta declara antes do resultado o critério, o prazo e a fonte oficial de resolução. A Kalshi pertence à categoria e serve somente como comparador; **nunca é fonte de resolução**.
+Cada pergunta declara antes do resultado o critério, o prazo e a fonte oficial de resolução. Comparadores externos servem para registrar onde discordamos do consenso; **nunca são fonte de resolução**.
 
-A primeira divergência real foi medida e selada como evento `market.comparator`: preço 0,6150, meio do spread da Kalshi, contra probabilidade própria de 0,50, divergência de 0,1150. A nota obrigatória registra que o mapeamento é indireto: o contrato da Kalshi trata do CPI dos Estados Unidos, enquanto o mercado próprio trata do IPCA brasileiro. O número compara apetites sobre inflação no mesmo mês; não compara a mesma pergunta e não permite dizer quem acertou.
+A máquina de divergência foi provada de ponta a ponta: a observação vira evento `market.comparator` selado, com nota de mapeamento obrigatória declarando o que está sendo comparado. O comparador oficial é o **consenso Focus do Banco Central** — dado público, e comparação direta com o IPCA. Um teste anterior usou um mercado externo de CPI norte-americano e foi **expurgado** (evento `data.redaction`), tanto por restrição de termos de terceiro quanto por ser comparação indireta: índices e países distintos não respondem à mesma pergunta.
 
 O Brier permanece nulo enquanto o contrato está aberto. Só passa a existir após a publicação do dado oficial e a liquidação. No caso real já registrado, “IPCA de julho de 2026 em 0,50% ou mais?”, a probabilidade era 0,50, o IPCA observado foi 0,07%, o resultado foi “não” e o Brier foi **0,25**. O número mede esse contrato; não é apresentado como desempenho geral.
 

@@ -10,11 +10,18 @@ from pathlib import Path
 import pytest
 
 
-def test_pagina_real_mostra_os_tres_mercados_e_a_divergencia() -> None:
+def test_pagina_real_mostra_os_tres_mercados() -> None:
+    """O painel real, sem observação de comparador.
+
+    A divergência que este teste afirmava saía do preço da Kalshi e
+    foi expurgada (``data.redaction``, termos de terceiro). O painel degrada
+    honestamente: mostra os mercados e continua declarando a doutrina, sem
+    inventar um número de comparador que não existe mais.
+    """
     from asus_theye.dashboard.mercados import mercados_page
 
     page = mercados_page()  # estado REAL do repo
-    for marca in ("MACRO-01::2026-08", "JUROS-01::2026-09", "CAMBIO-01::2026-09", "0.1150", "comparador, nunca fonte"):
+    for marca in ("MACRO-01::2026-08", "JUROS-01::2026-09", "CAMBIO-01::2026-09", "comparador, nunca fonte"):
         assert marca in page, f"marca ausente: {marca}"
     assert "retrospectivas" in page.lower()  # a exclusão honesta é dita
 
