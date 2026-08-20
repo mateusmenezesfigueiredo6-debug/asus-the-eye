@@ -50,6 +50,26 @@ def _svg_bar_chart(
     svg_height = 16 + (len(points) * row_height)
     max_value = max((value for _, value in points), default=0.0)
 
+    if max_value <= 0:
+        parts = [
+            (
+                f'<svg class="chart-svg" viewBox="0 0 {svg_width} {svg_height}" '
+                f'role="img" aria-label="{html.escape(aria_label)}">'
+            )
+        ]
+        for index, (name, value) in enumerate(points):
+            y = 22 + (index * row_height)
+            safe_name = html.escape(name)
+            safe_value = html.escape(formatter.format(value=value))
+            parts.extend(
+                (
+                    f'<text x="{label_x}" y="{y}" fill="currentColor">{safe_name}</text>',
+                    f'<text x="{bar_x}" y="{y}" fill="#9aa8bd">{safe_value}</text>',
+                )
+            )
+        parts.append("</svg>")
+        return "".join(parts)
+
     parts = [
         (
             f'<svg class="chart-svg" viewBox="0 0 {svg_width} {svg_height}" '
@@ -58,7 +78,7 @@ def _svg_bar_chart(
     ]
     for index, (name, value) in enumerate(points):
         y = 22 + (index * row_height)
-        width = 0.0 if max_value <= 0 else max(0.0, chart_width * value / max_value)
+        width = max(0.0, chart_width * value / max_value)
         safe_name = html.escape(name)
         safe_value = html.escape(formatter.format(value=value))
         parts.extend(
