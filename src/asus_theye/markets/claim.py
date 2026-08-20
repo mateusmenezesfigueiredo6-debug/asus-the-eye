@@ -31,10 +31,11 @@ from __future__ import annotations
 import json
 from dataclasses import dataclass
 from datetime import date, datetime, timezone
-from pathlib import Path
 from typing import Any
 
-DATA_DIR = Path(__file__).resolve().parents[3] / "data" / "domains"
+from asus_theye._pkg_paths import pkg_data
+
+DATA_DIR = pkg_data("data", "domains")
 CLASSIFIER = DATA_DIR / "mercados_preditivos.json"
 
 # Fonte ainda não escolhida: gera mercado, mas não resolve.

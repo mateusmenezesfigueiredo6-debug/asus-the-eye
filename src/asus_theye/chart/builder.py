@@ -20,10 +20,16 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
-REPO_ROOT = Path(__file__).resolve().parents[3]
-REGISTRY_PATH = REPO_ROOT / "data" / "mistress-chart" / "projects.json"
-TAXONOMY_PATH = REPO_ROOT / "data" / "legal-taxonomy" / "legal_areas.master.json"
-DOMAINS_PATH = REPO_ROOT / "data" / "domains" / "domains.json"
+from asus_theye._pkg_paths import pkg_data
+
+# Paths for read-only bundled data (importlib.resources — works when installed).
+REGISTRY_PATH = pkg_data("data", "mistress-chart", "projects.json")
+TAXONOMY_PATH = pkg_data("data", "legal-taxonomy", "legal_areas.master.json")
+DOMAINS_PATH = pkg_data("data", "domains", "domains.json")
+
+# Repo root is only used for git/pytest subprocess calls and artifact-existence
+# checks — operations that only make sense when running from the source tree.
+_REPO_ROOT = Path(__file__).resolve().parents[3]
 
 # Compatibilidade com o registro anterior, que nao tinha dominio: projeto sem
 # `domain_id` conta como direito. E divida a pagar, nao desenho — enquanto
@@ -50,7 +56,7 @@ def _load_domains() -> dict[str, dict[str, Any]]:
     registro = json.loads(DOMAINS_PATH.read_text(encoding="utf-8"))
     dominios: dict[str, dict[str, Any]] = {}
     for d in registro.get("domains", []):
-        caminho = REPO_ROOT / d["classifier"]
+        caminho = pkg_data(*d["classifier"].split("/"))
         areas: dict[str, dict[str, Any]] = {}
         if caminho.exists():
             bruto = json.loads(caminho.read_text(encoding="utf-8"))
@@ -73,7 +79,7 @@ def _canonical(value: Any) -> str:
 def _git(args: list[str]) -> str:
     try:
         return subprocess.run(
-            ["git", *args], cwd=REPO_ROOT, capture_output=True, text=True, timeout=60, check=True
+            ["git", *args], cwd=_REPO_ROOT, capture_output=True, text=True, timeout=60, check=True
         ).stdout.strip()
     except Exception:
         return ""
@@ -82,8 +88,8 @@ def _git(args: list[str]) -> str:
 def _count_tests() -> int:
     try:
         out = subprocess.run(
-            [str(REPO_ROOT / ".venv/bin/python"), "-m", "pytest", "--collect-only", "-q", "tests/"],
-            cwd=REPO_ROOT,
+            [str(_REPO_ROOT / ".venv/bin/python"), "-m", "pytest", "--collect-only", "-q", "tests/"],
+            cwd=_REPO_ROOT,
             capture_output=True,
             text=True,
             timeout=300,
@@ -102,7 +108,7 @@ def _evidence_for(project: dict[str, Any]) -> dict[str, Any]:
     present: list[str] = []
     missing: list[str] = []
     for relative in project.get("artifacts", []):
-        path = REPO_ROOT / relative
+        path = _REPO_ROOT / relative
         (present if path.exists() else missing).append(relative)
     total = len(present) + len(missing)
     return {
@@ -135,7 +141,7 @@ def _knowledge_section() -> dict[str, Any]:
     aparece com blocking_reason 'not_yet_attempted' — o painel mostra o que
     existe, não o que se pretende.
     """
-    source_graph_dir = REPO_ROOT / "data" / "source-graph"
+    source_graph_dir = pkg_data("data", "source-graph")
     if not source_graph_dir.exists():
         return {"available": False, "reason": "data/source-graph ainda não existe"}
 

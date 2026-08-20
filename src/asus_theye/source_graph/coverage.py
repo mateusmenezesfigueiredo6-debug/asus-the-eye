@@ -13,10 +13,11 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
+from asus_theye._pkg_paths import pkg_data
 from asus_theye.source_graph.events import snapshot_hash
 
-DATA_DIR = Path(__file__).resolve().parents[3] / "data" / "source-graph"
-TAXONOMY_PATH = Path(__file__).resolve().parents[3] / "data" / "legal-taxonomy" / "legal_areas.master.json"
+DATA_DIR = pkg_data("data", "source-graph")
+TAXONOMY_PATH = pkg_data("data", "legal-taxonomy", "legal_areas.master.json")
 
 REPORT_VERSION = "1.0.0"
 

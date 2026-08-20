@@ -8,7 +8,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
-REPORTS_DIR = Path(__file__).resolve().parents[3] / "reports"
+REPORTS_DIR = Path.cwd() / "reports"
 
 REASON_LABELS = {
     "none": "coberto",

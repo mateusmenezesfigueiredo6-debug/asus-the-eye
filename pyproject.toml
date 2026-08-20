@@ -36,6 +36,12 @@ asus-theye = "asus_theye.cli:main"
 where = ["src"]
 include = ["asus_theye*"]
 
+[tool.setuptools.package-data]
+asus_theye = [
+  "migrations/*.sql",
+  "data/**/*",
+]
+
 [tool.pytest.ini_options]
 addopts = "-q --strict-markers --strict-config"
 testpaths = ["tests"]

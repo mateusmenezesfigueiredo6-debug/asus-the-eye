@@ -11,11 +11,12 @@ from __future__ import annotations
 
 import json
 from functools import lru_cache
-from pathlib import Path
 from typing import Any
 
-DATA_PATH = Path(__file__).resolve().parents[3] / "data" / "commercial" / "niches.json"
-TAXONOMY_PATH = Path(__file__).resolve().parents[3] / "data" / "legal-taxonomy" / "legal_areas.master.json"
+from asus_theye._pkg_paths import pkg_data
+
+DATA_PATH = pkg_data("data", "commercial", "niches.json")
+TAXONOMY_PATH = pkg_data("data", "legal-taxonomy", "legal_areas.master.json")
 
 
 class NicheError(RuntimeError):

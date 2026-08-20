@@ -13,9 +13,10 @@ import json
 import re
 import unicodedata
 from functools import lru_cache
-from pathlib import Path
 
-TAXONOMY_DIR = Path(__file__).resolve().parents[3] / "data" / "legal-taxonomy"
+from asus_theye._pkg_paths import pkg_data
+
+TAXONOMY_DIR = pkg_data("data", "legal-taxonomy")
 
 
 def _normalize(text: str) -> str:

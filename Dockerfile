@@ -8,6 +8,7 @@ WORKDIR /app
 # Dependências primeiro (camada cacheável).
 COPY pyproject.toml README.md ./
 COPY src ./src
+COPY migrations ./migrations
 RUN pip install --no-cache-dir ".[dashboard,markets]"
 
 # Só o necessário para servir (dados de medição são montados em runtime).
