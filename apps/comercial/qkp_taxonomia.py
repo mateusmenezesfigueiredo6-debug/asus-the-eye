@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2026 Mateus Menezes Figueiredo
+# SPDX-License-Identifier: AGPL-3.0-or-later
 """QKP na escala da taxonomia — 145 areas, o primeiro problema grande do projeto.
 
 Ate aqui toda instancia era pequena: 9 nichos (512 combinacoes), 15 nichos

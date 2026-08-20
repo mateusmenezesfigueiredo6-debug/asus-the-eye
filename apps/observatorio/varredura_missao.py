@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2026 Mateus Menezes Figueiredo
+# SPDX-License-Identifier: AGPL-3.0-or-later
 """Primeira varredura dos campos da MISSAO — o motor da etapa 1 em movimento.
 
 Ate aqui os conectores academicos so haviam rodado sobre termos juridicos, que

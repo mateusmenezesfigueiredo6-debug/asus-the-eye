@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2026 Mateus Menezes Figueiredo
+# SPDX-License-Identifier: AGPL-3.0-or-later
 """Alocacao com dependencia entre nichos — mochila QUADRATICA (QKP).
 
 A alocacao anterior era mochila 0/1 simples: cada nicho valia por si. Isso

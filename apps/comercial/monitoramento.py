@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2026 Mateus Menezes Figueiredo
+# SPDX-License-Identifier: AGPL-3.0-or-later
 """Etapa 6 do ciclo — monitoramento continuo da acuracia.
 
 Medir o erro uma vez e diagnostico; medir ao longo do tempo e monitoramento.

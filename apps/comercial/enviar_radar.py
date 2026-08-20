@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2026 Mateus Menezes Figueiredo
+# SPDX-License-Identifier: AGPL-3.0-or-later
 """Entrega automática do Radar Jurídico — o produto operando sozinho.
 
 Para cada assinante ativo/trial: gera a edição fresca de cada nicho assinado

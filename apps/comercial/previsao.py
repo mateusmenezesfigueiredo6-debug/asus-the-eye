@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2026 Mateus Menezes Figueiredo
+# SPDX-License-Identifier: AGPL-3.0-or-later
 """Etapas 3 e 4 do ciclo — previsao de demanda juridica e backtest honesto.
 
 O que a plataforma promete ao dizer "preditiva" tem que ser medido, nao afirmado.

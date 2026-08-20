@@ -1,3 +1,4 @@
+// SPDX-FileCopyrightText: 2026 Mateus Menezes Figueiredo
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.24;
 
