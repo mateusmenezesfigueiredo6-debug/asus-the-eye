@@ -4,21 +4,31 @@
 
 from __future__ import annotations
 
+import re
+import subprocess
+import sys
 from pathlib import Path
-
-from asus_theye.cli import _parser
 
 RAIZ = Path(__file__).resolve().parents[2]
 DOC = RAIZ / "docs" / "OPERACAO.md"
 
 
 def _subcomandos() -> list[str]:
-    parser = _parser()
-    for action in parser._actions:
-        choices = getattr(action, "choices", None)
-        if choices:
-            return list(choices)
-    raise AssertionError("parser sem choices de subcomando")
+    ajuda = subprocess.run(
+        [sys.executable, "-m", "asus_theye.cli", "--help"],
+        capture_output=True,
+        text=True,
+        cwd=RAIZ,
+        check=False,
+    )
+    assert ajuda.returncode == 0, ajuda.stderr or ajuda.stdout or "falha ao ler --help do CLI"
+    nomes = [
+        match.group(1)
+        for match in re.finditer(r"^\s{2,6}([a-z0-9-]+)\s{2,}", ajuda.stdout, flags=re.MULTILINE)
+        if not match.group(1).startswith("-")
+    ]
+    assert nomes, "nenhum subcomando encontrado no --help do CLI"
+    return nomes
 
 
 def test_operacao_lista_todos_os_subcomandos_reais() -> None:
