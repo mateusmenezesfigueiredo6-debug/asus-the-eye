@@ -192,3 +192,59 @@ def serie_do_claim(claim_id: str, *, arquivo: Path = SERIE_PADRAO) -> list[dict[
     """A trajetória de um claim, em ordem cronológica."""
     pontos = [li for li in _linhas(arquivo) if li.get("claim_id") == claim_id]
     return sorted(pontos, key=lambda li: str(li.get("observado_em", "")))
+
+
+def reancorar(
+    claim_id: str,
+    *,
+    determination_date: str,
+    determination_basis: str,
+    arquivo: Path = SERIE_PADRAO,
+) -> dict[str, Any]:
+    """Recalcula o horizonte da série contra a data em que o desfecho ficou determinado.
+
+    É o achado que motivou guardar ``observado_em`` cru: o horizonte gravado no
+    ponto é medido contra o ``deadline`` do contrato, que é um proxy — o prazo
+    de fechamento pode estar longe do momento em que a fonte de fato publicou o
+    número. Medir calibração contra o relógio errado embute viés.
+
+    Nada é reescrito: a série permanece como foi selada, e o horizonte
+    re-ancorado é **derivado** na leitura. História selada não se corrige à mão.
+
+    Base ``desconhecida`` (dado legado) devolve ``confiavel=False``: sem saber
+    quando a fonte publicou, o horizonte re-ancorado é ficção com aparência de
+    número, e a calibração precisa poder excluir estes pontos.
+    """
+    from asus_theye.markets.resolution import BASES_CONFIAVEIS
+
+    try:
+        determinada = date.fromisoformat(determination_date)
+    except (ValueError, TypeError) as exc:
+        raise SerieError(f"determination_date deve ser data ISO (YYYY-MM-DD), veio {determination_date!r}") from exc
+
+    confiavel = determination_basis in BASES_CONFIAVEIS
+    pontos = []
+    for ponto in serie_do_claim(claim_id, arquivo=arquivo):
+        observado = date.fromisoformat(str(ponto["observado_em"]))
+        pontos.append(
+            ponto
+            | {
+                "horizonte_reancorado_dias": (determinada - observado).days,
+                "determination_date": determination_date,
+                "determination_basis": determination_basis,
+            }
+        )
+    return {
+        "claim_id": claim_id,
+        "pontos": pontos,
+        "confiavel": confiavel,
+        "metodo": (
+            f"horizonte re-ancorado contra determination_date={determination_date} "
+            f"(base {determination_basis!r}); derivado na leitura, a série selada não muda. "
+            + (
+                "Base confiável — pode entrar na calibração por horizonte."
+                if confiavel
+                else "Base DESCONHECIDA (legado): não use este horizonte para calibrar."
+            )
+        ),
+    }

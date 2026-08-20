@@ -33,7 +33,7 @@ from asus_theye.markets.claim import (
     _is_forbidden,
     load_classifier,
 )
-from asus_theye.markets.resolution import Resolution
+from asus_theye.markets.resolution import BASE_DESCONHECIDA, Resolution
 from asus_theye.markets.scoring import brier_score, skill_score
 
 DB_ENV = "ASUS_MARKETS_DB"  # aponta para o asus_teste.duckdb (fora do repo)
@@ -167,6 +167,11 @@ def load_settled(path: str | os.PathLike[str] | None = None) -> list[SettledCont
             outcome=outcome,
             resolution_source=str(row["fonte_confirmacao"]),
             resolved_at=str(row["resolved_at"]),
+            # Legado: o banco de origem não guarda quando a fonte publicou.
+            # Preenche com o melhor que existe e DECLARA a ignorância, para que
+            # a calibração possa excluir estes pontos do horizonte re-ancorado.
+            determination_date=str(row["resolved_at"])[:10],
+            determination_basis=BASE_DESCONHECIDA,
         )
         contracts.append(SettledContract(claim=claim, resolution=resolution, db_brier=brier, probability=probability))
 
