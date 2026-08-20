@@ -260,7 +260,7 @@ def test_comparador_diverge_e_evento_registra_sem_contaminar_linhagem(tmp_path: 
         json.dumps(
             {
                 "claim_id": "MACRO-01::2026-07",
-                "comparator": "Kalshi",
+                "comparator": "Comparador-Demo",
                 "comparator_price": 0.6,
                 "our_probability": 0.5,
                 "observacao_id": "f" * 64,
@@ -283,7 +283,7 @@ def test_comparador_diverge_e_evento_registra_sem_contaminar_linhagem(tmp_path: 
             + "\n"
         )
     g = construir_grafo(base)
-    assert (COMPARADOR, "Kalshi") in g.nos
+    assert (COMPARADOR, "Comparador-Demo") in g.nos
     assert any(a.relacao == "DIVERGE_DE" for a in g.arestas)
     assert [f.id for f in fontes_de(g, EVENTO, "ev-2")] == [FONTE_BCB]
     assert all(n.tipo != COMPARADOR for n in linhagem_ascendente(g, MERCADO, "MACRO-01::2026-07"))

@@ -45,7 +45,38 @@ def cabecalho(extensao: str) -> str:
 
 
 def arquivos_alvo(raiz: Path) -> list[Path]:
-    achados: list[Path] = []
+    """Todo código VERSIONADO, não uma lista de pastas escolhida a dedo.
+
+    A lista de pastas envelhecia mal: arquivos legítimos na raiz do repositório
+    (`ONDE_ESTOU.sh`, `deploy/compose.yaml`, `research/`) ficavam de fora e
+    seguiam sem o nome do titular. Pior, divergia da varredura de
+    `projeto/fronteira.py`, e duas ferramentas com escopos diferentes sempre
+    acabam discordando sobre o que está protegido.
+
+    `git ls-files` resolve os dois problemas: o escopo é "o que está no
+    repositório", que é exatamente a pergunta certa. Fora do controle de versão
+    não é obra publicada.
+    """
+    import subprocess
+
+    try:
+        saida = subprocess.run(
+            ["git", "ls-files"], cwd=raiz, capture_output=True, text=True, check=True, timeout=60
+        ).stdout
+    except (subprocess.CalledProcessError, subprocess.TimeoutExpired, FileNotFoundError):
+        saida = ""  # fora de um repositório: cai para a varredura por pasta
+    if saida:
+        achados = []
+        for relativo in sorted(saida.splitlines()):
+            caminho = raiz / relativo
+            if caminho.suffix not in EXTENSOES or not caminho.is_file():
+                continue
+            if any(ig in relativo for ig in IGNORAR):
+                continue
+            achados.append(caminho)
+        return achados
+
+    achados = []
     for pasta in ALVOS:
         base = raiz / pasta
         if not base.exists():

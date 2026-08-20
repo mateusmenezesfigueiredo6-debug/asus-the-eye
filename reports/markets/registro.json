@@ -27,17 +27,36 @@
       "market_area_id": "macroeconomia",
       "question": "A inflação oficial (IPCA) de 2026-08 fica em 0,50% ou mais?",
       "deadline": "2026-08-31",
-      "probability": 0.5,
+      "probability": 0.166667,
       "resolution_source": "api.bcb.gov.br (SGS)",
       "created_at": "2026-08-17T15:17:37.489807Z",
-      "max_uncertainty": true,
+      "max_uncertainty": false,
       "resolvable": true,
       "mes_referencia": "2026-08",
       "limiar": 0.5,
       "criterio": "IPCA mensal >= 0.50%",
       "serie_sgs": 433,
       "estado": "ABERTO",
-      "tentativas": []
+      "tentativas": [],
+      "gerador": {
+        "valor": 0.166667,
+        "p_inicial": 0.5,
+        "peso_inicial": 10.0,
+        "peso_sim": 0,
+        "peso_nao": 20.0,
+        "max_uncertainty": false,
+        "fontes": [
+          "BCB Focus/Olinda ExpectativaMercadoMensais — mediana IPCA 2026-08: -0.17% (boletim 2026-08-14; criterio >= 0.50%)"
+        ]
+      },
+      "reprecificacoes": [
+        {
+          "probabilidade_anterior": 0.5,
+          "probabilidade_nova": 0.166667,
+          "motivo": "Focus de 14/08/2026 aponta mediana de -0,17% para o IPCA de agosto, muito abaixo do limiar de 0,50% — o mercado nasceu no prior 0,50 porque a emissão nao consultava o gerador",
+          "reprecificado_em": "2026-08-20T22:14:08.249796Z"
+        }
+      ]
     },
     {
       "claim_id": "JUROS-01::2026-09",

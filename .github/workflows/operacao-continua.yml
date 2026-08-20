@@ -74,6 +74,15 @@ jobs:
           python -m asus_theye.cli projeto-medir --json --no-audit > /dev/null
           echo "fiação OK: medição roda no runner (nada foi selado, nada foi commitado)"
 
+      # PRIMEIRO passo com efeito de toda rodada: provar que a titularidade e a
+      # fronteira de terceiros seguem intactas, e SELAR isso na corrente. Sai
+      # com erro se algo rompeu — a rodada para antes de produzir qualquer dado
+      # sobre uma base cuja autoria não está mais garantida.
+      - name: Fronteira — titularidade e direitos do titular
+        if: ${{ github.event.inputs.somente_verificar != 'true' }}
+        run: |
+          python -m asus_theye.cli projeto-fronteira
+
       - name: Resolver, selar e medir
         if: ${{ github.event.inputs.somente_verificar != 'true' }}
         run: |

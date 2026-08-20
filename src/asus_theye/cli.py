@@ -156,7 +156,30 @@ def _parser() -> argparse.ArgumentParser:
         "--limiar", type=float, required=True, help="limiar DECLARADO da pergunta (critério deriva dele)"
     )
     markets_emitir.add_argument("--store", type=Path, default=Path("reports/markets/registro.json"))
+    markets_emitir.add_argument(
+        "--sem-gerador",
+        action="store_true",
+        help="emite no prior 0,50 sem consultar sinais (o padrão É consultar — mercado que nasce "
+        "em cara-ou-coroa por omissão não é previsão)",
+    )
     markets_emitir.add_argument("--json", dest="json_out", action="store_true", help="saída em JSON")
+    markets_reprecificar = subcommands.add_parser(
+        "markets-reprecificar",
+        help="move p de um mercado ABERTO com a proveniência do sinal e sela a mudança",
+    )
+    markets_reprecificar.add_argument("--claim", required=True, help="claim_id do mercado aberto")
+    markets_reprecificar.add_argument(
+        "--motivo", default="sinal novo disponível na fonte", help="por que o preço mudou"
+    )
+    markets_reprecificar.add_argument("--store", type=Path, default=Path("reports/markets/registro.json"))
+    markets_reprecificar.add_argument("--json", dest="json_out", action="store_true", help="saída em JSON")
+    markets_reprecificar.add_argument("--no-audit", action="store_true", help="não selar na cadeia")
+    projeto_fronteira = subcommands.add_parser(
+        "projeto-fronteira",
+        help="verifica e SELA que a titularidade, a proveniência e a fronteira de terceiros seguem intactas",
+    )
+    projeto_fronteira.add_argument("--json", dest="json_out", action="store_true", help="saída em JSON")
+    projeto_fronteira.add_argument("--no-audit", action="store_true", help="só verificar, sem selar")
     markets_vintage = subcommands.add_parser(
         "markets-vintage",
         help="arquiva o consenso Focus vigente (vintage) e sela — destrava o Brier comparativo do nowcast",
@@ -893,7 +916,22 @@ def main(argv: Sequence[str] | None = None) -> int:
 
         try:
             registro = carregar_registro(args.store)
-            mercado_novo = emitir_area(registro, args.area, args.mes, limiar=args.limiar)
+            # O padrão é CONSULTAR o gerador. Emitir em 0,50 por omissão foi
+            # exatamente o que deixou 4 mercados em cara-ou-coroa com o motor
+            # funcionando ao lado: o gerador dava 0,1667 e ninguém perguntava.
+            probabilidade = None
+            if not args.sem_gerador:
+                from asus_theye.markets.gerador import GeradorError
+                from asus_theye.markets.sinais_ipca import SinaisError, probabilidade_para_ipca
+
+                try:
+                    probabilidade = probabilidade_para_ipca(args.mes, args.limiar)
+                    print(f"gerador: p={probabilidade.valor:.4f} ({probabilidade.metodo})")
+                except (GeradorError, SinaisError) as erro:
+                    # falha de sinal NUNCA bloqueia a emissão — o mercado nasce
+                    # no prior honesto e a saída diz por quê
+                    print(f"gerador indisponível ({erro}) — emitindo no prior 0,50, declarado")
+            mercado_novo = emitir_area(registro, args.area, args.mes, limiar=args.limiar, probabilidade=probabilidade)
             if mercado_novo is None:
                 print(f"markets-emitir: {args.area}/{args.mes} já tem mercado — nada a emitir")
                 return 0
@@ -1183,6 +1221,73 @@ def main(argv: Sequence[str] | None = None) -> int:
         print(f"\natribuição (exigida pela licença): {observacao.atribuicao}")
         print(f"licença: {observacao.licenca} — permite uso comercial, cópia e redistribuição")
         return 0
+    if args.command == "markets-reprecificar":
+        from asus_theye.markets.auditoria import AuditoriaError, abrir_auditoria
+        from asus_theye.markets.gerador import GeradorError
+        from asus_theye.markets.reprecificar import ReprecificacaoError, reprecificar
+        from asus_theye.markets.sinais_ipca import SinaisError, probabilidade_para_ipca
+
+        try:
+            import json as _json
+
+            registro_atual = _json.loads(args.store.read_text(encoding="utf-8"))
+            alvo = next((m for m in registro_atual.get("mercados", []) if m.get("claim_id") == args.claim), None)
+            if alvo is None:
+                print(f"markets-reprecificar: {args.claim} não existe no registro")
+                return 1
+            nova = probabilidade_para_ipca(str(alvo["mes_referencia"]), float(alvo["limiar"]))
+            sdk_rep = None if args.no_audit else abrir_auditoria(Path("reports/audit/markets-ledger.db"))
+            resultado = reprecificar(
+                claim_id=args.claim, probabilidade=nova, motivo=args.motivo, store=args.store, sdk=sdk_rep
+            )
+        except (ReprecificacaoError, SinaisError, GeradorError, AuditoriaError) as error:
+            print(f"markets-reprecificar: {error}")
+            return 1
+
+        if args.json_out:
+            print(json.dumps(resultado, ensure_ascii=False, indent=2, default=str))
+            return 0
+        if not resultado["reprecificado"]:
+            print(f"markets-reprecificar: {resultado['motivo']}")
+            return 0
+        m = resultado["mudanca"]
+        print("=" * 62)
+        print("REPRECIFICAÇÃO — o valor antigo fica na corrente")
+        print("=" * 62)
+        print(
+            f"\n{m['claim_id']}: {m['probabilidade_anterior']:.4f} -> {m['probabilidade_nova']:.4f} "
+            f"({m['movimento']:+.4f})"
+        )
+        print(f"  motivo: {m['motivo']}")
+        print(f"  sinal:  {m['gerador'].get('metodo', '—')}")
+        if resultado["selagem"] is not None:
+            selo = resultado["selagem"]
+            estado_selo = "dedupe" if selo.get("duplicate") else "EVENTO market.repricing SELADO"
+            print(f"  selagem: {estado_selo} — {selo['event_hash_sha256'][:16]}…")
+        return 0
+    if args.command == "projeto-fronteira":
+        from asus_theye.markets.auditoria import AuditoriaError, abrir_auditoria
+        from asus_theye.projeto.fronteira import FronteiraError, medir_fronteira, selar_fronteira
+        from asus_theye.projeto.fronteira import relatorio as relatorio_da_fronteira
+
+        try:
+            snap = medir_fronteira()
+            selagem = None
+            if not args.no_audit:
+                selagem = selar_fronteira(abrir_auditoria(Path("reports/audit/markets-ledger.db")), snap)
+        except (FronteiraError, AuditoriaError) as error:
+            print(f"projeto-fronteira: {error}")
+            return 1
+
+        if args.json_out:
+            print(json.dumps(snap, ensure_ascii=False, indent=2))
+        else:
+            print(relatorio_da_fronteira(snap))
+            if selagem is not None:
+                estado_selo = "dedupe" if selagem.get("duplicate") else "EVENTO project.boundary SELADO"
+                print(f"\nselagem: {estado_selo} — {selagem['event_hash_sha256'][:16]}…")
+        # fronteira rompida SAI COM ERRO: o cron precisa gritar, não sussurrar
+        return 0 if snap["intacta"] else 1
     if args.command == "markets-sinais":
         from asus_theye.markets.gerador import GeradorError
         from asus_theye.markets.sinais_ipca import SinaisError, probabilidade_para_ipca, sinais_para_ipca

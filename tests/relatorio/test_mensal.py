@@ -91,7 +91,7 @@ def _popular_base(base: Path) -> None:
         [
             {
                 "claim_id": "MACRO-01::2026-08",
-                "comparator": "Kalshi",
+                "comparator": "Comparador-Demo",
                 "comparator_price": 0.62,
                 "our_probability": 0.55,
                 "divergence": 0.07,
@@ -100,7 +100,7 @@ def _popular_base(base: Path) -> None:
             },
             {
                 "claim_id": "MACRO-01::2026-09",
-                "comparator": "Kalshi",
+                "comparator": "Comparador-Demo",
                 "comparator_price": 0.48,
                 "our_probability": 0.51,
                 "divergence": 0.03,
@@ -162,7 +162,7 @@ def test_relatorio_mensal_com_dados_sinteticos(tmp_path: Path) -> None:
     assert "Mercados emitidos no mês ainda abertos: 1 | divergências medidas: 1" in texto
     assert "| MACRO-01::2026-08 | 1 | 0.2025 | api.bcb.gov.br (SGS) |" in texto
     assert "| MACRO-01::2026-08 | macroeconomia | ABERTO | 0.5500 | 2026-08-01T00:00:00Z |" in texto
-    assert "| MACRO-01::2026-08 | Kalshi | 0.6200 | 0.5500 | 0.0700 | COMPARADOR-DEMO-26AUG |" in texto
+    assert "| MACRO-01::2026-08 | Comparador-Demo | 0.6200 | 0.5500 | 0.0700 | COMPARADOR-DEMO-26AUG |" in texto
     assert "© 2026 Mateus Menezes Figueiredo · AGPL-3.0" in texto
 
 
