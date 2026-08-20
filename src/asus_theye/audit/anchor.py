@@ -233,7 +233,10 @@ def ancorar_na_base_sepolia(
         tx = fabrica.constructor(0, conta.address, conta.address).build_transaction(
             {
                 "from": conta.address,
-                "nonce": w3.eth.get_transaction_count(conta.address),
+                # "pending": conta o que já está na mempool — imune ao lag de
+                # RPC público balanceado (um nó atrasado devolveria nonce velho
+                # e a 2ª tx colidiria com "nonce too low")
+                "nonce": w3.eth.get_transaction_count(conta.address, "pending"),
                 "chainId": CHAIN_ID_BASE_SEPOLIA,
             }
         )
@@ -261,7 +264,11 @@ def ancorar_na_base_sepolia(
     instancia = w3.eth.contract(address=endereco, abi=contrato["abi"])
     params = parametros_do_contrato(batch["manifest"])
     tx = instancia.functions.anchorBatch(*params.values()).build_transaction(
-        {"from": conta.address, "nonce": w3.eth.get_transaction_count(conta.address), "chainId": CHAIN_ID_BASE_SEPOLIA}
+        {
+            "from": conta.address,
+            "nonce": w3.eth.get_transaction_count(conta.address, "pending"),
+            "chainId": CHAIN_ID_BASE_SEPOLIA,
+        }
     )
     assinada = conta.sign_transaction(tx)
     tx_hash = w3.eth.send_raw_transaction(assinada.raw_transaction)
