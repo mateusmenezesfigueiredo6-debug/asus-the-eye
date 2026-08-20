@@ -57,7 +57,7 @@ def api_docs_page() -> str:
   <h2>POST /verify</h2>
   <p>Verifica localmente evento, corrente/histórico ou prova Merkle.</p>
   <p>Limite de 1 MiB por documento; nada é persistido.</p>
-  <pre><code>curl -sS -X POST https://SEU_DOMINIO/verify \
+  <pre><code>curl -sS -X POST https://SEU_DOMINIO/verify \\
   -H 'content-type: application/json' \\
   -d '{verify_curl_payload}'</code></pre>
   <h3>Corpo</h3>

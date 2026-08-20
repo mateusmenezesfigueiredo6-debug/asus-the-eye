@@ -1,7 +1,7 @@
 # API pública do verificador (`the-eye-public-verifier`)
 
 Documentação dos endpoints **públicos** do verificador, confirmados no código em
-`/home/runner/work/asus-the-eye/asus-the-eye/apps/public-verifier/worker.ts`.
+`apps/public-verifier/worker.ts`.
 
 Base URL (exemplo): `https://SEU_DOMINIO`
 

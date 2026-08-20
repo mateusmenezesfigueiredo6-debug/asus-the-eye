@@ -19,7 +19,6 @@ __all__ = [
     "register_api_docs_routes",
     "register_markets_routes",
     "mercados_page",
-    "mlops_page",
     "register_mercados_routes",
     "register_mlops_routes",
     "register_projeto_routes",
