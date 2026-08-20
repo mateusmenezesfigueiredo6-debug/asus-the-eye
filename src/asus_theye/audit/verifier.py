@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+from collections.abc import Mapping
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
@@ -71,7 +72,7 @@ def _verify_batch(document: dict[str, Any]) -> dict[str, Any]:
 
 
 def verification_receipt(
-    *, target_type: str, target_id: str, checks: dict[str, bool | None], anchor: dict[str, Any] | None = None
+    *, target_type: str, target_id: str, checks: Mapping[str, bool | None], anchor: dict[str, Any] | None = None
 ) -> dict[str, Any]:
     if any(value is False for value in checks.values()):
         status = "invalid"
