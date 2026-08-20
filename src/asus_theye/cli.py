@@ -245,6 +245,14 @@ def _parser() -> argparse.ArgumentParser:
     ledger_sync.add_argument("--eventos", type=Path, default=Path("reports/markets/eventos.jsonl"))
     ledger_sync.add_argument("--tenant", default=DEFAULT_TENANT)
     ledger_sync.add_argument("--json", dest="json_out", action="store_true", help="saída em JSON")
+    verificar_espelho = subcommands.add_parser(
+        "verificar-espelho",
+        help="compara a corrente local com o espelho no D1 e reporta faltantes",
+    )
+    verificar_espelho.add_argument("--ledger-url", default=os.environ.get("THE_EYE_LEDGER_URL", ""))
+    verificar_espelho.add_argument("--eventos", type=Path, default=Path("reports/markets/eventos.jsonl"))
+    verificar_espelho.add_argument("--tenant", default=DEFAULT_TENANT)
+    verificar_espelho.add_argument("--json", dest="json_out", action="store_true", help="saída em JSON")
     export_static = subcommands.add_parser(
         "export-static",
         help="renderiza os painéis do dashboard como HTML estático em dist/",
@@ -919,6 +927,37 @@ def main(argv: Sequence[str] | None = None) -> int:
             f"\neventos locais: {placar['eventos_locais']}  |  novos: {placar['novos']}  |  dedupe: {placar['dedupe']}"
         )
         print(f"\n{placar['metodo']}")
+        return 0
+    if args.command == "verificar-espelho":
+        from asus_theye.audit.verificar_espelho import (
+            CorrenteBrokenError,
+            VerificarEspelhoError,
+            verificar,
+        )
+
+        if not args.ledger_url:
+            print("verificar-espelho: exige --ledger-url ou THE_EYE_LEDGER_URL")
+            return 1
+        try:
+            relatorio = verificar(args.ledger_url, eventos=args.eventos, tenant=args.tenant)
+        except (CorrenteBrokenError, VerificarEspelhoError, FileNotFoundError) as error:
+            print(f"verificar-espelho: {error}")
+            return 1
+        if args.json_out:
+            print(json.dumps(relatorio, ensure_ascii=False, indent=2))
+            return 0 if not relatorio["faltantes_na_janela"] else 1
+        print("=" * 62)
+        print("VERIFICAÇÃO DO ESPELHO DA CORRENTE (D1)")
+        print("=" * 62)
+        print(f"\nlocais: {relatorio['locais']}  |  espelhos_remotos: {relatorio['espelhos_remotos']}")
+        if relatorio["janela_parcial"]:
+            print("\nATENÇÃO: corrente local > 50 eventos — janela parcial (últimos 50 visíveis)")
+        if relatorio["faltantes_na_janela"]:
+            print(f"\nFALTANTES na janela ({len(relatorio['faltantes_na_janela'])}):")
+            for h in relatorio["faltantes_na_janela"]:
+                print(f"  {h}")
+            return 1
+        print("\nespelho em dia — nenhum faltante na janela")
         return 0
     if args.command == "export-static":
         from asus_theye.dashboard.export_static import exportar
