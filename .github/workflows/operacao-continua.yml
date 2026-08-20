@@ -81,6 +81,23 @@ jobs:
           python -m asus_theye.cli markets-vintage --mes "$(date -u +%Y-%m)" || true
           python -m asus_theye.cli projeto-medir
 
+      - name: Ancorar on-chain (opcional — só com a chave no cofre)
+        # A corrente prova a si mesma por encadeamento; a âncora prova QUANDO
+        # ela existia. Este passo é OPCIONAL de propósito: guardar a chave do
+        # operador no cofre do GitHub aumenta a superfície de risco (quem
+        # invadir a conta assina âncoras). Sem o segredo, o passo é pulado e a
+        # ancoragem continua sendo ato manual do dono — decisão consciente,
+        # não esquecimento. Para ativar:
+        #   gh secret set THE_EYE_ANCHOR_PK < reports/audit/anchor.key
+        if: ${{ github.event.inputs.somente_verificar != 'true' && secrets.THE_EYE_ANCHOR_PK != '' }}
+        env:
+          THE_EYE_ANCHOR_PK: ${{ secrets.THE_EYE_ANCHOR_PK }}
+          THE_EYE_ANCHOR_EXECUTE: "1"
+        run: |
+          python -m pip install --quiet -e ".[anchor]"
+          # só ancora se houver lacuna real: 10+ eventos sem prova temporal
+          python -m asus_theye.cli markets-anchor --execute --minimo 10
+
       - name: Espelhar a corrente no D1
         if: ${{ github.event.inputs.somente_verificar != 'true' }}
         env:

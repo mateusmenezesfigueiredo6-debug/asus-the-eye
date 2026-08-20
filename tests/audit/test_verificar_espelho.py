@@ -128,3 +128,29 @@ def test_arquivo_ausente_levanta(tmp_path: Path) -> None:
 
     with pytest.raises(FileNotFoundError):
         verificar("http://fake", eventos=tmp_path / "nao_existe.jsonl", tenant="t", buscar=buscar)
+
+
+def test_eventos_sem_ancora_mede_a_lacuna(tmp_path: Path) -> None:
+    """A lacuna é o que existe acima da última sequência ancorada."""
+    import json as _json
+
+    from asus_theye.audit.anchor import eventos_sem_ancora
+
+    eventos = tmp_path / "eventos.jsonl"
+    linhas = [{"tenant_id": "tenant-demo", "sequence": i} for i in range(1, 6)]
+    eventos.write_text("\n".join(_json.dumps(li) for li in linhas) + "\n", encoding="utf-8")
+
+    ancoras = tmp_path / "ancoras.jsonl"
+    assert eventos_sem_ancora(eventos, ancoras) == 5  # sem âncora: tudo é lacuna
+
+    ancoras.write_text(_json.dumps({"manifest": {"last_sequence": 3}}) + "\n", encoding="utf-8")
+    assert eventos_sem_ancora(eventos, ancoras) == 2  # 4 e 5 ainda sem prova
+
+    ancoras.write_text(_json.dumps({"manifest": {"last_sequence": 5}}) + "\n", encoding="utf-8")
+    assert eventos_sem_ancora(eventos, ancoras) == 0  # tudo provado
+
+
+def test_eventos_sem_ancora_corrente_ausente(tmp_path: Path) -> None:
+    from asus_theye.audit.anchor import eventos_sem_ancora
+
+    assert eventos_sem_ancora(tmp_path / "nada.jsonl", tmp_path / "nada2.jsonl") == 0

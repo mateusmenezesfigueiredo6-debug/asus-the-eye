@@ -206,6 +206,12 @@ def _parser() -> argparse.ArgumentParser:
     markets_anchor.add_argument(
         "--rpc", default=os.environ.get("THE_EYE_ANCHOR_RPC", ""), help="RPC (padrão: sepolia.base.org)"
     )
+    markets_anchor.add_argument(
+        "--minimo",
+        type=int,
+        default=0,
+        help="só ancora se houver ao menos N eventos sem prova temporal (0 = sempre); use no cron",
+    )
     markets_anchor.add_argument("--json", dest="json_out", action="store_true", help="saída em JSON")
     serve = subcommands.add_parser("serve", help="sobe o dashboard (localhost por padrão; --expose exige token)")
     serve.add_argument("--host", default="127.0.0.1", help="padrão 127.0.0.1 (só local)")
@@ -614,6 +620,14 @@ def main(argv: Sequence[str] | None = None) -> int:
             print(f"\ncadeia auditável: topo na sequência {cabeca_da_corrente(sdk)}")
         return 1 if houve_erro else 0
     if args.command == "markets-anchor":
+        from asus_theye.audit.anchor import eventos_sem_ancora
+
+        if getattr(args, "minimo", 0) > 0:
+            lacuna = eventos_sem_ancora(args.eventos)
+            if lacuna < args.minimo:
+                print(f"markets-anchor: {lacuna} evento(s) sem âncora — abaixo do mínimo ({args.minimo}); nada a fazer")
+                return 0
+            print(f"markets-anchor: {lacuna} evento(s) sem prova temporal — ancorando")
         from asus_theye.audit.anchor import (
             RPC_PADRAO,
             AncoragemError,
