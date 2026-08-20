@@ -88,6 +88,9 @@ jobs:
           # linha de base do consenso: sem começar a parear, nunca existe série.
           # Recusa agregar abaixo de 12 pares — o número não sai antes da hora.
           python -m asus_theye.cli markets-consenso
+          # calibração: recusa agregar abaixo de 30 pares, mas sela o estado —
+          # inclusive o "ainda não dá", que também é informação auditável.
+          python -m asus_theye.cli markets-calibracao
           python -m asus_theye.cli projeto-medir
 
       - name: Ancorar on-chain (opcional — só com a chave no cofre)
