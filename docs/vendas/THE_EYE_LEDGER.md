@@ -14,13 +14,15 @@ O efeito prático é direto: mudar conteúdo, metadados, ordem ou vínculo quebr
 
 O painel `/evidencia` apresenta a linhagem de cada evento selado até a fonte primária. A ontologia conecta Fonte, Mercado, Resolução, Evento Selado, Lote Merkle e Âncora, deixando visível onde a prova chega e onde ainda é parcial.
 
-A materialização completa de Artefato e Recibo e a indicação “Fonte provada + ancorada” estão **em roteiro**. O painel já distingue honestamente a ausência de âncora: corrente íntegra não é sinônimo de conteúdo verdadeiro nem de prova on-chain concluída.
+Artefato e Recibo já são entidades reais no painel. O primeiro Artefato preserva a resposta bruta da série SGS 433 do BCB, com SHA-256 `5aeb3a97…`, e a relaciona à Fonte. O Recibo materializa o resultado do verificador, atesta o topo da corrente e informa honestamente `not_anchored`. A indicação “Fonte provada + ancorada” continua **em roteiro**: corrente íntegra não é sinônimo de conteúdo verdadeiro nem de prova on-chain concluída.
 
 ### Verificação independente, local e pública
 
 Qualquer clone do repositório pode executar `verify_chain` e conferir sozinho a integridade e a continuidade da corrente. Há também um verificador offline, acionado por `asus-theye audit-verify`, que produz recibo de verificação.
 
-Na nuvem, oito eventos locais já foram espelhados no Cloudflare D1, com nova sincronização sem duplicatas. O verificador público está no ar e valida a corrente real sem credencial; seu contrato de leitura expõe verificação e, quando existirem, raízes confirmadas, sem publicar documentos ou dados pessoais.
+No corte selado da medição de 19/08, a corrente tinha 25 eventos. O espelho no Cloudflare D1 é idempotente por `event_hash`: o artefato versionado comprova oito espelhos e uma segunda sincronização sem duplicatas. A confirmação remota de todos os 25 não está registrada no repo e, portanto, não é afirmada aqui. O verificador público está no ar e valida a corrente real sem credencial; seu contrato de leitura expõe verificação e, quando existirem, raízes confirmadas, sem publicar documentos ou dados pessoais.
+
+O roteiro dos dois produtos também é dado auditável, não apresentação editável sem rastro. A medição selada de 19/08 registra **71,7%** dos pesos concluídos; o evento tem hash público `980078bd…` e referencia o hash de conteúdo `4cc419eb…`. Alterar o roteiro muda o hash e exige um novo evento.
 
 ### Ancoragem pronta, transmissão pendente
 

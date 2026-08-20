@@ -13,7 +13,13 @@ from asus_theye.dashboard.export_static import exportar
 def test_exportar_gera_html_basico(tmp_path: Path) -> None:
     """Três painéis devem ser gerados sem ASUS_MARKETS_DB; markets é pulado."""
     resultado = exportar(tmp_path)
-    assert set(resultado["gerados"]) == {"projeto.html", "evidencia.html", "benchmark.html", "index.html"}
+    assert set(resultado["gerados"]) == {
+        "projeto.html",
+        "evidencia.html",
+        "benchmark.html",
+        "mercados.html",
+        "index.html",
+    }
     assert len(resultado["pulados"]) == 1
     assert "markets" in resultado["pulados"][0]
 
@@ -99,3 +105,14 @@ def test_cli_export_static_json_valido(
     out = capsys.readouterr().out
     data = json.loads(out)
     assert "gerados" in data and "pulados" in data
+
+
+def test_export_inclui_mercados_html(tmp_path, monkeypatch):
+    """O painel dos mercados vivos entra no site estático."""
+    from asus_theye.dashboard.export_static import exportar
+
+    monkeypatch.delenv("ASUS_MARKETS_DB", raising=False)
+    resultado = exportar(tmp_path)
+    assert "mercados.html" in resultado["gerados"]
+    conteudo = (tmp_path / "mercados.html").read_text(encoding="utf-8")
+    assert "probabilidade com proveniência" in conteudo or "MERCADOS" in conteudo
