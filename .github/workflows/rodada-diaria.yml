@@ -1,0 +1,83 @@
+# SPDX-FileCopyrightText: 2026 Mateus Menezes Figueiredo
+# SPDX-License-Identifier: AGPL-3.0-or-later
+#
+# Laço DIÁRIO — move p entre a emissão e a liquidação.
+#
+# Por que separado da operacao-continua: aquele roda nos dias 11-15 e faz o
+# trabalho pesado (resolver, calibrar, ancorar). Este é enxuto e roda todo dia,
+# porque a trajetória de p só existe se alguém a fotografar com frequência.
+#
+# Custo (spec do Codex): timeout de 5 min x 31 dias = 155 min/mês no pior caso,
+# somados aos <=75 min do ciclo mensal = 230 min, cerca de 11,5% dos 2.000
+# minutos gratuitos do GitHub Free em repositório privado. O consumo real deve
+# ser medido no primeiro mês — 230 é teto por timeout, não observação.
+#
+# A ressalva honesta, também da spec: rodar todo dia melhora a COBERTURA de
+# horizontes, mas nao cria amostras independentes. O tamanho amostral para
+# calibrar continua sendo o numero de claims LIQUIDADOS.
+
+name: rodada-diaria
+
+on:
+  schedule:
+    - cron: "0 13 * * *" # 13:00 UTC = 10:00 BRT, todo dia
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  # duas rodadas simultâneas escreveriam na mesma corrente
+  group: rodada-diaria
+  cancel-in-progress: false
+
+jobs:
+  rodada:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Instalar o pacote
+        run: python -m pip install --quiet -e .
+
+      - name: Restaurar a chave da corrente
+        env:
+          CHAVE_HEX: ${{ secrets.THE_EYE_AUDIT_KEY_HEX }}
+        run: |
+          if [ -z "$CHAVE_HEX" ]; then
+            echo "::error::segredo THE_EYE_AUDIT_KEY_HEX ausente — a selagem seria recusada"
+            exit 1
+          fi
+          mkdir -p reports/audit
+          printf '%s\n' "$CHAVE_HEX" > reports/audit/pseudonimos.key
+          chmod 600 reports/audit/pseudonimos.key
+
+      - name: FRONTEIRA — os direitos do titular
+        # primeiro passo com efeito, como na operacao-continua: a rodada para
+        # antes de produzir dado sobre uma base cuja autoria nao esta garantida
+        run: python -m asus_theye.cli projeto-fronteira
+
+      - name: Rodada — reprecificar e fotografar a serie
+        run: python -m asus_theye.cli markets-rodada
+
+      - name: Commitar (so se mudou)
+        run: |
+          git config user.name "the-eye-rodada-diaria"
+          git config user.email "rodada-diaria@users.noreply.github.com"
+          git add reports/markets
+          if git diff --cached --quiet; then
+            echo "nada mudou — rodada idempotente, sem commit"
+          else
+            git commit -m "rodada diaria: serie p(t) de $(date -u +%Y-%m-%d)"
+            # rebase antes do push: o ciclo mensal pode ter commitado no meio
+            for tentativa in 1 2 3; do
+              git pull --rebase --autostash && git push && break
+              echo "tentativa $tentativa falhou, repetindo"
+              sleep 5
+            done
+          fi

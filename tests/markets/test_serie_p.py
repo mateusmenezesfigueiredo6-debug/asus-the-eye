@@ -240,3 +240,61 @@ def test_reancorar_nao_reescreve_a_serie_selada(base: tuple[Path, Path]) -> None
         arquivo=arquivo,
     )
     assert arquivo.read_text(encoding="utf-8") == antes
+
+
+# ------------------------------------------------------------ causa na identidade
+
+
+def test_dois_movimentos_no_mesmo_dia_geram_dois_pontos(base: tuple[Path, Path]) -> None:
+    """A armadilha que a spec do laço apontou.
+
+    Antes a identidade era (claim_id, observado_em): reprecificar no mesmo dia
+    em que já houve fotografia DESCARTAVA o ponto novo em silêncio, e a
+    trajetória perdia justamente o movimento que ela existe para registrar.
+    """
+    store, arquivo = base
+    registrar_ponto(claim_id="MACRO-01::2026-09", observado_em="2026-08-31", store=store, arquivo=arquivo)
+    segundo = registrar_ponto(
+        claim_id="MACRO-01::2026-09",
+        observado_em="2026-08-31",
+        causa_id="repricing:abc123",
+        probability=0.8,
+        store=store,
+        arquivo=arquivo,
+    )
+    assert segundo["duplicate"] is False
+    serie = serie_do_claim("MACRO-01::2026-09", arquivo=arquivo)
+    assert len(serie) == 2
+    assert [p["probability"] for p in serie] == [0.5, 0.8]
+
+
+def test_mesma_causa_continua_deduplicando(base: tuple[Path, Path]) -> None:
+    """Causas distintas nunca colidem; repetir a mesma causa é dedupe."""
+    store, arquivo = base
+    for _ in range(2):
+        resultado = registrar_ponto(
+            claim_id="MACRO-01::2026-09",
+            observado_em="2026-08-31",
+            causa_id="repricing:xyz",
+            store=store,
+            arquivo=arquivo,
+        )
+    assert resultado["duplicate"] is True
+    assert len(serie_do_claim("MACRO-01::2026-09", arquivo=arquivo)) == 1
+
+
+def test_o_instante_ordena_pontos_do_mesmo_dia(base: tuple[Path, Path]) -> None:
+    """A calibração usa o ÚLTIMO ponto do dia — sem instante não há 'último'."""
+    store, arquivo = base
+    registrar_ponto(claim_id="MACRO-01::2026-09", observado_em="2026-08-31", store=store, arquivo=arquivo)
+    registrar_ponto(
+        claim_id="MACRO-01::2026-09",
+        observado_em="2026-08-31",
+        causa_id="repricing:tarde",
+        instante="2026-08-31T18:00:00Z",
+        store=store,
+        arquivo=arquivo,
+    )
+    instantes = [p["observado_em_instante"] for p in serie_do_claim("MACRO-01::2026-09", arquivo=arquivo)]
+    assert "2026-08-31T00:00:00Z" in instantes  # snapshot legado equivale a meia-noite
+    assert "2026-08-31T18:00:00Z" in instantes
