@@ -297,6 +297,8 @@ def _parser() -> argparse.ArgumentParser:
     )
     relatorio_anual.add_argument("--ano", default=None, help="ano de referência em AAAA (padrão: ano UTC atual)")
     relatorio_anual.add_argument("--saida", type=Path, default=None, help="arquivo Markdown de saída")
+    doutor = subcommands.add_parser("doutor", help="diagnóstico local honesto da plataforma em um comando")
+    doutor.add_argument("--json", dest="json_out", action="store_true", help="saída em JSON")
     return parser
 
 
@@ -1068,6 +1070,39 @@ def main(argv: Sequence[str] | None = None) -> int:
             return 1
         print("\nespelho em dia — nenhum faltante na janela")
         return 0
+    if args.command == "doutor":
+        from asus_theye.diagnostico import diagnosticar
+
+        relatorio = diagnosticar(_reports_base())
+        falhou_critico = any(not bool(relatorio[chave]["ok"]) for chave in ("corrente", "chave"))
+        if args.json_out:
+            print(json.dumps(relatorio, ensure_ascii=False, indent=2))
+            return 1 if falhou_critico else 0
+        titulos = {
+            "corrente": "corrente",
+            "chave": "chave",
+            "prova_temporal": "prova temporal",
+            "mercados": "mercados",
+            "espelho": "espelho",
+            "titularidade": "titularidade",
+            "backup": "backup",
+        }
+        print("=" * 62)
+        print("DOUTOR — DIAGNÓSTICO HONESTO DA PLATAFORMA")
+        print("=" * 62)
+        for chave, titulo in titulos.items():
+            item = relatorio[chave]
+            if item["ok"]:
+                marcador = "OK"
+            elif chave in {"corrente", "chave"}:
+                marcador = "CRÍTICO"
+            else:
+                marcador = "AVISO"
+            print(f"\n[{marcador:7s}] {titulo}")
+            print(f"  {item['detalhe']}")
+            if not item["ok"]:
+                print(f"  como corrigir: {item['como_corrigir']}")
+        return 1 if falhou_critico else 0
     if args.command == "relatorio-mensal":
         from asus_theye.relatorio import relatorio_mensal
 
