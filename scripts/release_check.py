@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# SPDX-FileCopyrightText: 2026 Mateus Menezes Figueiredo
+# SPDX-License-Identifier: AGPL-3.0-or-later
 """Portões de lançamento executáveis (ver RELEASE_PROTOCOL.md).
 
     python3 scripts/release_check.py L2            # roda os portões da classe

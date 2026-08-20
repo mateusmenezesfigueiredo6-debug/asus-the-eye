@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# SPDX-FileCopyrightText: 2026 Mateus Menezes Figueiredo
+# SPDX-License-Identifier: AGPL-3.0-or-later
 """Importa as 40 liquidações legislativas legadas como retrospectivas.
 
 O modo padrão é apenas uma simulação. A escrita exige ``--execute`` e nunca

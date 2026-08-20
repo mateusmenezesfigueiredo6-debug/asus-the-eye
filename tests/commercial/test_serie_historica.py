@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2026 Mateus Menezes Figueiredo
+# SPDX-License-Identifier: AGPL-3.0-or-later
 """Testes da coleta de serie historica.
 
 O teste central e o das fronteiras de janela: o defeito real encontrado em

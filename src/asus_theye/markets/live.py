@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2026 Mateus Menezes Figueiredo
+# SPDX-License-Identifier: AGPL-3.0-or-later
 """Medição contínua — máquina de estados ABERTO → EM_RESOLUCAO → LIQUIDADO.
 
 O elo que faltava entre "módulo correto" e "produto que mede": um registro de

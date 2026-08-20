@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2026 Mateus Menezes Figueiredo
+# SPDX-License-Identifier: AGPL-3.0-or-later
 """Painel do dashboard: reconciliação e skill dos mercados preditivos.
 
 Torna visual o que a CLI ``markets-reconcile`` reporta: o tie-out contra o banco

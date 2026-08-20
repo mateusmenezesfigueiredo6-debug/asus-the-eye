@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2026 Mateus Menezes Figueiredo
+# SPDX-License-Identifier: AGPL-3.0-or-later
 """Suggest legal areas for a text using the taxonomy alias registry.
 
 Deterministic substring matching over reviewed PT-BR aliases — no model, no

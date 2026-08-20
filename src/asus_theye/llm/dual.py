@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2026 Mateus Menezes Figueiredo
+# SPDX-License-Identifier: AGPL-3.0-or-later
 """Two-model adjudication: one model proposes, a different one tries to refute.
 
 This is the project's own evidence policy expressed as code. ``AGENTS.md``

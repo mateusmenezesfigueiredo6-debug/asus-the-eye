@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2026 Mateus Menezes Figueiredo
+# SPDX-License-Identifier: AGPL-3.0-or-later
 """Testes da F2: a liquidação sela um evento real na cadeia auditável.
 
 Tudo offline e efêmero: SQLite em tmp_path, chave gerada localmente.

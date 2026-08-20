@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2026 Mateus Menezes Figueiredo
+# SPDX-License-Identifier: AGPL-3.0-or-later
 """Testes dos três relatórios da Fase C.
 
 O que se protege aqui é o que os relatórios NÃO podem esconder: um zero sem

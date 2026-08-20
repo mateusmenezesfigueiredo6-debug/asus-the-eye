@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2026 Mateus Menezes Figueiredo
+# SPDX-License-Identifier: AGPL-3.0-or-later
 """Conector de resolução: Banco Central do Brasil, série SGS 433 (IPCA mensal).
 
 Este é o primeiro conector que fecha o ciclo de medição de ponta a ponta: busca

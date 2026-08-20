@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2026 Mateus Menezes Figueiredo
+# SPDX-License-Identifier: AGPL-3.0-or-later
 """Runtime and estimated-cost telemetry."""
 
 from .cost import collect_cost_telemetry

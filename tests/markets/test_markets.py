@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2026 Mateus Menezes Figueiredo
+# SPDX-License-Identifier: AGPL-3.0-or-later
 """Testes dos mercados preditivos: as regras que impedem o número de mentir.
 
 Onde dá, os testes usam os números reais do classificador — em especial o

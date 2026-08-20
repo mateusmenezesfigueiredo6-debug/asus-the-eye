@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2026 Mateus Menezes Figueiredo
+# SPDX-License-Identifier: AGPL-3.0-or-later
 """Painel do dashboard: a medição do projeto — quanto falta, com hash.
 
 O dash que o dono pediu: o placar inteiro do projeto, cada número com o método

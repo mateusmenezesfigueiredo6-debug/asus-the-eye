@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2026 Mateus Menezes Figueiredo
+# SPDX-License-Identifier: AGPL-3.0-or-later
 """Integração offline dos conectores acadêmicos com o fetcher educado."""
 
 from __future__ import annotations

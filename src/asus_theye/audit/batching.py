@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2026 Mateus Menezes Figueiredo
+# SPDX-License-Identifier: AGPL-3.0-or-later
 """Build Merkle batches from remote ledger events and store them.
 
 The tree, manifest and inclusion proofs are produced locally by the Phase 0

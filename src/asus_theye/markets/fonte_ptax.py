@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2026 Mateus Menezes Figueiredo
+# SPDX-License-Identifier: AGPL-3.0-or-later
 """Conector de resolução: Banco Central do Brasil, série SGS 1 (PTAX venda diária).
 
 Este é o terceiro conector de fonte oficial e segue o mesmo molde do conector

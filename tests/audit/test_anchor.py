@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2026 Mateus Menezes Figueiredo
+# SPDX-License-Identifier: AGPL-3.0-or-later
 """Testes da F3: o contrato TheEyeAuditAnchor e o módulo de ancoragem.
 
 Cobre o que contracts/audit-anchor/TEST_STATUS.md sempre pediu — autorização,

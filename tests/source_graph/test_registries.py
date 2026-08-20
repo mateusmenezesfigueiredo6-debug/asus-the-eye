@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2026 Mateus Menezes Figueiredo
+# SPDX-License-Identifier: AGPL-3.0-or-later
 """Testes de integridade dos registries do source-graph.
 Molde de tests/decision_context/test_taxonomy.py: contagens declaradas batem com
 a realidade, referências resolvem, e o crosswalk pendente permanece vazio.

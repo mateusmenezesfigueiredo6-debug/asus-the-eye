@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2026 Mateus Menezes Figueiredo
+# SPDX-License-Identifier: AGPL-3.0-or-later
 """Entidades da ontologia de Evidência — nós tipados sobre o que já existe.
 
 Cada entidade é um NÓ com ``tipo`` + ``id`` estável, projetado sobre os

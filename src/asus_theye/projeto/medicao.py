@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2026 Mateus Menezes Figueiredo
+# SPDX-License-Identifier: AGPL-3.0-or-later
 """Medição do projeto — quanto falta, com método declarado e SEMPRE em hash.
 
 O placar do projeto vira um snapshot determinístico: cada número carrega o

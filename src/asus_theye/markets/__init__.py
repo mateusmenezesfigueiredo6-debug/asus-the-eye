@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2026 Mateus Menezes Figueiredo
+# SPDX-License-Identifier: AGPL-3.0-or-later
 """Mercados preditivos — pergunta binária com prazo, resolvida contra fonte oficial.
 
 Domínio da plataforma (não benchmark externo), registrado em

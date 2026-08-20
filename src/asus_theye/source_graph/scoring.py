@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2026 Mateus Menezes Figueiredo
+# SPDX-License-Identifier: AGPL-3.0-or-later
 """Score da Phase C — com evidência, sem imputação, sem preenchimento.
 
 Três regras estruturais, cada uma fechando um jeito diferente de o score mentir:

@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2026 Mateus Menezes Figueiredo
+# SPDX-License-Identifier: AGPL-3.0-or-later
 """Testes do M1 — sinais reais (Focus/IPCA-15) alimentando o gerador WPAM.
 
 Tudo offline: transporte roteado por URL (Olinda e SGS respondem corpos falsos).

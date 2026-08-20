@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2026 Mateus Menezes Figueiredo
+# SPDX-License-Identifier: AGPL-3.0-or-later
 """M1 — sinais REAIS para o gerador WPAM: a pergunta do IPCA deixa o 0,50 cego.
 
 O maior bloqueador de venda da categoria: todo mercado nascia em p = 0,50, o

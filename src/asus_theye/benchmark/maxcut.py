@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2026 Mateus Menezes Figueiredo
+# SPDX-License-Identifier: AGPL-3.0-or-later
 """Max-Cut 12–16 qubits — benchmark técnico honesto (QAOA vs ótimo exato).
 
 Implementa docs/architecture/QUANTUM_12_16_QUBITS.md. Auto-contido: não toca o

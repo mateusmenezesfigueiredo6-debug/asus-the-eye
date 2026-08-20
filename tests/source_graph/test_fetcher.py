@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2026 Mateus Menezes Figueiredo
+# SPDX-License-Identifier: AGPL-3.0-or-later
 """Testes do fetcher educado. Transporte, relógio e sleeper falsos: ZERO rede."""
 
 from __future__ import annotations

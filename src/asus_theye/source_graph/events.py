@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2026 Mateus Menezes Figueiredo
+# SPDX-License-Identifier: AGPL-3.0-or-later
 """Corpos de evento para o ledger — só hashes e contagens, nunca conteúdo.
 
 Nenhum corpo de resposta, título, resumo ou nome de pessoa vai ao ledger. O que

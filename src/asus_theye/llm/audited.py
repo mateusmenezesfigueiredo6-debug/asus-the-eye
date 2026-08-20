@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2026 Mateus Menezes Figueiredo
+# SPDX-License-Identifier: AGPL-3.0-or-later
 """Audited wrapper around the local LLM.
 
 Every call produces a local JSONL audit record (hash-chained, full text hashes

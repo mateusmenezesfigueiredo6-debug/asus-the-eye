@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2026 Mateus Menezes Figueiredo
+# SPDX-License-Identifier: AGPL-3.0-or-later
 """Remote LLM clients (OpenAI, Anthropic) behind an explicit execution gate.
 
 The local Ollama path guarantees that prompts never leave the machine. These

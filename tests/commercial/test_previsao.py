@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2026 Mateus Menezes Figueiredo
+# SPDX-License-Identifier: AGPL-3.0-or-later
 """Testes da previsao e do backtest.
 
 Cobrem os tres metodos, a classificacao por regime, e o defeito real encontrado

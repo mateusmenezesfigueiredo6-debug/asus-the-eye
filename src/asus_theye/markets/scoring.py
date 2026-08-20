@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2026 Mateus Menezes Figueiredo
+# SPDX-License-Identifier: AGPL-3.0-or-later
 """Score — Brier e skill contra baseline, com a janela sempre declarada.
 
 O número que importa não é a probabilidade, é o **erro medido** contra o

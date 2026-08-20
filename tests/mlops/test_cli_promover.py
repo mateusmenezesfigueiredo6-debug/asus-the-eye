@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2026 Mateus Menezes Figueiredo
+# SPDX-License-Identifier: AGPL-3.0-or-later
 """Testes da CLI mlops-promover.
 
 Molde: test_cli_mlops_benchmark_* em tests/mlops/test_rastreio.py.

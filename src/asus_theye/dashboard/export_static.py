@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2026 Mateus Menezes Figueiredo
+# SPDX-License-Identifier: AGPL-3.0-or-later
 """Exportação estática dos painéis do dashboard para dist/.
 
 Chama as funções de página existentes (puras) e escreve arquivos HTML em
