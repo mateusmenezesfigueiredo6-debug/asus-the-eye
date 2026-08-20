@@ -14,6 +14,8 @@ import html
 from pathlib import Path
 from typing import Any
 
+from .navegacao import CSS_NAV, barra
+
 ESTADO_ROTULO = {"concluida": ("ok", "concluída"), "parcial": ("warn", "parcial"), "pendente": ("bad", "pendente")}
 
 
@@ -112,7 +114,9 @@ main{{padding:24px 12px}}
 th,td{{padding:10px 8px}}
 th{{font-size:.72rem}}
 }}
+{CSS_NAV}
 </style></head><body><main><h1>MEDIÇÃO DO PROJETO</h1>
+{barra("/projeto")}
 {corpo}
 </main></body></html>"""
 

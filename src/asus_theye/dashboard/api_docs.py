@@ -6,6 +6,8 @@ from __future__ import annotations
 
 from typing import Any
 
+from .navegacao import CSS_NAV, barra
+
 
 def api_docs_page() -> str:
     """Renderiza a documentação pública do verificador como HTML puro."""
@@ -110,7 +112,9 @@ h1{{letter-spacing:.08em}}h2{{margin-top:0}}h3{{margin:.8rem 0 .4rem;font-size:.
 .card{{background:var(--panel);padding:20px;border:1px solid #253149;border-radius:12px}}
 pre{{background:#0b1320;border:1px solid #253149;border-radius:8px;padding:10px;overflow:auto}}
 ul{{margin:0;padding-left:1.1rem}}
+{CSS_NAV}
 </style></head><body><main><h1>API PÚBLICA — verificador</h1>
+{barra("/api")}
 <p class="muted">Superfície de leitura: valida integridade criptográfica sem autenticação.</p>
 <div class="grid">{corpo}</div>
 </main></body></html>"""

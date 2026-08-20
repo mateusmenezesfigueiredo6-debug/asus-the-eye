@@ -14,6 +14,8 @@ import json
 from pathlib import Path
 from typing import Any
 
+from .navegacao import CSS_NAV, barra
+
 
 def _ler_jsonl(caminho: Path) -> list[dict[str, Any]]:
     """Lê um arquivo JSONL e retorna lista de dicts; vazio se ausente ou ilegível."""
@@ -184,7 +186,9 @@ main{{padding:24px 12px}}
 th,td{{padding:10px 8px}}
 th{{font-size:.72rem}}
 }}
+{CSS_NAV}
 </style></head><body><main><h1>MLOPS</h1>
+{barra("/mlops")}
 {corpo}
 </main></body></html>"""
 

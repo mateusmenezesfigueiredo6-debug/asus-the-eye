@@ -9,6 +9,8 @@ import json
 from pathlib import Path
 from typing import Any
 
+from .navegacao import CSS_NAV, barra
+
 
 def _load(path: Path) -> dict[str, Any]:
     if not path.exists():
@@ -159,7 +161,9 @@ main{{padding:24px 12px}}
 th,td{{padding:10px 8px}}
 th{{font-size:.72rem}}
 }}
+{CSS_NAV}
 </style></head><body><main><h1>ASUS THE EYE BENCHMARK</h1>
+{barra("/benchmark")}
 <section class="cards"><div class="card">
 <div class="label">Best score</div><div class="value">{best_score}</div></div>
 <div class="card"><div class="label">Best time</div><div class="value">{best_time}</div></div>

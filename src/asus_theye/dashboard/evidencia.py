@@ -18,6 +18,8 @@ from typing import Any
 
 from asus_theye.evidence.entidades import EVENTO, FONTE
 
+from .navegacao import CSS_NAV, barra
+
 
 def _cor_do_tipo(tipo: str) -> str:
     return {
@@ -126,7 +128,9 @@ main{{padding:24px 12px}}
 .label{{font-size:.74rem}}
 .meta{{font-size:.72rem}}
 }}
+{CSS_NAV}
 </style></head><body><main><h1>EVIDÊNCIA — linhagem verificável</h1>
+{barra("/evidencia")}
 {corpo}
 </main></body></html>"""
 

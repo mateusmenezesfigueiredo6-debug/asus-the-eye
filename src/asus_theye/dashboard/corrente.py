@@ -17,6 +17,8 @@ from typing import Any
 
 from asus_theye.audit.schema import verify_chain
 
+from .navegacao import CSS_NAV, barra
+
 BASE_PADRAO = Path("reports/markets")
 EVENTOS_ARQ = "eventos.jsonl"
 ANCORAS_ARQ = "ancoras.jsonl"
@@ -180,7 +182,9 @@ main{{padding:24px 12px}}
 th,td{{padding:10px 8px}}
 th{{font-size:.72rem}}
 }}
+{CSS_NAV}
 </style></head><body><main><h1>CORRENTE — extrato navegável da cadeia auditável</h1>
+{barra("/corrente")}
 {corpo}
 </main></body></html>"""
 

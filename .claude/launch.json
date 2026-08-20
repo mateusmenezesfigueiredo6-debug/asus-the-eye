@@ -1,0 +1,12 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "the-eye-dashboard",
+      "runtimeExecutable": ".venv/bin/asus-theye",
+      "runtimeArgs": ["serve", "--host", "127.0.0.1", "--port", "8712"],
+      "port": 8712,
+      "autoPort": false
+    }
+  ]
+}
