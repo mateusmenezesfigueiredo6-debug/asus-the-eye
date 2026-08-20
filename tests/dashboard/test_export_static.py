@@ -45,6 +45,8 @@ def test_exportar_conteudo_benchmark(tmp_path: Path) -> None:
     exportar(tmp_path)
     html = (tmp_path / "benchmark.html").read_text(encoding="utf-8")
     assert "BENCHMARK" in html
+    assert "<svg" in html
+    assert "<script>" not in html
     assert "<!doctype html>" in html.lower()
 
 

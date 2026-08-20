@@ -15,6 +15,7 @@ from asus_theye.benchmark.qaoa_benchmark import run_qaoa_benchmark
 from asus_theye.benchmark.qubo_benchmark import run_qubo_benchmark
 from asus_theye.benchmark.runner import run_benchmark_suite
 from asus_theye.dashboard import benchmark_page
+from asus_theye.dashboard.benchmark import _svg_bar_chart
 from asus_theye.problem import load_demo_problem
 
 
@@ -107,3 +108,30 @@ def test_dashboard_contains_required_cards_and_charts(tmp_path: Path, problem):
         "History",
     ):
         assert label in page
+    assert page.count("<svg") == 3
+    assert 'aria-label="Score comparison"' in page
+    assert 'aria-label="Execution time"' in page
+    assert 'aria-label="History"' in page
+    assert "<script>" not in page
+
+
+def test_svg_chart_falls_back_to_text_when_all_values_are_non_positive():
+    chart = _svg_bar_chart(
+        [("alpha", -1.0), ("beta", 0.0)],
+        aria_label="negative chart",
+        formatter="{value:.1f}",
+    )
+    assert "<svg" in chart
+    assert "alpha" in chart and "-1.0" in chart
+    assert "beta" in chart and "0.0" in chart
+
+
+def test_svg_chart_falls_back_to_text_when_values_mix_signs():
+    chart = _svg_bar_chart(
+        [("alpha", -1.0), ("beta", 2.0)],
+        aria_label="mixed chart",
+        formatter="{value:.1f}",
+    )
+    assert "<svg" in chart
+    assert "alpha" in chart and "-1.0" in chart
+    assert "beta" in chart and "2.0" in chart
