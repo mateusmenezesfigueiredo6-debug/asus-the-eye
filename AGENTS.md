@@ -208,7 +208,17 @@ Do not reintroduce MIT anywhere, and do not treat `data/` as open.
 1. **Quantum runs only with the owner's explicit authorization.** Gate at
    `/home/sexexes/Downloads/projeto-algoritmos/quantum/GATE.py` (requires
    `QUANTUM_OK=1`). IBM quota is scarce: about 133s of 600 per 28-day window.
-2. **Never delete anything Kalshi.**
+2. **Never delete anything Kalshi WITHOUT the owner's decision.** The owner
+   decided otherwise on 2026-08-20: Kalshi's *market data* was purged from this
+   repository (sealed receipt `data.redaction`, PR #81) because the Kalshi Data
+   Terms of Use restrict access to personal, non-commercial use, explicitly
+   exclude software development, and prohibit storing, publicly displaying and
+   creating derivative works. Storing that data in a product would create the
+   exact legal exposure this project exists to avoid.
+   **Do not revert that purge.** Reading Kalshi's public *research publications*
+   and reimplementing concepts independently remains permitted and is recorded
+   in `reports/provenance/Kalshi-*.md` — reading is not copying, and a concept
+   is not data. The rule stands for everything else: never delete unilaterally.
 3. **No emojis** in any output, including generated pages.
 4. **Statistical honesty**: never assert what was not measured. If the model
    does not beat the simple mean, publish that.

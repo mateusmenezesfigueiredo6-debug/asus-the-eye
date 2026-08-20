@@ -44,6 +44,13 @@ A corrente auditável deste projeto está ancorada em blockchain pública:
   tx ......... 113e287511ddb21cbf42e8a4d129de4076afb1df3614b5b7759264c0a55ee48f
   bloco ...... 45716129
 
+IMPORTANTE — a Base Sepolia é uma REDE DE TESTE. A âncora prova que a raiz
+existia naquele bloco, e o método é o mesmo que valeria em rede principal, mas
+uma testnet não oferece as mesmas garantias de permanência: seus dados podem
+ser descartados por decisão dos operadores da rede. Dizer "prova de
+anterioridade" sem dizer isso seria afirmar mais do que se pode sustentar.
+Migrar para rede principal é decisão do titular e custa gás real.
+
 A âncora registra publicamente a EXISTÊNCIA e a INTEGRIDADE do conteúdo em uma
 data verificável. Não substitui registro formal de software nem assessoria
 jurídica.
