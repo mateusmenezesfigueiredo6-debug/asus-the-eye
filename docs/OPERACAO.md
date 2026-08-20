@@ -54,7 +54,8 @@ O que continua sendo ato humano:
 | `markets-resolve` | Liquida mercados vencidos, sela e emite o mês seguinte. | `asus-theye markets-resolve --json` |
 | `markets-emitir` | Emite um mercado mensal para uma área resolvível. | `asus-theye markets-emitir --area juros --mes 2026-09 --limiar 14.0 --json` |
 | `markets-vintage` | Arquiva o consenso Focus vigente do mês e sela o corte. | `asus-theye markets-vintage --mes 2026-09 --json` |
-| `markets-comparar` | Mede divergência versus Kalshi sem usar Kalshi para resolver. | `asus-theye markets-comparar --claim MACRO-01::2026-08 --ticker INFLATION-26SEP-T500 --nota "CPI/EUA como comparador imperfeito" --preco 0.600 --json` |
+| `markets-nowcast` | Executa o nowcast desafiante do IPCA (ridge walk-forward) e grava manifesto. | `asus-theye markets-nowcast --spec R2 --json` |
+| `markets-comparar` | Registra divergência contra um comparador externo, que **nunca** resolve. O `--preco` é obrigatório: a busca ao vivo na Kalshi foi removida (termos de terceiro). | `asus-theye markets-comparar --claim MACRO-01::2026-08 --ticker COMPARADOR-DEMO-T1 --nota "..." --preco 0.600 --json` |
 | `markets-serie` | Grava e sela um ponto da série p(t) por claim vivo — a trajetória sem a qual não existe Brier por horizonte. Idempotente: um ponto por claim por dia. | `asus-theye markets-serie --json` |
 | `markets-consenso` | Mede o erro do consenso Focus (vintage) contra o realizado — a linha de base da calibração. **Recusa** emitir agregado abaixo de 12 pares, e declara em todo resultado que a nossa probabilidade deriva do Focus (logo não há superação a alegar). | `asus-theye markets-consenso --json` |
 | `markets-calibracao` | Mede a calibração: curva de confiabilidade, Brier por horizonte **re-ancorado** e por área, decomposição de Murphy. **Recusa** agregar abaixo de 30 pares — e sela inclusive o 'ainda não dá', que também é informação auditável. | `asus-theye markets-calibracao --json` |
