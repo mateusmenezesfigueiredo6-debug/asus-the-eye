@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2026 Mateus Menezes Figueiredo
+# SPDX-License-Identifier: AGPL-3.0-or-later
 """Testes do M4 — divergência vs Kalshi medida e selada (nunca resolutora)."""
 
 from __future__ import annotations

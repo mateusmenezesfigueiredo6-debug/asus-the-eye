@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2026 Mateus Menezes Figueiredo
+# SPDX-License-Identifier: AGPL-3.0-or-later
 """Gerador de probabilidade — modelo de ajuste ponderado (WPAM).
 
 Corrige a falha de desenho que a própria doutrina apontou: hoje todo mercado

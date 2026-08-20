@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2026 Mateus Menezes Figueiredo
+# SPDX-License-Identifier: AGPL-3.0-or-later
 """Controlled dependency-free state-vector QAOA simulator.
 
 This module intentionally contains no IBM Runtime client and therefore cannot

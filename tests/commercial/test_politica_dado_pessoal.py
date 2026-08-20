@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2026 Mateus Menezes Figueiredo
+# SPDX-License-Identifier: AGPL-3.0-or-later
 """Testes da politica de dado pessoal — a regra tem que viver no codigo.
 
 Defeito real que estes testes travam: a ontologia declarava que previdenciario,

@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2026 Mateus Menezes Figueiredo
+# SPDX-License-Identifier: AGPL-3.0-or-later
 """Ontologia de Evidência — objetos tipados, relações e linhagem verificável.
 
 A camada que dá substância ao app "THE EYE — Evidência" (benchmark de

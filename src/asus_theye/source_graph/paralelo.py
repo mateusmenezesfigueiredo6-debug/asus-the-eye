@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2026 Mateus Menezes Figueiredo
+# SPDX-License-Identifier: AGPL-3.0-or-later
 """Coleta paralela por host — o paralelismo que o rate limit dá de graça.
 
 O gargalo da missão: 1900 fontes × 3 s de intervalo por host ≈ 95 min de sono

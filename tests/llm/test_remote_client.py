@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2026 Mateus Menezes Figueiredo
+# SPDX-License-Identifier: AGPL-3.0-or-later
 """Tests for the remote clients (OpenAI, Anthropic). No network: _post is stubbed."""
 
 from __future__ import annotations

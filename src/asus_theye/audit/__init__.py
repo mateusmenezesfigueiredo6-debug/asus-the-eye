@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2026 Mateus Menezes Figueiredo
+# SPDX-License-Identifier: AGPL-3.0-or-later
 """Append-only, privacy-aware audit facilities."""
 
 from .ledger import AuditLedger, verify_ledger

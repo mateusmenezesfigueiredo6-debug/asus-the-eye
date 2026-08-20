@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2026 Mateus Menezes Figueiredo
+# SPDX-License-Identifier: AGPL-3.0-or-later
 """F3 — ancoragem do lote Merkle no contrato TheEyeAuditAnchor (Base Sepolia).
 
 O elo que nunca existiu em execução: nenhum código escrevia em ``audit_anchors``.

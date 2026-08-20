@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2026 Mateus Menezes Figueiredo
+# SPDX-License-Identifier: AGPL-3.0-or-later
 """Testes do Radar Juridico — a qualidade do lead e o produto.
 
 Cobrem os quatro criterios que separam lead de lixo: descarte de texto padrao

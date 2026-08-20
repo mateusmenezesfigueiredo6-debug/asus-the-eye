@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2026 Mateus Menezes Figueiredo
+# SPDX-License-Identifier: AGPL-3.0-or-later
 """Registro dos nichos comerciais e a ponte com a taxonomia de 145 áreas.
 
 A ponte é o que faz o classificador jurídico servir ao comercial: um texto de

@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2026 Mateus Menezes Figueiredo
+# SPDX-License-Identifier: AGPL-3.0-or-later
 """M4 — divergência vs comparador (Kalshi) MEDIDA e SELADA de verdade.
 
 O instrumento existia (:func:`asus_theye.markets.resolution.record_comparator`)

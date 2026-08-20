@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2026 Mateus Menezes Figueiredo
+# SPDX-License-Identifier: AGPL-3.0-or-later
 """Afirmação de mercado — pergunta binária, com prazo e fonte de resolução nomeada.
 
 Um mercado preditivo aqui é uma pergunta de sim/não com data-limite, uma

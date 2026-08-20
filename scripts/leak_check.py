@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# SPDX-FileCopyrightText: 2026 Mateus Menezes Figueiredo
+# SPDX-License-Identifier: AGPL-3.0-or-later
 """Tripla checagem de vazamento — independente de confiar em quem quer que seja.
 
 Camada 1 — ESTRANHO: o que um terceiro sem credencial nenhuma consegue ver.

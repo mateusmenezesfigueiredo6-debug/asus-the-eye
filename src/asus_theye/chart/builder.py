@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2026 Mateus Menezes Figueiredo
+# SPDX-License-Identifier: AGPL-3.0-or-later
 """Constrói o Mistress Chart a partir de EVIDÊNCIA, não de status declarado.
 
 Regra do projeto: ninguém escreve "80% pronto" num campo. Cada número aqui é

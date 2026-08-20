@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2026 Mateus Menezes Figueiredo
+# SPDX-License-Identifier: AGPL-3.0-or-later
 """Plataforma comercial — um sistema, N nichos por configuração.
 
 Nicho é dado, não código: acrescentar o 16º é uma entrada em

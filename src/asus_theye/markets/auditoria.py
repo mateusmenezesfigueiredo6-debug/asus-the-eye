@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2026 Mateus Menezes Figueiredo
+# SPDX-License-Identifier: AGPL-3.0-or-later
 """F2 — a liquidação sela um evento REAL na cadeia auditável.
 
 Até aqui a cadeia tinha 0 eventos: o núcleo de auditoria (evento de 37 campos

@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2026 Mateus Menezes Figueiredo
+# SPDX-License-Identifier: AGPL-3.0-or-later
 """N2 — verifica se o espelho da corrente local está em dia no D1.
 
 Compara ``reports/markets/eventos.jsonl`` (corrente local) com o endpoint

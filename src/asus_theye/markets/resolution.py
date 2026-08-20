@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2026 Mateus Menezes Figueiredo
+# SPDX-License-Identifier: AGPL-3.0-or-later
 """Resolução — liquidar uma afirmação contra a fonte oficial, e só ela.
 
 Liquidar é o ato que separa previsão de palpite: a pergunta binária encontra o

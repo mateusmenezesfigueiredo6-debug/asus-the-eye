@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2026 Mateus Menezes Figueiredo
+# SPDX-License-Identifier: AGPL-3.0-or-later
 """N1 — espelha a corrente selada local no ledger restrito da nuvem (D1).
 
 A corrente canônica continua sendo o arquivo versionado

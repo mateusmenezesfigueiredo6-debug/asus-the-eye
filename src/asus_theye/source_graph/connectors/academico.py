@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2026 Mateus Menezes Figueiredo
+# SPDX-License-Identifier: AGPL-3.0-or-later
 """Conectores da trilha academica — ROR, Crossref, arXiv e DOAJ.
 
 Ate aqui a trilha academica estava em 0,0%: os conectores existiam declarados em
@@ -33,7 +35,7 @@ from __future__ import annotations
 import json
 import urllib.parse
 from datetime import datetime, timezone
-from typing import Any
+from typing import Any, TypedDict
 
 from asus_theye.source_graph.fetcher import (
     FetchError,
@@ -46,7 +48,14 @@ from asus_theye.source_graph.fetcher import (
 USER_AGENT = "asus-the-eye/0.2 (+mateusmenezesfigueiredo6@gmail.com)"
 TIMEOUT = 30
 
-_CONFIGURACAO = {
+
+class _ConectorConfig(TypedDict):
+    license_id: str
+    terms_url: str
+    max_bytes: int
+
+
+_CONFIGURACAO: dict[str, _ConectorConfig] = {
     "ror": {
         "license_id": "CC0-1.0",
         "terms_url": "https://ror.org/about/terms/",

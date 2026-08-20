@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2026 Mateus Menezes Figueiredo
+# SPDX-License-Identifier: AGPL-3.0-or-later
 """RFC 8785 JSON Canonicalization Scheme helpers.
 
 The implementation is dependency-free and intentionally rejects values outside the

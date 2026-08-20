@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2026 Mateus Menezes Figueiredo
+# SPDX-License-Identifier: AGPL-3.0-or-later
 """Funil de oportunidades — append-only, com transições válidas e auditáveis.
 
 Uma oportunidade nunca é editada no lugar: cada mudança de estágio é um evento

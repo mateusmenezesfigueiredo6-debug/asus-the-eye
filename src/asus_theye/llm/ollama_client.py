@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2026 Mateus Menezes Figueiredo
+# SPDX-License-Identifier: AGPL-3.0-or-later
 """Minimal Ollama chat client. Standard library only, local host only.
 
 The client refuses non-local URLs by default: the whole point of the local

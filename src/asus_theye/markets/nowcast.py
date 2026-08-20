@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2026 Mateus Menezes Figueiredo
+# SPDX-License-Identifier: AGPL-3.0-or-later
 """Nowcast desafiante do IPCA, reproduzível e sem imputação silenciosa.
 
 Implementa o contrato de ``docs/architecture/NOWCAST_IPCA_SPEC.md``: coleta

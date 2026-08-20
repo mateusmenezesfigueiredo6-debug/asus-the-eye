@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2026 Mateus Menezes Figueiredo
+# SPDX-License-Identifier: AGPL-3.0-or-later
 """Fetcher educado: robots, rate limit, backoff, limite de tamanho, licença.
 
 Duas exceções com significados diferentes, porque tratá-las igual seria um bug:

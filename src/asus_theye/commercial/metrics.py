@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2026 Mateus Menezes Figueiredo
+# SPDX-License-Identifier: AGPL-3.0-or-later
 """Métricas por nicho — com denominador, amostra e limitações.
 
 A regra que atravessa o projeto inteiro aparece aqui na forma comercial: uma

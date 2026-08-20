@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2026 Mateus Menezes Figueiredo
+# SPDX-License-Identifier: AGPL-3.0-or-later
 """Testes de integridade dos schemas do source-graph.
 
 Molde de tests/decision_context/test_schemas.py: a política vira estrutura, e o

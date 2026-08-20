@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2026 Mateus Menezes Figueiredo
+# SPDX-License-Identifier: AGPL-3.0-or-later
 """Extract procedural facts from public decision text using the local LLM.
 
 Policy encoding (Phase G / AGENTS.md):

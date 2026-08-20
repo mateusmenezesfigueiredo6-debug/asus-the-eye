@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2026 Mateus Menezes Figueiredo
+# SPDX-License-Identifier: AGPL-3.0-or-later
 """Ponte entre o banco medido (``asus_teste.duckdb``) e o domínio ``markets``.
 
 O trabalho medido — 50 mercados, 41 liquidados — vive **fora** do repositório,

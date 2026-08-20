@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# SPDX-FileCopyrightText: 2026 Mateus Menezes Figueiredo
+# SPDX-License-Identifier: AGPL-3.0-or-later
 """Resumo de uma linha da cadeia de eventos. Lê o JSON do ledger em stdin."""
 
 from __future__ import annotations

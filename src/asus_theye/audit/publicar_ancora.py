@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2026 Mateus Menezes Figueiredo
+# SPDX-License-Identifier: AGPL-3.0-or-later
 """L2 — publica lote + âncora no D1 para o verificador público servir a raiz.
 
 O ciclo do Ledger termina aqui: a âncora existe on-chain (F3/L1), mas o

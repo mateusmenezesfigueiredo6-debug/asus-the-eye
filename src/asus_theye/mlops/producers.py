@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2026 Mateus Menezes Figueiredo
+# SPDX-License-Identifier: AGPL-3.0-or-later
 """Produtores de corridas — quem já mede vira fonte do rastreio ML.
 
 Primeiro produtor: a suíte de benchmark (``benchmark/runner.py``), que já

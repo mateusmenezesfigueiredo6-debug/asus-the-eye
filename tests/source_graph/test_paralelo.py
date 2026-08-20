@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2026 Mateus Menezes Figueiredo
+# SPDX-License-Identifier: AGPL-3.0-or-later
 """Testes do coletor paralelo por host — as garantias que importam.
 
 Determinísticos: os "trabalhos" são funções locais com sleeps mínimos; nenhum

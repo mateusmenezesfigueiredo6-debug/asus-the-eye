@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2026 Mateus Menezes Figueiredo
+# SPDX-License-Identifier: AGPL-3.0-or-later
 """Testes do gerador WPAM.
 
 Os vetores conhecidos reproduzem os exemplos publicados do SocialPredict

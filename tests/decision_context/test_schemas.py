@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2026 Mateus Menezes Figueiredo
+# SPDX-License-Identifier: AGPL-3.0-or-later
 """Guardrail tests for the decision-context schemas (Phase G).
 
 These tests make the LGPD/adjudicator-analytics policy structural: if a schema

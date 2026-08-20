@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2026 Mateus Menezes Figueiredo
+# SPDX-License-Identifier: AGPL-3.0-or-later
 """Conector do COMPARADOR: preço público da Kalshi (nunca fonte de resolução).
 
 API pública verificada em ``docs/architecture/KALSHI_COMPARATOR_API.md``

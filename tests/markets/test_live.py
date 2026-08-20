@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2026 Mateus Menezes Figueiredo
+# SPDX-License-Identifier: AGPL-3.0-or-later
 """Testes da medição contínua: máquina de estados, conector BCB e append-only.
 
 Tudo offline: o fetcher é injetado e o transporte do conector é falso.

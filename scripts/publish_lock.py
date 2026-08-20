@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# SPDX-FileCopyrightText: 2026 Mateus Menezes Figueiredo
+# SPDX-License-Identifier: AGPL-3.0-or-later
 """Publish lock: nothing leaves this machine without a human passphrase.
 
 The passphrase is set by the user in a hidden prompt and never stored in
