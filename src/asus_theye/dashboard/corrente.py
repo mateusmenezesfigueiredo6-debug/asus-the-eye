@@ -17,7 +17,7 @@ from typing import Any
 
 from asus_theye.audit.schema import verify_chain
 
-from .navegacao import CSS_NAV, barra
+from .navegacao import CSS_AVISO, CSS_NAV, barra, rodape
 
 BASE_PADRAO = Path("reports/markets")
 EVENTOS_ARQ = "eventos.jsonl"
@@ -110,7 +110,7 @@ def _legenda_tipos(tipos: list[str]) -> str:
     return "<ul class='legend'>" + "".join(itens) + "</ul>"
 
 
-def corrente_page(base: Path | None = None) -> str:
+def corrente_page(base: Path | None = None, *, estatico: bool = False) -> str:
     pasta = base if base is not None else BASE_PADRAO
     eventos = _linhas_jsonl(pasta / EVENTOS_ARQ)
     ancoras = _linhas_jsonl(pasta / ANCORAS_ARQ)
@@ -133,7 +133,7 @@ def corrente_page(base: Path | None = None) -> str:
             + '<footer class="foot">conteúdo não sai daqui — a página mostra hashes e metadados, nunca o '
             "conteúdo dos eventos</footer>"
         )
-        return _shell(corpo)
+        return _shell(corpo, estatico=estatico)
 
     ultimos = sorted(eventos, key=lambda evento: _int_honesto(evento.get("sequence", 0)), reverse=True)[:50]
     linhas = "".join(_linha_evento(evento, faixas) for evento in ultimos)
@@ -146,10 +146,10 @@ def corrente_page(base: Path | None = None) -> str:
 {_legenda_tipos(tipos)}
 <footer class="foot">conteúdo não sai daqui — a página mostra hashes e metadados,
 nunca o conteúdo dos eventos</footer>"""
-    return _shell(corpo)
+    return _shell(corpo, estatico=estatico)
 
 
-def _shell(corpo: str) -> str:
+def _shell(corpo: str, *, estatico: bool = False) -> str:
     return f"""<!doctype html>
 <html lang="pt-br"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width">
 <title>ASUS THE EYE — Corrente</title><style>
@@ -182,10 +182,11 @@ main{{padding:24px 12px}}
 th,td{{padding:10px 8px}}
 th{{font-size:.72rem}}
 }}
-{CSS_NAV}
+{CSS_NAV}{CSS_AVISO}
 </style></head><body><main><h1>CORRENTE — extrato navegável da cadeia auditável</h1>
-{barra("/corrente")}
+{barra("/corrente", estatico=estatico)}
 {corpo}
+{rodape()}
 </main></body></html>"""
 
 

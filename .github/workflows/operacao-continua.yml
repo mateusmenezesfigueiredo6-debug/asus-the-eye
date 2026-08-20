@@ -16,7 +16,7 @@
 # Idempotência por construção: mês já liquidado não re-liquida, selagem
 # deduplica, espelho deduplica — rodar 5 dias seguidos é seguro.
 #
-# Segredos exigidos (atos do dono, uma vez):
+# Segredos exigidos (JÁ PLANTADOS em 19/08 — conferir com `gh secret list`):
 #   THE_EYE_AUDIT_KEY_HEX  = conteúdo de reports/audit/pseudonimos.key
 #                            (a corrente pertence a UMA chave; sem ela a
 #                            selagem é recusada pelo fingerprint — fail-closed)
@@ -44,6 +44,15 @@ jobs:
   laco:
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    env:
+      # O contexto `secrets` NÃO é permitido em `if:` de step — usá-lo lá
+      # invalida o workflow INTEIRO e o GitHub recusa o arquivo antes de criar
+      # job algum: falha em 0s, sem log, indistinguível de "não rodou". Foi o
+      # que aconteceu por 53 execuções. Promovendo a env de job, `if:` passa a
+      # ler `env`, que é permitido, e a ancoragem continua opcional como se
+      # queria. A ironia vale registrar: o mecanismo escrito para tornar a
+      # ancoragem opcional foi o que matou o laço.
+      TEM_ANCORA: ${{ secrets.THE_EYE_ANCHOR_PK }}
     steps:
       - uses: actions/checkout@v5
 
@@ -110,9 +119,9 @@ jobs:
         # ancoragem continua sendo ato manual do dono — decisão consciente,
         # não esquecimento. Para ativar:
         #   gh secret set THE_EYE_ANCHOR_PK < reports/audit/anchor.key
-        if: ${{ github.event.inputs.somente_verificar != 'true' && secrets.THE_EYE_ANCHOR_PK != '' }}
+        if: ${{ github.event.inputs.somente_verificar != 'true' && env.TEM_ANCORA != '' }}
         env:
-          THE_EYE_ANCHOR_PK: ${{ secrets.THE_EYE_ANCHOR_PK }}
+          THE_EYE_ANCHOR_PK: ${{ env.TEM_ANCORA }}
           THE_EYE_ANCHOR_EXECUTE: "1"
         run: |
           python -m pip install --quiet -e ".[anchor]"

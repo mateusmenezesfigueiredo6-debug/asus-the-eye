@@ -23,7 +23,7 @@ import html
 from pathlib import Path
 from typing import Any
 
-from .navegacao import CSS_NAV, barra
+from .navegacao import CSS_AVISO, CSS_NAV, barra, rodape
 
 
 def _svg_confiabilidade(curva: list[dict[str, Any]]) -> str:
@@ -148,6 +148,7 @@ def calibracao_page(
     *,
     serie: Path | None = None,
     resolucoes: Path | None = None,
+    estatico: bool = False,
 ) -> str:
     """Página da calibração. Degrada dizendo o que falta, nunca desenhando ruído."""
     from asus_theye.markets.calibracao import RESOLUCOES_PADRAO, SERIE_PADRAO, CalibracaoError, medir
@@ -157,12 +158,13 @@ def calibracao_page(
     except CalibracaoError as error:
         return _shell(
             '<section class="cards"><div class="card"><div class="label">Calibração</div>'
-            f'<div class="value">indisponível</div></div></section><p class="muted">{html.escape(str(error))}</p>'
+            f'<div class="value">indisponível</div></div></section><p class="muted">{html.escape(str(error))}</p>',
+            estatico=estatico,
         )
-    return _shell(_corpo_medido(snap) if snap["suficiente"] else _corpo_insuficiente(snap))
+    return _shell(_corpo_medido(snap) if snap["suficiente"] else _corpo_insuficiente(snap), estatico=estatico)
 
 
-def _shell(corpo: str) -> str:
+def _shell(corpo: str, *, estatico: bool = False) -> str:
     return f"""<!doctype html>
 <html lang="pt-br"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width">
 <title>ASUS THE EYE — Calibração</title><style>
@@ -186,13 +188,14 @@ margin:16px 0;line-height:1.5}}
 table{{width:100%;border-collapse:collapse;background:var(--panel);border:1px solid #253149;border-radius:12px}}
 th,td{{padding:12px 14px;text-align:left;border-bottom:1px solid #253149}}
 th{{color:var(--muted);font-size:.78rem;text-transform:uppercase}}
-{CSS_NAV}
+{CSS_NAV}{CSS_AVISO}
 @media (max-width:640px){{main{{padding:24px 12px}}.cards{{grid-template-columns:1fr}}th,td{{padding:10px 8px}}}}
 </style></head><body><main>
 <h1>CALIBRAÇÃO</h1>
 <p class="muted">a probabilidade declarada vale alguma coisa?</p>
-{barra("/calibracao")}
+{barra("/calibracao", estatico=estatico)}
 {corpo}
+{rodape()}
 </main></body></html>"""
 
 

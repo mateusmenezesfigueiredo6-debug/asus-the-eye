@@ -18,7 +18,7 @@ import html
 from pathlib import Path
 from typing import Any
 
-from .navegacao import CSS_NAV, barra
+from .navegacao import CSS_AVISO, CSS_NAV, barra, rodape
 
 _HISTORICO_VOTO = 0.959126  # taxa histórica de seguimento partidário (comparação de vitrine)
 
@@ -65,7 +65,7 @@ def _rows(reconciliation: dict[str, Any], skill: dict[str, Any]) -> str:
     return "\n".join(rows)
 
 
-def markets_page(db_path: str | Path | None = None) -> str:
+def markets_page(db_path: str | Path | None = None, *, estatico: bool = False) -> str:
     reconciliation, skill, error = _gather(db_path)
 
     if error is not None or reconciliation is None or skill is None:
@@ -77,7 +77,7 @@ def markets_page(db_path: str | Path | None = None) -> str:
             '<p class="muted">Defina <code>ASUS_MARKETS_DB</code> apontando para o asus_teste.duckdb '
             "e recarregue.</p>"
         )
-        return _shell(corpo)
+        return _shell(corpo, estatico=estatico)
 
     tie_out = reconciliation["tie_out"]
     tie_badge = '<span class="ok">True</span>' if tie_out else '<span class="bad">False</span>'
@@ -98,10 +98,10 @@ def markets_page(db_path: str | Path | None = None) -> str:
 constante dão baseline perfeito e skill indefinida — o limiar de máxima incerteza. Para a comparação
 de vitrine do voto contra a taxa histórica ({_HISTORICO_VOTO}), use
 <code>asus-theye markets-reconcile --skill --baseline {_HISTORICO_VOTO}</code>.</p>"""
-    return _shell(corpo)
+    return _shell(corpo, estatico=estatico)
 
 
-def _shell(corpo: str) -> str:
+def _shell(corpo: str, *, estatico: bool = False) -> str:
     return f"""<!doctype html>
 <html lang="pt-br"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width">
 <title>ASUS THE EYE — Mercados</title><style>
@@ -121,10 +121,11 @@ border:1px solid #253149;border-radius:12px;overflow:hidden}}
 th,td{{padding:12px 14px;text-align:left;border-bottom:1px solid #253149}}
 th{{color:var(--muted);font-size:.78rem;text-transform:uppercase}}
 .ok{{color:var(--ok)}}.bad{{color:var(--bad)}}
-{CSS_NAV}
+{CSS_NAV}{CSS_AVISO}
 </style></head><body><main><h1>MERCADOS PREDITIVOS</h1>
-{barra("/markets")}
+{barra("/markets", estatico=estatico)}
 {corpo}
+{rodape()}
 </main></body></html>"""
 
 

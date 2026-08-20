@@ -19,9 +19,10 @@ def _vintage(mes: str, mediana: float) -> dict:
     return {"mes_referencia": mes, "indicador": "IPCA", "mediana": mediana, "data_do_boletim": f"{mes}-14"}
 
 
-def _resolucao(mes: str, observado: float) -> dict:
+def _resolucao(mes: str, observado: float, area: str = "macroeconomia") -> dict:
     return {
         "claim_id": f"MACRO-01::{mes}",
+        "market_area_id": area,
         "mes_referencia": mes,
         "valor_observado": observado,
         "probability": 0.5,
@@ -140,3 +141,39 @@ def test_selagem_e_idempotente_por_conjunto_de_pares(tmp_path: Path) -> None:
     assert selar(sdk, snap, eventos=corrente)["duplicate"] is False
     assert selar(sdk, medir(vintages=v, resolucoes=r), eventos=corrente)["duplicate"] is True
     assert cabeca_da_corrente(sdk) == 1
+
+
+def test_nao_pareia_indicador_com_area_diferente(tmp_path: Path) -> None:
+    """Regressão: parear só por mês casava a mediana do IPCA com o dólar.
+
+    O Focus do IPCA (0,52%) contra a PTAX observada (5,42) produzia um erro de
+    4,9 p.p. rotulado "choque_maior" — número fabricado, que seria SELADO na
+    corrente e ancorado on-chain. É a falha que esta plataforma existe para
+    impedir, e por isso ela tem teste próprio.
+    """
+    v = _escrever(tmp_path / "v.jsonl", [_vintage("2026-09", 0.52)])
+    r = _escrever(tmp_path / "r.jsonl", [_resolucao("2026-09", 5.42, area="cambio")])
+    assert parear(vintages=v, resolucoes=r) == []
+
+
+def test_pareia_a_area_certa_quando_ha_varias_no_mesmo_mes(tmp_path: Path) -> None:
+    v = _escrever(tmp_path / "v.jsonl", [_vintage("2026-09", 0.52)])
+    r = _escrever(
+        tmp_path / "r.jsonl",
+        [
+            _resolucao("2026-09", 5.42, area="cambio"),
+            _resolucao("2026-09", 0.48, area="macroeconomia"),
+            _resolucao("2026-09", 14.25, area="juros"),
+        ],
+    )
+    pares = parear(vintages=v, resolucoes=r)
+    assert len(pares) == 1
+    assert pares[0]["market_area_id"] == "macroeconomia"
+    assert pares[0]["erro_absoluto_focus"] == 0.04
+
+
+def test_indicador_sem_area_declarada_nao_pareia(tmp_path: Path) -> None:
+    """Parear às cegas é como o erro fabricado nasce."""
+    v = _escrever(tmp_path / "v.jsonl", [{"mes_referencia": "2026-09", "indicador": "DESCONHECIDO", "mediana": 1.0}])
+    r = _escrever(tmp_path / "r.jsonl", [_resolucao("2026-09", 0.48)])
+    assert parear(vintages=v, resolucoes=r) == []

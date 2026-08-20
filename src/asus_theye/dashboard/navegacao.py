@@ -41,14 +41,57 @@ nav.the-eye a[aria-current="page"]{color:#080d16;background:#67e8f9;font-weight:
 """
 
 
-def barra(rota_atual: str = "") -> str:
+def destino(rota: str, *, estatico: bool = False) -> str:
+    """Traduz a rota do servidor para o alvo certo em cada meio.
+
+    No servidor, ``/projeto`` é a rota. No site exportado o arquivo é
+    ``projeto.html`` — e depender do host resolver URL sem extensão é apostar
+    numa configuração que pode não existir. Link morto em site publicado é pior
+    do que site não publicado, então o destino é explícito.
+    """
+    if not estatico:
+        return rota
+    return "index.html" if rota == "/" else f"{rota.lstrip('/')}.html"
+
+
+def barra(rota_atual: str = "", *, estatico: bool = False) -> str:
     """Devolve a barra de navegação, marcando *rota_atual* como página corrente.
 
     ``rota_atual`` vazia (ou desconhecida) simplesmente não marca ninguém — a
     barra continua útil, o que é melhor do que marcar o item errado.
+
+    ``estatico=True`` emite caminhos de arquivo, para o site exportado.
     """
     itens = []
     for rota, rotulo in PAINEIS:
         atual = ' aria-current="page"' if rota == rota_atual else ""
-        itens.append(f'<a href="{html.escape(rota)}"{atual}>{html.escape(rotulo)}</a>')
+        alvo = destino(rota, estatico=estatico)
+        itens.append(f'<a href="{html.escape(alvo)}"{atual}>{html.escape(rotulo)}</a>')
     return f'<nav class="the-eye">{"".join(itens)}</nav>'
+
+
+# O aviso que faltava. O produto é PT-BR, chama-se "mercados preditivos", exibe
+# "contrato" e "liquidado", e se compara a uma bolsa de dinheiro real — mas NÃO
+# tem saldo, carteira, livro de ordens nem pagamento em lugar nenhum do código.
+# A declaração é verdadeira e gratuita, e sem ela um visitante pode confundir a
+# plataforma com aposta de quota fixa, que no Brasil é atividade regulada.
+#
+# A frase já existia enterrada num docstring de markets/regra.py, onde nenhum
+# usuário lê. Aqui ela vai para a tela.
+AVISO = (
+    "Isto <strong>não é aconselhamento financeiro</strong> e <strong>não é casa de apostas</strong>. "
+    "Não há dinheiro, saldo, contraparte, ordem de compra ou pagamento — nenhum valor é movimentado. "
+    "As probabilidades são estimativas próprias, publicadas antes do fato e resolvidas contra fonte "
+    "oficial nomeada. Um mercado tem regra verificável; uma aposta tem alguém decidindo depois quem ganhou."
+)
+
+CSS_AVISO = """
+footer.the-eye{margin:36px 0 0;padding:14px 16px;border-top:1px solid #253149;
+color:#9aa8bd;font-size:.78rem;line-height:1.55;max-width:90ch}
+footer.the-eye strong{color:#e9f0ff}
+"""
+
+
+def rodape() -> str:
+    """Aviso de escopo, injetado em todos os painéis."""
+    return f'<footer class="the-eye">{AVISO}</footer>'

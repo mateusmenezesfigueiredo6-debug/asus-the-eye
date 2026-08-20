@@ -9,7 +9,7 @@ import json
 from pathlib import Path
 from typing import Any
 
-from .navegacao import CSS_NAV, barra
+from .navegacao import CSS_AVISO, CSS_NAV, barra, rodape
 
 
 def _load(path: Path) -> dict[str, Any]:
@@ -98,7 +98,7 @@ def _svg_bar_chart(
     return "".join(parts)
 
 
-def benchmark_page(report_path: str | Path = "reports/benchmark/latest.json") -> str:
+def benchmark_page(report_path: str | Path = "reports/benchmark/latest.json", *, estatico: bool = False) -> str:
     resolved_report_path = Path(report_path)
     report = _load(resolved_report_path)
     history = _load_history(resolved_report_path.with_name("history.jsonl"))
@@ -161,9 +161,9 @@ main{{padding:24px 12px}}
 th,td{{padding:10px 8px}}
 th{{font-size:.72rem}}
 }}
-{CSS_NAV}
+{CSS_NAV}{CSS_AVISO}
 </style></head><body><main><h1>ASUS THE EYE BENCHMARK</h1>
-{barra("/benchmark")}
+{barra("/benchmark", estatico=estatico)}
 <section class="cards"><div class="card">
 <div class="label">Best score</div><div class="value">{best_score}</div></div>
 <div class="card"><div class="label">Best time</div><div class="value">{best_time}</div></div>
@@ -175,6 +175,7 @@ th{{font-size:.72rem}}
 <div class="chart"><h2>History</h2>
 {history_chart}</div></section>
 <p>{conclusion}</p>
+{rodape()}
 </main></body></html>"""
 
 
