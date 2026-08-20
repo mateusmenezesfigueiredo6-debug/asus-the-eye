@@ -12,6 +12,7 @@ from typing import Any
 from asus_theye.audit.anchor import eventos_sem_ancora
 from asus_theye.audit.schema import verify_chain
 from asus_theye.markets.auditoria import fingerprint_da_chave
+from asus_theye.markets.frescor import fontes_obsoletas
 from asus_theye.markets.live import carregar_registro
 
 TITULAR = "Mateus Menezes Figueiredo"
@@ -240,6 +241,52 @@ def _resumo_backup(backup_dir: Path) -> dict[str, Any]:
     )
 
 
+def _resumo_frescor(frescor_path: Path) -> dict[str, Any]:
+    """Verifica se as fontes estão dentro do prazo de publicação esperado."""
+    if not frescor_path.exists():
+        return _item(
+            True,
+            "sem cache de frescor disponível — primeira ingestão ainda não realizada",
+            "rode a ingestão de fontes para popular reports/markets/frescor.json",
+        )
+    try:
+        raw: dict[str, Any] = json.loads(frescor_path.read_text(encoding="utf-8"))
+    except (OSError, UnicodeDecodeError, json.JSONDecodeError) as exc:
+        return _item(
+            False,
+            f"frescor.json ilegível: {exc}",
+            "corrija ou remova reports/markets/frescor.json; será recriado na próxima ingestão",
+        )
+
+    dados: dict[str, date | None] = {}
+    for nome, valor in raw.items():
+        if valor is None:
+            dados[nome] = None
+        else:
+            try:
+                dados[nome] = date.fromisoformat(str(valor))
+            except ValueError:
+                return _item(
+                    False,
+                    f"data inválida em frescor.json para {nome!r}: {valor!r}",
+                    "corrija o campo para formato ISO 8601 (AAAA-MM-DD) ou null",
+                )
+
+    obsoletas = fontes_obsoletas(dados)
+    if not obsoletas:
+        nomes = ", ".join(sorted(dados)) if dados else "nenhuma fonte registrada"
+        return _item(True, f"todas as fontes em dia ({nomes})", "nenhuma ação necessária")
+
+    linhas = "; ".join(
+        f"{f.nome}: último={f.data_mais_recente or 'nunca'}, atraso={f.dias_de_atraso}d" for f in obsoletas
+    )
+    return _item(
+        False,
+        f"{len(obsoletas)} fonte(s) com dado desatualizado — {linhas}",
+        "verifique se a fonte publicou e rode a ingestão para atualizar reports/markets/frescor.json",
+    )
+
+
 def diagnosticar(base: Path = Path("reports")) -> dict[str, dict[str, Any]]:
     """Varre os artefatos locais e devolve um quadro honesto do estado da plataforma."""
     eventos_path = base / "markets" / "eventos.jsonl"
@@ -257,4 +304,5 @@ def diagnosticar(base: Path = Path("reports")) -> dict[str, dict[str, Any]]:
         "espelho": _resumo_espelho(eventos_path, eventos),
         "titularidade": _resumo_titularidade(base.parent),
         "backup": _resumo_backup(Path.home() / "Área de trabalho" / "organizado" / "Backups" / "the-eye-chaves"),
+        "frescor": _resumo_frescor(base / "markets" / "frescor.json"),
     }
