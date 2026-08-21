@@ -119,8 +119,10 @@ def _bloco_trilhas(snap: dict[str, Any]) -> str:
 a do <b>consenso Focus</b> e a da <b>cobertura noticiosa</b>, que não passa pelo consenso em ponto
 algum. Na liquidação as duas são pontuadas com a mesma régua.</p>
 <section class="cards">
+<div class="card"><div class="label">Desfechos casados</div><div class="value">{comp.get("claims_casados", 0)}</div>
+<div class="muted">mínimo para comparar: {comp.get("claims_minimos", "—")}</div></div>
 <div class="card"><div class="label">Pares casados</div><div class="value">{comp.get("n_casados", 0)}</div>
-<div class="muted">mínimo para comparar: {comp.get("amostra_minima", "—")}</div></div>
+<div class="muted">um por dia — cem pares de três contratos são três desfechos</div></div>
 <div class="card"><div class="label">Skill score da trilha própria</div><div class="value">{valor}</div>
 <div class="muted">contra o Focus como benchmark declarado</div></div>
 </section>
@@ -137,8 +139,10 @@ def _corpo_insuficiente(snap: dict[str, Any]) -> str:
         f"<tr><td>{html.escape(nome.replace('_', ' '))}</td><td>{qtd}</td></tr>" for nome, qtd in exc.items()
     )
     return f"""<section class="cards">
+<div class="card"><div class="label">Desfechos distintos</div><div class="value">{snap.get("claims", 0)}</div>
+<div class="muted">mínimo para agregar: {snap.get("claims_minimos", "—")}</div></div>
 <div class="card"><div class="label">Pares utilizáveis</div><div class="value">{snap["n"]}</div>
-<div class="muted">mínimo para agregar: {snap["amostra_minima"]}</div></div>
+<div class="muted">um por dia de série — não são observações independentes</div></div>
 <div class="card"><div class="label">Brier</div><div class="value">—</div>
 <div class="muted">não calculado</div></div>
 </section>
@@ -152,7 +156,9 @@ def _corpo_insuficiente(snap: dict[str, Any]) -> str:
 <ol class="passos">
 <li>Um claim com <b>série de p(t)</b> precisa <b>liquidar</b> — hoje os pontos são de mercados vivos.</li>
 <li>A liquidação precisa registrar <b>determination_date</b> com base confiável (o cron já faz).</li>
-<li>Repetir até <b>{snap["amostra_minima"]}</b> pares. Não há atalho: calibração é sobre acúmulo.</li>
+<li>Repetir até <b>{snap.get("claims_minimos", "—")}</b> contratos <b>distintos</b> liquidarem.
+Não adianta acumular dias: a série grava um ponto por dia, mas trinta pontos de um contrato
+continuam sendo <b>um</b> desfecho. Não há atalho — calibração é sobre contratos que terminam.</li>
 </ol>
 <p class="muted">{html.escape(str(snap["metodo_do_horizonte"]))}</p>"""
 
@@ -160,12 +166,14 @@ def _corpo_insuficiente(snap: dict[str, Any]) -> str:
 def _corpo_medido(snap: dict[str, Any]) -> str:
     murphy = snap["murphy"] or {}
     faixas = "".join(
-        f"<tr><td>{html.escape(str(f['faixa']))}</td><td>{f['n']}</td>"
+        f"<tr><td>{html.escape(str(f['faixa']))}</td><td>{f['n']}</td><td>{f.get('claims', '—')}</td>"
         f"<td>{_num(f['p_media_declarada'], 3)}</td>"
         f"<td>{_num(f['frequencia_observada'], 3)}</td></tr>"
         for f in snap["curva"]
     )
     return f"""<section class="cards">
+<div class="card"><div class="label">Desfechos distintos</div><div class="value">{snap.get("claims", 0)}</div>
+<div class="muted">o tamanho amostral que vale</div></div>
 <div class="card"><div class="label">Pares</div><div class="value">{snap["n"]}</div></div>
 <div class="card"><div class="label">Brier</div><div class="value">{_num(snap["brier"])}</div>
 <div class="muted">menor é melhor</div></div>
@@ -179,7 +187,7 @@ def _corpo_medido(snap: dict[str, Any]) -> str:
 não vira ponto — buraco honesto é melhor que ponto inventado.</p>
 {_svg_confiabilidade(snap["curva"])}
 <div class="table-wrap"><table><thead>
-<tr><th>faixa de p</th><th>n</th><th>p média declarada</th><th>frequência observada</th></tr></thead>
+<tr><th>faixa de p</th><th>n</th><th>desfechos</th><th>p média declarada</th><th>frequência observada</th></tr></thead>
 <tbody>{faixas}</tbody></table></div>
 {_bloco_trilhas(snap)}
 {_tabela("Brier por horizonte (re-ancorado)", snap["por_horizonte"], "faixa")}

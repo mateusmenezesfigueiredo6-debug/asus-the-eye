@@ -9,6 +9,7 @@ from pathlib import Path
 
 from asus_theye.markets.calibracao import (
     AMOSTRA_MINIMA,
+    CLAIMS_MINIMOS,
     curva_de_confiabilidade,
     decomposicao_de_murphy,
     medir,
@@ -309,3 +310,96 @@ def test_o_benchmark_e_declarado_e_e_o_focus(tmp_path: Path) -> None:
     s = _escrever(tmp_path / "s.jsonl", [_ponto_de("A::2026-07", "2026-07-01", 0.9, "registro")])
     r = _escrever(tmp_path / "r.jsonl", [_desfecho("A::2026-07", 1, "2026-08-10")])
     assert medir(serie=s, resolucoes=r)["trilhas"]["benchmark"] == "focus"
+
+
+# ------------------------------------------- desfechos, não observações
+
+
+def _quarenta_dias() -> list[str]:
+    """Quarenta dias corridos de série, como um mercado vivo de verdade gera."""
+    from datetime import date, timedelta
+
+    inicio = date(2026, 6, 20)
+    return [(inicio + timedelta(days=d)).isoformat() for d in range(40)]
+
+
+def test_muitos_pontos_de_poucos_contratos_nao_liberam_a_agregacao(tmp_path: Path) -> None:
+    """O defeito que mais perto chegou de ser publicado como verdade.
+
+    A série grava um ponto por dia para cada mercado aberto. Três mercados
+    vivos por quarenta dias produzem cento e vinte pares — e TRÊS desfechos.
+    Com o portão contando pontos, a plataforma publicaria Brier, curva de
+    confiabilidade, decomposição de Murphy e skill score, todos selados na
+    corrente, com aparência de amostra grande e apoiados em três
+    caras-ou-coroas.
+
+    O tamanho amostral efetivo de uma calibração é o número de desfechos
+    distintos: pontos do mesmo claim compartilham o desfecho e não são
+    evidência independente.
+    """
+    linhas, desfechos = [], []
+    for i in range(3):
+        claim = f"A{i}::2026-07"
+        for dia in _quarenta_dias():  # quarenta dias de série, como no mundo real
+            linhas.append(_ponto(claim, dia, 0.7))
+        desfechos.append(_desfecho(claim, 1, "2026-08-10"))
+    s = _escrever(tmp_path / "s.jsonl", linhas)
+    r = _escrever(tmp_path / "r.jsonl", desfechos)
+
+    snap = medir(serie=s, resolucoes=r)
+    assert snap["n"] == 120  # os pares existem…
+    assert snap["claims"] == 3  # …mas são três desfechos
+    assert snap["suficiente"] is False
+    assert snap["brier"] is None
+    assert snap["curva"] is None
+    assert "desfecho(s) distinto(s)" in snap["metodo"]
+
+
+def test_o_portao_abre_com_desfechos_distintos_suficientes(tmp_path: Path) -> None:
+    """E o portão não é intransponível — ele exige a coisa certa."""
+    linhas, desfechos = [], []
+    for i in range(CLAIMS_MINIMOS):
+        claim = f"A{i}::2026-07"
+        linhas.append(_ponto(claim, "2026-07-01", 0.7))
+        desfechos.append(_desfecho(claim, 1, "2026-08-10"))
+    snap = medir(
+        serie=_escrever(tmp_path / "s.jsonl", linhas),
+        resolucoes=_escrever(tmp_path / "r.jsonl", desfechos),
+    )
+    assert snap["claims"] == CLAIMS_MINIMOS
+    assert snap["suficiente"] is True
+    assert snap["brier"] is not None
+
+
+def test_a_comparacao_entre_trilhas_usa_o_mesmo_portao(tmp_path: Path) -> None:
+    """Cem pares casados vindos de três contratos são três desfechos."""
+    linhas, desfechos = [], []
+    for i in range(3):
+        claim = f"A{i}::2026-07"
+        for dia in _quarenta_dias():
+            linhas.append(_ponto_de(claim, dia, 0.7, "registro"))
+            linhas.append(_ponto_de(claim, dia, 0.4, "propria"))
+        desfechos.append(_desfecho(claim, 1, "2026-08-10"))
+    comparacao = medir(
+        serie=_escrever(tmp_path / "s.jsonl", linhas),
+        resolucoes=_escrever(tmp_path / "r.jsonl", desfechos),
+    )["trilhas"]
+    assert comparacao["n_casados"] == 120
+    assert comparacao["claims_casados"] == 3
+    assert comparacao["suficiente"] is False
+    assert comparacao["skill_score"] is None
+
+
+def test_faixa_da_curva_tambem_conta_desfechos(tmp_path: Path) -> None:
+    """Cinco pontos do mesmo contrato dão frequência 0 ou 1 — isso é ruído.
+
+    A faixa precisa de desfechos distintos pelo mesmo motivo que o agregado.
+    """
+    from asus_theye.markets.calibracao import curva_de_confiabilidade
+
+    # um único claim, dez pontos, todos na mesma faixa
+    itens = [{"claim_id": "A::2026-07", "probability": 0.72, "outcome": 1, "market_area_id": "m"} for _ in range(10)]
+    faixa = next(f for f in curva_de_confiabilidade(itens) if f["n"] == 10)
+    assert faixa["claims"] == 1
+    assert faixa["suficiente"] is False
+    assert faixa["frequencia_observada"] is None

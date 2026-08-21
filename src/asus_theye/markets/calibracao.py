@@ -45,7 +45,29 @@ RESOLUCOES_PADRAO = Path("reports/markets/resolucoes.jsonl")
 # é alto de propósito: estimar frequência observada por faixa exige pontos EM
 # CADA faixa, não no total. Declarado, não escondido.
 AMOSTRA_MINIMA = 30
+
+# O portão que importa mais, e por que ele existe separado do de cima.
+#
+# A série grava um ponto POR DIA para cada mercado aberto. Três mercados vivos
+# por quarenta dias produzem cento e vinte pares — e apenas TRÊS desfechos. O
+# Brier sobre esses pares, a curva de confiabilidade e o skill score sairiam
+# todos com aparência de amostra grande, apoiados em três caras-ou-coroas.
+#
+# O tamanho amostral efetivo de uma medição de calibração é o número de
+# DESFECHOS distintos, não o de observações: os pontos de um mesmo claim são
+# quase perfeitamente correlacionados, porque o desfecho deles é o mesmo. Contar
+# pontos seria a forma mais eficiente de esta plataforma publicar um número que
+# não vale o que aparenta — exatamente o que o cabeçalho deste arquivo diz
+# recusar.
+#
+# O valor 30 não é escolhido aqui: é o mesmo que o projeto já declara como
+# gargalo real ("trinta contratos precisam terminar"). O portão passa a
+# EXIGIR o que o plano já dizia.
+CLAIMS_MINIMOS = 30
+
 # Mínimo por faixa para a faixa ser reportada — abaixo disso ela sai como None.
+# Também em CLAIMS distintos, pelo mesmo argumento: cinco pontos de um único
+# contrato dão frequência observada de 0 ou 1, que é ruído, não frequência.
 MINIMO_POR_FAIXA = 5
 
 # Faixas de probabilidade da curva. Cortes nossos, escolhidos para que 0,50
@@ -137,6 +159,22 @@ def pares(
     return {"pares": utilizaveis, "excluidos": excluidos}
 
 
+def _claims(itens: list[dict[str, Any]]) -> int:
+    """Quantos DESFECHOS distintos há por trás destes pares.
+
+    É este o tamanho amostral efetivo de qualquer medição de calibração: os
+    pontos de um mesmo claim compartilham o desfecho, então contá-los como
+    observações independentes infla a amostra sem acrescentar evidência.
+
+    Item **sem** identidade cai num balde só. É a escolha fechada: sem saber de
+    que contrato o ponto veio, não há como provar que ele é independente dos
+    outros, e presumir que é seria inflar a amostra exatamente onde a prova
+    falta. ``pares()`` sempre preenche ``claim_id``; o balde existe para quem
+    chame estes auxiliares com dado avulso.
+    """
+    return len({str(i.get("claim_id") or "\u2014sem-identidade\u2014") for i in itens})
+
+
 def _brier(itens: list[dict[str, Any]]) -> float | None:
     if not itens:
         return None
@@ -172,6 +210,7 @@ def comparar_trilhas(itens: list[dict[str, Any]]) -> dict[str, Any]:
     focus = {(i["claim_id"], i["observado_em"]): i for i in por_trilha[TRILHA_FOCUS]}
     propria = {(i["claim_id"], i["observado_em"]): i for i in por_trilha[TRILHA_PROPRIA]}
     casados = sorted(set(focus) & set(propria))
+    claims_casados = len({c[0] for c in casados})
 
     resultado: dict[str, Any] = {
         "por_trilha": [
@@ -180,22 +219,27 @@ def comparar_trilhas(itens: list[dict[str, Any]]) -> dict[str, Any]:
         ],
         "benchmark": TRILHA_FOCUS,
         "n_casados": len(casados),
+        "claims_casados": claims_casados,
         "amostra_minima": AMOSTRA_MINIMA,
+        "claims_minimos": CLAIMS_MINIMOS,
         "metodo": (
             "skill score = 1 − Brier(própria)/Brier(Focus), calculado SÓ sobre pontos em que as "
             "duas trilhas publicaram no mesmo claim e no mesmo dia. Pontos sem par contam nas "
             "métricas de cada trilha, nunca na comparação: uma trilha que falta nos dias difíceis "
-            "teria Brier melhor sem ter acertado mais."
+            "teria Brier melhor sem ter acertado mais. O portão conta DESFECHOS distintos, não "
+            "pares: pontos do mesmo claim compartilham o desfecho e não são evidência independente."
         ),
     }
 
-    if len(casados) < AMOSTRA_MINIMA:
+    if claims_casados < CLAIMS_MINIMOS or len(casados) < AMOSTRA_MINIMA:
         resultado["suficiente"] = False
         resultado["skill_score"] = None
         resultado["brier_casado"] = None
         resultado["leitura"] = (
-            f"{len(casados)} par(es) casado(s) contra mínimo de {AMOSTRA_MINIMA}. Nada é comparado: "
-            "declarar vantagem sobre punhado de pontos é o erro que esta casa não comete."
+            f"{claims_casados} desfecho(s) distinto(s) casado(s) contra mínimo de {CLAIMS_MINIMOS} "
+            f"({len(casados)} par(es) contra {AMOSTRA_MINIMA}). Nada é comparado: declarar vantagem "
+            "sobre um punhado de desfechos é o erro que esta casa não comete — e cem pares vindos de "
+            "três contratos são três desfechos, por mais que pareçam cem."
         )
         return resultado
 
@@ -229,8 +273,10 @@ def comparar_trilhas(itens: list[dict[str, Any]]) -> dict[str, Any]:
 def curva_de_confiabilidade(itens: list[dict[str, Any]]) -> list[dict[str, Any]]:
     """Frequência observada por faixa de probabilidade declarada.
 
-    Faixa com menos de :data:`MINIMO_POR_FAIXA` pares reporta ``None`` — uma
-    frequência estimada com 2 casos não é uma frequência, é uma anedota.
+    Faixa com menos de :data:`MINIMO_POR_FAIXA` **desfechos distintos** reporta
+    ``None`` — uma frequência estimada com 2 casos não é uma frequência, é uma
+    anedota. E cinco pontos do mesmo contrato são um caso, não cinco: a
+    frequência observada deles só pode valer 0 ou 1.
     """
     curva = []
     for inicio, fim in FAIXAS_P:
@@ -240,11 +286,13 @@ def curva_de_confiabilidade(itens: list[dict[str, Any]]) -> list[dict[str, Any]]
             for i in itens
             if inicio <= float(i["probability"]) < fim or (fim == 1.0 and float(i["probability"]) == 1.0)
         ]
-        suficiente = len(na_faixa) >= MINIMO_POR_FAIXA
+        claims_na_faixa = _claims(na_faixa)
+        suficiente = claims_na_faixa >= MINIMO_POR_FAIXA
         curva.append(
             {
                 "faixa": f"{inicio:.1f}–{fim:.1f}",
                 "n": len(na_faixa),
+                "claims": claims_na_faixa,
                 "p_media_declarada": round(sum(float(i["probability"]) for i in na_faixa) / len(na_faixa), 4)
                 if na_faixa
                 else None,
@@ -305,10 +353,13 @@ def medir(*, serie: Path = SERIE_PADRAO, resolucoes: Path = RESOLUCOES_PADRAO) -
     # duas num Brier só produziria um número que não mede nenhuma das duas.
     itens = [i for i in todos if str(i.get("trilha", TRILHA_FOCUS)) == TRILHA_FOCUS]
     n = len(itens)
+    claims = _claims(itens)
 
     snapshot: dict[str, Any] = {
-        "versao": 2,
+        "versao": 3,
         "n": n,
+        "claims": claims,
+        "claims_minimos": CLAIMS_MINIMOS,
         "trilha_das_metricas": TRILHA_FOCUS,
         "trilhas": comparar_trilhas(todos),
         "amostra_minima": AMOSTRA_MINIMA,
@@ -320,7 +371,7 @@ def medir(*, serie: Path = SERIE_PADRAO, resolucoes: Path = RESOLUCOES_PADRAO) -
         ),
     }
 
-    if n < AMOSTRA_MINIMA:
+    if claims < CLAIMS_MINIMOS or n < AMOSTRA_MINIMA:
         snapshot["suficiente"] = False
         snapshot["brier"] = None
         snapshot["curva"] = None
@@ -328,9 +379,12 @@ def medir(*, serie: Path = SERIE_PADRAO, resolucoes: Path = RESOLUCOES_PADRAO) -
         snapshot["por_area"] = None
         snapshot["murphy"] = None
         snapshot["metodo"] = (
-            f"amostra insuficiente: {n} par(es) contra mínimo de {AMOSTRA_MINIMA}. Nada é agregado. "
-            "Curva de confiabilidade com poucos pontos é ruído desenhado com régua, e gráfico "
-            "convence mais do que merece — por isso ele não é desenhado."
+            f"amostra insuficiente: {claims} desfecho(s) distinto(s) contra mínimo de "
+            f"{CLAIMS_MINIMOS} (e {n} par(es) contra {AMOSTRA_MINIMA}). Nada é agregado. "
+            "O que conta é DESFECHO distinto, não ponto: a série grava um ponto por dia, então "
+            "três mercados vivos por quarenta dias dariam cento e vinte pares apoiados em três "
+            "caras-ou-coroas. Curva de confiabilidade com poucos desfechos é ruído desenhado com "
+            "régua, e gráfico convence mais do que merece — por isso ele não é desenhado."
         )
         return snapshot
 
