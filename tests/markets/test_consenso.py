@@ -95,16 +95,24 @@ def test_agrega_a_partir_da_amostra_minima(tmp_path: Path) -> None:
 
 
 def test_a_dependencia_do_focus_viaja_em_todo_resultado(tmp_path: Path) -> None:
-    """O ponto mais importante: nosso p DERIVA do Focus, então não há superação.
+    """O ponto mais importante: o p publicado DERIVA do Focus, sem superação.
 
     Se este texto sumir, alguém vai ler o MAE como vantagem independente — e
     seria mérito fabricado.
+
+    Desde que a trilha própria existe, há uma segunda armadilha, oposta e mais
+    tentadora: tratar a EXISTÊNCIA do sinal independente como se fosse evidência
+    de desempenho. Por isso a declaração dele também é testada, e o que se exige
+    dela é que diga que ainda não há resultado.
     """
     v = _escrever(tmp_path / "v.jsonl", [_vintage("2026-07", 0.30)])
     r = _escrever(tmp_path / "r.jsonl", [_resolucao("2026-07", 0.07)])
     for snap in (medir(vintages=v, resolucoes=r), medir(vintages=tmp_path / "vazio.jsonl", resolucoes=r)):
         assert "DERIVA do consenso" in snap["dependencia_declarada"]
-        assert "sinal independente" in snap["dependencia_declarada"]
+        assert "NENHUM resultado aqui pode ser lido como superação" in snap["dependencia_declarada"]
+        # a trilha própria existe, e a declaração diz que existir não é provar
+        assert "NÃO tem resultado" in snap["sinal_independente"]
+        assert "calibracao" in snap["sinal_independente"]
 
 
 def test_cortes_de_regime_sao_declarados_provisorios(tmp_path: Path) -> None:
