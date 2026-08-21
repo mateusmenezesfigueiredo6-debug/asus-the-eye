@@ -17,9 +17,12 @@ e comparar. Se divergir, o backup foi adulterado ou o QR é de outro arquivo.
 
 BIBLIOTECAS
 ===========
-- segno 1.6+   MIT   https://github.com/heuer/segno
-- zxing-cpp    Apache-2.0   https://github.com/zxing-cpp/zxing-cpp
-- Pillow       HPND (permissive)   https://github.com/python-pillow/Pillow
+- segno 1.6+   BSD-3-Clause   https://github.com/heuer/segno
+- zxing-cpp    Apache-2.0     https://github.com/zxing-cpp/zxing-cpp
+- Pillow       MIT-CMU        https://github.com/python-pillow/Pillow
+
+Todas permissivas e compatíveis com AGPL-3.0-or-later. Conferidas na origem em
+21/08/2026, com sha256 do texto da licença registrado na proveniência.
 
 Registradas em reports/provenance/segno-zxingcpp.md.
 
@@ -80,6 +83,17 @@ def gerar_e_verificar(arquivo_backup: Path, saida: Path) -> dict[str, str]:
     -------
     dict com chaves ``sha256_backup``, ``sha256_qr`` e ``qr_salvo_em``.
     """
+    # A checagem de existência vem ANTES do import, e a ordem importa.
+    #
+    # Ela não depende de biblioteca nenhuma, e os dois caminhos saem com o
+    # mesmo código 1 — então, com o guard na frente, uma máquina sem o extra
+    # [qr] sairia por ImportError sem NUNCA alcançar esta linha. Um teste que
+    # afirmasse cobrir "arquivo inexistente" passaria observando o erro errado,
+    # e continuaria verde mesmo se esta checagem fosse apagada.
+    if not arquivo_backup.exists():
+        print(f"ERRO: arquivo não encontrado: {arquivo_backup}", file=sys.stderr)
+        sys.exit(1)
+
     try:
         import segno  # noqa: PLC0415
         import zxingcpp  # noqa: PLC0415
@@ -89,10 +103,6 @@ def gerar_e_verificar(arquivo_backup: Path, saida: Path) -> dict[str, str]:
             f"ERRO: biblioteca de QR ausente — instale o extra [qr]: {exc}",
             file=sys.stderr,
         )
-        sys.exit(1)
-
-    if not arquivo_backup.exists():
-        print(f"ERRO: arquivo não encontrado: {arquivo_backup}", file=sys.stderr)
         sys.exit(1)
 
     hash_backup = _sha256_arquivo(arquivo_backup)

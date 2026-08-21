@@ -3,6 +3,16 @@
 """Testes de qr_do_backup — geração, verificação byte a byte e fail-closed.
 
 Todos os testes rodam offline: nenhuma chamada de rede é realizada.
+
+As bibliotecas de QR são um extra OPCIONAL (``[qr]``), então o módulo é pulado
+inteiro quando elas não estão presentes — o mesmo padrão que a suíte já usa em
+25 lugares para duckdb, web3, qiskit e fastapi. Sem isso, um extra opcional
+viraria dependência de fato e deixaria a suíte vermelha em toda máquina que não
+o instalou.
+
+O pulo é de MÓDULO, não por teste, e isso é deliberado: com o pulo por teste, o
+caso de "arquivo inexistente" continuaria rodando sem o extra e passaria
+observando o ImportError em vez do erro que diz cobrir.
 """
 
 from __future__ import annotations
@@ -12,6 +22,10 @@ import sys
 from pathlib import Path
 
 import pytest
+
+pytest.importorskip("segno")
+pytest.importorskip("zxingcpp")
+pytest.importorskip("PIL")
 
 SCRIPTS = Path(__file__).resolve().parents[2] / "scripts"
 sys.path.insert(0, str(SCRIPTS))
@@ -61,12 +75,19 @@ def test_gerar_e_verificar_byte_a_byte(backup_falso: Path, tmp_path: Path) -> No
     assert resultados[0].text == hash_backup_esperado
 
 
-def test_fail_closed_arquivo_inexistente(tmp_path: Path) -> None:
-    """Se o arquivo não existe, sai com SystemExit(1) sem escrever saída."""
+def test_fail_closed_arquivo_inexistente(tmp_path: Path, capsys: pytest.CaptureFixture[str]) -> None:
+    """Se o arquivo não existe, sai com SystemExit(1) sem escrever saída.
+
+    A asserção da MENSAGEM não é preciosismo. O guard de import sai com o mesmo
+    código 1, então conferir só o código deixava este teste verde mesmo quando
+    a checagem de existência era apagada — ele estaria observando o erro errado.
+    Com a mensagem, ele passa a pegar a mutação em qualquer máquina.
+    """
     saida = tmp_path / "saida.png"
     with pytest.raises(SystemExit) as exc_info:
         gerar_e_verificar(tmp_path / "nao_existe.gpg", saida)
     assert exc_info.value.code == 1
+    assert "arquivo não encontrado" in capsys.readouterr().err
     assert not saida.exists()
 
 

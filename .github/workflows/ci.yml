@@ -37,7 +37,12 @@ jobs:
       - name: Ambiente
         run: |
           uv venv --python ${{ matrix.python-version }}
-          uv pip install -e '.[telemetry,dashboard,dev]'
+          # 'qr' entra SÓ aqui: é o único job que roda a suíte. A verificação
+          # byte a byte do QR de custódia é a razão de existir do script, e sem
+          # o extra o módulo de teste é pulado inteiro e a alegação nunca é
+          # exercitada em lugar nenhum. Há wheel manylinux para 3.10/3.12/3.13,
+          # então não entra etapa de compilação no CI.
+          uv pip install -e '.[telemetry,dashboard,dev,qr]'
 
       - name: Lint (ruff)
         run: .venv/bin/ruff check .
