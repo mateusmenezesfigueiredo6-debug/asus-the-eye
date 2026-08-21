@@ -1,15 +1,18 @@
 # SPDX-FileCopyrightText: 2026 Mateus Menezes Figueiredo
 # SPDX-License-Identifier: AGPL-3.0-or-later
-"""Landing — a rota ``/``, que até aqui devolvia 404.
+"""Landing — a porta de entrada dos dois produtos.
 
-Quem abria a raiz do servidor via ``{"detail":"Not Found"}``: os oito painéis
-existiam mas nenhum caminho levava até eles. Esta página é a porta de entrada —
-diz o que a plataforma é, mostra os dois produtos e leva a cada painel.
+O herói desta página não é um número grande com um rótulo pequeno. É **o claim
+selado**: a pergunta, a probabilidade que a plataforma publicou, o instante, e o
+hash que prova que aquilo foi dito antes do fato. É o artefato mais
+característico deste produto, e o único que nenhum concorrente pode exibir
+honestamente sem ter a corrente.
 
-Os números vêm da MESMA medição selada na cadeia (``asus-theye projeto-medir``),
-nunca de valores escritos à mão aqui. Se a medição não estiver disponível, a
-página diz isso e continua servindo a navegação: degradar é dizer menos, nunca
-inventar.
+Toda a página serve a uma tarefa só: fazer um estranho acreditar que a
+probabilidade foi publicada **antes**, e que ele pode conferir sozinho.
+
+Os números vêm da medição selada. Se ela falhar, a página diz que não sabe e
+continua navegável — degradar é dizer menos, nunca inventar.
 """
 
 from __future__ import annotations
@@ -18,144 +21,148 @@ import html
 from pathlib import Path
 from typing import Any
 
-from .navegacao import CSS_AVISO, CSS_NAV, barra, destino, rodape
+from .navegacao import destino
+from .tema import estado, hash_fio, leitura, pagina
 
 PRODUTOS: tuple[dict[str, str], ...] = (
     {
-        "nome": "THE EYE Markets",
-        "resumo": "Perguntas com prazo e critério, respondidas pela fonte oficial — não por "
-        "alguém decidindo depois quem ganhou. IPCA, Selic e câmbio, cada uma medida contra o "
-        "Banco Central.",
-        "prova": "A probabilidade é publicada <strong>antes</strong> do fato, com a fonte do "
-        "sinal nomeada. Quando o contrato liquida, o Brier aparece — e é <code>null</code> "
-        "até lá, porque antes disso não há o que pontuar.",
+        "nome": "Markets",
+        "tese": "Perguntas com prazo e critério, respondidas pela fonte oficial — "
+        "não por alguém decidindo depois quem ganhou.",
+        "detalhe": "Inflação, juros e câmbio, cada um medido contra o Banco Central. A probabilidade "
+        "sai antes do fato, com a origem do sinal nomeada. O Brier aparece quando o contrato liquida, "
+        "e é <code>null</code> até lá — antes disso não há o que pontuar.",
         "rota": "/mercados",
-        "cta": "ver os mercados",
+        "cta": "Ver os mercados",
         "segunda_rota": "/calibracao",
-        "segunda": "a probabilidade vale algo?",
+        "segunda": "A probabilidade vale algo?",
     },
     {
-        "nome": "THE EYE Ledger",
-        "resumo": "A trilha que qualquer pessoa confere sem pedir licença: cada passo selado "
-        "por hash, encadeado, e ancorado em blockchain pública.",
-        "prova": "O verificador responde <strong>sem token</strong>. Você não precisa "
-        "acreditar em nós — baixe a corrente e refaça a conta. Apagar dado deixa recibo; a "
-        "âncora continua válida.",
+        "nome": "Ledger",
+        "tese": "A trilha que qualquer pessoa confere sem pedir licença.",
+        "detalhe": "Cada passo selado por hash, encadeado ao anterior, e ancorado em blockchain "
+        "pública. O verificador responde <strong>sem token</strong>: você não precisa acreditar em "
+        "nós — baixe a corrente e refaça a conta. Apagar dado deixa recibo, e a âncora continua "
+        "válida.",
         "rota": "/corrente",
-        "cta": "ver a corrente",
+        "cta": "Ver a corrente",
         "segunda_rota": "/api",
-        "segunda": "conferir por conta própria",
+        "segunda": "Conferir por conta própria",
     },
 )
 
-DOUTRINA: tuple[str, ...] = (
-    "Comparador nunca resolve. Kalshi e afins entram como <em>divergência medida</em>, jamais como fonte de verdade.",
-    "Sem sinal, <code>p = 0,50</code> declarado — a plataforma prefere dizer "
-    "&ldquo;não sei&rdquo; a fabricar confiança que não tem.",
-    "Nenhum número sem método: todo percentual carrega, ao lado, de onde saiu.",
-)
+
+def _heroi(base: Path | None, *, estatico: bool) -> str:
+    """O claim selado — a coisa mais característica que esta plataforma tem."""
+    from asus_theye.markets.serie_p import SERIE_PADRAO
+
+    registro_path = (base or Path("reports")) / "markets" / "registro.json"
+    if not registro_path.exists():
+        return '<p class="nota">Registro de mercados indisponível — nenhum claim a exibir.</p>'
+
+    import json
+
+    mercados = json.loads(registro_path.read_text(encoding="utf-8")).get("mercados", [])
+    vivos = [m for m in mercados if str(m.get("estado", "ABERTO")).upper() != "LIQUIDADO"]
+    if not vivos:
+        return '<p class="nota">Nenhum mercado aberto no momento.</p>'
+
+    # o claim que fecha primeiro: o mais próximo de ser respondido pelo mundo
+    alvo = min(vivos, key=lambda m: str(m.get("deadline", "9999")))
+    p = float(alvo["probability"])
+    gerador = alvo.get("gerador") or {}
+    fonte = str(gerador.get("metodo") or "prior de máxima incerteza, sem sinal disponível")
+
+    # o hash do último ponto selado deste claim — a prova como ornamento
+    fio = ""
+    serie = SERIE_PADRAO if base is None else base / "markets" / "serie_p.jsonl"
+    if serie.exists():
+        pontos = [json.loads(li) for li in serie.read_text(encoding="utf-8").splitlines() if li.strip()]
+        do_claim = [pt for pt in pontos if pt.get("claim_id") == alvo["claim_id"]]
+        if do_claim:
+            fio = hash_fio(str(do_claim[-1].get("ponto_id", "")))
+
+    return f"""<section class="selado" style="margin:2.6rem 0 0">
+<div class="rotulo">Publicado antes do fato · {html.escape(str(alvo["claim_id"]))}</div>
+<p style="font-size:clamp(1.3rem,3vw,1.75rem);line-height:1.35;margin:.7rem 0 1.2rem;max-width:34ch">
+{html.escape(str(alvo["question"]))}</p>
+<div style="display:flex;align-items:baseline;gap:1.4rem;flex-wrap:wrap">
+<span class="mono v-selo" style="font-size:clamp(3rem,9vw,5rem);font-weight:500;letter-spacing:-.055em;
+line-height:.9;font-variant-numeric:tabular-nums">{p * 100:.1f}<span style="font-size:.36em">%</span></span>
+<div style="max-width:30ch">
+<div class="rotulo">é o que dizemos hoje</div>
+<div class="nota" style="margin-top:.35rem">{html.escape(fonte[:180])}</div>
+</div></div>
+<div style="margin-top:1.2rem;display:flex;gap:.6rem;flex-wrap:wrap;align-items:center">
+{estado("aberto", "latao")}
+<span class="mono" style="color:var(--tinta-3)">fecha em {html.escape(str(alvo["deadline"]))}</span>
+<span class="mono" style="color:var(--tinta-3)">·</span>
+<span class="mono" style="color:var(--tinta-3)">resolve contra {html.escape(str(alvo["resolution_source"]))}</span>
+</div>
+{fio}
+</section>"""
 
 
-def _cartoes_de_prova(base: Path | None, *, estatico: bool = False) -> str:
-    """Os números vivos da corrente. Falha de medição vira aviso, não zero falso."""
+def _leituras(base: Path | None) -> str:
+    """Os números vivos da corrente. Falha vira aviso, nunca zero falso."""
     from asus_theye.projeto import MedicaoError, medir_projeto
 
     try:
         snap = medir_projeto(base) if base is not None else medir_projeto()
-    except MedicaoError as error:
-        return (
-            '<p class="muted">Medição indisponível — a navegação acima continua válida.<br>'
-            f"{html.escape(str(error))}</p>"
-        )
+    except MedicaoError as erro:
+        return f'<p class="nota">Medição indisponível — a navegação continua válida.<br>{html.escape(str(erro))}</p>'
 
     corrente, capacidade = snap["corrente"], snap["capacidade_real"]
-    ancoragem, medicao = snap["ancoragem"], snap["medicao_continua"]
-    verifica = '<span class="ok">íntegra</span>' if corrente["verifica"] else '<span class="bad">QUEBRADA</span>'
-    return f"""<section class="cards">
-<div class="card"><div class="label">Corrente auditável</div>
-<div class="value">{corrente["eventos"]}</div><div class="muted">eventos — {verifica}</div></div>
-<div class="card"><div class="label">Âncoras on-chain</div>
-<div class="value">{ancoragem["ancoras"]}</div>
-<div class="muted">Base Sepolia (rede de teste)</div></div>
-<div class="card"><div class="label">Mercados vivos</div>
-<div class="value">{medicao["mercados"] - medicao["liquidados"]}</div>
-<div class="muted">{medicao["liquidados"]} já liquidado(s)</div></div>
-<div class="card"><div class="label">Atividade prospectiva</div>
-<div class="value">{capacidade["eventos_prospectivos"]}</div>
-<div class="muted">exclui import retrospectivo</div></div>
-</section>
-<p class="muted">Medição selada na cadeia: <code>{snap["hash_da_medicao"][:32]}…</code> ·
-caminho mínimo {snap["caminho_minimo"]["pct"]}% ·
-<a href="{destino("/projeto", estatico=estatico)}">placar completo</a></p>"""
-
-
-def _cartao_produto(produto: dict[str, str], *, estatico: bool = False) -> str:
+    medicao, ancoragem = snap["medicao_continua"], snap["ancoragem"]
+    integra = corrente["verifica"]
     return (
-        f'<article class="produto"><h3>{html.escape(produto["nome"])}</h3>'
-        f"<p>{html.escape(produto['resumo'])}</p>"
-        f'<p class="muted">{produto["prova"]}</p>'
-        f'<p><a class="cta" href="{html.escape(destino(produto["rota"], estatico=estatico))}">'
-        f"{html.escape(produto['cta'])} →</a>"
-        f'<br><a class="cta2" href="{html.escape(destino(produto["segunda_rota"], estatico=estatico))}">'
-        f"{html.escape(produto['segunda'])} →</a></p></article>"
+        '<div class="leituras">'
+        + leitura(
+            "Corrente", corrente["eventos"], "íntegra" if integra else "QUEBRADA", "v-selo" if integra else "v-oxido"
+        )
+        + leitura("Âncoras", ancoragem["ancoras"], "Base Sepolia (rede de teste)", "v-selo")
+        + leitura(
+            "Mercados vivos", medicao["mercados"] - medicao["liquidados"], f"{medicao['liquidados']} liquidado(s)"
+        )
+        + leitura("Atividade", capacidade["eventos_prospectivos"], "eventos prospectivos")
+        + "</div>"
     )
 
 
+def _produto(p: dict[str, str], *, estatico: bool) -> str:
+    return f"""<article style="padding:2.2rem 0;border-top:1px solid var(--regua)">
+<div class="rotulo">THE EYE</div>
+<h3 style="font-size:clamp(1.45rem,3.4vw,2rem);letter-spacing:-.02em;margin:.3rem 0 .9rem">
+{html.escape(p["nome"])}</h3>
+<p style="font-size:1.1rem;line-height:1.5;margin:0 0 .8rem;max-width:48ch">{html.escape(p["tese"])}</p>
+<p class="nota" style="margin:0 0 1.3rem">{p["detalhe"]}</p>
+<div style="display:flex;gap:1.6rem;flex-wrap:wrap;align-items:center">
+<a href="{html.escape(destino(p["rota"], estatico=estatico))}"
+style="font-family:var(--grotesca);font-weight:600;font-size:.94rem;text-decoration:none;
+color:var(--selo);border-bottom:1.5px solid var(--selo);padding-bottom:2px">{html.escape(p["cta"])}</a>
+<a href="{html.escape(destino(p["segunda_rota"], estatico=estatico))}"
+style="font-family:var(--grotesca);font-size:.88rem;text-decoration:none;color:var(--tinta-3)">
+{html.escape(p["segunda"])}</a>
+</div></article>"""
+
+
 def landing_page(base: Path | None = None, *, estatico: bool = False) -> str:
-    """Página inicial: o que é, os dois produtos, os números vivos e para onde ir."""
-    produtos = "".join(_cartao_produto(p, estatico=estatico) for p in PRODUTOS)
-    doutrina = "".join(f"<li>{item}</li>" for item in DOUTRINA)
-    corpo = f"""<p class="lede">Mercados preditivos <strong>auditáveis</strong>: a probabilidade é
-publicada antes do fato, a resolução vem da fonte oficial, e cada passo fica selado numa
-corrente que qualquer pessoa verifica — sem pedir acesso a ninguém.</p>
-{_cartoes_de_prova(base, estatico=estatico)}
+    """Página inicial. Degrada dizendo o que falta, nunca inventando."""
+    produtos = "".join(_produto(p, estatico=estatico) for p in PRODUTOS)
+    corpo = f"""<h1>A probabilidade sai antes do fato — e fica provado que saiu.</h1>
+<p class="lede">Perguntas com prazo e critério, respondidas pela fonte oficial. Cada passo selado
+numa corrente que qualquer pessoa verifica, sem pedir acesso a ninguém.</p>
+{_heroi(base, estatico=estatico)}
+{_leituras(base)}
 <h2>Dois produtos</h2>
-<section class="produtos">{produtos}</section>
-<h2>A doutrina, em três linhas</h2>
-<ul class="doutrina">{doutrina}</ul>
-<p class="muted">Verificação independente: <code>GET /health</code>, <code>GET /verify</code> e
-<code>GET /root/:data</code> no verificador público respondem <strong>sem token</strong>.
-Ver <a href="{destino("/api", estatico=estatico)}">a API</a>.</p>"""
-    return _shell(corpo, estatico=estatico)
-
-
-def _shell(corpo: str, *, estatico: bool = False) -> str:
-    return f"""<!doctype html>
-<html lang="pt-br"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width">
-<title>ASUS THE EYE — mercados preditivos auditáveis</title><style>
-:root{{--ink:#e9f0ff;--muted:#9aa8bd;--panel:#151d2b;--accent:#67e8f9;--bg:#080d16;--ok:#4ade80;--bad:#f87171}}
-*{{box-sizing:border-box}}
-body{{margin:0;overflow-x:hidden;background:var(--bg);color:var(--ink);font:16px system-ui}}
-main{{max-width:1100px;margin:auto;padding:40px 20px}}
-h1{{letter-spacing:.08em;margin:0 0 6px}}
-h2{{margin:34px 0 12px;font-size:1.05rem;letter-spacing:.05em;color:var(--muted);text-transform:uppercase}}
-h3{{margin:0 0 10px;color:var(--accent);font-size:1.15rem}}
-.lede{{font-size:1.12rem;line-height:1.6;max-width:70ch;margin:0 0 28px}}
-.muted{{color:var(--muted)}}
-code{{color:var(--accent);word-break:break-all}}
-a{{color:var(--accent)}}
-.cards{{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:16px;margin-bottom:20px}}
-.card{{background:var(--panel);padding:20px;border:1px solid #253149;border-radius:12px}}
-.label{{color:var(--muted);font-size:.8rem;text-transform:uppercase}}
-.value{{font-size:1.7rem;margin:8px 0 4px;color:var(--accent)}}
-.produtos{{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}}
-.produto{{background:var(--panel);padding:24px;border:1px solid #253149;border-radius:12px}}
-.produto p{{line-height:1.55}}
-.cta{{text-decoration:none;font-weight:600}}
-.cta2{{text-decoration:none;font-size:.86rem;color:var(--muted);display:inline-block;margin-top:6px}}
-.cta2:hover{{color:var(--accent)}}
-.doutrina{{max-width:80ch;line-height:1.6;padding-left:20px}}
-.doutrina li{{margin:8px 0}}
-.ok{{color:var(--ok)}}.bad{{color:var(--bad)}}
-{CSS_NAV}{CSS_AVISO}
-@media (max-width:640px){{main{{padding:24px 12px}}.cards,.produtos{{grid-template-columns:1fr}}}}
-</style></head><body><main>
-<h1>ASUS THE EYE</h1>
-<p class="muted">mercados preditivos auditáveis</p>
-{barra("/", estatico=estatico)}
-{corpo}
-{rodape()}
-</main></body></html>"""
+{produtos}
+<div class="ressalva">
+<span class="rotulo">O que esta plataforma recusa fazer</span>
+Comparador nunca resolve — preço de mercado alheio é opinião agregada, não desfecho.
+Sem sinal, dizemos <code>p = 0,50</code> e declaramos que não sabemos, em vez de fabricar
+confiança. E nenhum número aparece sem o método que o produziu ao lado.
+</div>"""
+    return pagina(titulo="ASUS THE EYE — mercados preditivos auditáveis", corpo=corpo, rota="/", estatico=estatico)
 
 
 def register_landing_routes(app: Any, base: Path | None = None) -> None:

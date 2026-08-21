@@ -53,14 +53,20 @@ def test_exportar_conteudo_benchmark(tmp_path: Path) -> None:
     assert "<!doctype html>" in html.lower()
 
 
-def test_exportar_index_tem_links(tmp_path: Path) -> None:
-    exportar(tmp_path)
+def test_exportar_index_linka_a_vitrine_e_nao_a_telemetria(tmp_path: Path) -> None:
+    """A porta da frente mostra os dois produtos, não a instrumentação da obra.
+
+    /projeto, /mlops e /benchmark continuam sendo GERADOS e acessíveis por URL —
+    só não entram no menu. Um cliente não abre o site para ver o percentual de
+    fases do projeto nem as corridas de ML.
+    """
+    resultado = exportar(tmp_path)
     html = (tmp_path / "index.html").read_text(encoding="utf-8")
-    assert "projeto.html" in html
-    assert "evidencia.html" in html
-    assert "corrente.html" in html
-    assert "mercados.html" in html  # a vitrine linka produto, não telemetria
-    assert "api.html" in html
+    for publica in ("mercados.html", "calibracao.html", "corrente.html", "evidencia.html", "api.html"):
+        assert publica in html, f"a vitrine deixou de linkar {publica}"
+    for interna in ("projeto.html", "mlops.html"):
+        assert interna not in html, f"{interna} é telemetria interna e não pertence à vitrine"
+        assert interna in resultado["gerados"], f"{interna} deve continuar sendo gerada e acessível por URL"
     assert "<!doctype html>" in html.lower()
 
 
@@ -144,8 +150,8 @@ def test_index_e_a_landing_e_nao_uma_lista_de_arquivos(tmp_path: Path) -> None:
 
     exportar(tmp_path)
     index = (tmp_path / "index.html").read_text(encoding="utf-8")
-    assert "THE EYE Markets" in index and "THE EYE Ledger" in index
-    assert "ASUS THE EYE" in index
+    assert "Markets" in index and "Ledger" in index
+    assert "THE EYE" in index
     assert len(index) > 3000, "index pequeno demais para ser a landing"
 
 

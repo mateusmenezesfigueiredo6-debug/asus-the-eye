@@ -14,7 +14,7 @@ import html
 from pathlib import Path
 from typing import Any
 
-from .navegacao import CSS_AVISO, CSS_NAV, barra, rodape
+from .tema import pagina
 
 ESTADO_ROTULO = {"concluida": ("ok", "concluída"), "parcial": ("warn", "parcial"), "pendente": ("bad", "pendente")}
 
@@ -40,7 +40,12 @@ def projeto_page(base: Path | None = None, *, estatico: bool = False) -> str:
             '<div class="value">indisponível</div></div></section>'
             f'<p class="muted">{html.escape(str(error))}</p>'
         )
-        return _shell(corpo, estatico=estatico)
+        return pagina(
+            titulo="ASUS THE EYE — Projeto",
+            corpo="<h1>MEDIÇÃO DO PROJETO</h1><p class='lede'>cada número com o método ao lado</p>" + corpo,
+            rota="/projeto",
+            estatico=estatico,
+        )
 
     caminho = snap["caminho_minimo"]
     produtos = snap["produtos"]
@@ -71,7 +76,12 @@ def projeto_page(base: Path | None = None, *, estatico: bool = False) -> str:
 {_tabela_produtos(produtos)}
 <p class="muted">{html.escape(str(snap["ressalva"]))} Selagem: <code>asus-theye projeto-medir</code> —
 mesmo estado não re-sela (dedupe); estado novo vira evento novo na cadeia.</p>"""
-    return _shell(corpo, estatico=estatico)
+    return pagina(
+        titulo="ASUS THE EYE — Projeto",
+        corpo="<h1>MEDIÇÃO DO PROJETO</h1><p class='lede'>cada número com o método ao lado</p>" + corpo,
+        rota="/projeto",
+        estatico=estatico,
+    )
 
 
 def _tabela_produtos(produtos: dict[str, Any]) -> str:
@@ -84,42 +94,6 @@ def _tabela_produtos(produtos: dict[str, Any]) -> str:
         "<tr><th>fase</th><th>nome</th><th>estado</th><th>%</th><th>método</th></tr></thead>"
         f"<tbody>{''.join(_fase_linha(f) for f in produtos['fases'])}</tbody></table></div>"
     )
-
-
-def _shell(corpo: str, *, estatico: bool = False) -> str:
-    return f"""<!doctype html>
-<html lang="pt-br"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width">
-<title>ASUS THE EYE — Projeto</title><style>
-:root{{--ink:#e9f0ff;--muted:#9aa8bd;--panel:#151d2b;--accent:#67e8f9;--bg:#080d16;--ok:#4ade80;--bad:#f87171;--warn:#fbbf24}}
-*{{box-sizing:border-box}}
-body{{margin:0;overflow-x:hidden;background:var(--bg);color:var(--ink);font:16px system-ui}}
-main{{max-width:1100px;margin:auto;padding:40px 20px}}
-h1{{letter-spacing:.08em}}
-h2{{margin:28px 0 12px;font-size:1.05rem;letter-spacing:.05em;color:var(--muted);text-transform:uppercase}}
-.muted{{color:var(--muted)}}
-code{{color:var(--accent);word-break:break-all}}
-.cards{{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:16px;margin-bottom:24px}}
-.card{{background:var(--panel);padding:20px;border:1px solid #253149;border-radius:12px}}
-.label{{color:var(--muted);font-size:.8rem;text-transform:uppercase}}
-.value{{font-size:1.7rem;margin-top:8px;color:var(--accent)}}
-.table-wrap{{width:100%;max-width:100%;overflow-x:auto}}
-table{{width:100%;border-collapse:collapse;background:var(--panel);
-border:1px solid #253149;border-radius:12px;overflow:hidden}}
-th,td{{padding:12px 14px;text-align:left;border-bottom:1px solid #253149}}
-th{{color:var(--muted);font-size:.78rem;text-transform:uppercase}}
-.ok{{color:var(--ok)}}.bad{{color:var(--bad)}}.warn{{color:var(--warn)}}
-@media (max-width: 640px){{
-main{{padding:24px 12px}}
-.cards{{grid-template-columns:1fr}}
-th,td{{padding:10px 8px}}
-th{{font-size:.72rem}}
-}}
-{CSS_NAV}{CSS_AVISO}
-</style></head><body><main><h1>MEDIÇÃO DO PROJETO</h1>
-{barra("/projeto", estatico=estatico)}
-{corpo}
-{rodape()}
-</main></body></html>"""
 
 
 def register_projeto_routes(app: Any, base: Path | None = None) -> None:

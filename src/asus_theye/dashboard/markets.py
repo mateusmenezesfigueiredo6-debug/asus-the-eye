@@ -18,7 +18,7 @@ import html
 from pathlib import Path
 from typing import Any
 
-from .navegacao import CSS_AVISO, CSS_NAV, barra, rodape
+from .tema import pagina
 
 _HISTORICO_VOTO = 0.959126  # taxa histórica de seguimento partidário (comparação de vitrine)
 
@@ -77,7 +77,12 @@ def markets_page(db_path: str | Path | None = None, *, estatico: bool = False) -
             '<p class="muted">Defina <code>ASUS_MARKETS_DB</code> apontando para o asus_teste.duckdb '
             "e recarregue.</p>"
         )
-        return _shell(corpo, estatico=estatico)
+        return pagina(
+            titulo="ASUS THE EYE — Mercados (legado)",
+            corpo="<h1>MERCADOS PREDITIVOS</h1><p class='lede'>acervo legado, importado com proveniência</p>" + corpo,
+            rota="/markets",
+            estatico=estatico,
+        )
 
     tie_out = reconciliation["tie_out"]
     tie_badge = '<span class="ok">True</span>' if tie_out else '<span class="bad">False</span>'
@@ -98,35 +103,12 @@ def markets_page(db_path: str | Path | None = None, *, estatico: bool = False) -
 constante dão baseline perfeito e skill indefinida — o limiar de máxima incerteza. Para a comparação
 de vitrine do voto contra a taxa histórica ({_HISTORICO_VOTO}), use
 <code>asus-theye markets-reconcile --skill --baseline {_HISTORICO_VOTO}</code>.</p>"""
-    return _shell(corpo, estatico=estatico)
-
-
-def _shell(corpo: str, *, estatico: bool = False) -> str:
-    return f"""<!doctype html>
-<html lang="pt-br"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width">
-<title>ASUS THE EYE — Mercados</title><style>
-:root{{--ink:#e9f0ff;--muted:#9aa8bd;--panel:#151d2b;--accent:#67e8f9;--bg:#080d16;--ok:#4ade80;--bad:#f87171}}
-*{{box-sizing:border-box}}
-body{{margin:0;background:var(--bg);color:var(--ink);font:16px system-ui}}
-main{{max-width:1100px;margin:auto;padding:40px 20px}}
-h1{{letter-spacing:.08em}}
-.muted{{color:var(--muted)}}
-code{{color:var(--accent)}}
-.cards{{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:16px;margin-bottom:24px}}
-.card{{background:var(--panel);padding:20px;border:1px solid #253149;border-radius:12px}}
-.label{{color:var(--muted);font-size:.8rem;text-transform:uppercase}}
-.value{{font-size:1.7rem;margin-top:8px;color:var(--accent)}}
-table{{width:100%;border-collapse:collapse;background:var(--panel);
-border:1px solid #253149;border-radius:12px;overflow:hidden}}
-th,td{{padding:12px 14px;text-align:left;border-bottom:1px solid #253149}}
-th{{color:var(--muted);font-size:.78rem;text-transform:uppercase}}
-.ok{{color:var(--ok)}}.bad{{color:var(--bad)}}
-{CSS_NAV}{CSS_AVISO}
-</style></head><body><main><h1>MERCADOS PREDITIVOS</h1>
-{barra("/markets", estatico=estatico)}
-{corpo}
-{rodape()}
-</main></body></html>"""
+    return pagina(
+        titulo="ASUS THE EYE — Mercados (legado)",
+        corpo="<h1>MERCADOS PREDITIVOS</h1><p class='lede'>acervo legado, importado com proveniência</p>" + corpo,
+        rota="/markets",
+        estatico=estatico,
+    )
 
 
 def register_markets_routes(app: Any, db_path: str | Path | None = None) -> None:

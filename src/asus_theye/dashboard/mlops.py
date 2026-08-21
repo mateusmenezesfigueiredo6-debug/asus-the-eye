@@ -14,7 +14,7 @@ import json
 from pathlib import Path
 from typing import Any
 
-from .navegacao import CSS_AVISO, CSS_NAV, barra, rodape
+from .tema import pagina
 
 
 def _ler_jsonl(caminho: Path) -> list[dict[str, Any]]:
@@ -152,46 +152,12 @@ def mlops_page(base: Path | None = None, *, estatico: bool = False) -> str:  # n
     )
 
     corpo = f"{cards}\n{tabela_corridas}\n{cd_secao}\n{aviso}"
-    return _shell(corpo, estatico=estatico)
-
-
-def _shell(corpo: str, *, estatico: bool = False) -> str:
-    return f"""<!doctype html>
-<html lang="pt-br"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width">
-<title>ASUS THE EYE — MLOps</title><style>
-:root{{--ink:#e9f0ff;--muted:#9aa8bd;--panel:#151d2b;--accent:#67e8f9;--bg:#080d16;--ok:#4ade80;--bad:#f87171;--warn:#fbbf24}}
-*{{box-sizing:border-box}}
-body{{margin:0;overflow-x:hidden;background:var(--bg);color:var(--ink);font:16px system-ui}}
-main{{max-width:1100px;margin:auto;padding:40px 20px}}
-h1{{letter-spacing:.08em}}
-h2{{margin:28px 0 12px;font-size:1.05rem;letter-spacing:.05em;color:var(--muted);text-transform:uppercase}}
-h3{{margin:20px 0 8px;font-size:1rem}}
-h4{{margin:12px 0 6px;font-size:.85rem;color:var(--muted);text-transform:uppercase}}
-.muted{{color:var(--muted)}}
-code{{color:var(--accent);word-break:break-all}}
-.cards{{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:16px;margin-bottom:24px}}
-.card{{background:var(--panel);padding:20px;border:1px solid #253149;border-radius:12px}}
-.label{{color:var(--muted);font-size:.8rem;text-transform:uppercase}}
-.value{{font-size:1.7rem;margin-top:8px;color:var(--accent)}}
-.table-wrap{{width:100%;max-width:100%;overflow-x:auto}}
-table{{width:100%;border-collapse:collapse;background:var(--panel);
-border:1px solid #253149;border-radius:12px;overflow:hidden;margin-bottom:16px}}
-th,td{{padding:12px 14px;text-align:left;border-bottom:1px solid #253149}}
-th{{color:var(--muted);font-size:.78rem;text-transform:uppercase}}
-.ok{{color:var(--ok)}}.bad{{color:var(--bad)}}.warn{{color:var(--warn)}}
-.aviso{{border-left:3px solid var(--warn);padding-left:10px;margin-top:32px}}
-@media (max-width: 640px){{
-main{{padding:24px 12px}}
-.cards{{grid-template-columns:1fr}}
-th,td{{padding:10px 8px}}
-th{{font-size:.72rem}}
-}}
-{CSS_NAV}{CSS_AVISO}
-</style></head><body><main><h1>MLOPS</h1>
-{barra("/mlops", estatico=estatico)}
-{corpo}
-{rodape()}
-</main></body></html>"""
+    return pagina(
+        titulo="ASUS THE EYE — MLOps",
+        corpo="<h1>MLOPS</h1><p class='lede'>corridas de modelo, seladas na corrente</p>" + corpo,
+        rota="/mlops",
+        estatico=estatico,
+    )
 
 
 def register_mlops_routes(app: Any, base: Path | None = None) -> None:

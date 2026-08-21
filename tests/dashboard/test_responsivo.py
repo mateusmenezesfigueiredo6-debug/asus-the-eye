@@ -22,12 +22,22 @@ RAIZ = Path(__file__).resolve().parents[2]
         ("src/asus_theye/dashboard/benchmark.py", ("ASUS THE EYE BENCHMARK", "Best score", "Score comparison"), False),
     ],
 )
-def test_paineis_tem_trava_responsiva_sem_perder_marcadores(
+def test_a_trava_responsiva_vive_no_tema_e_nao_copiada(  # noqa: ARG001
     relpath: str, marcadores: tuple[str, ...], tem_wrapper: bool
 ) -> None:
+    """As regras responsivas moraram em dez cópias e agora moram numa só.
+
+    Dez cópias divergem: uma ganha um ajuste, outra não, e o produto passa a
+    parecer dez produtos. O teste antigo exigia a regra DENTRO de cada painel, o
+    que travava justamente a correção. Agora ele exige que a regra exista no
+    tema — e que cada painel continue dizendo o que precisa dizer.
+    """
+    tema = (RAIZ / "src/asus_theye/dashboard/tema.py").read_text(encoding="utf-8")
+    assert "@media (max-width: 640px)" in tema
+    assert "overflow-x:auto" in tema
+    assert ".table-wrap" in tema, "a classe antiga tem de continuar válida — os painéis ainda a emitem"
+
     texto = (RAIZ / relpath).read_text(encoding="utf-8")
-    assert "@media (max-width: 640px)" in texto
-    assert "overflow-x:auto" in texto
     assert ('class="table-wrap"' in texto) is tem_wrapper
     for marcador in marcadores:
         assert marcador in texto
