@@ -140,6 +140,21 @@ def reprecificar(
 # ---------------------------------------------------------------- o laço
 
 
+# A trilha própria: um gerador só, que serve a QUALQUER área, porque o tom da
+# cobertura não é específico do indicador. É de propósito — o que o distingue é
+# a ORIGEM (imprensa, não consenso), não o recorte.
+TRILHA_FOCUS = "focus"
+TRILHA_PROPRIA = "propria"
+
+
+def gerador_da_trilha_propria() -> Any:
+    """O gerador que não passa pelo consenso. Importado tarde, para o teste de
+    independência de ``sinais_noticia`` continuar valendo por inspeção."""
+    from asus_theye.markets.sinais_noticia import probabilidade_por_noticia
+
+    return probabilidade_por_noticia
+
+
 def _gerador_da_area(area: str) -> Any:
     """O gerador de sinal da área, ou ``None`` se a área ainda não tem um.
 
@@ -224,6 +239,38 @@ def rodada(
             acoes.append({"claim_id": claim_id, "acao": "recusado", "motivo": str(erro)[:200]})
             continue
 
+        # --- a TRILHA PRÓPRIA, ao lado da do Focus -----------------------
+        # Ela não altera `probability` do mercado: fica registrada em paralelo,
+        # selada antes do desfecho. É isso que torna a comparação verificável em
+        # vez de retórica — na liquidação, as duas são pontuadas com a mesma
+        # régua, e o resultado é o que os dados disserem, inclusive paridade.
+        try:
+            propria = gerador_da_trilha_propria()(str(mercado["mes_referencia"]), float(mercado["limiar"]))
+        except Exception as erro:  # noqa: BLE001 - trilha secundária nunca derruba a principal
+            acoes.append({"claim_id": claim_id, "acao": "trilha_propria_indisponivel", "motivo": str(erro)[:160]})
+        else:
+            anterior_propria = (mercado.get("gerador_proprio") or {}).get("valor")
+            mercado["gerador_proprio"] = propria.as_dict()
+            registrar_ponto(
+                claim_id=claim_id,
+                probability=float(propria.valor),
+                observado_em=dia,
+                causa_id=f"propria:{dia}",
+                origem=TRILHA_PROPRIA,
+                store=store,
+                arquivo=serie,
+                sdk=sdk,
+                eventos=eventos,
+            )
+            acoes.append(
+                {
+                    "claim_id": claim_id,
+                    "acao": "trilha_propria",
+                    "de": anterior_propria,
+                    "para": round(float(propria.valor), 4),
+                }
+            )
+
         if resultado["reprecificado"]:
             selo = resultado.get("selagem") or {}
             causa = f"repricing:{selo.get('event_hash_sha256', '')[:32]}" if selo else ""
@@ -250,12 +297,16 @@ def rodada(
             registrar_ponto(claim_id=claim_id, observado_em=dia, store=store, arquivo=serie, sdk=sdk, eventos=eventos)
             acoes.append({"claim_id": claim_id, "acao": "estavel", "motivo": resultado["motivo"]})
 
+    # o gerador_proprio foi anexado em memória; persistir junto
+    store.write_text(json.dumps(registro, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+
     movidos = sum(1 for a in acoes if a["acao"] == "reprecificado")
     return {
         "dia": dia,
         "acoes": acoes,
         "reprecificados": movidos,
         "estaveis": sum(1 for a in acoes if a["acao"] == "estavel"),
+        "trilha_propria": sum(1 for a in acoes if a["acao"] == "trilha_propria"),
         "metodo": (
             "laço diário sobre mercados ABERTOS; cada claim é independente e falha em um não "
             "aborta os demais. Ponto de série é gravado SEMPRE — dia sem movimento também é "
