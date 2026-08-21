@@ -152,6 +152,8 @@ def _observar_cobertura(
     *,
     sdk: Any = None,
     eventos: Path | None = None,
+    base: Path | None = None,
+    transport: Any = None,
 ) -> tuple[Any, bool]:
     """Observa e arquiva a cobertura do dia — uma vez para a rodada inteira.
 
@@ -159,20 +161,26 @@ def _observar_cobertura(
     ``(None, False)`` e registra a ação: a trilha secundária **nunca** derruba
     a principal, porque o preço publicado é o do Focus e ele não depende disto.
 
+    ``base`` e ``transport`` existem para que a rodada seja ISOLÁVEL. Sem eles,
+    um teste que aponta ``store`` e ``serie`` para um diretório temporário ainda
+    assim baixava do GDELT de verdade e gravava na evidência versionada do
+    repositório — parâmetro que não se pode injetar é parâmetro fixo.
+
     Importado tarde, para o teste de independência de ``sinais_noticia``
     continuar valendo por inspeção dos imports.
     """
-    from asus_theye.markets.arquivo_gdelt import arquivar_cobertura
+    from asus_theye.markets.arquivo_gdelt import BASE_PADRAO, arquivar_cobertura
     from asus_theye.markets.fonte_gdelt import cobertura
 
+    destino = base if base is not None else BASE_PADRAO
     try:
-        observacao = cobertura()
+        observacao = cobertura(transport=transport)
     except Exception as erro:  # noqa: BLE001 - trilha secundária nunca derruba a principal
         acoes.append({"claim_id": "", "acao": "cobertura_indisponivel", "motivo": str(erro)[:200]})
         return None, False
 
     try:
-        arquivado = arquivar_cobertura(observacao, sdk=sdk, eventos=eventos)
+        arquivado = arquivar_cobertura(observacao, base=destino, transport=transport, sdk=sdk, eventos=eventos)
     except Exception as erro:  # noqa: BLE001 - sem arquivo, o sinal ainda vale; a lacuna é registrada
         acoes.append({"claim_id": "", "acao": "cobertura_nao_arquivada", "motivo": str(erro)[:200]})
         return observacao, False
@@ -212,6 +220,7 @@ def rodada(
     eventos: Path | None = None,
     serie: Path | None = None,
     hoje: str | None = None,
+    transport: Any = None,
 ) -> dict[str, Any]:
     """Percorre os mercados ABERTOS, consulta o gerador e reprecifica o que mudou.
 
@@ -242,7 +251,13 @@ def rodada(
     # rodada inteira. Buscar aqui, e não dentro do laço, evita baixar o mesmo
     # arquivo uma vez por mercado — e o arquivamento acontece uma vez, com o
     # carimbo dos termos do dia.
-    cobertura_do_dia, alarme_de_termos = _observar_cobertura(acoes, sdk=sdk, eventos=eventos)
+    # O arquivamento SEGUE o registro: quem aponta `store` para um diretório
+    # temporário está isolando a rodada inteira, e o arquivo da cobertura faz
+    # parte dela. Derivar em vez de exigir um parâmetro a mais é o que faz o
+    # isolamento acontecer por padrão, em vez de depender de alguém lembrar.
+    cobertura_do_dia, alarme_de_termos = _observar_cobertura(
+        acoes, sdk=sdk, eventos=eventos, base=store.parent, transport=transport
+    )
     if alarme_de_termos:
         acoes.append(
             {
