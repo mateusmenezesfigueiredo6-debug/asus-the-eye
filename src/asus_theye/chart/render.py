@@ -10,9 +10,40 @@ from typing import Any
 BAR_WIDTH = 24
 
 
-def _bar(pct: int, width: int = BAR_WIDTH) -> str:
+def _bar(pct: int | None, width: int = BAR_WIDTH) -> str:
+    """A barra — ou uma faixa vazia quando não houve medição.
+
+    ``None`` não é 0%. Desenhar barra vazia para um número que não existe seria
+    a mesma mentira que o zero fabricado, só que em ASCII.
+    """
+    if pct is None:
+        return "?" * width
     filled = round(width * pct / 100)
     return "█" * filled + "·" * (width - filled)
+
+
+def _pct(pct: float | None, largura: int = 3) -> str:
+    """Percentual, ou travessão. Nunca imprime 'None'.
+
+    Aceita ``float`` porque a cobertura por domínio é fracionária, enquanto a
+    conclusão por projeto é inteira — e as duas passam por aqui. Um formatador
+    só, que não quebra conforme o tipo, evita a próxima vez que alguém trocar o
+    tipo de um campo e derrubar o painel.
+    """
+    if pct is None:
+        return "—".rjust(largura)
+    if isinstance(pct, float) and not pct.is_integer():
+        return f"{pct:.1f}"
+    return f"{int(pct):{largura}d}"
+
+
+def _num(valor: Any) -> str:
+    return "—" if valor is None else str(valor)
+
+
+def _pct_css(pct: int | None) -> str:
+    """Largura da barra no HTML. Sem medição, barra vazia — e o rótulo diz —."""
+    return "0%" if pct is None else f"{pct}%"
 
 
 STAGE_LABELS = {
@@ -33,8 +64,8 @@ def _pipeline_text(pipeline: dict[str, Any]) -> list[str]:
         label = STAGE_LABELS.get(stage, stage)
         classes = "/".join(data["release_classes"])
         lines.append(
-            f"  {stage:17s} {_bar(pct, 14)} {pct:3d}%  "
-            f"{data['artifacts_present']:3d}/{data['artifacts_declared']:<3d}  [{classes}]"
+            f"  {stage:17s} {_bar(pct, 14)} {_pct(pct)}%  "
+            f"{_num(data['artifacts_present']):>3s}/{data['artifacts_declared']:<3d}  [{classes}]"
         )
         lines.append(f"      {label}")
         lines.append(f"      {', '.join(data['projects'])}")
@@ -51,27 +82,47 @@ def render_text(snapshot: dict[str, Any], snapshot_hash: str) -> str:
         f"commit {snapshot['commit']}  ·  {snapshot['generated_at']}",
         f"hash do snapshot: {snapshot_hash}",
         "",
-        f"projetos: {totals['projects']}  ({totals['projects_complete']} completos)",
-        f"testes:   {totals['tests']}",
+        f"projetos: {totals['projects']}  ({_num(totals['projects_complete'])} completos)",
+        f"testes:   {_num(totals['tests'])}",
         f"nichos:   {totals['niches_covered']}/{totals['niches_total']} "
         f"({totals['niche_coverage_pct']}%)  {_bar(totals['niche_coverage_pct'])}",
         f"cadeia:   {ledger['events']} eventos (topo: sequência {ledger['head_sequence']})",
         "",
     ]
+    if snapshot.get("medicao_impossivel"):
+        lines += [
+            "!" * 72,
+            "  ATENÇÃO — este painel NÃO foi medido.",
+            f"  {snapshot['medicao_impossivel']}",
+            "  Os percentuais aparecem como — porque não existem, não porque são zero.",
+            "!" * 72,
+            "",
+        ]
     lines += _pipeline_text(snapshot.get("pipeline", {}))
     lines += [
         "",
         "PROJETOS (medidos por artefato existente, não por status declarado)",
         "-" * 72,
     ]
-    for project in sorted(snapshot["projects"], key=lambda p: (-p["evidence"]["completion_pct"], p["project_id"])):
+    # Projeto sem medição vai para o fim, e não para o topo com 100% nem para
+    # o fundo com 0% — os dois lugares afirmariam algo que não foi medido.
+    for project in sorted(
+        snapshot["projects"],
+        key=lambda p: (
+            p["evidence"]["completion_pct"] is None,
+            -(p["evidence"]["completion_pct"] or 0),
+            p["project_id"],
+        ),
+    ):
         evidence = project["evidence"]
         pct = evidence["completion_pct"]
         lines.append(
             f"  {project['release_class']:3s} {project['project_id']:20s} "
-            f"{_bar(pct, 16)} {pct:3d}%  "
-            f"{evidence['artifacts_present']}/{evidence['artifacts_declared']} artefatos"
+            f"{_bar(pct, 16)} {_pct(pct)}%  "
+            f"{_num(evidence['artifacts_present'])}/{evidence['artifacts_declared']} artefatos"
         )
+        if evidence.get("medicao_impossivel"):
+            lines.append(f"        {evidence['medicao_impossivel']}")
         if evidence["artifacts_missing"]:
             for missing in evidence["artifacts_missing"][:3]:
                 lines.append(f"        falta: {missing}")
@@ -165,9 +216,9 @@ def _pipeline_html(pipeline: dict[str, Any]) -> str:
             f'<td><span class="tag">{html.escape(stage.split("-")[0])}</span></td>'
             f"<td><strong>{html.escape(STAGE_LABELS.get(stage, stage))}</strong><br>"
             f'<span class="muted small">{html.escape(", ".join(data["projects"]))}</span></td>'
-            f'<td class="num">{data["artifacts_present"]}/{data["artifacts_declared"]}</td>'
-            f'<td class="barcell"><div class="track"><div class="fill" style="width:{pct}%"></div>'
-            f'</div><span class="pct">{pct}%</span></td>'
+            f'<td class="num">{_num(data["artifacts_present"])}/{data["artifacts_declared"]}</td>'
+            f'<td class="barcell"><div class="track"><div class="fill" style="width:{_pct_css(pct)}"></div>'
+            f'</div><span class="pct">{_pct(pct, 1).strip()}%</span></td>'
             f'<td class="muted small">{html.escape("/".join(data["release_classes"]))}</td>'
             "</tr>"
         )
@@ -176,11 +227,11 @@ def _pipeline_html(pipeline: dict[str, Any]) -> str:
     for index, (stage, data) in enumerate(pipeline.items()):
         short = stage.split("-", 1)[1].replace("-", " ")
         pct = data["completion_pct"]
-        nodes.append((f"E{index}", short, pct, data["artifacts_present"], data["artifacts_declared"]))
+        nodes.append((f"E{index}", short, pct, _num(data["artifacts_present"]), data["artifacts_declared"]))
 
     diagram = ["graph LR"]
     for node_id, short, pct, present, declared in nodes:
-        diagram.append(f'  {node_id}["{short}<br/>{present}/{declared} · {pct}%"]')
+        diagram.append(f'  {node_id}["{short}<br/>{present}/{declared} · {_pct(pct, 1).strip()}%"]')
     for (a, *_), (b, *_) in zip(nodes, nodes[1:], strict=False):
         diagram.append(f"  {a} --> {b}")
     diagram.append('  E6 -.-> BLOQ["nada publicado<br/>L5 exige senha + 24h"]')
@@ -207,8 +258,8 @@ def _knowledge_html(knowledge: dict[str, Any]) -> str:
             "<tr>"
             f"<td><strong>{html.escape(TRACK_LABELS.get(track, track))}</strong></td>"
             f'<td class="num">{data["qualified"]}/{data["target"]}</td>'
-            f'<td class="barcell"><div class="track"><div class="fill" style="width:{pct}%"></div>'
-            f'</div><span class="pct">{pct}%</span></td>'
+            f'<td class="barcell"><div class="track"><div class="fill" style="width:{_pct_css(pct)}"></div>'
+            f'</div><span class="pct">{_pct(pct, 1).strip()}%</span></td>'
             f'<td class="muted small">{html.escape(reasons)}</td>'
             "</tr>"
         )
@@ -266,7 +317,14 @@ def render_html(snapshot: dict[str, Any], snapshot_hash: str) -> str:
         )
 
     rows = []
-    for project in sorted(snapshot["projects"], key=lambda p: (-p["evidence"]["completion_pct"], p["project_id"])):
+    for project in sorted(
+        snapshot["projects"],
+        key=lambda p: (
+            p["evidence"]["completion_pct"] is None,
+            -(p["evidence"]["completion_pct"] or 0),
+            p["project_id"],
+        ),
+    ):
         evidence = project["evidence"]
         pct = evidence["completion_pct"]
         missing = ", ".join(evidence["artifacts_missing"][:4]) or "—"
@@ -275,9 +333,9 @@ def render_html(snapshot: dict[str, Any], snapshot_hash: str) -> str:
             f'<td><span class="tag">{html.escape(project["release_class"])}</span></td>'
             f"<td><strong>{html.escape(project['name'])}</strong><br>"
             f'<span class="muted">{html.escape(project["purpose"])}</span></td>'
-            f'<td class="num">{evidence["artifacts_present"]}/{evidence["artifacts_declared"]}</td>'
-            f'<td class="barcell"><div class="track"><div class="fill" style="width:{pct}%"></div>'
-            f'</div><span class="pct">{pct}%</span></td>'
+            f'<td class="num">{_num(evidence["artifacts_present"])}/{evidence["artifacts_declared"]}</td>'
+            f'<td class="barcell"><div class="track"><div class="fill" style="width:{_pct_css(pct)}"></div>'
+            f'</div><span class="pct">{_pct(pct, 1).strip()}%</span></td>'
             f'<td class="muted small">{html.escape(missing)}</td>'
             "</tr>"
         )
@@ -292,8 +350,8 @@ def render_html(snapshot: dict[str, Any], snapshot_hash: str) -> str:
             "<tr>"
             f"<td>{html.escape(group)}</td>"
             f'<td class="num">{counts["covered"]}/{counts["areas"]}</td>'
-            f'<td class="barcell"><div class="track"><div class="fill" style="width:{pct}%"></div>'
-            f'</div><span class="pct">{pct}%</span></td>'
+            f'<td class="barcell"><div class="track"><div class="fill" style="width:{_pct_css(pct)}"></div>'
+            f'</div><span class="pct">{_pct(pct, 1).strip()}%</span></td>'
             "</tr>"
         )
 
@@ -338,8 +396,8 @@ def render_html(snapshot: dict[str, Any], snapshot_hash: str) -> str:
 snapshot sha256: {html.escape(snapshot_hash)}</div>
 <div class="cards">
 {card("Projetos", str(totals["projects"]))}
-{card("Completos", str(totals["projects_complete"]))}
-{card("Testes", str(totals["tests"]))}
+{card("Completos", _num(totals["projects_complete"]))}
+{card("Testes", _num(totals["tests"]))}
 {card("Nichos cobertos", f"{totals['niches_covered']}/{totals['niches_total']}")}
 {card("Eventos na cadeia", str(ledger["events"]))}
 </div>

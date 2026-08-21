@@ -138,3 +138,86 @@ jobs:
 
       - name: Painel mede sem erro
         run: .venv/bin/python -m asus_theye.cli chart
+
+  pacote-instalado:
+    runs-on: ubuntu-latest
+    # Garante que o pacote funciona instalado (não-editável), fora da árvore de
+    # código — o defeito original (parents[N] resolvendo para site-packages) era
+    # invisível para todos os 876 testes editable.
+    steps:
+      - uses: actions/checkout@v5
+      - uses: astral-sh/setup-uv@v7
+
+      - name: Instalar pacote (não-editável)
+        run: |
+          uv venv
+          uv pip install '.[dev]'
+
+      - name: Selar evento fora da árvore de código
+        # Muda para um diretório sem relação com o repositório, prova que o
+        # pacote instalado encontra a migração via importlib.resources.
+        run: |
+          cd /tmp
+          "$GITHUB_WORKSPACE/.venv/bin/python" -m pytest \
+            "$GITHUB_WORKSPACE/tests/audit/test_installed_package.py" -v -s
+
+      - name: Prova no log — imprime event_hash
+        run: |
+          cd /tmp
+          "$GITHUB_WORKSPACE/.venv/bin/python" - <<'PYEOF'
+          import asus_theye
+          # AFIRMA que o pacote veio do venv, em vez de tentar garantir por
+          # manipulação de sys.path. `sys.path.insert(0, "")` ADICIONA o
+          # diretório atual ao caminho — o oposto de isolar do código local.
+          # Aqui a prova é a asserção: se o import vier da árvore de código, o
+          # job quebra, que é o único jeito de este passo significar algo.
+          origem = asus_theye.__file__
+          assert "site-packages" in origem, f"pacote veio da árvore de código, não do venv: {origem}"
+          print("pacote instalado em:", origem)
+          from asus_theye.audit.schema import GENESIS_HASH, SCHEMA_VERSION, seal_event
+          from asus_theye.audit.sdk import SQLiteAuditStore
+          store = SQLiteAuditStore(":memory:")
+          raw = {
+            "schema_version": SCHEMA_VERSION,
+            "event_id": "evt-ci-prova-01",
+            "idempotency_key": "prova-de-ci",
+            "tenant_id": "ci",
+            "sequence": 1,
+            "event_type": "document.created",
+            "action": "create",
+            "occurred_at": "2026-08-20T00:00:00Z",
+            "recorded_at": "2026-08-20T00:00:01Z",
+            "actor_type": "service",
+            "actor_id_pseudonymous": "a" * 64,
+            "actor_role": "writer",
+            "source_system": "ci",
+            "resource_type": "document",
+            "resource_id_pseudonymous": "b" * 64,
+            "resource_version": "1",
+            "jurisdiction": "BR",
+            "legal_area_ids": [],
+            "classification": "restricted",
+            "retention_policy_id": "audit-default-v1",
+            "lawful_basis_reference": "ci-only",
+            "content_hash_sha256": "c" * 64,
+            "metadata_hash_sha256": "d" * 64,
+            "previous_event_hash_sha256": GENESIS_HASH,
+            "correlation_id": "ci-corr-01",
+            "causation_id": None,
+            "model_provider": None,
+            "model_name": None,
+            "model_version": None,
+            "prompt_template_version": None,
+            "source_citation_hashes": [],
+            "human_review_status": "not_required",
+            "reviewer_pseudonymous": None,
+            "result_status": "success",
+            "error_code": None,
+            "created_by_service": "ci",
+            "build_version": "ci",
+          }
+          sealed = seal_event(raw)
+          receipt = store.append(sealed)
+          print(f"event_hash={receipt['event_hash_sha256']}")
+          assert len(receipt["event_hash_sha256"]) == 64
+          PYEOF

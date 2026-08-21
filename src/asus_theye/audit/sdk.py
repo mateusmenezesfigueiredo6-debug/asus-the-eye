@@ -14,6 +14,8 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
+from asus_theye._pkg_paths import pkg_data
+
 from .canonical import canonicalize
 from .schema import GENESIS_HASH, SCHEMA_VERSION, hash_json, seal_event, verify_event
 
@@ -45,8 +47,8 @@ class SQLiteAuditStore:
     def __init__(self, path: str | Path = ":memory:") -> None:
         self.connection = sqlite3.connect(str(path))
         self.connection.row_factory = sqlite3.Row
-        migration = Path(__file__).parents[3] / "migrations" / "0001_audit_ledger.sql"
-        self.connection.executescript(migration.read_text(encoding="utf-8"))
+        migration_ref = pkg_data("migrations", "0001_audit_ledger.sql")
+        self.connection.executescript(migration_ref.read_text(encoding="utf-8"))
 
     def next_position(self, tenant_id: str) -> tuple[int, str]:
         row = self.connection.execute(

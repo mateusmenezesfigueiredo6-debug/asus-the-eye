@@ -17,12 +17,12 @@ from __future__ import annotations
 
 import json
 import re
-from pathlib import Path
 from typing import Any
 
+from asus_theye._pkg_paths import pkg_data
 from asus_theye.llm.audited import AuditedLocalLLM
 
-SCHEMA_PATH = Path(__file__).resolve().parents[3] / "data" / "decision-context" / "public-decisions.schema.json"
+SCHEMA_PATH = pkg_data("data", "decision-context", "public-decisions.schema.json")
 
 SYSTEM_PROMPT = """Voce extrai FATOS PROCESSUAIS de decisoes judiciais publicas.
 
