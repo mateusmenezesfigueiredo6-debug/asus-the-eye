@@ -143,8 +143,8 @@ def reprecificar(
 # A trilha própria: um gerador só, que serve a QUALQUER área, porque o tom da
 # cobertura não é específico do indicador. É de propósito — o que o distingue é
 # a ORIGEM (imprensa, não consenso), não o recorte.
-TRILHA_FOCUS = "focus"
-TRILHA_PROPRIA = "propria"
+# As constantes moram em ``serie_p``, que é quem classifica os pontos na hora
+# de pontuar. Duas cópias do mesmo nome divergem no dia em que uma muda.
 
 
 def gerador_da_trilha_propria() -> Any:
@@ -197,7 +197,7 @@ def rodada(
     precisa saber que estávamos em 0,75 naquele horizonte, não só nos dias de
     movimento.
     """
-    from asus_theye.markets.serie_p import registrar_ponto
+    from asus_theye.markets.serie_p import ORIGEM_PROPRIA, ORIGEM_REPRECIFICACAO, registrar_ponto
 
     if not store.exists():
         raise ReprecificacaoError(f"registro de mercados ausente: {store}")
@@ -256,7 +256,7 @@ def rodada(
                 probability=float(propria.valor),
                 observado_em=dia,
                 causa_id=f"propria:{dia}",
-                origem=TRILHA_PROPRIA,
+                origem=ORIGEM_PROPRIA,
                 store=store,
                 arquivo=serie,
                 sdk=sdk,
@@ -279,7 +279,7 @@ def rodada(
                 observado_em=dia,
                 causa_id=causa,
                 instante=str(resultado["mudanca"]["reprecificado_em"]),
-                origem="reprecificacao",
+                origem=ORIGEM_REPRECIFICACAO,
                 store=store,
                 arquivo=serie,
                 sdk=sdk,

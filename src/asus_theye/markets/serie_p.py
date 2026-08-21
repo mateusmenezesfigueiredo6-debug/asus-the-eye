@@ -43,6 +43,42 @@ REGISTRO_PADRAO = Path("reports/markets/registro.json")
 # De onde veio o número. "registro" = o p vigente no registro de mercados;
 # origens novas (gerador WPAM, ajuste manual) se declaram ao gravar.
 ORIGEM_REGISTRO = "registro"
+ORIGEM_REPRECIFICACAO = "reprecificacao"
+ORIGEM_PROPRIA = "propria"
+
+# A TRILHA de um ponto — e por que a classificação mora aqui, e só aqui.
+#
+# Desde que a plataforma publica DUAS probabilidades por mercado, um ponto da
+# série pertence a uma trilha ou a outra, e somar as duas num Brier só produz
+# um número que não mede nenhuma das duas. A classificação é única e explícita
+# porque, se cada módulo adivinhar de que trilha veio o ponto, a mistura volta
+# calada — e um número calado é pior que número nenhum.
+TRILHA_FOCUS = "focus"
+TRILHA_PROPRIA = "propria"
+
+_TRILHA_POR_ORIGEM = {
+    ORIGEM_REGISTRO: TRILHA_FOCUS,
+    ORIGEM_REPRECIFICACAO: TRILHA_FOCUS,
+    ORIGEM_PROPRIA: TRILHA_PROPRIA,
+}
+
+
+def trilha_de(origem: Any) -> str | None:
+    """A trilha do ponto, ou ``None`` quando a origem não é classificável.
+
+    Ponto **sem** origem é do Focus: toda a série anterior a 21/08/2026 é
+    anterior à existência da trilha própria, então isso é fato histórico e não
+    suposição conveniente.
+
+    Origem desconhecida devolve ``None`` — e quem pontua **exclui** o ponto em
+    vez de chutar. Classificar um ponto no lugar errado contamina a régua das
+    duas trilhas de uma vez, que é exatamente o defeito que esta função existe
+    para impedir.
+    """
+    if origem is None or origem == "":
+        return TRILHA_FOCUS
+    return _TRILHA_POR_ORIGEM.get(str(origem))
+
 
 # A CAUSA de um ponto entra na identidade, junto com o claim.
 #

@@ -84,11 +84,17 @@ def pares(
     porque "por que sobrou tão pouco" é a pergunta que um auditor faz primeiro.
     """
     from asus_theye.markets.resolution import BASES_CONFIAVEIS
+    from asus_theye.markets.serie_p import trilha_de
 
     por_claim = {str(li["claim_id"]): li for li in _jsonl(resolucoes) if li.get("outcome") is not None}
 
     utilizaveis: list[dict[str, Any]] = []
-    excluidos = {"claim_sem_desfecho": 0, "sem_determination_date": 0, "base_nao_confiavel": 0}
+    excluidos = {
+        "claim_sem_desfecho": 0,
+        "sem_determination_date": 0,
+        "base_nao_confiavel": 0,
+        "origem_nao_classificada": 0,
+    }
 
     for ponto in _jsonl(serie):
         desfecho = por_claim.get(str(ponto.get("claim_id")))
@@ -102,6 +108,12 @@ def pares(
         if str(desfecho.get("determination_basis", "")) not in BASES_CONFIAVEIS:
             excluidos["base_nao_confiavel"] += 1
             continue
+        trilha = trilha_de(ponto.get("origem"))
+        if trilha is None:
+            # Não sabemos de que trilha veio: excluir é a única saída honesta.
+            # Chutar contamina a régua das DUAS de uma vez.
+            excluidos["origem_nao_classificada"] += 1
+            continue
         try:
             horizonte = (date.fromisoformat(str(determinada)) - date.fromisoformat(str(ponto["observado_em"]))).days
         except (ValueError, TypeError) as exc:
@@ -110,6 +122,7 @@ def pares(
         utilizaveis.append(
             {
                 "claim_id": str(ponto["claim_id"]),
+                "trilha": trilha,
                 "market_area_id": str(ponto.get("market_area_id", "")),
                 "probability": float(ponto["probability"]),
                 "outcome": int(desfecho["outcome"]),
@@ -128,6 +141,89 @@ def _brier(itens: list[dict[str, Any]]) -> float | None:
     if not itens:
         return None
     return round(sum((float(i["probability"]) - int(i["outcome"])) ** 2 for i in itens) / len(itens), 4)
+
+
+def comparar_trilhas(itens: list[dict[str, Any]]) -> dict[str, Any]:
+    """Pontua as duas trilhas com a mesma régua — e só onde a régua é a mesma.
+
+    **Por que a comparação exige pares casados.** Comparar o Brier de dois
+    preditores só é honesto sobre o **mesmo conjunto de eventos**. Se a trilha
+    própria ficou sem ponto justamente nos dias em que a fonte de notícia
+    estava fora do ar, o Brier dela sai artificialmente bom — não porque
+    acertou mais, mas porque **não estava lá** nos dias difíceis. Isso é viés
+    de sobrevivência com aparência de mérito, e é o modo mais fácil de esta
+    plataforma alegar um desempenho que não tem.
+
+    Por isso o skill score só olha ``(claim_id, observado_em)`` onde **as duas**
+    trilhas publicaram. Os pontos sem par continuam contando nas métricas
+    individuais de cada trilha, mas nunca na comparação.
+
+    **O benchmark é declarado, não escolhido depois.** O denominador é sempre o
+    Focus. Skill positivo significa que a trilha própria bateu o consenso;
+    negativo, que perdeu — e perder é o resultado esperado, registrado antes de
+    qualquer liquidação em ``reports/provenance/GDELT-cobertura-noticiosa.md``.
+    """
+    from asus_theye.markets.serie_p import TRILHA_FOCUS, TRILHA_PROPRIA
+
+    por_trilha: dict[str, list[dict[str, Any]]] = {TRILHA_FOCUS: [], TRILHA_PROPRIA: []}
+    for item in itens:
+        por_trilha.setdefault(str(item.get("trilha", TRILHA_FOCUS)), []).append(item)
+
+    focus = {(i["claim_id"], i["observado_em"]): i for i in por_trilha[TRILHA_FOCUS]}
+    propria = {(i["claim_id"], i["observado_em"]): i for i in por_trilha[TRILHA_PROPRIA]}
+    casados = sorted(set(focus) & set(propria))
+
+    resultado: dict[str, Any] = {
+        "por_trilha": [
+            {"trilha": nome, "n": len(por_trilha[nome]), "brier": _brier(por_trilha[nome])}
+            for nome in (TRILHA_FOCUS, TRILHA_PROPRIA)
+        ],
+        "benchmark": TRILHA_FOCUS,
+        "n_casados": len(casados),
+        "amostra_minima": AMOSTRA_MINIMA,
+        "metodo": (
+            "skill score = 1 − Brier(própria)/Brier(Focus), calculado SÓ sobre pontos em que as "
+            "duas trilhas publicaram no mesmo claim e no mesmo dia. Pontos sem par contam nas "
+            "métricas de cada trilha, nunca na comparação: uma trilha que falta nos dias difíceis "
+            "teria Brier melhor sem ter acertado mais."
+        ),
+    }
+
+    if len(casados) < AMOSTRA_MINIMA:
+        resultado["suficiente"] = False
+        resultado["skill_score"] = None
+        resultado["brier_casado"] = None
+        resultado["leitura"] = (
+            f"{len(casados)} par(es) casado(s) contra mínimo de {AMOSTRA_MINIMA}. Nada é comparado: "
+            "declarar vantagem sobre punhado de pontos é o erro que esta casa não comete."
+        )
+        return resultado
+
+    brier_focus = _brier([focus[c] for c in casados])
+    brier_propria = _brier([propria[c] for c in casados])
+    resultado["suficiente"] = True
+    resultado["brier_casado"] = {TRILHA_FOCUS: brier_focus, TRILHA_PROPRIA: brier_propria}
+
+    if not brier_focus:
+        # Focus perfeito no conjunto casado: a razão não existe, e inventar um
+        # número aqui seria pior que dizer que não dá para dividir.
+        resultado["skill_score"] = None
+        resultado["leitura"] = (
+            "Brier do Focus é zero no conjunto casado — o skill score é uma razão que não existe. "
+            "Sem número: a trilha própria não tem como superar um acerto perfeito."
+        )
+        return resultado
+
+    skill = round(1.0 - (float(brier_propria or 0.0) / float(brier_focus)), 4)
+    resultado["skill_score"] = skill
+    if skill > 0:
+        veredito = "a trilha própria SUPEROU o consenso no conjunto casado"
+    elif skill < 0:
+        veredito = "a trilha própria perdeu para o consenso — que era o resultado esperado"
+    else:
+        veredito = "paridade com o consenso"
+    resultado["leitura"] = f"{veredito} (skill {skill:+.4f} sobre {len(casados)} pares casados)."
+    return resultado
 
 
 def curva_de_confiabilidade(itens: list[dict[str, Any]]) -> list[dict[str, Any]]:
@@ -198,13 +294,23 @@ def decomposicao_de_murphy(itens: list[dict[str, Any]]) -> dict[str, Any] | None
 
 def medir(*, serie: Path = SERIE_PADRAO, resolucoes: Path = RESOLUCOES_PADRAO) -> dict[str, Any]:
     """Snapshot da calibração. Abaixo da amostra mínima, RECUSA agregar."""
+    from asus_theye.markets.serie_p import TRILHA_FOCUS
+
     cruzamento = pares(serie=serie, resolucoes=resolucoes)
-    itens = cruzamento["pares"]
+    todos = cruzamento["pares"]
+
+    # As métricas de manchete são da trilha do Focus, e por um motivo: é o `p`
+    # que a plataforma PUBLICA como preço do contrato. A trilha própria é
+    # medida em pé de igualdade logo abaixo, mas não se mistura aqui — somar as
+    # duas num Brier só produziria um número que não mede nenhuma das duas.
+    itens = [i for i in todos if str(i.get("trilha", TRILHA_FOCUS)) == TRILHA_FOCUS]
     n = len(itens)
 
     snapshot: dict[str, Any] = {
-        "versao": 1,
+        "versao": 2,
         "n": n,
+        "trilha_das_metricas": TRILHA_FOCUS,
+        "trilhas": comparar_trilhas(todos),
         "amostra_minima": AMOSTRA_MINIMA,
         "excluidos": cruzamento["excluidos"],
         "metodo_do_horizonte": (
@@ -251,7 +357,9 @@ def medir(*, serie: Path = SERIE_PADRAO, resolucoes: Path = RESOLUCOES_PADRAO) -
     ]
     snapshot["metodo"] = (
         "Brier por par (p − desfecho)²; curva de confiabilidade por faixa de p; decomposição de "
-        "Murphy (1973); estratificação por horizonte re-ancorado e por área de mercado."
+        "Murphy (1973); estratificação por horizonte re-ancorado e por área de mercado. As "
+        "métricas acima são da trilha do Focus, que é o p publicado; a comparação com a trilha "
+        "própria está em 'trilhas', pontuada com a mesma régua e só sobre pontos casados."
     )
     return snapshot
 
