@@ -44,6 +44,44 @@ def _badge_probabilidade(mercado: dict[str, Any]) -> str:
     return f'<b>{p:.2f}</b> <span class="muted">prior declarado</span>'
 
 
+def _badge_propria(mercado: dict[str, Any]) -> str:
+    """A SEGUNDA probabilidade — e o cuidado de não a fazer parecer o preço.
+
+    Esta coluna não é uma opinião alternativa sobre o mesmo número: é uma
+    aposta paralela, de origem diferente, publicada para poder ser PONTUADA
+    contra a do consenso na liquidação. Por isso ela aparece ao lado, com o
+    nome da origem colado, e nunca no lugar de ``probability``.
+
+    Ausência de sinal aparece como ausência, não como 0,50 fingindo convicção:
+    a janela de notícia às vezes não tem amostra, e mostrar "0,50" seco faria
+    o leitor achar que a plataforma está em cima do muro quando na verdade ela
+    não mediu nada.
+    """
+    proprio = mercado.get("gerador_proprio")
+    if not proprio:
+        return '<span class="muted">—<br><small>ainda não publicada</small></span>'
+    valor = float(proprio.get("valor", 0.5))
+    if proprio.get("max_uncertainty"):
+        return f'<span class="muted">{valor:.2f}<br><small>sem sinal na janela</small></span>'
+    fontes = html.escape("; ".join(str(f) for f in proprio.get("fontes", []))) or "cobertura noticiosa"
+    return f'<b>{valor:.4f}</b> <span class="warn" title="{fontes}">notícia</span>'
+
+
+def _divergencia_entre_trilhas(mercado: dict[str, Any]) -> str:
+    """Quanto as duas discordam — o único lugar onde a comparação vira notícia.
+
+    Quando concordam não se aprende nada; quando discordam, a liquidação diz
+    qual das duas origens estava certa. Só é mostrada quando as DUAS têm sinal:
+    distância até uma ausência de medição não é discordância.
+    """
+    proprio = mercado.get("gerador_proprio")
+    if not proprio or proprio.get("max_uncertainty") or not mercado.get("gerador"):
+        return '<span class="muted">—</span>'
+    delta = abs(float(mercado["probability"]) - float(proprio.get("valor", 0.5)))
+    classe = "warn" if delta >= 0.25 else "muted"
+    return f'<span class="{classe}">{delta * 100:.1f} pp</span>'
+
+
 def _linha_vivo(mercado: dict[str, Any]) -> str:
     estado = str(mercado["estado"])
     classe = "warn" if estado == "EM_RESOLUCAO" else "ok"
@@ -51,6 +89,8 @@ def _linha_vivo(mercado: dict[str, Any]) -> str:
         f"<tr><td class='id'>{html.escape(str(mercado['claim_id']))}</td>"
         f"<td>{html.escape(str(mercado['question']))}</td>"
         f"<td>{_badge_probabilidade(mercado)}</td>"
+        f"<td>{_badge_propria(mercado)}</td>"
+        f"<td>{_divergencia_entre_trilhas(mercado)}</td>"
         f"<td class='muted'>{html.escape(str(mercado['resolution_source']))}</td>"
         f"<td>{html.escape(str(mercado['deadline']))}</td>"
         f'<td><span class="{classe}">{html.escape(estado)}</span></td></tr>'
@@ -105,6 +145,7 @@ def mercados_page(base: Path | None = None, *, estatico: bool = False) -> str:
 
     areas = sorted({str(m["market_area_id"]) for m in mercados})
     com_wpam = sum(1 for m in vivos if m.get("gerador"))
+    com_propria = sum(1 for m in vivos if m.get("gerador_proprio"))
     vazio_liq = '<tr><td colspan="5" class="muted">nenhum ainda</td></tr>'
     vazio_div = '<tr><td colspan="6" class="muted">nenhuma observação ainda</td></tr>'
     corpo_liq = "".join(_linha_liquidado(m) for m in liquidados) or vazio_liq
@@ -115,13 +156,21 @@ def mercados_page(base: Path | None = None, *, estatico: bool = False) -> str:
 <div class="card"><div class="label">Áreas medindo</div><div class="value">{len(areas)}</div></div>
 <div class="card"><div class="label">Divergências vs comparador</div><div class="value">{len(divergencias)}</div></div>
 </section>
-<h2>Mercados vivos — probabilidade com proveniência</h2>
+<h2>Mercados vivos — duas probabilidades, uma régua</h2>
+<p class="muted">Cada mercado publica <b>duas</b> probabilidades, ambas seladas antes do desfecho.
+A do <b>consenso</b> é o preço do contrato e deriva do boletim Focus. A da <b>notícia</b> não passa
+pelo consenso em ponto algum — existe para responder à pergunta que o consenso sozinho não responde:
+<i>a plataforma sabe algo que ele não sabe?</i> Na liquidação, as duas são pontuadas com a mesma régua.</p>
 <div class="table-wrap"><table><thead>
-<tr><th>claim</th><th>pergunta</th><th>p (origem)</th>
+<tr><th>claim</th><th>pergunta</th><th>p consenso</th><th>p notícia</th><th>discordam</th>
 <th>fonte oficial</th><th>prazo</th><th>estado</th></tr></thead>
 <tbody>{"".join(_linha_vivo(m) for m in vivos)}</tbody></table></div>
 <p class="muted">{com_wpam} de {len(vivos)} vivos nasceram do gerador WPAM (passe o mouse no selo para as fontes);
-os demais declaram o prior 0,50 — sem sinal, sem convicção inventada.</p>
+os demais declaram o prior 0,50 — sem sinal, sem convicção inventada.
+{com_propria} têm a trilha de notícia publicada. Ela <b>não</b> move o preço, e não deve:
+é registro paralelo, para que a comparação seja verificável em vez de retórica.
+O placar entre as duas vive em <a href="{"calibracao.html" if estatico else "/calibracao"}">calibração</a>,
+e ainda está vazio — comparar exige contratos liquidados.</p>
 <h2>Liquidados — o erro medido contra a fonte oficial</h2>
 <div class="table-wrap"><table><thead>
 <tr><th>claim</th><th>desfecho</th><th>observado</th>
