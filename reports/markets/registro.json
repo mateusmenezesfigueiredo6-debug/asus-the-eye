@@ -56,7 +56,16 @@
           "motivo": "Focus de 14/08/2026 aponta mediana de -0,17% para o IPCA de agosto, muito abaixo do limiar de 0,50% — o mercado nasceu no prior 0,50 porque a emissão nao consultava o gerador",
           "reprecificado_em": "2026-08-20T22:14:08.249796Z"
         }
-      ]
+      ],
+      "gerador_proprio": {
+        "valor": 0.5,
+        "p_inicial": 0.5,
+        "peso_inicial": 10.0,
+        "peso_sim": 0,
+        "peso_nao": 0,
+        "max_uncertainty": true,
+        "fontes": []
+      }
     },
     {
       "claim_id": "JUROS-01::2026-09",
@@ -92,7 +101,16 @@
           "motivo": "gerador de sinal da area agora existe (PR #92); o mercado nasceu em 0,50 porque nao havia gerador",
           "reprecificado_em": "2026-08-20T22:50:01.794126Z"
         }
-      ]
+      ],
+      "gerador_proprio": {
+        "valor": 0.5,
+        "p_inicial": 0.5,
+        "peso_inicial": 10.0,
+        "peso_sim": 0,
+        "peso_nao": 0,
+        "max_uncertainty": true,
+        "fontes": []
+      }
     },
     {
       "claim_id": "CAMBIO-01::2026-09",
@@ -129,7 +147,16 @@
           "motivo": "gerador de cambio agora existe (PR #92, revisado): o sinal e a PTAX vigente, nao a do mes-alvo, que seria a propria resposta",
           "reprecificado_em": "2026-08-20T22:50:58.634924Z"
         }
-      ]
+      ],
+      "gerador_proprio": {
+        "valor": 0.5,
+        "p_inicial": 0.5,
+        "peso_inicial": 10.0,
+        "peso_sim": 0,
+        "peso_nao": 0,
+        "max_uncertainty": true,
+        "fontes": []
+      }
     }
   ]
 }

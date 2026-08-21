@@ -188,3 +188,124 @@ def test_rota_calibracao_responde_200() -> None:
     resposta = TestClient(create_dashboard_app()).get("/calibracao")
     assert resposta.status_code == 200
     assert "CALIBRAÇÃO" in resposta.text
+
+
+# ------------------------------------------------------- as duas trilhas
+
+
+def _ponto_de(claim: str, dia: str, p: float, origem: str, area: str = "macroeconomia") -> dict:
+    ponto = _ponto(claim, dia, p, area)
+    ponto["origem"] = origem
+    return ponto
+
+
+def test_ponto_sem_origem_e_do_focus(tmp_path: Path) -> None:
+    """Fato histórico, não suposição: a série antiga precede a trilha própria."""
+    s = _escrever(tmp_path / "s.jsonl", [_ponto("A::2026-07", "2026-07-01", 0.7)])
+    r = _escrever(tmp_path / "r.jsonl", [_desfecho("A::2026-07", 1, "2026-08-10")])
+    assert pares(serie=s, resolucoes=r)["pares"][0]["trilha"] == "focus"
+
+
+def test_origem_desconhecida_e_excluida_e_contada(tmp_path: Path) -> None:
+    """Classificar no lugar errado contamina a régua das DUAS trilhas de uma vez."""
+    s = _escrever(tmp_path / "s.jsonl", [_ponto_de("A::2026-07", "2026-07-01", 0.7, "palpite-do-estagiario")])
+    r = _escrever(tmp_path / "r.jsonl", [_desfecho("A::2026-07", 1, "2026-08-10")])
+    resultado = pares(serie=s, resolucoes=r)
+    assert resultado["pares"] == []
+    assert resultado["excluidos"]["origem_nao_classificada"] == 1
+
+
+def test_as_metricas_de_manchete_nao_misturam_as_trilhas(tmp_path: Path) -> None:
+    """O defeito que esta separação existe para impedir.
+
+    Somar as duas trilhas num Brier só produz um número que não mede nenhuma.
+    """
+    linhas = []
+    desfechos = []
+    for i in range(AMOSTRA_MINIMA):
+        claim = f"A{i}::2026-07"
+        # Focus perfeito, trilha própria pessima — se misturassem, o Brier de
+        # manchete deixaria de ser 0 e ninguem saberia de quem era a culpa
+        linhas.append(_ponto_de(claim, "2026-07-01", 1.0, "registro"))
+        linhas.append(_ponto_de(claim, "2026-07-01", 0.0, "propria"))
+        desfechos.append(_desfecho(claim, 1, "2026-08-10"))
+    s = _escrever(tmp_path / "s.jsonl", linhas)
+    r = _escrever(tmp_path / "r.jsonl", desfechos)
+
+    snap = medir(serie=s, resolucoes=r)
+    assert snap["trilha_das_metricas"] == "focus"
+    assert snap["n"] == AMOSTRA_MINIMA  # só os pontos do Focus
+    assert snap["brier"] == 0.0  # e o Brier é o DELE, intacto
+
+    por_trilha = {t["trilha"]: t for t in snap["trilhas"]["por_trilha"]}
+    assert por_trilha["propria"]["brier"] == 1.0  # a trilha própria aparece, medida à parte
+
+
+def test_skill_score_so_conta_pontos_casados(tmp_path: Path) -> None:
+    """O viés de sobrevivência que a comparação tem de recusar.
+
+    A trilha própria some justamente nos dias em que erraria. Se os pontos sem
+    par entrassem, ela exibiria vantagem por ter faltado — não por ter acertado.
+    """
+    linhas = []
+    desfechos = []
+    for i in range(AMOSTRA_MINIMA):
+        claim = f"A{i}::2026-07"
+        linhas.append(_ponto_de(claim, "2026-07-01", 0.6, "registro"))
+        linhas.append(_ponto_de(claim, "2026-07-01", 0.6, "propria"))
+        desfechos.append(_desfecho(claim, 1, "2026-08-10"))
+    # os dias difíceis: só o Focus esteve lá, e apanhou
+    for i in range(AMOSTRA_MINIMA):
+        claim = f"B{i}::2026-07"
+        linhas.append(_ponto_de(claim, "2026-07-02", 0.0, "registro"))
+        desfechos.append(_desfecho(claim, 1, "2026-08-10"))
+    s = _escrever(tmp_path / "s.jsonl", linhas)
+    r = _escrever(tmp_path / "r.jsonl", desfechos)
+
+    comparacao = medir(serie=s, resolucoes=r)["trilhas"]
+    assert comparacao["n_casados"] == AMOSTRA_MINIMA
+    # empate nos casados: a ausência nos dias difíceis NÃO virou vantagem
+    assert comparacao["skill_score"] == 0.0
+    assert "parid" in comparacao["leitura"].lower()
+
+    # e a prova de que havia armadilha: sobre TODOS os pontos, o Brier da
+    # trilha própria é muito melhor que o do Focus — vantagem que ela teria
+    # exibido sem ter acertado nada a mais, só por ter faltado
+    bruto = {t["trilha"]: t["brier"] for t in comparacao["por_trilha"]}
+    assert bruto["propria"] < bruto["focus"]
+
+
+def test_sem_pares_casados_suficientes_nao_ha_skill_score(tmp_path: Path) -> None:
+    """Declarar vantagem sobre punhado de pontos é o erro que a casa não comete."""
+    s = _escrever(
+        tmp_path / "s.jsonl",
+        [_ponto_de("A::2026-07", "2026-07-01", 0.9, "registro"), _ponto_de("A::2026-07", "2026-07-01", 0.9, "propria")],
+    )
+    r = _escrever(tmp_path / "r.jsonl", [_desfecho("A::2026-07", 1, "2026-08-10")])
+    comparacao = medir(serie=s, resolucoes=r)["trilhas"]
+    assert comparacao["suficiente"] is False
+    assert comparacao["skill_score"] is None
+
+
+def test_focus_perfeito_nao_vira_divisao_por_zero(tmp_path: Path) -> None:
+    """A razão não existe — e inventar número aqui seria pior que não ter."""
+    linhas, desfechos = [], []
+    for i in range(AMOSTRA_MINIMA):
+        claim = f"A{i}::2026-07"
+        linhas.append(_ponto_de(claim, "2026-07-01", 1.0, "registro"))
+        linhas.append(_ponto_de(claim, "2026-07-01", 0.4, "propria"))
+        desfechos.append(_desfecho(claim, 1, "2026-08-10"))
+    s = _escrever(tmp_path / "s.jsonl", linhas)
+    r = _escrever(tmp_path / "r.jsonl", desfechos)
+
+    comparacao = medir(serie=s, resolucoes=r)["trilhas"]
+    assert comparacao["brier_casado"]["focus"] == 0.0
+    assert comparacao["skill_score"] is None
+    assert "não existe" in comparacao["leitura"]
+
+
+def test_o_benchmark_e_declarado_e_e_o_focus(tmp_path: Path) -> None:
+    """Benchmark escolhido depois do resultado é benchmark escolhido para vencer."""
+    s = _escrever(tmp_path / "s.jsonl", [_ponto_de("A::2026-07", "2026-07-01", 0.9, "registro")])
+    r = _escrever(tmp_path / "r.jsonl", [_desfecho("A::2026-07", 1, "2026-08-10")])
+    assert medir(serie=s, resolucoes=r)["trilhas"]["benchmark"] == "focus"

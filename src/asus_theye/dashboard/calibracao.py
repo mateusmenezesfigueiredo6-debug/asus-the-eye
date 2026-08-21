@@ -87,6 +87,49 @@ def _tabela(titulo: str, linhas: list[dict[str, Any]], chave: str) -> str:
     )
 
 
+def _bloco_trilhas(snap: dict[str, Any]) -> str:
+    """As duas probabilidades, lado a lado — a seção que responde à pergunta.
+
+    A pergunta que nenhuma medição anterior desta plataforma respondia é: *o
+    número publicado sabe algo que o consenso não sabe?* Enquanto a
+    probabilidade derivava do boletim Focus, a resposta era estruturalmente
+    "não dá para saber". Esta seção existe para que a resposta passe a ser o
+    que os dados disserem — inclusive, e provavelmente, que a trilha própria
+    perde. Perder medindo vale mais que a posição de antes, que era não medir.
+    """
+    comp = snap.get("trilhas") or {}
+    if not comp:
+        return ""
+
+    def _linha(li: dict[str, Any]) -> str:
+        # helper em vez de f-string aninhada: o projeto roda em 3.10, onde
+        # reusar a aspa externa dentro da expressão é erro de sintaxe
+        marca = " <span class='muted'>(benchmark)</span>" if li["trilha"] == comp.get("benchmark") else ""
+        return (
+            f"<tr><td>{html.escape(str(li['trilha']))}{marca}</td>"
+            f"<td>{li['n']}</td><td>{_num(li.get('brier'))}</td></tr>"
+        )
+
+    linhas = "".join(_linha(li) for li in comp.get("por_trilha", []))
+    skill = comp.get("skill_score")
+    valor = "—" if skill is None else f"{float(skill):+.4f}"
+
+    return f"""<h2>As duas trilhas</h2>
+<p class="muted">Cada mercado publica <b>duas</b> probabilidades, ambas seladas antes do desfecho:
+a do <b>consenso Focus</b> e a da <b>cobertura noticiosa</b>, que não passa pelo consenso em ponto
+algum. Na liquidação as duas são pontuadas com a mesma régua.</p>
+<section class="cards">
+<div class="card"><div class="label">Pares casados</div><div class="value">{comp.get("n_casados", 0)}</div>
+<div class="muted">mínimo para comparar: {comp.get("amostra_minima", "—")}</div></div>
+<div class="card"><div class="label">Skill score da trilha própria</div><div class="value">{valor}</div>
+<div class="muted">contra o Focus como benchmark declarado</div></div>
+</section>
+<div class="table-wrap"><table><thead><tr><th>trilha</th><th>n</th><th>Brier</th></tr></thead>
+<tbody>{linhas}</tbody></table></div>
+<div class="ressalva">{html.escape(str(comp.get("leitura", "")))}</div>
+<p class="muted">{html.escape(str(comp.get("metodo", "")))}</p>"""
+
+
 def _corpo_insuficiente(snap: dict[str, Any]) -> str:
     """O que o painel mostra quando ainda não há o que mostrar — e por quê."""
     exc = snap["excluidos"]
@@ -104,6 +147,7 @@ def _corpo_insuficiente(snap: dict[str, Any]) -> str:
 <h2>Por que sobrou tão pouco</h2>
 <div class="table-wrap"><table><thead><tr><th>ponto excluído porque…</th><th>quantos</th></tr></thead>
 <tbody>{motivos}</tbody></table></div>
+{_bloco_trilhas(snap)}
 <h2>O que precisa acontecer</h2>
 <ol class="passos">
 <li>Um claim com <b>série de p(t)</b> precisa <b>liquidar</b> — hoje os pontos são de mercados vivos.</li>
@@ -137,6 +181,7 @@ não vira ponto — buraco honesto é melhor que ponto inventado.</p>
 <div class="table-wrap"><table><thead>
 <tr><th>faixa de p</th><th>n</th><th>p média declarada</th><th>frequência observada</th></tr></thead>
 <tbody>{faixas}</tbody></table></div>
+{_bloco_trilhas(snap)}
 {_tabela("Brier por horizonte (re-ancorado)", snap["por_horizonte"], "faixa")}
 {_tabela("Brier por área", snap["por_area"], "area")}
 <p class="muted">{html.escape(str(murphy.get("nota", "")))} ·

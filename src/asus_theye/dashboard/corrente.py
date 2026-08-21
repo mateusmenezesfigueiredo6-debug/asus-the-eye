@@ -29,6 +29,7 @@ LEGENDA_TIPOS = {
     "project.measurement": "medição do projeto",
     "project.authorship": "titularidade",
     "market.vintage": "consenso arquivado",
+    "market.news_coverage": "cobertura noticiosa arquivada",
     "ml.run": "corrida de modelo",
     "market.retrospective_import": "reconstrução histórica INELEGÍVEL como previsão",
 }

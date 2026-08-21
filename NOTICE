@@ -72,3 +72,26 @@ consome (src/asus_theye/markets/fonte_worldbank.py) é obra própria de
 Mateus Menezes Figueiredo, AGPL-3.0-or-later.
 
 Registro completo: reports/provenance/WorldBank-open-data.md
+
+--------------------------------------------------------------------------------
+The GDELT Project — cobertura noticiosa
+--------------------------------------------------------------------------------
+Este produto usa dados do GDELT Project (gdeltproject.org). Os Terms of Use
+declaram que os conjuntos de dados estão disponíveis para "unlimited and
+unrestricted use for any academic, commercial, or governmental use of any kind
+without fee", e permitem redistribuir, re-hospedar e espelhar.
+
+Única obrigação: citar o GDELT Project. Cumprida aqui, no registro de
+proveniência, e no PRÓPRIO DADO — cada observação carrega `licenca` e
+`atribuicao`, para que o crédito viaje junto e não dependa de alguém lembrar.
+
+Fronteira imposta por decisão do titular, mais estrita que a licença: apenas
+campos numéricos e codificados (contagem e tom) são lidos. Texto de artigo,
+manchete e URL de origem NÃO são acessados — o conteúdo apontado pertence a
+veículos de imprensa, cujos termos são outros.
+
+O conector (src/asus_theye/markets/fonte_gdelt.py) e o gerador de sinal
+(sinais_noticia.py) são obra própria de Mateus Menezes Figueiredo,
+AGPL-3.0-or-later.
+
+Registro completo: reports/provenance/GDELT-cobertura-noticiosa.md

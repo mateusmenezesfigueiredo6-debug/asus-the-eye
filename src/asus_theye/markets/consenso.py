@@ -146,9 +146,17 @@ def medir(
         "pares": pares,
         "dependencia_declarada": (
             "O gerador WPAM usa o Focus como sinal dominante (peso 20 contra 10 do IPCA-15): "
-            "a nossa probabilidade DERIVA do consenso. Portanto NENHUM resultado aqui pode ser "
-            "lido como superação do consenso — isso exigiria sinal independente, que ainda não "
-            "existe. O que se mede é a linha de base do próprio Focus."
+            "a probabilidade publicada DERIVA do consenso. Portanto NENHUM resultado aqui pode "
+            "ser lido como superação do consenso. O que se mede neste módulo é a linha de base "
+            "do próprio Focus — o erro do benchmark, não o nosso."
+        ),
+        "sinal_independente": (
+            "Desde 21/08/2026 existe uma SEGUNDA trilha, que não passa pelo consenso: tom da "
+            "cobertura noticiosa (GDELT), publicada em paralelo e selada antes do desfecho. A "
+            "comparação entre as duas vive em markets/calibracao.py (chave 'trilhas'), pontuada "
+            "com a mesma régua e só sobre pontos casados. Ela ainda NÃO tem resultado: exige "
+            "contratos liquidados, e não há nenhum. Existir o sinal e existir a evidência são "
+            "coisas diferentes, e confundi-las seria o mesmo erro que esta declaração evita."
         ),
         "cortes_de_regime": {
             "moderado_pp": CHOQUE_MODERADO,
