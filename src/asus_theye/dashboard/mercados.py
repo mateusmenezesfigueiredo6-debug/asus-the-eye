@@ -23,7 +23,7 @@ import json
 from pathlib import Path
 from typing import Any
 
-from .navegacao import CSS_AVISO, CSS_NAV, barra, rodape
+from .tema import pagina
 
 BASE_PADRAO = Path("reports/markets")
 
@@ -96,7 +96,12 @@ def mercados_page(base: Path | None = None, *, estatico: bool = False) -> str:
             '<p class="muted">Registro vazio. Emita com <code>asus-theye markets-emitir</code> '
             "ou deixe o laço de resolução emitir na próxima liquidação.</p>"
         )
-        return _shell(corpo, estatico=estatico)
+        return pagina(
+            titulo="ASUS THE EYE — Mercados",
+            corpo="<h1>MERCADOS</h1><p class='lede'>medidos contra a fonte oficial, nunca contra opinião</p>" + corpo,
+            rota="/mercados",
+            estatico=estatico,
+        )
 
     areas = sorted({str(m["market_area_id"]) for m in mercados})
     com_wpam = sum(1 for m in vivos if m.get("gerador"))
@@ -131,44 +136,12 @@ os demais declaram o prior 0,50 — sem sinal, sem convicção inventada.</p>
 liquidar contra a fonte oficial declarada. Reconstruções retrospectivas do acervo legado NÃO aparecem aqui
 (são inelegíveis como previsão; ver a linhagem em /evidencia). Toda liquidação e divergência é evento selado
 na cadeia auditável.</p>"""
-    return _shell(corpo, estatico=estatico)
-
-
-def _shell(corpo: str, *, estatico: bool = False) -> str:
-    return f"""<!doctype html>
-<html lang="pt-br"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width">
-<title>ASUS THE EYE — Mercados</title><style>
-:root{{--ink:#e9f0ff;--muted:#9aa8bd;--panel:#151d2b;--accent:#67e8f9;--bg:#080d16;--ok:#4ade80;--bad:#f87171;--warn:#fbbf24}}
-*{{box-sizing:border-box}}
-body{{margin:0;overflow-x:hidden;background:var(--bg);color:var(--ink);font:16px system-ui}}
-main{{max-width:1100px;margin:auto;padding:40px 20px}}
-h1{{letter-spacing:.08em}}
-h2{{margin:28px 0 12px;font-size:1.05rem;letter-spacing:.05em;color:var(--muted);text-transform:uppercase}}
-.muted{{color:var(--muted)}}
-code{{color:var(--accent)}}
-.cards{{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:16px;margin-bottom:24px}}
-.card{{background:var(--panel);padding:20px;border:1px solid #253149;border-radius:12px}}
-.label{{color:var(--muted);font-size:.8rem;text-transform:uppercase}}
-.value{{font-size:1.7rem;margin-top:8px;color:var(--accent)}}
-.table-wrap{{width:100%;max-width:100%;overflow-x:auto}}
-table{{width:100%;border-collapse:collapse;background:var(--panel);
-border:1px solid #253149;border-radius:12px;overflow:hidden}}
-th,td{{padding:12px 14px;text-align:left;border-bottom:1px solid #253149}}
-th{{color:var(--muted);font-size:.78rem;text-transform:uppercase}}
-td.id{{font-weight:700;white-space:nowrap}}
-.ok{{color:var(--ok)}}.bad{{color:var(--bad)}}.warn{{color:var(--warn)}}
-@media (max-width: 640px){{
-main{{padding:24px 12px}}
-.cards{{grid-template-columns:1fr}}
-th,td{{padding:10px 8px}}
-th{{font-size:.72rem}}
-}}
-{CSS_NAV}{CSS_AVISO}
-</style></head><body><main><h1>MERCADOS — medidos contra a fonte oficial</h1>
-{barra("/mercados", estatico=estatico)}
-{corpo}
-{rodape()}
-</main></body></html>"""
+    return pagina(
+        titulo="ASUS THE EYE — Mercados",
+        corpo="<h1>MERCADOS</h1><p class='lede'>medidos contra a fonte oficial, nunca contra opinião</p>" + corpo,
+        rota="/mercados",
+        estatico=estatico,
+    )
 
 
 def register_mercados_routes(app: Any, base: Path | None = None) -> None:

@@ -6,7 +6,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from .navegacao import CSS_AVISO, CSS_NAV, barra, rodape
+from .tema import pagina
 
 
 def api_docs_page(*, estatico: bool = False) -> str:
@@ -95,30 +95,13 @@ def api_docs_page(*, estatico: bool = False) -> str:
     corpo = corpo.replace("{verify_curl_payload}", verify_curl_payload)
     corpo = corpo.replace("{verify_real_response}", verify_real_response)
     corpo = corpo.replace("{root_real_response}", root_real_response)
-    return _shell(corpo, estatico=estatico)
-
-
-def _shell(corpo: str, *, estatico: bool = False) -> str:
-    return f"""<!doctype html>
-<html lang="pt-br"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width">
-<title>ASUS THE EYE — API pública do verificador</title><style>
-:root{{--ink:#e9f0ff;--muted:#9aa8bd;--panel:#151d2b;--accent:#67e8f9;--bg:#080d16}}
-*{{box-sizing:border-box}}
-body{{margin:0;background:var(--bg);color:var(--ink);font:16px system-ui}}
-main{{max-width:1100px;margin:auto;padding:40px 20px}}
-h1{{letter-spacing:.08em}}h2{{margin-top:0}}h3{{margin:.8rem 0 .4rem;font-size:.95rem;color:var(--muted)}}
-.muted{{color:var(--muted)}}code{{color:var(--accent);word-break:break-all}}
-.grid{{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}}
-.card{{background:var(--panel);padding:20px;border:1px solid #253149;border-radius:12px}}
-pre{{background:#0b1320;border:1px solid #253149;border-radius:8px;padding:10px;overflow:auto}}
-ul{{margin:0;padding-left:1.1rem}}
-{CSS_NAV}{CSS_AVISO}
-</style></head><body><main><h1>API PÚBLICA — verificador</h1>
-{barra("/api", estatico=estatico)}
-<p class="muted">Superfície de leitura: valida integridade criptográfica sem autenticação.</p>
-<div class="grid">{corpo}</div>
-{rodape()}
-</main></body></html>"""
+    return pagina(
+        titulo="ASUS THE EYE — API pública",
+        corpo="<h1>API PÚBLICA — verificador</h1>"
+        "<p class='lede'>leitura anônima: valida a integridade sem autenticação</p>" + corpo,
+        rota="/api",
+        estatico=estatico,
+    )
 
 
 def register_api_docs_routes(app: Any) -> None:

@@ -23,7 +23,7 @@ import html
 from pathlib import Path
 from typing import Any
 
-from .navegacao import CSS_AVISO, CSS_NAV, barra, rodape
+from .tema import pagina
 
 
 def _svg_confiabilidade(curva: list[dict[str, Any]]) -> str:
@@ -156,47 +156,19 @@ def calibracao_page(
     try:
         snap = medir(serie=serie or SERIE_PADRAO, resolucoes=resolucoes or RESOLUCOES_PADRAO)
     except CalibracaoError as error:
-        return _shell(
-            '<section class="cards"><div class="card"><div class="label">Calibração</div>'
-            f'<div class="value">indisponível</div></div></section><p class="muted">{html.escape(str(error))}</p>',
+        return pagina(
+            titulo="ASUS THE EYE — Calibração",
+            rota="/calibracao",
             estatico=estatico,
+            corpo=(f'<div class="rotulo">Calibração</div><p class="nota">indisponível — {html.escape(str(error))}</p>'),
         )
-    return _shell(_corpo_medido(snap) if snap["suficiente"] else _corpo_insuficiente(snap), estatico=estatico)
-
-
-def _shell(corpo: str, *, estatico: bool = False) -> str:
-    return f"""<!doctype html>
-<html lang="pt-br"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width">
-<title>ASUS THE EYE — Calibração</title><style>
-:root{{--ink:#e9f0ff;--muted:#9aa8bd;--panel:#151d2b;--accent:#67e8f9;--bg:#080d16;--ok:#4ade80;--bad:#f87171}}
-*{{box-sizing:border-box}}
-body{{margin:0;overflow-x:hidden;background:var(--bg);color:var(--ink);font:16px system-ui}}
-main{{max-width:1100px;margin:auto;padding:40px 20px}}
-h1{{letter-spacing:.08em;margin:0 0 6px}}
-h2{{margin:28px 0 12px;font-size:1.05rem;letter-spacing:.05em;color:var(--muted);text-transform:uppercase}}
-.muted{{color:var(--muted)}}
-code{{color:var(--accent);word-break:break-all}}
-a{{color:var(--accent)}}
-.cards{{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:20px}}
-.card{{background:var(--panel);padding:20px;border:1px solid #253149;border-radius:12px}}
-.label{{color:var(--muted);font-size:.8rem;text-transform:uppercase}}
-.value{{font-size:1.7rem;margin:8px 0 4px;color:var(--accent)}}
-.ressalva{{background:#1b2436;border-left:3px solid var(--accent);padding:14px 16px;border-radius:8px;
-margin:16px 0;line-height:1.5}}
-.passos{{line-height:1.7;max-width:80ch}}
-.table-wrap{{width:100%;max-width:100%;overflow-x:auto;margin-top:12px}}
-table{{width:100%;border-collapse:collapse;background:var(--panel);border:1px solid #253149;border-radius:12px}}
-th,td{{padding:12px 14px;text-align:left;border-bottom:1px solid #253149}}
-th{{color:var(--muted);font-size:.78rem;text-transform:uppercase}}
-{CSS_NAV}{CSS_AVISO}
-@media (max-width:640px){{main{{padding:24px 12px}}.cards{{grid-template-columns:1fr}}th,td{{padding:10px 8px}}}}
-</style></head><body><main>
-<h1>CALIBRAÇÃO</h1>
-<p class="muted">a probabilidade declarada vale alguma coisa?</p>
-{barra("/calibracao", estatico=estatico)}
-{corpo}
-{rodape()}
-</main></body></html>"""
+    return pagina(
+        titulo="ASUS THE EYE — Calibração",
+        rota="/calibracao",
+        estatico=estatico,
+        corpo="<h1>CALIBRAÇÃO</h1><p class='lede'>a probabilidade declarada vale alguma coisa?</p>"
+        + (_corpo_medido(snap) if snap["suficiente"] else _corpo_insuficiente(snap)),
+    )
 
 
 def register_calibracao_routes(app: Any) -> None:

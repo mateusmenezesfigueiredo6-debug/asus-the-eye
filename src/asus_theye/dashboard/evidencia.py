@@ -18,7 +18,7 @@ from typing import Any
 
 from asus_theye.evidence.entidades import EVENTO, FONTE
 
-from .navegacao import CSS_AVISO, CSS_NAV, barra, rodape
+from .tema import pagina
 
 
 def _cor_do_tipo(tipo: str) -> str:
@@ -45,7 +45,12 @@ def evidencia_page(base: str | Path | None = None, *, estatico: bool = False) ->
             '<p class="muted">Nenhum evento selado ainda. Rode <code>asus-theye markets-resolve</code> '
             "para medir e selar; a linhagem aparece aqui.</p>"
         )
-        return _shell(corpo, estatico=estatico)
+        return pagina(
+            titulo="ASUS THE EYE — Evidência",
+            corpo="<h1>EVIDÊNCIA</h1><p class='lede'>a linhagem de cada número até a fonte</p>" + corpo,
+            rota="/evidencia",
+            estatico=estatico,
+        )
 
     tipos = [chave[0] for chave in grafo.nos]
     tem_ancora = any(t == "Ancora" for t in tipos)
@@ -99,41 +104,15 @@ def evidencia_page(base: str | Path | None = None, *, estatico: bool = False) ->
         )
     )
     blocos_html = "\n".join(blocos)
-    return _shell(cards + blocos_html + aviso, estatico=estatico)
-
-
-def _shell(corpo: str, *, estatico: bool = False) -> str:
-    return f"""<!doctype html>
-<html lang="pt-br"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width">
-<title>ASUS THE EYE — Evidência</title><style>
-:root{{--ink:#e9f0ff;--muted:#9aa8bd;--panel:#151d2b;--accent:#67e8f9;--bg:#080d16;--ok:#4ade80;--bad:#f87171;--warn:#f59e0b}}
-*{{box-sizing:border-box}}
-body{{margin:0;overflow-x:hidden;background:var(--bg);color:var(--ink);font:16px system-ui}}
-main{{max-width:1100px;margin:auto;padding:40px 20px}}
-h1{{letter-spacing:.08em}} h2{{margin-top:28px;font-size:1.1rem}}
-.muted{{color:var(--muted)}} code{{color:var(--accent)}}
-.ok{{color:var(--ok)}}.bad{{color:var(--bad)}}.warn{{color:var(--warn)}}
-.cards{{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:16px;margin-bottom:8px}}
-.card{{background:var(--panel);padding:20px;border:1px solid #253149;border-radius:12px}}
-.label{{color:var(--muted);font-size:.8rem;text-transform:uppercase}}
-.value{{font-size:1.7rem;margin-top:8px;color:var(--accent)}}
-.table-wrap{{width:100%;max-width:100%;overflow-x:auto}}
-.linha{{background:var(--panel);border:1px solid #253149;border-radius:12px;padding:14px;margin:10px 0}}
-.cadeia{{display:flex;flex-wrap:wrap;gap:8px;align-items:center}}
-.no{{border:1px solid;border-radius:8px;padding:4px 10px;font-size:.85rem}}
-.meta{{color:var(--muted);font-size:.78rem;margin-top:8px;font-family:monospace}}
-@media (max-width: 640px){{
-main{{padding:24px 12px}}
-.cards{{grid-template-columns:1fr}}
-.label{{font-size:.74rem}}
-.meta{{font-size:.72rem}}
-}}
-{CSS_NAV}{CSS_AVISO}
-</style></head><body><main><h1>EVIDÊNCIA — linhagem verificável</h1>
-{barra("/evidencia", estatico=estatico)}
-{corpo}
-{rodape()}
-</main></body></html>"""
+    return pagina(
+        titulo="ASUS THE EYE — Evidência",
+        corpo="<h1>EVIDÊNCIA</h1><p class='lede'>a linhagem de cada número até a fonte</p>"
+        + cards
+        + blocos_html
+        + aviso,
+        rota="/evidencia",
+        estatico=estatico,
+    )
 
 
 def register_evidencia_routes(app: Any, base: str | Path | None = None) -> None:
