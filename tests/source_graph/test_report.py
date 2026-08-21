@@ -62,9 +62,8 @@ def test_reason_labels_are_translated_not_leaked_raw() -> None:
     assert "exige DPIA humana" in text or "ainda não tentado" in text
 
 
-def test_write_reports_creates_the_three_phase_c_artifacts(tmp_path, monkeypatch) -> None:
-    monkeypatch.setattr("asus_theye.source_graph.report.REPORTS_DIR", tmp_path)
-    written = write_reports(COVERAGE, TRACKS)
+def test_write_reports_creates_the_three_phase_c_artifacts(tmp_path) -> None:
+    written = write_reports(COVERAGE, TRACKS, output_dir=tmp_path)
     names = {path.name for path in written}
     assert names == {
         "LEGAL_SOURCE_COVERAGE.md",

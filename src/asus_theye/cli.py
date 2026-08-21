@@ -497,6 +497,14 @@ def main(argv: Sequence[str] | None = None) -> int:
         print(f"\nProofs:\n{target}")
         return 0
     if args.command == "source-graph":
+        # As fontes descobertas vivem em disco; ler [] aqui era o motivo de a
+        # cobertura aparecer 0,0% mesmo depois de a descoberta ter rodado.
+        #
+        # O resolvedor é o MESMO que `asus-theye chart` usa. Antes este ponto
+        # lia só do diretório de trabalho e o chart lia só do pacote, então os
+        # dois comandos imprimiam coberturas diferentes — e as duas eram
+        # hasheadas e seladas sem dizer de qual árvore vieram.
+        from asus_theye._pkg_paths import dado_vivo_ou_empacotado
         from asus_theye.audit.remote_ledger import publish_event
         from asus_theye.source_graph import (
             build_coverage,
@@ -505,9 +513,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             write_reports,
         )
 
-        # As fontes descobertas vivem em disco; ler [] aqui era o motivo de a
-        # cobertura aparecer 0,0% mesmo depois de a descoberta ter rodado.
-        fontes_path = Path("data/source-graph/sources.json")
+        fontes_path, origem_das_fontes = dado_vivo_ou_empacotado("data", "source-graph", "sources.json")
         fontes = []
         if fontes_path.exists():
             fontes = json.loads(fontes_path.read_text(encoding="utf-8")).get("sources", [])
@@ -530,6 +536,15 @@ def main(argv: Sequence[str] | None = None) -> int:
         for gap in coverage["gaps"]:
             print(f"  [{gap['blocking_reason']}] {gap['description']}")
         if args.reports:
+            # Sem `output_dir`: o default de `write_reports` já é
+            # `Path.cwd()/"reports"`, avaliado tarde e correto.
+            #
+            # Passar `_reports_base()` aqui ANULAVA essa correção — o fallback
+            # dela é `parents[2]/reports`, que instalado resolve para dentro de
+            # `<venv>/lib/pythonX.Y/reports`, ou levanta PermissionError cru em
+            # instalação de sistema. `_reports_base()` continua valendo nos três
+            # consumidores SÓ-LEITURA (doutor, relatorio-mensal, relatorio-anual);
+            # o que não pode é guiar ESCRITA.
             for path in write_reports(coverage, tracks):
                 print(f"\nRelatório: {path.relative_to(Path.cwd()) if path.is_relative_to(Path.cwd()) else path}")
         if args.publish:
@@ -542,6 +557,9 @@ def main(argv: Sequence[str] | None = None) -> int:
                 "sources_total": len(fontes),
                 "by_category": {e["category_id"]: e["qualified_count"] for e in coverage["by_category"]},
                 "methodology_version": coverage["methodology_version"],
+                # De qual árvore vieram as fontes. Sem isto, dois snapshots de
+                # safras diferentes ficam indistinguíveis dentro da corrente.
+                "sources_origin": origem_das_fontes,
             }
             receipt = publish_event(graph_built_event(snapshot, commit="", tenant_id=args.tenant), args.ledger_url)
             print(f"\nLedger: sequência {receipt['sequence']}")
@@ -549,6 +567,15 @@ def main(argv: Sequence[str] | None = None) -> int:
     if args.command == "chart":
         from asus_theye.audit.remote_ledger import publish_event
         from asus_theye.chart import build_chart, chart_snapshot_hash, render_html, render_text
+        from asus_theye.chart.builder import _REPO_ROOT, SEM_ARVORE
+
+        # A recusa vem ANTES de qualquer chamada de rede: se o painel não pode
+        # ser medido, buscar eventos no ledger é trabalho jogado fora, e uma
+        # falha de rede mascararia a razão de verdade da recusa.
+        if args.publish and _REPO_ROOT is None:
+            print(f"chart: --publish RECUSADO — {SEM_ARVORE}")
+            print("chart: rode a partir da árvore de código para publicar.")
+            return 1
 
         events = None
         if args.ledger_url:
@@ -568,6 +595,17 @@ def main(argv: Sequence[str] | None = None) -> int:
         print(f"\nHTML: {args.html}\nJSON: {args.json_out}")
 
         if args.publish:
+            # Selar um painel não medido é o pior desfecho possível deste
+            # comando: o snapshot mistura número falso com número verdadeiro
+            # (a cobertura por nicho vem do dado empacotado e continua certa),
+            # e depois de selado fica na corrente para sempre. Recusar é a
+            # única saída — e com código != 0, para que um cron perceba.
+            # Redundante com a trava do topo, e mantida: esta lê o SNAPSHOT,
+            # que é o que efetivamente vai ser selado. Se um dia a medição
+            # passar a falhar por outro motivo, é aqui que se pega.
+            if not snapshot.get("medivel", True):
+                print(f"chart: --publish RECUSADO — {snapshot['medicao_impossivel']}")
+                return 1
             if not args.ledger_url:
                 print("chart: --publish requer --ledger-url ou THE_EYE_LEDGER_URL")
                 return 1

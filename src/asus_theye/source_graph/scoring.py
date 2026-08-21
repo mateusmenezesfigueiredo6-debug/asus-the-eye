@@ -21,10 +21,11 @@ from __future__ import annotations
 
 import json
 from datetime import datetime, timezone
-from pathlib import Path
 from typing import Any
 
-DATA_DIR = Path(__file__).resolve().parents[3] / "data" / "source-graph"
+from asus_theye._pkg_paths import pkg_data
+
+DATA_DIR = pkg_data("data", "source-graph")
 
 CONFIDENCE_BY_COVERAGE = (
     (1.0, "high"),

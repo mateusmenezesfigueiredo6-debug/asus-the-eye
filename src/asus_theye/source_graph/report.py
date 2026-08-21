@@ -8,8 +8,6 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
-REPORTS_DIR = Path(__file__).resolve().parents[3] / "reports"
-
 REASON_LABELS = {
     "none": "coberto",
     "not_yet_attempted": "ainda não tentado",
@@ -119,17 +117,23 @@ def limitations_report(coverage: dict[str, Any]) -> str:
     return "\n".join(lines)
 
 
-def write_reports(coverage: dict[str, Any], tracks: dict[str, Any]) -> list[Path]:
-    """Escreve os três relatórios da Phase C. Devolve os caminhos."""
+def write_reports(coverage: dict[str, Any], tracks: dict[str, Any], output_dir: Path | None = None) -> list[Path]:
+    """Escreve os três relatórios da Phase C. Devolve os caminhos.
+
+    ``output_dir`` controla o destino; quando omitido usa ``reports/``
+    relativo ao diretório de trabalho corrente *no momento da chamada*
+    (avaliação tardia — não no import).
+    """
+    reports_dir = output_dir if output_dir is not None else Path.cwd() / "reports"
     targets = {
         "LEGAL_SOURCE_COVERAGE.md": coverage_report(coverage, tracks),
         "SOURCE_GAPS.md": gaps_report(coverage),
         "RANKING_LIMITATIONS.md": limitations_report(coverage),
     }
-    REPORTS_DIR.mkdir(parents=True, exist_ok=True)
+    reports_dir.mkdir(parents=True, exist_ok=True)
     written = []
     for name, content in targets.items():
-        path = REPORTS_DIR / name
+        path = reports_dir / name
         path.write_text(content, encoding="utf-8")
         written.append(path)
     return written

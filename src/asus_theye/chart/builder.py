@@ -20,10 +20,49 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
-REPO_ROOT = Path(__file__).resolve().parents[3]
-REGISTRY_PATH = REPO_ROOT / "data" / "mistress-chart" / "projects.json"
-TAXONOMY_PATH = REPO_ROOT / "data" / "legal-taxonomy" / "legal_areas.master.json"
-DOMAINS_PATH = REPO_ROOT / "data" / "domains" / "domains.json"
+from asus_theye._pkg_paths import dado_vivo_ou_empacotado, pkg_data
+
+# Paths for read-only bundled data (importlib.resources — works when installed).
+REGISTRY_PATH = pkg_data("data", "mistress-chart", "projects.json")
+TAXONOMY_PATH = pkg_data("data", "legal-taxonomy", "legal_areas.master.json")
+DOMAINS_PATH = pkg_data("data", "domains", "domains.json")
+
+
+# A árvore de código, quando existe — e por que "quando existe" é a parte que importa.
+#
+# `parents[3]` só aponta para o repositório quando o pacote roda da árvore de
+# código. Instalado, ele resolve para `<venv>/lib/pythonX.Y`, um diretório que
+# existe e no qual nenhum artefato declarado jamais estará.
+#
+# Isso NÃO é detalhe de caminho: `_evidence_for` MEDE com esta raiz. Com ela
+# apontando para o lugar errado, todo artefato consta como ausente, todo projeto
+# sai com `completion_pct: 0`, e o comando devolve um painel completo e
+# plausível — sem um único aviso. Com `--publish`, esse zero fabricado é
+# hasheado e selado na corrente como `chart.snapshot`, e fica lá.
+#
+# Pior que o painel todo zerado: o snapshot MISTURA número falso com número
+# verdadeiro, porque a cobertura por nicho vem do dado empacotado e continua
+# certa. Um painel inteiro em zero alguém estranha; um painel quase certo, não.
+#
+# Por isso a detecção é por marca da árvore, não por existência do diretório:
+# `lib/pythonX.Y` existe. O que não existe lá é `.git` com `pyproject.toml`.
+def _arvore_de_codigo() -> Path | None:
+    """A raiz do repositório, ou ``None`` quando não estamos rodando dele."""
+    candidata = Path(__file__).resolve().parents[3]
+    marcas = (candidata / ".git", candidata / "pyproject.toml")
+    return candidata if all(m.exists() for m in marcas) else None
+
+
+_REPO_ROOT = _arvore_de_codigo()
+
+# A frase que vai no lugar do número quando ele não pode ser medido. Ela viaja
+# DENTRO do snapshot, para que ninguém precise saber desta decisão para
+# entender por que o campo está vazio.
+SEM_ARVORE = (
+    "medição impossível: o pacote não está rodando da árvore de código, então os artefatos "
+    "declarados não podem ser verificados. UNKNOWN declarado, não zero — zero seria indistinguível "
+    "de 'medi e não achei nada'."
+)
 
 # Compatibilidade com o registro anterior, que nao tinha dominio: projeto sem
 # `domain_id` conta como direito. E divida a pagar, nao desenho — enquanto
@@ -50,7 +89,7 @@ def _load_domains() -> dict[str, dict[str, Any]]:
     registro = json.loads(DOMAINS_PATH.read_text(encoding="utf-8"))
     dominios: dict[str, dict[str, Any]] = {}
     for d in registro.get("domains", []):
-        caminho = REPO_ROOT / d["classifier"]
+        caminho = pkg_data(*d["classifier"].split("/"))
         areas: dict[str, dict[str, Any]] = {}
         if caminho.exists():
             bruto = json.loads(caminho.read_text(encoding="utf-8"))
@@ -71,19 +110,23 @@ def _canonical(value: Any) -> str:
 
 
 def _git(args: list[str]) -> str:
+    if _REPO_ROOT is None:
+        return ""
     try:
         return subprocess.run(
-            ["git", *args], cwd=REPO_ROOT, capture_output=True, text=True, timeout=60, check=True
+            ["git", *args], cwd=_REPO_ROOT, capture_output=True, text=True, timeout=60, check=True
         ).stdout.strip()
     except Exception:
         return ""
 
 
-def _count_tests() -> int:
+def _count_tests() -> int | None:
+    if _REPO_ROOT is None:
+        return None
     try:
         out = subprocess.run(
-            [str(REPO_ROOT / ".venv/bin/python"), "-m", "pytest", "--collect-only", "-q", "tests/"],
-            cwd=REPO_ROOT,
+            [str(_REPO_ROOT / ".venv/bin/python"), "-m", "pytest", "--collect-only", "-q", "tests/"],
+            cwd=_REPO_ROOT,
             capture_output=True,
             text=True,
             timeout=300,
@@ -98,11 +141,27 @@ def _count_tests() -> int:
 
 
 def _evidence_for(project: dict[str, Any]) -> dict[str, Any]:
-    """Mede um projeto pelos artefatos que ele declara — existindo ou não."""
+    """Mede um projeto pelos artefatos que ele declara — existindo ou não.
+
+    Sem árvore de código, devolve ``None`` nos campos medidos em vez de zero.
+    Zero aqui significaria "procurei e não achei"; a verdade é "não tinha onde
+    procurar", e as duas coisas levam a decisões opostas.
+    """
+    if _REPO_ROOT is None:
+        return {
+            "artifacts_present": None,
+            "artifacts_declared": len(project.get("artifacts", [])),
+            "artifacts_missing": None,
+            "completion_pct": None,
+            "commits": None,
+            "last_commit": None,
+            "medicao_impossivel": SEM_ARVORE,
+        }
+
     present: list[str] = []
     missing: list[str] = []
     for relative in project.get("artifacts", []):
-        path = REPO_ROOT / relative
+        path = _REPO_ROOT / relative
         (present if path.exists() else missing).append(relative)
     total = len(present) + len(missing)
     return {
@@ -135,14 +194,26 @@ def _knowledge_section() -> dict[str, Any]:
     aparece com blocking_reason 'not_yet_attempted' — o painel mostra o que
     existe, não o que se pretende.
     """
-    source_graph_dir = REPO_ROOT / "data" / "source-graph"
-    if not source_graph_dir.exists():
+    # Duas naturezas de dado, e misturá-las era o defeito.
+    #
+    # Os REGISTRIES (conectores, artefatos, comunidades) são constantes
+    # versionadas: a cópia do pacote é a verdade, e lê-la do diretório de
+    # trabalho abriria a porta para um arquivo local divergente entrar num
+    # snapshot selado sem deixar rastro.
+    #
+    # Já `sources.json` é REESCRITO pela descoberta, então o arquivo do
+    # diretório de trabalho é o estado atual e a cópia do pacote é a foto do
+    # dia do build. O resolvedor é o mesmo que `asus-theye source-graph` usa —
+    # antes cada comando lia de um lugar, e os dois imprimiam coberturas
+    # diferentes, ambas hasheáveis e seláveis.
+    registries = pkg_data("data", "source-graph")
+    if not registries.exists():
         return {"available": False, "reason": "data/source-graph ainda não existe"}
 
     from asus_theye.source_graph.coverage import build_coverage, coverage_by_track
 
     def load(name: str) -> dict[str, Any]:
-        return json.loads((source_graph_dir / name).read_text(encoding="utf-8"))
+        return json.loads((registries / name).read_text(encoding="utf-8"))
 
     connectors = load("connectors.json")["connectors"]
     artifacts = load("software_artifacts.json")["artifacts"]
@@ -151,7 +222,7 @@ def _knowledge_section() -> dict[str, Any]:
     # As fontes descobertas vivem em sources.json. Passar [] aqui fazia o chart
     # publicar 0,0% enquanto o relatorio de cobertura ja mostrava 13,4% — o
     # mesmo defeito existia no CLI e foi corrigido em 829847e.
-    fontes_path = source_graph_dir / "sources.json"
+    fontes_path, origem_das_fontes = dado_vivo_ou_empacotado("data", "source-graph", "sources.json")
     fontes = json.loads(fontes_path.read_text(encoding="utf-8")).get("sources", []) if fontes_path.exists() else []
     coverage = build_coverage(fontes)
 
@@ -162,6 +233,10 @@ def _knowledge_section() -> dict[str, Any]:
     return {
         "available": True,
         "methodology_version": coverage["methodology_version"],
+        # A origem das fontes viaja NO snapshot, e portanto no hash: dois
+        # snapshots de safras diferentes não podem ser indistinguíveis numa
+        # corrente que se vende como auditável.
+        "sources_origin": origem_das_fontes,
         "sources_loaded": len(fontes),
         "sources_pending_human_review": sum(1 for f in fontes if f.get("human_review", {}).get("status") == "pending"),
         "tracks": coverage_by_track(coverage),
@@ -273,12 +348,20 @@ def build_chart(ledger_events: list[dict[str, Any]] | None = None) -> dict[str, 
             },
         )
         stage_bucket["projects"].append(project["project_id"])
-        stage_bucket["artifacts_present"] += evidence["artifacts_present"]
+        # Sem medição, a etapa herda o UNKNOWN. Somar zero aqui reintroduziria
+        # o número falso pela porta dos fundos, agregado.
+        if evidence["artifacts_present"] is None:
+            stage_bucket["artifacts_present"] = None
+        elif stage_bucket["artifacts_present"] is not None:
+            stage_bucket["artifacts_present"] += evidence["artifacts_present"]
         stage_bucket["artifacts_declared"] += evidence["artifacts_declared"]
         stage_bucket["release_classes"].add(project["release_class"])
     for stage_bucket in stages.values():
         declared = stage_bucket["artifacts_declared"]
-        stage_bucket["completion_pct"] = round(100 * stage_bucket["artifacts_present"] / declared) if declared else 0
+        presentes = stage_bucket["artifacts_present"]
+        stage_bucket["completion_pct"] = (
+            round(100 * presentes / declared) if (presentes is not None and declared) else None
+        )
         stage_bucket["release_classes"] = sorted(stage_bucket["release_classes"])
     pipeline = dict(sorted(stages.items(), key=lambda item: item[1]["order"]))
 
@@ -288,9 +371,17 @@ def build_chart(ledger_events: list[dict[str, Any]] | None = None) -> dict[str, 
         "generated_at": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
         "commit": _git(["rev-parse", "--short", "HEAD"]),
         "knowledge": _knowledge_section(),
+        # A bandeira que o CLI consulta antes de deixar publicar. Ela viaja no
+        # snapshot, e não só na saída do terminal, porque é o snapshot que é
+        # hasheado e selado — quem ler o evento na corrente daqui a um ano
+        # precisa saber se aquilo foi medido ou não.
+        "medivel": _REPO_ROOT is not None,
+        "medicao_impossivel": None if _REPO_ROOT is not None else SEM_ARVORE,
         "totals": {
             "projects": len(projects),
-            "projects_complete": sum(1 for p in projects if p["evidence"]["completion_pct"] == 100),
+            "projects_complete": (
+                sum(1 for p in projects if p["evidence"]["completion_pct"] == 100) if _REPO_ROOT is not None else None
+            ),
             "tests": _count_tests(),
             # O denominador agora soma TODOS os dominios. Antes era so o
             # juridico, o que fazia a cobertura da plataforma inteira ser
