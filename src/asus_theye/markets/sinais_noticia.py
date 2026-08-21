@@ -89,6 +89,19 @@ def sinal_de_cobertura(observacao: CoberturaNoticiosa) -> Sinal | None:
     )
 
 
+def probabilidade_da_cobertura(observacao: CoberturaNoticiosa) -> Probabilidade:
+    """A probabilidade a partir de uma cobertura JÁ observada.
+
+    Existe separada da busca por um motivo prático com peso ético: o tom é
+    medido por país, então a mesma observação serve a todos os mercados da
+    rodada. Buscar uma vez por mercado baixaria o mesmo arquivo de 73 KB três
+    vezes por dia de um serviço **gratuito**, sem obter nada em troca. Quem usa
+    infraestrutura pública de graça não a desperdiça.
+    """
+    sinal = sinal_de_cobertura(observacao)
+    return gerar_probabilidade([sinal] if sinal else [])
+
+
 def probabilidade_por_noticia(
     mes_referencia: str,  # noqa: ARG001 - a trilha é diária; o mês entra para simetria de assinatura
     limiar: float,  # noqa: ARG001 - o tom não se compara ao limiar; a direção vem da referência
@@ -113,5 +126,4 @@ def probabilidade_por_noticia(
     except FonteGDELTError as erro:
         raise SinaisNoticiaError(f"cobertura noticiosa indisponível: {erro}") from erro
 
-    sinal = sinal_de_cobertura(observacao)
-    return gerar_probabilidade([sinal] if sinal else [])
+    return probabilidade_da_cobertura(observacao)

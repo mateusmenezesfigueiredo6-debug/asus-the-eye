@@ -90,6 +90,42 @@ Os **dados** permanecem do GDELT Project sob os termos acima. Usar dado
 licenciado não o torna nosso — e não precisa: os termos já permitem o uso que o
 produto faz, inclusive comercial.
 
+## O arquivamento, e os dois sinais sobre os termos
+
+A cada rodada é arquivado o **recorte próprio** (contagem e tom), com o MD5 do
+arquivo original e o estado dos termos na data. Índice em
+`reports/markets/cobertura_gdelt.jsonl`, recorte bruto em
+`reports/markets/cobertura/`, selado como `market.news_coverage`.
+
+Sobre os termos, são **dois sinais com pesos diferentes**, e a distinção é
+deliberada:
+
+| sinal | o que é | quando fala |
+|---|---|---|
+| `termos_sha256` | o carimbo de prova da página na data | nunca — fica guardado |
+| `concessao_presente` | a frase que **autoriza o uso** ainda está lá? | **alarme**, se sumir |
+
+Alarmar por mudança de hash seria pior que não alarmar: página muda a cada
+correção de vírgula, e alarme que toca toda semana é alarme desligado. O que
+importa juridicamente não é a página ter mudado — é a concessão ter sumido.
+
+Falha ao buscar os termos **não** aborta o arquivamento: o dado continua válido
+sob os termos vigentes, e a lacuna daquele dia é registrada como fato
+(`termos_conferidos: false`), sem disparar alarme.
+
+## A segunda limitação conhecida, também declarada antes
+
+A janela lida é a de **15 minutos** mais recente. Para o Brasil ela traz entre
+1 e 15 eventos, e o mínimo declarado para virar sinal é 5 — então em parte dos
+dias a trilha própria publica honestamente **0,50 com `max_uncertainty`**, que
+é ausência de sinal, não convicção de meio a meio.
+
+Isso é fraqueza real e está dito aqui antes de qualquer resultado. O caminho de
+correção já é possível sem baixar nada a mais: **agregar sobre o próprio
+arquivo**, que acumula uma janela verificada por dia. Não foi feito ainda
+porque exige amostra acumulada para calibrar a janela de agregação, e inventar
+o número da janela agora seria escolher parâmetro antes de ter dado.
+
 ## A honestidade que o produto exige
 
 O sinal de tom noticioso é **fraco e ruidoso** para inflação e juros. É esperado

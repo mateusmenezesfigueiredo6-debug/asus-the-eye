@@ -147,12 +147,44 @@ def reprecificar(
 # de pontuar. Duas cópias do mesmo nome divergem no dia em que uma muda.
 
 
-def gerador_da_trilha_propria() -> Any:
-    """O gerador que não passa pelo consenso. Importado tarde, para o teste de
-    independência de ``sinais_noticia`` continuar valendo por inspeção."""
-    from asus_theye.markets.sinais_noticia import probabilidade_por_noticia
+def _observar_cobertura(
+    acoes: list[dict[str, Any]],
+    *,
+    sdk: Any = None,
+    eventos: Path | None = None,
+) -> tuple[Any, bool]:
+    """Observa e arquiva a cobertura do dia — uma vez para a rodada inteira.
 
-    return probabilidade_por_noticia
+    Devolve ``(observacao, alarme_de_termos)``. Falha de fonte devolve
+    ``(None, False)`` e registra a ação: a trilha secundária **nunca** derruba
+    a principal, porque o preço publicado é o do Focus e ele não depende disto.
+
+    Importado tarde, para o teste de independência de ``sinais_noticia``
+    continuar valendo por inspeção dos imports.
+    """
+    from asus_theye.markets.arquivo_gdelt import arquivar_cobertura
+    from asus_theye.markets.fonte_gdelt import cobertura
+
+    try:
+        observacao = cobertura()
+    except Exception as erro:  # noqa: BLE001 - trilha secundária nunca derruba a principal
+        acoes.append({"claim_id": "", "acao": "cobertura_indisponivel", "motivo": str(erro)[:200]})
+        return None, False
+
+    try:
+        arquivado = arquivar_cobertura(observacao, sdk=sdk, eventos=eventos)
+    except Exception as erro:  # noqa: BLE001 - sem arquivo, o sinal ainda vale; a lacuna é registrada
+        acoes.append({"claim_id": "", "acao": "cobertura_nao_arquivada", "motivo": str(erro)[:200]})
+        return observacao, False
+
+    acoes.append(
+        {
+            "claim_id": "",
+            "acao": "cobertura_arquivada" if not arquivado["duplicate"] else "cobertura_dedupe",
+            "motivo": f"{observacao.eventos} evento(s), tom {observacao.tom_medio:+.4f}, {observacao.arquivo}",
+        }
+    )
+    return observacao, bool(arquivado["alarme_de_termos"])
 
 
 def _gerador_da_area(area: str) -> Any:
@@ -206,6 +238,23 @@ def rodada(
     registro = json.loads(store.read_text(encoding="utf-8"))
     acoes: list[dict[str, Any]] = []
 
+    # A cobertura noticiosa é medida por PAÍS, então uma observação serve à
+    # rodada inteira. Buscar aqui, e não dentro do laço, evita baixar o mesmo
+    # arquivo uma vez por mercado — e o arquivamento acontece uma vez, com o
+    # carimbo dos termos do dia.
+    cobertura_do_dia, alarme_de_termos = _observar_cobertura(acoes, sdk=sdk, eventos=eventos)
+    if alarme_de_termos:
+        acoes.append(
+            {
+                "claim_id": "",
+                "acao": "ALARME_TERMOS_GDELT",
+                "motivo": (
+                    "a frase que concede o uso sumiu da página de termos do GDELT. "
+                    "Isto exige revisão humana HOJE: o direito de usar o dado é o que está em questão."
+                ),
+            }
+        )
+
     for mercado in registro.get("mercados", []):
         claim_id = str(mercado.get("claim_id", ""))
         estado = str(mercado.get("estado", "ABERTO")).upper()
@@ -244,11 +293,14 @@ def rodada(
         # selada antes do desfecho. É isso que torna a comparação verificável em
         # vez de retórica — na liquidação, as duas são pontuadas com a mesma
         # régua, e o resultado é o que os dados disserem, inclusive paridade.
-        try:
-            propria = gerador_da_trilha_propria()(str(mercado["mes_referencia"]), float(mercado["limiar"]))
-        except Exception as erro:  # noqa: BLE001 - trilha secundária nunca derruba a principal
-            acoes.append({"claim_id": claim_id, "acao": "trilha_propria_indisponivel", "motivo": str(erro)[:160]})
+        if cobertura_do_dia is None:
+            acoes.append(
+                {"claim_id": claim_id, "acao": "trilha_propria_indisponivel", "motivo": "sem cobertura no dia"}
+            )
         else:
+            from asus_theye.markets.sinais_noticia import probabilidade_da_cobertura
+
+            propria = probabilidade_da_cobertura(cobertura_do_dia)
             anterior_propria = (mercado.get("gerador_proprio") or {}).get("valor")
             mercado["gerador_proprio"] = propria.as_dict()
             registrar_ponto(

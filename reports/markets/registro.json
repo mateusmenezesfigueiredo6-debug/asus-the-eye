@@ -58,15 +58,13 @@
         }
       ],
       "gerador_proprio": {
-        "valor": 0.6875,
+        "valor": 0.5,
         "p_inicial": 0.5,
         "peso_inicial": 10.0,
-        "peso_sim": 6.0,
+        "peso_sim": 0,
         "peso_nao": 0,
-        "max_uncertainty": false,
-        "fontes": [
-          "The GDELT Project (gdeltproject.org) — tom médio -6.3129 em 14 evento(s) sobre BR (referência -3.0; arquivo 20260821151500.export.CSV.zip, md5 ac4028a07de5…)"
-        ]
+        "max_uncertainty": true,
+        "fontes": []
       }
     },
     {
@@ -105,15 +103,13 @@
         }
       ],
       "gerador_proprio": {
-        "valor": 0.6875,
+        "valor": 0.5,
         "p_inicial": 0.5,
         "peso_inicial": 10.0,
-        "peso_sim": 6.0,
+        "peso_sim": 0,
         "peso_nao": 0,
-        "max_uncertainty": false,
-        "fontes": [
-          "The GDELT Project (gdeltproject.org) — tom médio -6.3129 em 14 evento(s) sobre BR (referência -3.0; arquivo 20260821151500.export.CSV.zip, md5 ac4028a07de5…)"
-        ]
+        "max_uncertainty": true,
+        "fontes": []
       }
     },
     {
@@ -153,15 +149,13 @@
         }
       ],
       "gerador_proprio": {
-        "valor": 0.6875,
+        "valor": 0.5,
         "p_inicial": 0.5,
         "peso_inicial": 10.0,
-        "peso_sim": 6.0,
+        "peso_sim": 0,
         "peso_nao": 0,
-        "max_uncertainty": false,
-        "fontes": [
-          "The GDELT Project (gdeltproject.org) — tom médio -6.3129 em 14 evento(s) sobre BR (referência -3.0; arquivo 20260821151500.export.CSV.zip, md5 ac4028a07de5…)"
-        ]
+        "max_uncertainty": true,
+        "fontes": []
       }
     }
   ]
