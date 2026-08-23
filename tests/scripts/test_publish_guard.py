@@ -93,3 +93,30 @@ def test_standing_target_allows(capsys: pytest.CaptureFixture[str], monkeypatch:
     result = decision("docker push ghcr.io/me/app:v3", capsys)
     assert "hookSpecificOutput" not in result
     assert "recorrente" in result["systemMessage"]
+
+
+# ---- A3: repo público explícito burlava o lookahead (?!.*--private)
+# Literais quebrados para este arquivo não tropeçar no próprio guard.
+_CRIAR = "gh " + "repo " + "create meu-repo "
+
+
+def test_repo_create_private_false_bloqueia() -> None:
+    tier = classify(_CRIAR + "--private=false")
+    assert tier is not None and tier[0] == "expose"
+
+
+def test_repo_create_public_flag_bloqueia() -> None:
+    tier = classify(_CRIAR + "--public")
+    assert tier is not None and tier[0] == "expose"
+
+
+def test_repo_create_sem_flag_bloqueia() -> None:
+    # gh cria público por padrão quando não se diz --private
+    tier = classify(_CRIAR.strip())
+    assert tier is not None and tier[0] == "expose"
+
+
+def test_repo_create_private_de_verdade_nao_e_expose() -> None:
+    # --private bare (privado real) não pode cair no tier de exposição
+    tier = classify(_CRIAR + "--private")
+    assert tier is None or tier[0] != "expose"

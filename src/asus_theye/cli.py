@@ -382,6 +382,24 @@ def _reports_base() -> Path:
     return Path(__file__).resolve().parents[2] / "reports"
 
 
+def _e_loopback(host: str) -> bool:
+    """O host é seguramente local? Só então a app pode subir sem token.
+
+    Loopback verdadeiro (127.0.0.0/8, ::1, localhost) é local. Qualquer outra
+    coisa — 0.0.0.0, um IP de LAN, um nome — alcança a rede e exige token.
+    Fail-closed: o que não sei classificar como loopback conta como exposto.
+    """
+    import ipaddress
+
+    alvo = (host or "").strip().lower()
+    if alvo in ("localhost", "::1", ""):
+        return alvo != ""
+    try:
+        return ipaddress.ip_address(alvo).is_loopback
+    except ValueError:
+        return False  # nome não-localhost: trate como rede
+
+
 def main(argv: Sequence[str] | None = None) -> int:
     args = _parser().parse_args(argv)
     if args.command == "benchmark":
@@ -811,13 +829,18 @@ def main(argv: Sequence[str] | None = None) -> int:
         from asus_theye.dashboard.app import create_dashboard_app
         from asus_theye.dashboard.auth import AuthConfigError
 
-        host = "0.0.0.0" if args.expose else args.host  # noqa: S104 - só com --expose e token
+        # O host efetivo — e a auth deriva DELE, não da flag. Antes, --host
+        # 0.0.0.0 sem --expose subia na rede sem token: a garantia fail-closed
+        # cobria só o caminho --expose, e o outro ficava fail-OPEN. Qualquer
+        # host que não seja loopback é rede, e rede exige token.
+        host = "0.0.0.0" if args.expose else args.host  # noqa: S104 - exposição exige token, ver _e_loopback
+        exposto = not _e_loopback(host)
         try:
-            app = create_dashboard_app(markets_db=args.markets_db, require_auth=args.expose)
+            app = create_dashboard_app(markets_db=args.markets_db, require_auth=exposto)
         except AuthConfigError as error:
             print(f"serve: {error}")
             return 1
-        alcance = "EXPOSTO (0.0.0.0, com token)" if args.expose else "local (127.0.0.1)"
+        alcance = f"EXPOSTO ({host}, com token)" if exposto else f"local ({host})"
         print(f"dashboard em http://{host}:{args.port}  [{alcance}]")
         try:
             import uvicorn

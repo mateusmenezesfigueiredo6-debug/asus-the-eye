@@ -21,6 +21,8 @@ reports/autonomous/*/launcher.log
 !.env.example
 *.pem
 *.key
+*.key.*        # sufixo não evade (ex.: anchor.key.QUEIMADA)
+**/.wrangler/    # cache do wrangler: id de conta, e-mail — nunca versionar
 # END THE EYE AUTONOMOUS RUNTIME
 reports/llm/calls.jsonl
 reports/audit/proofs/
