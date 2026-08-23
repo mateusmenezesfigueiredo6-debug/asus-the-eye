@@ -419,12 +419,20 @@ def medir(*, serie: Path = SERIE_PADRAO, resolucoes: Path = RESOLUCOES_PADRAO) -
 
 
 def selar(sdk: Any, snapshot: dict[str, Any] | None = None, *, eventos: Path | None = None) -> dict[str, Any]:
-    """Sela a medição de calibração. Mesmo conjunto de pares = dedupe."""
-    from asus_theye.audit.schema import hash_json
-    from asus_theye.markets.auditoria import EVENTOS_PADRAO, selar_registro
+    """Sela a medição de calibração. Snapshot idêntico = dedupe; estado novo = evento novo.
+
+    A identidade é o hash do CONTEÚDO COMPLETO, e o motivo é uma cicatriz real:
+    a versão antiga usava só {n, brier} — constante {0, None} enquanto a amostra
+    é insuficiente — mas o conteúdo carrega contagens que mudam a cada rodada
+    (excluidos cresce com a série). Identidade constante + conteúdo variável =
+    divergência de selagem TODO dia, para sempre. Com o hash completo, cada
+    estado distinto vira o seu próprio evento — a trilha de estados é história
+    auditável, não colisão.
+    """
+    from asus_theye.markets.auditoria import EVENTOS_PADRAO, hash_de_conteudo, selar_registro
 
     snap = snapshot or medir()
-    identidade = hash_json({"n": snap["n"], "brier": snap["brier"]})
+    identidade = hash_de_conteudo(snap)
     return selar_registro(
         sdk,
         snap,
