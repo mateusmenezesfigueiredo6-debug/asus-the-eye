@@ -202,12 +202,16 @@ def medir(
 
 
 def selar(sdk: Any, snapshot: dict[str, Any] | None = None, *, eventos: Path | None = None) -> dict[str, Any]:
-    """Sela a medição do consenso na corrente. Mesmo conjunto de pares = dedupe."""
-    from asus_theye.audit.schema import hash_json
-    from asus_theye.markets.auditoria import EVENTOS_PADRAO, selar_registro
+    """Sela a medição do consenso. Snapshot idêntico = dedupe; estado novo = evento novo.
+
+    Identidade = hash do conteúdo completo, pela mesma razão da calibração:
+    identidade parcial + conteúdo que evolui produz divergência eterna sob a
+    mesma correlação. Estado distinto merece evento próprio.
+    """
+    from asus_theye.markets.auditoria import EVENTOS_PADRAO, hash_de_conteudo, selar_registro
 
     snap = snapshot or medir()
-    identidade = hash_json({"pares": snap["pares"], "n": snap["n"]})
+    identidade = hash_de_conteudo(snap)
     return selar_registro(
         sdk,
         snap,
