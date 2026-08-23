@@ -719,6 +719,9 @@ def main(argv: Sequence[str] | None = None) -> int:
                 gerador_de_sinais=None if args.sem_sinais else probabilidade_para_ipca,
                 # M2/M3: cada área liquida contra o PRÓPRIO conector oficial
                 fetchers_por_area={"juros": selic_meta, "cambio": ptax_venda_fim_do_mes},
+                # a varredura de selagem consulta o MESMO export que o auditor
+                # escreve — sem isto, reconciliações registradas ficariam invisíveis
+                eventos=caminho_eventos,
             )
         except (FonteBCBError, LiveMarketError, MarketClaimError, ResolutionError, ScoringError) as error:
             print(f"markets-resolve: {error}")

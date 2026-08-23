@@ -20,7 +20,9 @@
       "valor_observado": 0.07,
       "outcome": 0,
       "brier_do_contrato": 0.25,
-      "resolved_at": "2026-08-17T15:17:37.489514Z"
+      "resolved_at": "2026-08-17T15:17:37.489514Z",
+      "determination_basis": "desconhecida",
+      "determination_date": ""
     },
     {
       "claim_id": "MACRO-01::2026-08",

@@ -267,3 +267,135 @@ def test_rodadas_simultaneas_sao_recusadas_pela_trava(tmp_path: Path) -> None:
     finally:
         fcntl.flock(trava, fcntl.LOCK_UN)
         trava.close()
+
+
+# ------------------------------------------------- reconciliação de selagem
+
+
+def test_divergencia_sem_reconciliacao_continua_levantando(tmp_path: Path) -> None:
+    """Fail-closed é o padrão: a tolerância é a exceção assinada, nunca o silêncio."""
+    from asus_theye.markets.auditoria import selar_registro
+
+    sdk = sdk_efemero(tmp_path)
+    eventos = tmp_path / "eventos.jsonl"
+    selar_liquidacao(sdk, LINHA, eventos=eventos)
+    divergente = {**LINHA, "brier_do_contrato": 0.99}
+    with pytest.raises(AuditoriaError, match="diverge do já selado"):
+        selar_registro(
+            sdk,
+            divergente,
+            tipo_evento="market.settlement",
+            recurso="market",
+            correlation_id=LINHA["claim_id"],
+            eventos=eventos,
+        )
+
+
+def test_reconciliacao_documenta_e_a_consulta_reconhece(tmp_path: Path) -> None:
+    """O caminho inteiro: divergência -> reconciliar -> par coberto, e SÓ esse par."""
+    from asus_theye.markets.auditoria import (
+        divergencia_reconciliada,
+        hash_de_conteudo,
+        reconciliar_divergencia,
+        settlement_selado,
+    )
+
+    sdk = sdk_efemero(tmp_path)
+    eventos = tmp_path / "eventos.jsonl"
+    selar_liquidacao(sdk, LINHA, eventos=eventos)
+    selado = settlement_selado(LINHA["claim_id"], eventos=eventos)
+    assert selado is not None
+
+    forma_nova = {**LINHA, "determination_basis": "desconhecida", "determination_date": ""}
+    hash_novo = hash_de_conteudo(forma_nova)
+    assert hash_novo != selado["content_hash_sha256"]
+    assert divergencia_reconciliada(LINHA["claim_id"], hash_novo, eventos=eventos) is False
+
+    recibo = reconciliar_divergencia(
+        sdk,
+        correlation_id=LINHA["claim_id"],
+        hash_selado_original=selado["content_hash_sha256"],
+        hash_atual=hash_novo,
+        motivo="esquema evoluiu depois da selagem (teste)",
+        eventos=eventos,
+    )
+    assert recibo["duplicate"] is False
+    assert divergencia_reconciliada(LINHA["claim_id"], hash_novo, eventos=eventos) is True
+
+    # a reconciliação NÃO é passe livre: outra forma nova exige decisão nova
+    outra_forma = {**forma_nova, "limiar": 0.75}
+    assert divergencia_reconciliada(LINHA["claim_id"], hash_de_conteudo(outra_forma), eventos=eventos) is False
+
+
+def test_reconciliar_e_idempotente(tmp_path: Path) -> None:
+    from asus_theye.markets.auditoria import hash_de_conteudo, reconciliar_divergencia
+
+    sdk = sdk_efemero(tmp_path)
+    eventos = tmp_path / "eventos.jsonl"
+    selar_liquidacao(sdk, LINHA, eventos=eventos)
+    hash_novo = hash_de_conteudo({**LINHA, "determination_basis": "desconhecida"})
+    args = dict(
+        correlation_id=LINHA["claim_id"],
+        hash_selado_original="a" * 64,
+        hash_atual=hash_novo,
+        motivo="idempotência (teste)",
+        eventos=eventos,
+    )
+    primeiro = reconciliar_divergencia(sdk, **args)
+    segundo = reconciliar_divergencia(sdk, **args)
+    assert primeiro["duplicate"] is False
+    assert segundo["duplicate"] is True
+
+
+def test_varredura_reconhece_divergencia_reconciliada(tmp_path: Path) -> None:
+    """O fim a que tudo serve: a rodada volta a fechar com a história documentada.
+
+    Sela um settlement, muda a forma do mercado no registro (como a evolução de
+    esquema fez na vida real), roda a varredura SEM reconciliação (falha) e
+    DEPOIS com ela (registra e segue).
+    """
+    import json as _json
+
+    from asus_theye.markets.auditoria import hash_de_conteudo, reconciliar_divergencia
+    from asus_theye.markets.auditoria import selar_liquidacao as _selar
+    from asus_theye.markets.live import _linha_de_resolucao, resolver_pendentes
+
+    sdk = sdk_efemero(tmp_path)
+    eventos = tmp_path / "eventos.jsonl"
+    _selar(sdk, LINHA, eventos=eventos)
+
+    mercado = {
+        **LINHA,
+        "question": "IPCA de julho >= 0,50%?",
+        "deadline": "2026-07-31",
+        "created_at": "2026-07-01T00:00:00Z",
+        "serie_sgs": 433,
+        "estado": "LIQUIDADO",
+        "tentativas": [],
+        "determination_basis": "desconhecida",
+        "determination_date": "",
+    }
+    store = tmp_path / "registro.json"
+    store.write_text(_json.dumps({"versao": 1, "mercados": [mercado]}), encoding="utf-8")
+    (tmp_path / "resolucoes.jsonl").write_text(_json.dumps(LINHA) + "\n", encoding="utf-8")
+
+    def auditor(linha):
+        return selar_liquidacao(sdk, linha, eventos=eventos)
+
+    acoes = resolver_pendentes(lambda *_a, **_k: None, hoje="2026-08-22", store=store, auditor=auditor, eventos=eventos)
+    assert any(a["acao"] == "auditoria_falhou" for a in acoes), acoes
+
+    hash_novo = hash_de_conteudo(_linha_de_resolucao(mercado))
+    reconciliar_divergencia(
+        sdk,
+        correlation_id=LINHA["claim_id"],
+        hash_selado_original="ignorado-no-lookup",
+        hash_atual=hash_novo,
+        motivo="teste da varredura",
+        eventos=eventos,
+    )
+    acoes2 = resolver_pendentes(
+        lambda *_a, **_k: None, hoje="2026-08-22", store=store, auditor=auditor, eventos=eventos
+    )
+    assert any(a["acao"] == "divergencia_reconciliada" for a in acoes2), acoes2
+    assert not any(a["acao"] == "auditoria_falhou" for a in acoes2), acoes2
