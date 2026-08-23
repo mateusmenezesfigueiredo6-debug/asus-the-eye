@@ -9,7 +9,7 @@ import json
 from pathlib import Path
 from typing import Any
 
-from .navegacao import CSS_AVISO, CSS_NAV, barra, rodape
+from .tema import pagina
 
 
 def _load(path: Path) -> dict[str, Any]:
@@ -138,45 +138,26 @@ def benchmark_page(report_path: str | Path = "reports/benchmark/latest.json", *,
         empty_message="No benchmark history yet.",
     )
     conclusion = html.escape(str(report.get("conclusion", "")))
-    return f"""<!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width">
-<title>ASUS THE EYE Benchmark</title><style>
-:root{{--ink:#e9f0ff;--muted:#9aa8bd;--panel:#151d2b;--accent:#67e8f9;--bg:#080d16}}
-*{{box-sizing:border-box}}
-body{{margin:0;background:var(--bg);color:var(--ink);font:16px system-ui}}
-main{{max-width:1100px;margin:auto;padding:40px 20px}}
-h1{{letter-spacing:.08em}}
-.cards,.charts{{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:16px}}
-.card,.chart{{background:var(--panel);padding:20px;border:1px solid #253149;border-radius:12px}}
-.chart-svg{{width:100%;height:auto;display:block}}
-.label{{color:var(--muted);font-size:.8rem;text-transform:uppercase}}
-.muted{{color:var(--muted)}}
-.value{{font-size:1.7rem;margin-top:8px;color:var(--accent)}}
-.table-wrap{{width:100%;max-width:100%;overflow-x:auto}}
-.chart{{min-width:0}}
-@media (max-width: 640px){{
-main{{padding:24px 12px}}
-.cards{{grid-template-columns:1fr}}
-.charts{{grid-template-columns:1fr}}
-th,td{{padding:10px 8px}}
-th{{font-size:.72rem}}
-}}
-{CSS_NAV}{CSS_AVISO}
-</style></head><body><main><h1>ASUS THE EYE BENCHMARK</h1>
-{barra("/benchmark", estatico=estatico)}
-<section class="cards"><div class="card">
-<div class="label">Best score</div><div class="value">{best_score}</div></div>
+    corpo = f"""<h1>Benchmark</h1>
+<section class="cards">
+<div class="card"><div class="label">Best score</div><div class="value">{best_score}</div></div>
 <div class="card"><div class="label">Best time</div><div class="value">{best_time}</div></div>
 <div class="card"><div class="label">QAR</div><div class="value">{qar}</div></div>
-<div class="card"><div class="label">Stability σ</div>
-<div class="value">{stability}</div></div></section>
-<section class="charts"><div class="chart"><h2>Score comparison</h2>{score_chart}</div>
+<div class="card"><div class="label">Stability σ</div><div class="value">{stability}</div></div>
+</section>
+<section class="charts">
+<div class="chart"><h2>Score comparison</h2>{score_chart}</div>
 <div class="chart"><h2>Execution time</h2>{time_chart}</div>
-<div class="chart"><h2>History</h2>
-{history_chart}</div></section>
-<p>{conclusion}</p>
-{rodape()}
-</main></body></html>"""
+<div class="chart"><h2>History</h2>{history_chart}</div>
+</section>
+<p class="lede">{conclusion}</p>"""
+    return pagina(
+        titulo="ASUS THE EYE — benchmark",
+        corpo=corpo,
+        rota="/benchmark",
+        estatico=estatico,
+        descricao="Benchmark do produto: score, tempo, QAR e estabilidade — medidos, não declarados.",
+    )
 
 
 def register_benchmark_routes(app: Any, report_path: str | Path = "reports/benchmark/latest.json") -> None:

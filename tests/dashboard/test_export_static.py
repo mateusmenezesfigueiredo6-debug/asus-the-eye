@@ -47,7 +47,11 @@ def test_exportar_conteudo_evidencia(tmp_path: Path) -> None:
 def test_exportar_conteudo_benchmark(tmp_path: Path) -> None:
     exportar(tmp_path)
     html = (tmp_path / "benchmark.html").read_text(encoding="utf-8")
-    assert "BENCHMARK" in html
+    # A página do benchmark passou a herdar o invólucro de tema.py (pagina()),
+    # que emite o h1 sem forçar CAPS. Verificamos a palavra sem casar caixa —
+    # e as demais peças-âncora que provam que é ela.
+    assert "benchmark" in html.lower()
+    assert "Best score" in html
     assert "<svg" in html
     assert "<script>" not in html
     assert "<!doctype html>" in html.lower()
@@ -172,7 +176,9 @@ def test_todo_link_do_site_aponta_para_arquivo_existente(tmp_path: Path) -> None
     for pagina in resultado["gerados"]:
         html = (tmp_path / pagina).read_text(encoding="utf-8")
         for alvo in re.findall(r'href="([^"]+)"', html):
-            if alvo.startswith(("http://", "https://", "#", "mailto:")):
+            # data: URIs (ex.: favicon embutido) e absolutos externos não são links
+            # a arquivos do dist/ — nunca devem entrar na verificação de link morto.
+            if alvo.startswith(("http://", "https://", "#", "mailto:", "data:")):
                 continue
             if not (tmp_path / alvo).exists():
                 quebrados.append(f"{pagina} -> {alvo}")

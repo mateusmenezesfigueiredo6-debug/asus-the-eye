@@ -58,6 +58,16 @@ TOKENS = """
   /* óxido: quebrado. Deve aparecer quase nunca. */
   --oxido:#8C2F1F;
   --sombra:0 1px 2px rgba(20,22,26,.04), 0 8px 24px -12px rgba(20,22,26,.10);
+  /* aliases semânticos usados pelos módulos das páginas
+     (evidencia._cor_do_tipo, benchmark, e páginas que ainda escrevem style="color:var(--ok)").
+     Os nomes canônicos são --selo/--latao/--oxido — estes aqui apontam para eles, para que
+     nada nas páginas fique com border-color vazio quando o tema é o único CSS carregado. */
+  --ok: var(--selo);
+  --warn: var(--latao);
+  --bad: var(--oxido);
+  --accent: var(--selo);
+  --ink: var(--tinta);
+  --muted: var(--tinta-3);
   --serifa:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,"Times New Roman",serif;
   --grotesca:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,"Helvetica Neue",Arial,sans-serif;
   --mono:ui-monospace,"SF Mono","Cascadia Mono","Roboto Mono",Menlo,Consolas,monospace;
@@ -169,6 +179,85 @@ footer.the-eye{margin:5rem 0 0;padding-top:1.6rem;border-top:1px solid var(--reg
   font-size:.8rem;line-height:1.6;color:var(--tinta-3);max-width:70ch}
 footer.the-eye strong{color:var(--tinta-2);font-weight:600}
 
+
+/* ================================================================
+   Classes que as páginas usam há tempo, agora com estilo de verdade.
+   Sem elas o produto lia como "só caixa"; com elas cada uma cumpre a
+   semântica que a exploração da FASE B nomeou (card = leitura/painel,
+   ok/warn/bad = estado). Nada aqui inventa cor — só mapeia para os
+   tokens já declarados acima.
+   ================================================================ */
+
+/* .cards = grelha de painéis; .card = um painel. Mesma família de .leituras/.leitura,
+   mas usada como <div>, com mais respiro e borda de instrumento. */
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:1rem;margin:1.4rem 0 2rem}
+.card{background:var(--papel-2);border:1px solid var(--regua);padding:1.1rem 1.2rem;
+  display:flex;flex-direction:column;gap:.35rem;position:relative}
+.card .label{font-family:var(--grotesca);font-size:.66rem;font-weight:650;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--tinta-3)}
+.card .value{font-family:var(--mono);font-variant-numeric:tabular-nums;
+  font-size:clamp(1.6rem,3.2vw,2.2rem);font-weight:600;letter-spacing:-.02em;
+  color:var(--tinta);line-height:1.15}
+.card .muted{font-size:.78rem;line-height:1.5;color:var(--tinta-2);margin:0}
+
+/* Estados semânticos — SÓ os três tons que o produto reconhece.
+   Aparecem em <span>, <p>, <div>. Nunca inventar quarto tom. */
+.ok{color:var(--selo);font-weight:600}
+.warn{color:var(--latao);font-weight:600}
+.bad{color:var(--oxido);font-weight:600}
+.muted{color:var(--tinta-3)}
+.muted small{color:var(--tinta-3)}
+
+/* Célula de identificador em tabela: mono, tabular, à esquerda. Sem isto,
+   claim_id e sequence herdam a serifa e ficam ilegíveis ao lado do resto. */
+td.id{font-family:var(--mono);font-variant-numeric:tabular-nums;
+  font-size:.82rem;letter-spacing:-.005em;color:var(--tinta-2);white-space:nowrap}
+
+/* Lista de passos concretos ("O que precisa acontecer") — a única <ol> com
+   estilo dedicado, para não parecer numeração de manual. */
+ol.passos{padding-left:1.4rem;margin:.8rem 0 1.6rem;max-width:64ch}
+ol.passos li{margin:.5rem 0;color:var(--tinta-2)}
+ol.passos li b{color:var(--tinta)}
+
+/* Nota interna de painel (não confundir com footer.the-eye global). */
+.foot{font-size:.78rem;color:var(--tinta-3);margin:1rem 0 0;line-height:1.6;max-width:64ch}
+
+/* Glossário de códigos de evento (corrente): mono à esquerda, prosa à direita. */
+ul.legend{list-style:none;padding:0;margin:.6rem 0 1.4rem;display:grid;
+  grid-template-columns:minmax(14rem,20rem) 1fr;gap:.35rem 1rem;font-size:.82rem}
+ul.legend li{display:contents}
+ul.legend li code{font-family:var(--mono);font-size:.78rem;color:var(--tinta);
+  background:var(--papel-2);padding:.15rem .4rem;border-radius:2px}
+ul.legend li span{color:var(--tinta-2);align-self:center}
+
+/* Linhagem de evento (a peça-âncora da narrativa Palantir): uma <div class="linha">
+   com uma <div class="cadeia"> de nós encadeados e uma <div class="meta"> embaixo. */
+.linha{padding:.9rem 0;border-bottom:1px solid var(--regua)}
+.linha:last-child{border-bottom:0}
+.cadeia{display:flex;flex-wrap:wrap;align-items:center;gap:.4rem;font-size:.82rem}
+.cadeia .no{display:inline-flex;align-items:center;padding:.32rem .6rem;
+  border:1px solid var(--regua);background:var(--papel);border-radius:2px;
+  font-family:var(--mono);font-size:.76rem;color:var(--tinta-2)}
+.cadeia::after,.cadeia .no + .no::before{content:"→";color:var(--tinta-3);
+  padding:0 .1rem;font-size:.72rem}
+.cadeia::after{display:none}
+.meta{font-family:var(--mono);font-size:.72rem;color:var(--tinta-3);
+  margin-top:.35rem;letter-spacing:-.005em}
+
+/* Aviso compacto (variante de .muted com sinal visual mínimo). */
+.aviso{font-size:.82rem;color:var(--latao);margin:.8rem 0 1.4rem;
+  padding-left:.8rem;border-left:2px solid var(--latao-clara);max-width:64ch}
+
+/* Grelha de gráficos (benchmark): mesma família de .cards, mais respiro. */
+.charts{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+  gap:1.4rem;margin:1.4rem 0}
+.chart{background:var(--papel-2);border:1px solid var(--regua);padding:1.1rem 1.2rem}
+.chart h2{margin:0 0 .8rem;font-size:1.02rem}
+.chart-svg{width:100%;height:auto;display:block}
+.chart-svg text{font-family:var(--grotesca);fill:var(--tinta-2)}
+.chart-svg rect{shape-rendering:crispEdges}
+
 @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
 @media (max-width: 640px){
   body{font-size:16px}
@@ -200,15 +289,47 @@ def estado(texto: str, tom: str = "latao") -> str:
     return f'<span class="marca-estado e-{tom}">{html.escape(texto)}</span>'
 
 
-def pagina(*, titulo: str, corpo: str, rota: str = "", estatico: bool = False, local: str = "") -> str:
-    """O invólucro único de toda página. Um tema, não dez cópias."""
+# Favicon SVG embutido: circunferência + ponto = "o olho". Uma requisição a
+# menos e zero bytes de rede. O tamanho longo é natureza de data URI escapado.
+FAVICON = (  # noqa: E501 - data URI é longo por natureza; quebrar prejudica leitura
+    "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E"
+    "%3Ccircle cx='16' cy='16' r='12' fill='none' stroke='%231F5C4A' stroke-width='2'/%3E"
+    "%3Ccircle cx='16' cy='16' r='4' fill='%231F5C4A'/%3E%3C/svg%3E"
+)
+
+
+def pagina(
+    *,
+    titulo: str,
+    corpo: str,
+    rota: str = "",
+    estatico: bool = False,
+    local: str = "",
+    descricao: str = "",
+) -> str:
+    """O invólucro único de toda página. Um tema, não dez cópias.
+
+    ``descricao`` alimenta ``<meta name="description">`` e ``og:description`` —
+    sem isso, um link do produto compartilhado renderiza preview vazio. O
+    default é a tese; cada página passa a sua própria quando faz sentido.
+    """
     from .navegacao import AVISO, barra
 
     marcador = f'<span class="local">{html.escape(local)}</span>' if local else ""
+    desc = descricao or (
+        "Mercados preditivos auditáveis. Probabilidade selada antes do fato, "
+        "resolvida contra fonte oficial, verificável sem pedir licença."
+    )
     return f"""<!doctype html>
 <html lang="pt-br"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{html.escape(titulo)}</title>
+<meta name="description" content="{html.escape(desc)}">
+<meta name="theme-color" content="#1F5C4A">
+<meta property="og:title" content="{html.escape(titulo)}">
+<meta property="og:description" content="{html.escape(desc)}">
+<meta property="og:type" content="website">
+<link rel="icon" href="{FAVICON}">
 <style>{TOKENS}{BASE}</style></head>
 <body><main>
 <header class="topo">

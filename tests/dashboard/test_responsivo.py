@@ -19,7 +19,10 @@ RAIZ = Path(__file__).resolve().parents[2]
         ("src/asus_theye/dashboard/mercados.py", ("MERCADOS", "Mercados vivos", "Divergência vs comparador"), True),
         ("src/asus_theye/dashboard/evidencia.py", ("EVIDÊNCIA", "Linhagem verificável", "Fonte provada"), False),
         ("src/asus_theye/dashboard/mlops.py", ("MLOPS", "Corridas", "Campeão / Desafiante por modelo"), True),
-        ("src/asus_theye/dashboard/benchmark.py", ("ASUS THE EYE BENCHMARK", "Best score", "Score comparison"), False),
+        # O h1 antigo "ASUS THE EYE BENCHMARK" foi absorvido pelo <h1>Benchmark</h1>
+        # dentro do invólucro do tema — a marca já vive no cabeçalho. Marcadores
+        # que ainda provam que é a página certa: os rótulos dos cards e do gráfico.
+        ("src/asus_theye/dashboard/benchmark.py", ("Best score", "Score comparison"), False),
     ],
 )
 def test_a_trava_responsiva_vive_no_tema_e_nao_copiada(  # noqa: ARG001

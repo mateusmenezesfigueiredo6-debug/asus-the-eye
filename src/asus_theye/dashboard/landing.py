@@ -24,14 +24,21 @@ from typing import Any
 from .navegacao import destino
 from .tema import estado, hash_fio, leitura, pagina
 
-PRODUTOS: tuple[dict[str, str], ...] = (
+PRODUTOS: tuple[dict[str, Any], ...] = (
     {
         "nome": "Markets",
+        "lente": "probabilidade selada antes do fato",
         "tese": "Perguntas com prazo e critério, respondidas pela fonte oficial — "
         "não por alguém decidindo depois quem ganhou.",
         "detalhe": "Inflação, juros e câmbio, cada um medido contra o Banco Central. A probabilidade "
         "sai antes do fato, com a origem do sinal nomeada. O Brier aparece quando o contrato liquida, "
         "e é <code>null</code> até lá — antes disso não há o que pontuar.",
+        # cada linha aqui vira uma <li> abaixo do detalhe. Fatos concretos, não promessas.
+        "provas": (
+            "Fonte oficial: Banco Central (SGS)",
+            "Duas trilhas por mercado: consenso Focus e cobertura noticiosa",
+            "Sem dinheiro real — Lei 14.790/2023",
+        ),
         "rota": "/mercados",
         "cta": "Ver os mercados",
         "segunda_rota": "/calibracao",
@@ -39,11 +46,17 @@ PRODUTOS: tuple[dict[str, str], ...] = (
     },
     {
         "nome": "Ledger",
+        "lente": "a prova que qualquer um confere",
         "tese": "A trilha que qualquer pessoa confere sem pedir licença.",
         "detalhe": "Cada passo selado por hash, encadeado ao anterior, e ancorado em blockchain "
         "pública. O verificador responde <strong>sem token</strong>: você não precisa acreditar em "
         "nós — baixe a corrente e refaça a conta. Apagar dado deixa recibo, e a âncora continua "
         "válida.",
+        "provas": (
+            "Corrente por hash encadeado, verificável offline",
+            "Âncoras on-chain na Base Sepolia",
+            "Expurgo com recibo: LGPD sem quebrar a prova",
+        ),
         "rota": "/corrente",
         "cta": "Ver a corrente",
         "segunda_rota": "/api",
@@ -129,40 +142,81 @@ def _leituras(base: Path | None) -> str:
     )
 
 
-def _produto(p: dict[str, str], *, estatico: bool) -> str:
-    return f"""<article style="padding:2.2rem 0;border-top:1px solid var(--regua)">
-<div class="rotulo">THE EYE</div>
-<h3 style="font-size:clamp(1.45rem,3.4vw,2rem);letter-spacing:-.02em;margin:.3rem 0 .9rem">
-{html.escape(p["nome"])}</h3>
-<p style="font-size:1.1rem;line-height:1.5;margin:0 0 .8rem;max-width:48ch">{html.escape(p["tese"])}</p>
-<p class="nota" style="margin:0 0 1.3rem">{p["detalhe"]}</p>
-<div style="display:flex;gap:1.6rem;flex-wrap:wrap;align-items:center">
+def _produto(p: dict[str, Any], *, estatico: bool) -> str:
+    """Um cartão de produto no grid da vitrine — dois produtos, peso igual.
+
+    Estrutura fixa (importa para paridade): rótulo curto → nome grande → lente
+    em uma linha → tese em serifa → detalhe em nota → provas em <ul> → dois CTAs.
+    Se um produto ganhar mais linhas de prova, o outro ganha também; a paridade
+    é do desenho, não do texto.
+    """
+    provas = "".join(f"<li>{html.escape(x)}</li>" for x in p["provas"])
+    return f"""<article class="card" style="padding:1.6rem 1.7rem;gap:.6rem">
+<div class="label">THE EYE · {html.escape(p["lente"])}</div>
+<h3 style="font-family:var(--grotesca);font-weight:700;letter-spacing:-.02em;
+font-size:clamp(1.6rem,3.4vw,2.1rem);margin:.1rem 0 .3rem">{html.escape(p["nome"])}</h3>
+<p style="font-family:var(--serifa);font-size:1.08rem;line-height:1.45;margin:0 0 .5rem">{html.escape(p["tese"])}</p>
+<p class="muted" style="margin:0 0 .8rem;font-size:.86rem;line-height:1.5">{p["detalhe"]}</p>
+<ul style="padding-left:1.05rem;margin:0 0 1rem;font-size:.82rem;color:var(--tinta-2);line-height:1.5">
+{provas}
+</ul>
+<div style="display:flex;gap:1.4rem;flex-wrap:wrap;align-items:center;margin-top:auto">
 <a href="{html.escape(destino(p["rota"], estatico=estatico))}"
 style="font-family:var(--grotesca);font-weight:600;font-size:.94rem;text-decoration:none;
 color:var(--selo);border-bottom:1.5px solid var(--selo);padding-bottom:2px">{html.escape(p["cta"])}</a>
 <a href="{html.escape(destino(p["segunda_rota"], estatico=estatico))}"
-style="font-family:var(--grotesca);font-size:.88rem;text-decoration:none;color:var(--tinta-3)">
+style="font-family:var(--grotesca);font-size:.86rem;text-decoration:none;color:var(--tinta-3)">
 {html.escape(p["segunda"])}</a>
 </div></article>"""
 
 
+def _vitrine_dois(base: Path | None, *, estatico: bool) -> str:
+    """Os dois produtos, lado a lado, com peso IGUAL.
+
+    A ordem visual (Markets à esquerda, Ledger à direita) é convenção; o que
+    importa é a paridade — mesmo card, mesmo peso tipográfico, mesma quantidade
+    de âncoras factuais debaixo do CTA. Antes, o hero era só do Markets e o
+    Ledger caía no meio de um parágrafo; a queixa "cadê a Palantir? só estou
+    vendo a Kalshi" era descritiva da tela, não do produto.
+    """
+    grade = "grid-template-columns:repeat(auto-fit,minmax(320px,1fr));margin-top:2.4rem"
+    return f"""<section class="cards" style="{grade}">
+{"".join(_produto(p, estatico=estatico) for p in PRODUTOS)}
+</section>"""
+
+
 def landing_page(base: Path | None = None, *, estatico: bool = False) -> str:
-    """Página inicial. Degrada dizendo o que falta, nunca inventando."""
-    produtos = "".join(_produto(p, estatico=estatico) for p in PRODUTOS)
+    """Página inicial. Degrada dizendo o que falta, nunca inventando.
+
+    A ordem visual: tese > vitrine dos DOIS produtos com peso igual > números
+    vivos > amostra concreta (o claim mais próximo de responder) > a recusa
+    que assina a doutrina. O hero-de-um-produto-só saiu — a tese fica antes
+    e cobre os dois.
+    """
     corpo = f"""<h1>A probabilidade sai antes do fato — e fica provado que saiu.</h1>
 <p class="lede">Perguntas com prazo e critério, respondidas pela fonte oficial. Cada passo selado
-numa corrente que qualquer pessoa verifica, sem pedir acesso a ninguém.</p>
-{_heroi(base, estatico=estatico)}
+numa corrente que qualquer pessoa verifica, sem pedir acesso a ninguém. <b>Dois produtos</b>,
+mesma disciplina.</p>
+{_vitrine_dois(base, estatico=estatico)}
 {_leituras(base)}
-<h2>Dois produtos</h2>
-{produtos}
-<div class="ressalva">
+<h2>Um exemplo concreto — o claim mais próximo de responder</h2>
+{_heroi(base, estatico=estatico)}
+<div class="ressalva" style="margin-top:2.2rem">
 <span class="rotulo">O que esta plataforma recusa fazer</span>
 Comparador nunca resolve — preço de mercado alheio é opinião agregada, não desfecho.
 Sem sinal, dizemos <code>p = 0,50</code> e declaramos que não sabemos, em vez de fabricar
 confiança. E nenhum número aparece sem o método que o produziu ao lado.
 </div>"""
-    return pagina(titulo="ASUS THE EYE — mercados preditivos auditáveis", corpo=corpo, rota="/", estatico=estatico)
+    return pagina(
+        titulo="ASUS THE EYE — mercados preditivos auditáveis",
+        corpo=corpo,
+        rota="/",
+        estatico=estatico,
+        descricao=(
+            "Dois produtos: THE EYE Markets (probabilidade selada antes do fato) e THE EYE Ledger "
+            "(prova que qualquer um confere). Resolvidos contra fonte oficial, ancorados on-chain."
+        ),
+    )
 
 
 def register_landing_routes(app: Any, base: Path | None = None) -> None:
