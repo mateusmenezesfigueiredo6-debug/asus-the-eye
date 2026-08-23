@@ -281,3 +281,85 @@ def cabeca_da_corrente(sdk: AuditSDK, *, tenant: str = TENANT_PADRAO) -> int:
     """Sequência do topo da corrente (0 = vazia)."""
     proxima, _hash = sdk.store.next_position(tenant)
     return proxima - 1
+
+# ------------------------------------------------- reconciliação de selagem
+
+
+def reconciliar_divergencia(
+    sdk: AuditSDK,
+    *,
+    correlation_id: str,
+    hash_selado_original: str,
+    hash_atual: str,
+    motivo: str,
+    tenant: str = TENANT_PADRAO,
+    eventos: Path = EVENTOS_PADRAO,
+) -> dict[str, Any]:
+    """Documenta, na própria corrente, que um conteúdo selado divergiu — e por quê.
+
+    O caso que exige isto: o esquema do conteúdo evolui DEPOIS de um evento ter
+    sido selado. O hash antigo fica órfão — o conteúdo que o gerou não existe
+    mais em lugar nenhum — e a re-selagem idempotente passa a acusar divergência
+    para sempre. Reescrever a corrente é proibido; silenciar a divergência seria
+    pior. O que resta é o caminho desta função: **apendar** um evento de
+    reconciliação que nomeia os dois hashes e o motivo, para que a divergência
+    vire história documentada em vez de alarme eterno.
+
+    A identidade do evento AMARRA o par: ``reconciliacao:{correlation}:{hash_atual[:16]}``.
+    Se o conteúdo atual mudar de novo, o hash muda, a reconciliação antiga deixa
+    de cobrir, e a varredura volta a falhar — que é o comportamento certo: cada
+    forma nova exige decisão nova, nunca um passe livre permanente.
+    """
+    conteudo = {
+        "correlation_id": correlation_id,
+        "hash_selado_original": hash_selado_original,
+        "hash_atual": hash_atual,
+        "motivo": motivo,
+    }
+    return selar_registro(
+        sdk,
+        conteudo,
+        tipo_evento="audit.reconciliation",
+        recurso="audit",
+        correlation_id=f"reconciliacao:{correlation_id}:{hash_atual[:16]}",
+        action="reconcile",
+        tenant=tenant,
+        eventos=eventos,
+    )
+
+
+def divergencia_reconciliada(
+    correlation_id: str,
+    hash_atual: str,
+    *,
+    eventos: Path = EVENTOS_PADRAO,
+) -> bool:
+    """A divergência deste par (correlação, hash atual) já foi documentada?
+
+    A resposta vem do export versionado, e a chave é o ``correlation_id``
+    estruturado — que amarra o hash ATUAL. Reconciliação de um hash antigo não
+    cobre um conteúdo que mudou de novo.
+    """
+    alvo = f"reconciliacao:{correlation_id}:{hash_atual[:16]}"
+    return any(
+        evento.get("event_type") == "audit.reconciliation" and evento.get("correlation_id") == alvo
+        for evento in _eventos_do_arquivo(eventos)
+    )
+
+
+def hash_de_conteudo(conteudo: dict[str, Any]) -> str:
+    """O hash que a selagem usaria — exposto para quem precisa comparar antes."""
+    return hash_json(redact(conteudo))
+
+
+def settlement_selado(
+    correlation_id: str,
+    *,
+    eventos: Path = EVENTOS_PADRAO,
+) -> dict[str, Any] | None:
+    """O evento market.settlement já selado para este claim, se houver."""
+    for evento in _eventos_do_arquivo(eventos):
+        if evento.get("event_type") == "market.settlement" and evento.get("correlation_id") == correlation_id:
+            return evento
+    return None
+

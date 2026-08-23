@@ -347,6 +347,7 @@ def resolver_pendentes(
     auditor: Auditor | None = None,
     gerador_de_sinais: GeradorDeSinais | None = None,
     fetchers_por_area: dict[str, Fetcher] | None = None,
+    eventos: Path | None = None,
 ) -> list[dict[str, Any]]:
     """Percorre o registro e aplica a máquina de estados. Devolve as ações.
 
@@ -379,6 +380,7 @@ def resolver_pendentes(
             auditor=auditor,
             gerador_de_sinais=gerador_de_sinais,
             fetchers_por_area=fetchers_por_area,
+            eventos=eventos,
         )
     finally:
         fcntl.flock(trava, fcntl.LOCK_UN)
@@ -394,6 +396,7 @@ def _resolver_pendentes_travado(
     auditor: Auditor | None,
     gerador_de_sinais: GeradorDeSinais | None = None,
     fetchers_por_area: dict[str, Fetcher] | None = None,
+    eventos: Path | None = None,
 ) -> list[dict[str, Any]]:
     registro = carregar_registro(store)
     acoes: list[dict[str, Any]] = []
@@ -580,11 +583,45 @@ def _resolver_pendentes_travado(
     # liquidação desta rodada quanto backfill de liquidações antigas. Falha de
     # auditoria é VISÍVEL (ação própria) mas nunca desfaz nem aborta a medição.
     if auditor is not None:
+        from asus_theye.markets.auditoria import (
+            EVENTOS_PADRAO,
+            divergencia_reconciliada,
+            hash_de_conteudo,
+            settlement_selado,
+        )
+
+        export = eventos if eventos is not None else EVENTOS_PADRAO
+
         for mercado in registro["mercados"]:
             if mercado["estado"] != "LIQUIDADO":
                 continue
+            linha = _linha_de_resolucao(mercado)
+
+            # Divergência DOCUMENTADA não é falha — é história. Um settlement
+            # antigo, selado antes de o esquema ganhar campos novos, tem hash
+            # que nenhum conteúdo atual reproduz. Se um evento de reconciliação
+            # cobre exatamente (claim, hash atual), a varredura registra e segue;
+            # sem reconciliação, a divergência continua derrubando a rodada —
+            # fail-closed é o padrão, a tolerância é a exceção assinada.
+            selado = settlement_selado(str(mercado["claim_id"]), eventos=export)
+            if selado is not None:
+                hash_atual = hash_de_conteudo(linha)
+                if selado.get("content_hash_sha256") != hash_atual:
+                    if divergencia_reconciliada(str(mercado["claim_id"]), hash_atual, eventos=export):
+                        acoes.append(
+                            {
+                                "claim_id": mercado["claim_id"],
+                                "acao": "divergencia_reconciliada",
+                                "motivo": (
+                                    f"settlement selado com hash {selado['content_hash_sha256'][:16]}… difere do "
+                                    f"conteúdo atual {hash_atual[:16]}…; reconciliação na corrente cobre o par"
+                                ),
+                            }
+                        )
+                        continue
+
             try:
-                recibo = auditor(_linha_de_resolucao(mercado))
+                recibo = auditor(linha)
             except Exception as erro:  # noqa: BLE001 - auditoria não pode derrubar a medição
                 acoes.append({"claim_id": mercado["claim_id"], "acao": "auditoria_falhou", "motivo": str(erro)})
                 continue
