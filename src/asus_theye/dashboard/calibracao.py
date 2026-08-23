@@ -47,25 +47,26 @@ def _svg_confiabilidade(curva: list[dict[str, Any]]) -> str:
         for f in curva
         if f.get("suficiente") and f.get("p_media_declarada") is not None and f.get("frequencia_observada") is not None
     ]
-    marcas = "".join(f'<circle cx="{px(p):.1f}" cy="{py(o):.1f}" r="4" fill="#67e8f9"/>' for p, o in pontos)
+    marcas = "".join(f'<circle cx="{px(p):.1f}" cy="{py(o):.1f}" r="4" fill="var(--selo)"/>' for p, o in pontos)
     linha = ""
     if len(pontos) > 1:
         caminho = " ".join(f"{px(p):.1f},{py(o):.1f}" for p, o in sorted(pontos))
-        linha = f'<polyline points="{caminho}" fill="none" stroke="#67e8f9" stroke-width="2"/>'
+        linha = f'<polyline points="{caminho}" fill="none" stroke="var(--selo)" stroke-width="2"/>'
     vazio = (
         ""
         if pontos
-        else f'<text x="{lado / 2}" y="{lado / 2}" fill="#9aa8bd" font-size="11" text-anchor="middle">'
+        else f'<text x="{lado / 2}" y="{lado / 2}" fill="var(--tinta-3)" font-size="11" text-anchor="middle">'
         "sem faixa com amostra suficiente</text>"
     )
     return f"""<svg viewBox="0 0 {lado} {lado}" width="100%" style="max-width:340px" role="img"
 aria-label="curva de confiabilidade contra a diagonal">
-<rect x="{margem}" y="{margem}" width="{util}" height="{util}" fill="#101725" stroke="#253149"/>
-<line x1="{px(0)}" y1="{py(0)}" x2="{px(1)}" y2="{py(1)}" stroke="#4b5563" stroke-width="1.5"
+<rect x="{margem}" y="{margem}" width="{util}" height="{util}" fill="var(--papel-2)" stroke="var(--regua)"/>
+<line x1="{px(0)}" y1="{py(0)}" x2="{px(1)}" y2="{py(1)}" stroke="var(--tinta-3)" stroke-width="1.5"
 stroke-dasharray="5,4"/>
 {linha}{marcas}{vazio}
-<text x="{lado / 2}" y="{lado - 6}" fill="#9aa8bd" font-size="10" text-anchor="middle">probabilidade declarada</text>
-<text x="11" y="{lado / 2}" fill="#9aa8bd" font-size="10" text-anchor="middle"
+<text x="{lado / 2}" y="{lado - 6}" fill="var(--tinta-3)" font-size="10"
+text-anchor="middle">probabilidade declarada</text>
+<text x="11" y="{lado / 2}" fill="var(--tinta-3)" font-size="10" text-anchor="middle"
 transform="rotate(-90 11 {lado / 2})">frequência observada</text>
 </svg>"""
 

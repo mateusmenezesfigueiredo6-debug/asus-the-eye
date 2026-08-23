@@ -44,15 +44,9 @@ PAINEIS_INTERNOS: tuple[tuple[str, str], ...] = (
     ("/benchmark", "benchmark"),
 )
 
-CSS_NAV = """
-nav.the-eye{display:flex;flex-wrap:wrap;gap:2px;margin:0 0 28px;padding:6px;
-background:#101725;border:1px solid #253149;border-radius:12px}
-nav.the-eye a{color:#9aa8bd;text-decoration:none;padding:8px 14px;border-radius:8px;
-font-size:.86rem;letter-spacing:.03em;white-space:nowrap}
-nav.the-eye a:hover{color:#e9f0ff;background:#1b2436}
-nav.the-eye a[aria-current="page"]{color:#080d16;background:#67e8f9;font-weight:600}
-@media (max-width:640px){nav.the-eye a{padding:7px 10px;font-size:.8rem}}
-"""
+# CSS_NAV foi removido: o tema.py (nav.the-eye) já cobre com a paleta canônica
+# (papel/tinta/selo). Manter uma cópia dark-slate aqui abria uma segunda
+# linguagem visual dentro do mesmo produto e quebrava o contraste WCAG.
 
 
 def destino(rota: str, *, estatico: bool = False) -> str:
@@ -99,13 +93,6 @@ AVISO = (
     "oficial nomeada. Um mercado tem regra verificável; uma aposta tem alguém decidindo depois quem ganhou."
 )
 
-CSS_AVISO = """
-footer.the-eye{margin:36px 0 0;padding:14px 16px;border-top:1px solid #253149;
-color:#9aa8bd;font-size:.78rem;line-height:1.55;max-width:90ch}
-footer.the-eye strong{color:#e9f0ff}
-"""
-
-
-def rodape() -> str:
-    """Aviso de escopo, injetado em todos os painéis."""
-    return f'<footer class="the-eye">{AVISO}</footer>'
+# CSS_AVISO e rodape() foram removidos: `pagina()` do tema.py já injeta o
+# <footer class="the-eye"> com AVISO em toda página, e tema.py já estiliza
+# footer.the-eye com a paleta canônica. Nada externo mais consome estes nomes.
