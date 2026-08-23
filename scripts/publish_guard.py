@@ -62,6 +62,10 @@ def strip_heredocs(command: str) -> str:
 # catches what was never agreed: a mistake, an automation, an AI overstep.
 EXPOSE_PATTERNS: tuple[tuple[str, str], ...] = (
     (r"\bgh\s+repo\s+create\b(?!.*--private)", "gh repo create sem --private (repo pode nascer público)"),
+    # --private=false / --private false / --public burlavam o lookahead acima:
+    # a string "--private" existe na linha, então a negação (?!.*--private) passava.
+    # Esta regra pega o público EXPLÍCITO, que a de cima nunca via.
+    (r"\bgh\s+repo\s+(create|edit)\b.*(--public\b|--private[= ]false\b)", "repositório PÚBLICO explícito"),
     (r"\bgh\s+repo\s+edit\b.*--visibility\s+public", "tornar repositório PÚBLICO"),
     (r"\bgh\s+release\s+create\b", "gh release create (publica release)"),
     (r"\bgh\s+gist\s+create\b(?!.*--secret)", "gh gist create público"),
