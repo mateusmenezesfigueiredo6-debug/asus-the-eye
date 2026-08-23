@@ -236,12 +236,23 @@ def selar_registro(
     if selado is None:  # pragma: no cover - append bem-sucedido garante presença
         raise AuditoriaError(f"{correlation_id}: evento gravado mas não encontrado para export")
 
-    # dedupe NUNCA esconde divergência: mesma correlação com conteúdo diferente levanta
+    # dedupe NUNCA esconde divergência: mesma correlação com conteúdo diferente
+    # levanta — SALVO se a divergência estiver documentada por um evento de
+    # reconciliação que cubra exatamente este par (correlação, hash atual).
+    # A tolerância vive AQUI, na via genérica, para que todo ponto de selagem
+    # (settlement, consenso, calibração, vintage…) herde a mesma regra: a
+    # exceção é assinada na corrente, nunca decidida caso a caso no chamador.
     if recibo.get("duplicate") and selado["content_hash_sha256"] != conteudo_hash:
+        if divergencia_reconciliada(correlation_id, conteudo_hash, eventos=eventos):
+            recibo = dict(recibo)
+            recibo["divergencia_reconciliada"] = True
+            recibo["hash_selado_original"] = selado["content_hash_sha256"]
+            return recibo
         raise AuditoriaError(
             f"{correlation_id}: o conteúdo atual diverge do já selado "
-            f"(content_hash {conteudo_hash[:16]}… ≠ {selado['content_hash_sha256'][:16]}…) — "
-            "investigue antes de qualquer selagem nova"
+            f"(content_hash atual {conteudo_hash} ≠ selado {selado['content_hash_sha256']}) — "
+            "investigue; se a mudança de forma for legítima e decidida, registre-a com "
+            "scripts/reconciliar_selagem.py e a selagem passa a reconhecê-la"
         )
 
     # export auto-reparador: presença por event_id, nunca condicionada a duplicate
@@ -363,3 +374,16 @@ def settlement_selado(
         if evento.get("event_type") == "market.settlement" and evento.get("correlation_id") == correlation_id:
             return evento
     return None
+
+
+def evento_por_correlacao(
+    correlation_id: str,
+    *,
+    eventos: Path = EVENTOS_PADRAO,
+) -> dict[str, Any] | None:
+    """O último evento selado com esta correlação — reconciliações fora."""
+    achado = None
+    for evento in _eventos_do_arquivo(eventos):
+        if evento.get("correlation_id") == correlation_id and evento.get("event_type") != "audit.reconciliation":
+            achado = evento
+    return achado
