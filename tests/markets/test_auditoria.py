@@ -399,3 +399,33 @@ def test_varredura_reconhece_divergencia_reconciliada(tmp_path: Path) -> None:
     )
     assert any(a["acao"] == "divergencia_reconciliada" for a in acoes2), acoes2
     assert not any(a["acao"] == "auditoria_falhou" for a in acoes2), acoes2
+
+
+def test_selar_registro_reconhece_divergencia_assinada(tmp_path: Path) -> None:
+    """A tolerância vive na via genérica: TODO ponto de selagem herda a regra."""
+    from asus_theye.markets.auditoria import hash_de_conteudo, reconciliar_divergencia, selar_registro
+
+    sdk = sdk_efemero(tmp_path)
+    eventos = tmp_path / "eventos.jsonl"
+    selar_liquidacao(sdk, LINHA, eventos=eventos)
+
+    divergente = {**LINHA, "brier_do_contrato": 0.99}
+    hash_novo = hash_de_conteudo(divergente)
+    reconciliar_divergencia(
+        sdk,
+        correlation_id=LINHA["claim_id"],
+        hash_selado_original="a" * 64,
+        hash_atual=hash_novo,
+        motivo="mudança de forma decidida (teste)",
+        eventos=eventos,
+    )
+    recibo = selar_registro(
+        sdk,
+        divergente,
+        tipo_evento="market.settlement",
+        recurso="market",
+        correlation_id=LINHA["claim_id"],
+        eventos=eventos,
+    )
+    assert recibo.get("divergencia_reconciliada") is True
+    assert recibo.get("duplicate") is True
