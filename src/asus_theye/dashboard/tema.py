@@ -231,7 +231,7 @@ ul.legend li code{font-family:var(--mono);font-size:.78rem;color:var(--tinta);
   background:var(--papel-2);padding:.15rem .4rem;border-radius:2px}
 ul.legend li span{color:var(--tinta-2);align-self:center}
 
-/* Linhagem de evento (a peça-âncora da narrativa Palantir): uma <div class="linha">
+/* Linhagem de evento (a peça-âncora da narrativa de proveniência): uma <div class="linha">
    com uma <div class="cadeia"> de nós encadeados e uma <div class="meta"> embaixo. */
 .linha{padding:.9rem 0;border-bottom:1px solid var(--regua)}
 .linha:last-child{border-bottom:0}
@@ -337,5 +337,7 @@ def pagina(
 </header>
 {barra(rota, estatico=estatico)}
 {corpo}
-<footer class="the-eye">{AVISO}</footer>
+<footer class="the-eye">{AVISO}
+<br><br><small>© 2026 <strong>Mateus Menezes Figueiredo</strong> — ASUS THE EYE ·
+plataforma de mercados preditivos auditáveis · AGPL-3.0-or-later</small></footer>
 </main></body></html>"""
