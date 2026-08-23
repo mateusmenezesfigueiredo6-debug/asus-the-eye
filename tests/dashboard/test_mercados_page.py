@@ -21,7 +21,13 @@ def test_pagina_real_mostra_os_tres_mercados() -> None:
     from asus_theye.dashboard.mercados import mercados_page
 
     page = mercados_page()  # estado REAL do repo
-    for marca in ("MACRO-01::2026-08", "JUROS-01::2026-09", "CAMBIO-01::2026-09", "comparador, nunca fonte"):
+    marcas = (
+        "MACRO-01::2026-08",
+        "JUROS-01::2026-09",
+        "CAMBIO-01::2026-09",
+        "comparador</b>, nunca fonte de resolução",
+    )
+    for marca in marcas:
         assert marca in page, f"marca ausente: {marca}"
     assert "retrospectivas" in page.lower()  # a exclusão honesta é dita
 

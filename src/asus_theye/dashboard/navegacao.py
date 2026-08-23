@@ -34,7 +34,9 @@ PAINEIS: tuple[tuple[str, str], ...] = (
     # --- Produto 2: THE EYE Ledger — a trilha e como conferi-la sozinho
     ("/corrente", "corrente"),
     ("/evidencia", "evidência"),
-    ("/api", "verificar"),
+    # "verificar" leva ao verificador VIVO (client-side), não mais à doc da API.
+    # A doc continua servida em /api — linkada de dentro do verificador.
+    ("/verificar", "verificar"),
 )
 
 # Servidos, fora do menu público. Quem sabe a URL chega; ninguém tropeça neles.

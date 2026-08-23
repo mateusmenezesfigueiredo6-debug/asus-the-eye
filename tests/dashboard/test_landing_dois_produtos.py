@@ -17,7 +17,9 @@ def test_a_vitrine_apresenta_dois_produtos_com_peso_igual() -> None:
 
     h = landing_page(estatico=True)
     # os dois cartões precisam existir, com o mesmo rótulo estrutural
-    assert h.count("THE EYE ·") == 2, "dois produtos, dois rótulos"
+    # os dois rótulos de CARTÃO (a lente de cada produto). Conta o rótulo
+    # específico, não "THE EYE ·" solto — o footer de titularidade também o usa.
+    assert h.count('class="label">THE EYE ·') == 2, "dois produtos, dois rótulos de cartão"
     for nome in ("Markets", "Ledger"):
         assert f">{nome}<" in h or f">{nome} <" in h, f"nome {nome!r} deve aparecer como título de cartão"
 
@@ -30,7 +32,7 @@ def test_a_vitrine_apresenta_dois_produtos_com_peso_igual() -> None:
     assert h.count("<li>") >= 6
 
     # a vitrine dos dois produtos vem ANTES do exemplo concreto (hero do Markets)
-    i_vitrine = h.find("THE EYE ·")
+    i_vitrine = h.find('class="label">THE EYE ·')
     i_exemplo = h.find("Publicado antes do fato")
     if i_exemplo != -1:
         assert i_vitrine < i_exemplo

@@ -24,6 +24,7 @@ def test_exportar_gera_html_basico(tmp_path: Path) -> None:
         "mercados.html",
         "mlops.html",
         "api.html",
+        "verificar.html",
         "index.html",
     }
     assert len(resultado["pulados"]) == 1
@@ -194,3 +195,27 @@ def test_todo_painel_publicado_carrega_o_aviso_de_escopo(tmp_path: Path) -> None
         p for p in resultado["gerados"] if "não é casa de apostas" not in (tmp_path / p).read_text(encoding="utf-8")
     ]
     assert not sem_aviso, f"páginas publicadas sem o aviso de escopo: {sem_aviso}"
+
+
+def test_bundle_publico_exclui_fabrica_e_nao_vaza_terceiro(tmp_path: Path) -> None:
+    """O bundle de lançamento mostra os produtos, não a instrumentação.
+
+    E — trava de titularidade — o HTML público não pode carregar marca de
+    terceiro (Palantir/Kalshi) nem dado pessoal. As menções factuais à Kalshi
+    vivem só nos painéis internos, que este bundle exclui.
+    """
+    resultado = exportar(tmp_path, publico=True)
+    for interno in ("projeto.html", "mlops.html", "benchmark.html"):
+        assert interno not in resultado["gerados"], f"{interno} não devia estar no bundle público"
+        assert not (tmp_path / interno).exists()
+    # os produtos e a porta continuam
+    for publico in ("index.html", "mercados.html", "corrente.html", "verificar.html"):
+        assert publico in resultado["gerados"]
+
+    # nenhuma marca de terceiro nem dado pessoal no que vai ao ar
+    for arquivo in tmp_path.glob("*.html"):
+        texto = arquivo.read_text(encoding="utf-8").lower()
+        assert "palantir" not in texto, f"marca de terceiro em {arquivo.name}"
+        assert "kalshi" not in texto, f"marca de terceiro em {arquivo.name}"
+        assert "158.035.377" not in texto and "15803537705" not in texto
+        assert "@gmail.com" not in texto

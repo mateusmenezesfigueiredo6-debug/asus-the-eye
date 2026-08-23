@@ -358,6 +358,11 @@ def _parser() -> argparse.ArgumentParser:
         help="diretório de saída (padrão: dist/)",
     )
     export_static.add_argument("--json", dest="json_out", action="store_true", help="saída em JSON")
+    export_static.add_argument(
+        "--publico",
+        action="store_true",
+        help="bundle de lançamento: exclui a telemetria interna (projeto/mlops/benchmark)",
+    )
     relatorio_mensal = subcommands.add_parser(
         "relatorio-mensal",
         help="gera o extrato mensal em Markdown da atividade real da plataforma",
@@ -1607,7 +1612,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     if args.command == "export-static":
         from asus_theye.dashboard.export_static import exportar
 
-        resultado = exportar(args.out)
+        resultado = exportar(args.out, publico=args.publico)
         if args.json_out:
             print(json.dumps(resultado, ensure_ascii=False, indent=2))
             return 0
