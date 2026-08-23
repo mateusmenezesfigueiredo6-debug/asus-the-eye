@@ -282,6 +282,7 @@ def cabeca_da_corrente(sdk: AuditSDK, *, tenant: str = TENANT_PADRAO) -> int:
     proxima, _hash = sdk.store.next_position(tenant)
     return proxima - 1
 
+
 # ------------------------------------------------- reconciliação de selagem
 
 
@@ -362,4 +363,3 @@ def settlement_selado(
         if evento.get("event_type") == "market.settlement" and evento.get("correlation_id") == correlation_id:
             return evento
     return None
-
