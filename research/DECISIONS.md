@@ -193,3 +193,29 @@ SDKs de terceiros contrariariam a política de dependências vazias do projeto.
 
 **Reverteria:** adoção formal de dependências externas no `pyproject.toml`, ou
 um terceiro provedor cujo vocabulário colida com os apelidos atuais.
+
+## D110 — Modelo de terceiro passa pela mesma analise de termos que a Kalshi
+
+**Decisao:** os termos da OpenAI e da Anthropic foram analisados no formato de
+`reports/provenance/`, como se fez com a Kalshi. O resultado NAO e expurgo: pela
+evidencia disponivel os provedores atribuem o Output ao cliente e nao treinam
+com dado de API por padrao — nenhum verbo proibido esta sendo praticado. Duas
+consequencias entram no codigo: um Covered Model (retencao obrigatoria de 30
+dias, sem opcao de retencao zero) passa a exigir `THE_EYE_ACCEPT_RETENTION=1`, e
+o padrao `claude-opus-5` fica registrado em teste como nao-coberto.
+
+**Razao:** o caminho remoto manda texto do TITULAR para fora, o que e um risco
+de direitos maior do que o de qualquer fonte de dado que so entra. A analise
+existia para a Kalshi e nunca tinha sido feita para quem recebe o conteudo. E a
+escolha de modelo decidia sozinha, sem ninguem perceber, se o texto do titular
+ficaria 30 dias guardado ou nao ficaria guardado.
+
+**Evidencia primaria:** S013 — pagina de retencao da Anthropic, lida integralmente
+em 23/08/2026. **Evidencia ausente:** as clausulas de propriedade do Output dos
+dois provedores nao puderam ser lidas na fonte (egresso bloqueado) e estao como
+UNKNOWN em S014 e S015.
+
+**Reverteria:** leitura das duas paginas de termos na fonte primaria mostrando
+clausula incompativel — caso em que se aplica o precedente da Kalshi e o caminho
+remoto sai. Ou a Anthropic mudar a lista de Covered Models, o que muda a trava.
+

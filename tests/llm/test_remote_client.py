@@ -8,6 +8,9 @@ import pytest
 
 from asus_theye.llm import remote_client
 from asus_theye.llm.remote_client import (
+    ACCEPT_RETENTION_ENV_FLAG,
+    ANTHROPIC_COVERED_MODELS,
+    DEFAULT_ANTHROPIC_MODEL,
     EXECUTE_ENV_FLAG,
     AnthropicClient,
     OpenAIClient,
@@ -130,3 +133,36 @@ class TestBuildClientAliases:
         for alias in ("chatgpt", "claude"):
             with pytest.raises(RemoteLLMError, match="gated"):
                 build_client(alias)
+
+
+class TestRetencaoCoveredModel:
+    """Um Covered Model obriga 30 dias de retencao; isso nao pode ser padrao."""
+
+    def test_covered_model_e_recusado_sem_consentimento(self, open_gate, monkeypatch):
+        monkeypatch.delenv(ACCEPT_RETENTION_ENV_FLAG, raising=False)
+        for modelo in ("claude-fable-5", "claude-mythos-5"):
+            with pytest.raises(RemoteLLMError, match="Covered Model"):
+                AnthropicClient(model=modelo)
+
+    def test_consentimento_explicito_libera(self, open_gate, monkeypatch):
+        monkeypatch.setenv(ACCEPT_RETENTION_ENV_FLAG, "1")
+        assert AnthropicClient(model="claude-fable-5").model == "claude-fable-5"
+
+    def test_o_padrao_do_projeto_nao_e_covered(self, open_gate, monkeypatch):
+        """claude-opus-5 preserva a opcao de retencao zero — nao pode regredir."""
+        monkeypatch.delenv(ACCEPT_RETENTION_ENV_FLAG, raising=False)
+        assert DEFAULT_ANTHROPIC_MODEL not in ANTHROPIC_COVERED_MODELS
+        assert AnthropicClient().model == DEFAULT_ANTHROPIC_MODEL
+
+    def test_a_recusa_vem_antes_da_chave(self, open_gate, monkeypatch):
+        """Sem chave E com modelo coberto, o erro que importa e o da retencao."""
+        monkeypatch.delenv(ACCEPT_RETENTION_ENV_FLAG, raising=False)
+        monkeypatch.delenv("ANTHROPIC_API_KEY", raising=False)
+        with pytest.raises(RemoteLLMError, match="Covered Model"):
+            AnthropicClient(model="claude-fable-5")
+
+    def test_a_porta_ainda_vem_antes_de_tudo(self, monkeypatch):
+        monkeypatch.delenv(EXECUTE_ENV_FLAG, raising=False)
+        monkeypatch.setenv(ACCEPT_RETENTION_ENV_FLAG, "1")
+        with pytest.raises(RemoteLLMError, match="gated"):
+            AnthropicClient(model="claude-fable-5")
