@@ -1,0 +1,20 @@
+{
+  "expo": {
+    "name": "Cinala Verde",
+    "slug": "cinala-verde",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "dark",
+    "backgroundColor": "#070b08",
+    "ios": {
+      "bundleIdentifier": "org.cinalaverde.app",
+      "supportsTablet": true
+    },
+    "android": {
+      "package": "org.cinalaverde.app",
+      "adaptiveIcon": {
+        "backgroundColor": "#070b08"
+      }
+    }
+  }
+}

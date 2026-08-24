@@ -1,0 +1,21 @@
+# SPDX-FileCopyrightText: 2026 Mateus Menezes Figueiredo
+# SPDX-License-Identifier: AGPL-3.0-or-later
+#
+# Site de apresentacao do vertical cannabis, fechado por codigo.
+# Secrets (nunca commitados): SITE_ACCESS_CODE, COOKIE_SECRET
+#   npx wrangler secret put SITE_ACCESS_CODE
+#   npx wrangler secret put COOKIE_SECRET
+
+name = "cannabis-demo"
+main = "worker.ts"
+compatibility_date = "2026-08-01"
+
+[assets]
+directory = "../../dist-cannabis"
+binding = "ASSETS"
+html_handling = "auto-trailing-slash"
+not_found_handling = "404-page"
+
+[observability]
+enabled = true
+head_sampling_rate = 0.1
