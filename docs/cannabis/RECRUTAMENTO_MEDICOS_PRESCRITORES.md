@@ -31,6 +31,23 @@ sao os licitos.
 4. Interesse em telemedicina (Resolucao CFM 2.314/2022 permite atender o pais
    inteiro).
 
+## Classificacao do lead por habilitacao
+
+Todo lead entra numa das tres classes abaixo antes de qualquer proposta.
+Base: so prescreve no Brasil quem tem CRM ativo; a revalidacao de diploma
+estrangeiro (Revalida INEP) e semestral e por edital — nao existe "fazer a
+qualquer momento".
+
+| Classe | Quem e | O que pode fazer | Tratamento no funil |
+|---|---|---|---|
+| A — Prescritor apto | CRM ativo no Brasil, verificado no portal do CFM | Prescrever e atender na plataforma | Cadencia completa; proposta de contrato |
+| B — Pipeline futuro | Formado no exterior em revalidacao (Revalida INEP semestral, ou universidade publica via Plataforma Carolina Bori) | Nada assistencial ate obter o CRM | Nutrir relacionamento; ciclo tipico ate o CRM e de 8 a 18 meses; reclassificar para A somente apos verificacao no CFM |
+| C — Conselho cientifico | Especialista estrangeiro sem CRM e sem plano de revalidar | Funcao nao assistencial: P&D, protocolos, formacao | Convite ao conselho cientifico; remuneracao por reuniao ou projeto |
+
+Regra dura: lead B ou C jamais aparece como "prescritor" em nenhum
+material, pagina ou proposta. Prescricao por nao habilitado e exercicio
+ilegal da medicina e contamina a plataforma inteira.
+
 ## Canais e cadencia
 
 Sequencia por lead: Email 1 -> (3 dias) Email 2 -> (4 dias) WhatsApp 1 ->
