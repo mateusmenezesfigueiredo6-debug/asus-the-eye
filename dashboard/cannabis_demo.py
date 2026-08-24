@@ -600,6 +600,303 @@ self.addEventListener('fetch', (e) => {
 """
 
 
+def deck_page() -> str:
+    """Deck de investidores em HTML: mesma narrativa do PPTX, um arquivo.
+
+    Slides navegaveis por teclado (setas/espaco), clique ou botoes; sai no
+    export atras do mesmo gate por codigo do Worker.
+    """
+    slides = (
+        (
+            "capa",
+            f"""<p class="kicker">Apresentacao para investidores — agosto
+            2026</p>
+            <h1 class="mega">{BRAND}</h1>
+            <p class="tag">Cannabis medicinal com <em>prova</em>, nao com
+            promessa.</p>
+            <p class="mini">Material interno e confidencial. Produtos,
+            precos e numeros sao ilustrativos ate a operacao existir.</p>""",
+        ),
+        (
+            "problema",
+            """<p class="kicker">O problema</p>
+            <h2>O paciente brasileiro paga caro por um mercado sem
+            confianca</h2>
+            <div class="tres">
+            <div class="cx"><b>01</b><h3>Acesso fragmentado</h3>
+            <p>Importacao, farmacia e associacoes convivem com precos que
+            variam 5x para o mesmo miligrama.</p></div>
+            <div class="cx"><b>02</b><h3>Confianca escassa</h3>
+            <p>Laudos inacessiveis, rotulos sem verificacao e promessas
+            terapeuticas sem evidencia.</p></div>
+            <div class="cx"><b>03</b><h3>Medico desassistido</h3>
+            <p>Prescritores sem estrutura de acompanhamento e expostos a
+            propostas antieticas de comissao.</p></div>
+            </div>""",
+        ),
+        (
+            "mercado",
+            """<p class="kicker">Mercado</p>
+            <h2>Um mercado legal que ja existe e so cresce</h2>
+            <ul>
+            <li>Desde 2015 a ANVISA autoriza importacao por pessoa fisica;
+            a RDC 660/2022 simplificou o rito (autorizacao vale 2
+            anos).</li>
+            <li>Produtos nacionais autorizados (RDC 327/2019) ja sao
+            vendidos em farmacia com receita.</li>
+            <li>Associacoes de pacientes somam dezenas de milhares de
+            associados (ABRACE declara 35 mil+).</li>
+            <li>Plataformas privadas reportam centenas de prescritores
+            ativos.</li>
+            </ul>
+            <p class="mini">Fontes: anvisa.gov.br; abrace.com.br;
+            levantamento proprio (24/08/2026). Nao publicamos projecoes de
+            TAM sem metodo.</p>""",
+        ),
+        (
+            "tese",
+            """<p class="kicker">A tese</p>
+            <h2 class="mega2">Produto se copia.<br><em>Confianca auditavel,
+            nao.</em></h2>
+            <p>A Cinala Verde nasce dentro de uma plataforma de evidencia
+            auditavel (THE EYE): cada evento relevante — laudo, prescricao,
+            dispensacao, efeito adverso — vira registro encadeado por hash
+            que nem os fundadores conseguem reescrever. No unico mercado de
+            saude onde a desconfianca e a regra, isso e o produto.</p>""",
+        ),
+        (
+            "plataforma",
+            """<p class="kicker">Produto — plataforma</p>
+            <h2>Tres travas que o mercado nao tem</h2>
+            <div class="tres">
+            <div class="cx"><b>1</b><h3>Laudo por lote</h3><p>Cromatografia
+            de terceiros vinculada ao QR do rotulo.</p></div>
+            <div class="cx"><b>2</b><h3>Dispensacao condicionada</h3>
+            <p>Sem prescricao valida o sistema nao libera; nao existe
+            excecao manual.</p></div>
+            <div class="cx"><b>3</b><h3>Farmacovigilancia ativa</h3>
+            <p>Evento adverso vira registro permanente e realimenta
+            prescritores e P&D.</p></div>
+            </div>""",
+        ),
+        (
+            "vitrine",
+            """<p class="kicker">Produto — linha demonstrativa</p>
+            <h2>A linha Cinala (ficticia, para apresentacao)</h2>
+            <p>Oito SKUs ilustrativos — oleos full spectrum e isolados,
+            capsulas, topico, balanceado 1:1, veterinario e spray
+            sublingual — todos com selo DEMONSTRATIVO e precos marcados
+            como ilustrativos. A vitrine completa esta na aba Produtos
+            deste site.</p>""",
+        ),
+        (
+            "tecnologia",
+            """<p class="kicker">Tecnologia</p>
+            <h2>Herdamos a infraestrutura, nao a construimos do zero</h2>
+            <ul>
+            <li>Cadeia de evidencia (hash chain + Merkle) ja em producao no
+            THE EYE, com verificador publico de codigo aberto (AGPL).</li>
+            <li>Site gateado por codigo (Worker + PWA) e app Expo para as
+            lojas ja construidos.</li>
+            <li>O investimento vai para operacao e P&D, nao para
+            infraestrutura basica.</li>
+            </ul>""",
+        ),
+        (
+            "pd",
+            """<p class="kicker">Pesquisa e desenvolvimento</p>
+            <h2>P&D: a vantagem que nao se copia</h2>
+            <ul>
+            <li>Evidencia de mundo real — registro longitudinal com
+            consentimento e LGPD.</li>
+            <li>Estabilidade e formulacao — validade dita pelo dado.</li>
+            <li>Farmacovigilancia computacional — deteccao de sinal.</li>
+            <li>Genetica e cultivo — so com autorizacao judicial.</li>
+            <li>Economia do acesso — custo por miligrama com metodo.</li>
+            </ul>
+            <p class="mini">Resultado nulo ou contrario tambem e publicado.
+            Dado de paciente passa antes por CEP/CONEP.</p>""",
+        ),
+        (
+            "modelo",
+            """<p class="kicker">Modelo de negocio (ilustrativo)</p>
+            <h2>Tres motores de receita, um funil so</h2>
+            <div class="tres">
+            <div class="cx"><b>F1</b><h3>Consultas</h3><p>Take rate sobre
+            telemedicina com prescritores parceiros.</p></div>
+            <div class="cx"><b>F2</b><h3>Assinatura do paciente</h3>
+            <p>Acompanhamento, renovacao e farmacovigilancia como
+            servico.</p></div>
+            <div class="cx"><b>F3</b><h3>Operacao associativa</h3>
+            <p>Fornecimento sem lucro via associacao + auditoria para o
+            setor.</p></div>
+            </div>
+            <p class="mini">Sem projecoes neste deck: ainda nao ha operacao
+            para calibra-las.</p>""",
+        ),
+        (
+            "gtm",
+            """<p class="kicker">Go-to-market</p>
+            <h2>Primeiro o medico, depois o paciente</h2>
+            <ul>
+            <li>Funil de prescritores desenhado: triagem por CRM ativo,
+            cadencia multicanal com opt-out e LGPD, tres modelos licitos de
+            remuneracao.</li>
+            <li><em>Nunca comissao por prescricao</em> — vedada pelo CEM; a
+            recusa formal disso e argumento de recrutamento.</li>
+            <li>Paciente chega pelo medico e por conteudo educacional, nao
+            por promessa de cura.</li>
+            </ul>""",
+        ),
+        (
+            "regulatorio",
+            """<p class="kicker">Regulatorio</p>
+            <h2>Sabemos exatamente onde e a linha</h2>
+            <div class="duas-col">
+            <div><h3 class="ok">O que a lei ja permite</h3><ul>
+            <li>Importacao por paciente (RDC 660/2022)</li>
+            <li>Produtos nacionais em farmacia (RDC 327/2019)</li>
+            <li>Telemedicina nacional (CFM 2.314/2022)</li>
+            <li>Associacoes com autorizacao judicial de cultivo</li>
+            </ul></div>
+            <div><h3 class="nao">O que nao fazemos</h3><ul>
+            <li>Venda sem prescricao ou fora da via legal</li>
+            <li>Comissao por prescricao (vedada pelo CEM)</li>
+            <li>Promessa terapeutica em publicidade</li>
+            <li>Cultivo sem autorizacao judicial</li>
+            </ul></div>
+            </div>""",
+        ),
+        (
+            "roadmap",
+            """<p class="kicker">Roadmap</p>
+            <h2>Quatro fases, cada uma paga a seguinte</h2>
+            <div class="tres" style="grid-template-columns:repeat(4,1fr)">
+            <div class="cx"><b>AGORA</b><h3>Apresentacao</h3><p>Site
+            gateado, deck, estatuto pronto, funil desenhado.</p></div>
+            <div class="cx"><b>0-6 M</b><h3>Associacao</h3><p>Cartorio,
+            CNPJ, corpo clinico, primeiras consultas.</p></div>
+            <div class="cx"><b>6-18 M</b><h3>Operacao</h3><p>Dispensacao
+            auditada; acao de cultivo protocolada.</p></div>
+            <div class="cx"><b>18 M+</b><h3>P&D em escala</h3><p>Registro
+            de mundo real publicando.</p></div>
+            </div>""",
+        ),
+        (
+            "time",
+            """<p class="kicker">Time</p>
+            <h2>Os cargos estao definidos; os nomes, em conversa</h2>
+            <div class="tres">
+            <div class="cx"><h3>Presidente / CEO</h3><p>____________</p></div>
+            <div class="cx"><h3>Diretor(a) Medico(a)</h3><p>____________</p></div>
+            <div class="cx"><h3>Diretor(a) de Tecnologia</h3><p>____________</p></div>
+            <div class="cx"><h3>Diretor(a) Juridico(a)</h3><p>____________</p></div>
+            <div class="cx"><h3>Diretor(a) de P&D</h3><p>____________</p></div>
+            <div class="cx"><h3>Diretor(a) Comercial</h3><p>____________</p></div>
+            </div>""",
+        ),
+        (
+            "convite",
+            """<h2 class="mega2">O convite</h2>
+            <p class="tag">Buscamos socios que entendam que, neste mercado,
+            integridade nao e discurso — e o unico fosso defensavel.</p>
+            <p>Captacao alvo: R$ ____________ &nbsp;|&nbsp; Instrumento:
+            ____________ &nbsp;|&nbsp; Contato: ____________</p>
+            <p class="mini">Este material nao constitui oferta publica de
+            valores mobiliarios. Produtos e numeros sao ilustrativos; nao
+            ha operacao comercial nesta data.</p>""",
+        ),
+    )
+    corpo_slides = "".join(
+        f'<section class="slide" id="s{i}">{html}<span class="pg">{i + 1:02d} / {len(slides):02d}</span></section>'
+        for i, (_, html) in enumerate(slides)
+    )
+    css_deck = """
+.slide { min-height: 100vh; display: none; flex-direction: column;
+  justify-content: center; padding: 6vh 8vw; position: relative; }
+.slide.on { display: flex; }
+.slide h2 { font-family: var(--serif); font-weight: 500;
+  font-size: clamp(1.9rem, 4vw, 3rem); margin: 14px 0 26px;
+  max-width: 900px; }
+.slide h2 em, .slide .tag em { font-style: italic; color: var(--gold2); }
+.mega { font-family: var(--serif); font-size: clamp(3rem, 7vw, 5rem);
+  letter-spacing: 0.16em; color: var(--gold2);
+  text-transform: uppercase; }
+.mega2 { font-family: var(--serif);
+  font-size: clamp(2.2rem, 5vw, 3.6rem); }
+.tag { font-family: var(--serif); font-size: 1.4rem; font-style: italic;
+  margin: 18px 0; max-width: 720px; }
+.mini { color: var(--dim2); font-size: 0.8rem; margin-top: 28px;
+  max-width: 720px; }
+.slide ul { padding-left: 22px; max-width: 780px; }
+.slide li { color: var(--dim); margin-bottom: 12px; font-size: 1rem; }
+.slide p { color: var(--dim); max-width: 780px; }
+.tres { display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 22px; margin-top: 10px; }
+.cx { background: var(--panel); border: 1px solid var(--line);
+  border-radius: 4px; padding: 24px; }
+.cx b { font-family: var(--serif); color: var(--gold);
+  font-size: 1.4rem; }
+.cx h3 { font-family: var(--serif); font-weight: 500;
+  font-size: 1.25rem; margin: 8px 0; }
+.cx p { font-size: 0.88rem; }
+.duas-col { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+.duas-col h3 { font-family: var(--serif); font-weight: 500;
+  margin-bottom: 10px; }
+.ok { color: var(--green); } .nao { color: var(--gold); }
+.pg { position: absolute; bottom: 3vh; right: 8vw;
+  font-family: var(--serif); color: var(--gold); font-size: 0.85rem; }
+.nav-deck { position: fixed; bottom: 3vh; left: 8vw; display: flex;
+  gap: 10px; z-index: 5; }
+.nav-deck button { background: var(--panel); color: var(--gold2);
+  border: 1px solid var(--line2); padding: 8px 18px; cursor: pointer;
+  font-family: var(--sans); letter-spacing: 0.12em; font-size: 0.7rem;
+  text-transform: uppercase; border-radius: 2px; }
+.nav-deck button:hover { border-color: var(--gold); }
+@media (max-width: 760px) { .tres, .duas-col {
+  grid-template-columns: 1fr !important; } }
+"""
+    return f"""<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Deck de investidores — {BRAND}</title>
+{FONTES}
+<meta name="theme-color" content="#070b08">
+<style>{CSS_BASE}{css_deck}</style>
+</head>
+<body>
+{corpo_slides}
+<div class="nav-deck">
+  <button id="prev" type="button">Anterior</button>
+  <button id="next" type="button">Proximo</button>
+  <button type="button" onclick="location.href='index.html'">Sair</button>
+</div>
+<script>
+(function () {{
+  var slides = document.querySelectorAll('.slide');
+  var i = 0;
+  function mostra(n) {{
+    i = Math.max(0, Math.min(slides.length - 1, n));
+    slides.forEach(function (s, k) {{
+      s.classList.toggle('on', k === i);
+    }});
+  }}
+  document.getElementById('next').onclick = function () {{ mostra(i + 1); }};
+  document.getElementById('prev').onclick = function () {{ mostra(i - 1); }};
+  document.addEventListener('keydown', function (e) {{
+    if (e.key === 'ArrowRight' || e.key === ' ') mostra(i + 1);
+    if (e.key === 'ArrowLeft') mostra(i - 1);
+  }});
+  mostra(0);
+}})();
+</script>
+</body>
+</html>"""
+
+
 def exportar(destino: str = "dist-cannabis") -> dict:
     """Escreve o site completo em `destino` e devolve o que foi gerado."""
     import pathlib
@@ -613,6 +910,7 @@ def exportar(destino: str = "dist-cannabis") -> dict:
         "medicos.html": medicos_page(),
         "marca.html": marca_page(),
         "contato.html": contato_page(),
+        "deck.html": deck_page(),
         "manifest.webmanifest": manifest_webmanifest(),
         "icone.svg": icone_svg(),
         "sw.js": sw_js(),

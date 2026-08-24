@@ -15,6 +15,10 @@ comercial.
 - `RECRUTAMENTO_MEDICOS_PRESCRITORES.md` — funil de recrutamento de CRMs
   com modelos licitos e templates de email/WhatsApp/SMS.
 - `SKILLS_E_FERRAMENTAS.md` — as 30 skills/MCPs mais uteis ao vertical.
+- `DECK_INVESTIDORES_CINALA.pptx` — deck de investidores (14 slides,
+  tema da marca); versao HTML gemea em `dist-cannabis/deck.html`.
+- `DEMO_SOCIOS.md` — roteiro de demonstracao do site, deck e app para
+  reunioes com socios.
 
 ## Codigo
 
