@@ -5,6 +5,7 @@ __pycache__/
 .venv/
 build/
 dist/
+dist-cannabis/
 *.egg-info/
 reports/benchmark/latest.json
 reports/benchmark/history.jsonl
