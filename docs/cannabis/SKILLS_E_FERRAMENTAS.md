@@ -59,6 +59,31 @@ invocavel; "MCP" = servidor de ferramentas conectado a conta.
 | 29 | loop (skill) | Rotinas recorrentes (ex.: monitorar CI, checar funil) |
 | 30 | skill-creator (skill) | Criar skill propria do vertical (ex.: "gerar contrato medico") |
 
+## Plano de uso imediato (revisado 24/08/2026)
+
+Ligacao direta entre as skills e o proximo passo real de cada frente:
+
+1. **Deploy do site** — bloqueado nesta sessao (rede nega Cloudflare e
+   nao ha token). Acao: rodar `apps/cannabis-demo/PUBLICAR.md` na maquina
+   local OU liberar rede+token no ambiente e pedir novo deploy. A skill
+   `run` valida localmente antes.
+2. **Novo PR do branch atual** — commits do formulario de CRM e desta
+   revisao; usar `code-review` na diff antes de abrir o PR e
+   `security-review` sempre que o worker do gate mudar.
+3. **Funil de medicos** — com a classificacao A/B/C deste pacote, montar
+   a planilha de leads com a skill `xlsx` (colunas: classe, CRM/UF,
+   verificacao CFM, opt-in, estagio da cadencia) antes do primeiro
+   disparo; Gmail MCP so depois de base legal LGPD documentada.
+4. **Reuniao com socios** — `DEMO_SOCIOS.md` + deck; se precisar de
+   ajuste visual rapido no deck, a skill `pptx` edita o arquivo existente
+   sem recriar.
+5. **App nas lojas** — depende das contas Apple/Google (acao do dono);
+   ate la, demonstrar via PWA e Expo Go conforme o roteiro.
+
+Lacunas conhecidas (sem skill que resolva): consulta automatizada ao
+portal do CFM (nao ha API publica — a verificacao e manual por desenho) e
+disparo de WhatsApp (exige contrato com BSP oficial).
+
 ## Observacoes de uso
 
 - Gmail/WhatsApp/SMS: disparo em massa so com base legal LGPD e opt-out;
