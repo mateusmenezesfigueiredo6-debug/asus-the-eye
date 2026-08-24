@@ -144,6 +144,30 @@ table.tab th { color: var(--gold2); background: var(--panel);
   border: 1px solid var(--line2); padding: 2px 8px; border-radius: 2px; }
 footer.site { border-top: 1px solid var(--line); padding: 34px 0 60px;
   color: var(--dim2); font-size: 0.76rem; }
+.form-medico { max-width: 740px; margin-top: 26px; }
+.form-medico .campo-linha { display: grid; grid-template-columns:
+  repeat(auto-fit, minmax(200px, 1fr)); gap: 18px; margin-bottom: 18px; }
+.form-medico label { display: block; font-size: 0.72rem;
+  letter-spacing: 0.12em; text-transform: uppercase; color: var(--dim);
+  font-weight: 500; }
+.form-medico input, .form-medico select { display: block; width: 100%;
+  margin-top: 7px; background: var(--bg2); border: 1px solid
+  var(--line2); color: var(--ink); padding: 11px 12px; border-radius:
+  2px; font-family: var(--sans); font-size: 0.95rem; }
+.form-medico input:focus, .form-medico select:focus { outline: none;
+  border-color: var(--gold); }
+.form-medico .check { display: flex; gap: 10px; align-items:
+  flex-start; text-transform: none; letter-spacing: normal;
+  font-size: 0.85rem; margin: 18px 0; color: var(--dim); }
+.form-medico .check input { width: auto; margin-top: 4px; }
+.form-medico button { cursor: pointer; border: 0; font-family:
+  var(--sans); }
+.form-medico .btn.ghost { border: 1px solid var(--line2);
+  background: transparent; }
+.crm-status { font-size: 0.85rem; min-height: 1.4em; margin: 4px 0; }
+.crm-status.ok { color: var(--green); }
+.crm-status.erro { color: #d97676; }
+.mini-form { font-size: 0.78rem; color: var(--dim2); }
 .aviso { background: var(--panel); border-left: 2px solid var(--gold);
   padding: 18px 22px; margin: 30px 0; color: var(--dim);
   font-size: 0.86rem; max-width: 740px; }
@@ -479,11 +503,120 @@ def medicos_page() -> str:
 <section class="bloco">
   <span class="num">02</span>
   <h2>Manifestar interesse</h2>
-  <p>Envie nome, CRM/UF, especialidade e modelo de interesse para
-  <a href="mailto:medicos@example.invalid?subject=Interesse%20-%20corpo%20clinico">
-  medicos@example.invalid</a>. Retornamos com o material completo e a
-  minuta de contrato.</p>
-</section>"""
+  <p>Preencha os dados abaixo. O CRM e verificado em duas etapas: o
+  formato e conferido aqui e a situacao do registro e checada no portal
+  oficial do CFM antes de qualquer contrato.</p>
+  <form id="form-medico" class="form-medico">
+    <div class="campo-linha">
+      <label>Nome completo
+        <input type="text" name="nome" required autocomplete="name">
+      </label>
+      <label>Especialidade
+        <input type="text" name="especialidade" required>
+      </label>
+    </div>
+    <div class="campo-linha">
+      <label>CRM (somente numeros)
+        <input type="text" name="crm" required inputmode="numeric"
+          pattern="[0-9]{{4,7}}" maxlength="7"
+          title="4 a 7 digitos, sem letras">
+      </label>
+      <label>UF do CRM
+        <select name="uf" required>
+          <option value="">Selecione</option>
+          <option>AC</option><option>AL</option><option>AP</option>
+          <option>AM</option><option>BA</option><option>CE</option>
+          <option>DF</option><option>ES</option><option>GO</option>
+          <option>MA</option><option>MT</option><option>MS</option>
+          <option>MG</option><option>PA</option><option>PB</option>
+          <option>PR</option><option>PE</option><option>PI</option>
+          <option>RJ</option><option>RN</option><option>RS</option>
+          <option>RO</option><option>RR</option><option>SC</option>
+          <option>SP</option><option>SE</option><option>TO</option>
+        </select>
+      </label>
+      <label>Modelo de interesse
+        <select name="modelo" required>
+          <option value="">Selecione</option>
+          <option>Pagamento por consulta</option>
+          <option>Hora clinica / retainer</option>
+          <option>Conselho cientifico</option>
+        </select>
+      </label>
+    </div>
+    <p id="crm-status" class="crm-status"></p>
+    <p>
+      <button type="button" class="btn ghost" id="btn-cfm">Conferir CRM
+      no portal do CFM</button>
+    </p>
+    <label class="check">
+      <input type="checkbox" name="crm_ok" required>
+      Confirmo que o CRM informado esta ATIVO na consulta publica do CFM
+      e que nao possuo vinculo de exclusividade com outra plataforma.
+    </label>
+    <p>
+      <button type="submit" class="btn solid">Enviar manifestacao</button>
+    </p>
+    <p class="mini-form">O envio abre seu email com os dados preenchidos
+    (nao armazenamos nada neste site de apresentacao). A verificacao
+    definitiva do registro e refeita por nossa equipe no
+    <a href="https://portal.cfm.org.br/busca-medicos" target="_blank"
+    rel="noopener">portal do CFM</a> antes do contrato.</p>
+  </form>
+</section>
+<script>
+(function () {{
+  var form = document.getElementById('form-medico');
+  var status = document.getElementById('crm-status');
+  function crmValido() {{
+    var crm = form.crm.value.trim();
+    var uf = form.uf.value;
+    if (!/^[0-9]{{4,7}}$/.test(crm)) {{
+      status.textContent = 'CRM invalido: use apenas numeros (4 a 7 '
+        + 'digitos), sem letras ou pontos.';
+      status.className = 'crm-status erro';
+      return false;
+    }}
+    if (!uf) {{
+      status.textContent = 'Selecione a UF do CRM.';
+      status.className = 'crm-status erro';
+      return false;
+    }}
+    status.textContent = 'Formato do CRM valido (' + crm + '/' + uf
+      + '). Confira agora a situacao ATIVA no portal do CFM.';
+    status.className = 'crm-status ok';
+    return true;
+  }}
+  form.crm.addEventListener('blur', crmValido);
+  form.uf.addEventListener('change', crmValido);
+  document.getElementById('btn-cfm').addEventListener('click',
+    function () {{
+      if (!crmValido()) return;
+      window.open('https://portal.cfm.org.br/busca-medicos', '_blank',
+        'noopener');
+    }});
+  form.addEventListener('submit', function (e) {{
+    e.preventDefault();
+    if (!crmValido()) return;
+    if (!form.crm_ok.checked) {{
+      status.textContent = 'Marque a confirmacao de CRM ativo para '
+        + 'enviar.';
+      status.className = 'crm-status erro';
+      return;
+    }}
+    var corpo = 'Nome: ' + form.nome.value
+      + '%0ACRM: ' + form.crm.value.trim() + '/' + form.uf.value
+      + '%0AEspecialidade: ' + form.especialidade.value
+      + '%0AModelo de interesse: ' + form.modelo.value
+      + '%0ADeclaro CRM ativo (conferido no portal do CFM) e ausencia '
+      + 'de exclusividade com concorrentes.';
+    location.href = 'mailto:medicos@example.invalid'
+      + '?subject=' + encodeURIComponent('Interesse - corpo clinico ('
+        + form.crm.value.trim() + '/' + form.uf.value + ')')
+      + '&body=' + corpo;
+  }});
+}})();
+</script>"""
     return _shell("Para medicos", "medicos.html", corpo)
 
 
