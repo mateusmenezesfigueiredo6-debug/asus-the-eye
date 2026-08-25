@@ -6,7 +6,7 @@
 #   npx wrangler secret put SITE_ACCESS_CODE
 #   npx wrangler secret put COOKIE_SECRET
 
-name = "cannabis-demo"
+name = "gotaverde"
 main = "worker.ts"
 compatibility_date = "2026-08-01"
 

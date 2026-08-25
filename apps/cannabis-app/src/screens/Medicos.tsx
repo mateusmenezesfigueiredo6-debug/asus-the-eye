@@ -21,7 +21,7 @@ export function MedicosScreen() {
       <Text style={s.h1}>Prescreva com estrutura, sem conflito</Text>
       <Text style={s.p}>
         Buscamos medicos com CRM ativo, sem exclusividade com outras
-        plataformas, para o corpo clinico da Cinala Verde.
+        plataformas, para o corpo clinico da Gota Verde.
       </Text>
       {MODELOS.map(([t, d]) => (
         <View key={t} style={s.card}>

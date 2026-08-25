@@ -10,7 +10,7 @@ import { CORES } from "../tema";
 
 // Codigo de apresentacao definido no build (nao e segredo forte; o
 // conteudo do app e demonstrativo).
-const CODIGO_DEMO = process.env.EXPO_PUBLIC_ACCESS_CODE ?? "cinala2026";
+const CODIGO_DEMO = process.env.EXPO_PUBLIC_ACCESS_CODE ?? "gotaverde2026";
 
 export function GateScreen({ onLiberar }: { onLiberar: () => void }) {
   const [codigo, setCodigo] = useState("");
@@ -18,7 +18,7 @@ export function GateScreen({ onLiberar }: { onLiberar: () => void }) {
   return (
     <View style={s.fundo}>
       <View style={s.caixa}>
-        <Text style={s.titulo}>CINALA VERDE</Text>
+        <Text style={s.titulo}>GOTA VERDE</Text>
         <Text style={s.sub}>
           Material de apresentacao restrito. Informe o codigo de acesso.
         </Text>

@@ -11,7 +11,7 @@ export function HomeScreen() {
       <Text style={s.badge}>APRESENTACAO — DADOS ILUSTRATIVOS</Text>
       <Text style={s.h1}>Cannabis medicinal com prova, nao com promessa.</Text>
       <Text style={s.p}>
-        A Cinala Verde esta sendo construida sobre uma tese simples: quem
+        A Gota Verde esta sendo construida sobre uma tese simples: quem
         provar origem, pureza e dispensacao correta — com evidencia que
         ninguem consegue reescrever — define o padrao do mercado.
       </Text>

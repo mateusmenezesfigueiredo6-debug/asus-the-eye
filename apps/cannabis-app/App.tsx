@@ -1,7 +1,7 @@
 // SPDX-FileCopyrightText: 2026 Mateus Menezes Figueiredo
 // SPDX-License-Identifier: AGPL-3.0-or-later
 //
-// App de apresentacao do vertical cannabis (Cinala Verde).
+// App de apresentacao do vertical cannabis (Gota Verde).
 // Mesmo conteudo demonstrativo do site: nada aqui e oferta real.
 
 import React, { useState } from "react";

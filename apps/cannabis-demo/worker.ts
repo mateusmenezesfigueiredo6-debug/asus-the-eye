@@ -13,7 +13,7 @@ export interface Env {
   COOKIE_SECRET: string;
 }
 
-const COOKIE = "cinala_acesso";
+const COOKIE = "gota_acesso";
 const VALIDADE_S = 60 * 60 * 12; // 12 horas
 
 function timingSafeEqual(a: string, b: string): boolean {
@@ -80,7 +80,7 @@ font-size:.7rem;cursor:pointer;border-radius:2px}
 .erro{color:#d97676;font-size:.8rem;margin-top:12px}
 </style></head><body>
 <form method="POST" action="/acesso">
-<h1>Cinala Verde</h1>
+<h1>Gota Verde</h1>
 <p>Material de apresentacao restrito.<br>Informe o codigo de acesso.</p>
 <input type="password" name="codigo" autofocus autocomplete="off">
 <button type="submit">Entrar</button>

@@ -1,7 +1,6 @@
 # Vertical cannabis — indice dos artefatos
 
-Vertical comercial de cannabis medicinal (marca de trabalho: Cinala
-Verde). Fase: apresentacao e estruturacao. Nada aqui e operacao
+Vertical comercial de cannabis medicinal (marca de trabalho: Gota Verde). Fase: apresentacao e estruturacao. Nada aqui e operacao
 comercial.
 
 ## Documentos (cada .md tem o .docx correspondente)
@@ -15,7 +14,7 @@ comercial.
 - `RECRUTAMENTO_MEDICOS_PRESCRITORES.md` — funil de recrutamento de CRMs
   com modelos licitos e templates de email/WhatsApp/SMS.
 - `SKILLS_E_FERRAMENTAS.md` — as 30 skills/MCPs mais uteis ao vertical.
-- `DECK_INVESTIDORES_CINALA.pptx` — deck de investidores (14 slides,
+- `DECK_INVESTIDORES_GOTAVERDE.pptx` — deck de investidores (14 slides,
   tema da marca); versao HTML gemea em `dist-cannabis/deck.html`.
 - `DEMO_SOCIOS.md` — roteiro de demonstracao do site, deck e app para
   reunioes com socios.

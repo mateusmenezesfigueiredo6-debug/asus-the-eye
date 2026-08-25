@@ -16,7 +16,7 @@ O deploy e um Worker de assets estaticos gateado por codigo de acesso
 
 from __future__ import annotations
 
-BRAND = "Cinala Verde"
+BRAND = "Gota Verde"
 BRAND_TAG = "Cannabis medicinal com prova, nao com promessa"
 
 FONTES = (
@@ -168,6 +168,15 @@ footer.site { border-top: 1px solid var(--line); padding: 34px 0 60px;
 .crm-status.ok { color: var(--green); }
 .crm-status.erro { color: #d97676; }
 .mini-form { font-size: 0.78rem; color: var(--dim2); }
+.faq details { border: 1px solid var(--line); border-radius: 4px;
+  background: var(--panel); margin-bottom: 12px; max-width: 740px; }
+.faq summary { cursor: pointer; padding: 16px 20px;
+  font-family: var(--serif); font-size: 1.08rem; color: var(--ink);
+  list-style: none; }
+.faq summary::before { content: "+ "; color: var(--gold); }
+.faq details[open] summary::before { content: "- "; }
+.faq details p { padding: 0 20px 16px; color: var(--dim);
+  font-size: 0.92rem; }
 .aviso { background: var(--panel); border-left: 2px solid var(--gold);
   padding: 18px 22px; margin: 30px 0; color: var(--dim);
   font-size: 0.86rem; max-width: 740px; }
@@ -292,6 +301,14 @@ def _shell(titulo: str, rota: str, corpo: str) -> str:
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
 <title>{titulo} — {BRAND}</title>
+<meta name="description" content="{BRAND}: cannabis medicinal com
+evidencia. Laudo por lote, dispensacao condicionada a prescricao e
+farmacovigilancia ativa. Material de apresentacao restrito.">
+<meta property="og:title" content="{titulo} — {BRAND}">
+<meta property="og:description" content="Cannabis medicinal com prova,
+nao com promessa.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="icone.svg">
 {FONTES}
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icone.svg" type="image/svg+xml">
@@ -301,7 +318,7 @@ def _shell(titulo: str, rota: str, corpo: str) -> str:
 <body>
 <div class="wrap">
 <header class="site">
-  <span class="logo">{BRAND}<small>cannabis medicinal auditavel</small></span>
+  <span class="logo">{BRAND}<small>cannabis medicinal com evidencia</small></span>
   <nav class="menu">{nav}</nav>
 </header>
 {corpo}
@@ -373,6 +390,48 @@ def index_page() -> str:
   <div class="aviso">Fase atual: apresentacao e captacao de parceiros.
   Nao ha operacao comercial, estoque ou venda. O acesso a este material e
   restrito por codigo.</div>
+</section>
+<section class="bloco">
+  <span class="num">02</span>
+  <h2>Como vai funcionar, em quatro passos</h2>
+  <div class="pipeline">
+    <div class="fase"><div><h4>Consulta com prescritor</h4>
+      <p>Telemedicina com medico de CRM ativo; a receita nasce digital e
+      ja entra na trilha de auditoria.</p></div></div>
+    <div class="fase"><div><h4>Produto com laudo</h4>
+      <p>Cada lote com cromatografia de terceiros; o QR do rotulo abre o
+      laudo antes do primeiro uso.</p></div></div>
+    <div class="fase"><div><h4>Dispensacao condicionada</h4>
+      <p>Sem prescricao valida o sistema nao libera — nao existe excecao
+      manual.</p></div></div>
+    <div class="fase"><div><h4>Acompanhamento continuo</h4>
+      <p>Renovacao lembrada, efeito adverso notificado, historico que o
+      paciente carrega consigo.</p></div></div>
+  </div>
+</section>
+<section class="bloco">
+  <span class="num">03</span>
+  <h2>Perguntas diretas, respostas diretas</h2>
+  <div class="faq">
+    <details><summary>Isso e legal no Brasil?</summary><p>Sim, nas vias
+    que a lei ja permite: importacao por paciente (RDC 660/2022),
+    produtos autorizados em farmacia (RDC 327/2019) e telemedicina
+    nacional (CFM 2.314/2022). Cultivo associativo, so com autorizacao
+    judicial — e e assim que trabalharemos.</p></details>
+    <details><summary>Preciso de receita?</summary><p>Sempre. Nenhum
+    produto derivado de cannabis e dispensado sem prescricao de
+    profissional com registro ativo, e o sistema trava sem ela.</p>
+    </details>
+    <details><summary>Como sei que o produto e puro?</summary><p>Cada
+    lote tera laudo de laboratorio independente vinculado ao QR do
+    rotulo. Sem laudo, o lote nao circula.</p></details>
+    <details><summary>Voces prometem cura?</summary><p>Nao. Prometemos
+    origem provada, dose certa e acompanhamento. Indicacao terapeutica e
+    conversa entre voce e seu medico.</p></details>
+    <details><summary>Quando comeca a operacao?</summary><p>Estamos em
+    fase de apresentacao e estruturacao juridica. Deixe seu contato na
+    aba Contato para ser avisado.</p></details>
+  </div>
 </section>"""
     return _shell("Inicio", "index.html", corpo)
 
@@ -625,6 +684,13 @@ def marca_page() -> str:
 <section class="hero">
   <span class="badge-demo">Estudo de marca</span>
   <h1>Nome, paleta e <em>postura</em></h1>
+  <p class="lede">DECISAO 24/08/2026: a marca do vertical e
+  <b>Gota Verde</b> — concreta (o produto e uma gota), facil e
+  memoravel — com o descritor "cannabis medicinal com evidencia".
+  "Greengo" foi avaliado e descartado: marca holandesa de sedas em
+  uso desde 2008, associacao recreativa e confusao com "gringo".
+  Conferencia no INPI (classes 5, 35, 42 e 44) pendente antes do
+  registro.</p>
   <p class="lede">Direcao pedida pelo dono: sonoridade proxima de
   "Sinaloa" combinada com cannabis. Registro tecnico: "Sinaloa" literal
   carrega associacao imediata com cartel e e inviavel para uma marca de
@@ -636,7 +702,7 @@ def marca_page() -> str:
   <h2>Nomes candidatos</h2>
   <table class="tab">
     <tr><th>Nome</th><th>Leitura</th><th>Risco de marca</th></tr>
-    <tr><td>Cinala Verde</td><td>Sonoridade proxima, sem geografia
+    <tr><td>Cinala Verde (nome de estudo anterior)</td><td>Sonoridade proxima, sem geografia
     mexicana; "verde" ancora em saude e planta. E o nome usado neste
     estudo.</td><td>Baixo; verificar INPI antes de registrar.</td></tr>
     <tr><td>Sinua</td><td>Curto, exotico, memoravel.</td><td>Baixo;
@@ -690,8 +756,8 @@ def contato_page() -> str:
 
 def manifest_webmanifest() -> str:
     return """{
-  "name": "Cinala Verde",
-  "short_name": "Cinala",
+  "name": "Gota Verde",
+  "short_name": "Gota Verde",
   "start_url": "index.html",
   "display": "standalone",
   "background_color": "#070b08",
@@ -706,10 +772,12 @@ def manifest_webmanifest() -> str:
 def icone_svg() -> str:
     return """<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
   <rect width="128" height="128" rx="24" fill="#070b08"/>
-  <path d="M64 24c6 14 20 22 34 24-14 4-22 10-26 18 10-2 18 0 24 6
-    -10 2-18 6-22 12 6 2 10 6 12 12-8-4-15-5-22-3v19h-8V93
-    c-7-2-14-1-22 3 2-6 6-10 12-12-4-6-12-10-22-12 6-6 14-8 24-6
-    -4-8-12-14-26-18 14-2 28-10 34-24z" fill="#58c47f"/>
+  <path d="M64 14C48 40 34 58 34 80a30 30 0 0 0 60 0C94 58 80 40 64 14z"
+    fill="#1f4d33" stroke="#58c47f" stroke-width="3"/>
+  <path d="M64 52c3 8 11 12 18 13-7 2-11 5-13 9 5-1 9 0 12 3
+    -5 1-9 3-11 6 3 1 5 3 6 6-4-2-8-3-11-2v10h-2V87
+    c-3-1-7 0-11 2 1-3 3-5 6-6-2-3-6-5-11-6 3-3 7-4 12-3
+    -2-4-6-7-13-9 7-1 15-5 18-13z" fill="#e6cf8e"/>
   <circle cx="64" cy="64" r="58" fill="none" stroke="#c9a44a"
     stroke-width="2"/>
 </svg>"""
@@ -717,7 +785,7 @@ def icone_svg() -> str:
 
 def sw_js() -> str:
     return """// Cache basico para o PWA da apresentacao; rede primeiro.
-const CACHE = 'cinala-v2';
+const CACHE = 'gotaverde-v1';
 self.addEventListener('fetch', (e) => {
   if (e.request.method !== 'GET') return;
   e.respondWith(
@@ -791,7 +859,7 @@ def deck_page() -> str:
             """<p class="kicker">A tese</p>
             <h2 class="mega2">Produto se copia.<br><em>Confianca auditavel,
             nao.</em></h2>
-            <p>A Cinala Verde nasce dentro de uma plataforma de evidencia
+            <p>A Gota Verde nasce dentro de uma plataforma de evidencia
             auditavel (THE EYE): cada evento relevante — laudo, prescricao,
             dispensacao, efeito adverso — vira registro encadeado por hash
             que nem os fundadores conseguem reescrever. No unico mercado de
@@ -815,7 +883,7 @@ def deck_page() -> str:
         (
             "vitrine",
             """<p class="kicker">Produto — linha demonstrativa</p>
-            <h2>A linha Cinala (ficticia, para apresentacao)</h2>
+            <h2>A linha Gota Verde (ficticia, para apresentacao)</h2>
             <p>Oito SKUs ilustrativos — oleos full spectrum e isolados,
             capsulas, topico, balanceado 1:1, veterinario e spray
             sublingual — todos com selo DEMONSTRATIVO e precos marcados

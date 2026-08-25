@@ -1,4 +1,4 @@
-# ROTEIRO DE DEMONSTRACAO PARA SOCIOS — CINALA VERDE
+# ROTEIRO DE DEMONSTRACAO PARA SOCIOS — GOTA VERDE
 
 Como apresentar o site, o deck e o app numa reuniao com socios ou
 investidores. Atualizado em 24/08/2026.
@@ -9,11 +9,11 @@ investidores. Atualizado em 24/08/2026.
    dist-cannabis`.
 2. Se o Worker ainda nao foi publicado: seguir
    `apps/cannabis-demo/PUBLICAR.md` (secrets + `wrangler deploy`). URL
-   final: `cannabis-demo.<conta>.workers.dev`.
+   final: `gotaverde.<conta>.workers.dev`.
 3. Guardar o codigo de acesso do site para passar aos socios na hora
    (nao enviar por escrito antes; o material e restrito).
 4. Testar a URL num celular e num notebook.
-5. Deck PPTX (`DECK_INVESTIDORES_CINALA.pptx`) aberto como reserva
+5. Deck PPTX (`DECK_INVESTIDORES_GOTAVERDE.pptx`) aberto como reserva
    offline, caso a internet falhe.
 
 ## Roteiro sugerido (20 minutos)
@@ -39,7 +39,7 @@ Opcao nativa (Expo Go, para mostrar o app das lojas):
 1. Na maquina: `cd apps/cannabis-app && npm install && npx expo start`.
 2. No celular: instalar o app "Expo Go" (gratuito) e escanear o QR do
    terminal.
-3. Codigo de acesso do app demo: `cinala2026` (trocavel via
+3. Codigo de acesso do app demo: `gotaverde2026` (trocavel via
    `EXPO_PUBLIC_ACCESS_CODE`).
 
 ## Perguntas que socios fazem (e as respostas honestas)
