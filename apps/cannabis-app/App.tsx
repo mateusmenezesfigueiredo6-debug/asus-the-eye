@@ -5,7 +5,7 @@
 // Mesmo conteudo demonstrativo do site: nada aqui e oferta real.
 
 import React, { useState } from "react";
-import { NavigationContainer, DarkTheme } from "@react-navigation/native";
+import { NavigationContainer, DefaultTheme } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { StatusBar } from "expo-status-bar";
 import { GateScreen } from "./src/screens/Gate";
@@ -20,14 +20,14 @@ import { CORES } from "./src/tema";
 const Tab = createBottomTabNavigator();
 
 const tema = {
-  ...DarkTheme,
+  ...DefaultTheme,
   colors: {
-    ...DarkTheme.colors,
+    ...DefaultTheme.colors,
     background: CORES.bg,
-    card: CORES.panel,
+    card: CORES.card,
     text: CORES.ink,
     border: CORES.line,
-    primary: CORES.gold,
+    primary: CORES.verde,
   },
 };
 
@@ -38,14 +38,32 @@ export default function App() {
   }
   return (
     <NavigationContainer theme={tema}>
-      <StatusBar style="light" />
+      <StatusBar style="dark" />
       <Tab.Navigator
         screenOptions={{
-          headerStyle: { backgroundColor: CORES.bg },
-          headerTitleStyle: { color: CORES.gold2, letterSpacing: 3 },
-          tabBarStyle: { backgroundColor: CORES.panel },
-          tabBarActiveTintColor: CORES.gold,
-          tabBarInactiveTintColor: CORES.dim,
+          headerStyle: {
+            backgroundColor: CORES.bg,
+            borderBottomWidth: 1,
+            borderBottomColor: CORES.line,
+            elevation: 0,
+            shadowOpacity: 0,
+          },
+          headerTitleStyle: {
+            color: CORES.ink,
+            fontSize: 14,
+            fontWeight: "600",
+            letterSpacing: 2,
+            textTransform: "uppercase",
+          },
+          tabBarStyle: {
+            backgroundColor: CORES.card,
+            borderTopWidth: 1,
+            borderTopColor: CORES.line,
+            elevation: 0,
+          },
+          tabBarActiveTintColor: CORES.verde,
+          tabBarInactiveTintColor: CORES.sage,
+          tabBarLabelStyle: { fontSize: 10, letterSpacing: 0.5 },
         }}
       >
         <Tab.Screen name="Inicio" component={HomeScreen} />

@@ -6,6 +6,7 @@
 
 import React, { useState } from "react";
 import { View, Text, TextInput, Pressable, StyleSheet } from "react-native";
+import { StatusBar } from "expo-status-bar";
 import { CORES } from "../tema";
 
 // Codigo de apresentacao definido no build (nao e segredo forte; o
@@ -17,8 +18,14 @@ export function GateScreen({ onLiberar }: { onLiberar: () => void }) {
   const [erro, setErro] = useState(false);
   return (
     <View style={s.fundo}>
+      <StatusBar style="dark" />
+      <View style={s.topo}>
+        <View style={s.marcaLinha} />
+        <Text style={s.marca}>GOTA VERDE</Text>
+        <Text style={s.marcaSub}>CANNABIS MEDICINAL AUDITAVEL</Text>
+      </View>
       <View style={s.caixa}>
-        <Text style={s.titulo}>GOTA VERDE</Text>
+        <Text style={s.rotulo}>ACESSO RESTRITO</Text>
         <Text style={s.sub}>
           Material de apresentacao restrito. Informe o codigo de acesso.
         </Text>
@@ -39,26 +46,40 @@ export function GateScreen({ onLiberar }: { onLiberar: () => void }) {
         </Pressable>
         {erro ? <Text style={s.erro}>Codigo incorreto.</Text> : null}
       </View>
+      <Text style={s.rodape}>
+        Fase de apresentacao. Nada aqui constitui oferta comercial.
+      </Text>
     </View>
   );
 }
 
 const s = StyleSheet.create({
   fundo: { flex: 1, backgroundColor: CORES.bg, alignItems: "center",
-    justifyContent: "center" },
-  caixa: { borderWidth: 1, borderColor: CORES.line, borderRadius: 4,
-    padding: 36, width: 320, backgroundColor: CORES.panel },
-  titulo: { color: CORES.gold2, letterSpacing: 6, textAlign: "center",
-    fontSize: 16 },
-  sub: { color: CORES.dim, fontSize: 13, textAlign: "center",
-    marginVertical: 16 },
+    justifyContent: "center", padding: 28 },
+  topo: { alignItems: "center", marginBottom: 36 },
+  marcaLinha: { width: 40, height: 2, backgroundColor: CORES.verde,
+    marginBottom: 18 },
+  marca: { color: CORES.ink, fontSize: 22, letterSpacing: 8,
+    fontWeight: "600" },
+  marcaSub: { color: CORES.sage, fontSize: 10, letterSpacing: 3,
+    marginTop: 8 },
+  caixa: { backgroundColor: CORES.card, borderWidth: 1,
+    borderColor: CORES.line, borderRadius: 6, padding: 32,
+    width: "100%", maxWidth: 360 },
+  rotulo: { color: CORES.verde, fontSize: 10, letterSpacing: 3,
+    fontWeight: "600", marginBottom: 10 },
+  sub: { color: CORES.dim, fontSize: 14, lineHeight: 21,
+    marginBottom: 20 },
   campo: { backgroundColor: CORES.bg, borderWidth: 1,
-    borderColor: CORES.line, color: CORES.ink, padding: 12,
-    textAlign: "center", letterSpacing: 6, borderRadius: 2 },
-  botao: { backgroundColor: CORES.gold, padding: 13, marginTop: 16,
-    borderRadius: 2 },
-  botaoTexto: { color: "#14100a", textAlign: "center", letterSpacing: 3,
+    borderColor: CORES.line, color: CORES.ink, padding: 14,
+    textAlign: "center", letterSpacing: 6, borderRadius: 4,
+    fontSize: 15 },
+  botao: { backgroundColor: CORES.verde, padding: 15, marginTop: 18,
+    borderRadius: 4 },
+  botaoTexto: { color: "#ffffff", textAlign: "center", letterSpacing: 3,
     fontSize: 12, fontWeight: "600" },
-  erro: { color: "#d97676", textAlign: "center", marginTop: 12,
-    fontSize: 12 },
+  erro: { color: CORES.erro, textAlign: "center", marginTop: 14,
+    fontSize: 13 },
+  rodape: { color: CORES.sage, fontSize: 11, textAlign: "center",
+    marginTop: 32, lineHeight: 16 },
 });

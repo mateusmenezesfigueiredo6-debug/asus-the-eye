@@ -1,16 +1,16 @@
 // SPDX-FileCopyrightText: 2026 Mateus Menezes Figueiredo
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Paleta da marca (mesma do site de apresentacao).
+// Paleta clinica clara (mesma do novo site de apresentacao).
 
 export const CORES = {
-  bg: "#070b08",
-  panel: "#0f1811",
-  line: "#1c2a1f",
-  ink: "#ede9dd",
-  dim: "#97a698",
-  green: "#58c47f",
-  gold: "#c9a44a",
-  gold2: "#e6cf8e",
+  bg: "#faf8f4",
+  card: "#ffffff",
+  line: "#e4dfd4",
+  ink: "#1a2420",
+  dim: "#5c6b62",
+  verde: "#1e5c40",
+  sage: "#7d9b87",
+  erro: "#a4443c",
 };
 
 export interface Produto {

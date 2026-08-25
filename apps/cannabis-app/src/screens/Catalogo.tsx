@@ -13,19 +13,25 @@ export function CatalogoScreen() {
       data={PRODUTOS}
       keyExtractor={(p) => p.nome}
       ListHeaderComponent={
-        <Text style={s.aviso}>
-          Catalogo FICTICIO para apresentacao. Nomes, formulas e precos
-          inventados. Nenhum item esta a venda.
-        </Text>
+        <View style={s.aviso}>
+          <Text style={s.avisoRotulo}>CATALOGO FICTICIO</Text>
+          <Text style={s.avisoTexto}>
+            Material de apresentacao. Nomes, formulas e precos
+            inventados. Nenhum item esta a venda.
+          </Text>
+        </View>
       }
       renderItem={({ item }) => (
         <View style={s.card}>
-          <Text style={s.tipo}>{item.tipo.toUpperCase()}</Text>
+          <View style={s.linhaTopo}>
+            <Text style={s.tipo}>{item.tipo.toUpperCase()}</Text>
+            <Text style={s.preco}>{item.preco}</Text>
+          </View>
           <Text style={s.nome}>{item.nome}</Text>
-          <Text style={s.desc}>{item.spec}</Text>
+          <Text style={s.spec}>{item.spec}</Text>
+          <View style={s.separador} />
           <Text style={s.desc}>{item.desc}</Text>
-          <Text style={s.preco}>{item.preco}</Text>
-          <Text style={s.selo}>PRODUTO DEMONSTRATIVO — NAO E OFERTA</Text>
+          <Text style={s.selo}>DEMONSTRATIVO — NAO E OFERTA</Text>
         </View>
       )}
     />
@@ -34,18 +40,29 @@ export function CatalogoScreen() {
 
 const s = StyleSheet.create({
   fundo: { flex: 1, backgroundColor: CORES.bg },
-  pad: { padding: 22 },
-  aviso: { color: CORES.gold, fontSize: 12, lineHeight: 18,
+  pad: { padding: 24, paddingBottom: 48 },
+  aviso: { backgroundColor: CORES.card, borderWidth: 1,
+    borderColor: CORES.line, borderLeftWidth: 3,
+    borderLeftColor: CORES.verde, borderRadius: 6, padding: 16,
+    marginBottom: 18 },
+  avisoRotulo: { color: CORES.verde, fontSize: 10, letterSpacing: 3,
+    fontWeight: "600", marginBottom: 6 },
+  avisoTexto: { color: CORES.dim, fontSize: 13, lineHeight: 20 },
+  card: { backgroundColor: CORES.card, borderWidth: 1,
+    borderColor: CORES.line, borderRadius: 6, padding: 20,
     marginBottom: 14 },
-  card: { backgroundColor: CORES.panel, borderWidth: 1,
-    borderColor: CORES.line, borderRadius: 4, padding: 18,
-    marginBottom: 14 },
-  tipo: { color: CORES.gold, fontSize: 10, letterSpacing: 3 },
-  nome: { color: CORES.ink, fontSize: 20, marginVertical: 4 },
-  desc: { color: CORES.dim, fontSize: 13, lineHeight: 19 },
-  preco: { color: CORES.gold2, fontSize: 16, marginTop: 8 },
-  selo: { color: CORES.gold, fontSize: 9, letterSpacing: 2,
-    marginTop: 10, borderWidth: 1, borderColor: CORES.gold,
-    borderStyle: "dashed", alignSelf: "flex-start",
-    paddingHorizontal: 7, paddingVertical: 2 },
+  linhaTopo: { flexDirection: "row", justifyContent: "space-between",
+    alignItems: "center", marginBottom: 8 },
+  tipo: { color: CORES.sage, fontSize: 10, letterSpacing: 2,
+    fontWeight: "600" },
+  preco: { color: CORES.verde, fontSize: 13, fontWeight: "600" },
+  nome: { color: CORES.ink, fontSize: 19, fontWeight: "600" },
+  spec: { color: CORES.dim, fontSize: 13, marginTop: 3 },
+  separador: { height: 1, backgroundColor: CORES.line,
+    marginVertical: 12 },
+  desc: { color: CORES.dim, fontSize: 14, lineHeight: 21 },
+  selo: { color: CORES.sage, fontSize: 9, letterSpacing: 2,
+    marginTop: 12, borderWidth: 1, borderColor: CORES.line,
+    borderRadius: 3, alignSelf: "flex-start",
+    paddingHorizontal: 8, paddingVertical: 3 },
 });
