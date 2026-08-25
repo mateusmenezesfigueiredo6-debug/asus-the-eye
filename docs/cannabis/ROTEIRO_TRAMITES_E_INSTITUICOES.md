@@ -104,4 +104,23 @@ O caminho e judicial:
 R$ 800 e 5 a 30 dias; CNPJ gratuito, dias; alvara variavel; acao judicial de
 cultivo, meses a mais de um ano, com honorarios e custas.
 
+## Atualizacao 2026 — novo marco ANVISA (RDCs 1.011 a 1.015/2026)
+
+Publicadas entre 30/01 e 03/02/2026, em vigor desde 04/08/2026:
+
+- **RDC 1.013/2026** — cultivo nacional de Cannabis sativa (THC ate
+  0,3%) por empresas, com Autorizacao Especial; via empresarial, custo
+  regulatorio de industria.
+- **RDC 1.014/2026** — Sandbox Regulatorio exclusivo para associacoes
+  de pacientes sem fins lucrativos: ate 5 anos, sob supervisao da
+  ANVISA, sem comercializacao. Corte: associacao constituida ha 2+
+  anos na publicacao; entrada por edital de chamamento publico (ainda
+  nao publicado ate 25/08/2026).
+
+Item permanente do roteiro: monitorar os editais da RDC 1.014. Uma
+associacao fundada agora nao entra no primeiro ciclo — a via judicial
+(HC preventivo) segue sendo o caminho de cultivo no curto prazo — mas
+o mesmo dossie serve as duas portas. Ver HABEAS_CORPUS_CULTIVO e
+DESPACHANTES_E_PARCEIROS_AUTORIZACAO.
+
 Este roteiro e informativo e nao substitui assessoria juridica e contabil.

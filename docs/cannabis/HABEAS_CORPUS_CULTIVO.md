@@ -185,3 +185,30 @@ Custas do proprio HC: isento (acao constitucional gratuita).
 Nao impetrar cedo demais: um HC negado por dossie fraco cria
 precedente local desfavoravel e atrasa a fase 4. O historico da fase 2
 e o que separa os casos deferidos dos indeferidos.
+
+## 9. Atualizacao — o marco ANVISA de 2026 e o sandbox das associacoes
+
+Em janeiro-fevereiro de 2026 a ANVISA publicou as RDCs 1.011 a
+1.015/2026 (em vigor desde 04/08/2026). A RDC 1.014/2026 cria um
+Sandbox Regulatorio exclusivo para associacoes de pacientes sem fins
+lucrativos: ambiente experimental de ate 5 anos, sob supervisao direta
+da agencia, sem comercializacao — a primeira via ADMINISTRATIVA de
+cultivo associativo, que antes so existia pela via judicial.
+
+Efeito pratico para a Gota Verde:
+
+- o requisito de corte e associacao constituida ha no minimo 2 anos na
+  data de publicacao da RDC; uma associacao fundada agora nao entra no
+  primeiro ciclo, e a selecao depende de edital de chamamento publico
+  ainda nao publicado (ate 25/08/2026);
+- portanto o HC preventivo segue sendo a via realista de cultivo no
+  horizonte de 1 a 2 anos, e as duas vias se complementam: o mesmo
+  dossie (pacientes, protocolo tecnico, prestacao de contas auditavel)
+  serve ao juiz hoje e ao edital do sandbox amanha;
+- o proprio sandbox fortalece o HC como argumento: o Estado reconheceu
+  formalmente que o cultivo associativo e atividade legitima a
+  regular, nao a criminalizar;
+- monitorar os editais da RDC 1.014 e um item permanente do roadmap.
+
+Detalhes do marco e das plataformas de mercado no documento
+DESPACHANTES_E_PARCEIROS_AUTORIZACAO.
