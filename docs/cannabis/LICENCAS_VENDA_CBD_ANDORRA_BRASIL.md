@@ -101,6 +101,87 @@ estoque). Nao ha atalho licito: "vender oleo de CBD" fora desse rito
   mediante autorizacao judicial (o caminho do nosso estatuto). Nao e
   venda comercial.
 
+## 2b. "Mas a empresa de Andorra pode EXPORTAR para o Brasil, se o medico prescrever?" — a explicacao completa
+
+A pergunta mistura duas coisas que precisam ser separadas: o que a
+receita do medico (CRM) autoriza, e o que a empresa estrangeira precisa
+ter. Vamos por partes.
+
+### O que a receita do medico realmente faz
+
+Na via da RDC 660/2022, quem recebe a autorizacao da ANVISA e o
+**PACIENTE**, nunca a empresa. O fluxo e:
+
+1. Medico com CRM prescreve o produto (receita valida, com nome do
+   produto e posologia).
+2. O paciente cadastra a receita no Gov.br e recebe a **Autorizacao de
+   Importacao** da ANVISA (validade de 2 anos).
+3. O paciente (ou seu representante) compra do fornecedor estrangeiro e
+   importa PARA USO PROPRIO — por remessa expressa ou bagagem.
+
+Ou seja: a receita do CRM abre a porta da IMPORTACAO PELO PACIENTE. Ela
+nao licencia empresa nenhuma. A empresa estrangeira, nessa via, e apenas
+a vendedora la fora que despacha para o endereco do paciente.
+
+### Entao a empresa estrangeira pode vender para pacientes brasileiros?
+
+**Pode — e e exatamente assim que operam as marcas americanas e
+europeias que os pacientes brasileiros importam hoje.** A empresa
+estrangeira nao precisa de licenca BRASILEIRA nessa via. Mas ha uma
+condicao da propria RDC 660 que decide tudo:
+
+> O produto importado deve ser **regularizado para consumo no pais de
+> origem** (ou em pais que o regularize).
+
+E aqui Andorra quebra: **CBD medicinal nao e regularizado em Andorra**.
+Nao ha lei de cannabis medicinal em vigor, nao ha registro de produto,
+nao ha fabricante licenciado, e derivados de cannabis nao tem via legal
+de comercializacao local (fora cosmeticos da UE). Um frasco de oleo CBD
+"origem Andorra" nao atende ao requisito da RDC 660 — a ANVISA pode
+barrar na remessa — e, antes disso, a propria empresa teria problema em
+Andorra para PRODUZIR, ESTOCAR e DESPACHAR o produto (posse e comercio
+nao regulamentados; houve caso de detencao na fronteira por 500 g de
+CBD). E Andorra esta fora da uniao aduaneira da UE: qualquer remessa
+cruza a alfandega da Franca ou da Espanha sob regras de entorpecentes.
+
+### O arranjo que FUNCIONA com uma empresa andorrana
+
+A empresa de Andorra pode participar — desde que o PRODUTO nao seja
+"de Andorra". O desenho licito usado no mercado:
+
+1. **Fabricacao e regularizacao num pais onde CBD medicinal e legal**
+   (ex.: Portugal, Suica, Reino Unido, EUA, Colombia, Uruguai). O
+   produto nasce registrado/regularizado LA.
+2. **Logistica e despacho a partir desse pais** — a remessa sai de la
+   direto para o endereco do paciente brasileiro (fulfilment local).
+   O "pais de origem" para a RDC 660 e esse, nao Andorra.
+3. **A empresa andorrana atua como dona da marca, contratante da
+   fabricacao (white label) e/ou merchant of record** — ela fatura a
+   venda internacional, mas nao toca fisicamente no produto.
+4. No Brasil, a operacao (Gota Verde) orienta o paciente: consulta,
+   receita, cadastro na ANVISA, acompanhamento — sem nunca vender nem
+   importar em nome proprio.
+
+Limites honestos desse arranjo:
+
+- E venda direta ao paciente importador — **nao e** vender em farmacia
+  brasileira, nao escala como varejo nacional e depende do paciente
+  topar o processo de importacao.
+- Meios de pagamento internacionais frequentemente recusam merchant de
+  produtos de cannabis; a escolha do adquirente e um problema real.
+- Se um dia o objetivo for a prateleira da farmacia brasileira (RDC
+  327), quem precisa de certificacao ANVISA de Boas Praticas e o
+  FABRICANTE — de novo o pais produtor, nunca Andorra.
+- Estrutura Andorra-Brasil exige parecer tributario (CFC/regime
+  privilegiado) antes do primeiro contrato.
+
+### Resumo em uma frase
+
+A receita do CRM permite que o PACIENTE importe; a empresa andorrana
+pode ser a marca e o caixa dessa venda, mas o produto tem que nascer e
+sair de um pais onde ele e legal — e esse pais, hoje, nao pode ser
+Andorra.
+
 ## 3. Arquitetura recomendada para o projeto
 
 1. **Operacao no Brasil** (a Gota Verde): comeca pela associacao (sem
