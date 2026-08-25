@@ -54,6 +54,39 @@ Ato publicado em diario oficial e publico por definicao legal. Dado de governo
 brasileiro e publico pela Lei de Acesso a Informacao. Nenhum deles cobra, e
 nenhum deles cria dependencia de fornecedor.
 
+## Modelo de terceiro: o que sai daqui, e o que volta
+
+O caminho remoto (`asus_theye.llm.remote_client`, atras de
+`THE_EYE_REMOTE_LLM=1`) manda texto do titular para a OpenAI e para a
+Anthropic. Isso e o oposto de "dado pago entrando": e conteudo proprio saindo.
+A analise dos termos dos dois provedores esta em
+`reports/provenance/LLM-remoto-termos.md`, no mesmo formato que decidiu o caso
+da Kalshi — e chegou a conclusao contraria, pelo motivo registrado la.
+
+O que decorre dela, como regra:
+
+1. **Nenhum pagamento, nenhuma dependencia.** Os clientes sao escritos na
+   biblioteca padrao (`urllib`), sem SDK de fornecedor. `dependencies = []`
+   continua valendo. Quem nao tiver chave usa o Ollama local, e a plataforma
+   funciona inteira sem nunca chamar nenhum dos dois.
+2. **Retencao e escolha, nao padrao.** Modelos designados "Covered Models" pela
+   Anthropic obrigam 30 dias de retencao e nao aceitam retencao zero. O padrao
+   do projeto (`claude-opus-5`) nao e um deles, de proposito. Escolher um
+   exige `THE_EYE_ACCEPT_RETENTION=1`: a troca continua permitida, mas nao
+   acontece por descuido.
+3. **Conteudo alheio continua fora do produto.** O registro de auditoria grava
+   apenas hashes do prompt e da resposta, nunca o texto — o item 5 acima e
+   satisfeito pelo mesmo mecanismo do grafo de fontes.
+4. **A prova de autoria e nossa, nao deles.** Para cada chamada, a corrente
+   encadeada registra provedor, modelo, instante, duracao, tokens e os hashes
+   SHA-256 do que foi enviado e do que voltou. O titular demonstra o que mandou,
+   quando, para quem e o que recebeu, sem depender da palavra do provedor.
+5. **O que ainda nao foi verificado esta marcado como nao verificado.** As
+   clausulas de propriedade do Output dos dois provedores nao puderam ser lidas
+   na fonte primaria (bloqueio de egresso do ambiente onde a analise correu) e
+   estao registradas como UNKNOWN, com o endereco de cada documento. Indicacao
+   de busca nao e fundamento.
+
 ## Autoria do que sai
 
 Todo codigo produzido neste projeto — inclusive o escrito por agentes, seja

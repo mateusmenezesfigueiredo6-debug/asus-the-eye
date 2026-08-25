@@ -31,6 +31,17 @@ ANTHROPIC_VERSION = "2023-06-01"
 DEFAULT_OPENAI_MODEL = os.environ.get("THE_EYE_OPENAI_MODEL", "gpt-4o")
 DEFAULT_ANTHROPIC_MODEL = os.environ.get("THE_EYE_ANTHROPIC_MODEL", "claude-opus-5")
 
+ACCEPT_RETENTION_ENV_FLAG = "THE_EYE_ACCEPT_RETENTION"
+
+# Anthropic designates these "Covered Models": they REQUIRE 30-day data
+# retention and are not eligible for zero data retention. Verified against the
+# primary source on 23/08/2026 — see reports/provenance/LLM-remoto-termos.md.
+# The project default (claude-opus-5) is deliberately not one of them: choosing
+# a covered model silently trades away the owner's option of retaining nothing.
+# That trade is legitimate, but it must be a decision, not a default — so it
+# gets the same explicit gate the remote path itself gets.
+ANTHROPIC_COVERED_MODELS = frozenset({"claude-fable-5", "claude-mythos-5"})
+
 # The owner says "chatGPT" and "Claude"; the audit trail says "openai" and
 # "anthropic". Both vocabularies resolve to the same canonical provider so the
 # hash chain never records two names for one origin.
@@ -68,6 +79,26 @@ def _require_gate(provider: str) -> None:
             f"remote provider {provider!r} is gated: prompts would leave this machine. "
             f"Set {EXECUTE_ENV_FLAG}=1 to allow it, and never for Phase G judicial data."
         )
+
+
+def _require_retention_consent(model: str) -> None:
+    """Refuse a Covered Model unless the owner accepted its mandatory retention.
+
+    A Covered Model cannot run under zero data retention: the provider keeps the
+    prompt and the response for 30 days. Defaulting into that would give away,
+    silently, a choice that belongs to the owner of the content.
+    """
+    if model.strip().lower() not in ANTHROPIC_COVERED_MODELS:
+        return
+    if os.environ.get(ACCEPT_RETENTION_ENV_FLAG) == "1":
+        return
+    raise RemoteLLMError(
+        f"model {model!r} is a Covered Model: the provider requires 30-day data retention "
+        f"and zero data retention is not available for it. Set {ACCEPT_RETENTION_ENV_FLAG}=1 "
+        f"to accept that your prompt and the response are kept for 30 days, or pick a model "
+        f"that is not covered (the default {DEFAULT_ANTHROPIC_MODEL!r} is not). "
+        f"See reports/provenance/LLM-remoto-termos.md."
+    )
 
 
 def _post(url: str, payload: dict[str, Any], headers: dict[str, str], timeout: int) -> dict[str, Any]:
@@ -144,6 +175,7 @@ class AnthropicClient:
         max_tokens: int = 4096,
     ) -> None:
         _require_gate(self.provider)
+        _require_retention_consent(model)
         self.model = model
         self.api_key = api_key or os.environ.get("ANTHROPIC_API_KEY", "")
         if not self.api_key:
