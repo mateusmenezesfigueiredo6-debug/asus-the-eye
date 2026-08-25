@@ -136,6 +136,35 @@ O descritor aparece no logo, no site, no app e no material de vendas; o
 nome registravel e "limpo" fica no CNPJ, no INPI e nos gateways. E o
 melhor dos dois mundos e a recomendacao tecnica deste estudo.
 
+## Rodada 3 — pedido do dono: facil e que grude
+
+Criterio desta rodada: maximo 3 silabas ou 2 palavras curtas; passa no
+"teste do telefone" (a pessoa ouve uma vez e escreve certo); passa no
+"teste do balcao" (da para indicar de boca a um amigo). Sem girias de
+uso recreativo (verdinha, beck etc.) — matam a credibilidade medica.
+
+| Nome | Por que gruda | Sinais |
+|---|---|---|
+| **Alivia** | E um verbo-promessa: o produto na propria palavra. "Ja tomou seu Alivia hoje?" | saude alta, cannabis implicita |
+| **Gota Verde** | Concreto e visual: o oleo E uma gota verde. Nome que vira apelido sozinho | cannabis media, saude alta |
+| **Canapia** | Da rodada 2, e a mais facil de falar; soa nome de clinica | cannabis alta, saude alta |
+| **Cuida** | Uma palavra, universal, afetiva | saude alta, cannabis baixa |
+| **Planta Pura** | Aliteracao (P-P) gruda; pureza = laudo | cannabis alta, saude media |
+
+Ranking de "grude" (memorabilidade estimada): 1. Gota Verde,
+2. Alivia, 3. Cuida, 4. Canapia, 5. Planta Pura.
+
+Cruzando com as lentes anteriores (INPI, anuncios, extensao de marca):
+
+- **Gota Verde** — o mais grudento e visual; logo obvio (uma gota);
+  estende bem (Gota Verde Pet, Gota Verde Clinica). Risco: registrar
+  marca com palavras comuns exige conjunto distintivo — viavel, conferir
+  INPI classe 5.
+- **Alivia** — promessa dentro do nome; cuidado unico: nao pode virar
+  promessa terapeutica explicita em anuncio (a marca alivia, nao cura).
+- Os dois funcionam com o descritor: "Gota Verde — cannabis medicinal
+  com evidencia" / "Alivia — tecnologia em saude canabica".
+
 ## Recomendacao
 
 **Finalistas: Alquimia Um e Cinala.**
