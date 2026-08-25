@@ -10,6 +10,8 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { StatusBar } from "expo-status-bar";
 import { GateScreen } from "./src/screens/Gate";
 import { HomeScreen } from "./src/screens/Home";
+import { AutorizacaoScreen } from "./src/screens/Autorizacao";
+import { DisparosScreen } from "./src/screens/Disparos";
 import { CatalogoScreen } from "./src/screens/Catalogo";
 import { PesquisaScreen } from "./src/screens/Pesquisa";
 import { MedicosScreen } from "./src/screens/Medicos";
@@ -50,6 +52,8 @@ export default function App() {
         <Tab.Screen name="Produtos" component={CatalogoScreen} />
         <Tab.Screen name="P&D" component={PesquisaScreen} />
         <Tab.Screen name="Medicos" component={MedicosScreen} />
+        <Tab.Screen name="Autorizacao" component={AutorizacaoScreen} />
+        <Tab.Screen name="Disparos" component={DisparosScreen} />
       </Tab.Navigator>
     </NavigationContainer>
   );

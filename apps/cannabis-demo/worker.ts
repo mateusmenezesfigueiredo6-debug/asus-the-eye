@@ -11,7 +11,64 @@ export interface Env {
   ASSETS: Fetcher;
   SITE_ACCESS_CODE: string;
   COOKIE_SECRET: string;
+  // Automacoes (opcionais ate o deploy configurar):
+  OPTOUT?: KVNamespace;
+  DEST_EMAIL?: string; // caixa da associacao que recebe os pacotes
+  FROM_EMAIL?: string; // remetente dos disparos (dominio proprio)
 }
+
+// Envia email via MailChannels (gratuito para Workers publicados).
+async function enviarEmail(
+  env: Env,
+  para: string,
+  assunto: string,
+  corpo: string,
+): Promise<boolean> {
+  if (!env.FROM_EMAIL) return false;
+  const r = await fetch("https://api.mailchannels.net/tx/v1/send", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      personalizations: [{ to: [{ email: para }] }],
+      from: { email: env.FROM_EMAIL, name: "Associacao Gota Verde" },
+      subject: assunto,
+      content: [{ type: "text/plain", value: corpo }],
+    }),
+  });
+  return r.ok;
+}
+
+const TEMPLATE_MEDICO = (nome: string, crm: string, unsub: string) =>
+  `Dr(a). ${nome},
+
+Somos a Associacao Gota Verde, entidade de pacientes de cannabis
+medicinal em formacao, com rastreabilidade auditavel (laudo por lote,
+importacao assistida via RDC 660/2022 e farmacovigilancia ativa).
+Estamos convidando medicos com CRM ativo (${crm}) para o corpo clinico.
+
+Modelos de parceria: pagamento por consulta (valor definido pelo
+proprio medico), hora clinica ou conselho cientifico. Nao trabalhamos
+com remuneracao vinculada a prescricao - vedado pelo CEM e pela nossa
+politica.
+
+Teria 20 minutos esta semana para uma conversa?
+
+Associacao Gota Verde
+Para nao receber mais mensagens: ${unsub}`;
+
+const TEMPLATE_EMPRESA = (nome: string, unsub: string) =>
+  `Prezados, ${nome},
+
+Somos a Associacao Gota Verde, entidade de pacientes de cannabis
+medicinal em formacao. Buscamos parcerias com plataformas e empresas do
+setor (telemedicina, laboratorios, fornecedores internacionais com
+produto regularizado na origem) para a operacao de importacao assistida
+via RDC 660/2022.
+
+Podemos agendar uma conversa?
+
+Associacao Gota Verde
+Para nao receber mais mensagens: ${unsub}`;
 
 const COOKIE = "gota_acesso";
 const VALIDADE_S = 60 * 60 * 12; // 12 horas
@@ -115,9 +172,93 @@ export default {
       });
     }
 
+    // Opt-out publico (chega pelo link do email, sem cookie).
+    if (req.method === "GET" && url.pathname === "/api/unsubscribe") {
+      const e = (url.searchParams.get("e") ?? "").toLowerCase().trim();
+      if (e && env.OPTOUT) await env.OPTOUT.put(`optout:${e}`, "1");
+      return new Response(
+        "Descadastro registrado. Voce nao recebera mais mensagens.",
+        { headers: { "Content-Type": "text/plain; charset=utf-8" } },
+      );
+    }
+
     if (!(await cookieValido(req, env))) {
       return telaCodigo(false);
     }
+
+    // Disparo de convites (admin, atras do gate). Corpo JSON:
+    // { destinatarios: [{nome,email,crm?,tipo:"medico"|"empresa"}] }
+    if (req.method === "POST" && url.pathname === "/api/outreach") {
+      const dados = (await req.json()) as {
+        destinatarios?: {
+          nome: string; email: string; crm?: string; tipo?: string;
+        }[];
+      };
+      const lote = (dados.destinatarios ?? []).slice(0, 100);
+      let enviados = 0;
+      let suprimidos = 0;
+      for (const d of lote) {
+        const email = (d.email ?? "").toLowerCase().trim();
+        if (!email.includes("@")) continue;
+        if (env.OPTOUT && (await env.OPTOUT.get(`optout:${email}`))) {
+          suprimidos++;
+          continue;
+        }
+        const unsub = `${url.origin}/api/unsubscribe?e=${encodeURIComponent(email)}`;
+        const corpo =
+          d.tipo === "empresa"
+            ? TEMPLATE_EMPRESA(d.nome, unsub)
+            : TEMPLATE_MEDICO(d.nome, d.crm ?? "", unsub);
+        const ok = await enviarEmail(
+          env,
+          email,
+          "Convite - Associacao Gota Verde",
+          corpo,
+        );
+        if (ok) enviados++;
+      }
+      return Response.json({
+        enviados,
+        suprimidos,
+        total: lote.length,
+        configurado: Boolean(env.FROM_EMAIL),
+      });
+    }
+
+    // Pacote de autorizacao ANVISA: encaminha por email a associacao.
+    // Nao armazena dados de saude no Worker (transito, nao retencao).
+    if (req.method === "POST" && url.pathname === "/api/autorizacao") {
+      const p = (await req.json()) as Record<string, string>;
+      const corpo = `NOVO PACOTE DE AUTORIZACAO (RDC 660)
+
+Paciente: ${p.nome ?? ""}
+CPF: ${p.cpf ?? ""}
+Data de nascimento: ${p.nascimento ?? ""}
+Email: ${p.email ?? ""}
+Telefone: ${p.telefone ?? ""}
+Endereco: ${p.endereco ?? ""}
+
+Medico: ${p.medico ?? ""} - CRM ${p.crm ?? ""}/${p.uf ?? ""}
+Data da receita: ${p.dataReceita ?? ""}
+
+Produto prescrito: ${p.produto ?? ""}
+Concentracao/posologia: ${p.posologia ?? ""}
+Fornecedor pretendido: ${p.fornecedor ?? ""}
+
+Proximo passo: despachante conduz o cadastro no Gov.br como
+representante (procuracao assinada) e retorna ao paciente com o
+protocolo.`;
+      const ok = env.DEST_EMAIL
+        ? await enviarEmail(
+            env,
+            env.DEST_EMAIL,
+            `Pacote de autorizacao - ${p.nome ?? "paciente"}`,
+            corpo,
+          )
+        : false;
+      return Response.json({ recebido: true, encaminhado: ok });
+    }
+
     return env.ASSETS.fetch(req);
   },
 };

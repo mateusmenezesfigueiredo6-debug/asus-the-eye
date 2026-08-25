@@ -19,3 +19,13 @@ not_found_handling = "404-page"
 [observability]
 enabled = true
 head_sampling_rate = 0.1
+
+# Automacoes: configurar apos o deploy
+# npx wrangler kv namespace create OPTOUT  -> colar o id abaixo
+# [[kv_namespaces]]
+# binding = "OPTOUT"
+# id = "COLE_O_ID_AQUI"
+#
+# [vars]
+# DEST_EMAIL = "contato@seudominio.com"   # caixa que recebe os pacotes
+# FROM_EMAIL = "envio@seudominio.com"     # remetente (dominio proprio)

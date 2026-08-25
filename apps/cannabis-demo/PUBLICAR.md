@@ -29,3 +29,19 @@ publish lock).
 
 Para trocar o codigo de acesso, repita `wrangler secret put
 SITE_ACCESS_CODE` e faca novo deploy.
+
+## Ativar as automacoes (disparos e pacote ANVISA)
+
+1. Criar o KV de opt-out e colar o id no wrangler.toml (bloco comentado):
+   npx wrangler kv namespace create OPTOUT
+2. Descomentar [vars] e definir DEST_EMAIL (caixa da associacao) e
+   FROM_EMAIL (remetente em dominio proprio com SPF/DKIM configurados
+   para MailChannels).
+3. Novo deploy: npx wrangler deploy
+Ate isso ser feito, as paginas /automacao e /autorizacao funcionam em
+modo demonstracao (validam e geram, sem enviar email).
+
+Limite legal do "pedido ANVISA automatizado": o Gov.br nao tem API
+publica; o wizard coleta e formata tudo e envia o pacote a equipe, que
+protocola no Gov.br como representante do paciente (procuracao). O
+passo humano final e obrigatorio.

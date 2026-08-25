@@ -191,6 +191,7 @@ PAGINAS = (
     ("produtos.html", "Produtos"),
     ("pesquisa.html", "P&D"),
     ("medicos.html", "Para medicos"),
+    ("autorizacao.html", "Autorizacao"),
     ("marca.html", "Marca"),
     ("contato.html", "Contato"),
 )
@@ -754,6 +755,198 @@ def contato_page() -> str:
     return _shell("Contato", "contato.html", corpo)
 
 
+def autorizacao_page() -> str:
+    """Wizard do paciente: gera o pacote de autorizacao ANVISA pronto.
+
+    Automacao ate a linha legal: o Gov.br nao tem API publica, entao o
+    wizard coleta e formata tudo, envia o pacote a associacao (endpoint
+    /api/autorizacao do Worker) e gera a versao para impressao; a
+    submissao final no Gov.br e feita pelo despachante humano com a
+    procuracao do associado.
+    """
+    corpo = """
+<section class="hero">
+  <span class="badge-demo">Importacao assistida — RDC 660/2022</span>
+  <h1>Seu pedido de autorizacao, <em>sem dor de cabeca</em></h1>
+  <p class="lede">Preencha uma unica vez. Nossa equipe conduz o cadastro
+  no Gov.br como sua representante e devolve o protocolo. A autorizacao
+  sai no SEU nome e vale 2 anos.</p>
+</section>
+<section class="bloco">
+  <form id="wiz" class="form-medico">
+    <h2 style="margin-top:0">1. Seus dados</h2>
+    <div class="campo-linha">
+      <label>Nome completo<input name="nome" required></label>
+      <label>CPF<input name="cpf" required inputmode="numeric"></label>
+      <label>Data de nascimento<input name="nascimento" type="date"
+        required></label>
+    </div>
+    <div class="campo-linha">
+      <label>Email<input name="email" type="email" required></label>
+      <label>Telefone<input name="telefone" required></label>
+      <label>Endereco completo<input name="endereco" required></label>
+    </div>
+    <h2>2. Receita medica</h2>
+    <div class="campo-linha">
+      <label>Nome do medico<input name="medico" required></label>
+      <label>CRM<input name="crm" required inputmode="numeric"
+        pattern="[0-9]{4,7}"></label>
+      <label>UF do CRM<input name="uf" required maxlength="2"></label>
+      <label>Data da receita<input name="dataReceita" type="date"
+        required></label>
+    </div>
+    <h2>3. Produto prescrito</h2>
+    <div class="campo-linha">
+      <label>Produto (como esta na receita)
+        <input name="produto" required></label>
+      <label>Concentracao e posologia
+        <input name="posologia" required></label>
+      <label>Fornecedor pretendido (se souber)
+        <input name="fornecedor"></label>
+    </div>
+    <label class="check">
+      <input type="checkbox" name="consent" required>
+      Autorizo a Associacao Gota Verde a tratar estes dados para conduzir
+      meu pedido de autorizacao junto a ANVISA, como minha representante,
+      nos termos da LGPD. Os dados nao serao usados para outro fim.
+    </label>
+    <p>
+      <button type="submit" class="btn solid">Enviar e gerar o
+      pacote</button>
+      <button type="button" class="btn ghost" id="btn-imprimir"
+        style="display:none">Imprimir / salvar PDF</button>
+    </p>
+    <p class="crm-status" id="wiz-status"></p>
+    <p class="mini-form">O que acontece depois: em ate 1 dia util nossa
+    equipe confere a receita, assina com voce a procuracao de
+    representacao e protocola o pedido no Gov.br. Voce recebe o numero
+    do protocolo e, na sequencia, a autorizacao (validade: 2 anos).
+    Nenhum dado fica armazenado neste site.</p>
+  </form>
+  <div id="pacote" style="display:none"></div>
+</section>
+<script>
+(function () {
+  var form = document.getElementById('wiz');
+  var status = document.getElementById('wiz-status');
+  var pacote = document.getElementById('pacote');
+  var btnImp = document.getElementById('btn-imprimir');
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var d = {};
+    new FormData(form).forEach(function (v, k) { d[k] = String(v); });
+    var linhas = [
+      ['Paciente', d.nome], ['CPF', d.cpf],
+      ['Nascimento', d.nascimento], ['Email', d.email],
+      ['Telefone', d.telefone], ['Endereco', d.endereco],
+      ['Medico', d.medico + ' - CRM ' + d.crm + '/' + d.uf],
+      ['Data da receita', d.dataReceita],
+      ['Produto', d.produto], ['Posologia', d.posologia],
+      ['Fornecedor', d.fornecedor || 'a definir'],
+    ];
+    pacote.innerHTML = '<h2>Pacote de autorizacao (previa)</h2>' +
+      '<table class="tab">' + linhas.map(function (l) {
+        return '<tr><th>' + l[0] + '</th><td>' + l[1] + '</td></tr>';
+      }).join('') + '</table>' +
+      '<p class="mini-form">Anexos a reunir: receita medica legivel, ' +
+      'documento com foto, comprovante de residencia e procuracao ' +
+      'assinada (enviaremos o modelo).</p>';
+    pacote.style.display = 'block';
+    btnImp.style.display = 'inline-block';
+    fetch('/api/autorizacao', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(d),
+    }).then(function (r) { return r.json(); }).then(function (j) {
+      status.className = 'crm-status ok';
+      status.textContent = j.encaminhado
+        ? 'Pacote enviado a equipe. Voce recebera contato em ate 1 dia util.'
+        : 'Pacote gerado (modo demonstracao - envio sera ativado no deploy).';
+    }).catch(function () {
+      status.className = 'crm-status ok';
+      status.textContent =
+        'Pacote gerado localmente (demonstracao, sem backend).';
+    });
+  });
+  btnImp.addEventListener('click', function () { window.print(); });
+})();
+</script>"""
+    return _shell("Autorizacao", "autorizacao.html", corpo)
+
+
+def automacao_page() -> str:
+    """Painel de disparos (admin, atras do gate): convites a medicos e
+    empresas via endpoint /api/outreach, com opt-out automatico."""
+    corpo = """
+<section class="hero">
+  <span class="badge-demo">Painel interno — disparos</span>
+  <h1>Convites a medicos e <em>empresas</em></h1>
+  <p class="lede">Cole a lista (uma linha por contato:
+  nome;email;crm;tipo — tipo = medico ou empresa). O envio usa o
+  template oficial do funil, com descadastro automatico e lista de
+  supressao. Maximo de 100 por disparo.</p>
+</section>
+<section class="bloco">
+  <form id="disp" class="form-medico">
+    <label>Lista (nome;email;crm;tipo)
+      <textarea name="lista" rows="8" style="width:100%;background:
+      var(--bg2);border:1px solid var(--line2);color:var(--ink);
+      padding:11px;border-radius:2px;font-family:var(--sans)"
+      placeholder="Maria Silva;maria@exemplo.com;123456;medico"></textarea>
+    </label>
+    <label class="check">
+      <input type="checkbox" name="base" required>
+      Declaro que esta lista tem base legal (contato profissional
+      publico ou consentimento) e que os descadastros anteriores foram
+      respeitados. Sem esta base, o disparo e spam e viola a LGPD.
+    </label>
+    <p><button type="submit" class="btn solid">Disparar</button></p>
+    <p class="crm-status" id="disp-status"></p>
+  </form>
+</section>
+<script>
+(function () {
+  var form = document.getElementById('disp');
+  var status = document.getElementById('disp-status');
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var linhas = form.lista.value.split('\\n').map(function (l) {
+      return l.trim();
+    }).filter(Boolean);
+    var dest = linhas.map(function (l) {
+      var p = l.split(';');
+      return { nome: (p[0]||'').trim(), email: (p[1]||'').trim(),
+               crm: (p[2]||'').trim(), tipo: (p[3]||'medico').trim() };
+    }).filter(function (d) { return d.email.indexOf('@') > 0; });
+    if (!dest.length) {
+      status.className = 'crm-status erro';
+      status.textContent = 'Nenhum email valido na lista.';
+      return;
+    }
+    status.className = 'crm-status';
+    status.textContent = 'Enviando ' + dest.length + ' convites...';
+    fetch('/api/outreach', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ destinatarios: dest }),
+    }).then(function (r) { return r.json(); }).then(function (j) {
+      status.className = 'crm-status ok';
+      status.textContent = j.configurado
+        ? ('Enviados: ' + j.enviados + ' | descadastrados pulados: '
+          + j.suprimidos + ' | total: ' + j.total)
+        : ('Lote validado (' + j.total + ' contatos). Envio real sera '
+          + 'ativado quando FROM_EMAIL for configurado no deploy.');
+    }).catch(function () {
+      status.className = 'crm-status ok';
+      status.textContent = 'Lote validado localmente (' + dest.length
+        + ' contatos) - modo demonstracao, sem backend.';
+    });
+  });
+})();
+</script>"""
+    return _shell("Disparos", "automacao.html", corpo)
+
+
 def manifest_webmanifest() -> str:
     return """{
   "name": "Gota Verde",
@@ -1111,6 +1304,8 @@ def exportar(destino: str = "dist-cannabis") -> dict:
         "medicos.html": medicos_page(),
         "marca.html": marca_page(),
         "contato.html": contato_page(),
+        "autorizacao.html": autorizacao_page(),
+        "automacao.html": automacao_page(),
         "deck.html": deck_page(),
         "manifest.webmanifest": manifest_webmanifest(),
         "icone.svg": icone_svg(),
