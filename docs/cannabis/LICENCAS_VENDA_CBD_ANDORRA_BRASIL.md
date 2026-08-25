@@ -260,6 +260,26 @@ brasileiro — e por isso ninguem precisa de AFE/AE. E o modelo que
 grandes operadores do setor usam hoje, e e exatamente o desenho da
 Gota Verde na fase 1.
 
+### Variante escolhida: a facilitadora brasileira e a ASSOCIACAO
+
+Decisao de 25/08/2026: no lugar de empresa brasileira, a facilitadora e
+a associacao de pacientes (estatuto ja redigido). O que muda:
+
+- As receitas de servico viram contribuicao associativa e servicos a
+  preco social (consulta social com medicos parceiros, despachante,
+  acompanhamento).
+- A associacao pode atuar como REPRESENTANTE do associado na importacao
+  (a RDC 660 admite representante/procurador) — conduz cadastro e
+  importacao em nome dele com mais naturalidade que empresa comercial.
+- So a associacao tem a porta do cultivo com autorizacao judicial
+  (fornecimento sem lucro a associados) e acesso a beneficios de
+  entidade sem fins lucrativos.
+- O limite: superavit reinveste, ninguem distribui dividendo. O arranjo
+  maduro do setor: associacao na frente assistencial + empresa do grupo
+  vendendo software e servicos A associacao, a precos de mercado
+  documentados (e a empresa estrangeira vendendo o produto ao paciente,
+  como antes).
+
 ## 3. Arquitetura recomendada para o projeto
 
 1. **Operacao no Brasil** (a Gota Verde): comeca pela associacao (sem
