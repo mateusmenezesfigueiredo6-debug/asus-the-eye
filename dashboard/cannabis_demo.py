@@ -168,6 +168,15 @@ footer.site { border-top: 1px solid var(--line); padding: 34px 0 60px;
 .crm-status.ok { color: var(--green); }
 .crm-status.erro { color: #d97676; }
 .mini-form { font-size: 0.78rem; color: var(--dim2); }
+.faq details { border: 1px solid var(--line); border-radius: 4px;
+  background: var(--panel); margin-bottom: 12px; max-width: 740px; }
+.faq summary { cursor: pointer; padding: 16px 20px;
+  font-family: var(--serif); font-size: 1.08rem; color: var(--ink);
+  list-style: none; }
+.faq summary::before { content: "+ "; color: var(--gold); }
+.faq details[open] summary::before { content: "- "; }
+.faq details p { padding: 0 20px 16px; color: var(--dim);
+  font-size: 0.92rem; }
 .aviso { background: var(--panel); border-left: 2px solid var(--gold);
   padding: 18px 22px; margin: 30px 0; color: var(--dim);
   font-size: 0.86rem; max-width: 740px; }
@@ -292,6 +301,14 @@ def _shell(titulo: str, rota: str, corpo: str) -> str:
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
 <title>{titulo} — {BRAND}</title>
+<meta name="description" content="{BRAND}: cannabis medicinal com
+evidencia. Laudo por lote, dispensacao condicionada a prescricao e
+farmacovigilancia ativa. Material de apresentacao restrito.">
+<meta property="og:title" content="{titulo} — {BRAND}">
+<meta property="og:description" content="Cannabis medicinal com prova,
+nao com promessa.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="icone.svg">
 {FONTES}
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icone.svg" type="image/svg+xml">
@@ -373,6 +390,48 @@ def index_page() -> str:
   <div class="aviso">Fase atual: apresentacao e captacao de parceiros.
   Nao ha operacao comercial, estoque ou venda. O acesso a este material e
   restrito por codigo.</div>
+</section>
+<section class="bloco">
+  <span class="num">02</span>
+  <h2>Como vai funcionar, em quatro passos</h2>
+  <div class="pipeline">
+    <div class="fase"><div><h4>Consulta com prescritor</h4>
+      <p>Telemedicina com medico de CRM ativo; a receita nasce digital e
+      ja entra na trilha de auditoria.</p></div></div>
+    <div class="fase"><div><h4>Produto com laudo</h4>
+      <p>Cada lote com cromatografia de terceiros; o QR do rotulo abre o
+      laudo antes do primeiro uso.</p></div></div>
+    <div class="fase"><div><h4>Dispensacao condicionada</h4>
+      <p>Sem prescricao valida o sistema nao libera — nao existe excecao
+      manual.</p></div></div>
+    <div class="fase"><div><h4>Acompanhamento continuo</h4>
+      <p>Renovacao lembrada, efeito adverso notificado, historico que o
+      paciente carrega consigo.</p></div></div>
+  </div>
+</section>
+<section class="bloco">
+  <span class="num">03</span>
+  <h2>Perguntas diretas, respostas diretas</h2>
+  <div class="faq">
+    <details><summary>Isso e legal no Brasil?</summary><p>Sim, nas vias
+    que a lei ja permite: importacao por paciente (RDC 660/2022),
+    produtos autorizados em farmacia (RDC 327/2019) e telemedicina
+    nacional (CFM 2.314/2022). Cultivo associativo, so com autorizacao
+    judicial — e e assim que trabalharemos.</p></details>
+    <details><summary>Preciso de receita?</summary><p>Sempre. Nenhum
+    produto derivado de cannabis e dispensado sem prescricao de
+    profissional com registro ativo, e o sistema trava sem ela.</p>
+    </details>
+    <details><summary>Como sei que o produto e puro?</summary><p>Cada
+    lote tera laudo de laboratorio independente vinculado ao QR do
+    rotulo. Sem laudo, o lote nao circula.</p></details>
+    <details><summary>Voces prometem cura?</summary><p>Nao. Prometemos
+    origem provada, dose certa e acompanhamento. Indicacao terapeutica e
+    conversa entre voce e seu medico.</p></details>
+    <details><summary>Quando comeca a operacao?</summary><p>Estamos em
+    fase de apresentacao e estruturacao juridica. Deixe seu contato na
+    aba Contato para ser avisado.</p></details>
+  </div>
 </section>"""
     return _shell("Inicio", "index.html", corpo)
 
