@@ -182,6 +182,84 @@ pode ser a marca e o caixa dessa venda, mas o produto tem que nascer e
 sair de um pais onde ele e legal — e esse pais, hoje, nao pode ser
 Andorra.
 
+## 2c. O modelo "so o paciente passa pela ANVISA": de onde importar e como facilitar dentro da lei
+
+Este e o unico desenho em que a empresa nao precisa de habilitacao
+ANVISA: a via da RDC 660/2022, em que a REGULARIZACAO e do paciente. A
+empresa participa em dois papeis licitos — vendedora NO EXTERIOR e
+facilitadora NO BRASIL — e ha uma linha vermelha entre facilitar e
+vender disfarcado.
+
+### De onde importar (paises onde o produto e regularizado)
+
+O requisito da RDC 660 e que o produto seja regularizado no pais de
+origem. Na pratica do mercado brasileiro, as origens que funcionam:
+
+| Origem | Por que funciona | Observacao |
+|---|---|---|
+| Estados Unidos | CBD derivado de canhamo e legal em nivel federal (Farm Bill 2018, THC ate 0,3%); industria madura, laudos COA por lote; e de longe a origem mais usada pelos pacientes brasileiros | Frete e prazo bons; ampla oferta white label |
+| Reino Unido | CBD legal como novel food; fabricantes com GMP | Custo maior |
+| Suica | THC ate 1% permitido; industria forte de extratos | Bom para full spectrum |
+| Portugal / UE | Cultivo e fabricacao licenciados (Infarmed); porta de entrada natural para marca "europeia" | Regras variam por pais da UE |
+| Colombia e Uruguai | Marcos regulatorios proprios, custo de producao baixo | Logistica de remessa expressa menos rodada |
+
+Criterio de escolha: origem com produto legalmente vendavel la, COA
+(laudo) por lote, fabricante com GMP e operacao de remessa expressa
+internacional ja rodando para o Brasil.
+
+### O fluxo completo, passo a passo
+
+1. **Medico prescreve** (qualquer CRM ativo; telemedicina vale).
+2. **Paciente cadastra a receita no Gov.br** ("Solicitar autorizacao
+   para importacao de produtos derivados de Cannabis") — aprovacao em
+   geral automatica/rapida; autorizacao vale 2 anos e cobre os produtos
+   solicitados.
+3. **Paciente compra no site estrangeiro** (a venda ocorre FORA do
+   Brasil; quem fatura e a empresa de fora — e ai que entra a
+   estrangeira do grupo, com produto originado num pais da tabela).
+4. **Remessa expressa** (courier) para o endereco do paciente com a
+   receita + autorizacao anexadas; a ANVISA libera no aeroporto.
+5. **Uso proprio** — o paciente nao pode revender nem repassar.
+
+### O que a empresa BRASILEIRA pode fazer para facilitar (licito)
+
+- Plataforma de consultas com prescritores (a Gota Verde) — agenda,
+  telemedicina, receita digital.
+- **Servico de despachante regulatorio**: preencher o cadastro Gov.br
+  pelo paciente (com procuracao/consentimento), acompanhar a
+  autorizacao, orientar sobre a remessa. Pode COBRAR por esse servico.
+- Conteudo educacional, comparador de precos, acompanhamento clinico e
+  farmacovigilancia por assinatura.
+- Integrar o fluxo: consulta -> receita -> cadastro -> link do site
+  estrangeiro -> acompanhamento. O paciente clica, mas COMPRA la fora.
+
+### A linha vermelha (o que transforma tudo em crime)
+
+- A empresa brasileira **nao pode**: receber o pagamento do PRODUTO,
+  manter estoque no Brasil, importar em nome proprio para revender,
+  entregar produto ao paciente, ou "vender" e depois formalizar como se
+  fosse importacao do paciente. Qualquer uma dessas e venda de produto
+  sem registro (crime sanitario, art. 273 do Codigo Penal) e pode
+  configurar trafico.
+- O pagamento do produto vai do paciente DIRETO para a empresa
+  estrangeira (cartao internacional/gateway dela). A brasileira fatura
+  apenas consulta e servicos.
+- Sem promessa terapeutica em publicidade; sem anunciar o produto ao
+  publico (a publicidade licita e do SERVICO de facilitacao e do
+  conteudo educacional).
+- Se a mesma pessoa controla a estrangeira e a brasileira, contratos e
+  precos entre elas precisam de suporte tributario (transfer pricing).
+
+### Resumo operacional
+
+Empresa estrangeira (origem EUA/UE/Suica, ou merchant andorrano com
+fabricacao e despacho nesses paises) vende e despacha; paciente importa
+com receita e cadastro proprio; empresa brasileira fatura consulta e
+concierge regulatorio. Ninguem da estrutura toca no produto em solo
+brasileiro — e por isso ninguem precisa de AFE/AE. E o modelo que
+grandes operadores do setor usam hoje, e e exatamente o desenho da
+Gota Verde na fase 1.
+
 ## 3. Arquitetura recomendada para o projeto
 
 1. **Operacao no Brasil** (a Gota Verde): comeca pela associacao (sem
