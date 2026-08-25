@@ -100,6 +100,42 @@ Antes de bater o martelo, teste barato em 1 semana:
    handle livre em Instagram/LinkedIn, resultado de busca do nome sem
    associacoes ruins.
 
+## Rodada 2 — pedido do dono: o nome tem que soar cannabis + tecnologia + saude
+
+Nomes construidos para carregar os tres sinais ao mesmo tempo. Legenda de
+forca por sinal (alto/medio/baixo) e a ressalva da Lente 8: quanto mais
+explicito o "cann", maior o atrito em anuncios, pagamentos e INPI.
+
+| Nome | Construcao | Cannabis | Tecnologia | Saude |
+|---|---|---|---|---|
+| Canapia | canna + terapia | alto | medio | alto |
+| Cannalis | canna + analise | alto | alto | medio |
+| Sativia | sativa + -ia | alto | medio | medio |
+| Verdegen | verde + genetica | medio | alto | medio |
+| Cannexa | canna + nexo (plataforma que conecta) | alto | alto | baixo |
+| Tricoma Saude | estrutura da planta + saude | alto | medio | alto |
+| Cannavida | canna + vida | alto | baixo | alto |
+| Fitolab Um | fito + laboratorio + um | medio | alto | alto |
+| Canndata | canna + dados | alto | alto | baixo |
+| Alquimed | alquimia + medicina | medio | medio | alto |
+
+Melhores equilibrios dos tres sinais: **Canapia**, **Cannalis** e
+**Tricoma Saude**. Mais tecnologicos: Cannexa, Canndata, Verdegen. Mais
+saude: Cannavida, Alquimed, Fitolab Um.
+
+### A jogada profissional: nome distintivo + descritor
+
+Grandes marcas de saude nao colocam a categoria no nome — colocam no
+descritor que acompanha o logo. Isso entrega os tres sinais SEM os
+atritos de anuncio/INPI/pagamento:
+
+- **Alquimia Um — tecnologia em saude canabica**
+- **Cinala — cannabis medicinal com evidencia**
+
+O descritor aparece no logo, no site, no app e no material de vendas; o
+nome registravel e "limpo" fica no CNPJ, no INPI e nos gateways. E o
+melhor dos dois mundos e a recomendacao tecnica deste estudo.
+
 ## Recomendacao
 
 **Finalistas: Alquimia Um e Cinala.**
