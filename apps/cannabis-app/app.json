@@ -1,17 +1,17 @@
 {
   "expo": {
-    "name": "Cinala Verde",
-    "slug": "cinala-verde",
+    "name": "Gota Verde",
+    "slug": "gota-verde",
     "version": "0.1.0",
     "orientation": "portrait",
     "userInterfaceStyle": "dark",
     "backgroundColor": "#070b08",
     "ios": {
-      "bundleIdentifier": "org.cinalaverde.app",
+      "bundleIdentifier": "org.gotaverde.app",
       "supportsTablet": true
     },
     "android": {
-      "package": "org.cinalaverde.app",
+      "package": "org.gotaverde.app",
       "adaptiveIcon": {
         "backgroundColor": "#070b08"
       }

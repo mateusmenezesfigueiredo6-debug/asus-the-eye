@@ -1,4 +1,4 @@
-# Publicar o site de apresentacao (cannabis-demo)
+# Publicar o site de apresentacao (gotaverde)
 
 Runbook para o dono. Agentes nao executam estes passos (regra do
 publish lock).
@@ -24,7 +24,7 @@ publish lock).
        python3 scripts/publish_lock.py unlock
        cd apps/cannabis-demo && npx wrangler deploy
 
-5. O site sobe em `cannabis-demo.<sua-conta>.workers.dev`. Sem cookie
+5. O site sobe em `gotaverde.<sua-conta>.workers.dev`. Sem cookie
    valido, qualquer rota mostra a tela de codigo; o cookie dura 12 horas.
 
 Para trocar o codigo de acesso, repita `wrangler secret put

@@ -1,4 +1,4 @@
-# Publicar o app Cinala Verde nas lojas (App Store e Google Play)
+# Publicar o app Gota Verde nas lojas (App Store e Google Play)
 
 Scaffold Expo (React Native + TypeScript) em `apps/cannabis-app/`. O
 codigo compila localmente; a submissao as lojas depende de contas que so
@@ -45,6 +45,6 @@ o dono pode criar.
 ## Codigo de acesso
 
 A tela de gate usa `EXPO_PUBLIC_ACCESS_CODE` (padrao de build:
-`cinala2026`). Para trocar: definir a variavel no `eas.json` ou no
+`gotaverde2026`). Para trocar: definir a variavel no `eas.json` ou no
 ambiente de build. E um controle de apresentacao, nao um segredo forte —
 o conteudo do app e demonstrativo.
