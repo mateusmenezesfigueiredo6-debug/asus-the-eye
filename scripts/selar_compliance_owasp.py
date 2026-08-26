@@ -74,8 +74,7 @@ def montar_payload() -> dict[str, Any]:
     faltando = [rel for rel in SUPERFICIE if not (RAIZ / rel).exists()]
     if faltando:
         raise SystemExit(
-            "selar_compliance_owasp: o doc declara arquivos que não existem no repo, "
-            f"não vai selar: {faltando}"
+            f"selar_compliance_owasp: o doc declara arquivos que não existem no repo, não vai selar: {faltando}"
         )
     return {
         "framework": FRAMEWORK,

@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# SPDX-FileCopyrightText: 2026 Mateus Menezes Figueiredo
+# SPDX-License-Identifier: AGPL-3.0-or-later
 # Embrulha os fragments (formato artifact: começam em <title>) como documentos
 # HTML completos para servir cru pelo worker. Idempotente: detecta o doctype.
 set -euo pipefail
