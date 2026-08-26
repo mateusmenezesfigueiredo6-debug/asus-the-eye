@@ -95,3 +95,18 @@ O conector (src/asus_theye/markets/fonte_gdelt.py) e o gerador de sinal
 AGPL-3.0-or-later.
 
 Registro completo: reports/provenance/GDELT-cobertura-noticiosa.md
+
+--------------------------------------------------------------------------------
+ESTUDOS ARQUITETURAIS DE REFERÊNCIA (sem uso implementado)
+--------------------------------------------------------------------------------
+As entradas abaixo registram projetos de terceiros CUJO CÓDIGO NÃO É USADO no
+THE EYE hoje — nem em runtime, nem em build, nem em dev — mas cuja arquitetura
+foi estudada e ficou registrada para carimbar a data em que a ideia entrou no
+radar do titular. Se algum estudo virar código no futuro, uma entrada de
+proveniência específica para o componente será escrita então.
+
+  - Ahmia index (BSD-3-Clause, © 2024 Juha Nurmi) — schema Elasticsearch e
+    scripts de manutenção de índice para serviços .onion. Padrões estudados:
+    alias temporais para versionamento de índices, curadoria por filtragem
+    automática executada como job, e separação crawler ↔ index ↔ site.
+    Registro completo: reports/provenance/Ahmia-index-study.md

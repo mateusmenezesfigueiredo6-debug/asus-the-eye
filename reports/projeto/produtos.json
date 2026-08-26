@@ -87,6 +87,14 @@
       "estado": "concluida",
       "peso_concluido": 1.0,
       "metodo": "grep '40 campos' zerado no repo (PR #21 do Copilot + sobra na proveniência corrigida); textos = 37 obrigatórios/38 no schema, batendo com REQUIRED_FIELDS"
+    },
+    {
+      "id": "P1",
+      "nome": "Compliance: mapeamento OWASP GenAI LLM Top 10 (2026)",
+      "estado": "parcial",
+      "peso_concluido": 0.5,
+      "metodo": "docs/security/OWASP_LLM_TOP10_2026.md mapeia os 10 riscos contra a superfície LLM real (src/asus_theye/llm/audited.py, dual.py, ollama_client.py, remote_client.py), cada linha da tabela citando arquivo:linha do controle. 0.85 quando scripts/selar_compliance_owasp.py rodar e produzir um evento project.compliance com o sha256 do doc; 1.0 quando esse evento entrar na próxima raiz Merkle ancorada on-chain (herda a prova pública do L1/L2).",
+      "criterio_verificavel": "grep -l 'project.compliance' reports/audit/eventos.jsonl retorna correspondência cujo conteúdo.framework == 'OWASP GenAI LLM Top 10 2026' e conteúdo.doc_sha256 == sha256sum de docs/security/OWASP_LLM_TOP10_2026.md"
     }
   ]
 }

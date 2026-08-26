@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Dois produtos, a mesma disciplina: Ledger prova registros; Markets publica probabilidades com prazo, critério e fonte oficial.">
+<title>Ledger &amp; Markets</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+  :root{--bg:#0b0d0e;--panel:#111416;--fg:#e9ecea;--muted:#96a09b;--border:#22282b;--accent:#3fb950}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{background:var(--bg);color:var(--fg);font-family:'Space Grotesk',system-ui,sans-serif;display:grid;place-items:center;padding:24px}
+  main{width:100%;max-width:900px}
+  .lbl{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:20px;display:flex;align-items:center;gap:10px}
+  .lbl::before{content:"";width:6px;height:6px;background:var(--accent);border-radius:50%}
+  .duo{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);border:1px solid var(--border)}
+  a.site{background:var(--bg);padding:44px 36px;color:inherit;text-decoration:none;transition:background .15s;display:block}
+  a.site:hover{background:var(--panel)}
+  a.site:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+  a.site h2{font-size:40px;font-weight:500;letter-spacing:-.03em;margin-bottom:10px}
+  a.site p{color:var(--muted);font-size:14.5px;line-height:1.5;max-width:34ch}
+  a.site .go{margin-top:26px;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--muted)}
+  a.site:hover .go{color:var(--accent)}
+  @media(max-width:700px){.duo{grid-template-columns:1fr}a.site h2{font-size:32px}}
+</style>
+</head>
+<body>
+<main>
+  <p class="lbl">Dois produtos · a mesma disciplina</p>
+  <div class="duo">
+    <a class="site" href="/ledger">
+      <h2>Ledger</h2>
+      <p>A trilha que qualquer pessoa confere sem pedir licença. Selado, encadeado, ancorado em rede pública.</p>
+      <span class="go">→ ledger</span>
+    </a>
+    <a class="site" href="/markets">
+      <h2>Markets</h2>
+      <p>Perguntas com prazo e critério, respondidas pela fonte oficial. A probabilidade sai antes do fato.</p>
+      <span class="go">→ markets</span>
+    </a>
+  </div>
+</main>
+</body>
+</html>

@@ -1,0 +1,697 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Ledger: a trilha que qualquer pessoa confere sem pedir licença. Selado por hash, encadeado, ancorado em rede pública. Produto para instituições; demonstração sob agendamento.">
+<title>Ledger</title>
+<!-- ============================================================
+  Benchmark de ARQUITETURA da categoria Palantir: ontologia com relações
+  explícitas, linhagem até a fonte primária, recusa em afirmar o que não
+  foi medido. Diferencial do Ledger: a categoria faz isso a portas
+  fechadas ("confie"); aqui cada objeto carrega a própria prova e
+  qualquer terceiro verifica ("verifique"). O nome da referência fica
+  SÓ neste comentário — nunca no texto da página.
+
+  PRODUCTION HEAD — ao publicar em domínio próprio, copie para <head>:
+  <meta name="description" content="Ledger: a trilha que qualquer pessoa confere sem pedir licença. Cada passo selado por hash, encadeado, ancorado em blockchain pública. Verificador sem token.">
+  <meta property="og:title" content="Ledger — não é confie, é verifique">
+  <meta property="og:type" content="website">
+  <link rel="canonical" href="https://SEU-DOMINIO/">
+  <meta name="robots" content="index,follow">
+  ANALYTICS (só com consentimento LGPD): GA4 G-XXXX · LinkedIn (B2B institucional)
+============================================================ -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+  :root{
+    --bg:#0b0d0e;
+    --panel:#111416;
+    --panel-2:#161a1d;
+    --fg:#e9ecea;
+    --muted:#96a09b;
+    --dim:#5c6662;
+    --border:#22282b;
+    --accent:#3fb950;
+    --accent-ink:#0b0d0e;
+    --accent-dim:#12291a;
+    --danger:#e5534b;
+    --font-display:'Space Grotesk','Inter',system-ui,sans-serif;
+    --font-body:'Inter',system-ui,sans-serif;
+    --font-mono:'JetBrains Mono',ui-monospace,monospace;
+    --hairline:1px solid var(--border);
+  }
+  :root[data-theme="light"]{
+    --bg:#f5f6f4; --panel:#ffffff; --panel-2:#eef0ee;
+    --fg:#101312; --muted:#4d5753; --dim:#8a938f;
+    --border:#d8dcd8; --accent:#1a7f37; --accent-ink:#ffffff; --accent-dim:#d2e8d8;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  html,body{background:var(--bg);color:var(--fg);font-family:var(--font-body);font-size:14.5px;line-height:1.55;-webkit-font-smoothing:antialiased}
+  body{text-wrap:pretty}
+  a{color:inherit;text-decoration:none}
+  button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+  :focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:2px}
+  .mono{font-family:var(--font-mono)}
+  .num{font-variant-numeric:tabular-nums}
+  .skip{position:absolute;left:-999px;top:8px;background:var(--accent);color:var(--accent-ink);padding:8px 14px;z-index:200}
+  .skip:focus{left:8px}
+
+  .nav{position:sticky;top:0;z-index:60;background:color-mix(in oklab,var(--bg) 90%,transparent);backdrop-filter:blur(14px);border-bottom:var(--hairline)}
+  .nav-inner{max-width:1400px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:14px 32px}
+  .brand{display:flex;align-items:center;gap:10px;font-family:var(--font-display);font-weight:600;font-size:17px;letter-spacing:-.01em}
+  .brand-mark{width:22px;height:22px;border:1.5px solid var(--fg);display:grid;place-items:center;font-family:var(--font-mono);font-size:11px}
+  .nav-links{display:flex;gap:26px;font-size:13.5px;color:var(--muted)}
+  .nav-links a:hover{color:var(--fg)}
+  .btn{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border:1px solid var(--border);font-size:13.5px;font-weight:600;transition:border-color .15s,background .15s,color .15s}
+  .btn:hover{border-color:var(--fg)}
+  .btn.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+  .btn.primary:hover{filter:brightness(1.1)}
+  .nav-cta{display:flex;gap:10px;align-items:center}
+  .lang{font-family:var(--font-mono);font-size:11.5px;letter-spacing:.1em;padding:9px 12px}
+
+  .hero{position:relative;padding:110px 32px 120px;border-bottom:var(--hairline);overflow:hidden}
+  .hero-grid{position:absolute;inset:0;pointer-events:none;opacity:.5;
+    background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px);
+    background-size:88px 88px;mask-image:radial-gradient(ellipse 1000px 560px at 68% 20%,black 25%,transparent 72%)}
+  .hero-inner{position:relative;max-width:1400px;margin:0 auto;display:grid;grid-template-columns:1.15fr .85fr;gap:72px;align-items:center}
+  .eyebrow{display:inline-flex;align-items:center;gap:10px;font-family:var(--font-mono);font-size:11.5px;text-transform:uppercase;letter-spacing:.16em;color:var(--muted);border:1px solid var(--border);padding:7px 13px;margin-bottom:34px}
+  .eyebrow::before{content:"";width:6px;height:6px;background:var(--accent);border-radius:50%;box-shadow:0 0 0 4px var(--accent-dim)}
+  h1{font-family:var(--font-display);font-weight:500;font-size:clamp(46px,6.4vw,96px);line-height:1;letter-spacing:-.035em;text-wrap:balance;max-width:15ch}
+  h1 em{font-style:normal;color:var(--accent)}
+  .hero-sub{margin-top:30px;font-size:19px;color:var(--muted);max-width:52ch;line-height:1.45}
+  .hero-cta{margin-top:42px;display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+  .hero-note{margin-top:18px;font-family:var(--font-mono);font-size:11.5px;color:var(--dim)}
+
+  .sealed{position:relative;border:var(--hairline);background:var(--panel);padding:28px 28px 24px}
+  .hash-rail{position:absolute;top:0;bottom:0;left:-1px;width:18px;overflow:hidden;border-right:var(--hairline);background:var(--panel-2)}
+  .hash-rail span{position:absolute;left:50%;transform:translateX(-50%);writing-mode:vertical-rl;font-family:var(--font-mono);font-size:9px;letter-spacing:.22em;color:var(--dim);white-space:nowrap;animation:rail 26s linear infinite}
+  @keyframes rail{0%{top:100%}100%{top:-320%}}
+  .sealed-body{margin-left:22px}
+  .sealed .label{font-family:var(--font-mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);margin-bottom:18px;display:flex;justify-content:space-between}
+  .sealed .label .live{color:var(--accent)}
+  .sealed .claim{font-family:var(--font-display);font-size:19px;line-height:1.35;letter-spacing:-.01em;margin-bottom:20px}
+  .sealed .figures{display:grid;grid-template-columns:1fr 1fr 1fr;border-top:var(--hairline);padding-top:18px;gap:16px}
+  .sealed .figures b{display:block;font-family:var(--font-mono);font-size:10.5px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin-bottom:6px}
+  .sealed .figures span{font-family:var(--font-display);font-size:24px;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+  .sealed .hash-line{font-family:var(--font-mono);font-size:10.5px;color:var(--dim);margin-top:20px;padding-top:14px;border-top:var(--hairline);word-break:break-all;line-height:1.7}
+  .sealed .hash-line b{color:var(--accent);font-weight:400}
+
+  .sources{border-bottom:var(--hairline);padding:26px 32px;background:var(--panel)}
+  .sources-inner{max-width:1400px;margin:0 auto;display:flex;align-items:center;gap:36px;flex-wrap:wrap}
+  .sources-inner .lbl{font-family:var(--font-mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim)}
+  .src{font-family:var(--font-display);font-size:15px;font-weight:500;color:var(--muted);letter-spacing:.01em}
+  .src small{display:block;font-family:var(--font-mono);font-size:10px;color:var(--dim);letter-spacing:.08em;margin-top:2px}
+
+  section.frame{padding:96px 32px;border-bottom:var(--hairline)}
+  .container{max-width:1400px;margin:0 auto}
+  .section-head{display:grid;grid-template-columns:220px 1fr;gap:56px;margin-bottom:60px;align-items:end}
+  .section-idx{font-family:var(--font-mono);font-size:11.5px;color:var(--dim);letter-spacing:.16em;text-transform:uppercase}
+  .section-h2{font-family:var(--font-display);font-size:clamp(32px,4.2vw,58px);font-weight:500;letter-spacing:-.028em;line-height:1.04;max-width:24ch;text-wrap:balance}
+
+  .modules{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:var(--hairline)}
+  .module{background:var(--bg);padding:34px 26px;min-height:300px;display:flex;flex-direction:column;transition:background .15s}
+  .module:hover{background:var(--panel)}
+  .module .k{font-family:var(--font-mono);font-size:11px;color:var(--accent);letter-spacing:.14em;text-transform:uppercase;margin-bottom:20px}
+  .module h3{font-family:var(--font-display);font-size:26px;font-weight:500;letter-spacing:-.015em;margin-bottom:12px}
+  .module p{color:var(--muted);font-size:14px;line-height:1.55;flex:1}
+  .module .go{margin-top:20px;font-family:var(--font-mono);font-size:12px;color:var(--dim)}
+  .module:hover .go{color:var(--accent)}
+
+  .how{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:var(--hairline)}
+  .how-step{background:var(--bg);padding:36px 30px}
+  .how-step .n{font-family:var(--font-mono);font-size:12px;color:var(--accent);margin-bottom:18px;display:block}
+  .how-step h3{font-family:var(--font-display);font-size:21px;font-weight:500;margin-bottom:10px;letter-spacing:-.01em}
+  .how-step p{color:var(--muted);font-size:14px}
+  .how-step code{display:block;margin-top:18px;background:var(--panel);border:var(--hairline);padding:12px 14px;font-size:11.5px;color:var(--muted);overflow-x:auto;white-space:nowrap}
+  .how-step code b{color:var(--accent);font-weight:400}
+
+  .industries-list{display:grid;grid-template-columns:1fr 1fr;border-top:var(--hairline)}
+  .ind-row{display:grid;grid-template-columns:1fr 210px 36px;align-items:center;padding:26px 24px;border-bottom:var(--hairline);border-right:var(--hairline);cursor:pointer;transition:background .15s}
+  .ind-row:nth-child(2n){border-right:0}
+  .ind-row:hover{background:var(--panel)}
+  .ind-row:hover .arrow{color:var(--accent)}
+  .ind-name{font-family:var(--font-display);font-size:22px;font-weight:500;letter-spacing:-.015em}
+  .ind-note{font-family:var(--font-mono);font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;text-align:right}
+  .arrow{color:var(--dim);text-align:right;font-family:var(--font-mono);transition:color .15s}
+
+  .vs{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);border:var(--hairline)}
+  .vs>div{background:var(--bg);padding:36px 32px}
+  .vs h3{font-family:var(--font-mono);font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;margin-bottom:22px}
+  .vs .them h3{color:var(--dim)}
+  .vs .us h3{color:var(--accent)}
+  .vs ul{list-style:none;display:grid;gap:14px}
+  .vs li{padding-left:24px;position:relative;color:var(--muted);font-size:14.5px}
+  .vs .them li::before{content:"—";position:absolute;left:0;color:var(--dim)}
+  .vs .us li::before{content:"+";position:absolute;left:0;color:var(--accent)}
+  .vs .us li{color:var(--fg)}
+
+  .metrics{display:grid;grid-template-columns:repeat(4,1fr);border:var(--hairline)}
+  .metric{padding:34px 28px;border-right:var(--hairline)}
+  .metric:last-child{border-right:0}
+  .metric .k{font-family:var(--font-mono);font-size:10.5px;color:var(--dim);text-transform:uppercase;letter-spacing:.16em;margin-bottom:22px}
+  .metric .n{font-family:var(--font-display);font-size:50px;font-weight:500;letter-spacing:-.03em;font-variant-numeric:tabular-nums;line-height:1}
+  .metric .n small{font-size:20px;color:var(--muted);font-weight:400}
+  .metric .l{margin-top:12px;color:var(--muted);font-size:13.5px;line-height:1.45;max-width:26ch}
+
+  .faq{max-width:840px}
+  .faq details{border-bottom:var(--hairline)}
+  .faq summary{padding:22px 0;font-family:var(--font-display);font-size:18px;font-weight:500;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:20px}
+  .faq summary::-webkit-details-marker{display:none}
+  .faq summary::after{content:"+";font-family:var(--font-mono);color:var(--dim);font-size:20px;transition:transform .2s}
+  .faq details[open] summary::after{transform:rotate(45deg);color:var(--accent)}
+  .faq .a{padding:0 0 24px;color:var(--muted);font-size:15px;max-width:62ch;line-height:1.6}
+
+  .cta{padding:110px 32px;border-bottom:var(--hairline);text-align:center;position:relative;overflow:hidden}
+  .cta::before{content:"";position:absolute;inset:0;background-image:linear-gradient(var(--border) 1px,transparent 1px);background-size:100% 44px;opacity:.35;mask-image:linear-gradient(to bottom,transparent,black 30%,black 70%,transparent)}
+  .cta-inner{position:relative;max-width:860px;margin:0 auto}
+  .cta h2{font-family:var(--font-display);font-size:clamp(40px,5.5vw,80px);font-weight:500;letter-spacing:-.032em;line-height:1.02;text-wrap:balance}
+  .cta p{color:var(--muted);font-size:17px;margin:22px auto 0;max-width:52ch}
+  .capture{margin:40px auto 0;display:flex;max-width:460px;border:1px solid var(--border);background:var(--panel)}
+  .capture input{flex:1;background:none;border:0;padding:14px 16px;font:inherit;color:var(--fg);min-width:0}
+  .capture input::placeholder{color:var(--dim)}
+  .capture button{background:var(--accent);color:var(--accent-ink);padding:0 22px;font-weight:600;white-space:nowrap}
+  .capture button:hover{filter:brightness(1.1)}
+  .cta .fine-note{margin-top:14px;font-family:var(--font-mono);font-size:11px;color:var(--dim)}
+  .cta .ok{margin-top:16px;color:var(--accent);font-size:14px;display:none}
+
+  footer{padding:56px 32px 36px}
+  .foot{max-width:1400px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:56px}
+  .foot h4{font-family:var(--font-mono);font-size:10.5px;color:var(--dim);text-transform:uppercase;letter-spacing:.16em;margin-bottom:16px;font-weight:500}
+  .foot ul{list-style:none;display:grid;gap:9px}
+  .foot a{color:var(--muted);font-size:13.5px}
+  .foot a:hover{color:var(--fg)}
+  .foot-brand{font-family:var(--font-display);font-size:32px;font-weight:500;letter-spacing:-.02em}
+  .foot-brand p{margin-top:12px;color:var(--muted);font-size:13px;max-width:38ch;line-height:1.55}
+  .fine{max-width:1400px;margin:52px auto 0;padding-top:22px;border-top:var(--hairline);display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;color:var(--dim);font-family:var(--font-mono);font-size:10.5px;text-transform:uppercase;letter-spacing:.12em}
+
+  .editor{position:fixed;right:16px;bottom:16px;z-index:100;font-size:12.5px}
+  .editor-toggle{background:var(--fg);color:var(--bg);padding:10px 15px;font-family:var(--font-mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;display:flex;align-items:center;gap:8px}
+  .editor-toggle::before{content:"";width:8px;height:8px;background:var(--accent);border-radius:50%}
+  .editor-panel{display:none;position:absolute;right:0;bottom:46px;width:320px;max-height:68vh;overflow-y:auto;background:var(--panel);border:var(--hairline)}
+  .editor.open .editor-panel{display:block}
+  .ep-head{padding:14px 16px;border-bottom:var(--hairline);display:flex;justify-content:space-between;align-items:center}
+  .ep-head b{font-family:var(--font-mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+  .ep-head button{color:var(--muted);font-family:var(--font-mono);font-size:11px;text-transform:uppercase}
+  .ep-head button:hover{color:var(--danger)}
+  .ep-section{padding:14px 16px;border-bottom:var(--hairline)}
+  .ep-section h5{font-family:var(--font-mono);font-size:10.5px;color:var(--dim);text-transform:uppercase;letter-spacing:.16em;margin-bottom:10px;font-weight:500}
+  .ep-row{display:flex;justify-content:space-between;align-items:center;padding:5px 0;gap:12px}
+  .ep-row label{color:var(--muted);font-size:12.5px;flex:1}
+  .ep-row input[type=color]{width:32px;height:24px;border:1px solid var(--border);background:none;padding:0;cursor:pointer}
+  .ep-row input[type=checkbox]{accent-color:var(--accent)}
+  .ep-row select{background:var(--bg);color:var(--fg);border:1px solid var(--border);padding:4px 8px;font:inherit}
+  .ep-hint{color:var(--dim);font-size:11px;padding:12px 16px;font-family:var(--font-mono);line-height:1.5}
+  [contenteditable=true]:focus{outline:2px dashed var(--accent);outline-offset:5px}
+  .editor.editing [contenteditable=true]{outline:1px dashed var(--dim);outline-offset:3px}
+
+  .modal-back{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:150;align-items:center;justify-content:center;padding:24px}
+  .modal-back.show{display:flex}
+  .modal{background:var(--panel);border:var(--hairline);max-width:440px;width:100%;padding:36px}
+  .modal h3{font-family:var(--font-display);font-size:26px;font-weight:500;letter-spacing:-.02em;margin-bottom:12px}
+  .modal p{color:var(--muted);font-size:14.5px;margin-bottom:22px}
+  .modal .close{margin-top:14px;color:var(--dim);font-size:12.5px;font-family:var(--font-mono);text-transform:uppercase;letter-spacing:.1em}
+  .modal .close:hover{color:var(--fg)}
+  .cookies{display:none;position:fixed;left:16px;bottom:16px;z-index:140;max-width:380px;background:var(--panel);border:var(--hairline);padding:20px}
+  .cookies.show{display:block}
+  .cookies p{color:var(--muted);font-size:12.5px;margin-bottom:14px;line-height:1.5}
+  .cookies .row{display:flex;gap:10px}
+  .cookies .btn{padding:8px 14px;font-size:12.5px}
+
+  @media (prefers-reduced-motion:reduce){
+    .hash-rail span{animation:none;top:10%}
+    html{scroll-behavior:auto}
+    *{transition:none!important}
+  }
+  @media (max-width:920px){
+    .hero-inner{grid-template-columns:1fr;gap:44px}
+    .section-head{grid-template-columns:1fr;gap:16px}
+    .modules{grid-template-columns:1fr 1fr}
+    .how{grid-template-columns:1fr}
+    .industries-list{grid-template-columns:1fr}
+    .ind-row{border-right:0}
+    .vs{grid-template-columns:1fr}
+    .metrics{grid-template-columns:1fr 1fr}
+    .metric:nth-child(2n){border-right:0}
+    .metric:nth-child(-n+2){border-bottom:var(--hairline)}
+    .foot{grid-template-columns:1fr 1fr}
+    .nav-links{display:none}
+  }
+  @media (max-width:560px){.modules{grid-template-columns:1fr}}
+</style>
+
+<a class="skip" href="#main" data-ck="skip">Ir para o conteúdo</a>
+
+<header class="nav">
+  <div class="nav-inner">
+    <a class="brand" href="#"><span class="brand-mark">L</span> <span contenteditable="true" data-ck="brand">Ledger</span></a>
+    <nav class="nav-links" aria-label="Principal">
+      <a href="#modules" data-ck="nav1">Módulos</a>
+      <a href="#how" data-ck="nav2">Como funciona</a>
+      <a href="#industries" data-ck="nav3">Setores</a>
+      <a href="#faq" data-ck="nav4">Perguntas</a>
+    </nav>
+    <div class="nav-cta">
+      <button class="btn lang" id="langBtn" aria-label="Switch language">EN</button>
+      <a class="btn primary" href="#cta" contenteditable="true" data-ck="nav-cta">Agendar demonstração</a>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-inner">
+    <div>
+      <p class="eyebrow"><span contenteditable="true" data-ck="eyebrow">Verificador público no ar, sem token</span></p>
+      <h1 contenteditable="true" data-ck="h1">Não é "confie". <em>É "verifique".</em></h1>
+      <p class="hero-sub" contenteditable="true" data-ck="sub">Cada passo da sua operação — decisão, modelo, documento — é selado por hash, encadeado ao anterior e ancorado em blockchain pública. Qualquer pessoa confere a trilha sem pedir licença: baixe a corrente e refaça a conta.</p>
+      <div class="hero-cta">
+        <a class="btn primary" href="#cta" contenteditable="true" data-ck="hero-cta1">Agendar demonstração</a>
+        <a class="btn" href="#how" contenteditable="true" data-ck="hero-cta2">Ver como uma prova funciona</a>
+      </div>
+      <p class="hero-note" contenteditable="true" data-ck="hero-note">Produto para instituições. Implantação na sua infraestrutura — nuvem própria ou datacenter.</p>
+    </div>
+    <aside class="sealed" aria-label="Registro selado real">
+      <div class="hash-rail" aria-hidden="true"><span>fa8811df3a72c9b41d5535b2b92dba5ce426a81469e170076703b154dcd00923f3a7820c3103e835 · 5f7a9295 · 80e2f41d · 2ff778a1 · fa8811df3a72c9b41d5535b2b92dba5ce426a81469e170076703b154dcd00923</span></div>
+      <div class="sealed-body">
+        <div class="label"><span contenteditable="true" data-ck="sealed-l">Registro real, ancorado</span><span class="live" data-ck="sealed-live">VERIFICÁVEL</span></div>
+        <p class="claim" contenteditable="true" data-ck="sealed-claim">Evento <span class="mono">project.authorship</span> — a autoria deste sistema, selada com os hashes de LICENSE, NOTICE e AUTHORS, num lote com raiz ancorada em rede pública.</p>
+        <div class="figures">
+          <div><b data-ck="f1b">Evento</b><span class="mono" style="font-size:16px">fa8811df</span></div>
+          <div><b data-ck="f2b">Bloco</b><span class="num">45.716.613</span></div>
+          <div><b data-ck="f3b">Rede</b><span style="font-size:18px">Base</span></div>
+        </div>
+        <p class="hash-line"><b>sha256</b> fa8811df3a72c9b41d5535b2…c3103e835<br><b data-ck="hl2">raiz</b> 5f7a9295 · <b>tx</b> 80e2f41d · <b data-ck="hl3">contrato</b> 0x910dAa67…8600</p>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<div class="sources" role="complementary" aria-label="Padrões técnicos">
+  <div class="sources-inner">
+    <span class="lbl" data-ck="src-lbl">Construído sobre padrões abertos e citáveis</span>
+    <span class="src">RFC 8785<small data-ck="src1s">JSON canônico</small></span>
+    <span class="src">SHA-256<small data-ck="src2s">identidade por conteúdo</small></span>
+    <span class="src">Merkle<small>Keccak-256</small></span>
+    <span class="src">Base<small data-ck="src4s">rede pública</small></span>
+    <span class="src">AGPL-3.0<small data-ck="src5s">código aberto</small></span>
+  </div>
+</div>
+
+<section class="frame" id="modules">
+  <div class="container">
+    <div class="section-head">
+      <div class="section-idx" data-ck="mod-idx">Módulos</div>
+      <h2 class="section-h2" contenteditable="true" data-ck="mod-h2">Uma corrente de registro. Quatro coisas que ela faz por você.</h2>
+    </div>
+    <div class="modules">
+      <div class="module">
+        <div class="k" data-ck="m1k">Selar</div>
+        <h3 contenteditable="true" data-ck="m1-h">Selar</h3>
+        <p contenteditable="true" data-ck="m1-p">Todo evento nasce com 37 campos obrigatórios, é canonicalizado (RFC 8785) e recebe o hash como 38º campo. A identidade É o conteúdo: sem relógio manipulável, sem edição silenciosa.</p>
+        <div class="go">→ selagem</div>
+      </div>
+      <div class="module">
+        <div class="k" data-ck="m2k">Linhagem</div>
+        <h3 contenteditable="true" data-ck="m2-h">Linhagem</h3>
+        <p contenteditable="true" data-ck="m2-p">Uma ontologia de 8 entidades liga tudo: Fonte, Artefato, Evento selado, Lote, Âncora, Recibo. Da conclusão até a fonte primária, cada elo é explícito e navegável.</p>
+        <div class="go">→ ontologia</div>
+      </div>
+      <div class="module">
+        <div class="k" data-ck="m3k">Ancorar</div>
+        <h3 contenteditable="true" data-ck="m3-h">Ancorar</h3>
+        <p contenteditable="true" data-ck="m3-p">Lotes viram árvores de Merkle e a raiz é gravada em blockchain pública — uma transação prova milhares de eventos. O conteúdo nunca sai da sua infraestrutura; só a prova é pública.</p>
+        <div class="go">→ âncora</div>
+      </div>
+      <div class="module">
+        <div class="k" data-ck="m4k">Verificar</div>
+        <h3 contenteditable="true" data-ck="m4-h">Verificar</h3>
+        <p contenteditable="true" data-ck="m4-p">O verificador público responde sem token. Também dá para verificar no navegador — nenhum byte sai da máquina do visitante — ou offline, com recibo. Auditor, regulador, crítico: todos conferem.</p>
+        <div class="go">→ verificador</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="frame" id="how">
+  <div class="container">
+    <div class="section-head">
+      <div class="section-idx" data-ck="how-idx">Como funciona</div>
+      <h2 class="section-h2" contenteditable="true" data-ck="how-h2">Do registro à prova pública em três passos.</h2>
+    </div>
+    <div class="how">
+      <div class="how-step">
+        <span class="n" data-ck="s1n">PASSO 1</span>
+        <h3 contenteditable="true" data-ck="s1-h">Registre o fato</h3>
+        <p contenteditable="true" data-ck="s1-p">Seu sistema emite uma decisão, uma versão de modelo, um documento. O Ledger canonicaliza, sela e apenda à corrente — encadeado ao evento anterior.</p>
+        <code>$ ledger selar decisao.json<br><b>selado</b> sha256 fa8811df… · evento #21</code>
+      </div>
+      <div class="how-step">
+        <span class="n" data-ck="s2n">PASSO 2</span>
+        <h3 contenteditable="true" data-ck="s2-h">Ancore o lote</h3>
+        <p contenteditable="true" data-ck="s2-p">Eventos são agrupados numa árvore de Merkle e a raiz vai para a rede pública. O carimbo do bloco ninguém altera — nem você.</p>
+        <code>$ ledger ancorar<br><b>raiz</b> 5f7a9295 → tx 80e2f41d · bloco 45716613</code>
+      </div>
+      <div class="how-step">
+        <span class="n" data-ck="s3n">PASSO 3</span>
+        <h3 contenteditable="true" data-ck="s3-h">Qualquer um confere</h3>
+        <p contenteditable="true" data-ck="s3-p">Entregue o hash a qualquer terceiro. O verificador refaz o caminho de Merkle até a raiz ancorada e responde: válido, e selado nesta data.</p>
+        <code>$ curl verificador/verify/fa8811df…<br><b>valido: true</b> · ancorado · Base</code>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="frame" id="industries">
+  <div class="container">
+    <div class="section-head">
+      <div class="section-idx" data-ck="ind-idx">Setores</div>
+      <h2 class="section-h2" contenteditable="true" data-ck="ind-h2">Para operações em que "confie em nós" não basta.</h2>
+    </div>
+    <div class="industries-list">
+      <a class="ind-row" href="#cta"><span class="ind-name" contenteditable="true" data-ck="i1">Reguladores e auditoria</span><span class="ind-note" data-ck="i1n">Regra · Evidência</span><span class="arrow">→</span></a>
+      <a class="ind-row" href="#cta"><span class="ind-name" contenteditable="true" data-ck="i2">Estatística oficial</span><span class="ind-note">IBGE · INE</span><span class="arrow">→</span></a>
+      <a class="ind-row" href="#cta"><span class="ind-name" contenteditable="true" data-ck="i3">Bancos centrais</span><span class="ind-note" data-ck="i3n">Série · Publicação</span><span class="arrow">→</span></a>
+      <a class="ind-row" href="#cta"><span class="ind-name" contenteditable="true" data-ck="i4">Gestoras e pesquisa</span><span class="ind-note" data-ck="i4n">Publicar · Provar</span><span class="arrow">→</span></a>
+      <a class="ind-row" href="#cta"><span class="ind-name" contenteditable="true" data-ck="i5">Modelos e MLOps</span><span class="ind-note" data-ck="i5n">Versão · Promoção</span><span class="arrow">→</span></a>
+      <a class="ind-row" href="#cta"><span class="ind-name" contenteditable="true" data-ck="i6">Jornalismo e checagem</span><span class="ind-note" data-ck="i6n">Citar · Conferir</span><span class="arrow">→</span></a>
+    </div>
+  </div>
+</section>
+
+<section class="frame" id="vs">
+  <div class="container">
+    <div class="section-head">
+      <div class="section-idx" data-ck="vs-idx">Por que não…</div>
+      <h2 class="section-h2" contenteditable="true" data-ck="vs-h2">Um banco de dados diz o que você guardou. Uma prova diz quando você sabia.</h2>
+    </div>
+    <div class="vs">
+      <div class="them">
+        <h3 data-ck="vs-them">A trilha de auditoria comum</h3>
+        <ul>
+          <li contenteditable="true" data-ck="t1">Uma tabela de log que o administrador edita</li>
+          <li contenteditable="true" data-ck="t2">Carimbos de um relógio que você controla</li>
+          <li contenteditable="true" data-ck="t3">Verificação a portas fechadas: "confie no fornecedor"</li>
+          <li contenteditable="true" data-ck="t4">Apagar um dado apaga também o vestígio</li>
+        </ul>
+      </div>
+      <div class="us">
+        <h3 data-ck="vs-us">A corrente do Ledger</h3>
+        <ul>
+          <li contenteditable="true" data-ck="u1">Somente-acréscimo: editar quebra os hashes</li>
+          <li contenteditable="true" data-ck="u2">Ancorada em rede pública que ninguém controla</li>
+          <li contenteditable="true" data-ck="u3">Qualquer pessoa confere, sem conta e sem licença</li>
+          <li contenteditable="true" data-ck="u4">Expurgo com recibo: LGPD sem quebrar a prova</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="frame" id="numbers">
+  <div class="container">
+    <div class="section-head">
+      <div class="section-idx" data-ck="num-idx">Em produção</div>
+      <h2 class="section-h2" contenteditable="true" data-ck="num-h2">Medido em aberto, como todo o resto.</h2>
+    </div>
+    <div class="metrics">
+      <div class="metric"><div class="k" data-ck="mt1k">Campos por evento</div><div class="n num">37<small>+1</small></div><div class="l" contenteditable="true" data-ck="mt1">37 campos obrigatórios; o hash é o 38º. Faltou um, o evento não sela.</div></div>
+      <div class="metric"><div class="k" data-ck="mt2k">Fases concluídas</div><div class="n num">4<small>/4</small></div><div class="l" contenteditable="true" data-ck="mt2">As quatro fases do roteiro do Ledger, concluídas e seladas na própria corrente.</div></div>
+      <div class="metric"><div class="k" data-ck="mt3k">Latência de verificação</div><div class="n num">&lt;1<small>s</small></div><div class="l" contenteditable="true" data-ck="mt3">O verificador público responde da borda, no mundo todo.</div></div>
+      <div class="metric"><div class="k" data-ck="mt4k">Âncora</div><div class="n num">1<small>tx</small></div><div class="l" contenteditable="true" data-ck="mt4">Uma transação em rede pública prova um lote inteiro de eventos.</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="frame" id="faq">
+  <div class="container">
+    <div class="section-head">
+      <div class="section-idx">FAQ</div>
+      <h2 class="section-h2" contenteditable="true" data-ck="faq-h2">Respostas diretas.</h2>
+    </div>
+    <div class="faq">
+      <details>
+        <summary data-ck="q1">O que é o Ledger?</summary>
+        <p class="a" data-ck="a1">O Ledger é um sistema de prova de registro. Ele sela decisões, modelos e documentos com hash criptográfico no momento em que acontecem, encadeia cada evento ao anterior, ancora lotes em blockchain pública e oferece um verificador público que responde sem conta e sem token — os seus terceiros verificam sem pagar; a instituição licencia o produto.</p>
+      </details>
+      <details>
+        <summary data-ck="q2">Como provo que um documento ou decisão existia numa data?</summary>
+        <p class="a" data-ck="a2">Sele o conteúdo no momento em que ele nasce. O hash entra num lote cuja raiz de Merkle vai para a blockchain, e o carimbo do bloco — que ninguém altera, nem você — prova que o conteúdo existia antes daquele instante.</p>
+      </details>
+      <details>
+        <summary data-ck="q3">Meus dados vão para a blockchain?</summary>
+        <p class="a" data-ck="a3">Não. Só hashes e raízes de Merkle são públicos. O conteúdo fica na sua infraestrutura. O desenho é "conteúdo privado, prova pública": você demonstra que um documento existia sem jamais revelá-lo.</p>
+      </details>
+      <details>
+        <summary data-ck="q4">E a LGPD — dá para apagar um dado?</summary>
+        <p class="a" data-ck="a4">Dá, com recibo. O expurgo remove o conteúdo e sela um evento de redação no lugar: a corrente continua íntegra, a âncora continua válida, e fica provado que algo foi removido, quando e por quê.</p>
+      </details>
+      <details>
+        <summary data-ck="q5">Posso inspecionar o código que computa a prova?</summary>
+        <p class="a" data-ck="a5">Pode — o núcleo é aberto (AGPL-3.0) exatamente para isso: uma trilha de auditoria que não se pode inspecionar é só mais um arquivo de log. Licenciamento, implantação e suporte são comerciais.</p>
+      </details>
+      <details>
+        <summary data-ck="q6">Quanto custa?</summary>
+        <p class="a" data-ck="a6">O licenciamento é por instituição e depende do escopo da implantação — volume de eventos, número de correntes e nível de suporte. Agende uma demonstração e receba a proposta na sequência. Quem verifica as suas provas, por outro lado, nunca paga nada: é assim que a confiança de terceiros funciona.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<section class="cta" id="cta">
+  <div class="cta-inner">
+    <h2 contenteditable="true" data-ck="cta-h2">Veja a sua operação em prova.</h2>
+    <p contenteditable="true" data-ck="cta-p">Agende uma demonstração ao vivo: selamos um registro real da sua operação e você o verifica na rede pública, na hora. A proposta comercial vem na sequência.</p>
+    <form class="capture" id="capForm">
+      <input type="email" required placeholder="e-mail de trabalho" data-ph="cap-ph" aria-label="E-mail de trabalho">
+      <button type="submit" contenteditable="true" data-ck="cap-btn">Agendar demonstração</button>
+    </form>
+    <p class="fine-note" data-ck="cap-fine">Resposta em um dia útil. Sem material genérico: a demonstração usa um registro seu.</p>
+    <p class="ok" id="capOk" data-ck="cap-ok">Agendamento recebido. Retornamos em um dia útil com a demonstração.</p>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="foot">
+    <div>
+      <div class="foot-brand" contenteditable="true" data-ck="f-brand">Ledger</div>
+      <p contenteditable="true" data-ck="f-p">A trilha que qualquer pessoa confere sem pedir licença. Selado por hash, encadeado, ancorado em rede pública. Feito para instituições que precisam provar.</p>
+    </div>
+    <div><h4 data-ck="fc1">Produto</h4><ul><li><a href="#modules" data-ck="fc1a">Módulos</a></li><li><a href="#how" data-ck="fc1b">Como funciona</a></li><li><a href="#faq" data-ck="fc1c">Perguntas</a></li></ul></div>
+    <div><h4 data-ck="fc2">Desenvolvedores</h4><ul><li><a href="#" data-ck="fc2a">API do verificador</a></li><li><a href="#" data-ck="fc2b">Código (AGPL-3.0)</a></li><li><a href="#" data-ck="fc2c">One-pager técnico</a></li></ul></div>
+    <div><h4 data-ck="fc3">Institucional</h4><ul><li><a href="#" data-ck="fc3a">Sobre</a></li><li><a href="#" data-ck="fc3b">Contato</a></li><li><a href="#" data-ck="fc3c">Segurança</a></li></ul></div>
+  </div>
+  <div class="fine">
+    <span>© 2026 Ledger</span>
+    <span data-ck="fine2">corrente com identidade própria · verificável offline</span>
+  </div>
+</footer>
+
+<div class="modal-back" id="exitModal" role="dialog" aria-modal="true" aria-label="Antes de sair">
+  <div class="modal">
+    <h3 contenteditable="true" data-ck="ex-h">Antes de sair: veja uma demonstração.</h3>
+    <p contenteditable="true" data-ck="ex-p">Deixe o e-mail de trabalho e agendamos uma demonstração com um registro real da sua operação — você o verifica na rede pública em um minuto.</p>
+    <form class="capture" id="exitForm">
+      <input type="email" required placeholder="e-mail de trabalho" data-ph="ex-ph" aria-label="E-mail de trabalho">
+      <button type="submit" data-ck="ex-btn">Agendar</button>
+    </form>
+    <button class="close" id="exitClose" data-ck="ex-close">Agora não</button>
+  </div>
+</div>
+
+<div class="cookies" id="cookies" role="region" aria-label="Privacidade">
+  <p data-ck="ck-p">Usamos um único cookie de análise, só para contar visitas. Recuse e nada é medido — o site funciona igual.</p>
+  <div class="row">
+    <button class="btn primary" id="ckAccept" data-ck="ck-yes">Aceitar</button>
+    <button class="btn" id="ckDecline" data-ck="ck-no">Recusar</button>
+  </div>
+</div>
+
+<div class="editor" id="editor">
+  <div class="editor-panel">
+    <div class="ep-head"><b data-ck="ed-t">Controles de design</b><button id="reset" data-ck="ed-reset">Restaurar</button></div>
+    <div class="ep-section"><h5 data-ck="ed-pal">Paleta</h5>
+      <div class="ep-row"><label data-ck="ed-bg">Fundo</label><input type="color" data-var="--bg" value="#0b0d0e"></div>
+      <div class="ep-row"><label data-ck="ed-fg">Texto</label><input type="color" data-var="--fg" value="#e9ecea"></div>
+      <div class="ep-row"><label data-ck="ed-ac">Acento</label><input type="color" data-var="--accent" value="#3fb950"></div>
+      <div class="ep-row"><label data-ck="ed-pn">Painel</label><input type="color" data-var="--panel" value="#111416"></div>
+      <div class="ep-row"><label data-ck="ed-bd">Borda</label><input type="color" data-var="--border" value="#22282b"></div>
+    </div>
+    <div class="ep-section"><h5 data-ck="ed-lay">Aparência</h5>
+      <div class="ep-row"><label data-ck="ed-th">Tema</label><select id="themeSel"><option value="" data-ck="ed-th1">Escuro (padrão)</option><option value="light" data-ck="ed-th2">Claro</option></select></div>
+      <div class="ep-row"><label data-ck="ed-em">Editar textos</label><input type="checkbox" id="editMode"></div>
+    </div>
+    <div class="ep-section"><h5 data-ck="ed-sec">Seções</h5>
+      <div class="ep-row"><label data-ck="ed-s1">Faixa técnica</label><input type="checkbox" data-toggle="sources" checked></div>
+      <div class="ep-row"><label data-ck="ed-s2">Módulos</label><input type="checkbox" data-toggle="modules" checked></div>
+      <div class="ep-row"><label data-ck="ed-s3">Como funciona</label><input type="checkbox" data-toggle="how" checked></div>
+      <div class="ep-row"><label data-ck="ed-s4">Setores</label><input type="checkbox" data-toggle="industries" checked></div>
+      <div class="ep-row"><label data-ck="ed-s5">Comparação</label><input type="checkbox" data-toggle="vs" checked></div>
+      <div class="ep-row"><label data-ck="ed-s6">Números</label><input type="checkbox" data-toggle="numbers" checked></div>
+      <div class="ep-row"><label>FAQ</label><input type="checkbox" data-toggle="faq" checked></div>
+    </div>
+    <div class="ep-hint" data-ck="ed-hint">As mudanças ficam neste navegador. Restaurar limpa tudo.</div>
+  </div>
+  <button class="editor-toggle" id="editorToggle" aria-expanded="false">Design</button>
+</div>
+
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Ledger","applicationCategory":"BusinessApplication","operatingSystem":"Web","inLanguage":"pt-BR","description":"Sistema de prova de registro para instituições: decisões, modelos e documentos selados por hash, encadeados, ancorados em blockchain pública. Licenciamento por instituição; demonstração sob agendamento.","license":"https://www.gnu.org/licenses/agpl-3.0.html"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"pt-BR","mainEntity":[
+ {"@type":"Question","name":"O que é o Ledger?","acceptedAnswer":{"@type":"Answer","text":"Um sistema de prova de registro: sela decisões, modelos e documentos com hash no momento em que acontecem, encadeia os eventos, ancora lotes em blockchain pública e oferece verificador público sem conta. Licenciamento por instituição."}},
+ {"@type":"Question","name":"Como provo que um documento existia numa data?","acceptedAnswer":{"@type":"Answer","text":"Selando o conteúdo quando ele nasce. O hash entra num lote com raiz de Merkle na blockchain; o carimbo do bloco, que ninguém altera, prova a existência antes daquele instante."}},
+ {"@type":"Question","name":"Meus dados vão para a blockchain?","acceptedAnswer":{"@type":"Answer","text":"Não. Só hashes e raízes são públicos; o conteúdo fica na sua infraestrutura. Conteúdo privado, prova pública."}},
+ {"@type":"Question","name":"E a LGPD?","acceptedAnswer":{"@type":"Answer","text":"Expurgo com recibo: o conteúdo é removido e um evento de redação é selado no lugar — a corrente e a âncora continuam válidas."}}
+]}
+</script>
+
+<script>
+(function(){
+  const K='ledger.editor.v3';
+  const state=JSON.parse(localStorage.getItem(K)||'{}');
+  const root=document.documentElement;
+  const editor=document.getElementById('editor');
+  const tgl=document.getElementById('editorToggle');
+  function save(){localStorage.setItem(K,JSON.stringify(state))}
+  tgl.onclick=()=>{const o=editor.classList.toggle('open');tgl.setAttribute('aria-expanded',o)};
+
+  editor.querySelectorAll('input[data-var]').forEach(inp=>{
+    const v=inp.dataset.var;
+    if(state.vars&&state.vars[v]!==undefined){inp.value=state.vars[v];root.style.setProperty(v,inp.value)}
+    inp.oninput=()=>{state.vars=state.vars||{};state.vars[v]=inp.value;root.style.setProperty(v,inp.value);save()};
+  });
+  const ts=document.getElementById('themeSel');
+  if(state.theme){ts.value=state.theme;root.setAttribute('data-theme',state.theme)}
+  ts.onchange=()=>{state.theme=ts.value;ts.value?root.setAttribute('data-theme',ts.value):root.removeAttribute('data-theme');save()};
+  const em=document.getElementById('editMode');
+  em.checked=!!state.edit;editor.classList.toggle('editing',em.checked);
+  em.onchange=()=>{state.edit=em.checked;editor.classList.toggle('editing',em.checked);save()};
+  editor.querySelectorAll('input[data-toggle]').forEach(inp=>{
+    const s=inp.dataset.toggle;state.hidden=state.hidden||{};
+    const el=document.getElementById(s)||document.querySelector('.'+s);
+    if(state.hidden[s]&&el){inp.checked=false;el.style.display='none'}
+    inp.onchange=()=>{if(el)el.style.display=inp.checked?'':'none';state.hidden[s]=!inp.checked;save()};
+  });
+
+  // Textos editados (data-ck) aplicados antes do snapshot de idioma
+  document.querySelectorAll('[data-ck]').forEach(el=>{
+    const key=el.dataset.ck;
+    if(state.text&&state.text[key]!==undefined)el.innerHTML=state.text[key];
+    if(el.isContentEditable)el.addEventListener('input',()=>{state.text=state.text||{};state.text[key]=el.innerHTML;save()});
+  });
+  document.getElementById('reset').onclick=()=>{if(!confirm('Restaurar tudo ao padrão?'))return;localStorage.removeItem(K);location.reload()};
+
+  // ===== i18n: PT no HTML; EN via dicionário. Snapshot PT após edições. =====
+  const EN={
+    skip:'Skip to content',nav1:'Modules',nav2:'How it works',nav3:'Sectors',nav4:'FAQ','nav-cta':'Book a demo',
+    eyebrow:'Public verifier live, no token',h1:'Not "trust us". <em>"Verify it."</em>',
+    sub:'Every step of your operation — a decision, a model, a document — is hash-sealed, chained to the previous one, and anchored on a public blockchain. Anyone can check the trail without asking permission: download the chain and redo the math.',
+    'hero-cta1':'Book a demo','hero-cta2':'See how a proof works','hero-note':'A product for institutions. Deployed on your infrastructure — your own cloud or datacenter.',
+    'sealed-l':'Real, anchored record','sealed-live':'VERIFIABLE',
+    'sealed-claim':'Event <span class="mono">project.authorship</span> — this system\'s authorship, sealed with the hashes of LICENSE, NOTICE and AUTHORS, in a batch whose root is anchored on a public network.',
+    f1b:'Event',f2b:'Block',f3b:'Network',hl2:'root',hl3:'contract',
+    'src-lbl':'Built on open, citable standards',src1s:'canonical JSON',src2s:'content identity',src4s:'public network',src5s:'open source',
+    'mod-idx':'Modules','mod-h2':'One chain of record. Four things it does for you.',
+    m1k:'Seal','m1-h':'Seal','m1-p':'Every event is born with 37 required fields, canonicalized (RFC 8785), and gets its hash as the 38th field. Identity IS content: no gameable clock, no silent edits.',
+    m2k:'Lineage','m2-h':'Lineage','m2-p':'An 8-entity ontology links everything: Source, Artifact, Sealed event, Batch, Anchor, Receipt. From conclusion down to primary source, every link is explicit and walkable.',
+    m3k:'Anchor','m3-h':'Anchor','m3-p':'Batches become Merkle trees and the root is written to a public blockchain — one transaction proves thousands of events. Content never leaves your infrastructure; only the proof is public.',
+    m4k:'Verify','m4-h':'Verify','m4-p':'The public verifier answers without a token. You can also verify in the browser — not a byte leaves the visitor\'s machine — or offline, with a receipt. Auditor, regulator, critic: everyone checks.',
+    'how-idx':'How it works','how-h2':'From record to public proof in three steps.',
+    s1n:'STEP 1','s1-h':'Record the fact','s1-p':'Your system emits a decision, a model version, a document. Ledger canonicalizes, seals and appends it to the chain — linked to the previous event.',
+    s2n:'STEP 2','s2-h':'Anchor the batch','s2-p':'Events are grouped into a Merkle tree and the root goes to the public network. Nobody alters the block timestamp — not even you.',
+    s3n:'STEP 3','s3-h':'Anyone verifies','s3-p':'Hand the hash to any third party. The verifier walks the Merkle path to the anchored root and answers: valid, and sealed on this date.',
+    'ind-idx':'Sectors','ind-h2':'For operations where "trust us" is not enough.',
+    i1:'Regulators and audit',i1n:'Rule · Evidence',i2:'Official statistics',i3:'Central banks',i3n:'Series · Release',i4:'Asset management and research',i4n:'Publish · Prove',i5:'Models and MLOps',i5n:'Version · Promotion',i6:'Journalism and fact-checking',i6n:'Cite · Check',
+    'vs-idx':'Why not…','vs-h2':'A database says what you stored. A proof says when you knew.',
+    'vs-them':'The usual audit trail','vs-us':'The Ledger chain',
+    t1:'A log table the admin can edit',t2:'Timestamps from a clock you control',t3:'Verification behind closed doors: "trust the vendor"',t4:'Deleting a record deletes the trace too',
+    u1:'Append-only: editing breaks the hashes',u2:'Anchored on a public network no one controls',u3:'Anyone checks, no account, no permission',u4:'Purge with receipt: privacy law without breaking the proof',
+    'num-idx':'In production','num-h2':'Measured in the open, like everything else.',
+    mt1k:'Fields per event',mt1:'37 required fields; the hash is the 38th. One missing, the event does not seal.',
+    mt2k:'Phases complete',mt2:'All four phases of the Ledger roadmap, done and sealed in the chain itself.',
+    mt3k:'Verify latency',mt3:'The public verifier answers from the edge, worldwide.',
+    mt4k:'Anchor',mt4:'One transaction on a public network proves an entire batch of events.',
+    'faq-h2':'Direct answers.',
+    q1:'What is Ledger?',a1:'Ledger is a proof-of-record system. It seals decisions, models and documents with a cryptographic hash the moment they happen, chains each event to the previous one, anchors batches on a public blockchain, and offers a public verifier that answers without an account or token — your third parties verify at no charge; the institution licenses the product.',
+    q2:'How do I prove a document or decision existed on a date?',a2:'Seal the content the moment it is born. The hash lands in a batch whose Merkle root goes on-chain, and the block timestamp — which nobody alters, not even you — proves the content existed before that instant.',
+    q3:'Does my data go on the blockchain?',a3:'No. Only hashes and Merkle roots are public. Content stays in your infrastructure. The design is "content private, proof public": you prove a document existed without ever revealing it.',
+    q4:'What about privacy law — can data be deleted?',a4:'Yes, with a receipt. The purge removes the content and seals a redaction event in its place: the chain stays intact, the anchor stays valid, and it is proven that something was removed, when, and why.',
+    q5:'Can I inspect the code that computes the proof?',a5:'Yes — the core is open (AGPL-3.0) precisely for that: an audit trail you cannot inspect is just another log file. Licensing, deployment and support are commercial.',
+    q6:'How much does it cost?',a6:'Licensing is per institution and depends on deployment scope — event volume, number of chains and support level. Book a demo and the proposal follows. Whoever verifies your proofs, on the other hand, never pays: that is how third-party trust works.',
+    'cta-h2':'See your operation on proof.','cta-p':'Book a live demo: we seal a real record from your operation and you verify it on the public network, on the spot. The commercial proposal follows.',
+    'cap-btn':'Book a demo','cap-fine':'Reply within one business day. No generic material: the demo uses a record of yours.','cap-ok':'Request received. We reply within one business day with the demo.',
+    'f-brand':'Ledger','f-p':'The trail anyone can check without asking permission. Hash-sealed, chained, anchored on a public network. Built for institutions that need to prove.',
+    fc1:'Product',fc1a:'Modules',fc1b:'How it works',fc1c:'FAQ',fc2:'Developers',fc2a:'Verifier API',fc2b:'Source (AGPL-3.0)',fc2c:'Technical one-pager',fc3:'Company',fc3a:'About',fc3b:'Contact',fc3c:'Security',
+    fine2:'a chain with identity of its own · verifiable offline',
+    'ex-h':'Before you go: see a demo.','ex-p':'Leave your work email and we schedule a demo with a real record from your operation — you verify it on the public network in a minute.','ex-btn':'Book','ex-close':'Not now',
+    'ck-p':'We use a single analytics cookie, only to count visits. Decline and nothing is measured — the site works the same.','ck-yes':'Accept','ck-no':'Decline',
+    'ed-t':'Design controls','ed-reset':'Reset','ed-pal':'Palette','ed-bg':'Background','ed-fg':'Text','ed-ac':'Accent','ed-pn':'Panel','ed-bd':'Border','ed-lay':'Appearance','ed-th':'Theme','ed-th1':'Dark (default)','ed-th2':'Light','ed-em':'Edit texts','ed-sec':'Sections','ed-s1':'Standards strip','ed-s2':'Modules','ed-s3':'How it works','ed-s4':'Sectors','ed-s5':'Comparison','ed-s6':'Numbers','ed-hint':'Changes stay in this browser. Reset clears everything.'
+  };
+  const EN_PH={'cap-ph':'work email','ex-ph':'work email'};
+  const PT={};
+  document.querySelectorAll('[data-ck]').forEach(el=>{PT[el.dataset.ck]=el.innerHTML});
+  const PT_PH={};
+  document.querySelectorAll('[data-ph]').forEach(el=>{PT_PH[el.dataset.ph]=el.placeholder});
+  const langBtn=document.getElementById('langBtn');
+  function applyLang(l){
+    document.querySelectorAll('[data-ck]').forEach(el=>{
+      const k=el.dataset.ck;
+      const v=l==='en'?EN[k]:PT[k];
+      if(v!==undefined)el.innerHTML=v;
+    });
+    document.querySelectorAll('[data-ph]').forEach(el=>{
+      const k=el.dataset.ph;
+      el.placeholder=l==='en'?(EN_PH[k]??el.placeholder):(PT_PH[k]??el.placeholder);
+    });
+    document.documentElement.lang=l==='en'?'en':'pt-BR';
+    langBtn.textContent=l==='en'?'PT':'EN';
+    state.lang=l;save();
+  }
+  langBtn.onclick=()=>applyLang(state.lang==='en'?'pt':'en');
+  if(state.lang==='en')applyLang('en');
+
+  // Captura → endpoint real; fallback local se a rede/CSP bloquear
+  const LEADS_API='https://the-eye-leads.mateusmenezesfigueiredo6.workers.dev/api/lead';
+  function wire(formId,okId){
+    const f=document.getElementById(formId);if(!f)return;
+    f.addEventListener('submit',async e=>{
+      e.preventDefault();
+      const em=f.querySelector('input[type=email]').value;
+      const payload={email:em,product:'ledger',source:formId};
+      try{
+        const r=await fetch(LEADS_API,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(payload)});
+        if(!r.ok)throw new Error('api '+r.status);
+      }catch(_){
+        const leads=JSON.parse(localStorage.getItem('ledger.leads')||'[]');
+        leads.push({...payload,at:new Date().toISOString()});
+        localStorage.setItem('ledger.leads',JSON.stringify(leads));
+      }
+      if(okId){document.getElementById(okId).style.display='block';f.style.display='none'}
+      else{document.getElementById('exitModal').classList.remove('show')}
+    });
+  }
+  wire('capForm','capOk');wire('exitForm',null);
+
+  const exitM=document.getElementById('exitModal');
+  if(!localStorage.getItem('ledger.exit')){
+    document.addEventListener('mouseout',function h(e){
+      if(e.clientY<=0&&!e.relatedTarget){exitM.classList.add('show');localStorage.setItem('ledger.exit','1');document.removeEventListener('mouseout',h)}
+    });
+  }
+  document.getElementById('exitClose').onclick=()=>exitM.classList.remove('show');
+  exitM.addEventListener('click',e=>{if(e.target===exitM)exitM.classList.remove('show')});
+
+  const ck=document.getElementById('cookies');
+  if(!localStorage.getItem('ledger.consent'))ck.classList.add('show');
+  document.getElementById('ckAccept').onclick=()=>{localStorage.setItem('ledger.consent','yes');ck.classList.remove('show')};
+  document.getElementById('ckDecline').onclick=()=>{localStorage.setItem('ledger.consent','no');ck.classList.remove('show')};
+})();
+</script>
+
+</html>
