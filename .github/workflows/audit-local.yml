@@ -7,9 +7,24 @@ on:
     branches-ignore: [main]
 permissions:
   contents: read
+
+# Pushes em sequencia na mesma branch nao devem empilhar execucoes: a ultima e a
+# unica que interessa. O ci.yml ja fazia isso; aqui faltava — e este workflow
+# dispara em TODO push de branch, entao era onde mais custava.
+concurrency:
+  group: audit-local-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   python:
     runs-on: ubuntu-latest
+    # Em pull_request este job e redundante: ci.yml/qualidade roda ruff check e
+    # pytest (em 3.10, 3.12 e 3.13, mais ruff format e mypy) e ci.yml/politica
+    # roda policy_gate.py e event_coverage.py — os quatro comandos daqui, com
+    # cobertura estritamente maior. Em push de branch o ci.yml NAO roda
+    # (push: branches: [main]), entao aqui continua sendo a unica rede — por
+    # isso a guarda e por evento, nao remocao do job.
+    if: github.event_name != 'pull_request'
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
