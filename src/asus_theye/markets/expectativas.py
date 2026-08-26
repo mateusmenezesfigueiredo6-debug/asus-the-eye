@@ -78,6 +78,34 @@ SELIC_META: FaixaNumerica = FaixaNumerica(minimo=-1.0, maximo=100.0)
 #: Nunca foi inferior a 0,5 nem superior a 20 no registro histórico.
 PTAX_VENDA: FaixaNumerica = FaixaNumerica(minimo=0.5, maximo=20.0)
 
+# --- Fase C (23/08): mais indicadores mensais brasileiros (SGS/BCB).
+# Faixas propositalmente conservadoras — o objetivo é pegar "resposta absurda"
+# (erro de fonte, sinal trocado), nunca segundo-adivinhar o dado.
+
+#: IGP-M mensal (%). Série SGS 189. Bem mais volátil que o IPCA.
+IGPM_MENSAL: FaixaNumerica = FaixaNumerica(minimo=-10.0, maximo=25.0)
+
+#: INPC mensal (%). Série SGS 188. Faixa similar ao IPCA.
+INPC_MENSAL: FaixaNumerica = FaixaNumerica(minimo=-5.0, maximo=15.0)
+
+#: IPCA-15 mensal (%). Série SGS 7478. Prévia do IPCA, faixa igual.
+IPCA15_MENSAL: FaixaNumerica = FaixaNumerica(minimo=-5.0, maximo=15.0)
+
+#: IBC-Br mensal (índice). Série SGS 24363. É índice (base ~100), não %.
+IBCBR_MENSAL: FaixaNumerica = FaixaNumerica(minimo=50.0, maximo=250.0)
+
+# --- Fase C (23/08): World Bank anual, indicadores globais.
+# Cadência é ANUAL; um ano de crise (COVID) puxa qualquer faixa para longe.
+
+#: Inflação anual IPC (FP.CPI.TOTL.ZG), em % ao ano. Hiperinflações históricas.
+INFLACAO_ANUAL_WB: FaixaNumerica = FaixaNumerica(minimo=-30.0, maximo=1000.0)
+
+#: Crescimento anual do PIB real (NY.GDP.MKTP.KD.ZG), %.
+PIB_ANUAL_WB: FaixaNumerica = FaixaNumerica(minimo=-30.0, maximo=30.0)
+
+#: Desemprego (% da força de trabalho, SL.UEM.TOTL.ZS).
+DESEMPREGO_ANUAL_WB: FaixaNumerica = FaixaNumerica(minimo=0.0, maximo=60.0)
+
 
 # ---------------------------------------------------------------------------
 # Registro central de expectativas
@@ -85,9 +113,18 @@ PTAX_VENDA: FaixaNumerica = FaixaNumerica(minimo=0.5, maximo=20.0)
 
 #: Mapeamento de ``nome_indicador -> FaixaNumerica`` usado por :func:`verificar`.
 EXPECTATIVAS: dict[str, FaixaNumerica] = {
+    # BR mensais
     "ipca_mensal": IPCA_MENSAL,
     "selic_meta": SELIC_META,
     "ptax_venda": PTAX_VENDA,
+    "igpm_mensal": IGPM_MENSAL,
+    "inpc_mensal": INPC_MENSAL,
+    "ipca15_mensal": IPCA15_MENSAL,
+    "ibcbr_mensal": IBCBR_MENSAL,
+    # Global (World Bank), cadência anual — 2 chaves por indicador (BR + demais)
+    "inflacao_anual_wb": INFLACAO_ANUAL_WB,
+    "pib_anual_wb": PIB_ANUAL_WB,
+    "desemprego_anual_wb": DESEMPREGO_ANUAL_WB,
 }
 
 

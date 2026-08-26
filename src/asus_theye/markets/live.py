@@ -84,6 +84,45 @@ AREAS_RESOLVIVEIS: dict[str, dict[str, Any]] = {
         "unidade": "brl",
         "expectativa": "ptax_venda",
     },
+    # --- Fase C (23/08): mais áreas BR resolvíveis via SGS/BCB.
+    # O conector `fonte_bcb.ipca_mensal(serie=N)` já é genérico para série
+    # SGS mensal — nada de conector novo. Cada área carrega SUA série.
+    "igpm": {
+        "serie": 189,
+        "prefixo": "IGPM-BR",
+        "pergunta": "O IGP-M de {mes} fica em {limiar:.2f}% ou mais?",
+        "criterio": "IGP-M mensal >= {limiar:.2f}%",
+        "indicador": "IGP-M mensal",
+        "unidade": "percentual_mensal",
+        "expectativa": "igpm_mensal",
+    },
+    "inpc": {
+        "serie": 188,
+        "prefixo": "INPC-BR",
+        "pergunta": "O INPC de {mes} fica em {limiar:.2f}% ou mais?",
+        "criterio": "INPC mensal >= {limiar:.2f}%",
+        "indicador": "INPC mensal",
+        "unidade": "percentual_mensal",
+        "expectativa": "inpc_mensal",
+    },
+    "ipca15": {
+        "serie": 7478,
+        "prefixo": "IPCA15-BR",
+        "pergunta": "O IPCA-15 de {mes} fica em {limiar:.2f}% ou mais?",
+        "criterio": "IPCA-15 mensal >= {limiar:.2f}%",
+        "indicador": "IPCA-15 mensal",
+        "unidade": "percentual_mensal",
+        "expectativa": "ipca15_mensal",
+    },
+    "ibcbr": {
+        "serie": 24363,
+        "prefixo": "IBCBR-BR",
+        "pergunta": "O IBC-Br de {mes} fica em {limiar:.2f} ou mais?",
+        "criterio": "IBC-Br (índice) >= {limiar:.2f}",
+        "indicador": "IBC-Br (índice)",
+        "unidade": "percentual_mensal",  # índice-como-percentual: a régua é o valor
+        "expectativa": "ibcbr_mensal",
+    },
 }
 
 CAMPOS_OBRIGATORIOS = (
