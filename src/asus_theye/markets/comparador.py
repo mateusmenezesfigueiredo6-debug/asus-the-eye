@@ -140,3 +140,82 @@ def observar_divergencia(
             with arquivo.open("a", encoding="utf-8") as stream:
                 stream.write(json.dumps(registro, ensure_ascii=False) + "\n")
     return {"registro": vigente, "duplicate": existente is not None, "selagem": selagem}
+
+
+_SINAIS_POR_AREA: dict[str, tuple[str, str]] = {
+    "macroeconomia": ("IPCA", "asus_theye.markets.sinais_ipca:sinais_para_ipca"),
+    "juros": ("SELIC", "asus_theye.markets.sinais_juros:sinais_para_juros"),
+    "cambio": ("CAMBIO", "asus_theye.markets.sinais_cambio:sinais_para_cambio"),
+}
+
+
+def observar_consenso_focus(
+    mercado: dict[str, Any],
+    *,
+    dia: str,
+    store: Path = Path("reports/markets/registro.json"),
+    arquivo: Path | None = None,
+    sdk: AuditSDK | None = None,
+    eventos: Path | None = None,
+    transport: Any = None,
+) -> dict[str, Any]:
+    """Observa o consenso Focus/BCB como comparador do mercado — rotina do laço.
+
+    O preço-comparador é o gerador SÓ-Focus (prior neutro + o sinal Focus da
+    área), rotulado como ``Focus/BCB`` — nunca "Kalshi". Sem mediana no Olinda,
+    devolve ``consenso_indisponivel``: UNKNOWN em vez de chute. A deduplicação
+    do store torna a observação idempotente: rodar duas vezes no mesmo boletim
+    não fabrica medição nova.
+    """
+    from importlib import import_module
+
+    from asus_theye.markets.gerador import gerar_probabilidade
+
+    claim_id = str(mercado.get("claim_id", ""))
+    area = str(mercado.get("market_area_id", ""))
+    rota = _SINAIS_POR_AREA.get(area)
+    if rota is None:
+        return {"claim_id": claim_id, "acao": "consenso_indisponivel", "motivo": f"área {area!r} sem fonte Focus"}
+    indicador, caminho = rota
+    modulo, funcao = caminho.split(":")
+    sinais_da_area = getattr(import_module(modulo), funcao)
+
+    try:
+        sinais = sinais_da_area(str(mercado["mes_referencia"]), float(mercado["limiar"]), transport=transport)
+    except Exception as erro:  # noqa: BLE001 - falha de fonte não derruba o laço
+        return {"claim_id": claim_id, "acao": "consenso_indisponivel", "motivo": str(erro)[:200]}
+
+    focus = [s for s in sinais if "Focus" in s.fonte]
+    if not focus:
+        return {
+            "claim_id": claim_id,
+            "acao": "consenso_indisponivel",
+            "motivo": "Olinda sem mediana Focus para o mês — sem comparador honesto",
+        }
+
+    p_consenso = gerar_probabilidade(focus).valor
+    nota = (
+        f"Consenso Focus/BCB observado na rodada de {dia}: {focus[0].fonte}. "
+        "p somente-Focus via WPAM (prior neutro + sinal Focus). Comparação DIRETA "
+        "(mesmo evento e fonte oficial de resolução). Circularidade parcial DECLARADA: "
+        "o gerador do próprio mercado também usa o sinal Focus."
+    )
+    resultado = observar_divergencia(
+        claim_id=claim_id,
+        comparator_price=round(float(p_consenso), 6),
+        ticker=f"FOCUS-BCB:{indicador}:{mercado['mes_referencia']}",
+        nota_de_mapeamento=nota,
+        comparator="Focus/BCB",
+        store=store,
+        arquivo=arquivo or store.parent / "comparador.jsonl",
+        sdk=sdk,
+        eventos=eventos,
+    )
+    registro = resultado["registro"]
+    if resultado["duplicate"]:
+        return {"claim_id": claim_id, "acao": "consenso_duplicado", "motivo": "mesmo boletim já observado"}
+    return {
+        "claim_id": claim_id,
+        "acao": "consenso_observado",
+        "motivo": f"divergência {registro['divergence']:+.4f} vs Focus/BCB",
+    }

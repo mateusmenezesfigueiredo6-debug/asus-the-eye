@@ -338,6 +338,21 @@ def rodada(
                 }
             )
 
+        # --- o CONSENSO Focus/BCB como comparador, em rotina --------------
+        # A divergência vs consenso deixa de ser observação manual: cada
+        # rodada mede onde estamos em relação ao Focus, com dedupe por
+        # boletim (rodar duas vezes no mesmo boletim não fabrica medição).
+        from asus_theye.markets.comparador import observar_consenso_focus
+
+        try:
+            acoes.append(
+                observar_consenso_focus(
+                    mercado, dia=dia, store=store, sdk=sdk, eventos=eventos, transport=transport
+                )
+            )
+        except Exception as erro:  # noqa: BLE001 - comparador nunca derruba o laço
+            acoes.append({"claim_id": claim_id, "acao": "consenso_indisponivel", "motivo": str(erro)[:200]})
+
         if resultado["reprecificado"]:
             selo = resultado.get("selagem") or {}
             causa = f"repricing:{selo.get('event_hash_sha256', '')[:32]}" if selo else ""
