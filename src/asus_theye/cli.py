@@ -220,6 +220,11 @@ def _parser() -> argparse.ArgumentParser:
     markets_comparar.add_argument(
         "--nota", required=True, help="nota de mapeamento: o que o ticker mede e por que é comparável"
     )
+    markets_comparar.add_argument(
+        "--comparador",
+        default="Kalshi",
+        help="nome verdadeiro do comparador no store (ex.: 'Focus/BCB' para o consenso público)",
+    )
     markets_comparar.add_argument("--json", dest="json_out", action="store_true", help="saída em JSON")
     markets_comparar.add_argument("--no-audit", action="store_true", help="não selar na cadeia")
     markets_serie = subcommands.add_parser(
@@ -1230,6 +1235,7 @@ def main(argv: Sequence[str] | None = None) -> int:
                 comparator_price=preco,
                 ticker=args.ticker,
                 nota_de_mapeamento=args.nota,
+                comparator=args.comparador,
                 sdk=sdk_comparar,
             )
         except (ComparadorError, ResolutionError, AuditoriaError) as error:
