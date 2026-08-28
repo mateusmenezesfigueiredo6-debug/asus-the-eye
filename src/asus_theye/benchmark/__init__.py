@@ -16,10 +16,14 @@ from .metrics import (
 from .qaoa_benchmark import run_qaoa_benchmark
 from .qubo_benchmark import run_qubo_benchmark
 from .runner import run_benchmark_suite
+from .selecao_carteira import Candidato, candidatos_demo, selecionar_carteira
 
 __all__ = [
+    "Candidato",
     "calculate_quality_gap",
     "calculate_qar",
+    "candidatos_demo",
+    "selecionar_carteira",
     "calculate_speed_ratio",
     "calculate_stability",
     "quality_gap",

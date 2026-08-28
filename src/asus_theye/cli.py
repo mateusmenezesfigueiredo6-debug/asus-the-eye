@@ -300,6 +300,18 @@ def _parser() -> argparse.ArgumentParser:
     maxcut.add_argument("--layers", default="1,2,3", help="camadas p do QAOA, ex.: 1,2,3")
     maxcut.add_argument("--grid", type=int, default=12, help="resolução da busca de ângulos")
     maxcut.add_argument("--json", dest="json_out", action="store_true", help="saída em JSON")
+    carteira = subcommands.add_parser(
+        "carteira",
+        help="seleção quântica de carteira: QAOA escolhe QUAIS previsões publicar (vs ótimo exato)",
+    )
+    carteira.add_argument("--k", type=int, default=3, help="quantas previsões escolher")
+    carteira.add_argument("--lam", type=float, default=1.2, help="peso do risco de correlação")
+    carteira.add_argument("--pen", type=float, default=3.0, help="força da regra 'exatamente K'")
+    carteira.add_argument("--shots", type=int, default=2_048)
+    carteira.add_argument("--layers", type=int, default=2)
+    carteira.add_argument("--seed", type=int, default=7)
+    carteira.add_argument("--output-dir", type=Path, default=Path("reports/benchmark"))
+    carteira.add_argument("--json", dest="json_out", action="store_true", help="saída em JSON")
     projeto = subcommands.add_parser(
         "projeto-medir", help="mede o projeto (método declarado) e sela a medição na cadeia (hash)"
     )
@@ -853,6 +865,40 @@ def main(argv: Sequence[str] | None = None) -> int:
             print("serve: instale o extra do dashboard (pip install 'asus-the-eye[dashboard]')")
             return 1
         uvicorn.run(app, host=host, port=args.port, log_level="info")
+        return 0
+    if args.command == "carteira":
+        from asus_theye.audit import AuditLedger as _LedgerCarteira
+        from asus_theye.benchmark.selecao_carteira import candidatos_demo, selecionar_carteira
+
+        candidatos, correlacao = candidatos_demo()
+        try:
+            resultado = selecionar_carteira(
+                candidatos,
+                correlacao=correlacao,
+                k=args.k,
+                lam=args.lam,
+                pen=args.pen,
+                layers=args.layers,
+                shots=args.shots,
+                seed=args.seed,
+                ledger=_LedgerCarteira(args.output_dir / "ledger.jsonl"),
+            )
+        except ValueError as error:
+            print(f"carteira: {error}")
+            return 1
+        if args.json_out:
+            print(json.dumps(resultado, ensure_ascii=False, indent=2))
+            return 0
+        print("=" * 62)
+        print("SELEÇÃO QUÂNTICA DE CARTEIRA (QAOA local × ótimo exato)")
+        print("=" * 62)
+        rotulo = {c.codigo: c for c in candidatos}
+        for codigo in resultado["selecao"]:
+            cand = rotulo[codigo]
+            print(f"  [{codigo}] edge={cand.edge:+.2f} risco={cand.risco:.2f}  {cand.descricao}")
+        print(f"\n  edge total: {resultado['edge_total']:+.2f}  (K={resultado['k']})")
+        print(f"  bate o ótimo exato? {resultado['bate_otimo']}")
+        print(f"  selado em: {args.output_dir / 'ledger.jsonl'}")
         return 0
     if args.command == "benchmark-maxcut":
         from asus_theye.benchmark.maxcut import MaxCutError, benchmark_maxcut, grafo_3_regular
