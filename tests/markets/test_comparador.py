@@ -92,3 +92,82 @@ def test_preco_fora_de_faixa_levanta(tmp_path: Path) -> None:
 
     with pytest.raises(ResolutionError, match="0,1|\\[0,1\\]"):
         _observar(tmp_path, comparator_price=62.0)  # centavos sem converter: pega na porta
+
+
+# --------------------------------------------------- consenso Focus em rotina
+
+
+class _TransporteFocus:
+    """Olinda devolve mediana; SGS devolve série vazia do mês (sem prévia)."""
+
+    def __init__(self, olinda_body: bytes) -> None:
+        self._olinda = olinda_body
+
+    def request(self, url, *, headers, timeout, max_bytes):
+        from asus_theye.net.http import HttpResponse
+
+        if "olinda.bcb.gov.br" in url:
+            return HttpResponse(url=url, status=200, headers={}, body=self._olinda)
+        return HttpResponse(url=url, status=200, headers={}, body=b'[{"data":"01/07/2026","valor":"0.30"}]')
+
+
+_OLINDA_MEDIANA = (
+    b'{"value":[{"Indicador":"IPCA","Data":"2026-08-21","DataReferencia":"08/2026","Mediana":0.10}]}'
+)
+_OLINDA_VAZIO = b'{"value":[]}'
+
+
+def _mercado_aberto(tmp_path):
+    registro = {
+        "versao": 1,
+        "mercados": [
+            {
+                "claim_id": "MACRO-01::2026-08",
+                "market_area_id": "macroeconomia",
+                "question": "IPCA?",
+                "probability": 0.2,
+                "deadline": "2026-08-31",
+                "resolution_source": "api.bcb.gov.br (SGS)",
+                "created_at": "2026-08-17T15:17:37.489807Z",
+                "mes_referencia": "2026-08",
+                "limiar": 0.5,
+                "estado": "ABERTO",
+            }
+        ],
+    }
+    store = tmp_path / "registro.json"
+    store.write_text(json.dumps(registro), encoding="utf-8")
+    return store, registro["mercados"][0]
+
+
+def test_consenso_focus_observa_e_deduplica(tmp_path):
+    from asus_theye.markets.comparador import observar_consenso_focus
+
+    store, mercado = _mercado_aberto(tmp_path)
+    transporte = _TransporteFocus(_OLINDA_MEDIANA)
+    primeira = observar_consenso_focus(
+        mercado, dia="2026-08-28", store=store, transport=transporte
+    )
+    assert primeira["acao"] == "consenso_observado"
+    linhas = (tmp_path / "comparador.jsonl").read_text(encoding="utf-8").splitlines()
+    assert len(linhas) == 1
+    registro = json.loads(linhas[0])
+    assert registro["comparator"] == "Focus/BCB"
+    assert "Kalshi" not in registro["comparator"]
+
+    segunda = observar_consenso_focus(
+        mercado, dia="2026-08-29", store=store, transport=transporte
+    )
+    assert segunda["acao"] == "consenso_duplicado"
+    assert len((tmp_path / "comparador.jsonl").read_text(encoding="utf-8").splitlines()) == 1
+
+
+def test_consenso_focus_sem_mediana_e_unknown(tmp_path):
+    from asus_theye.markets.comparador import observar_consenso_focus
+
+    store, mercado = _mercado_aberto(tmp_path)
+    acao = observar_consenso_focus(
+        mercado, dia="2026-08-28", store=store, transport=_TransporteFocus(_OLINDA_VAZIO)
+    )
+    assert acao["acao"] == "consenso_indisponivel"
+    assert not (tmp_path / "comparador.jsonl").exists()

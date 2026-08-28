@@ -1,0 +1,21 @@
+{
+  "solver": "qaoa",
+  "backend": "ibm_fez",
+  "hardware_execution": true,
+  "shots": 1024,
+  "layers": 2,
+  "circuit_depth_transpiled": 307,
+  "execution_time_ms": 11432.263894000016,
+  "quantum_seconds_estimated": 5.529195561,
+  "score": 28.0,
+  "solution": [
+    1,
+    0,
+    1,
+    1,
+    0,
+    0
+  ],
+  "distinct_bitstrings": 63,
+  "job_id": "da8vpqcjbipc73fe93t0"
+}

@@ -220,6 +220,11 @@ def _parser() -> argparse.ArgumentParser:
     markets_comparar.add_argument(
         "--nota", required=True, help="nota de mapeamento: o que o ticker mede e por que é comparável"
     )
+    markets_comparar.add_argument(
+        "--comparador",
+        default="Kalshi",
+        help="nome verdadeiro do comparador no store (ex.: 'Focus/BCB' para o consenso público)",
+    )
     markets_comparar.add_argument("--json", dest="json_out", action="store_true", help="saída em JSON")
     markets_comparar.add_argument("--no-audit", action="store_true", help="não selar na cadeia")
     markets_serie = subcommands.add_parser(
@@ -300,6 +305,29 @@ def _parser() -> argparse.ArgumentParser:
     maxcut.add_argument("--layers", default="1,2,3", help="camadas p do QAOA, ex.: 1,2,3")
     maxcut.add_argument("--grid", type=int, default=12, help="resolução da busca de ângulos")
     maxcut.add_argument("--json", dest="json_out", action="store_true", help="saída em JSON")
+    carteira = subcommands.add_parser(
+        "carteira",
+        help="seleção quântica de carteira: QAOA escolhe QUAIS previsões publicar (vs ótimo exato)",
+    )
+    carteira.add_argument(
+        "--real",
+        action="store_true",
+        help="usa os mercados ABERTOS do registro (edge só com comparador; senão convicção |2p−1| declarada)",
+    )
+    carteira.add_argument("--k", type=int, default=None, help="quantas previsões escolher (padrão: 3; com --real: 2)")
+    carteira.add_argument("--lam", type=float, default=1.2, help="peso do risco de correlação")
+    carteira.add_argument("--pen", type=float, default=3.0, help="força da regra 'exatamente K'")
+    carteira.add_argument("--shots", type=int, default=2_048)
+    carteira.add_argument("--layers", type=int, default=2)
+    carteira.add_argument("--seed", type=int, default=7)
+    carteira.add_argument("--output-dir", type=Path, default=Path("reports/benchmark"))
+    carteira.add_argument(
+        "--execute",
+        action="store_true",
+        help="roda também na QPU real (exige THE_EYE_IBM_EXECUTE=1; usa cota do Open Plan)",
+    )
+    carteira.add_argument("--backend", default=None, help="QPU específica (padrão: menor fila)")
+    carteira.add_argument("--json", dest="json_out", action="store_true", help="saída em JSON")
     projeto = subcommands.add_parser(
         "projeto-medir", help="mede o projeto (método declarado) e sela a medição na cadeia (hash)"
     )
@@ -854,6 +882,89 @@ def main(argv: Sequence[str] | None = None) -> int:
             return 1
         uvicorn.run(app, host=host, port=args.port, log_level="info")
         return 0
+    if args.command == "carteira":
+        from asus_theye.audit import AuditLedger as _LedgerCarteira
+        from asus_theye.benchmark.selecao_carteira import candidatos_demo, selecionar_carteira
+
+        diagnostico = None
+        try:
+            if args.real:
+                from asus_theye.benchmark.selecao_real import carregar_candidatos_reais
+
+                candidatos, correlacao, diagnostico = carregar_candidatos_reais()
+            else:
+                candidatos, correlacao = candidatos_demo()
+            k = args.k if args.k is not None else (2 if args.real else 3)
+            resultado = selecionar_carteira(
+                candidatos,
+                correlacao=correlacao,
+                k=k,
+                lam=args.lam,
+                pen=args.pen,
+                layers=args.layers,
+                shots=args.shots,
+                seed=args.seed,
+                ledger=_LedgerCarteira(args.output_dir / "ledger.jsonl"),
+            )
+        except (ValueError, OSError, json.JSONDecodeError) as error:
+            print(f"carteira: {error}")
+            return 1
+        if diagnostico:
+            resultado = {**resultado, "real": diagnostico}
+            _LedgerCarteira(args.output_dir / "ledger.jsonl").append(
+                "benchmark.selecao_carteira.contexto_real", diagnostico
+            )
+        if args.execute:
+            from asus_theye.benchmark.ibm_backend import (
+                HardwareGateClosed,
+                QuantumDepsMissing,
+                run_selecao_on_hardware,
+            )
+            from asus_theye.benchmark.selecao_carteira import construir_qubo
+
+            try:
+                qubo = construir_qubo(candidatos, correlacao, resultado["k"], args.lam, args.pen)
+                hw = run_selecao_on_hardware(
+                    qubo,
+                    len(candidatos),
+                    resultado["k"],
+                    layers=args.layers,
+                    shots=args.shots,
+                    backend_name=args.backend,
+                )
+            except (HardwareGateClosed, QuantumDepsMissing) as error:
+                print(f"carteira: {error}")
+                return 1
+            codigos_hw = [c.codigo for c in candidatos]
+            hw["selecao"] = [codigos_hw[i] for i, bit in enumerate(hw["solution"] or []) if bit]
+            hw["bate_otimo_local"] = sorted(hw["selecao"]) == sorted(resultado["selecao_otima"])
+            resultado = {**resultado, "hardware": hw}
+            _LedgerCarteira(args.output_dir / "ledger.jsonl").append(
+                "benchmark.selecao_carteira.hardware", hw
+            )
+        if args.json_out:
+            print(json.dumps(resultado, ensure_ascii=False, indent=2))
+            return 0
+        print("=" * 62)
+        titulo_modo = f"mercados REAIS · modo {diagnostico['modo']}" if diagnostico else "demo recuperada"
+        print(f"SELEÇÃO QUÂNTICA DE CARTEIRA ({titulo_modo})")
+        print("=" * 62)
+        rotulo = {c.codigo: c for c in candidatos}
+        for codigo in resultado["selecao"]:
+            cand = rotulo[codigo]
+            print(f"  [{codigo}] valor={cand.edge:+.3f}  {cand.descricao}")
+        print(f"\n  valor total: {resultado['edge_total']:+.3f}  (K={resultado['k']})")
+        print(f"  bate o ótimo exato? {resultado['bate_otimo']}")
+        if diagnostico:
+            for limitacao in diagnostico["limitacoes"]:
+                print(f"  ⚠ {limitacao}")
+        hardware = resultado.get("hardware")
+        if hardware:
+            print(f"\n  QPU REAL: {hardware['backend']}  job={hardware['job_id']}")
+            print(f"  carteira do hardware: {hardware['selecao']}  (reparo K: {hardware['reparo_com_k']})")
+            print(f"  hardware bate o ótimo local? {hardware['bate_otimo_local']}")
+        print(f"  selado em: {args.output_dir / 'ledger.jsonl'}")
+        return 0
     if args.command == "benchmark-maxcut":
         from asus_theye.benchmark.maxcut import MaxCutError, benchmark_maxcut, grafo_3_regular
 
@@ -1124,6 +1235,7 @@ def main(argv: Sequence[str] | None = None) -> int:
                 comparator_price=preco,
                 ticker=args.ticker,
                 nota_de_mapeamento=args.nota,
+                comparator=args.comparador,
                 sdk=sdk_comparar,
             )
         except (ComparadorError, ResolutionError, AuditoriaError) as error:

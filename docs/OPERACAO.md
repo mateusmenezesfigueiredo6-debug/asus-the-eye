@@ -69,6 +69,7 @@ O que continua sendo ato humano:
 | `markets-anchor` | Faz ensaio offline de ancoragem ou broadcast real se autorizado. | `asus-theye markets-anchor --minimo 10` |
 | `serve` | Sobe o dashboard local. | `asus-theye serve --port 8712` |
 | `benchmark-maxcut` | Mede a curva QAR×p do Max-Cut 12–16 qubits. | `asus-theye benchmark-maxcut --nodes 14 --layers 1,2,3 --json` |
+| `carteira` | Seleção quântica de carteira: QAOA escolhe quais previsões publicar, sempre contra o ótimo exato. | `asus-theye carteira --k 3 --json` |
 | `projeto-medir` | Mede o estado declarado do projeto e sela o hash. | `asus-theye projeto-medir --json` |
 | `mlops-benchmark` | Rastreia a suíte de benchmark como corrida MLOps selada. | `asus-theye mlops-benchmark --shots 1024 --layers 2 --json` |
 | `mlops-promover` | Promove uma versão de modelo a campeão ou desafiante. | `asus-theye mlops-promover --modelo nowcast-ipca --versao r4 --papel desafiante --motivo "Brier selado" --json` |
