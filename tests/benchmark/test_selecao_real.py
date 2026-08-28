@@ -41,9 +41,9 @@ def test_com_comparador_completo_calcula_edge(tmp_path):
     registro = _registro(tmp_path, ABERTOS)
     comparador = tmp_path / "comparador.jsonl"
     linhas = [
-        {"claim_id": "MACRO-01::2026-08", "p_comparador": 0.20},
-        {"claim_id": "JUROS-01::2026-09", "p_comparador": 0.60},
-        {"claim_id": "CAMBIO-01::2026-09", "p_comparador": 0.90},
+        {"claim_id": "MACRO-01::2026-08", "comparator_price": 0.20},
+        {"claim_id": "JUROS-01::2026-09", "comparator_price": 0.60},
+        {"claim_id": "CAMBIO-01::2026-09", "comparator_price": 0.90},
     ]
     comparador.write_text("\n".join(json.dumps(linha) for linha in linhas), encoding="utf-8")
     candidatos, _, diag = carregar_candidatos_reais(registro, comparador)
@@ -56,7 +56,7 @@ def test_com_comparador_completo_calcula_edge(tmp_path):
 def test_comparador_parcial_nao_vira_edge(tmp_path):
     registro = _registro(tmp_path, ABERTOS)
     comparador = tmp_path / "comparador.jsonl"
-    comparador.write_text(json.dumps({"claim_id": "JUROS-01::2026-09", "p_comparador": 0.6}), encoding="utf-8")
+    comparador.write_text(json.dumps({"claim_id": "JUROS-01::2026-09", "comparator_price": 0.6}), encoding="utf-8")
     _, _, diag = carregar_candidatos_reais(registro, comparador)
     assert diag["modo"] == "confianca"
     assert diag["com_comparador"] == 1

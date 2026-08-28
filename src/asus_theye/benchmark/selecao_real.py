@@ -41,7 +41,7 @@ def _cotacoes_do_comparador(caminho: Path) -> dict[str, float]:
         except json.JSONDecodeError:
             continue
         claim = registro.get("claim_id")
-        preco = registro.get("p_comparador", registro.get("probability_comparador"))
+        preco = registro.get("comparator_price", registro.get("p_comparador"))
         if isinstance(claim, str) and isinstance(preco, (int, float)) and math.isfinite(preco):
             cotacoes[claim] = float(preco)
     return cotacoes
