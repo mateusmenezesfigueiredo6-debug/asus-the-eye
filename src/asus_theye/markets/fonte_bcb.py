@@ -15,6 +15,7 @@ from __future__ import annotations
 
 import json
 
+from asus_theye.markets.fonte_base import FonteError
 from asus_theye.net.http import HttpError, Transport, get_bytes
 
 SERIE_IPCA = 433
@@ -26,7 +27,7 @@ TIMEOUT = 30
 JANELA_MAXIMA = 20
 
 
-class FonteBCBError(RuntimeError):
+class FonteBCBError(FonteError):
     """Resposta inesperada da fonte oficial. Sempre levanta — nunca degrada em valor."""
 
 

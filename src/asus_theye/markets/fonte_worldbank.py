@@ -34,6 +34,7 @@ import re
 from dataclasses import dataclass
 from typing import Any
 
+from asus_theye.markets.fonte_base import FonteError
 from asus_theye.net.http import HttpError, Transport, get_bytes
 
 URL_BASE = "https://api.worldbank.org/v2"
@@ -64,7 +65,7 @@ ISO3_RE = re.compile(r"^[A-Za-z]{3}$")
 ANO_RE = re.compile(r"^\d{4}$")
 
 
-class FonteWorldBankError(RuntimeError):
+class FonteWorldBankError(FonteError):
     """Resposta inesperada da fonte global. Sempre levanta — valor não se inventa."""
 
 

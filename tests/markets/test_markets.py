@@ -19,6 +19,7 @@ from asus_theye.markets import (
     base_rate,
     brier_score,
     load_areas,
+    load_classifier,
     make_claim,
     record_comparator,
     resolve,
@@ -92,9 +93,21 @@ def test_deadline_anterior_a_criacao_levanta() -> None:
         )
 
 
-def test_classificador_tem_dez_areas() -> None:
+def test_classificador_bate_com_o_arquivo_de_dominio() -> None:
+    """O invariante é a COERÊNCIA, não a contagem.
+
+    Antes isto cravava ``== 10`` e ficava vermelho a cada área nova — número
+    mágico não é invariante, é dívida. O que de fato não pode acontecer é o
+    classificador divergir do arquivo que o alimenta: ``area_count`` mentindo
+    sobre quantas áreas existem, ou duas áreas com o mesmo id se engolindo no
+    dicionário. É isso que se testa aqui.
+    """
     areas = load_areas()
-    assert len(areas) == 10
+    bruto = load_classifier()
+    assert len(areas) == len(bruto["areas"]), "id de área duplicado engoliu uma entrada"
+    assert len(areas) == bruto["area_count"], (
+        f"area_count={bruto['area_count']} mente: o arquivo tem {len(areas)} áreas"
+    )
     assert {"juros", "cambio", "cripto", "voto-legislativo"} <= set(areas)
 
 

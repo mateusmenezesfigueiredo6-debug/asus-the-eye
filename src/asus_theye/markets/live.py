@@ -41,7 +41,7 @@ from pathlib import Path
 from typing import Any
 
 from asus_theye.markets.claim import make_claim
-from asus_theye.markets.fonte_bcb import FonteBCBError
+from asus_theye.markets.fonte_base import FonteError
 from asus_theye.markets.gerador import Probabilidade
 from asus_theye.markets.resolution import resolve
 from asus_theye.markets.scoring import brier_score
@@ -523,9 +523,11 @@ def _resolver_pendentes_travado(
 
         try:
             valor = fetcher_da_area(mes)
-        except FonteBCBError as erro:
+        except FonteError as erro:
             # erro de fonte em UM mercado não pode abortar os demais nem
-            # deixar escrita pela metade
+            # deixar escrita pela metade. Captura a RAIZ comum: antes era só
+            # FonteBCBError, e uma falha da PTAX escapava do laço inteiro,
+            # levando junto os mercados que teriam resolvido bem.
             acoes.append({"claim_id": mercado["claim_id"], "acao": "erro", "motivo": str(erro)})
             continue
 

@@ -37,6 +37,7 @@ from dataclasses import dataclass
 from datetime import datetime, timezone
 from typing import Any
 
+from asus_theye.markets.fonte_base import FonteError
 from asus_theye.net.http import HttpError, Transport, get_bytes
 
 URL_ULTIMA = "https://data.gdeltproject.org/gdeltv2/lastupdate.txt"
@@ -56,7 +57,7 @@ COL_PAIS = 53  # ActionGeo_CountryCode, FIPS 10-4 (Brasil = "BR")
 MINIMO_DE_EVENTOS = 5
 
 
-class FonteGDELTError(RuntimeError):
+class FonteGDELTError(FonteError):
     """Resposta inesperada da fonte. Sempre levanta — cobertura não se inventa."""
 
 

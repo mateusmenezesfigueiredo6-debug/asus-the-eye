@@ -16,6 +16,7 @@ from __future__ import annotations
 import calendar
 import json
 
+from asus_theye.markets.fonte_base import FonteError
 from asus_theye.net.http import HttpError, Transport, get_bytes
 
 SERIE_SELIC = 432
@@ -27,7 +28,7 @@ MAX_BYTES = 200_000
 TIMEOUT = 30
 
 
-class FonteSelicError(RuntimeError):
+class FonteSelicError(FonteError):
     """Resposta inesperada da fonte oficial. Sempre levanta — nunca degrada em valor."""
 
 

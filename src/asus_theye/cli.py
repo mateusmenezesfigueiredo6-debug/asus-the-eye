@@ -731,7 +731,8 @@ def main(argv: Sequence[str] | None = None) -> int:
         )
         from functools import partial
 
-        from asus_theye.markets.fonte_bcb import FonteBCBError, ipca_mensal
+        from asus_theye.markets.fonte_base import FonteError
+        from asus_theye.markets.fonte_bcb import ipca_mensal
         from asus_theye.markets.fonte_ptax import ptax_venda_do_dia, ptax_venda_fim_do_mes
         from asus_theye.markets.fonte_selic import selic_meta
         from asus_theye.markets.live import LiveMarketError, resolver_pendentes
@@ -787,7 +788,7 @@ def main(argv: Sequence[str] | None = None) -> int:
                 # escreve — sem isto, reconciliações registradas ficariam invisíveis
                 eventos=caminho_eventos,
             )
-        except (FonteBCBError, LiveMarketError, MarketClaimError, ResolutionError, ScoringError) as error:
+        except (FonteError, LiveMarketError, MarketClaimError, ResolutionError, ScoringError) as error:
             print(f"markets-resolve: {error}")
             return 1
         houve_erro = any(acao["acao"] in ("erro", "auditoria_falhou") for acao in acoes)
@@ -1125,20 +1126,30 @@ def main(argv: Sequence[str] | None = None) -> int:
                 from asus_theye.markets.sinais_ipca import SinaisError
                 from asus_theye.markets.sinais_juros import SinaisJurosError
 
+                # Mapa EXPLÍCITO, no padrão de `reprecificar._gerador_da_area`.
+                # Antes isto terminava em `else: probabilidade_para_ipca(...)`, e
+                # toda área nova nascia precificada pelo sinal do IPCA — um
+                # mercado de gás de botijão herdava o sinal da inflação cheia,
+                # sem ninguém perceber. Área sem gerador nasce no prior honesto.
+                from asus_theye.markets.sinais_cambio import probabilidade_para_cambio
+                from asus_theye.markets.sinais_ipca import probabilidade_para_ipca
+                from asus_theye.markets.sinais_juros import probabilidade_para_juros
+
+                geradores = {
+                    "juros": probabilidade_para_juros,
+                    "cambio": probabilidade_para_cambio,
+                    "macroeconomia": probabilidade_para_ipca,
+                }
+                gerador_da_area = geradores.get(args.area)
                 try:
-                    if args.area == "juros":
-                        from asus_theye.markets.sinais_juros import probabilidade_para_juros
-
-                        probabilidade = probabilidade_para_juros(args.mes, args.limiar)
-                    elif args.area == "cambio":
-                        from asus_theye.markets.sinais_cambio import probabilidade_para_cambio
-
-                        probabilidade = probabilidade_para_cambio(args.mes, args.limiar)
+                    if gerador_da_area is None:
+                        print(
+                            f"sem gerador de sinais para a área {args.area!r} — "
+                            f"emitindo no prior 0,50, declarado"
+                        )
                     else:
-                        from asus_theye.markets.sinais_ipca import probabilidade_para_ipca
-
-                        probabilidade = probabilidade_para_ipca(args.mes, args.limiar)
-                    print(f"gerador: p={probabilidade.valor:.4f} (area={args.area})")
+                        probabilidade = gerador_da_area(args.mes, args.limiar)
+                        print(f"gerador: p={probabilidade.valor:.4f} (area={args.area})")
                 except (GeradorError, SinaisError, SinaisJurosError, SinaisCambioError) as erro:
                     # falha de sinal NUNCA bloqueia a emissão — o mercado nasce
                     # no prior honesto e a saída diz por quê
@@ -1148,7 +1159,9 @@ def main(argv: Sequence[str] | None = None) -> int:
                 print(f"markets-emitir: {args.area}/{args.mes} já tem mercado — nada a emitir")
                 return 0
             salvar_registro(args.store, registro)
-        except LiveMarketError as error:
+        except (LiveMarketError, MarketClaimError) as error:
+            # MarketClaimError é o "Enum fechado" de área não registrada no
+            # classificador: sem isto virava traceback bruto na cara do operador.
             print(f"markets-emitir: {error}")
             return 1
         if args.json_out:

@@ -44,6 +44,10 @@ UNIDADES = {
     "percentual_mensal": "%",
     "percentual_anual": "% a.a.",
     "brl": "R$",
+    # `indice` entrou porque a área `atividade` (IBC-Br) já estava registrada no
+    # classificador e no CLI, mas NUNCA conseguiu emitir: declarava esta unidade
+    # e batia em RegraError. Faltava só a linha aqui.
+    "indice": "pontos",
 }
 
 CAMPOS = (
