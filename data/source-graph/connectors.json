@@ -358,6 +358,231 @@
         "annealer resolve uma classe restrita de problema; não roda QAOA de porta"
       ],
       "implementation": null
+    },
+    {
+      "connector_id": "usgs_quakes",
+      "name": "USGS Earthquake Hazards (GeoJSON)",
+      "base_url": "https://earthquake.usgs.gov/earthquakes/feed/v1.0/",
+      "terms_url": "https://www.usgs.gov/information-policies-and-instructions",
+      "license_id": "US-PD",
+      "license_url": "https://www.usgs.gov/information-policies-and-instructions/copyrights-and-credits",
+      "access_basis": "api_terms",
+      "min_interval_seconds": 3.0,
+      "max_bytes": 5242880,
+      "requires_key": false,
+      "enabled": false,
+      "provides": [
+        "contagem e magnitude de sismos, atualização por minuto"
+      ],
+      "does_not_provide": [
+        "opinião",
+        "preço de outra bolsa"
+      ],
+      "limitations": [],
+      "implementation": "src/asus_theye/markets (via sincronizador do Hórus)",
+      "last_verified_at": "2026-08-29T15:14:41.646697+00:00",
+      "verification_note": "IQF 100 (cluster J); coletado ao vivo em 29/08 (14 sismos M4.5+)",
+      "ready_to_enable": true
+    },
+    {
+      "connector_id": "ecb_data_portal",
+      "name": "ECB Data Portal (SDMX csvdata)",
+      "base_url": "https://data-api.ecb.europa.eu/service/data/",
+      "terms_url": "https://data.ecb.europa.eu/help/data-usage",
+      "license_id": "ECB-attribution",
+      "license_url": "https://data.ecb.europa.eu/help/data-usage",
+      "access_basis": "api_terms",
+      "min_interval_seconds": 3.0,
+      "max_bytes": 5242880,
+      "requires_key": false,
+      "enabled": false,
+      "provides": [
+        "taxas do BCE (deposit facility), séries do euro"
+      ],
+      "does_not_provide": [
+        "opinião",
+        "preço de outra bolsa"
+      ],
+      "limitations": [],
+      "implementation": "src/asus_theye/markets (via sincronizador do Hórus)",
+      "last_verified_at": "2026-08-29T15:14:41.646697+00:00",
+      "verification_note": "verificada ao vivo 29/08 (DFR 2,25%)",
+      "ready_to_enable": true
+    },
+    {
+      "connector_id": "worldbank_api",
+      "name": "World Bank Open Data API",
+      "base_url": "https://api.worldbank.org/v2/",
+      "terms_url": "https://www.worldbank.org/en/about/legal/terms-of-use-for-datasets",
+      "license_id": "CC-BY-4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "access_basis": "api_terms",
+      "min_interval_seconds": 3.0,
+      "max_bytes": 5242880,
+      "requires_key": false,
+      "enabled": false,
+      "provides": [
+        "indicadores globais anuais (inflação, PIB)"
+      ],
+      "does_not_provide": [
+        "opinião",
+        "preço de outra bolsa"
+      ],
+      "limitations": [],
+      "implementation": "src/asus_theye/markets (via sincronizador do Hórus)",
+      "last_verified_at": "2026-08-29T15:14:41.646697+00:00",
+      "verification_note": "verificada ao vivo 29/08",
+      "ready_to_enable": true
+    },
+    {
+      "connector_id": "bcra_api",
+      "name": "BCRA Estadísticas v4.0 + Cambiarias v1.0",
+      "base_url": "https://api.bcra.gob.ar/",
+      "terms_url": "https://www.bcra.gob.ar/",
+      "license_id": "BCRA-publico",
+      "license_url": "https://www.bcra.gob.ar/",
+      "access_basis": "api_terms",
+      "min_interval_seconds": 3.0,
+      "max_bytes": 5242880,
+      "requires_key": false,
+      "enabled": false,
+      "provides": [
+        "inflação AR (INDEC via id 27), BADLAR (id 7), dólar oficial"
+      ],
+      "does_not_provide": [
+        "opinião",
+        "preço de outra bolsa"
+      ],
+      "limitations": [],
+      "implementation": "src/asus_theye/markets (via sincronizador do Hórus)",
+      "last_verified_at": "2026-08-29T15:14:41.646697+00:00",
+      "verification_note": "verificada ao vivo 29/08; ids 160/161 (tasa política) MORTOS desde 07/2025 — usar BADLAR id 7",
+      "ready_to_enable": true
+    },
+    {
+      "connector_id": "wikimedia_pageviews",
+      "name": "Wikimedia Pageviews REST (top diário)",
+      "base_url": "https://wikimedia.org/api/rest_v1/metrics/pageviews/",
+      "terms_url": "https://foundation.wikimedia.org/wiki/Policy:Terms_of_Use",
+      "license_id": "CC-BY-SA-4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+      "access_basis": "api_terms",
+      "min_interval_seconds": 3.0,
+      "max_bytes": 5242880,
+      "requires_key": false,
+      "enabled": false,
+      "provides": [
+        "atenção real do público (sinal de descoberta)"
+      ],
+      "does_not_provide": [
+        "opinião",
+        "preço de outra bolsa"
+      ],
+      "limitations": [],
+      "implementation": "src/asus_theye/markets (via sincronizador do Hórus)",
+      "last_verified_at": "2026-08-29T15:14:41.646697+00:00",
+      "verification_note": "verificada ao vivo 29/08; papel sinal, nunca liquidação",
+      "ready_to_enable": true
+    },
+    {
+      "connector_id": "ons_dados_abertos",
+      "name": "ONS Dados Abertos (CKAN)",
+      "base_url": "https://dados.ons.org.br/",
+      "terms_url": "https://dados.ons.org.br/",
+      "license_id": "dados-abertos-BR",
+      "license_url": "https://dados.ons.org.br/",
+      "access_basis": "api_terms",
+      "min_interval_seconds": 3.0,
+      "max_bytes": 5242880,
+      "requires_key": false,
+      "enabled": false,
+      "provides": [
+        "carga e geração do SIN (horária)"
+      ],
+      "does_not_provide": [
+        "opinião",
+        "preço de outra bolsa"
+      ],
+      "limitations": [],
+      "implementation": "src/asus_theye/markets (via sincronizador do Hórus)",
+      "last_verified_at": "2026-08-29T15:14:41.646697+00:00",
+      "verification_note": "IQF 88 (cluster J) por curador; endpoint CKAN a validar em código antes de ready",
+      "ready_to_enable": false
+    },
+    {
+      "connector_id": "inmet_apitempo",
+      "name": "INMET apitempo",
+      "base_url": "https://apitempo.inmet.gov.br/",
+      "terms_url": "https://portal.inmet.gov.br/",
+      "license_id": "dados-publicos-BR",
+      "license_url": "https://portal.inmet.gov.br/",
+      "access_basis": "api_terms",
+      "min_interval_seconds": 3.0,
+      "max_bytes": 5242880,
+      "requires_key": false,
+      "enabled": false,
+      "provides": [
+        "clima por estação automática (tempo quase real)"
+      ],
+      "does_not_provide": [
+        "opinião",
+        "preço de outra bolsa"
+      ],
+      "limitations": [],
+      "implementation": "src/asus_theye/markets (via sincronizador do Hórus)",
+      "last_verified_at": "2026-08-29T15:14:41.646697+00:00",
+      "verification_note": "IQF 88 (cluster J); raiz deu 404 na checagem — validar rota /estacao antes de ready",
+      "ready_to_enable": false
+    },
+    {
+      "connector_id": "opendatasus",
+      "name": "OpenDataSUS",
+      "base_url": "https://dadosabertos.saude.gov.br/",
+      "terms_url": "https://dadosabertos.saude.gov.br/",
+      "license_id": "CC-BY-ND-3.0",
+      "license_url": "https://creativecommons.org/licenses/by-nd/3.0/",
+      "access_basis": "api_terms",
+      "min_interval_seconds": 3.0,
+      "max_bytes": 5242880,
+      "requires_key": false,
+      "enabled": false,
+      "provides": [
+        "séries oficiais de saúde"
+      ],
+      "does_not_provide": [
+        "opinião",
+        "preço de outra bolsa"
+      ],
+      "limitations": [],
+      "implementation": "src/asus_theye/markets (via sincronizador do Hórus)",
+      "last_verified_at": "2026-08-29T15:14:41.646697+00:00",
+      "verification_note": "IQF 83 (cluster J); atenção à cláusula ND na redistribuição derivada",
+      "ready_to_enable": false
+    },
+    {
+      "connector_id": "cvm_dados_abertos",
+      "name": "CVM Dados Abertos",
+      "base_url": "https://dados.cvm.gov.br/",
+      "terms_url": "https://dados.cvm.gov.br/",
+      "license_id": "dados-abertos-BR",
+      "license_url": "https://dados.cvm.gov.br/",
+      "access_basis": "api_terms",
+      "min_interval_seconds": 3.0,
+      "max_bytes": 5242880,
+      "requires_key": false,
+      "enabled": false,
+      "provides": [
+        "fatos relevantes e demonstrações como evidência datada"
+      ],
+      "does_not_provide": [
+        "opinião",
+        "preço de outra bolsa"
+      ],
+      "limitations": [],
+      "implementation": "src/asus_theye/markets (via sincronizador do Hórus)",
+      "last_verified_at": "2026-08-29T15:14:41.646697+00:00",
+      "verification_note": "IQF 78 (cluster J); análogo BR do SEC EDGAR",
+      "ready_to_enable": false
     }
   ]
 }
