@@ -53,6 +53,21 @@ def _ordem_data(data_bcb: str) -> tuple[int, int, int]:
         raise FontePTAXError(f"data em formato inesperado do BCB: {data_bcb!r}") from exc
 
 
+def ptax_venda_do_dia(dia: str, *, transport: Transport | None = None) -> float | None:
+    """PTAX venda publicada no dia ``dia`` (``aaaa-mm-dd``).
+
+    Devolve ``None`` quando o BCB não publicou naquele dia (fim de semana,
+    feriado ou dia ainda em curso) — UNKNOWN, nunca chute. O mercado diário
+    espera o dia útil seguinte em vez de inventar cotação.
+    """
+    try:
+        ano, mes, d = (int(x) for x in dia.split("-"))
+        data_bcb = f"{d:02d}/{mes:02d}/{ano:04d}"
+    except (ValueError, AttributeError) as exc:
+        raise FontePTAXError(f"dia fora do formato aaaa-mm-dd: {dia!r}") from exc
+    return _ultimo_valor_no_intervalo(data_bcb, data_bcb, transport=transport)
+
+
 def ptax_venda_fim_do_mes(mes_referencia: str, *, transport: Transport | None = None) -> float | None:
     """Última PTAX venda publicada no mês ``mes_referencia`` (``aaaa-mm``).
 
@@ -61,6 +76,13 @@ def ptax_venda_fim_do_mes(mes_referencia: str, *, transport: Transport | None = 
     fonte com erro não é fonte com valor.
     """
     data_inicial, data_final = _intervalo_mes(mes_referencia)
+    return _ultimo_valor_no_intervalo(data_inicial, data_final, transport=transport)
+
+
+def _ultimo_valor_no_intervalo(
+    data_inicial: str, data_final: str, *, transport: Transport | None = None
+) -> float | None:
+    """Último valor publicado no intervalo ``dd/mm/aaaa``. ``None`` se vazio."""
     url = URL_INTERVALO.format(serie=SERIE_PTAX, data_inicial=data_inicial, data_final=data_final)
     try:
         response = get_bytes(

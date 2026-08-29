@@ -4,7 +4,7 @@
   "generated_from": "select distinct produto from mercados em /home/sexexes/asus/asus_teste.duckdb, lido em 08/08/2026",
   "note": "Nenhuma area aqui foi inventada: cada uma corresponde a um produto que ja emite mercado no banco. A coluna `estado` diz onde cada uma esta no ciclo, e o ciclo so fecha quando ha resolucao contra fonte oficial com erro medido. Emitir mercado nao e prova de nada; liquidar contra fonte e o que separa previsao de palpite.",
   "aviso_de_desenho": "Sete dos nove mercados abertos tem probabilidade proxima de 0,50 porque produtos/_core/produto_serie.py escolhe deliberadamente o limiar de maxima incerteza (mediana da janela de 12 meses). Isso e escolha de gerador, nao acaso: nesse limiar o produto nao consegue demonstrar skill mesmo funcionando perfeitamente. Corrigir e desenho de produto, nao de modelo.",
-  "area_count": 14,
+  "area_count": 15,
   "groups": [
     {
       "group": "macro-financeiro",
@@ -180,6 +180,16 @@
       "name": "IBC-Br (atividade)",
       "group": "macro",
       "fonte_resolucao": "api.bcb.gov.br (SGS 24363)",
+      "estado": "aberto",
+      "mercados": 0,
+      "liquidados": 0
+    },
+    {
+      "market_area_id": "cambio-diario",
+      "produto": "cambio_diario",
+      "name": "Câmbio diário (PTAX do dia)",
+      "group": "macro",
+      "fonte_resolucao": "api.bcb.gov.br (SGS 1, PTAX diária)",
       "estado": "aberto",
       "mercados": 0,
       "liquidados": 0

@@ -243,6 +243,34 @@
       },
       "estado": "ABERTO",
       "tentativas": []
+    },
+    {
+      "claim_id": "CAMBIO-D::2026-08-31",
+      "market_area_id": "cambio-diario",
+      "question": "O dólar PTAX (venda) de 2026-08-31 fecha em R$ 5.2005 ou mais?",
+      "deadline": "2026-08-31",
+      "probability": 0.5,
+      "resolution_source": "api.bcb.gov.br (SGS 1, PTAX diária)",
+      "created_at": "2026-08-29T22:40:22.014911Z",
+      "max_uncertainty": true,
+      "resolvable": true,
+      "mes_referencia": "2026-08-31",
+      "limiar": 5.2005,
+      "criterio": "PTAX venda do dia >= R$ 5.2005",
+      "serie_sgs": 1,
+      "regra": {
+        "versao_schema": 1,
+        "fonte": "api.bcb.gov.br (SGS 1, PTAX diária)",
+        "serie": 1,
+        "indicador": "PTAX venda (do dia)",
+        "periodo_referencia": "2026-08-31",
+        "operador": ">=",
+        "limiar": 5.2005,
+        "unidade": "brl",
+        "quando_indisponivel": "UNKNOWN"
+      },
+      "estado": "ABERTO",
+      "tentativas": []
     }
   ]
 }

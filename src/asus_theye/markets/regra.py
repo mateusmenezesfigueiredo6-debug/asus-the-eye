@@ -25,6 +25,8 @@ from typing import Any
 VERSAO_SCHEMA = 1
 
 MES_RE = re.compile(r"^\d{4}-(0[1-9]|1[0-2])$")
+# Período diário (mercado de PTAX do dia): mesma exigência de formato explícito.
+DIA_RE = re.compile(r"\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])")
 
 # Os únicos comparadores admitidos. Igualdade exata não entra: valor de fonte
 # oficial é decimal arredondado, e "== 0,50" seria uma armadilha de precisão
@@ -121,8 +123,12 @@ def validar_regra(regra: Any) -> dict[str, Any]:
         if not str(regra[campo]).strip():
             raise RegraError(f"{campo} vazio — regra sem proveniência não é verificável")
 
-    if not MES_RE.fullmatch(str(regra["periodo_referencia"])):
-        raise RegraError(f"periodo_referencia deve ser 'aaaa-mm', veio {regra['periodo_referencia']!r}")
+    periodo = str(regra["periodo_referencia"])
+    if not (MES_RE.fullmatch(periodo) or DIA_RE.fullmatch(periodo)):
+        raise RegraError(
+            "periodo_referencia deve ser 'aaaa-mm' (mensal) ou 'aaaa-mm-dd' (diário), "
+            f"veio {regra['periodo_referencia']!r}"
+        )
 
     if regra["quando_indisponivel"] != INDISPONIVEL_UNKNOWN:
         raise RegraError(

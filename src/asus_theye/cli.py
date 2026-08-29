@@ -732,7 +732,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         from functools import partial
 
         from asus_theye.markets.fonte_bcb import FonteBCBError, ipca_mensal
-        from asus_theye.markets.fonte_ptax import ptax_venda_fim_do_mes
+        from asus_theye.markets.fonte_ptax import ptax_venda_do_dia, ptax_venda_fim_do_mes
         from asus_theye.markets.fonte_selic import selic_meta
         from asus_theye.markets.live import LiveMarketError, resolver_pendentes
         from asus_theye.markets.sinais_ipca import probabilidade_para_ipca
@@ -774,6 +774,8 @@ def main(argv: Sequence[str] | None = None) -> int:
                 fetchers_por_area={
                     "juros": selic_meta,
                     "cambio": ptax_venda_fim_do_mes,
+                    # M6: PTAX do dia — mercado diário liquida contra a cotação daquele dia
+                    "cambio-diario": ptax_venda_do_dia,
                     # M5: series SGS mensais liquidam pelo MESMO conector oficial,
                     # cada uma amarrada a sua propria serie do registry
                     "ipca15": partial(ipca_mensal, serie=7478),

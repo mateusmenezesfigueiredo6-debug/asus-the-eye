@@ -36,7 +36,7 @@ import json
 import re
 from calendar import monthrange
 from collections.abc import Callable
-from datetime import date, datetime, timezone
+from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any
 
@@ -49,6 +49,8 @@ from asus_theye.markets.scoring import brier_score
 ESTADOS = ("ABERTO", "EM_RESOLUCAO", "LIQUIDADO")
 STORE_PADRAO = Path("reports/markets/registro.json")
 MES_RE = re.compile(r"\d{4}-(0[1-9]|1[0-2])")
+# Período diário: o mercado de PTAX do dia resolve contra a cotação daquele dia.
+DIA_RE = re.compile(r"\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])")
 AREA_DESTE_RESOLVEDOR = "macroeconomia"
 SERIE_DESTE_RESOLVEDOR = 433
 
@@ -110,6 +112,15 @@ AREAS_RESOLVIVEIS: dict[str, dict[str, Any]] = {
         "indicador": "IGP-M mensal",
         "unidade": "percentual_mensal",
         "expectativa": "igpm_mensal",
+    },
+    "cambio-diario": {
+        "serie": 1,
+        "prefixo": "CAMBIO-D",
+        "pergunta": "O dólar PTAX (venda) de {mes} fecha em R$ {limiar:.4f} ou mais?",
+        "criterio": "PTAX venda do dia >= R$ {limiar:.4f}",
+        "indicador": "PTAX venda (do dia)",
+        "unidade": "brl",
+        "expectativa": "ptax_venda",
     },
     "atividade": {
         "serie": 24363,
@@ -190,20 +201,49 @@ def _regra_da_area(area: str, limiar: float, mes_referencia: str, fonte: str) ->
     )
 
 
-def _fim_do_mes(mes_referencia: object) -> date:
-    if not isinstance(mes_referencia, str) or not MES_RE.fullmatch(mes_referencia):
+def _fim_do_periodo(referencia: object) -> date:
+    """Data em que o período fecha: o próprio dia (aaaa-mm-dd) ou o fim do mês.
+
+    Mercado diário e mensal convivem no mesmo registro — o que muda é só o
+    formato da referência, e ele é validado aqui, num lugar só.
+    """
+    if isinstance(referencia, str) and DIA_RE.fullmatch(referencia):
+        ano, mes, dia = (int(parte) for parte in referencia.split("-"))
+        try:
+            return date(ano, mes, dia)
+        except ValueError as exc:  # 31/02 e afins
+            raise LiveMarketError(f"data inexistente em {referencia!r}") from exc
+    if not isinstance(referencia, str) or not MES_RE.fullmatch(referencia):
         raise LiveMarketError(
-            f"mes_referencia deve ser 'aaaa-mm' (mês 01-12, zero à esquerda), veio {mes_referencia!r}"
+            "referência deve ser 'aaaa-mm' (mensal) ou 'aaaa-mm-dd' (diária), "
+            f"veio {referencia!r}"
         )
-    ano, mes = (int(parte) for parte in mes_referencia.split("-"))
+    ano, mes = (int(parte) for parte in referencia.split("-"))
     return date(ano, mes, monthrange(ano, mes)[1])
 
 
-def _mes_seguinte(mes_referencia: str) -> str:
-    ano, mes = (int(parte) for parte in mes_referencia.split("-"))
+def _fim_do_mes(mes_referencia: object) -> date:
+    """Apelido histórico de :func:`_fim_do_periodo`."""
+    return _fim_do_periodo(mes_referencia)
+
+
+def _periodo_seguinte(referencia: str) -> str:
+    """Próximo período: o dia seguinte (diário) ou o mês seguinte (mensal).
+
+    É o que faz a liquidação de hoje emitir sozinha o contrato de amanhã.
+    """
+    if DIA_RE.fullmatch(referencia):
+        ano, mes, dia = (int(parte) for parte in referencia.split("-"))
+        return (date(ano, mes, dia) + timedelta(days=1)).isoformat()
+    ano, mes = (int(parte) for parte in referencia.split("-"))
     if mes == 12:
         return f"{ano + 1}-01"
     return f"{ano}-{mes + 1:02d}"
+
+
+def _mes_seguinte(mes_referencia: str) -> str:
+    """Apelido histórico de :func:`_periodo_seguinte`."""
+    return _periodo_seguinte(mes_referencia)
 
 
 def _validar_mercado(mercado: dict[str, Any]) -> None:
@@ -212,7 +252,7 @@ def _validar_mercado(mercado: dict[str, Any]) -> None:
     faltando = [campo for campo in CAMPOS_OBRIGATORIOS if campo not in mercado]
     if faltando:
         raise LiveMarketError(f"{mercado.get('claim_id')}: campos ausentes no registro: {faltando}")
-    _fim_do_mes(mercado["mes_referencia"])  # valida formato do mês
+    _fim_do_periodo(mercado["mes_referencia"])  # valida o formato (mensal ou diário)
     limiar = mercado["limiar"]
     if isinstance(limiar, bool) or not isinstance(limiar, (int, float)):
         raise LiveMarketError(f"{mercado['claim_id']}: limiar deve ser numérico, veio {limiar!r}")
