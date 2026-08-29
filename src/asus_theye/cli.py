@@ -729,6 +729,8 @@ def main(argv: Sequence[str] | None = None) -> int:
             cabeca_da_corrente,
             selar_liquidacao,
         )
+        from functools import partial
+
         from asus_theye.markets.fonte_bcb import FonteBCBError, ipca_mensal
         from asus_theye.markets.fonte_ptax import ptax_venda_fim_do_mes
         from asus_theye.markets.fonte_selic import selic_meta
@@ -769,7 +771,16 @@ def main(argv: Sequence[str] | None = None) -> int:
                 # degrada para o prior honesto dentro do resolvedor
                 gerador_de_sinais=None if args.sem_sinais else probabilidade_para_ipca,
                 # M2/M3: cada área liquida contra o PRÓPRIO conector oficial
-                fetchers_por_area={"juros": selic_meta, "cambio": ptax_venda_fim_do_mes},
+                fetchers_por_area={
+                    "juros": selic_meta,
+                    "cambio": ptax_venda_fim_do_mes,
+                    # M5: series SGS mensais liquidam pelo MESMO conector oficial,
+                    # cada uma amarrada a sua propria serie do registry
+                    "ipca15": partial(ipca_mensal, serie=7478),
+                    "inpc": partial(ipca_mensal, serie=188),
+                    "igpm": partial(ipca_mensal, serie=189),
+                    "atividade": partial(ipca_mensal, serie=24363),
+                },
                 # a varredura de selagem consulta o MESMO export que o auditor
                 # escreve — sem isto, reconciliações registradas ficariam invisíveis
                 eventos=caminho_eventos,

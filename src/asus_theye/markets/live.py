@@ -84,6 +84,42 @@ AREAS_RESOLVIVEIS: dict[str, dict[str, Any]] = {
         "unidade": "brl",
         "expectativa": "ptax_venda",
     },
+    "ipca15": {
+        "serie": 7478,
+        "prefixo": "IPCA15-01",
+        "pergunta": "A prévia da inflação (IPCA-15) de {mes} fica em {limiar:.2f}% ou mais?",
+        "criterio": "IPCA-15 mensal >= {limiar:.2f}%",
+        "indicador": "IPCA-15 mensal",
+        "unidade": "percentual_mensal",
+        "expectativa": "ipca15_mensal",
+    },
+    "inpc": {
+        "serie": 188,
+        "prefixo": "INPC-01",
+        "pergunta": "O INPC de {mes} fica em {limiar:.2f}% ou mais?",
+        "criterio": "INPC mensal >= {limiar:.2f}%",
+        "indicador": "INPC mensal",
+        "unidade": "percentual_mensal",
+        "expectativa": "inpc_mensal",
+    },
+    "igpm": {
+        "serie": 189,
+        "prefixo": "IGPM-01",
+        "pergunta": "O IGP-M de {mes} fica em {limiar:.2f}% ou mais?",
+        "criterio": "IGP-M mensal >= {limiar:.2f}%",
+        "indicador": "IGP-M mensal",
+        "unidade": "percentual_mensal",
+        "expectativa": "igpm_mensal",
+    },
+    "atividade": {
+        "serie": 24363,
+        "prefixo": "IBC-01",
+        "pergunta": "O IBC-Br de {mes} fica em {limiar:.1f} pontos ou mais?",
+        "criterio": "IBC-Br (indice) >= {limiar:.1f}",
+        "indicador": "IBC-Br",
+        "unidade": "indice",
+        "expectativa": "ibcbr_indice",
+    },
 }
 
 CAMPOS_OBRIGATORIOS = (

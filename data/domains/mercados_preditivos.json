@@ -4,12 +4,24 @@
   "generated_from": "select distinct produto from mercados em /home/sexexes/asus/asus_teste.duckdb, lido em 08/08/2026",
   "note": "Nenhuma area aqui foi inventada: cada uma corresponde a um produto que ja emite mercado no banco. A coluna `estado` diz onde cada uma esta no ciclo, e o ciclo so fecha quando ha resolucao contra fonte oficial com erro medido. Emitir mercado nao e prova de nada; liquidar contra fonte e o que separa previsao de palpite.",
   "aviso_de_desenho": "Sete dos nove mercados abertos tem probabilidade proxima de 0,50 porque produtos/_core/produto_serie.py escolhe deliberadamente o limiar de maxima incerteza (mediana da janela de 12 meses). Isso e escolha de gerador, nao acaso: nesse limiar o produto nao consegue demonstrar skill mesmo funcionando perfeitamente. Corrigir e desenho de produto, nao de modelo.",
-  "area_count": 10,
+  "area_count": 14,
   "groups": [
-    {"group": "macro-financeiro", "name": "Macro e financeiro"},
-    {"group": "fisico-e-recursos", "name": "Fisico e recursos"},
-    {"group": "institucional", "name": "Institucional"},
-    {"group": "tecnologico", "name": "Tecnologico"}
+    {
+      "group": "macro-financeiro",
+      "name": "Macro e financeiro"
+    },
+    {
+      "group": "fisico-e-recursos",
+      "name": "Fisico e recursos"
+    },
+    {
+      "group": "institucional",
+      "name": "Institucional"
+    },
+    {
+      "group": "tecnologico",
+      "name": "Tecnologico"
+    }
   ],
   "areas": [
     {
@@ -36,14 +48,142 @@
       "brier": 0.111089,
       "ressalva": "Unico produto com skill genuina medida: skill score 0,4168 em 546 meses (1981-2026). Mas cai para 0,1053 nos ultimos 120 meses — a manchete esta inflada pelo regime de hiperinflacao pre-1994, quando prever era trivial. O numero honesto para o regime atual e ~10% de reducao de Brier, e a janela precisa ser sempre declarada."
     },
-    {"market_area_id": "commodities", "produto": "commodities", "name": "Commodities", "group": "fisico-e-recursos", "fonte_resolucao": "fao.org", "estado": "aberto", "mercados": 1, "liquidados": 0, "brier": null, "ressalva": "limiar de maxima incerteza; nada resolvido"},
-    {"market_area_id": "risco-geopolitico", "produto": "risco_geopolitico", "name": "Risco geopolitico", "group": "institucional", "fonte_resolucao": "GDELT", "estado": "aberto", "mercados": 1, "liquidados": 0, "brier": null, "ressalva": "backtest pendente declarado pelo proprio produto"},
-    {"market_area_id": "cyber", "produto": "cyber", "name": "Cyber", "group": "tecnologico", "fonte_resolucao": "cisa.gov (KEV) e NVD", "estado": "aberto", "mercados": 1, "liquidados": 0, "brier": null, "ressalva": "1.603 CVEs ingeridos; limiar de maxima incerteza"},
-    {"market_area_id": "energia", "produto": "energia", "name": "Energia", "group": "fisico-e-recursos", "fonte_resolucao": "a declarar", "estado": "aberto", "mercados": 1, "liquidados": 0, "brier": null, "ressalva": "limiar de maxima incerteza; nada resolvido"},
-    {"market_area_id": "juros", "produto": "juros", "name": "Juros", "group": "macro-financeiro", "fonte_resolucao": "api.bcb.gov.br (Selic)", "estado": "aberto", "mercados": 1, "liquidados": 0, "brier": null, "ressalva": "limiar de maxima incerteza; nada resolvido"},
-    {"market_area_id": "cambio", "produto": "cambio", "name": "Cambio", "group": "macro-financeiro", "fonte_resolucao": "api.bcb.gov.br (PTAX)", "estado": "aberto", "mercados": 1, "liquidados": 0, "brier": null, "ressalva": "limiar de maxima incerteza; nada resolvido"},
-    {"market_area_id": "cripto", "produto": "cripto", "name": "Cripto", "group": "macro-financeiro", "fonte_resolucao": "a declarar", "estado": "aberto", "mercados": 1, "liquidados": 0, "brier": null, "ressalva": "limiar de maxima incerteza; nada resolvido"},
-    {"market_area_id": "clima", "produto": "clima", "name": "Clima", "group": "fisico-e-recursos", "fonte_resolucao": "a declarar", "estado": "aberto", "mercados": 1, "liquidados": 0, "brier": null, "ressalva": "limiar de maxima incerteza; nada resolvido"}
+    {
+      "market_area_id": "commodities",
+      "produto": "commodities",
+      "name": "Commodities",
+      "group": "fisico-e-recursos",
+      "fonte_resolucao": "fao.org",
+      "estado": "aberto",
+      "mercados": 1,
+      "liquidados": 0,
+      "brier": null,
+      "ressalva": "limiar de maxima incerteza; nada resolvido"
+    },
+    {
+      "market_area_id": "risco-geopolitico",
+      "produto": "risco_geopolitico",
+      "name": "Risco geopolitico",
+      "group": "institucional",
+      "fonte_resolucao": "GDELT",
+      "estado": "aberto",
+      "mercados": 1,
+      "liquidados": 0,
+      "brier": null,
+      "ressalva": "backtest pendente declarado pelo proprio produto"
+    },
+    {
+      "market_area_id": "cyber",
+      "produto": "cyber",
+      "name": "Cyber",
+      "group": "tecnologico",
+      "fonte_resolucao": "cisa.gov (KEV) e NVD",
+      "estado": "aberto",
+      "mercados": 1,
+      "liquidados": 0,
+      "brier": null,
+      "ressalva": "1.603 CVEs ingeridos; limiar de maxima incerteza"
+    },
+    {
+      "market_area_id": "energia",
+      "produto": "energia",
+      "name": "Energia",
+      "group": "fisico-e-recursos",
+      "fonte_resolucao": "a declarar",
+      "estado": "aberto",
+      "mercados": 1,
+      "liquidados": 0,
+      "brier": null,
+      "ressalva": "limiar de maxima incerteza; nada resolvido"
+    },
+    {
+      "market_area_id": "juros",
+      "produto": "juros",
+      "name": "Juros",
+      "group": "macro-financeiro",
+      "fonte_resolucao": "api.bcb.gov.br (Selic)",
+      "estado": "aberto",
+      "mercados": 1,
+      "liquidados": 0,
+      "brier": null,
+      "ressalva": "limiar de maxima incerteza; nada resolvido"
+    },
+    {
+      "market_area_id": "cambio",
+      "produto": "cambio",
+      "name": "Cambio",
+      "group": "macro-financeiro",
+      "fonte_resolucao": "api.bcb.gov.br (PTAX)",
+      "estado": "aberto",
+      "mercados": 1,
+      "liquidados": 0,
+      "brier": null,
+      "ressalva": "limiar de maxima incerteza; nada resolvido"
+    },
+    {
+      "market_area_id": "cripto",
+      "produto": "cripto",
+      "name": "Cripto",
+      "group": "macro-financeiro",
+      "fonte_resolucao": "a declarar",
+      "estado": "aberto",
+      "mercados": 1,
+      "liquidados": 0,
+      "brier": null,
+      "ressalva": "limiar de maxima incerteza; nada resolvido"
+    },
+    {
+      "market_area_id": "clima",
+      "produto": "clima",
+      "name": "Clima",
+      "group": "fisico-e-recursos",
+      "fonte_resolucao": "a declarar",
+      "estado": "aberto",
+      "mercados": 1,
+      "liquidados": 0,
+      "brier": null,
+      "ressalva": "limiar de maxima incerteza; nada resolvido"
+    },
+    {
+      "market_area_id": "ipca15",
+      "produto": "ipca15",
+      "name": "IPCA-15 (prévia da inflação)",
+      "group": "macro",
+      "fonte_resolucao": "api.bcb.gov.br (SGS 7478)",
+      "estado": "aberto",
+      "mercados": 0,
+      "liquidados": 0
+    },
+    {
+      "market_area_id": "inpc",
+      "produto": "inpc",
+      "name": "INPC",
+      "group": "macro",
+      "fonte_resolucao": "api.bcb.gov.br (SGS 188)",
+      "estado": "aberto",
+      "mercados": 0,
+      "liquidados": 0
+    },
+    {
+      "market_area_id": "igpm",
+      "produto": "igpm",
+      "name": "IGP-M",
+      "group": "macro",
+      "fonte_resolucao": "api.bcb.gov.br (SGS 189)",
+      "estado": "aberto",
+      "mercados": 0,
+      "liquidados": 0
+    },
+    {
+      "market_area_id": "atividade",
+      "produto": "ibc_br",
+      "name": "IBC-Br (atividade)",
+      "group": "macro",
+      "fonte_resolucao": "api.bcb.gov.br (SGS 24363)",
+      "estado": "aberto",
+      "mercados": 0,
+      "liquidados": 0
+    }
   ],
   "comparadores": [
     {

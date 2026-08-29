@@ -78,6 +78,18 @@ SELIC_META: FaixaNumerica = FaixaNumerica(minimo=-1.0, maximo=100.0)
 #: Nunca foi inferior a 0,5 nem superior a 20 no registro histórico.
 PTAX_VENDA: FaixaNumerica = FaixaNumerica(minimo=0.5, maximo=20.0)
 
+#: IPCA-15 (prévia) — mesma natureza do IPCA mensal.
+IPCA15_MENSAL: FaixaNumerica = FaixaNumerica(minimo=-5.0, maximo=15.0)
+
+#: INPC mensal — mesma faixa plausível do IPCA.
+INPC_MENSAL: FaixaNumerica = FaixaNumerica(minimo=-5.0, maximo=15.0)
+
+#: IGP-M mensal — mais volátil que o IPCA (deflações e picos maiores).
+IGPM_MENSAL: FaixaNumerica = FaixaNumerica(minimo=-10.0, maximo=20.0)
+
+#: IBC-Br — índice de atividade (base 2002=100); faixa histórica larga.
+IBCBR_INDICE: FaixaNumerica = FaixaNumerica(minimo=50.0, maximo=300.0)
+
 
 # ---------------------------------------------------------------------------
 # Registro central de expectativas
@@ -88,6 +100,10 @@ EXPECTATIVAS: dict[str, FaixaNumerica] = {
     "ipca_mensal": IPCA_MENSAL,
     "selic_meta": SELIC_META,
     "ptax_venda": PTAX_VENDA,
+    "ipca15_mensal": IPCA15_MENSAL,
+    "inpc_mensal": INPC_MENSAL,
+    "igpm_mensal": IGPM_MENSAL,
+    "ibcbr_indice": IBCBR_INDICE,
 }
 
 

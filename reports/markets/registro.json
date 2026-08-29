@@ -159,6 +159,90 @@
         "max_uncertainty": true,
         "fontes": []
       }
+    },
+    {
+      "claim_id": "IPCA15-01::2026-09",
+      "market_area_id": "ipca15",
+      "question": "A prévia da inflação (IPCA-15) de 2026-09 fica em 0.25% ou mais?",
+      "deadline": "2026-09-30",
+      "probability": 0.5,
+      "resolution_source": "api.bcb.gov.br (SGS 7478)",
+      "created_at": "2026-08-29T15:44:12.252148Z",
+      "max_uncertainty": true,
+      "resolvable": true,
+      "mes_referencia": "2026-09",
+      "limiar": 0.25,
+      "criterio": "IPCA-15 mensal >= 0.25%",
+      "serie_sgs": 7478,
+      "regra": {
+        "versao_schema": 1,
+        "fonte": "api.bcb.gov.br (SGS 7478)",
+        "serie": 7478,
+        "indicador": "IPCA-15 mensal",
+        "periodo_referencia": "2026-09",
+        "operador": ">=",
+        "limiar": 0.25,
+        "unidade": "percentual_mensal",
+        "quando_indisponivel": "UNKNOWN"
+      },
+      "estado": "ABERTO",
+      "tentativas": []
+    },
+    {
+      "claim_id": "INPC-01::2026-09",
+      "market_area_id": "inpc",
+      "question": "O INPC de 2026-09 fica em 0.25% ou mais?",
+      "deadline": "2026-09-30",
+      "probability": 0.5,
+      "resolution_source": "api.bcb.gov.br (SGS 188)",
+      "created_at": "2026-08-29T15:44:12.601969Z",
+      "max_uncertainty": true,
+      "resolvable": true,
+      "mes_referencia": "2026-09",
+      "limiar": 0.25,
+      "criterio": "INPC mensal >= 0.25%",
+      "serie_sgs": 188,
+      "regra": {
+        "versao_schema": 1,
+        "fonte": "api.bcb.gov.br (SGS 188)",
+        "serie": 188,
+        "indicador": "INPC mensal",
+        "periodo_referencia": "2026-09",
+        "operador": ">=",
+        "limiar": 0.25,
+        "unidade": "percentual_mensal",
+        "quando_indisponivel": "UNKNOWN"
+      },
+      "estado": "ABERTO",
+      "tentativas": []
+    },
+    {
+      "claim_id": "IGPM-01::2026-09",
+      "market_area_id": "igpm",
+      "question": "O IGP-M de 2026-09 fica em 0.50% ou mais?",
+      "deadline": "2026-09-30",
+      "probability": 0.5,
+      "resolution_source": "api.bcb.gov.br (SGS 189)",
+      "created_at": "2026-08-29T15:44:12.880718Z",
+      "max_uncertainty": true,
+      "resolvable": true,
+      "mes_referencia": "2026-09",
+      "limiar": 0.5,
+      "criterio": "IGP-M mensal >= 0.50%",
+      "serie_sgs": 189,
+      "regra": {
+        "versao_schema": 1,
+        "fonte": "api.bcb.gov.br (SGS 189)",
+        "serie": 189,
+        "indicador": "IGP-M mensal",
+        "periodo_referencia": "2026-09",
+        "operador": ">=",
+        "limiar": 0.5,
+        "unidade": "percentual_mensal",
+        "quando_indisponivel": "UNKNOWN"
+      },
+      "estado": "ABERTO",
+      "tentativas": []
     }
   ]
 }
