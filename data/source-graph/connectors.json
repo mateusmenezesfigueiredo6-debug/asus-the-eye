@@ -505,9 +505,9 @@
       ],
       "limitations": [],
       "implementation": "src/asus_theye/markets (via sincronizador do Hórus)",
-      "last_verified_at": "2026-08-29T15:14:41.646697+00:00",
-      "verification_note": "IQF 88 (cluster J) por curador; endpoint CKAN a validar em código antes de ready",
-      "ready_to_enable": false
+      "last_verified_at": "2026-08-29T15:35:16.762321+00:00",
+      "verification_note": "CKAN validado ao vivo 29/08: package_search respondeu success=true com 83 datasets",
+      "ready_to_enable": true
     },
     {
       "connector_id": "inmet_apitempo",
@@ -531,7 +531,7 @@
       "limitations": [],
       "implementation": "src/asus_theye/markets (via sincronizador do Hórus)",
       "last_verified_at": "2026-08-29T15:14:41.646697+00:00",
-      "verification_note": "IQF 88 (cluster J); raiz deu 404 na checagem — validar rota /estacao antes de ready",
+      "verification_note": "INDISPONÍVEL na validação de 29/08 (conexão não abre daqui); manter não-pronto e revalidar",
       "ready_to_enable": false
     },
     {
