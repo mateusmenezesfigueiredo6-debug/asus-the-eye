@@ -1,0 +1,31 @@
+{
+  "titulares": {
+    "PL": 98,
+    "MDB": 41,
+    "REPUBLICANOS": 41,
+    "PSDB": 13,
+    "NOVO": 3,
+    "PP": 47,
+    "PT": 67,
+    "PDT": 16,
+    "CIDADANIA": 5,
+    "UNIÃO": 57,
+    "PCdoB": 7,
+    "PV": 6,
+    "PSC": 6,
+    "AVANTE": 7,
+    "PSD": 42,
+    "SOLIDARIEDADE": 4,
+    "PSB": 15,
+    "PTB": 1,
+    "PODE": 14,
+    "PSOL": 13,
+    "PATRIOTA": 4,
+    "REDE": 2,
+    "PROS": 3
+  },
+  "total_titulares": 512,
+  "suplentes": 135,
+  "erros": 0,
+  "exerceram": 647
+}
