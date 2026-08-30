@@ -1129,6 +1129,12 @@ def main(argv: Sequence[str] | None = None) -> int:
             print(f"selagem: {estado_selo} — event_hash {selagem['event_hash_sha256'][:16]}…")
         return 0
     if args.command == "markets-emitir":
+        # Importado AQUI, no ramo que o usa. Estava só no ramo markets-resolve
+        # e, como o import é condicional, o nome nunca era ligado neste caminho:
+        # o `except` lá embaixo levantava UnboundLocalError e MASCARAVA a
+        # mensagem de erro real (que era "deadline não pode ser anterior à
+        # criação"). Erro que esconde erro é pior que erro.
+        from asus_theye.markets import MarketClaimError
         from asus_theye.markets.live import (
             LiveMarketError,
             carregar_registro,
