@@ -6,6 +6,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import os
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
@@ -44,6 +45,14 @@ class AuditLedger:
         with self.path.open("a", encoding="utf-8") as stream:
             stream.write(_canonical(record) + "\n")
             stream.flush()
+            # flush() só empurra do buffer do Python para o sistema operacional.
+            # Sem fsync, um desligamento entre as duas coisas deixa o arquivo
+            # ESTENDIDO mas com o conteúdo por gravar — e o ext4 preenche o
+            # buraco com zeros. Foi exatamente o que aconteceu em 30/08: a
+            # corrente ganhou uma cauda de 2.413 bytes nulos depois do elo 68 e
+            # a verificação passou a falhar com JSONDecodeError. Nenhum elo se
+            # perdeu, mas a prova de custódia ficou ilegível até o reparo.
+            os.fsync(stream.fileno())
         return record
 
 
