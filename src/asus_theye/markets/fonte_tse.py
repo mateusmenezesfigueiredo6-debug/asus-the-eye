@@ -88,6 +88,15 @@ ESCOPO_PERMITIDO = frozenset(
     {"presidente", "governador", "senador", "deputado federal"}
 )
 
+#: Só Presidente (CF art. 77) e Governador (CF art. 28, que remete ao art. 77)
+#: têm segundo turno por maioria absoluta. Senador é eleito por pluralidade
+#: (CF art. 46) e Deputado Federal por sistema proporcional — nenhum dos dois
+#: tem "segundo turno" como conceito. Aplicar a aritmética de maioria absoluta
+#: a um boletim desses cargos devolveria 0.0/1.0 com aparência de resposta
+#: confiável, mas semanticamente sem sentido — achado da revisão do Copilot em
+#: 30/08/2026, verificado e confirmado antes de corrigir.
+CARGOS_COM_SEGUNDO_TURNO = frozenset({"presidente", "governador"})
+
 
 class FonteTSEError(FonteError):
     """Resposta inesperada do TSE. Sempre levanta — nunca degrada em valor."""
@@ -156,6 +165,10 @@ class Boletim:
     ciclo: str
     codigo: str
     abrangencia: str
+    #: Código do cargo (ex.: 1 = presidente). Guardado porque
+    #: :func:`houve_segundo_turno` precisa saber que cargo é este para não
+    #: aplicar maioria absoluta a senador ou deputado federal.
+    cargo: int
     url: str
     sha256: str
     #: sha256 do ``.sig`` publicado ao lado. ``None`` quando o TSE não publicou
@@ -243,6 +256,7 @@ def boletim(
         ciclo=ciclo,
         codigo=str(codigo),
         abrangencia=abrangencia,
+        cargo=int(cargo),
         url=url,
         sha256=hashlib.sha256(corpo).hexdigest(),
         assinatura_sha256=assinatura,
@@ -291,7 +305,7 @@ def percentual_do_candidato(b: Boletim, nome_urna: str) -> float | None:
     return _numero(_candidato(b, nome_urna).get("pvap"), "pvap")
 
 
-def houve_segundo_turno(b: Boletim) -> float | None:
+def houve_segundo_turno(b: Boletim, *, descricao_cargo: str) -> float | None:
     """1.0 se ninguém teve maioria absoluta dos válidos; 0.0 se teve.
 
     A conta é feita em INTEIROS (``vap * 2 > vv``), não sobre ``pvap``. O
@@ -299,7 +313,21 @@ def houve_segundo_turno(b: Boletim) -> float | None:
     50,004% dos válidos aparece como ``'50,00'``, e a comparação em float diria
     "houve segundo turno" numa eleição decidida no primeiro. Voto se conta, não
     se arredonda.
+
+    ``descricao_cargo`` é OBRIGATÓRIO e é o rótulo publicado pelo TSE, obtido
+    de :func:`cargos_da_eleicao` — nunca decorado. Sem isso a função aplicaria
+    maioria absoluta a QUALQUER boletim: senador (CF art. 46, pluralidade) e
+    deputado federal (sistema proporcional) não têm segundo turno como
+    conceito, e a conta devolveria 0.0/1.0 com aparência de resposta confiável
+    sem sentido nenhum. Mesma disciplina de declarar-não-derivar do escopo de
+    cargos e do título de artigo na Wikipédia.
     """
+    if _texto_normalizado(descricao_cargo) not in CARGOS_COM_SEGUNDO_TURNO:
+        raise FonteTSEError(
+            f"{descricao_cargo!r} não tem segundo turno por maioria absoluta — "
+            f"só {sorted(CARGOS_COM_SEGUNDO_TURNO)} têm. Aplicar esta conta a "
+            "outro cargo produziria um número sem sentido jurídico."
+        )
     if not b.apuracao_encerrada:
         return None
     candidatos = [c for c in b.dados.get("cand", []) if isinstance(c, dict)]
@@ -368,19 +396,37 @@ def eleicoes_publicadas(
     if not isinstance(indice, dict) or "pl" not in indice:
         raise FonteTSEError(f"índice do TSE em formato inesperado: {sorted(indice)[:12]}")
 
+    def _lista(pai: dict, chave: str, contexto: str) -> list:
+        """``pai[chave]`` como lista, ou levanta — nunca itera o que não é lista.
+
+        Achado da revisão do Copilot em 30/08/2026: se o TSE devolvesse uma
+        STRING aqui em vez de lista, ``for x in "abc"`` iteraria caractere por
+        caractere, cada um falharia no ``isinstance(x, dict)`` seguinte, e a
+        função devolveria eleições vazias — indistinguível de "TSE ainda não
+        publicou". É o pior defeito possível neste projeto: formato quebrado
+        mentindo como ausência de dado.
+        """
+        valor = pai.get(chave, [])
+        if not isinstance(valor, list):
+            raise FonteTSEError(
+                f"{contexto}: campo {chave!r} deveria ser lista, veio "
+                f"{type(valor).__name__}"
+            )
+        return valor
+
     eleicoes: list[EleicaoPublicada] = []
-    for pleito in indice.get("pl", []):
+    for pleito in _lista(indice, "pl", "índice do TSE"):
         if not isinstance(pleito, dict):
             continue
-        for eleicao in pleito.get("e", []):
+        for eleicao in _lista(pleito, "e", f"pleito {pleito.get('cd')!r}"):
             if not isinstance(eleicao, dict):
                 continue
             cargos: list[CargoPublicado] = []
-            for abr in eleicao.get("abr", []):
+            for abr in _lista(eleicao, "abr", f"eleição {eleicao.get('cd')!r}"):
                 if not isinstance(abr, dict):
                     continue
                 uf = str(abr.get("cd", "")).lower()
-                for cargo in abr.get("cp", []):
+                for cargo in _lista(abr, "cp", f"abrangência {uf!r}"):
                     if not isinstance(cargo, dict):
                         continue
                     codigo_cargo = str(cargo.get("cd", "")).strip()

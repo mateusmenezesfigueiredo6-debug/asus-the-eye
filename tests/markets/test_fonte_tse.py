@@ -154,7 +154,7 @@ def test_apuracao_parcial_nao_liquida_nada():
     assert not b.apuracao_encerrada
     assert abstencao(b) is None
     assert percentual_do_candidato(b, "LULA") is None
-    assert houve_segundo_turno(b) is None
+    assert houve_segundo_turno(b, descricao_cargo="Presidente") is None
     assert situacao_do_candidato(b, "LULA") is None
 
 
@@ -187,7 +187,7 @@ def test_maioria_absoluta_e_apurada_em_inteiros_nao_em_percentual_arredondado():
             {"nm": "PERDEU", "pvap": "50,00", "vap": "49999600", "st": "Não eleito"},
         ],
     )
-    assert houve_segundo_turno(b) == 0.0
+    assert houve_segundo_turno(b, descricao_cargo="Presidente") == 0.0
 
 
 def test_empate_exato_abre_segundo_turno():
@@ -199,11 +199,13 @@ def test_empate_exato_abre_segundo_turno():
             {"nm": "B", "pvap": "50,00", "vap": "50000000", "st": "2º turno"},
         ],
     )
-    assert houve_segundo_turno(b) == 1.0
+    assert houve_segundo_turno(b, descricao_cargo="Presidente") == 1.0
 
 
 def test_2022_teve_segundo_turno():
-    assert houve_segundo_turno(boletim("ele2022", "544", cargo=1, transport=Transporte())) == 1.0
+    assert houve_segundo_turno(
+        boletim("ele2022", "544", cargo=1, transport=Transporte()), descricao_cargo="Presidente"
+    ) == 1.0
 
 
 # --------------------------------------------------------------------------

@@ -138,17 +138,38 @@ def verificar_artigo(
     """Confere um título ANTES de medi-lo. Use uma vez, ao cadastrar."""
     if not titulo.strip():
         raise AtencaoError("título vazio")
+    # A API MediaWiki trata "|" como separador de MÚLTIPLOS títulos em
+    # `titles`. Sem esta guarda, um título com "|" consultaria várias páginas
+    # de uma vez e `paginas[0]` pegaria a primeira por ordem do dict — não
+    # necessariamente a pedida — confirmando "confiável" o artigo errado sem
+    # erro nenhum. Achado da revisão do Copilot em 30/08/2026.
+    if "|" in titulo:
+        raise AtencaoError(
+            f"título contém '|', que a API trata como separador de múltiplos "
+            f"títulos: {titulo!r}"
+        )
+    # A mesma validação que visualizacoes() já fazia — não fazer aqui era a
+    # assimetria que a revisão apontou: URL montada com projeto não validado.
+    if not re.fullmatch(r"[a-z]{2,3}\.wikipedia", projeto):
+        raise AtencaoError(f"projeto em formato inesperado: {projeto!r}")
     url = URL_API.format(projeto=projeto) + "?" + urllib.parse.urlencode(
         {"action": "query", "titles": titulo, "redirects": "1", "format": "json"}
     )
     try:
         consulta = json.loads(_pedir(url, transport).decode("utf-8"))["query"]
         paginas = list(consulta["pages"].values())
-    except (ValueError, KeyError, AttributeError, UnicodeDecodeError) as exc:
+    except (ValueError, KeyError, AttributeError, TypeError, UnicodeDecodeError) as exc:
         raise AtencaoError(f"resposta inesperada da API da Wikipédia ({exc})") from exc
     if not paginas:
         raise AtencaoError(f"a Wikipédia não devolveu página para {titulo!r}")
     p = paginas[0]
+    if not isinstance(p, dict):
+        raise AtencaoError(f"página em formato inesperado: {type(p).__name__}")
+    # "invalid" é a chave que o MediaWiki usa para título SINTATICAMENTE
+    # malformado (não é "existe: não" nem "existe: sim" — é "nem processei").
+    # Sem checar, esse caso caía no ramo "existe" por omissão.
+    if "invalid" in p:
+        raise AtencaoError(f"título rejeitado pela Wikipédia como inválido: {titulo!r}")
     return Artigo(
         titulo_pedido=titulo,
         titulo_real=str(p.get("title", titulo)),
@@ -202,7 +223,12 @@ def visualizacoes(
     serie: dict[date, int] = {}
     for item in itens:
         if not isinstance(item, dict):
-            continue
+            # O próprio cabeçalho deste arquivo declara: "dia ausente é
+            # ausência, nunca zero". Descartar item malformado em silêncio
+            # tratava resposta CORROMPIDA como dia legitimamente não
+            # publicado — a mesma mentira que a doutrina proíbe, só que ao
+            # contrário. Achado da revisão do Copilot em 30/08/2026.
+            raise AtencaoError(f"item da série não é objeto: {item!r}")
         carimbo, vistas = str(item.get("timestamp", "")), item.get("views")
         if not re.fullmatch(r"\d{10}", carimbo) or not isinstance(vistas, int):
             raise AtencaoError(f"item malformado na série da Wikimedia: {item!r}")
