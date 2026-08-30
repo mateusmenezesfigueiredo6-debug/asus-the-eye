@@ -45,6 +45,23 @@ def test_sem_resultado_do_ciclo_a_ordem_sobrevive():
     assert [n for n, _ in m.ordem()] == ["A", "B", "C"]
 
 
+def test_ordem_nao_depende_da_ordem_de_declaracao_dos_candidatos():
+    """O bug real que passou pela varredura estrutural de 30/08/2026.
+
+    ``ordem()`` chamava ``fatias()`` (magnitude=True, o padrão) em vez de
+    ``fatias(magnitude=False)``. Com encolhimento total tudo fica empatado em
+    uniforme, ``sorted()`` é estável, e o resultado vira a ordem da TUPLA — não
+    a ordem que a evidência sustenta. Mesma evidência, tupla em ordem diferente,
+    tinha de dar "vencedor" diferente antes da correção.
+    """
+    evidencia = evidencia_atencao(valores={"A": 0.55, "B": 0.30, "C": 0.15})
+    direto = Modelo2026(candidatos=("A", "B", "C"), observacoes_do_ciclo=0,
+                         evidencias=[evidencia])
+    invertido = Modelo2026(candidatos=("C", "B", "A"), observacoes_do_ciclo=0,
+                            evidencias=[evidencia])
+    assert [n for n, _ in direto.ordem()] == [n for n, _ in invertido.ordem()] == ["A", "B", "C"]
+
+
 def test_magnitude_true_encolhe_ate_ficar_uniforme_sem_resultado():
     """A magnitude precisa da trava; a ordem, não."""
     m = Modelo2026(candidatos=("A", "B", "C"), observacoes_do_ciclo=0,

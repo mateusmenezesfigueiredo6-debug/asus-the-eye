@@ -294,10 +294,21 @@ def log_razao(fatias: dict[str, float], *, piso: float = 1e-6) -> dict[str, floa
 
 
 def de_log_razao(clr: dict[str, float]) -> dict[str, float]:
-    """Volta de log-razão para composição que soma 1."""
-    exp = {k: math.exp(v) for k, v in clr.items()}
+    """Volta de log-razão para composição que soma 1.
+
+    Subtrai o máximo antes de exponenciar. Sem isso, coordenada grande demais
+    (ex.: composição quase degenerada) faz ``math.exp`` estourar em
+    ``OverflowError`` cru — não ``AtencaoError``. É a mesma proteção que
+    ``modelo_eleitoral.de_clr`` já tinha, escrita depois do incidente real do
+    beta 8,5; duplicar a função sem duplicar a proteção foi o defeito que a
+    varredura estrutural de 30/08/2026 achou aqui.
+    """
+    if not clr:
+        raise AtencaoError("coordenadas vazias")
+    teto = max(clr.values())
+    exp = {k: math.exp(v - teto) for k, v in clr.items()}
     soma = sum(exp.values())
-    if soma <= 0:
+    if soma <= 0 or not math.isfinite(soma):
         raise AtencaoError("composição degenerada ao voltar do log-razão")
     return {k: v / soma for k, v in exp.items()}
 

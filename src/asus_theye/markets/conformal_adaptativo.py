@@ -61,7 +61,6 @@ observamos poucos eventos e não temos o luxo de reagir devagar.
 
 from __future__ import annotations
 
-import math
 import statistics
 from dataclasses import dataclass, field
 

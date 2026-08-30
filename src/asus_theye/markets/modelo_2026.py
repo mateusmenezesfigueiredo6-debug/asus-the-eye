@@ -64,7 +64,6 @@ número sem declarar o quanto ele vale.
 
 from __future__ import annotations
 
-import math
 from dataclasses import dataclass, field
 from datetime import date
 
@@ -185,9 +184,17 @@ class Modelo2026:
         """Do maior para o menor. É a saída em que se confia mais.
 
         O sinal de atenção mostrou-se bom para ordenar e ruim para dimensionar;
-        a ordem sobrevive ao encolhimento, a magnitude não.
+        a ordem sobrevive ao encolhimento, a magnitude não. Por isso usa
+        ``magnitude=False``: chamar ``fatias()`` (magnitude=True, o padrão)
+        aqui é exatamente o bug que essa flag foi criada para consertar —
+        varredura estrutural de 30/08/2026 reproduziu ao vivo: com
+        encolhimento total, ``fatias()`` volta uniforme, ``sorted()`` sobre
+        valores empatados é estável, e o resultado vira a ordem de
+        DECLARAÇÃO dos candidatos (a ordem da tupla), não a ordem que a
+        evidência sustenta. Um teste que declarasse os candidatos em outra
+        ordem teria devolvido outra "vencedora" com a MESMA evidência.
         """
-        return sorted(self.fatias().items(), key=lambda kv: -kv[1])
+        return sorted(self.fatias(magnitude=False).items(), key=lambda kv: -kv[1])
 
     def houve_segundo_turno(self) -> bool | None:
         """``None`` enquanto o modelo estiver encolhido demais para afirmar.

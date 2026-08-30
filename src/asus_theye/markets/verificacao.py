@@ -57,7 +57,6 @@ escolher a métrica depois de ver o resultado é escolher o resultado.
 
 from __future__ import annotations
 
-import math
 from collections import defaultdict
 from dataclasses import dataclass
 

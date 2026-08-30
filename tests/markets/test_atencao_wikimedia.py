@@ -182,3 +182,27 @@ def test_excedente_exige_os_mesmos_candidatos_nos_dois_lados():
 def test_fatia_de_atencao_soma_total_zero_e_indisponibilidade():
     with pytest.raises(AtencaoError, match="zero"):
         fatia_de_atencao({"A": 0.0, "B": 0.0})
+
+
+def test_de_log_razao_nao_estoura_com_composicao_quase_degenerada():
+    """O bug real achado pela varredura estrutural de 30/08/2026.
+
+    de_clr (modelo_eleitoral.py) subtrai o máximo antes de exponenciar, desde
+    o incidente do beta 8,5. Esta função é cópia da mesma matemática, mas
+    nasceu sem a proteção — e com coordenadas grandes, math.exp() estourava em
+    OverflowError cru, não AtencaoError.
+    """
+    de_log_razao({"A": 750.0, "B": -375.0, "C": -375.0})  # não deve levantar
+
+
+def test_de_log_razao_fecha_o_ciclo_de_ida_e_volta_com_valores_grandes():
+    c = log_razao({"A": 0.97, "B": 0.02, "C": 0.01})
+    grande = {k: v * 50 for k, v in c.items()}
+    fatias = de_log_razao(grande)
+    assert sum(fatias.values()) == pytest.approx(1.0)
+    assert fatias["A"] > fatias["B"] > fatias["C"]
+
+
+def test_de_log_razao_recusa_coordenadas_vazias():
+    with pytest.raises(AtencaoError, match="vazias"):
+        de_log_razao({})
