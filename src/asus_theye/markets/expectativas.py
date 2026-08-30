@@ -104,6 +104,18 @@ IPCA_GRUPO_MENSAL: FaixaNumerica = FaixaNumerica(minimo=-15.0, maximo=25.0)
 #: discordar da realidade.
 IPCA_SUBITEM_MENSAL: FaixaNumerica = FaixaNumerica(minimo=-60.0, maximo=120.0)
 
+#: Soma das 6 dezenas da Mega-Sena. Os extremos aqui não são estimativa: são o
+#: mínimo e o máximo ARITMÉTICOS do volante (1+2+3+4+5+6=21; 55+…+60=345).
+#: Valor fora disso não é sorteio improvável, é resposta corrompida.
+MEGASENA_SOMA: FaixaNumerica = FaixaNumerica(minimo=21.0, maximo=345.0)
+
+#: Quantas das 6 dezenas são pares. Fechado por construção.
+MEGASENA_PARES: FaixaNumerica = FaixaNumerica(minimo=0.0, maximo=6.0)
+
+#: Apostas premiadas com 5 acertos. No histórico lido (45 concursos) variou de
+#: 7 a 590; o teto larga cobre concurso de virada sem recusar dado verdadeiro.
+MEGASENA_QUINA: FaixaNumerica = FaixaNumerica(minimo=0.0, maximo=100_000.0)
+
 
 # ---------------------------------------------------------------------------
 # Registro central de expectativas
@@ -120,6 +132,9 @@ EXPECTATIVAS: dict[str, FaixaNumerica] = {
     "ibcbr_indice": IBCBR_INDICE,
     "ipca_grupo_mensal": IPCA_GRUPO_MENSAL,
     "ipca_subitem_mensal": IPCA_SUBITEM_MENSAL,
+    "megasena_soma": MEGASENA_SOMA,
+    "megasena_pares": MEGASENA_PARES,
+    "megasena_quina": MEGASENA_QUINA,
 }
 
 

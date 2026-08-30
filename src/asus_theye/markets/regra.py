@@ -48,6 +48,8 @@ UNIDADES = {
     # classificador e no CLI, mas NUNCA conseguiu emitir: declarava esta unidade
     # e batia em RegraError. Faltava só a linha aqui.
     "indice": "pontos",
+    # Contagem de coisas inteiras: dezenas pares, apostas premiadas.
+    "contagem": "",
 }
 
 CAMPOS = (

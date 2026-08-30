@@ -59,6 +59,47 @@ SERIE_DESTE_RESOLVEDOR = 433
 # registry nunca liquida: fonte errada não mede nada. O fetcher de cada área é
 # INJETADO na chamada (a suíte roda offline; a CLI liga os conectores reais).
 AREAS_RESOLVIVEIS: dict[str, dict[str, Any]] = {
+    # ---- Loteria (Loterias Caixa, Mega-Sena) ----
+    # O que o brasileiro acompanha toda semana. NÃO cotamos "vai acumular?":
+    # nos 45 concursos lidos da própria API, acumulou em 82,2% — nasceria fora
+    # da faixa de exibição da casa e não informaria nada. Estas três medidas
+    # ficam perto da máxima incerteza no mesmo histórico.
+    "loteria-soma": {
+        # `serie` aqui é um código interno da casa: a API da Caixa é indexada
+        # por concurso, não por série numérica de fonte. Fica declarado para
+        # não passar por código do BCB nem do IBGE.
+        "serie": 1,
+        "prefixo": "SOMA-MEGA",
+        "pergunta": "A soma dos seis números sorteados na Mega-Sena de {mes} vai ser {limiar:.0f} ou mais?",
+        "criterio": "Soma das 6 dezenas (Mega-Sena) >= {limiar:.0f}",
+        "indicador": "Soma das 6 dezenas (Mega-Sena)",
+        "unidade": "contagem",
+        "expectativa": "megasena_soma",
+    },
+    "loteria-pares": {
+        # `serie` aqui é um código interno da casa: a API da Caixa é indexada
+        # por concurso, não por série numérica de fonte. Fica declarado para
+        # não passar por código do BCB nem do IBGE.
+        "serie": 2,
+        "prefixo": "PARES-MEGA",
+        "pergunta": "A quantidade de números PARES na Mega-Sena de {mes} vai ser {limiar:.0f} ou mais?",
+        "criterio": "Dezenas pares sorteadas (Mega-Sena) >= {limiar:.0f}",
+        "indicador": "Dezenas pares sorteadas (Mega-Sena)",
+        "unidade": "contagem",
+        "expectativa": "megasena_pares",
+    },
+    "loteria-quina": {
+        # `serie` aqui é um código interno da casa: a API da Caixa é indexada
+        # por concurso, não por série numérica de fonte. Fica declarado para
+        # não passar por código do BCB nem do IBGE.
+        "serie": 3,
+        "prefixo": "QUINA-MEGA",
+        "pergunta": "O número de apostas que acertaram a quina na Mega-Sena de {mes} vai ser {limiar:.0f} ou mais?",
+        "criterio": "Apostas com 5 acertos (Mega-Sena) >= {limiar:.0f}",
+        "indicador": "Apostas com 5 acertos (Mega-Sena)",
+        "unidade": "contagem",
+        "expectativa": "megasena_quina",
+    },
     # ---- O bolso do brasileiro (IBGE/SIDRA, tabela 7060) ----
     # O IPCA cheio não fala a língua de quem sente o aperto: em julho/2026 ele
     # fez +0,07% no mesmo mês em que a energia elétrica subiu 3,09% e o feijão

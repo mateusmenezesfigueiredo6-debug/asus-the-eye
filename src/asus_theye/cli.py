@@ -732,6 +732,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         from functools import partial
 
         from asus_theye.markets.fonte_base import FonteError
+        from asus_theye.markets.fonte_caixa import dezenas_pares, ganhadores_da_quina, soma_das_dezenas
         from asus_theye.markets.fonte_sidra import variacao_mensal
         from asus_theye.markets.fonte_bcb import ipca_mensal
         from asus_theye.markets.fonte_ptax import ptax_venda_do_dia, ptax_venda_fim_do_mes
@@ -797,6 +798,10 @@ def main(argv: Sequence[str] | None = None) -> int:
                     "custo-arroz": partial(variacao_mensal, codigo=7173, nome_esperado="Arroz"),
                     "custo-feijao": partial(variacao_mensal, codigo=12222, nome_esperado="Feijão - carioca (rajado)"),
                     "custo-onibus": partial(variacao_mensal, codigo=7628, nome_esperado="Ônibus urbano"),
+                    # Loteria: período é o DIA do sorteio (aaaa-mm-dd).
+                    "loteria-soma": soma_das_dezenas,
+                    "loteria-pares": dezenas_pares,
+                    "loteria-quina": ganhadores_da_quina,
                 },
                 # a varredura de selagem consulta o MESMO export que o auditor
                 # escreve — sem isto, reconciliações registradas ficariam invisíveis
