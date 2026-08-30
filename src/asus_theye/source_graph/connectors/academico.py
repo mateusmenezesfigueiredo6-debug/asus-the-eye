@@ -33,6 +33,7 @@ Uso: python3 -m asus_theye.source_graph.connectors.academico <termo>
 from __future__ import annotations
 
 import json
+import os
 import urllib.parse
 from datetime import datetime, timezone
 from typing import Any, TypedDict
@@ -45,7 +46,21 @@ from asus_theye.source_graph.fetcher import (
     PoliteFetcher,
 )
 
-USER_AGENT = "asus-the-eye/0.2 (+mateusmenezesfigueiredo6@gmail.com)"
+#: Identificação enviada em toda chamada. NÃO carrega dado pessoal.
+#:
+#: Antes daqui saía o e-mail pessoal do titular, em texto claro, para cada API
+#: acadêmica consultada — Crossref, arXiv, ROR. A intenção era boa: Crossref
+#: oferece uma fila prioritária ("polite pool") a quem se identifica com
+#: contato. O custo é que o endereço ficava registrado no log de cada serviço,
+#: para sempre, e num repositório versionado.
+#:
+#: Agora o contato é OPCIONAL e vem do ambiente. Sem a variável, mandamos só o
+#: nome do cliente — que já cumpre a etiqueta de identificar quem chama. Quem
+#: quiser a fila prioritária opta explicitamente, ciente do que está enviando.
+USER_AGENT = "asus-the-eye/0.2 (+https://github.com/the-eye-markets)"
+_CONTATO = os.environ.get("ASUS_THE_EYE_CONTATO", "").strip()
+if _CONTATO:
+    USER_AGENT = f"asus-the-eye/0.2 (+{_CONTATO})"
 TIMEOUT = 30
 
 
