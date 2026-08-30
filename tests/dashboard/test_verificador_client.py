@@ -10,19 +10,12 @@ fato verifica é feita à mão no navegador (passo 5 do lançamento).
 
 from __future__ import annotations
 
+from asus_theye.audit.dados_pessoais import achar_cpf
+
 import re
 
 from pathlib import Path
 
-# O CPF do titular NÃO é escrito aqui. Estes testes existem para provar que ele
-# nunca sai no export público — mas a versão anterior citava o número literal,
-# e o arquivo é versionado num repositório com remoto. O teste que protegia o
-# dado era o que o expunha. Agora casamos o FORMATO, não o valor: pega qualquer
-# CPF, inclusive um que ainda não existe no código.
-CPF_FORMATADO = re.compile(r"\b\d{3}\.\d{3}\.\d{3}-\d{2}\b")
-# 11 dígitos crus, mas NÃO dentro de um hash: um sha256 tem 11 dígitos
-# decimais seguidos com facilidade, e isso não é CPF nenhum.
-CPF_CRU = re.compile(r"(?<![0-9a-fA-F])\d{11}(?![0-9a-fA-F])")
 
 
 
@@ -56,6 +49,5 @@ def test_verificar_nao_expoe_dado_pessoal(tmp_path: Path) -> None:
     from asus_theye.dashboard.verificador import verificador_page
 
     h = verificador_page(estatico=True)
-    assert not CPF_FORMATADO.search(h), "CPF formatado na página pública"
-    assert not CPF_CRU.search(h), "sequência de 11 dígitos (CPF?) na página pública"
+    assert not achar_cpf(h), f"dado pessoal na página pública: {achar_cpf(h)}"
     assert "@gmail.com" not in h
