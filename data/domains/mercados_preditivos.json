@@ -279,7 +279,7 @@
       "produto": "custo_feijao",
       "name": "Feijão carioca (IPCA)",
       "group": "macro",
-      "fonte_resolucao": "apisidra.ibge.gov.br (IPCA tabela 7060, c315 12222 — Feijão - carioca)",
+      "fonte_resolucao": "apisidra.ibge.gov.br (IPCA tabela 7060, c315 12222 — Feijão - carioca (rajado))",
       "estado": "aberto",
       "mercados": 0,
       "liquidados": 0

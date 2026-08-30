@@ -795,7 +795,7 @@ def main(argv: Sequence[str] | None = None) -> int:
                     "custo-gas": partial(variacao_mensal, codigo=7482, nome_esperado="Gás de botijão"),
                     "custo-gasolina": partial(variacao_mensal, codigo=7657, nome_esperado="Gasolina"),
                     "custo-arroz": partial(variacao_mensal, codigo=7173, nome_esperado="Arroz"),
-                    "custo-feijao": partial(variacao_mensal, codigo=12222, nome_esperado="Feijão - carioca"),
+                    "custo-feijao": partial(variacao_mensal, codigo=12222, nome_esperado="Feijão - carioca (rajado)"),
                     "custo-onibus": partial(variacao_mensal, codigo=7628, nome_esperado="Ônibus urbano"),
                 },
                 # a varredura de selagem consulta o MESMO export que o auditor

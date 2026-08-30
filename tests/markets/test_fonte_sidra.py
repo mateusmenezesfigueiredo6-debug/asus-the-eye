@@ -141,3 +141,54 @@ def test_erro_do_sidra_e_capturavel_pela_raiz_comum() -> None:
     """Quem resolve mercados captura FonteError; conector novo tem de caber nela."""
     with pytest.raises(FonteError):
         variacao_mensal("2026-07", transport=TransporteFalso(status=500), **LUZ)
+
+
+# ---------------------------------------------------------------------------
+# Os cinco defeitos que a revisão crítica do Codex apontou em 29/08.
+# Cada um passava despercebido porque o comportamento errado era SILENCIOSO.
+# ---------------------------------------------------------------------------
+
+
+def test_linha_corrompida_levanta_em_vez_de_virar_mes_nao_publicado() -> None:
+    """Descartar o que não é dicionário faria erro de formato virar UNKNOWN."""
+    lixo = json.dumps([CABECALHO, "isto não é uma observação"]).encode("utf-8")
+    with pytest.raises(FonteSidraError, match="formato inesperado"):
+        variacao_mensal("2026-07", transport=TransporteFalso(body=lixo), **LUZ)
+
+
+def test_nome_curto_nao_casa_com_item_maior_por_substring() -> None:
+    """'Gás' normaliza para 'gas', que está contido em 'gasolina'.
+
+    Com a comparação por substring, um mercado de gás de botijão aceitaria
+    liquidar contra a gasolina — e a guarda diria que estava tudo certo.
+    """
+    gasolina = corpo(D4C="7657", D4N="5104001.Gasolina", V="-1.37")
+    with pytest.raises(FonteSidraError, match="mudou de significado"):
+        variacao_mensal(
+            "2026-07", transport=TransporteFalso(body=gasolina), codigo=7657, nome_esperado="Gás"
+        )
+
+
+def test_troca_de_hifen_por_travessao_nao_invalida_o_contrato() -> None:
+    """O oposto do teste acima: pontuação diferente é o MESMO item."""
+    feijao = corpo(D4C="12222", D4N="1101073.Feijão – carioca (rajado)", V="-2.17")
+    assert variacao_mensal(
+        "2026-07",
+        transport=TransporteFalso(body=feijao),
+        codigo=12222,
+        nome_esperado="Feijão - carioca (rajado)",
+    ) == pytest.approx(-2.17)
+
+
+@pytest.mark.parametrize("mes", ["2026-1", "+2026-01", "-2026-01", "2026-01 ", " 2026-01", "26-01"])
+def test_periodo_malformado_e_recusado_nao_reformatado(mes: str) -> None:
+    """``int()`` engolia essas entradas e as reformatava em silêncio."""
+    with pytest.raises(FonteSidraError, match="formato inesperado"):
+        variacao_mensal(mes, transport=TransporteFalso(), **LUZ)
+
+
+@pytest.mark.parametrize("valor", ["NaN", "Infinity", "-Infinity", "nan", "inf"])
+def test_valor_nao_finito_levanta(valor: str) -> None:
+    """float() aceita esses textos, mas nenhum é variação mensal de nada."""
+    with pytest.raises(FonteSidraError, match="não finito"):
+        variacao_mensal("2026-07", transport=TransporteFalso(body=corpo(V=valor)), **LUZ)

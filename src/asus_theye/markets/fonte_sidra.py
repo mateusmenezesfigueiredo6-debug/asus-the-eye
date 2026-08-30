@@ -27,6 +27,8 @@ para a suíte rodar offline.
 from __future__ import annotations
 
 import json
+import math
+import re
 import unicodedata
 
 from asus_theye.markets.fonte_base import FonteError
@@ -46,22 +48,42 @@ class FonteSidraError(FonteError):
     """Resposta inesperada do IBGE. Sempre levanta — nunca degrada em valor."""
 
 
+#: Formato aceito de período. Estrito de propósito: ``int()`` engoliria
+#: ``"2024-1"``, ``"+2024-01"`` e ano negativo, reformatando entrada malformada
+#: em vez de recusá-la — e o mês de referência é o que amarra o contrato à
+#: observação. (Apontado na revisão do Codex, 29/08.)
+MES_RE = re.compile(r"^\d{4}-(0[1-9]|1[0-2])$")
+
+
 def _periodo_sidra(mes_referencia: str) -> str:
     """Converte ``aaaa-mm`` no ``aaaamm`` que o SIDRA espera."""
-    try:
-        ano_txt, mes_txt = mes_referencia.split("-")
-        ano, mes = int(ano_txt), int(mes_txt)
-        if not 1 <= mes <= 12:
-            raise ValueError(mes)
-    except ValueError as exc:
-        raise FonteSidraError(f"mês de referência em formato inesperado: {mes_referencia!r}") from exc
-    return f"{ano:04d}{mes:02d}"
+    if not isinstance(mes_referencia, str) or not MES_RE.match(mes_referencia):
+        raise FonteSidraError(f"mês de referência em formato inesperado: {mes_referencia!r}")
+    return mes_referencia.replace("-", "")
 
 
-def _sem_acento(texto: str) -> str:
-    """Compara nomes sem tropeçar em acento ou caixa — nunca ignorando palavra."""
-    normalizado = unicodedata.normalize("NFKD", texto)
-    return "".join(c for c in normalizado if not unicodedata.combining(c)).casefold().strip()
+def _normalizar(texto: str) -> str:
+    """Normaliza para comparar rótulo: sem acento, sem caixa, sem pontuação solta.
+
+    Hífen, travessão e espaço repetido viram um espaço só — o IBGE escreve
+    ``"Feijão - carioca"`` e uma troca para travessão não pode invalidar o
+    contrato. Acento e caixa também caem. O que NÃO cai é palavra.
+    """
+    sem_acento = "".join(
+        c for c in unicodedata.normalize("NFKD", texto) if not unicodedata.combining(c)
+    )
+    return re.sub(r"[\s\-\u2010-\u2015_.,;:()]+", " ", sem_acento).casefold().strip()
+
+
+def _rotulo_do_item(d4n: str) -> str:
+    """Tira o prefixo numérico do rótulo do SIDRA.
+
+    O IBGE devolve ``"2202.Energia elétrica residencial"`` e ``"1.Alimentação e
+    bebidas"``: o número é o caminho na classificação, o nome vem depois do
+    primeiro ponto.
+    """
+    _codigo, _sep, nome = d4n.partition(".")
+    return nome if _sep else d4n
 
 
 def variacao_mensal(
@@ -108,7 +130,13 @@ def variacao_mensal(
         raise FonteSidraError(f"resposta do IBGE em formato inesperado: {type(linhas).__name__}")
 
     # linhas[0] é sempre o dicionário de rótulos das colunas; os dados vêm depois.
-    dados = [linha for linha in linhas[1:] if isinstance(linha, dict)]
+    # Descartar o que não é dicionário faria resposta CORROMPIDA passar por "mês
+    # não publicado" — um erro de formato viraria UNKNOWN silencioso, que é
+    # exatamente o tipo de mentira que este módulo existe para evitar.
+    # (Apontado na revisão do Codex, 29/08.)
+    dados = linhas[1:]
+    if any(not isinstance(linha, dict) for linha in dados):
+        raise FonteSidraError(f"resposta do IBGE com linha em formato inesperado: {dados!r}")
     if not dados:
         return None  # mês ainda não publicado — UNKNOWN over guess
     if len(dados) > 1:
@@ -123,7 +151,11 @@ def variacao_mensal(
     # casando, senão o mercado estaria medindo outra coisa sem avisar ninguém.
     if str(linha["D4C"]) != str(int(codigo)):
         raise FonteSidraError(f"IBGE devolveu o código {linha['D4C']!r}, não o {codigo!r} pedido")
-    if _sem_acento(nome_esperado) not in _sem_acento(str(linha["D4N"])):
+    # Igualdade do rótulo, não substring: com "in", `nome_esperado="Gás"`
+    # casaria com "Gasolina" (sem acento, "gas" está contido em "gasolina") e o
+    # mercado liquidaria contra o item errado achando que a guarda o protegeu.
+    # (Falso positivo apontado na revisão do Codex, 29/08.)
+    if _normalizar(nome_esperado) != _normalizar(_rotulo_do_item(str(linha["D4N"]))):
         raise FonteSidraError(
             f"código {codigo} mudou de significado: o mercado mede {nome_esperado!r}, "
             f"o IBGE devolveu {linha['D4N']!r} — não liquida até alguém conferir"
@@ -138,6 +170,11 @@ def variacao_mensal(
     if bruto in {"...", "-", "..", "X", ""}:
         return None
     try:
-        return float(bruto.replace(",", "."))
+        valor = float(bruto.replace(",", "."))
     except ValueError as exc:
         raise FonteSidraError(f"valor não numérico do IBGE: {bruto!r}") from exc
+    # "NaN" e "Infinity" atravessam float() sem reclamar e não são variação
+    # mensal de nada. (Apontado na revisão do Codex, 29/08.)
+    if not math.isfinite(valor):
+        raise FonteSidraError(f"valor não finito do IBGE: {bruto!r}")
+    return valor
