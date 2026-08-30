@@ -55,10 +55,21 @@ TIMEOUT = 30
 #: legítima lá e impossível em qualquer outra.
 #: Faixas conferidas ao vivo em 30/08/2026, uma requisição por loteria.
 LOTERIAS: dict[str, dict] = {
-    "megasena":  {"dezenas": 6,  "minimo": 1, "maximo": 60, "secundaria": "5 acertos"},
-    "quina":     {"dezenas": 5,  "minimo": 1, "maximo": 80, "secundaria": "4 acertos"},
-    "lotofacil": {"dezenas": 15, "minimo": 1, "maximo": 25, "secundaria": "14 acertos"},
-    "lotomania": {"dezenas": 20, "minimo": 0, "maximo": 99, "secundaria": "19 acertos"},
+    "megasena":   {"dezenas": 6,  "minimo": 1, "maximo": 60, "secundaria": "5 acertos"},
+    "quina":      {"dezenas": 5,  "minimo": 1, "maximo": 80, "secundaria": "4 acertos"},
+    "lotofacil":  {"dezenas": 15, "minimo": 1, "maximo": 25, "secundaria": "14 acertos"},
+    "lotomania":  {"dezenas": 20, "minimo": 0, "maximo": 99, "secundaria": "19 acertos"},
+    "duplasena":  {"dezenas": 6,  "minimo": 1, "maximo": 50, "secundaria": "5 acertos"},
+    "timemania":  {"dezenas": 7,  "minimo": 1, "maximo": 80, "secundaria": "6 acertos"},
+    "diadesorte": {"dezenas": 7,  "minimo": 1, "maximo": 31, "secundaria": "6 acertos"},
+    # O Super Sete não sorteia dezenas de um volante único: são 7 COLUNAS
+    # independentes, cada uma de 0 a 9. Por isso repete — em 20 concursos
+    # lidos, 19 tinham dígito repetido (95%). A regra "todas distintas", que
+    # é correta em todas as outras, rejeitaria quase todo sorteio válido aqui.
+    # Mesmo tipo de erro do zero da Lotomania: régua de uma loteria aplicada
+    # a outra.
+    "supersete":  {"dezenas": 7,  "minimo": 0, "maximo": 9,  "secundaria": "6 acertos",
+                   "permite_repetida": True},
 }
 
 #: Dia do sorteio, ``aaaa-mm-dd``. Estrito: o dia é o que amarra o contrato ao
@@ -132,8 +143,8 @@ def _dezenas(concurso: dict, loteria: str = "megasena") -> list[int]:
         raise FonteCaixaError(
             f"{loteria}: dezena fora do volante {cfg['minimo']}..{cfg['maximo']}: {dezenas!r}"
         )
-    if len(set(dezenas)) != cfg["dezenas"]:
-        raise FonteCaixaError(f"dezena repetida no mesmo sorteio: {dezenas!r}")
+    if not cfg.get("permite_repetida") and len(set(dezenas)) != cfg["dezenas"]:
+        raise FonteCaixaError(f"{loteria}: dezena repetida no mesmo sorteio: {dezenas!r}")
     return dezenas
 
 

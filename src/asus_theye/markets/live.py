@@ -59,6 +59,117 @@ SERIE_DESTE_RESOLVEDOR = 433
 # registry nunca liquida: fonte errada não mede nada. O fetcher de cada área é
 # INJETADO na chamada (a suíte roda offline; a CLI liga os conectores reais).
 AREAS_RESOLVIVEIS: dict[str, dict[str, Any]] = {
+    # ---- Dupla Sena, Timemania, Dia de Sorte e Super Sete ----
+    "duplasena-soma": {
+        # Limiar 154 = mediana de 30 concursos lidos (50,0% histórico).
+        "serie": 30,
+        "prefixo": "SOMA-DUPLA",
+        "pergunta": "A soma dos seis números da Dupla Sena de {mes} vai ser {limiar:.0f} ou mais?",
+        "criterio": "Soma das dezenas (Dupla Sena) >= {limiar:.0f}",
+        "indicador": "Soma das dezenas (Dupla Sena)",
+        "unidade": "contagem",
+        "expectativa": "duplasena_soma",
+    },
+    "duplasena-faixa": {
+        # Limiar 8 = mediana de 30 concursos lidos (50,0% histórico).
+        "serie": 31,
+        "prefixo": "FAIXA-DUPLA",
+        "pergunta": "O número de apostas com 5 acertos na Dupla Sena de {mes} vai ser {limiar:.0f} ou mais?",
+        "criterio": "Apostas com 5 acertos (Dupla Sena) >= {limiar:.0f}",
+        "indicador": "Apostas com 5 acertos (Dupla Sena)",
+        "unidade": "contagem",
+        "expectativa": "loteria_ganhadores",
+    },
+    "timemania-soma": {
+        # Limiar 292 = mediana de 30 concursos lidos (50,0% histórico).
+        "serie": 32,
+        "prefixo": "SOMA-TIME",
+        "pergunta": "A soma dos sete números da Timemania de {mes} vai ser {limiar:.0f} ou mais?",
+        "criterio": "Soma das dezenas (Timemania) >= {limiar:.0f}",
+        "indicador": "Soma das dezenas (Timemania)",
+        "unidade": "contagem",
+        "expectativa": "timemania_soma",
+    },
+    "timemania-pares": {
+        # Limiar 4 = mediana de 30 concursos lidos (60,0% histórico).
+        "serie": 33,
+        "prefixo": "PARES-TIME",
+        "pergunta": "A quantidade de números PARES na Timemania de {mes} vai ser {limiar:.0f} ou mais?",
+        "criterio": "Dezenas pares (Timemania) >= {limiar:.0f}",
+        "indicador": "Dezenas pares (Timemania)",
+        "unidade": "contagem",
+        "expectativa": "timemania_pares",
+    },
+    "timemania-faixa": {
+        # Limiar 2 = mediana de 30 concursos lidos (66,7% histórico).
+        "serie": 34,
+        "prefixo": "FAIXA-TIME",
+        "pergunta": "O número de apostas com 6 acertos na Timemania de {mes} vai ser {limiar:.0f} ou mais?",
+        "criterio": "Apostas com 6 acertos (Timemania) >= {limiar:.0f}",
+        "indicador": "Apostas com 6 acertos (Timemania)",
+        "unidade": "contagem",
+        "expectativa": "loteria_ganhadores",
+    },
+    "diadesorte-soma": {
+        # Limiar 116 = mediana de 30 concursos lidos (50,0% histórico).
+        "serie": 35,
+        "prefixo": "SOMA-DIA",
+        "pergunta": "A soma dos sete números do Dia de Sorte de {mes} vai ser {limiar:.0f} ou mais?",
+        "criterio": "Soma das dezenas (Dia de Sorte) >= {limiar:.0f}",
+        "indicador": "Soma das dezenas (Dia de Sorte)",
+        "unidade": "contagem",
+        "expectativa": "diadesorte_soma",
+    },
+    "diadesorte-pares": {
+        # Limiar 4 = mediana de 30 concursos lidos (53,3% histórico).
+        "serie": 36,
+        "prefixo": "PARES-DIA",
+        "pergunta": "A quantidade de números PARES no Dia de Sorte de {mes} vai ser {limiar:.0f} ou mais?",
+        "criterio": "Dezenas pares (Dia de Sorte) >= {limiar:.0f}",
+        "indicador": "Dezenas pares (Dia de Sorte)",
+        "unidade": "contagem",
+        "expectativa": "diadesorte_pares",
+    },
+    "diadesorte-faixa": {
+        # Limiar 32 = mediana de 30 concursos lidos (50,0% histórico).
+        "serie": 37,
+        "prefixo": "FAIXA-DIA",
+        "pergunta": "O número de apostas com 6 acertos no Dia de Sorte de {mes} vai ser {limiar:.0f} ou mais?",
+        "criterio": "Apostas com 6 acertos (Dia de Sorte) >= {limiar:.0f}",
+        "indicador": "Apostas com 6 acertos (Dia de Sorte)",
+        "unidade": "contagem",
+        "expectativa": "loteria_ganhadores",
+    },
+    "supersete-soma": {
+        # Limiar 31 = mediana de 30 concursos lidos (50,0% histórico).
+        "serie": 38,
+        "prefixo": "SOMA-SUPER",
+        "pergunta": "A soma dos sete dígitos do Super Sete de {mes} vai ser {limiar:.0f} ou mais?",
+        "criterio": "Soma dos dígitos (Super Sete) >= {limiar:.0f}",
+        "indicador": "Soma dos dígitos (Super Sete)",
+        "unidade": "contagem",
+        "expectativa": "supersete_soma",
+    },
+    "supersete-pares": {
+        # Limiar 3 = mediana de 30 concursos lidos (56,7% histórico).
+        "serie": 39,
+        "prefixo": "PARES-SUPER",
+        "pergunta": "A quantidade de dígitos PARES no Super Sete de {mes} vai ser {limiar:.0f} ou mais?",
+        "criterio": "Dígitos pares (Super Sete) >= {limiar:.0f}",
+        "indicador": "Dígitos pares (Super Sete)",
+        "unidade": "contagem",
+        "expectativa": "supersete_pares",
+    },
+    "supersete-faixa": {
+        # Limiar 2 = mediana de 30 concursos lidos (66,7% histórico).
+        "serie": 40,
+        "prefixo": "FAIXA-SUPER",
+        "pergunta": "O número de apostas com 6 acertos no Super Sete de {mes} vai ser {limiar:.0f} ou mais?",
+        "criterio": "Apostas com 6 acertos (Super Sete) >= {limiar:.0f}",
+        "indicador": "Apostas com 6 acertos (Super Sete)",
+        "unidade": "contagem",
+        "expectativa": "loteria_ganhadores",
+    },
     # ---- Quina, Lotofácil e Lotomania ----
     # Quina e Lotofácil sorteiam 6x por semana contra 3x da Mega-Sena. Como o
     # ativo que se constrói aqui é a série de acerto MEDIDO, e ela só cresce com

@@ -136,6 +136,20 @@ LOTOMANIA_PARES: FaixaNumerica = FaixaNumerica(minimo=0.0, maximo=20.0)
 #: fez 755 numa amostra de 30 concursos, e concurso especial multiplica isso.
 LOTERIA_GANHADORES: FaixaNumerica = FaixaNumerica(minimo=0.0, maximo=1_000_000.0)
 
+#: Somas possíveis, extremos ARITMÉTICOS de cada volante:
+#: Dupla Sena 6 de 1..50 -> [21, 285] · Timemania 7 de 1..80 -> [28, 539]
+#: Dia de Sorte 7 de 1..31 -> [28, 196] · Super Sete 7 colunas de 0..9 -> [0, 63]
+DUPLASENA_SOMA: FaixaNumerica = FaixaNumerica(minimo=21.0, maximo=285.0)
+TIMEMANIA_SOMA: FaixaNumerica = FaixaNumerica(minimo=28.0, maximo=539.0)
+DIADESORTE_SOMA: FaixaNumerica = FaixaNumerica(minimo=28.0, maximo=196.0)
+SUPERSETE_SOMA: FaixaNumerica = FaixaNumerica(minimo=0.0, maximo=63.0)
+
+#: Pares por volante — fechado pelo número de dezenas/dígitos sorteados.
+TIMEMANIA_PARES: FaixaNumerica = FaixaNumerica(minimo=0.0, maximo=7.0)
+DIADESORTE_PARES: FaixaNumerica = FaixaNumerica(minimo=0.0, maximo=7.0)
+SUPERSETE_PARES: FaixaNumerica = FaixaNumerica(minimo=0.0, maximo=7.0)
+
+
 
 
 # ---------------------------------------------------------------------------
@@ -163,6 +177,13 @@ EXPECTATIVAS: dict[str, FaixaNumerica] = {
     "lotofacil_pares": LOTOFACIL_PARES,
     "lotomania_pares": LOTOMANIA_PARES,
     "loteria_ganhadores": LOTERIA_GANHADORES,
+    "duplasena_soma": DUPLASENA_SOMA,
+    "timemania_soma": TIMEMANIA_SOMA,
+    "diadesorte_soma": DIADESORTE_SOMA,
+    "supersete_soma": SUPERSETE_SOMA,
+    "timemania_pares": TIMEMANIA_PARES,
+    "diadesorte_pares": DIADESORTE_PARES,
+    "supersete_pares": SUPERSETE_PARES,
 }
 
 
