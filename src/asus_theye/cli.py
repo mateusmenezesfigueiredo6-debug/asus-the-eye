@@ -731,6 +731,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         )
         from functools import partial
 
+        from asus_theye.markets.fonte_aneel import nivel_da_bandeira
         from asus_theye.markets.fonte_base import FonteError
         from asus_theye.markets.fonte_caixa import dezenas_pares, ganhadores_da_quina, soma_das_dezenas
         from asus_theye.markets.fonte_sidra import variacao_mensal
@@ -802,6 +803,8 @@ def main(argv: Sequence[str] | None = None) -> int:
                     "loteria-soma": soma_das_dezenas,
                     "loteria-pares": dezenas_pares,
                     "loteria-quina": ganhadores_da_quina,
+                    "luz-bandeira-amarela": nivel_da_bandeira,
+                    "luz-bandeira-vermelha": nivel_da_bandeira,
                 },
                 # a varredura de selagem consulta o MESMO export que o auditor
                 # escreve — sem isto, reconciliações registradas ficariam invisíveis

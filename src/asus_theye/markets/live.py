@@ -59,6 +59,27 @@ SERIE_DESTE_RESOLVEDOR = 433
 # registry nunca liquida: fonte errada não mede nada. O fetcher de cada área é
 # INJETADO na chamada (a suíte roda offline; a CLI liga os conectores reais).
 AREAS_RESOLVIVEIS: dict[str, dict[str, Any]] = {
+    # ---- Conta de luz: a bandeira tarifária (ANEEL, licença ODbL) ----
+    "luz-bandeira-vermelha": {
+        "serie": 11,
+        "prefixo": "LUZ-VERMELHA",
+        "pergunta": "A conta de luz de {mes} vem com bandeira VERMELHA ou pior?",
+        "criterio": "Nível da bandeira tarifária acionada (ANEEL) >= {limiar:.0f} (0 verde · 1 amarela · 2 vermelha P1 · 3 vermelha P2 · 4 escassez)",
+        "indicador": "Bandeira tarifária acionada (ANEEL)",
+        "unidade": "nivel",
+        "expectativa": "bandeira_nivel",
+    },
+    "luz-bandeira-amarela": {
+        # `serie` é código interno: a ANEEL publica CSV por competência, não
+        # série numerada. A escada de severidade vive em fonte_aneel.py.
+        "serie": 10,
+        "prefixo": "LUZ-AMARELA",
+        "pergunta": "A conta de luz de {mes} vem com bandeira amarela ou pior (ou seja, com cobrança extra)?",
+        "criterio": "Nível da bandeira tarifária acionada (ANEEL) >= {limiar:.0f} (0 verde · 1 amarela · 2 vermelha P1 · 3 vermelha P2 · 4 escassez)",
+        "indicador": "Bandeira tarifária acionada (ANEEL)",
+        "unidade": "nivel",
+        "expectativa": "bandeira_nivel",
+    },
     # ---- Loteria (Loterias Caixa, Mega-Sena) ----
     # O que o brasileiro acompanha toda semana. NÃO cotamos "vai acumular?":
     # nos 45 concursos lidos da própria API, acumulou em 82,2% — nasceria fora

@@ -116,6 +116,10 @@ MEGASENA_PARES: FaixaNumerica = FaixaNumerica(minimo=0.0, maximo=6.0)
 #: 7 a 590; o teto larga cobre concurso de virada sem recusar dado verdadeiro.
 MEGASENA_QUINA: FaixaNumerica = FaixaNumerica(minimo=0.0, maximo=100_000.0)
 
+#: Nível da bandeira tarifária: 0 verde .. 4 escassez hídrica. Fechado pela
+#: escada do conector — valor fora disso significa rótulo novo na fonte.
+BANDEIRA_NIVEL: FaixaNumerica = FaixaNumerica(minimo=0.0, maximo=4.0)
+
 
 # ---------------------------------------------------------------------------
 # Registro central de expectativas
@@ -135,6 +139,7 @@ EXPECTATIVAS: dict[str, FaixaNumerica] = {
     "megasena_soma": MEGASENA_SOMA,
     "megasena_pares": MEGASENA_PARES,
     "megasena_quina": MEGASENA_QUINA,
+    "bandeira_nivel": BANDEIRA_NIVEL,
 }
 
 

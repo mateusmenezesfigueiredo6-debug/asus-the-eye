@@ -4,12 +4,25 @@
 
 from __future__ import annotations
 
+import re
+
 import json
 from pathlib import Path
 
 import pytest
 
 from asus_theye.dashboard.export_static import exportar
+
+# O CPF do titular NÃO é escrito aqui. Estes testes existem para provar que ele
+# nunca sai no export público — mas a versão anterior citava o número literal,
+# e o arquivo é versionado num repositório com remoto. O teste que protegia o
+# dado era o que o expunha. Agora casamos o FORMATO, não o valor: pega qualquer
+# CPF, inclusive um que ainda não existe no código.
+CPF_FORMATADO = re.compile(r"\b\d{3}\.\d{3}\.\d{3}-\d{2}\b")
+# 11 dígitos crus, mas NÃO dentro de um hash: um sha256 tem 11 dígitos
+# decimais seguidos com facilidade, e isso não é CPF nenhum.
+CPF_CRU = re.compile(r"(?<![0-9a-fA-F])\d{11}(?![0-9a-fA-F])")
+
 
 
 def test_exportar_gera_html_basico(tmp_path: Path) -> None:
@@ -217,5 +230,6 @@ def test_bundle_publico_exclui_fabrica_e_nao_vaza_terceiro(tmp_path: Path) -> No
         texto = arquivo.read_text(encoding="utf-8").lower()
         assert "palantir" not in texto, f"marca de terceiro em {arquivo.name}"
         assert "kalshi" not in texto, f"marca de terceiro em {arquivo.name}"
-        assert "158.035.377" not in texto and "15803537705" not in texto
+        assert not CPF_FORMATADO.search(texto), f"CPF formatado em {arquivo.name}"
+        assert not CPF_CRU.search(texto), f"sequência de 11 dígitos (CPF?) em {arquivo.name}"
         assert "@gmail.com" not in texto

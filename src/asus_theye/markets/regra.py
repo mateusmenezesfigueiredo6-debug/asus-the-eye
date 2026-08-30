@@ -50,6 +50,8 @@ UNIDADES = {
     "indice": "pontos",
     # Contagem de coisas inteiras: dezenas pares, apostas premiadas.
     "contagem": "",
+    # Escada ordenada de categorias (bandeira tarifária: verde..escassez).
+    "nivel": "nível",
 }
 
 CAMPOS = (

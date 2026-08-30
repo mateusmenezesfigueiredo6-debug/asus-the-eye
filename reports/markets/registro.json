@@ -635,6 +635,62 @@
       },
       "estado": "ABERTO",
       "tentativas": []
+    },
+    {
+      "claim_id": "LUZ-AMARELA::2026-10",
+      "market_area_id": "luz-bandeira-amarela",
+      "question": "A conta de luz de 2026-10 vem com bandeira amarela ou pior (ou seja, com cobrança extra)?",
+      "deadline": "2026-10-31",
+      "probability": 0.5,
+      "resolution_source": "dadosabertos.aneel.gov.br (bandeira tarifária, acionamento; licença ODbL)",
+      "created_at": "2026-08-30T00:45:43.523746Z",
+      "max_uncertainty": true,
+      "resolvable": true,
+      "mes_referencia": "2026-10",
+      "limiar": 1.0,
+      "criterio": "Nível da bandeira tarifária acionada (ANEEL) >= 1 (0 verde · 1 amarela · 2 vermelha P1 · 3 vermelha P2 · 4 escassez)",
+      "serie_sgs": 10,
+      "regra": {
+        "versao_schema": 1,
+        "fonte": "dadosabertos.aneel.gov.br (bandeira tarifária, acionamento; licença ODbL)",
+        "serie": 10,
+        "indicador": "Bandeira tarifária acionada (ANEEL)",
+        "periodo_referencia": "2026-10",
+        "operador": ">=",
+        "limiar": 1.0,
+        "unidade": "nivel",
+        "quando_indisponivel": "UNKNOWN"
+      },
+      "estado": "ABERTO",
+      "tentativas": []
+    },
+    {
+      "claim_id": "LUZ-VERMELHA::2026-10",
+      "market_area_id": "luz-bandeira-vermelha",
+      "question": "A conta de luz de 2026-10 vem com bandeira VERMELHA ou pior?",
+      "deadline": "2026-10-31",
+      "probability": 0.5,
+      "resolution_source": "dadosabertos.aneel.gov.br (bandeira tarifária, acionamento; licença ODbL)",
+      "created_at": "2026-08-30T00:45:43.674448Z",
+      "max_uncertainty": true,
+      "resolvable": true,
+      "mes_referencia": "2026-10",
+      "limiar": 2.0,
+      "criterio": "Nível da bandeira tarifária acionada (ANEEL) >= 2 (0 verde · 1 amarela · 2 vermelha P1 · 3 vermelha P2 · 4 escassez)",
+      "serie_sgs": 11,
+      "regra": {
+        "versao_schema": 1,
+        "fonte": "dadosabertos.aneel.gov.br (bandeira tarifária, acionamento; licença ODbL)",
+        "serie": 11,
+        "indicador": "Bandeira tarifária acionada (ANEEL)",
+        "periodo_referencia": "2026-10",
+        "operador": ">=",
+        "limiar": 2.0,
+        "unidade": "nivel",
+        "quando_indisponivel": "UNKNOWN"
+      },
+      "estado": "ABERTO",
+      "tentativas": []
     }
   ]
 }
