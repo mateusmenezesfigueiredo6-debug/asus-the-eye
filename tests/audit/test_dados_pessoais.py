@@ -82,3 +82,22 @@ def test_texto_limpo_nao_gera_achado() -> None:
     assert achar_cpf("") == []
     assert achar_cpf("nenhum dado pessoal por aqui, só prosa") == []
     assert achar_cpf("2026-08-30T12:00:00Z e 1234567890123456") == []
+
+
+def test_casa_decimal_de_planilha_nao_e_cpf() -> None:
+    """Achado de varredura em 698 documentos, 30/08.
+
+    Planilha financeira guarda float como ``1234.56789012345``. A corrida de
+    dígitos depois da vírgula tem o comprimento exato de um CPF, e ~1% passa no
+    checksum por acaso — foram 26 falsos positivos em 6 planilhas. Detector que
+    barra entrega legítima é desligado por quem trabalha com ele.
+    """
+    assert achar_cpf(f"valor 1234.{SINTETICO} na planilha") == []
+    assert achar_cpf(f"total 0,{SINTETICO} apurado") == []
+
+
+def test_mas_cpf_de_verdade_continua_sendo_pego() -> None:
+    """O contrapeso do teste acima: afrouxar não pode cegar."""
+    assert achar_cpf(f"CPF {SINTETICO}") == [SINTETICO]
+    assert achar_cpf(f"id={SINTETICO};") == [SINTETICO]
+    assert achar_cpf(f"({SINTETICO})") == [SINTETICO]

@@ -32,9 +32,16 @@ import re
 #: CPF formatado, com pontuação. Ambíguo com nada — não precisa de checksum.
 CPF_FORMATADO = re.compile(r"\b\d{3}\.\d{3}\.\d{3}-\d{2}\b")
 
-#: Onze dígitos crus, fora de contexto hexadecimal. Candidato, não veredito:
-#: quem decide é :func:`cpf_valido`.
-CPF_CRU = re.compile(r"(?<![0-9a-fA-F])\d{11}(?![0-9a-fA-F])")
+#: Onze dígitos crus, fora de contexto hexadecimal E fora de casa decimal.
+#: Candidato, não veredito: quem decide é :func:`cpf_valido`.
+#:
+#: O ponto e a vírgula entraram no lookbehind depois de uma varredura em 698
+#: documentos: planilhas financeiras guardam float como ``1234.56789012345``, e
+#: a corrida de dígitos depois da vírgula tem exatamente o comprimento de um
+#: CPF. Cerca de 1% deles passa no checksum por acaso — foram 26 falsos
+#: positivos em 6 planilhas. Um detector que barra entrega legítima é desligado
+#: por quem trabalha com ele, e aí não protege nada.
+CPF_CRU = re.compile(r"(?<![0-9a-fA-F.,])\d{11}(?![0-9a-fA-F])")
 
 
 def cpf_valido(digitos: str) -> bool:

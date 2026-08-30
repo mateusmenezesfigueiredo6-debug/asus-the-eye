@@ -4,6 +4,7 @@
 
 from __future__ import annotations
 
+import fcntl
 import hashlib
 import json
 import os
@@ -25,7 +26,31 @@ class AuditLedger:
         self.path = Path(path)
 
     def append(self, event: str, payload: dict[str, Any]) -> dict[str, Any]:
+        """Acrescenta um elo, lendo o anterior e gravando SOB TRAVA.
+
+        Ler o último hash e escrever o novo eram duas operações sem nada entre
+        elas. Dois processos simultâneos liam o mesmo "último", e os dois
+        gravavam apontando para ele: a corrente FORCA, e um dos ramos fica
+        órfão sem ninguém perceber — o verificador de encadeamento não acusa,
+        porque cada elo individualmente aponta para um hash que existe.
+
+        Não é hipótese: aconteceu em ``~/.the-eye/registro-sessoes.jsonl``,
+        linhas 13 e 14, quando duas sessões abriram no mesmo instante
+        (timestamps separados por 43 microssegundos). Aqui nunca aconteceu por
+        sorte, não por garantia.
+
+        ``flock`` exclusivo cobre leitura e escrita como uma coisa só.
+        """
         self.path.parent.mkdir(parents=True, exist_ok=True)
+        self.path.touch(exist_ok=True)
+        with self.path.open("r+", encoding="utf-8") as trava:
+            fcntl.flock(trava.fileno(), fcntl.LOCK_EX)
+            try:
+                return self._append_sob_trava(event, payload)
+            finally:
+                fcntl.flock(trava.fileno(), fcntl.LOCK_UN)
+
+    def _append_sob_trava(self, event: str, payload: dict[str, Any]) -> dict[str, Any]:
         previous_hash = GENESIS_HASH
         sequence = 1
         if self.path.exists() and self.path.stat().st_size:
