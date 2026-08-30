@@ -11,6 +11,31 @@ essa competência que falta a uma casa de previsão, independentemente do assunt
 Este módulo copia quatro práticas operacionais do ECMWF e do Met Office.
 
 ────────────────────────────────────────────────────────────────────────────
+RELAÇÃO COM ``scoring.py`` — leia antes de procurar "skill_score" neste pacote
+
+``asus_theye.markets`` já tinha ``scoring.skill_score()`` em produção,
+consumido pela reconciliação ao vivo (``duckdb_source.py``). Este arquivo
+nasceu depois, para o backtest eleitoral, e por um tempo teve uma função de
+MESMO NOME e contrato incompatível — mesmo pacote, dois `skill_score`
+diferentes, achado por uma varredura estrutural em 30/08/2026.
+
+As duas NÃO foram fundidas numa só, e a razão é concreta, não preguiça:
+``scoring.brier_score()`` arredonda para 6 casas decimais; a decomposição de
+Murphy (:func:`decompor`) precisa de precisão maior — a identidade
+``Brier = confiabilidade − resolução + incerteza`` só fecha dentro de ``1e-9``
+sem esse arredondamento. Delegar a aritmética teria trocado um bug de nome por
+um bug de precisão.
+
+O que muda aqui é o NOME: esta função chama-se
+:func:`skill_score_vs_climatologia`, porque é exatamente isso — skill contra a
+taxa-base do próprio conjunto, sem conceito de janela. ``scoring.skill_score()``
+aceita qualquer baseline e EXIGE janela declarada (é reconciliação de mercado ao
+vivo; aqui é avaliação de modelo em desenvolvimento, fase diferente). Escolha
+por contexto: janela e mercado real → ``scoring``; backtest e painel de
+avaliação → aqui.
+────────────────────────────────────────────────────────────────────────────
+
+────────────────────────────────────────────────────────────────────────────
 1. ERRO BRUTO SOZINHO NÃO SIGNIFICA NADA
 
 É o erro que este arquivo existe para corrigir, e foi cometido aqui mesmo: um
@@ -19,7 +44,7 @@ ingênuo faria no MESMO problema. Se prever "o incumbente vence", sem modelo
 nenhum, já der 0,12, então 0,10 é quase nada — e um relatório que só mostrasse
 0,10 estaria enganando quem o lê, sem mentir em nenhum número.
 
-Meteorologista nenhum reporta erro sem baseline ao lado. :func:`skill_score`
+Meteorologista nenhum reporta erro sem baseline ao lado. :func:`skill_score_vs_climatologia`
 devolve a fração do erro do baseline que foi efetivamente eliminada: 0 significa
 "não fez melhor que o burro", 1 significa perfeito, e negativo significa que o
 modelo é PIOR que não ter modelo.
@@ -88,12 +113,16 @@ def climatologia(desfechos: list[bool]) -> float:
     return sum(desfechos) / len(desfechos)
 
 
-def skill_score(previsoes: list[float], desfechos: list[bool], *, baseline: float | None = None) -> float:
-    """Fração do erro do baseline que o modelo eliminou.
+def skill_score_vs_climatologia(
+    previsoes: list[float], desfechos: list[bool], *, baseline: float | None = None
+) -> float:
+    """Fração do erro do baseline (climatologia) que o modelo eliminou.
 
     ``1 - Brier_modelo / Brier_baseline``. Zero é "não fez melhor que o burro";
     negativo é PIOR que não ter modelo. Sem ``baseline``, usa a climatologia dos
-    próprios desfechos.
+    próprios desfechos — daí o nome: skill CONTRA CLIMATOLOGIA, para não colidir
+    com ``scoring.skill_score()``, que tem contrato diferente (ver nota no
+    cabeçalho do módulo).
 
     Este é o número que deve aparecer ao lado de todo Brier que esta casa
     publicar. Brier sozinho não é resultado; é metade de um resultado.
@@ -264,7 +293,7 @@ def painel(previsoes: list[float], desfechos: list[bool], *, n_faixas: int = 10)
         "acaso_puro": 0.25,
     }
     try:
-        saida["skill_score"] = skill_score(previsoes, desfechos)
+        saida["skill_score"] = skill_score_vs_climatologia(previsoes, desfechos)
     except VerificacaoError as erro:
         saida["skill_score"] = None
         saida["skill_indisponivel"] = str(erro)

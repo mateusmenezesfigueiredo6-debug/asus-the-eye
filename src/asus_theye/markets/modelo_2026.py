@@ -52,9 +52,15 @@ sistemático — GPT-4o superestima um lado em 1,5 p.p. e subestima o outro em
 3,5 p.p. (p<0,001) — e injetar notícia real **piora**. Fica proibido por escrito,
 não por bom senso.
 
-**Verificação antes de acreditar.** Nenhum número sai daqui sem skill score
-contra baseline (``verificacao.py``) e sem faixa conformal (``conformal.py``).
-Brier sozinho não é resultado.
+**Verificação antes de acreditar.** ``fatias()`` NÃO calcula skill score nem
+faixa conformal sozinha — este módulo é só a combinação de evidências. A régua
+mora em ``verificacao.py`` (skill contra climatologia, decomposição de Murphy)
+e a faixa em ``conformal.py``/``calibracao_uf.py`` (95% real, 297 pontos por
+UF). Quem consome ``Modelo2026`` é responsável por passar a saída por essas
+duas peças antes de publicar — a disciplina existe, mas não é imposta por este
+arquivo. Dito sem eufemismo depois que uma varredura estrutural em 30/08/2026
+apontou que a versão anterior deste parágrafo prometia uma garantia que o
+código não cumpria: nenhum import daqui chamava nenhuma das duas.
 ────────────────────────────────────────────────────────────────────────────
 
 O QUE ESTE MODELO NÃO FAZ: não usa pesquisa de opinião, não pergunta nada a
