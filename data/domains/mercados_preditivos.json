@@ -4,7 +4,7 @@
   "generated_from": "select distinct produto from mercados em /home/sexexes/asus/asus_teste.duckdb, lido em 08/08/2026",
   "note": "Nenhuma area aqui foi inventada: cada uma corresponde a um produto que ja emite mercado no banco. A coluna `estado` diz onde cada uma esta no ciclo, e o ciclo so fecha quando ha resolucao contra fonte oficial com erro medido. Emitir mercado nao e prova de nada; liquidar contra fonte e o que separa previsao de palpite.",
   "aviso_de_desenho": "Sete dos nove mercados abertos tem probabilidade proxima de 0,50 porque produtos/_core/produto_serie.py escolhe deliberadamente o limiar de maxima incerteza (mediana da janela de 12 meses). Isso e escolha de gerador, nao acaso: nesse limiar o produto nao consegue demonstrar skill mesmo funcionando perfeitamente. Corrigir e desenho de produto, nao de modelo.",
-  "area_count": 15,
+  "area_count": 25,
   "groups": [
     {
       "group": "macro-financeiro",
@@ -190,6 +190,106 @@
       "name": "Câmbio diário (PTAX do dia)",
       "group": "macro",
       "fonte_resolucao": "api.bcb.gov.br (SGS 1, PTAX diária)",
+      "estado": "aberto",
+      "mercados": 0,
+      "liquidados": 0
+    },
+    {
+      "market_area_id": "custo-comida",
+      "produto": "custo_comida",
+      "name": "Custo da comida (IPCA · alimentação e bebidas)",
+      "group": "macro",
+      "fonte_resolucao": "apisidra.ibge.gov.br (IPCA tabela 7060, c315 7170 — Alimentação e bebidas)",
+      "estado": "aberto",
+      "mercados": 0,
+      "liquidados": 0
+    },
+    {
+      "market_area_id": "custo-moradia",
+      "produto": "custo_moradia",
+      "name": "Custo de morar (IPCA · habitação)",
+      "group": "macro",
+      "fonte_resolucao": "apisidra.ibge.gov.br (IPCA tabela 7060, c315 7445 — Habitação)",
+      "estado": "aberto",
+      "mercados": 0,
+      "liquidados": 0
+    },
+    {
+      "market_area_id": "custo-transporte",
+      "produto": "custo_transporte",
+      "name": "Custo de se locomover (IPCA · transportes)",
+      "group": "macro",
+      "fonte_resolucao": "apisidra.ibge.gov.br (IPCA tabela 7060, c315 7625 — Transportes)",
+      "estado": "aberto",
+      "mercados": 0,
+      "liquidados": 0
+    },
+    {
+      "market_area_id": "custo-saude",
+      "produto": "custo_saude",
+      "name": "Custo de saúde e cuidados (IPCA)",
+      "group": "macro",
+      "fonte_resolucao": "apisidra.ibge.gov.br (IPCA tabela 7060, c315 7660 — Saúde e cuidados pessoais)",
+      "estado": "aberto",
+      "mercados": 0,
+      "liquidados": 0
+    },
+    {
+      "market_area_id": "custo-luz",
+      "produto": "custo_luz",
+      "name": "Conta de luz (IPCA · energia elétrica residencial)",
+      "group": "macro",
+      "fonte_resolucao": "apisidra.ibge.gov.br (IPCA tabela 7060, c315 7484 — Energia elétrica residencial)",
+      "estado": "aberto",
+      "mercados": 0,
+      "liquidados": 0
+    },
+    {
+      "market_area_id": "custo-gas",
+      "produto": "custo_gas",
+      "name": "Gás de botijão (IPCA)",
+      "group": "macro",
+      "fonte_resolucao": "apisidra.ibge.gov.br (IPCA tabela 7060, c315 7482 — Gás de botijão)",
+      "estado": "aberto",
+      "mercados": 0,
+      "liquidados": 0
+    },
+    {
+      "market_area_id": "custo-gasolina",
+      "produto": "custo_gasolina",
+      "name": "Gasolina (IPCA)",
+      "group": "macro",
+      "fonte_resolucao": "apisidra.ibge.gov.br (IPCA tabela 7060, c315 7657 — Gasolina)",
+      "estado": "aberto",
+      "mercados": 0,
+      "liquidados": 0
+    },
+    {
+      "market_area_id": "custo-arroz",
+      "produto": "custo_arroz",
+      "name": "Arroz (IPCA)",
+      "group": "macro",
+      "fonte_resolucao": "apisidra.ibge.gov.br (IPCA tabela 7060, c315 7173 — Arroz)",
+      "estado": "aberto",
+      "mercados": 0,
+      "liquidados": 0
+    },
+    {
+      "market_area_id": "custo-feijao",
+      "produto": "custo_feijao",
+      "name": "Feijão carioca (IPCA)",
+      "group": "macro",
+      "fonte_resolucao": "apisidra.ibge.gov.br (IPCA tabela 7060, c315 12222 — Feijão - carioca)",
+      "estado": "aberto",
+      "mercados": 0,
+      "liquidados": 0
+    },
+    {
+      "market_area_id": "custo-onibus",
+      "produto": "custo_onibus",
+      "name": "Passagem de ônibus urbano (IPCA)",
+      "group": "macro",
+      "fonte_resolucao": "apisidra.ibge.gov.br (IPCA tabela 7060, c315 7628 — Ônibus urbano)",
       "estado": "aberto",
       "mercados": 0,
       "liquidados": 0

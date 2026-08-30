@@ -59,6 +59,130 @@ SERIE_DESTE_RESOLVEDOR = 433
 # registry nunca liquida: fonte errada não mede nada. O fetcher de cada área é
 # INJETADO na chamada (a suíte roda offline; a CLI liga os conectores reais).
 AREAS_RESOLVIVEIS: dict[str, dict[str, Any]] = {
+    # ---- O bolso do brasileiro (IBGE/SIDRA, tabela 7060) ----
+    # O IPCA cheio não fala a língua de quem sente o aperto: em julho/2026 ele
+    # fez +0,07% no mesmo mês em que a energia elétrica subiu 3,09% e o feijão
+    # preto 3,28%. Estas áreas cotam o que pesa na conta do fim do mês.
+    "custo-comida": {
+        # c315 7170 — conferido ao vivo no SIDRA em 29/08/2026. O conector
+        # reconfere o nome a cada leitura: código que mudar de significado
+        # levanta em vez de liquidar errado.
+        "serie": 7170,
+        "prefixo": "COMIDA",
+        "pergunta": "A comida (alimentação e bebidas) sobe {limiar:.2f}% ou mais em {mes}?",
+        "criterio": "Alimentação e bebidas (IPCA/IBGE, variação mensal) >= {limiar:.2f}%",
+        "indicador": "Alimentação e bebidas (IPCA mensal)",
+        "unidade": "percentual_mensal",
+        "expectativa": "ipca_grupo_mensal",
+    },
+    "custo-moradia": {
+        # c315 7445 — conferido ao vivo no SIDRA em 29/08/2026. O conector
+        # reconfere o nome a cada leitura: código que mudar de significado
+        # levanta em vez de liquidar errado.
+        "serie": 7445,
+        "prefixo": "MORADIA",
+        "pergunta": "A conta de casa (habitação) sobe {limiar:.2f}% ou mais em {mes}?",
+        "criterio": "Habitação (IPCA/IBGE, variação mensal) >= {limiar:.2f}%",
+        "indicador": "Habitação (IPCA mensal)",
+        "unidade": "percentual_mensal",
+        "expectativa": "ipca_grupo_mensal",
+    },
+    "custo-transporte": {
+        # c315 7625 — conferido ao vivo no SIDRA em 29/08/2026. O conector
+        # reconfere o nome a cada leitura: código que mudar de significado
+        # levanta em vez de liquidar errado.
+        "serie": 7625,
+        "prefixo": "TRANSP",
+        "pergunta": "O transporte sobe {limiar:.2f}% ou mais em {mes}?",
+        "criterio": "Transportes (IPCA/IBGE, variação mensal) >= {limiar:.2f}%",
+        "indicador": "Transportes (IPCA mensal)",
+        "unidade": "percentual_mensal",
+        "expectativa": "ipca_grupo_mensal",
+    },
+    "custo-saude": {
+        # c315 7660 — conferido ao vivo no SIDRA em 29/08/2026. O conector
+        # reconfere o nome a cada leitura: código que mudar de significado
+        # levanta em vez de liquidar errado.
+        "serie": 7660,
+        "prefixo": "SAUDE",
+        "pergunta": "Saúde e cuidados pessoais sobe {limiar:.2f}% ou mais em {mes}?",
+        "criterio": "Saúde e cuidados pessoais (IPCA/IBGE, variação mensal) >= {limiar:.2f}%",
+        "indicador": "Saúde e cuidados pessoais (IPCA mensal)",
+        "unidade": "percentual_mensal",
+        "expectativa": "ipca_grupo_mensal",
+    },
+    "custo-luz": {
+        # c315 7484 — conferido ao vivo no SIDRA em 29/08/2026. O conector
+        # reconfere o nome a cada leitura: código que mudar de significado
+        # levanta em vez de liquidar errado.
+        "serie": 7484,
+        "prefixo": "LUZ",
+        "pergunta": "A conta de luz sobe {limiar:.2f}% ou mais em {mes}?",
+        "criterio": "Energia elétrica residencial (IPCA/IBGE, variação mensal) >= {limiar:.2f}%",
+        "indicador": "Energia elétrica residencial (IPCA mensal)",
+        "unidade": "percentual_mensal",
+        "expectativa": "ipca_subitem_mensal",
+    },
+    "custo-gas": {
+        # c315 7482 — conferido ao vivo no SIDRA em 29/08/2026. O conector
+        # reconfere o nome a cada leitura: código que mudar de significado
+        # levanta em vez de liquidar errado.
+        "serie": 7482,
+        "prefixo": "GAS",
+        "pergunta": "O gás de botijão sobe {limiar:.2f}% ou mais em {mes}?",
+        "criterio": "Gás de botijão (IPCA/IBGE, variação mensal) >= {limiar:.2f}%",
+        "indicador": "Gás de botijão (IPCA mensal)",
+        "unidade": "percentual_mensal",
+        "expectativa": "ipca_subitem_mensal",
+    },
+    "custo-gasolina": {
+        # c315 7657 — conferido ao vivo no SIDRA em 29/08/2026. O conector
+        # reconfere o nome a cada leitura: código que mudar de significado
+        # levanta em vez de liquidar errado.
+        "serie": 7657,
+        "prefixo": "GASOL",
+        "pergunta": "A gasolina sobe {limiar:.2f}% ou mais em {mes}?",
+        "criterio": "Gasolina (IPCA/IBGE, variação mensal) >= {limiar:.2f}%",
+        "indicador": "Gasolina (IPCA mensal)",
+        "unidade": "percentual_mensal",
+        "expectativa": "ipca_subitem_mensal",
+    },
+    "custo-arroz": {
+        # c315 7173 — conferido ao vivo no SIDRA em 29/08/2026. O conector
+        # reconfere o nome a cada leitura: código que mudar de significado
+        # levanta em vez de liquidar errado.
+        "serie": 7173,
+        "prefixo": "ARROZ",
+        "pergunta": "O arroz sobe {limiar:.2f}% ou mais em {mes}?",
+        "criterio": "Arroz (IPCA/IBGE, variação mensal) >= {limiar:.2f}%",
+        "indicador": "Arroz (IPCA mensal)",
+        "unidade": "percentual_mensal",
+        "expectativa": "ipca_subitem_mensal",
+    },
+    "custo-feijao": {
+        # c315 12222 — conferido ao vivo no SIDRA em 29/08/2026. O conector
+        # reconfere o nome a cada leitura: código que mudar de significado
+        # levanta em vez de liquidar errado.
+        "serie": 12222,
+        "prefixo": "FEIJAO",
+        "pergunta": "O feijão carioca sobe {limiar:.2f}% ou mais em {mes}?",
+        "criterio": "Feijão - carioca (IPCA/IBGE, variação mensal) >= {limiar:.2f}%",
+        "indicador": "Feijão - carioca (IPCA mensal)",
+        "unidade": "percentual_mensal",
+        "expectativa": "ipca_subitem_mensal",
+    },
+    "custo-onibus": {
+        # c315 7628 — conferido ao vivo no SIDRA em 29/08/2026. O conector
+        # reconfere o nome a cada leitura: código que mudar de significado
+        # levanta em vez de liquidar errado.
+        "serie": 7628,
+        "prefixo": "ONIBUS",
+        "pergunta": "A passagem de ônibus urbano sobe {limiar:.2f}% ou mais em {mes}?",
+        "criterio": "Ônibus urbano (IPCA/IBGE, variação mensal) >= {limiar:.2f}%",
+        "indicador": "Ônibus urbano (IPCA mensal)",
+        "unidade": "percentual_mensal",
+        "expectativa": "ipca_subitem_mensal",
+    },
     "macroeconomia": {
         "serie": 433,
         "prefixo": "MACRO-01",

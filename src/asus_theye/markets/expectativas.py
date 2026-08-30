@@ -90,6 +90,20 @@ IGPM_MENSAL: FaixaNumerica = FaixaNumerica(minimo=-10.0, maximo=20.0)
 #: IBC-Br — índice de atividade (base 2002=100); faixa histórica larga.
 IBCBR_INDICE: FaixaNumerica = FaixaNumerica(minimo=50.0, maximo=300.0)
 
+#: Variação mensal de um GRUPO do IPCA (alimentação, habitação, transportes…).
+#: Grupo é média ponderada de muitos itens, então oscila menos que o subitem —
+#: mas bem mais que o índice cheio: habitação fez +0,99% no mesmo julho/2026 em
+#: que o IPCA geral fez +0,07%. Faixa conservadora.
+IPCA_GRUPO_MENSAL: FaixaNumerica = FaixaNumerica(minimo=-15.0, maximo=25.0)
+
+#: Variação mensal de um SUBITEM do IPCA (gás de botijão, gasolina, arroz…).
+#: Aqui a faixa precisa ser larga de verdade: subitem de alimento in natura já
+#: dobrou de preço em um mês (tomate, cebola) e combustível já caiu dois dígitos
+#: numa canetada de política de preços. Estreitar isto viraria recusa de dado
+#: verdadeiro — e a expectativa existe para pegar resposta corrompida, não para
+#: discordar da realidade.
+IPCA_SUBITEM_MENSAL: FaixaNumerica = FaixaNumerica(minimo=-60.0, maximo=120.0)
+
 
 # ---------------------------------------------------------------------------
 # Registro central de expectativas
@@ -104,6 +118,8 @@ EXPECTATIVAS: dict[str, FaixaNumerica] = {
     "inpc_mensal": INPC_MENSAL,
     "igpm_mensal": IGPM_MENSAL,
     "ibcbr_indice": IBCBR_INDICE,
+    "ipca_grupo_mensal": IPCA_GRUPO_MENSAL,
+    "ipca_subitem_mensal": IPCA_SUBITEM_MENSAL,
 }
 
 

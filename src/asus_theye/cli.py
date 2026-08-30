@@ -732,6 +732,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         from functools import partial
 
         from asus_theye.markets.fonte_base import FonteError
+        from asus_theye.markets.fonte_sidra import variacao_mensal
         from asus_theye.markets.fonte_bcb import ipca_mensal
         from asus_theye.markets.fonte_ptax import ptax_venda_do_dia, ptax_venda_fim_do_mes
         from asus_theye.markets.fonte_selic import selic_meta
@@ -783,6 +784,19 @@ def main(argv: Sequence[str] | None = None) -> int:
                     "inpc": partial(ipca_mensal, serie=188),
                     "igpm": partial(ipca_mensal, serie=189),
                     "atividade": partial(ipca_mensal, serie=24363),
+                    # O bolso do brasileiro — IBGE/SIDRA. O nome_esperado não é
+                    # enfeite: é o que faz o conector recusar liquidar se o IBGE
+                    # reorganizar a classificação e o código passar a medir outra coisa.
+                    "custo-comida": partial(variacao_mensal, codigo=7170, nome_esperado="Alimentação e bebidas"),
+                    "custo-moradia": partial(variacao_mensal, codigo=7445, nome_esperado="Habitação"),
+                    "custo-transporte": partial(variacao_mensal, codigo=7625, nome_esperado="Transportes"),
+                    "custo-saude": partial(variacao_mensal, codigo=7660, nome_esperado="Saúde e cuidados pessoais"),
+                    "custo-luz": partial(variacao_mensal, codigo=7484, nome_esperado="Energia elétrica residencial"),
+                    "custo-gas": partial(variacao_mensal, codigo=7482, nome_esperado="Gás de botijão"),
+                    "custo-gasolina": partial(variacao_mensal, codigo=7657, nome_esperado="Gasolina"),
+                    "custo-arroz": partial(variacao_mensal, codigo=7173, nome_esperado="Arroz"),
+                    "custo-feijao": partial(variacao_mensal, codigo=12222, nome_esperado="Feijão - carioca"),
+                    "custo-onibus": partial(variacao_mensal, codigo=7628, nome_esperado="Ônibus urbano"),
                 },
                 # a varredura de selagem consulta o MESMO export que o auditor
                 # escreve — sem isto, reconciliações registradas ficariam invisíveis
