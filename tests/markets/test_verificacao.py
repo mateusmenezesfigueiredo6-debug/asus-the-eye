@@ -81,12 +81,31 @@ def test_baseline_sem_incerteza_recusa_medir_skill():
 # A decomposição e o remédio que ela indica
 
 
-def test_a_identidade_de_murphy_fecha():
-    """Brier = confiabilidade − resolução + incerteza, a menos de arredondamento."""
-    previsoes = [i / 100 for i in range(100)]
-    desfechos = [i % 3 == 0 for i in range(100)]
+def test_a_identidade_de_murphy_fecha_com_previsoes_iguais_na_faixa():
+    """A identidade é exata quando toda faixa tem previsões idênticas.
+
+    Esta é a condição real do teorema, e a primeira versão deste teste a
+    ignorava: exigia resíduo zero para previsões CONTÍNUAS, e falhou com razão.
+    """
+    previsoes = [0.05] * 40 + [0.95] * 60
+    desfechos = [False] * 40 + [True] * 60
     d = decompor(previsoes, desfechos)
     assert abs(d.residuo) < 1e-9
+
+
+def test_previsao_continua_deixa_residuo_e_ele_e_a_variancia_interna():
+    """Com previsões contínuas o resíduo é real — é a dispersão dentro da faixa.
+
+    Não é defeito nem arredondamento: é informação. Resíduo grande diz que as
+    faixas estão largas demais para o formato das previsões.
+    """
+    previsoes = [i / 100 for i in range(100)]
+    desfechos = [i % 3 == 0 for i in range(100)]
+    grosso = decompor(previsoes, desfechos, n_faixas=5)
+    fino = decompor(previsoes, desfechos, n_faixas=20)
+    assert abs(grosso.residuo) > 0
+    # Faixa mais estreita reduz a dispersão interna, logo reduz o resíduo.
+    assert abs(fino.residuo) < abs(grosso.residuo)
 
 
 def test_descalibrado_mas_discriminante_pede_recalibragem():

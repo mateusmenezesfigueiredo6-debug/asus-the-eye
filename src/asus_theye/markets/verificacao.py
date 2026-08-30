@@ -123,7 +123,18 @@ class Decomposicao:
 
     @property
     def residuo(self) -> float:
-        """Quanto a identidade não fecha, por arredondamento de faixas."""
+        """A variância DENTRO das faixas — e não é erro de arredondamento.
+
+        A identidade ``Brier = confiabilidade − resolução + incerteza`` fecha
+        exatamente quando todas as previsões de uma faixa são idênticas. Com
+        previsões contínuas agrupadas, sobra a dispersão interna de cada faixa,
+        e é ela que aparece aqui.
+
+        Isto foi documentado errado na primeira versão ("arredondamento"), e um
+        teste que exigia resíduo zero falhou — corretamente. A grandeza é real e
+        tem leitura útil: resíduo grande significa que as faixas estão largas
+        demais para o formato das previsões, e vale aumentar ``n_faixas``.
+        """
         return self.brier - (self.confiabilidade - self.resolucao + self.incerteza)
 
     def diagnostico(self) -> str:
