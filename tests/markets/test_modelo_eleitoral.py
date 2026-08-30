@@ -255,3 +255,29 @@ def test_erro_medio_reproduz_o_numero_do_backtest():
 def test_erro_medio_sem_candidato_em_comum_levanta():
     with pytest.raises(ModeloError, match="em comum"):
         erro_absoluto_medio({"A": 0.5}, {"B": 0.5})
+
+
+# --------------------------------------------------------------------------
+# A mina de escala entre fonte_tse (0-100) e este módulo (0-1) — fechada em
+# 30/08/2026 depois que a varredura estrutural a apontou como risco latente.
+
+
+def test_erro_absoluto_medio_recusa_valor_em_escala_de_percentual():
+    """O caso exato que a mina produziria: dado do TSE (48.43) sem converter."""
+    previsto = {"LULA": 0.4907}
+    real_errado = {"LULA": 48.43}  # deveria ser 0.4843
+    with pytest.raises(ModeloError, match=r"\[0,1\]"):
+        erro_absoluto_medio(previsto, real_errado)
+
+
+def test_erro_absoluto_medio_aceita_fracao_corretamente_escalada():
+    previsto = {"LULA": 0.4907}
+    real = {"LULA": 0.4843}
+    # Não deve levantar, e o erro bate: |0,4907-0,4843|*100 = 0,64 pp.
+    assert erro_absoluto_medio(previsto, real) == pytest.approx(0.64, abs=0.01)
+
+
+def test_a_mensagem_de_erro_aponta_o_conversor_certo():
+    """A guarda não só grita — ela diz o remédio."""
+    with pytest.raises(ModeloError, match="fracao_do_percentual_tse"):
+        erro_absoluto_medio({"A": 0.5}, {"A": 50.0})

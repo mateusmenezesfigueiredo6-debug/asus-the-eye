@@ -133,8 +133,16 @@ class Sinal:
     #: Composição observada — soma qualquer, é normalizada internamente.
     valores: dict[str, float]
     #: Quanto esta família concentra em relação ao voto. 1,0 = já na escala do
-    #: voto. Acima de 1 significa "o sinal é mais achatado que o voto".
+    #: voto, e é o ÚNICO valor honesto enquanto não houver calibração do ciclo
+    #: corrente. Acima de 1 significa "o sinal é mais achatado que o voto".
     inclinacao: float = 1.0
+    #: Ciclo eleitoral em que a inclinação foi medida (ex.: "ele2022").
+    #: Inclinação de um ciclo NÃO vale no seguinte — ordem do titular, e ele
+    #: está certo: em 2026 Bolsonaro não concorre, entraram dois candidatos
+    #: nativos digitais e duas famílias de sinal deixaram de existir. Um beta de
+    #: 8,5 medido em 2022 aplicado a 2026 deu 97,8% a um candidato com 1,4% do
+    #: tempo de TV — sem erro nenhum, e absurdo.
+    ciclo_de_calibracao: str = ""
     #: Peso na combinação. Zero desliga a família sem removê-la do registro.
     peso: float = 1.0
     #: Quando a inclinação foi estimada, e contra o quê.
@@ -142,6 +150,13 @@ class Sinal:
     calibrado_contra: str = ""
     #: Limitação conhecida. Entra no relatório, não fica só no comentário.
     vies_declarado: str = ""
+    #: Maior fatia observada no conjunto onde a inclinação foi calibrada.
+    #: Fora dessa faixa, aplicar a inclinação é EXTRAPOLAR — e extrapolação com
+    #: inclinação alta explode. Em 2022 o líder de atenção tinha 0,24 do
+    #: excedente; aplicar o mesmo beta a alguém com 0,51 produziu 97,8% para um
+    #: candidato com 1,4% do tempo de TV. O número saiu sem erro nenhum, e era
+    #: absurdo. ``None`` desliga a checagem, e quem desliga assume o risco.
+    faixa_calibrada_ate: float | None = None
 
     def __post_init__(self) -> None:
         if self.peso < 0:
@@ -151,8 +166,33 @@ class Sinal:
         if not self.valores:
             raise ModeloError(f"sinal {self.nome!r} sem valores")
 
-    def coordenadas(self, candidatos: tuple[str, ...]) -> dict[str, float]:
-        """Coordenadas log-razão já com a inclinação aplicada."""
+    def fora_da_faixa(self, candidatos: tuple[str, ...]) -> float | None:
+        """Quanto a maior fatia excede a faixa onde a inclinação foi calibrada.
+
+        ``None`` quando está dentro, ou quando não há faixa declarada.
+        """
+        if self.faixa_calibrada_ate is None:
+            return None
+        recorte = normalizar({c: self.valores[c] for c in candidatos if c in self.valores})
+        maior = max(recorte.values(), default=0.0)
+        return maior - self.faixa_calibrada_ate if maior > self.faixa_calibrada_ate else None
+
+    def inclinacao_valida(self, ciclo_alvo: str) -> float:
+        """A inclinação que pode ser aplicada, dado o ciclo que se quer prever.
+
+        Devolve 1,0 — isto é, NENHUMA amplificação — quando a inclinação foi
+        medida noutro ciclo. Não é conservadorismo: é que o número medido em
+        2022 descreve um campo eleitoral que não existe mais, e usá-lo seria
+        inventar precisão a partir de um mundo extinto.
+        """
+        if not ciclo_alvo or not self.ciclo_de_calibracao:
+            return self.inclinacao
+        return self.inclinacao if self.ciclo_de_calibracao == ciclo_alvo else 1.0
+
+    def coordenadas(
+        self, candidatos: tuple[str, ...], *, ciclo_alvo: str = ""
+    ) -> dict[str, float]:
+        """Coordenadas log-razão com a inclinação VÁLIDA para o ciclo alvo."""
         faltando = set(candidatos) - set(self.valores)
         if faltando:
             raise ModeloError(
@@ -160,7 +200,8 @@ class Sinal:
                 "vira zero, porque zero afirmaria que o candidato não tem nada"
             )
         recorte = normalizar({c: self.valores[c] for c in candidatos})
-        return {c: self.inclinacao * v for c, v in clr(recorte).items()}
+        beta = self.inclinacao_valida(ciclo_alvo)
+        return {c: beta * v for c, v in clr(recorte).items()}
 
 
 @dataclass
@@ -171,6 +212,13 @@ class Modelo:
     sinais: list[Sinal] = field(default_factory=list)
     #: Depois de quantos dias uma calibração é considerada vencida.
     validade_dias: int = 120
+    #: Põe as famílias em escala comparável antes de ponderar. Desligar faz
+    #: `peso` deixar de significar peso — ver o comentário em `fatias`.
+    normalizar_escala: bool = True
+    #: Ciclo que este modelo está prevendo. Sinal com inclinação calibrada em
+    #: outro ciclo tem a inclinação NEUTRALIZADA para 1,0, com aviso — nunca
+    #: aplicada em silêncio.
+    ciclo: str = ""
 
     def __post_init__(self) -> None:
         if len(self.candidatos) < 2:
@@ -195,7 +243,20 @@ class Modelo:
         total = sum(s.peso for s in ativos)
         combinado = {c: 0.0 for c in self.candidatos}
         for sinal in ativos:
-            coords = sinal.coordenadas(self.candidatos)
+            coords = sinal.coordenadas(self.candidatos, ciclo_alvo=self.ciclo)
+            if self.normalizar_escala:
+                # Sem isto, `peso` NÃO significa peso. Inclinação e peso se
+                # multiplicam no espaço log-razão: um sinal com inclinação 8,5
+                # produz coordenadas oito vezes maiores que um com 1,0, e domina
+                # a média mesmo com pesos iguais. Foi o que fez um candidato com
+                # 1,4% do tempo de TV sair com 97,8% de chance.
+                #
+                # Dividir pelo desvio das próprias coordenadas põe as famílias em
+                # escala comparável; a inclinação continua ditando a FORMA da
+                # distribuição, e o peso volta a ditar a influência.
+                escala = (sum(v * v for v in coords.values()) / len(coords)) ** 0.5
+                if escala > 1e-9:
+                    coords = {c: v / escala for c, v in coords.items()}
             for c in self.candidatos:
                 combinado[c] += sinal.peso * coords[c] / total
         return de_clr(combinado)
@@ -246,6 +307,23 @@ class Modelo:
                     )
             if sinal.vies_declarado:
                 fora.append(f"{sinal.nome}: {sinal.vies_declarado}")
+            if (self.ciclo and sinal.ciclo_de_calibracao
+                    and sinal.ciclo_de_calibracao != self.ciclo
+                    and sinal.inclinacao != 1.0):
+                fora.append(
+                    f"{sinal.nome}: inclinação {sinal.inclinacao:.1f} foi medida em "
+                    f"{sinal.ciclo_de_calibracao} e NÃO se aplica a {self.ciclo} — "
+                    "neutralizada para 1,0. O campo eleitoral mudou; o parâmetro "
+                    "descreve um mundo que não existe mais."
+                )
+            excesso = sinal.fora_da_faixa(self.candidatos)
+            if excesso is not None:
+                fora.append(
+                    f"{sinal.nome}: EXTRAPOLAÇÃO — a maior fatia excede em "
+                    f"{excesso:.1%} a faixa onde a inclinação foi calibrada "
+                    f"(até {sinal.faixa_calibrada_ate:.0%}). Fora dessa faixa a "
+                    "inclinação amplifica sem base medida."
+                )
         if len(self.sinais) < 2:
             fora.append(
                 "apenas uma família de sinal — o backtest de 2022 mostrou que "
@@ -269,8 +347,32 @@ def brier(previsto: dict[str, float], ocorrido: dict[str, bool]) -> float:
 
 
 def erro_absoluto_medio(previsto: dict[str, float], real: dict[str, float]) -> float:
-    """Erro médio em pontos percentuais. A métrica do backtest."""
+    """Erro médio em pontos percentuais. A métrica do backtest.
+
+    As duas entradas são FRAÇÃO (0–1), nunca percentual (0–100) — mesma escala
+    que o resto deste módulo usa em toda parte. É o ponto exato da mina que a
+    varredura estrutural de 30/08/2026 apontou: ``fonte_tse.py`` publica
+    ``pvap`` em 0–100 (é o formato nativo do TSE, ex.: 48.43), e alimentar
+    ``real`` direto de lá — sem converter — faria esta função multiplicar por
+    100 de novo e devolver um "erro" absurdo (~4794 em vez de ~0,35), SEM
+    lançar exceção nenhuma. A guarda abaixo torna esse erro de escala barulhento
+    em vez de silencioso. Use
+    :func:`asus_theye.markets.fonte_tse.fracao_do_percentual_tse` para
+    converter antes de chamar esta função com dado do TSE.
+    """
     comuns = set(previsto) & set(real)
     if not comuns:
         raise ModeloError("nenhum candidato em comum entre previsto e real")
+    fora_de_faixa = {
+        c: (previsto.get(c), real.get(c))
+        for c in comuns
+        if not (0.0 <= previsto[c] <= 1.0 and 0.0 <= real[c] <= 1.0)
+    }
+    if fora_de_faixa:
+        amostra = dict(list(fora_de_faixa.items())[:3])
+        raise ModeloError(
+            f"valor fora de [0,1]: {amostra} — isto é fração, não percentual. "
+            "Se o dado vem do TSE (pvap é 0–100), converta com "
+            "fonte_tse.fracao_do_percentual_tse() antes de chamar."
+        )
     return sum(abs(previsto[c] - real[c]) * 100 for c in comuns) / len(comuns)

@@ -299,10 +299,38 @@ def percentual_do_candidato(b: Boletim, nome_urna: str) -> float | None:
     "Válidos" é dito de propósito: é a base do art. 77 da Constituição, já
     líquida de branco e nulo. Confundir com votos totais mudaria o desfecho de
     qualquer contrato de percentual — em 2022 seriam 48,43% contra 46,29%.
+
+    Devolve na escala NATIVA do TSE — 0 a 100 (ex.: ``48.43``) — porque é
+    literalmente o que ``pvap`` publica, e este módulo espelha a fonte sem
+    reinterpretar. O resto do motor (``modelo_eleitoral``, ``modelo_2026``,
+    ``verificacao``) trabalha em FRAÇÃO, 0 a 1. Use
+    :func:`fracao_do_percentual_tse` para converter antes de alimentar
+    qualquer uma dessas funções com o resultado desta.
     """
     if not b.apuracao_encerrada:
         return None
     return _numero(_candidato(b, nome_urna).get("pvap"), "pvap")
+
+
+def fracao_do_percentual_tse(percentual: float) -> float:
+    """Converte o percentual nativo do TSE (0–100) para fração (0–1).
+
+    Existe porque a varredura estrutural de 30/08/2026 encontrou a mina exata
+    que esta função fecha: ``percentual_do_candidato`` devolve 0–100,
+    ``modelo_eleitoral.erro_absoluto_medio`` e todo o resto do pipeline esperam
+    0–1, e nada ligava os dois módulos ainda — mas o dia em que alguém
+    escrevesse esse fio, alimentar ``real`` direto com 48.43 em vez de 0.4843
+    produziria um "erro" de ~4794 pontos em vez de ~0,35, sem lançar exceção.
+
+    A conversão em si é trivial (dividir por 100); o valor está em ter um nome
+    e um teste, não em ter uma fórmula.
+    """
+    if not (0.0 <= percentual <= 100.0):
+        raise FonteTSEError(
+            f"percentual fora de [0,100]: {percentual!r} — já está em fração? "
+            "esta função espera a escala nativa do TSE (pvap, 0 a 100)."
+        )
+    return percentual / 100.0
 
 
 def houve_segundo_turno(b: Boletim, *, descricao_cargo: str) -> float | None:
