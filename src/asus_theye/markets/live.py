@@ -59,6 +59,98 @@ SERIE_DESTE_RESOLVEDOR = 433
 # registry nunca liquida: fonte errada não mede nada. O fetcher de cada área é
 # INJETADO na chamada (a suíte roda offline; a CLI liga os conectores reais).
 AREAS_RESOLVIVEIS: dict[str, dict[str, Any]] = {
+    # ---- Quina, Lotofácil e Lotomania ----
+    # Quina e Lotofácil sorteiam 6x por semana contra 3x da Mega-Sena. Como o
+    # ativo que se constrói aqui é a série de acerto MEDIDO, e ela só cresce com
+    # contrato liquidado, frequência de sorteio é velocidade de acumulação.
+    "quina-soma": {
+        # Limiar 197 = mediana de 30 concursos lidos da API (50,0% de frequência
+        # histórica). `serie` é código interno: a Caixa indexa por concurso.
+        "serie": 20,
+        "prefixo": "SOMA-QUINA",
+        "pergunta": "A soma dos cinco números sorteados na Quina de {mes} vai ser {limiar:.0f} ou mais?",
+        "criterio": "Soma das dezenas (Quina) >= {limiar:.0f}",
+        "indicador": "Soma das dezenas (Quina)",
+        "unidade": "contagem",
+        "expectativa": "quina_soma",
+    },
+    "quina-faixa": {
+        # Limiar 36 = mediana de 30 concursos lidos da API (50,0% de frequência
+        # histórica). `serie` é código interno: a Caixa indexa por concurso.
+        "serie": 21,
+        "prefixo": "FAIXA-QUINA",
+        "pergunta": "O número de apostas com 4 acertos na Quina de {mes} vai ser {limiar:.0f} ou mais?",
+        "criterio": "Apostas com 4 acertos (Quina) >= {limiar:.0f}",
+        "indicador": "Apostas com 4 acertos (Quina)",
+        "unidade": "contagem",
+        "expectativa": "loteria_ganhadores",
+    },
+    "lotofacil-soma": {
+        # Limiar 188 = mediana de 30 concursos lidos da API (50,0% de frequência
+        # histórica). `serie` é código interno: a Caixa indexa por concurso.
+        "serie": 22,
+        "prefixo": "SOMA-LOTOFACIL",
+        "pergunta": "A soma dos quinze números sorteados na Lotofácil de {mes} vai ser {limiar:.0f} ou mais?",
+        "criterio": "Soma das dezenas (Lotofácil) >= {limiar:.0f}",
+        "indicador": "Soma das dezenas (Lotofácil)",
+        "unidade": "contagem",
+        "expectativa": "lotofacil_soma",
+    },
+    "lotofacil-pares": {
+        # Limiar 7 = mediana de 30 concursos lidos da API (66,7% de frequência
+        # histórica). `serie` é código interno: a Caixa indexa por concurso.
+        "serie": 23,
+        "prefixo": "PARES-LOTOFACIL",
+        "pergunta": "A quantidade de números PARES na Lotofácil de {mes} vai ser {limiar:.0f} ou mais?",
+        "criterio": "Dezenas pares (Lotofácil) >= {limiar:.0f}",
+        "indicador": "Dezenas pares (Lotofácil)",
+        "unidade": "contagem",
+        "expectativa": "lotofacil_pares",
+    },
+    "lotofacil-faixa": {
+        # Limiar 314 = mediana de 30 concursos lidos da API (50,0% de frequência
+        # histórica). `serie` é código interno: a Caixa indexa por concurso.
+        "serie": 24,
+        "prefixo": "FAIXA-LOTOFACIL",
+        "pergunta": "O número de apostas com 14 acertos na Lotofácil de {mes} vai ser {limiar:.0f} ou mais?",
+        "criterio": "Apostas com 14 acertos (Lotofácil) >= {limiar:.0f}",
+        "indicador": "Apostas com 14 acertos (Lotofácil)",
+        "unidade": "contagem",
+        "expectativa": "loteria_ganhadores",
+    },
+    "lotomania-soma": {
+        # Limiar 924 = mediana de 30 concursos lidos da API (50,0% de frequência
+        # histórica). `serie` é código interno: a Caixa indexa por concurso.
+        "serie": 25,
+        "prefixo": "SOMA-LOTOMANIA",
+        "pergunta": "A soma dos vinte números sorteados na Lotomania de {mes} vai ser {limiar:.0f} ou mais?",
+        "criterio": "Soma das dezenas (Lotomania) >= {limiar:.0f}",
+        "indicador": "Soma das dezenas (Lotomania)",
+        "unidade": "contagem",
+        "expectativa": "lotomania_soma",
+    },
+    "lotomania-pares": {
+        # Limiar 10 = mediana de 30 concursos lidos da API (60,0% de frequência
+        # histórica). `serie` é código interno: a Caixa indexa por concurso.
+        "serie": 26,
+        "prefixo": "PARES-LOTOMANIA",
+        "pergunta": "A quantidade de números PARES na Lotomania de {mes} vai ser {limiar:.0f} ou mais?",
+        "criterio": "Dezenas pares (Lotomania) >= {limiar:.0f}",
+        "indicador": "Dezenas pares (Lotomania)",
+        "unidade": "contagem",
+        "expectativa": "lotomania_pares",
+    },
+    "lotomania-faixa": {
+        # Limiar 4 = mediana de 30 concursos lidos da API (63,3% de frequência
+        # histórica). `serie` é código interno: a Caixa indexa por concurso.
+        "serie": 27,
+        "prefixo": "FAIXA-LOTOMANIA",
+        "pergunta": "O número de apostas com 19 acertos na Lotomania de {mes} vai ser {limiar:.0f} ou mais?",
+        "criterio": "Apostas com 19 acertos (Lotomania) >= {limiar:.0f}",
+        "indicador": "Apostas com 19 acertos (Lotomania)",
+        "unidade": "contagem",
+        "expectativa": "loteria_ganhadores",
+    },
     # ---- Conta de luz: a bandeira tarifária (ANEEL, licença ODbL) ----
     "luz-bandeira-vermelha": {
         "serie": 11,

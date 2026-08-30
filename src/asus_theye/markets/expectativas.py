@@ -120,6 +120,23 @@ MEGASENA_QUINA: FaixaNumerica = FaixaNumerica(minimo=0.0, maximo=100_000.0)
 #: escada do conector — valor fora disso significa rótulo novo na fonte.
 BANDEIRA_NIVEL: FaixaNumerica = FaixaNumerica(minimo=0.0, maximo=4.0)
 
+#: Somas possíveis por volante — extremos ARITMÉTICOS, não estimativa.
+#: Quina: 5 de 1..80 -> [1+2+3+4+5, 76+77+78+79+80] = [15, 390]
+#: Lotofácil: 15 de 1..25 -> [120, 285]
+#: Lotomania: 20 de 0..99 -> [190, 1790]
+QUINA_SOMA: FaixaNumerica = FaixaNumerica(minimo=15.0, maximo=390.0)
+LOTOFACIL_SOMA: FaixaNumerica = FaixaNumerica(minimo=120.0, maximo=285.0)
+LOTOMANIA_SOMA: FaixaNumerica = FaixaNumerica(minimo=190.0, maximo=1790.0)
+
+#: Pares por volante: fechado pelo número de dezenas sorteadas.
+LOTOFACIL_PARES: FaixaNumerica = FaixaNumerica(minimo=0.0, maximo=15.0)
+LOTOMANIA_PARES: FaixaNumerica = FaixaNumerica(minimo=0.0, maximo=20.0)
+
+#: Ganhadores da faixa secundária, qualquer loteria. Teto largo: a Lotofácil já
+#: fez 755 numa amostra de 30 concursos, e concurso especial multiplica isso.
+LOTERIA_GANHADORES: FaixaNumerica = FaixaNumerica(minimo=0.0, maximo=1_000_000.0)
+
+
 
 # ---------------------------------------------------------------------------
 # Registro central de expectativas
@@ -140,6 +157,12 @@ EXPECTATIVAS: dict[str, FaixaNumerica] = {
     "megasena_pares": MEGASENA_PARES,
     "megasena_quina": MEGASENA_QUINA,
     "bandeira_nivel": BANDEIRA_NIVEL,
+    "quina_soma": QUINA_SOMA,
+    "lotofacil_soma": LOTOFACIL_SOMA,
+    "lotomania_soma": LOTOMANIA_SOMA,
+    "lotofacil_pares": LOTOFACIL_PARES,
+    "lotomania_pares": LOTOMANIA_PARES,
+    "loteria_ganhadores": LOTERIA_GANHADORES,
 }
 
 

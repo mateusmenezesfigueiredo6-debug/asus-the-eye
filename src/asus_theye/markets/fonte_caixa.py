@@ -1,22 +1,27 @@
 # SPDX-FileCopyrightText: 2026 Mateus Menezes Figueiredo
 # SPDX-License-Identifier: AGPL-3.0-or-later
-"""Conector de resolução: Loterias Caixa — Mega-Sena.
+"""Conector de resolução: Loterias Caixa — Mega-Sena, Quina, Lotofácil, Lotomania.
 
-A Mega-Sena é o evento que mais brasileiro acompanha por semana, o resultado é
-público minutos depois do sorteio e não muda mais. Isso a torna uma das poucas
-fontes de entretenimento com qualidade de liquidação comparável à de um índice
-oficial: número sorteado não se retifica.
+Loteria é o evento que mais brasileiro acompanha por semana, o resultado sai
+minutos depois do sorteio e não muda mais. Isso lhe dá qualidade de liquidação
+comparável à de um índice oficial: número sorteado não se retifica.
 
-O QUE NÃO COTAMOS, E POR QUÊ. "A Mega-Sena vai acumular?" é a pergunta óbvia e
-está fora de uso aqui: nos 45 concursos lidos da própria API (3006 a 3050),
-acumulou em **82,2%** deles. Um mercado que nasce em 82% viola a faixa de
-exibição da casa (28..72¢) e não informa nada — todo mundo já sabe a resposta.
-As três medidas abaixo foram escolhidas por ficarem, no mesmo histórico,
-perto da máxima incerteza:
+POR QUE QUATRO E NÃO UMA. A Mega-Sena sorteia 3 vezes por semana; Quina e
+Lotofácil, 6. Como o ativo que estamos construindo é a série de acerto medido
+(Brier), e ela só cresce com contrato LIQUIDADO, a frequência de sorteio é o
+que determina a velocidade de acumulação. Quatro loterias multiplicam por
+cinco o número de desfechos por semana, com o mesmo conector.
 
-  soma das dezenas >= 184 (mediana)  -> 51,1%
-  ganhadores da quina >= 41 (mediana) -> 53,3%
-  quatro ou mais dezenas pares         -> 42,2%
+O QUE NÃO COTAMOS, E POR QUÊ. "Vai acumular?" é a pergunta óbvia e está fora:
+nos 45 concursos de Mega-Sena lidos da própria API, acumulou em 82,2% deles —
+nasceria fora da faixa de exibição da casa (28..72¢) e não informaria nada.
+Pelo mesmo critério ficou de fora "2 ou mais pares na Quina" (76,7% em 30
+concursos). Os limiares em uso saíram da MEDIANA de 30 concursos reais lidos
+de cada loteria, e todos caem entre 50% e 67% de frequência histórica.
+
+A FAIXA QUE COTAMOS É A SECUNDÁRIA, não a principal. Acertar tudo quase sempre
+dá zero ganhador — número que não varia não informa. A segunda faixa tem
+dezenas ou centenas de ganhadores e mexe de concurso para concurso.
 
 PERÍODO É O DIA DO SORTEIO. A API é indexada por número de concurso, não por
 data, então o conector lê o concurso corrente e só devolve valor se a
@@ -38,20 +43,37 @@ import re
 from asus_theye.markets.fonte_base import FonteError
 from asus_theye.net.http import HttpError, Transport, get_bytes
 
-URL_MEGASENA = "https://servicebus2.caixa.gov.br/portaldeloterias/api/megasena"
+URL_LOTERIA = "https://servicebus2.caixa.gov.br/portaldeloterias/api/{loteria}"
 MAX_BYTES = 400_000
 TIMEOUT = 30
+
+#: As loterias que este conector lê, com o que caracteriza cada uma. A tabela
+#: existe para o conector RECUSAR resultado impossível: Lotofácil sorteia 15
+#: dezenas de 1 a 25 e Lotomania sorteia 20 de 0 a 99 — validar todas contra a
+#: régua da Mega-Sena (6 de 1 a 60) aceitaria lixo numas e rejeitaria dado bom
+#: nas outras. O zero da Lotomania é o caso que prova o ponto: é dezena
+#: legítima lá e impossível em qualquer outra.
+#: Faixas conferidas ao vivo em 30/08/2026, uma requisição por loteria.
+LOTERIAS: dict[str, dict] = {
+    "megasena":  {"dezenas": 6,  "minimo": 1, "maximo": 60, "secundaria": "5 acertos"},
+    "quina":     {"dezenas": 5,  "minimo": 1, "maximo": 80, "secundaria": "4 acertos"},
+    "lotofacil": {"dezenas": 15, "minimo": 1, "maximo": 25, "secundaria": "14 acertos"},
+    "lotomania": {"dezenas": 20, "minimo": 0, "maximo": 99, "secundaria": "19 acertos"},
+}
 
 #: Dia do sorteio, ``aaaa-mm-dd``. Estrito: o dia é o que amarra o contrato ao
 #: concurso, e uma data reformatada em silêncio ligaria o mercado a outro sorteio.
 DIA_RE = re.compile(r"^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$")
 
-#: Faixa de premiação da quina, como a Caixa a escreve.
-FAIXA_QUINA = "5 acertos"
-
-
 class FonteCaixaError(FonteError):
     """Resposta inesperada da Caixa. Sempre levanta — nunca degrada em valor."""
+
+
+def _config(loteria: str) -> dict:
+    cfg = LOTERIAS.get(loteria)
+    if cfg is None:
+        raise FonteCaixaError(f"loteria {loteria!r} fora do registro: {sorted(LOTERIAS)}")
+    return cfg
 
 
 def _dia_br(dia: str) -> str:
@@ -62,12 +84,14 @@ def _dia_br(dia: str) -> str:
     return f"{d}/{mes}/{ano}"
 
 
-def _concurso(dia: str, *, transport: Transport | None = None) -> dict | None:
-    """Concurso da Mega-Sena apurado em ``dia``, ou ``None`` se ainda não houve."""
+def _concurso(dia: str, *, loteria: str = "megasena", transport: Transport | None = None) -> dict | None:
+    """Concurso apurado em ``dia``, ou ``None`` se ainda não houve."""
+    _config(loteria)
     esperado = _dia_br(dia)
+    url = URL_LOTERIA.format(loteria=loteria)
     try:
         response = get_bytes(
-            URL_MEGASENA,
+            url,
             headers={"Accept": "application/json"},
             timeout=TIMEOUT,
             max_bytes=MAX_BYTES,
@@ -76,7 +100,7 @@ def _concurso(dia: str, *, transport: Transport | None = None) -> dict | None:
     except HttpError as exc:
         raise FonteCaixaError(f"fonte inalcançável: {exc}") from exc
     if response.status != 200:
-        raise FonteCaixaError(f"Caixa respondeu HTTP {response.status} em {URL_MEGASENA}")
+        raise FonteCaixaError(f"Caixa respondeu HTTP {response.status} em {url}")
 
     try:
         dados = json.loads(response.body.decode("utf-8"))
@@ -93,40 +117,54 @@ def _concurso(dia: str, *, transport: Transport | None = None) -> dict | None:
     return dados
 
 
-def _dezenas(concurso: dict) -> list[int]:
+def _dezenas(concurso: dict, loteria: str = "megasena") -> list[int]:
+    cfg = _config(loteria)
     bruto = concurso.get("listaDezenas")
-    if not isinstance(bruto, list) or len(bruto) != 6:
-        raise FonteCaixaError(f"esperava 6 dezenas sorteadas, veio {bruto!r}")
+    if not isinstance(bruto, list) or len(bruto) != cfg["dezenas"]:
+        raise FonteCaixaError(
+            f"{loteria}: esperava {cfg['dezenas']} dezenas sorteadas, veio {bruto!r}"
+        )
     try:
         dezenas = [int(str(d).strip()) for d in bruto]
     except ValueError as exc:
         raise FonteCaixaError(f"dezena não numérica no resultado: {bruto!r}") from exc
-    if any(not 1 <= d <= 60 for d in dezenas):
-        raise FonteCaixaError(f"dezena fora do volante 1..60: {dezenas!r}")
-    if len(set(dezenas)) != 6:
+    if any(not cfg["minimo"] <= d <= cfg["maximo"] for d in dezenas):
+        raise FonteCaixaError(
+            f"{loteria}: dezena fora do volante {cfg['minimo']}..{cfg['maximo']}: {dezenas!r}"
+        )
+    if len(set(dezenas)) != cfg["dezenas"]:
         raise FonteCaixaError(f"dezena repetida no mesmo sorteio: {dezenas!r}")
     return dezenas
 
 
-def soma_das_dezenas(dia: str, *, transport: Transport | None = None) -> float | None:
-    """Soma das 6 dezenas sorteadas no concurso apurado em ``dia``."""
-    concurso = _concurso(dia, transport=transport)
+def soma_das_dezenas(dia: str, *, loteria: str = "megasena",
+                     transport: Transport | None = None) -> float | None:
+    """Soma das dezenas sorteadas no concurso apurado em ``dia``."""
+    concurso = _concurso(dia, loteria=loteria, transport=transport)
     if concurso is None:
         return None
-    return float(sum(_dezenas(concurso)))
+    return float(sum(_dezenas(concurso, loteria)))
 
 
-def dezenas_pares(dia: str, *, transport: Transport | None = None) -> float | None:
-    """Quantas das 6 dezenas sorteadas são pares."""
-    concurso = _concurso(dia, transport=transport)
+def dezenas_pares(dia: str, *, loteria: str = "megasena",
+                  transport: Transport | None = None) -> float | None:
+    """Quantas das dezenas sorteadas são pares."""
+    concurso = _concurso(dia, loteria=loteria, transport=transport)
     if concurso is None:
         return None
-    return float(sum(1 for d in _dezenas(concurso) if d % 2 == 0))
+    return float(sum(1 for d in _dezenas(concurso, loteria) if d % 2 == 0))
 
 
-def ganhadores_da_quina(dia: str, *, transport: Transport | None = None) -> float | None:
-    """Número de apostas premiadas com 5 acertos no concurso apurado em ``dia``."""
-    concurso = _concurso(dia, transport=transport)
+def ganhadores_da_quina(dia: str, *, loteria: str = "megasena",
+                        transport: Transport | None = None) -> float | None:
+    """Apostas premiadas na faixa SECUNDÁRIA do concurso apurado em ``dia``.
+
+    A faixa principal (acertar tudo) quase sempre dá zero — não informa nada.
+    A secundária tem dezenas ou centenas de ganhadores e varia de verdade.
+    O nome da função ficou por compatibilidade: na Mega-Sena a secundária É a
+    quina.
+    """
+    concurso = _concurso(dia, loteria=loteria, transport=transport)
     if concurso is None:
         return None
     faixas = concurso.get("listaRateioPremio")
@@ -135,7 +173,7 @@ def ganhadores_da_quina(dia: str, *, transport: Transport | None = None) -> floa
     for faixa in faixas:
         if not isinstance(faixa, dict):
             raise FonteCaixaError(f"faixa de premiação em formato inesperado: {faixa!r}")
-        if str(faixa.get("descricaoFaixa", "")).strip() == FAIXA_QUINA:
+        if str(faixa.get("descricaoFaixa", "")).strip() == _config(loteria)["secundaria"]:
             ganhadores = faixa.get("numeroDeGanhadores")
             if isinstance(ganhadores, bool) or not isinstance(ganhadores, int):
                 raise FonteCaixaError(f"número de ganhadores não inteiro: {ganhadores!r}")
@@ -143,6 +181,6 @@ def ganhadores_da_quina(dia: str, *, transport: Transport | None = None) -> floa
                 raise FonteCaixaError(f"número de ganhadores negativo: {ganhadores!r}")
             return float(ganhadores)
     raise FonteCaixaError(
-        f"faixa {FAIXA_QUINA!r} não veio no resultado — a Caixa mudou os rótulos: "
+        f"faixa {_config(loteria)['secundaria']!r} não veio no resultado — a Caixa mudou os rótulos: "
         f"{[f.get('descricaoFaixa') for f in faixas]}"
     )
