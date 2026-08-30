@@ -733,7 +733,6 @@ def main(argv: Sequence[str] | None = None) -> int:
 
         from asus_theye.markets.fonte_aneel import nivel_da_bandeira
         from asus_theye.markets.fonte_base import FonteError
-        from asus_theye.markets.fonte_caixa import dezenas_pares, ganhadores_da_quina, soma_das_dezenas
         from asus_theye.markets.fonte_sidra import variacao_mensal
         from asus_theye.markets.fonte_bcb import ipca_mensal
         from asus_theye.markets.fonte_ptax import ptax_venda_do_dia, ptax_venda_fim_do_mes
@@ -799,29 +798,6 @@ def main(argv: Sequence[str] | None = None) -> int:
                     "custo-arroz": partial(variacao_mensal, codigo=7173, nome_esperado="Arroz"),
                     "custo-feijao": partial(variacao_mensal, codigo=12222, nome_esperado="Feijão - carioca (rajado)"),
                     "custo-onibus": partial(variacao_mensal, codigo=7628, nome_esperado="Ônibus urbano"),
-                    # Loteria: período é o DIA do sorteio (aaaa-mm-dd).
-                    "loteria-soma": soma_das_dezenas,
-                    "loteria-pares": dezenas_pares,
-                    "loteria-quina": ganhadores_da_quina,
-                    "quina-soma": partial(soma_das_dezenas, loteria="quina"),
-                    "quina-faixa": partial(ganhadores_da_quina, loteria="quina"),
-                    "lotofacil-soma": partial(soma_das_dezenas, loteria="lotofacil"),
-                    "lotofacil-pares": partial(dezenas_pares, loteria="lotofacil"),
-                    "lotofacil-faixa": partial(ganhadores_da_quina, loteria="lotofacil"),
-                    "lotomania-soma": partial(soma_das_dezenas, loteria="lotomania"),
-                    "lotomania-pares": partial(dezenas_pares, loteria="lotomania"),
-                    "lotomania-faixa": partial(ganhadores_da_quina, loteria="lotomania"),
-                    "duplasena-soma": partial(soma_das_dezenas, loteria="duplasena"),
-                    "duplasena-faixa": partial(ganhadores_da_quina, loteria="duplasena"),
-                    "timemania-soma": partial(soma_das_dezenas, loteria="timemania"),
-                    "timemania-pares": partial(dezenas_pares, loteria="timemania"),
-                    "timemania-faixa": partial(ganhadores_da_quina, loteria="timemania"),
-                    "diadesorte-soma": partial(soma_das_dezenas, loteria="diadesorte"),
-                    "diadesorte-pares": partial(dezenas_pares, loteria="diadesorte"),
-                    "diadesorte-faixa": partial(ganhadores_da_quina, loteria="diadesorte"),
-                    "supersete-soma": partial(soma_das_dezenas, loteria="supersete"),
-                    "supersete-pares": partial(dezenas_pares, loteria="supersete"),
-                    "supersete-faixa": partial(ganhadores_da_quina, loteria="supersete"),
                     "luz-bandeira-amarela": nivel_da_bandeira,
                     "luz-bandeira-vermelha": nivel_da_bandeira,
                 },

@@ -33,8 +33,8 @@ def test_deadline_no_passado_da_mensagem_legivel(tmp_path: Path, capsys) -> None
     codigo = main(
         [
             "markets-emitir",
-            "--area", "loteria-soma",
-            "--mes", "2020-01-01",
+            "--area", "custo-comida",
+            "--mes", "2020-01",
             "--limiar", "184",
             "--store", str(store),
             "--sem-gerador",
@@ -73,8 +73,8 @@ def test_emissao_valida_grava_o_registro(tmp_path: Path, capsys) -> None:
     codigo = main(
         [
             "markets-emitir",
-            "--area", "loteria-soma",
-            "--mes", "2030-06-01",
+            "--area", "custo-comida",
+            "--mes", "2030-06",
             "--limiar", "184",
             "--store", str(store),
             "--sem-gerador",
@@ -85,6 +85,6 @@ def test_emissao_valida_grava_o_registro(tmp_path: Path, capsys) -> None:
     dados = json.loads(store.read_text(encoding="utf-8"))
     mercados = dados.get("markets") or dados.get("mercados") or []
     assert len(mercados) == 1
-    assert mercados[0]["claim_id"] == "SOMA-MEGA::2030-06-01"
+    assert mercados[0]["claim_id"] == "COMIDA::2030-06"
     # o prior honesto: sem gerador, nasce em 0,50 declarado — nunca num palpite
     assert mercados[0]["probability"] == 0.5

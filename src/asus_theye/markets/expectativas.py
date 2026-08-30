@@ -104,50 +104,17 @@ IPCA_GRUPO_MENSAL: FaixaNumerica = FaixaNumerica(minimo=-15.0, maximo=25.0)
 #: discordar da realidade.
 IPCA_SUBITEM_MENSAL: FaixaNumerica = FaixaNumerica(minimo=-60.0, maximo=120.0)
 
-#: Soma das 6 dezenas da Mega-Sena. Os extremos aqui não são estimativa: são o
-#: mínimo e o máximo ARITMÉTICOS do volante (1+2+3+4+5+6=21; 55+…+60=345).
-#: Valor fora disso não é sorteio improvável, é resposta corrompida.
-MEGASENA_SOMA: FaixaNumerica = FaixaNumerica(minimo=21.0, maximo=345.0)
 
-#: Quantas das 6 dezenas são pares. Fechado por construção.
-MEGASENA_PARES: FaixaNumerica = FaixaNumerica(minimo=0.0, maximo=6.0)
 
-#: Apostas premiadas com 5 acertos. No histórico lido (45 concursos) variou de
-#: 7 a 590; o teto larga cobre concurso de virada sem recusar dado verdadeiro.
-MEGASENA_QUINA: FaixaNumerica = FaixaNumerica(minimo=0.0, maximo=100_000.0)
 
 #: Nível da bandeira tarifária: 0 verde .. 4 escassez hídrica. Fechado pela
 #: escada do conector — valor fora disso significa rótulo novo na fonte.
 BANDEIRA_NIVEL: FaixaNumerica = FaixaNumerica(minimo=0.0, maximo=4.0)
 
-#: Somas possíveis por volante — extremos ARITMÉTICOS, não estimativa.
-#: Quina: 5 de 1..80 -> [1+2+3+4+5, 76+77+78+79+80] = [15, 390]
-#: Lotofácil: 15 de 1..25 -> [120, 285]
-#: Lotomania: 20 de 0..99 -> [190, 1790]
-QUINA_SOMA: FaixaNumerica = FaixaNumerica(minimo=15.0, maximo=390.0)
-LOTOFACIL_SOMA: FaixaNumerica = FaixaNumerica(minimo=120.0, maximo=285.0)
-LOTOMANIA_SOMA: FaixaNumerica = FaixaNumerica(minimo=190.0, maximo=1790.0)
 
-#: Pares por volante: fechado pelo número de dezenas sorteadas.
-LOTOFACIL_PARES: FaixaNumerica = FaixaNumerica(minimo=0.0, maximo=15.0)
-LOTOMANIA_PARES: FaixaNumerica = FaixaNumerica(minimo=0.0, maximo=20.0)
 
-#: Ganhadores da faixa secundária, qualquer loteria. Teto largo: a Lotofácil já
-#: fez 755 numa amostra de 30 concursos, e concurso especial multiplica isso.
-LOTERIA_GANHADORES: FaixaNumerica = FaixaNumerica(minimo=0.0, maximo=1_000_000.0)
 
-#: Somas possíveis, extremos ARITMÉTICOS de cada volante:
-#: Dupla Sena 6 de 1..50 -> [21, 285] · Timemania 7 de 1..80 -> [28, 539]
-#: Dia de Sorte 7 de 1..31 -> [28, 196] · Super Sete 7 colunas de 0..9 -> [0, 63]
-DUPLASENA_SOMA: FaixaNumerica = FaixaNumerica(minimo=21.0, maximo=285.0)
-TIMEMANIA_SOMA: FaixaNumerica = FaixaNumerica(minimo=28.0, maximo=539.0)
-DIADESORTE_SOMA: FaixaNumerica = FaixaNumerica(minimo=28.0, maximo=196.0)
-SUPERSETE_SOMA: FaixaNumerica = FaixaNumerica(minimo=0.0, maximo=63.0)
 
-#: Pares por volante — fechado pelo número de dezenas/dígitos sorteados.
-TIMEMANIA_PARES: FaixaNumerica = FaixaNumerica(minimo=0.0, maximo=7.0)
-DIADESORTE_PARES: FaixaNumerica = FaixaNumerica(minimo=0.0, maximo=7.0)
-SUPERSETE_PARES: FaixaNumerica = FaixaNumerica(minimo=0.0, maximo=7.0)
 
 
 
@@ -167,23 +134,7 @@ EXPECTATIVAS: dict[str, FaixaNumerica] = {
     "ibcbr_indice": IBCBR_INDICE,
     "ipca_grupo_mensal": IPCA_GRUPO_MENSAL,
     "ipca_subitem_mensal": IPCA_SUBITEM_MENSAL,
-    "megasena_soma": MEGASENA_SOMA,
-    "megasena_pares": MEGASENA_PARES,
-    "megasena_quina": MEGASENA_QUINA,
     "bandeira_nivel": BANDEIRA_NIVEL,
-    "quina_soma": QUINA_SOMA,
-    "lotofacil_soma": LOTOFACIL_SOMA,
-    "lotomania_soma": LOTOMANIA_SOMA,
-    "lotofacil_pares": LOTOFACIL_PARES,
-    "lotomania_pares": LOTOMANIA_PARES,
-    "loteria_ganhadores": LOTERIA_GANHADORES,
-    "duplasena_soma": DUPLASENA_SOMA,
-    "timemania_soma": TIMEMANIA_SOMA,
-    "diadesorte_soma": DIADESORTE_SOMA,
-    "supersete_soma": SUPERSETE_SOMA,
-    "timemania_pares": TIMEMANIA_PARES,
-    "diadesorte_pares": DIADESORTE_PARES,
-    "supersete_pares": SUPERSETE_PARES,
 }
 
 
