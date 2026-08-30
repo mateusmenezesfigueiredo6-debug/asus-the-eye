@@ -76,6 +76,8 @@ uma probabilidade de aparência limpa.
 from __future__ import annotations
 
 import math
+
+from asus_theye.markets.composicional import clr as _clr, de_clr as _de_clr, normalizar as _normalizar
 from dataclasses import dataclass, field
 from datetime import date
 
@@ -84,45 +86,26 @@ class ModeloError(RuntimeError):
     """O modelo recusa produzir número. Nunca devolve palpite silencioso."""
 
 
+#: A matemática de log-razão vive em ``composicional.py`` desde 30/08/2026,
+#: quando uma varredura estrutural achou a mesma fórmula duplicada aqui e em
+#: ``atencao_wikimedia.py`` — com uma divergência real (uma cópia validava
+#: composição negativa, a outra não). Este módulo continua expondo os mesmos
+#: nomes e continua levantando ``ModeloError`` (nunca o genérico
+#: ``ComposicionalError``), via o parâmetro ``erro`` injetado — nenhum código
+#: que já chamava ``clr``/``de_clr``/``normalizar`` daqui precisa mudar.
 def clr(composicao: dict[str, float], *, piso: float = 1e-6) -> dict[str, float]:
-    """Log-razão centrada: leva uma composição para o espaço onde se soma.
-
-    ``piso`` evita ``log(0)``. Fatia zerada é ausência de sinal, não
-    impossibilidade — e tratá-la como impossibilidade eliminaria candidato do
-    páreo por falta de dado, que é o oposto de medir.
-    """
-    if not composicao:
-        raise ModeloError("composição vazia")
-    if any(v < 0 for v in composicao.values()):
-        raise ModeloError(f"composição com valor negativo: {composicao}")
-    seguras = {k: max(v, piso) for k, v in composicao.items()}
-    media_log = sum(math.log(v) for v in seguras.values()) / len(seguras)
-    return {k: math.log(v) - media_log for k, v in seguras.items()}
+    """Log-razão centrada: leva uma composição para o espaço onde se soma."""
+    return _clr(composicao, piso=piso, erro=ModeloError)
 
 
 def de_clr(coordenadas: dict[str, float]) -> dict[str, float]:
     """Volta do espaço log-razão para uma composição que soma 1."""
-    if not coordenadas:
-        raise ModeloError("coordenadas vazias")
-    # Subtrair o máximo antes de exponenciar evita estouro quando a inclinação
-    # é alta — com beta ~8 e coordenadas ~5, exp(40) já é grande demais.
-    teto = max(coordenadas.values())
-    expo = {k: math.exp(v - teto) for k, v in coordenadas.items()}
-    soma = sum(expo.values())
-    if soma <= 0 or not math.isfinite(soma):
-        raise ModeloError("composição degenerada ao voltar do log-razão")
-    return {k: v / soma for k, v in expo.items()}
+    return _de_clr(coordenadas, erro=ModeloError)
 
 
 def normalizar(valores: dict[str, float]) -> dict[str, float]:
     """Fatias que somam 1. Soma zero é indisponibilidade, não empate."""
-    soma = sum(valores.values())
-    if soma <= 0:
-        raise ModeloError(
-            f"soma não positiva ({soma}) — série indisponível, não empate. "
-            "Dividir por zero disfarçado de empate produziria número inventado."
-        )
-    return {k: v / soma for k, v in valores.items()}
+    return _normalizar(valores, erro=ModeloError)
 
 
 @dataclass(frozen=True)

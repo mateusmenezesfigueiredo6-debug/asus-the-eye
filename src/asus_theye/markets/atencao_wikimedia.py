@@ -59,7 +59,6 @@ página, coisa bem diferente de "ainda não publicaram".
 from __future__ import annotations
 
 import json
-import math
 import os
 import re
 import unicodedata
@@ -68,6 +67,7 @@ from dataclasses import dataclass
 from datetime import date, timedelta
 from statistics import median
 
+from asus_theye.markets.composicional import clr as _clr, de_clr as _de_clr, normalizar as _normalizar
 from asus_theye.markets.fonte_base import FonteError
 from asus_theye.net.http import HttpError, Transport, get_bytes
 
@@ -245,10 +245,7 @@ def fatia_de_atencao(totais: dict[str, float]) -> dict[str, float]:
     resultado. Medido com os candidatos de 2026: dá 38% a um autor de
     best-sellers e 7% ao presidente em exercício.
     """
-    soma = sum(totais.values())
-    if soma <= 0:
-        raise AtencaoError("atenção total zero — série indisponível, não empate")
-    return {k: v / soma for k, v in totais.items()}
+    return _normalizar(totais, erro=AtencaoError)
 
 
 def excedente_sobre_base(
@@ -274,6 +271,13 @@ def excedente_sobre_base(
     return fora
 
 
+#: A matemática de log-razão vive em ``composicional.py`` desde 30/08/2026,
+#: quando uma varredura estrutural achou esta cópia duplicando
+#: ``modelo_eleitoral.clr``/``de_clr`` — e divergindo: esta cópia não recusava
+#: composição negativa, a outra recusava. Os nomes ``log_razao``/``de_log_razao``
+#: continuam existindo porque são o vocabulário deste domínio (atenção pública),
+#: e continuam levantando ``AtencaoError``, via o parâmetro ``erro`` injetado —
+#: nenhum código que já chamava daqui precisa mudar.
 def log_razao(fatias: dict[str, float], *, piso: float = 1e-6) -> dict[str, float]:
     """Transformação log-razão centrada (CLR) de uma composição.
 
@@ -283,34 +287,13 @@ def log_razao(fatias: dict[str, float], *, piso: float = 1e-6) -> dict[str, floa
     concentração como uma **inclinação** — grandeza interpretável e regularizável
     — em vez do expoente de potência que, ajustado direto em 2022, disparou para
     o limite da busca (k = 6,0) e denunciou sobreajuste.
-
-    ``piso`` evita log(0). Fatia zerada é ausência de sinal, não impossibilidade.
     """
-    if not fatias:
-        raise AtencaoError("composição vazia")
-    seguras = {k: max(v, piso) for k, v in fatias.items()}
-    media_log = sum(math.log(v) for v in seguras.values()) / len(seguras)
-    return {k: math.log(v) - media_log for k, v in seguras.items()}
+    return _clr(fatias, piso=piso, erro=AtencaoError)
 
 
 def de_log_razao(clr: dict[str, float]) -> dict[str, float]:
-    """Volta de log-razão para composição que soma 1.
-
-    Subtrai o máximo antes de exponenciar. Sem isso, coordenada grande demais
-    (ex.: composição quase degenerada) faz ``math.exp`` estourar em
-    ``OverflowError`` cru — não ``AtencaoError``. É a mesma proteção que
-    ``modelo_eleitoral.de_clr`` já tinha, escrita depois do incidente real do
-    beta 8,5; duplicar a função sem duplicar a proteção foi o defeito que a
-    varredura estrutural de 30/08/2026 achou aqui.
-    """
-    if not clr:
-        raise AtencaoError("coordenadas vazias")
-    teto = max(clr.values())
-    exp = {k: math.exp(v - teto) for k, v in clr.items()}
-    soma = sum(exp.values())
-    if soma <= 0 or not math.isfinite(soma):
-        raise AtencaoError("composição degenerada ao voltar do log-razão")
-    return {k: v / soma for k, v in exp.items()}
+    """Volta de log-razão para composição que soma 1."""
+    return _de_clr(clr, erro=AtencaoError)
 
 
 def ultimo_dia_disponivel(hoje: date | None = None) -> date:

@@ -206,3 +206,26 @@ def test_de_log_razao_fecha_o_ciclo_de_ida_e_volta_com_valores_grandes():
 def test_de_log_razao_recusa_coordenadas_vazias():
     with pytest.raises(AtencaoError, match="vazias"):
         de_log_razao({})
+
+
+# --------------------------------------------------------------------------
+# A duplicação resolvida — composicional.py compartilhado, 30/08/2026.
+#
+# A divergência real entre as duas cópias, antes da extração: modelo_eleitoral
+# recusava composição negativa; atencao_wikimedia não. Este teste prova que a
+# unificação trouxe a proteção MAIS forte para os dois lados, não a mais fraca.
+
+
+def test_log_razao_agora_tambem_recusa_composicao_negativa():
+    """Antes da extração para composicional.py, esta chamada NÃO levantava —
+    era exatamente a divergência que a varredura estrutural achou."""
+    with pytest.raises(AtencaoError, match="negativo"):
+        log_razao({"A": 0.5, "B": -0.2})
+
+
+def test_log_razao_e_clr_do_modelo_eleitoral_dao_o_mesmo_numero():
+    """A prova de que as duas fachadas realmente compartilham uma fórmula só."""
+    from asus_theye.markets.modelo_eleitoral import clr as clr_do_modelo
+
+    composicao = {"A": 0.6, "B": 0.3, "C": 0.1}
+    assert log_razao(composicao) == pytest.approx(clr_do_modelo(composicao))
