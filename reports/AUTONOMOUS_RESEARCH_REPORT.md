@@ -30,7 +30,7 @@ como `UNKNOWN` em Q012/T108. O código aponta para simulador local e não foi
 encontrada evidência local de QPU real.
 
 Não houve execução quântica, publicação, deploy, escrita externa, modificação de
-Kalshi ou alteração em território de implementação do Claude.
+Chaox ou alteração em território de implementação do Claude.
 
 ## Etapa 7 — superfície pública de verificação
 

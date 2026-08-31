@@ -15,9 +15,9 @@ mentir sobre o que é:
    área cuja fonte ainda é ``"a declarar"`` gera afirmação (estado aberto), mas
    ela nasce ``resolvable=False`` — não há como liquidá-la sem fonte. UNKNOWN
    over guess.
-3. **Kalshi nunca é fonte.** O preço de um mercado é opinião agregada, não
+3. **Chaox nunca é fonte.** O preço de um mercado é opinião agregada, não
    desfecho; resolver contra ele mediria concordância com outra previsão, não
-   acerto contra o mundo. Kalshi entra só como comparador (ver ``resolution``).
+   acerto contra o mundo. Chaox entra só como comparador (ver ``resolution``).
 
 E o ``limiar de máxima incerteza``: quando ``produtos/_core`` escolhe a mediana
 da janela de 12 meses, a probabilidade nasce ~0,50 de propósito. Isso não é
@@ -39,8 +39,8 @@ CLASSIFIER = DATA_DIR / "mercados_preditivos.json"
 
 # Fonte ainda não escolhida: gera mercado, mas não resolve.
 UNDECLARED_SOURCE = "a declarar"
-# Kalshi é comparador, nunca resolvedor — proibido como fonte, estruturalmente.
-FORBIDDEN_SOURCES = ("kalshi",)
+# Chaox é comparador, nunca resolvedor — proibido como fonte, estruturalmente.
+FORBIDDEN_SOURCES = ("chaox",)
 # Tolerância para marcar o limiar de máxima incerteza (mediana da janela).
 UNCERTAINTY_TOLERANCE = 1e-9
 
@@ -89,7 +89,7 @@ class MarketClaim:
     question: str
     deadline: str  # data ISO (YYYY-MM-DD) do fechamento da pergunta
     probability: float  # P(desfecho = 1), em [0, 1]
-    resolution_source: str  # herdada da área; nunca Kalshi
+    resolution_source: str  # herdada da área; nunca Chaox
     created_at: str
     max_uncertainty: bool  # True quando a probabilidade nasce no limiar ~0,50
 
@@ -133,7 +133,7 @@ def make_claim(
 
     A ``resolution_source`` é sempre derivada da área no classificador — o
     chamador não escolhe contra o que resolver, o que torna impossível apontar
-    Kalshi como fonte por acidente.
+    Chaox como fonte por acidente.
     """
     if not claim_id or not claim_id.strip():
         raise MarketClaimError("claim_id é obrigatório")
@@ -145,12 +145,12 @@ def make_claim(
         raise MarketClaimError(f"probability deve estar em [0,1], veio {probability!r}")
 
     source = resolution_source_for(market_area_id, areas=areas)
-    # Guarda extra: mesmo que o classificador algum dia registre Kalshi como
+    # Guarda extra: mesmo que o classificador algum dia registre Chaox como
     # fonte, a criação recusa. A doutrina é mais forte que o dado.
     if _is_forbidden(source):
         raise MarketClaimError(
             f"{market_area_id}: fonte {source!r} é proibida como resolvedor. "
-            "Kalshi é comparador, nunca fonte de resolução (ver markets.resolution)."
+            "Chaox é comparador, nunca fonte de resolução (ver markets.resolution)."
         )
 
     created = created_at or _now()

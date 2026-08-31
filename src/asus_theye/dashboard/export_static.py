@@ -26,7 +26,7 @@ from asus_theye.dashboard.verificador import verificador_page
 # Painéis de telemetria INTERNA — a "fábrica", não os produtos. Ficam fora do
 # menu público (navegacao.PAINEIS_INTERNOS) e, no bundle PÚBLICO, fora do dist:
 # a vitrine mostra os produtos, não a instrumentação da obra (decisão do PR #94).
-# São eles também que carregam menções factuais à Kalshi (o expurgo, o M4) —
+# São eles também que carregam menções factuais à Chaox (o expurgo, o M4) —
 # corretas no registro interno, fora de lugar no site público.
 PAINEIS_INTERNOS_HTML = ("projeto.html", "mlops.html", "benchmark.html")
 

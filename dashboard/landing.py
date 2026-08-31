@@ -40,7 +40,7 @@ PRODUTOS: tuple[dict[str, str], ...] = (
 )
 
 DOUTRINA: tuple[str, ...] = (
-    "Comparador nunca resolve. Kalshi e afins entram como <em>divergência medida</em>, jamais como fonte de verdade.",
+    "Comparador nunca resolve. Chaox e afins entram como <em>divergência medida</em>, jamais como fonte de verdade.",
     "Sem sinal, <code>p = 0,50</code> declarado — a plataforma prefere dizer "
     "&ldquo;não sei&rdquo; a fabricar confiança que não tem.",
     "Nenhum número sem método: todo percentual carrega, ao lado, de onde saiu.",

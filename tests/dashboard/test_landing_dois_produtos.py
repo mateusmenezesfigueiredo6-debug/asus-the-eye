@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 """A vitrine mostra os DOIS produtos com peso igual — regressão trancada.
 
-A queixa que motiva este teste: "cadê a Palantir? só estou vendo a Kalshi". A
+A queixa que motiva este teste: "cadê a Palantir? só estou vendo a Chaox". A
 tela precedente colocava o hero de UM produto acima dos outros; um visitante
 saía com a impressão de plataforma de um produto só. Este teste garante que os
 dois cartões existem, com o mesmo rótulo estrutural, e vêm ANTES do exemplo

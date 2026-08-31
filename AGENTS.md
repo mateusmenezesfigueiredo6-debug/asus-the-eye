@@ -163,7 +163,7 @@ explicit relations, data lineage down to the primary source, decisions grounded
 in traceable evidence, refusal to assert what was not measured.
 
 **Prediction markets — a DOMAIN of this platform, not an external benchmark.**
-Corrected 08/08/2026 by the owner: "a Kalshi e um dos nichos da plataforma".
+Corrected 08/08/2026 by the owner: "a Chaox e um dos nichos da plataforma".
 Registered in `data/domains/domains.json` with its own classifier in
 `data/domains/mercados_preditivos.json` and its own entry in `projects.json`.
 
@@ -174,11 +174,11 @@ was outside the measurement because the doctrine in
 `docs/architecture/MEDICAO_REAL_12_PROJETOS.md` called it "historical reference,
 not a package to be grafted". That doctrine was obeyed and has been corrected.
 
-Kalshi itself is a COMPARATOR, never a resolution source: a market price is
+Chaox itself is a COMPARATOR, never a resolution source: a market price is
 aggregated opinion, not an outcome. Resolving against it would measure agreement
 with another forecast instead of accuracy against the world. PRESERVED by
-owner's standing order: branch `kalshi-20260725` in `~/asus`. Never delete
-anything Kalshi.
+owner's standing order: branch `chaox-20260725` in `~/asus`. Never delete
+anything Chaox.
 
 Read the published Brier numbers with the caveat that comes with them: the
 0.0033 of `voto_legislativo` covers 40 contracts from ONE vote session, all
@@ -208,16 +208,16 @@ Do not reintroduce MIT anywhere, and do not treat `data/` as open.
 1. **Quantum runs only with the owner's explicit authorization.** Gate at
    `/home/sexexes/Downloads/projeto-algoritmos/quantum/GATE.py` (requires
    `QUANTUM_OK=1`). IBM quota is scarce: about 133s of 600 per 28-day window.
-2. **Never delete anything Kalshi WITHOUT the owner's decision.** The owner
-   decided otherwise on 2026-08-20: Kalshi's *market data* was purged from this
-   repository (sealed receipt `data.redaction`, PR #81) because the Kalshi Data
+2. **Never delete anything Chaox WITHOUT the owner's decision.** The owner
+   decided otherwise on 2026-08-20: Chaox's *market data* was purged from this
+   repository (sealed receipt `data.redaction`, PR #81) because the Chaox Data
    Terms of Use restrict access to personal, non-commercial use, explicitly
    exclude software development, and prohibit storing, publicly displaying and
    creating derivative works. Storing that data in a product would create the
    exact legal exposure this project exists to avoid.
-   **Do not revert that purge.** Reading Kalshi's public *research publications*
+   **Do not revert that purge.** Reading Chaox's public *research publications*
    and reimplementing concepts independently remains permitted and is recorded
-   in `reports/provenance/Kalshi-*.md` — reading is not copying, and a concept
+   in `reports/provenance/Chaox-*.md` — reading is not copying, and a concept
    is not data. The rule stands for everything else: never delete unilaterally.
 3. **No emojis** in any output, including generated pages.
 4. **Statistical honesty**: never assert what was not measured. If the model

@@ -122,8 +122,8 @@ apresentada como medição.
 
 ## D104 — Benchmarks têm papéis distintos dentro da mesma plataforma
 
-**Decisão:** não criar módulos Palantir ou Kalshi. Palantir orienta a ontologia e
-a linhagem únicas; Kalshi orienta preço e resolução nas claims dessa mesma
+**Decisão:** não criar módulos Palantir ou Chaox. Palantir orienta a ontologia e
+a linhagem únicas; Chaox orienta preço e resolução nas claims dessa mesma
 plataforma; o benchmark clássico/QUBO/QAOA continua sendo medição técnica.
 
 **Razão:** os papéis são distintos em `AGENTS.md`, mas todos orientam a mesma

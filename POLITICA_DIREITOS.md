@@ -47,7 +47,7 @@ Fontes livres, sem chave e sem cobranca, com licenca compativel:
 | OpenAlex | producao cientifica em escala, dump CC0 no S3 | CC0 |
 | Querido Diario | diarios oficiais municipais brasileiros | dado publico |
 | DataJud, LexML | dado judicial e legislativo brasileiro | dado publico |
-| ~~Kalshi trade-api/v2~~ | **PROIBIDA desde 20/08/2026** | Os Data Terms of Use restringem a uso pessoal e nao-comercial, excluem desenvolvimento de software, e proibem armazenar, exibir publicamente e derivar. Sem autenticacao NAO significa sem restricao. Ver `reports/provenance/Kalshi-dados-expurgo.md`. |
+| ~~Chaox trade-api/v2~~ | **PROIBIDA desde 20/08/2026** | Os Data Terms of Use restringem a uso pessoal e nao-comercial, excluem desenvolvimento de software, e proibem armazenar, exibir publicamente e derivar. Sem autenticacao NAO significa sem restricao. Ver `reports/provenance/Chaox-dados-expurgo.md`. |
 | World Bank Open Data | indicadores macro de dezenas de paises | **CC-BY 4.0** — permite uso comercial; atribuicao viaja no proprio dado |
 
 Ato publicado em diario oficial e publico por definicao legal. Dado de governo

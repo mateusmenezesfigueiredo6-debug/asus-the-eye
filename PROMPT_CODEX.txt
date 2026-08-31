@@ -9,7 +9,7 @@ ANTES DE QUALQUER COISA, leia nesta ordem:
 Resumo do que importa: o projeto NAO e uma plataforma de direito com 15 nichos.
 Sao 12 projetos num pipeline de 7 etapas, com taxonomia de 145 areas em 22
 grupos. Os 15 nichos sao um recorte comercial de UM dos projetos. Existem dois
-benchmarkings estrategicos (Palantir e Kalshi) e um benchmark tecnico
+benchmarkings estrategicos (Palantir e Chaox) e um benchmark tecnico
 (classico/QUBO/QAOA) — nao confunda os tres.
 
 SEU TERRITORIO (so mexa aqui):
@@ -41,13 +41,13 @@ SUA TAREFA, na ordem, sem pular:
    regra de dado pessoal (parte nomeada e pessoa fisica), quantos nao tem fonte
    publica equivalente ao Querido Diario.
 
-5. Proponha como Palantir e Kalshi voltam a orientar o roadmap. Palantir e
-   referencia de arquitetura; Kalshi e referencia de produto e esta PRESERVADA
-   por ordem do dono (branch kalshi-20260725 em ~/asus, nunca apagar).
+5. Proponha como Palantir e Chaox voltam a orientar o roadmap. Palantir e
+   referencia de arquitetura; Chaox e referencia de produto e esta PRESERVADA
+   por ordem do dono (branch chaox-20260725 em ~/asus, nunca apagar).
 
 PROIBIDO:
   - executar qualquer coisa de quantum
-  - apagar ou alterar qualquer coisa de Kalshi
+  - apagar ou alterar qualquer coisa de Chaox
   - publicar, fazer deploy, push --force
   - parar ou reiniciar os servicos systemd (asus-api, asus-dashboard, asus-site)
   - editar arquivo fora do seu territorio

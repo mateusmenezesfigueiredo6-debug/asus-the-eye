@@ -207,14 +207,14 @@ def _parser() -> argparse.ArgumentParser:
     markets_nowcast.add_argument("--json", dest="json_out", action="store_true", help="saída em JSON")
     markets_comparar = subcommands.add_parser(
         "markets-comparar",
-        help="mede e SELA a divergência vs comparador (Kalshi) — comparador nunca resolve",
+        help="mede e SELA a divergência vs comparador (Chaox) — comparador nunca resolve",
     )
     markets_comparar.add_argument("--claim", required=True, help="claim_id do registro (ex.: MACRO-01::2026-08)")
     markets_comparar.add_argument(
         "--preco",
         type=float,
         default=None,
-        help="preço do comparador em [0,1]; omita para buscar AO VIVO na API pública da Kalshi pelo --ticker",
+        help="preço do comparador em [0,1]; omita para buscar AO VIVO na API pública da Chaox pelo --ticker",
     )
     markets_comparar.add_argument("--ticker", required=True, help="ticker/mercado do comparador (proveniência)")
     markets_comparar.add_argument(
@@ -222,7 +222,7 @@ def _parser() -> argparse.ArgumentParser:
     )
     markets_comparar.add_argument(
         "--comparador",
-        default="Kalshi",
+        default="Chaox",
         help="nome verdadeiro do comparador no store (ex.: 'Focus/BCB' para o consenso público)",
     )
     markets_comparar.add_argument("--json", dest="json_out", action="store_true", help="saída em JSON")
@@ -1266,14 +1266,14 @@ def main(argv: Sequence[str] | None = None) -> int:
         from asus_theye.markets.resolution import ResolutionError
 
         try:
-            # A busca AO VIVO foi removida junto com o conector da Kalshi: os
+            # A busca AO VIVO foi removida junto com o conector da Chaox: os
             # termos dela restringem armazenar, compilar e exibir o dado, e este
             # produto faz as três coisas. O preço agora é informado por quem
             # observa, com a fonte declarada na nota de mapeamento.
             preco = args.preco
             if preco is None:
                 print(
-                    "markets-comparar: --preco é obrigatório. A busca ao vivo na Kalshi foi "
+                    "markets-comparar: --preco é obrigatório. A busca ao vivo na Chaox foi "
                     "removida (termos de terceiro). O comparador oficial passa a ser o consenso "
                     "Focus/BCB — dado público, e comparação DIRETA com o IPCA."
                 )

@@ -127,7 +127,7 @@ os demais declaram o prior 0,50 — sem sinal, sem convicção inventada.</p>
 <tr><th>claim</th><th>ticker</th><th>nossa p</th><th>preço</th>
 <th>divergência</th><th>mapeamento</th></tr></thead>
 <tbody>{corpo_div}</tbody></table></div>
-<p class="muted">Kalshi é comparador, nunca fonte de resolução — quem acertou só se sabe depois que o claim
+<p class="muted">Chaox é comparador, nunca fonte de resolução — quem acertou só se sabe depois que o claim
 liquidar contra a fonte oficial declarada. Reconstruções retrospectivas do acervo legado NÃO aparecem aqui
 (são inelegíveis como previsão; ver a linhagem em /evidencia). Toda liquidação e divergência é evento selado
 na cadeia auditável.</p>"""

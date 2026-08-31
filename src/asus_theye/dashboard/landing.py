@@ -177,12 +177,92 @@ def _vitrine_dois(base: Path | None, *, estatico: bool) -> str:
     importa é a paridade — mesmo card, mesmo peso tipográfico, mesma quantidade
     de âncoras factuais debaixo do CTA. Antes, o hero era só do Markets e o
     Ledger caía no meio de um parágrafo; a queixa "cadê a Palantir? só estou
-    vendo a Kalshi" era descritiva da tela, não do produto.
+    vendo a Chaox" era descritiva da tela, não do produto.
     """
     grade = "grid-template-columns:repeat(auto-fit,minmax(320px,1fr));margin-top:2.4rem"
     return f"""<section class="cards" style="{grade}">
 {"".join(_produto(p, estatico=estatico) for p in PRODUTOS)}
 </section>"""
+
+
+#: Os seis passos da disciplina que os DOIS produtos compartilham. Cada um traz
+#: a GUARDA — o que aquele passo impede — porque é a guarda, não a função, que
+#: distingue esta plataforma de qualquer painel bonito com números.
+_PASSOS_DISCIPLINA: tuple[tuple[str, str], ...] = (
+    ("Pergunta com prazo", "Critério numérico escrito ANTES. Depois não se altera."),
+    ("Fonte oficial nomeada", "Só órgão público. Comparador nunca resolve."),
+    ("Bruto arquivado", "sha256 do arquivo original, no instante da leitura."),
+    ("Probabilidade selada", "Sem sinal, p = 0,50 declarado — nunca confiança fabricada."),
+    ("Desfecho pela fonte", "Quem decide é quem apura. Nunca a aritmética da casa."),
+    ("Brier + elo ancorado", "Cada elo cita o anterior. Reescrever o passado quebra todos."),
+)
+
+
+def _diagrama_disciplina() -> str:
+    """A disciplina compartilhada, desenhada — SVG puro, sem dependência.
+
+    POR QUE DESENHAR. A tese desta plataforma ("a probabilidade saiu antes do
+    fato, e você pode conferir") é uma afirmação sobre PROCESSO, e processo em
+    prosa some. Desenhado, vira uma cadeia onde dá para apontar o passo em que
+    o compromisso é selado e o passo que torna a reescrita detectável.
+
+    POR QUE A GUARDA E NÃO A FUNÇÃO. Qualquer painel exibe "fonte oficial". O
+    que separa este é a recusa embutida em cada passo — e é a recusa que
+    interessa a quem audita.
+
+    Sem números aqui, de propósito: os números vivos já aparecem logo abaixo,
+    lidos da medição selada. Diagrama com número decorado envelhece calado.
+    """
+    largura, caixa_h, topo, margem, vao = 960, 84, 30, 10, 14
+    n = len(_PASSOS_DISCIPLINA)
+    caixa_w = (largura - margem * 2 - vao * (n - 1)) / n
+    altura = topo + caixa_h + 104
+
+    partes: list[str] = [
+        f'<svg viewBox="0 0 {largura} {altura:.0f}" width="100%" role="img" '
+        f'aria-label="A disciplina compartilhada pelos dois produtos, em seis passos: '
+        f'pergunta com prazo e critério declarado antes, fonte oficial nomeada, bruto '
+        f'arquivado com sha256, probabilidade selada, desfecho decidido pela fonte, e '
+        f'Brier medido com elo ancorado em corrente encadeada.">',
+        f'<text x="{margem}" y="14" font-size="12" fill="currentColor" fill-opacity="0.55">'
+        f'A mesma disciplina nos dois produtos — e a guarda de cada passo</text>',
+    ]
+    for i, (titulo, guarda) in enumerate(_PASSOS_DISCIPLINA):
+        x = margem + i * (caixa_w + vao)
+        meio = x + caixa_w / 2
+        partes.append(
+            f'<rect x="{x:.1f}" y="{topo}" width="{caixa_w:.1f}" height="{caixa_h}" rx="7" '
+            f'fill="currentColor" fill-opacity="0.05" stroke="currentColor" stroke-opacity="0.22"/>'
+            f'<text x="{x + 10:.1f}" y="{topo + 18}" font-size="10" fill="currentColor" '
+            f'fill-opacity="0.45">{i + 1}</text>'
+        )
+        # título em até duas linhas, quebrando no espaço mais central
+        palavras = titulo.split()
+        corte = len(palavras) // 2 or 1
+        linhas = [" ".join(palavras[:corte]), " ".join(palavras[corte:])] if len(palavras) > 2 else [titulo]
+        for j, linha in enumerate(l for l in linhas if l):
+            partes.append(
+                f'<text x="{meio:.1f}" y="{topo + 44 + j * 16}" font-size="13" '
+                f'fill="currentColor" text-anchor="middle">{html.escape(linha)}</text>'
+            )
+        if i < n - 1:
+            partes.append(
+                f'<path d="M {x + caixa_w + 2:.1f} {topo + caixa_h / 2:.0f} l {vao - 5} 0 '
+                f'm -5 -4 l 5 4 l -5 4" stroke="currentColor" stroke-opacity="0.4" fill="none"/>'
+            )
+        partes.append(
+            f'<foreignObject x="{x:.1f}" y="{topo + caixa_h + 8}" width="{caixa_w:.1f}" height="90">'
+            f'<div xmlns="http://www.w3.org/1999/xhtml" style="font:11px/1.35 system-ui,sans-serif;'
+            f'color:currentColor;opacity:.6;text-align:center;padding:0 3px">'
+            f'{html.escape(guarda)}</div></foreignObject>'
+        )
+    partes.append("</svg>")
+    return (
+        '<section style="margin:2rem 0">'
+        '<h2>Como funciona, em seis passos</h2>'
+        '<div style="overflow-x:auto">' + "".join(partes) + "</div>"
+        "</section>"
+    )
 
 
 def landing_page(base: Path | None = None, *, estatico: bool = False) -> str:
@@ -198,6 +278,7 @@ def landing_page(base: Path | None = None, *, estatico: bool = False) -> str:
 numa corrente que qualquer pessoa verifica, sem pedir acesso a ninguém. <b>Dois produtos</b>,
 mesma disciplina.</p>
 {_vitrine_dois(base, estatico=estatico)}
+{_diagrama_disciplina()}
 {_leituras(base)}
 <h2>Um exemplo concreto — o claim mais próximo de responder</h2>
 {_heroi(base, estatico=estatico)}

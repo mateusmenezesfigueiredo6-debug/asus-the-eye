@@ -127,14 +127,14 @@ def test_outcome_nao_binario_levanta(bad: object) -> None:
         resolve(a_claim(JUROS), outcome=bad, source="api.bcb.gov.br (Selic)")  # type: ignore[arg-type]
 
 
-def test_kalshi_nunca_resolve() -> None:
+def test_chaox_nunca_resolve() -> None:
     with pytest.raises(ResolutionError, match="comparador"):
-        resolve(a_claim(JUROS), outcome=1, source="Kalshi")
+        resolve(a_claim(JUROS), outcome=1, source="Chaox")
 
 
-def test_kalshi_bloqueada_como_fonte_de_claim() -> None:
-    """Defesa em profundidade: mesmo que o classificador registre Kalshi, criar recusa."""
-    hostil = {"kx": {"market_area_id": "kx", "fonte_resolucao": "Kalshi"}}
+def test_chaox_bloqueada_como_fonte_de_claim() -> None:
+    """Defesa em profundidade: mesmo que o classificador registre Chaox, criar recusa."""
+    hostil = {"kx": {"market_area_id": "kx", "fonte_resolucao": "Chaox"}}
     with pytest.raises(MarketClaimError, match="proibida|comparador"):
         make_claim(
             claim_id="x",
@@ -146,15 +146,15 @@ def test_kalshi_bloqueada_como_fonte_de_claim() -> None:
         )
 
 
-def test_claim_com_fonte_kalshi_nasce_nao_resolvivel() -> None:
-    """Uma afirmação que de algum modo carregue Kalshi como fonte não é liquidável."""
+def test_claim_com_fonte_chaox_nasce_nao_resolvivel() -> None:
+    """Uma afirmação que de algum modo carregue Chaox como fonte não é liquidável."""
     claim = MarketClaim(
         claim_id="x",
         market_area_id="kx",
         question="?",
         deadline="2026-12-31",
         probability=0.5,
-        resolution_source="Kalshi",
+        resolution_source="Chaox",
         created_at="2026-08-17T00:00:00Z",
         max_uncertainty=True,
     )
@@ -174,7 +174,7 @@ def test_area_sem_fonte_nao_liquida() -> None:
 def test_comparador_registra_divergencia_mas_nao_resolve() -> None:
     claim = a_claim(JUROS, probability=0.30)
     div = record_comparator(claim, comparator_price=0.75, recorded_at="2026-09-01T00:00:00Z")
-    assert div.comparator == "Kalshi"
+    assert div.comparator == "Chaox"
     assert div.divergence == pytest.approx(0.45)
     assert "comparador" in div.note
 
@@ -301,7 +301,7 @@ def test_as_dict_serializa_o_ciclo_completo() -> None:
     res = resolve(claim, outcome=0, source="api.bcb.gov.br (Selic)", resolved_at="2026-12-31T00:00:00Z")
     assert res.as_dict()["outcome"] == 0
     div = record_comparator(claim, comparator_price=0.5)
-    assert div.as_dict()["comparator"] == "Kalshi"
+    assert div.as_dict()["comparator"] == "Chaox"
 
 
 # ------------------------------------------------------------ determination_date

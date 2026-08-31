@@ -155,17 +155,17 @@ Classes: `FACT` · `DERIVED` · `INFERENCE` · `RECOMMENDATION` · `UNKNOWN` ·
 - **O que mudaria:** decisão do dono de segmentar, seguida de matriz
   área→produto→tipo de parte→fonte→padrão revisada e testada.
 
-## Q010 — Como Palantir e Kalshi devem orientar o roadmap?
+## Q010 — Como Palantir e Chaox devem orientar o roadmap?
 
 - **Classe:** `RECOMMENDATION`.
 - **Evidência primária:** `AGENTS.md` distingue Palantir como arquitetura e
-  Kalshi como produto; a branch preservada `kalshi-20260725` existe e contém
+  Chaox como produto; a branch preservada `chaox-20260725` existe e contém
   ciclo de mercado/resolução em modo somente-leitura e dinheiro desligado.
 - **Melhor evidência contrária:** transpor código legado diretamente criaria um
   subsistema paralelo; qualquer liquidez real traz requisitos regulatórios e
   externos.
 - **Justificativa:** manter uma ontologia e uma cadeia de eventos. Palantir exige
-  a linhagem transversal dessa plataforma única; Kalshi orienta atributos e
+  a linhagem transversal dessa plataforma única; Chaox orienta atributos e
   comportamento de produto nas mesmas claims: preço, resolução e liquidez
   mensurada.
 - **Confiança:** média-alta.

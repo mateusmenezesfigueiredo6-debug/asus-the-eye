@@ -49,7 +49,7 @@ TRABALHO EM ABERTO, REGISTRADO
 NAO FAZER
   Nao tratar o Radar Juridico como o produto da plataforma.
   Nao rodar quantum sem autorizacao (GATE.py, cota IBM ~133s de 600).
-  Nao apagar nada de Kalshi.
+  Nao apagar nada de Chaox.
   Nao trocar de ramo no diretorio compartilhado — usar git worktree.
 
 ESTADO TECNICO NO FECHAMENTO

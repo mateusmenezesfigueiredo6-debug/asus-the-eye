@@ -76,10 +76,10 @@ meio de uma coleta corrompe medicao.
 ## O que nenhum dos dois faz sem o dono
 
 1. Executar quantum (trava em `projeto-algoritmos/quantum/GATE.py`)
-2. Apagar qualquer coisa de Kalshi — **decidido pelo dono em 20/08/2026**: os
+2. Apagar qualquer coisa de Chaox — **decidido pelo dono em 20/08/2026**: os
    DADOS de mercado foram expurgados (recibo `data.redaction`, PR #81) por
    restrição dos termos de uso. Não reverter. Ler as publicações de pesquisa
-   e reimplementar conceitos segue permitido (`reports/provenance/Kalshi-*.md`).
+   e reimplementar conceitos segue permitido (`reports/provenance/Chaox-*.md`).
 3. Publicar (`scripts/publish_lock.py` exige senha)
 4. Promover fase L0-L6
 5. Criar custo em servico externo

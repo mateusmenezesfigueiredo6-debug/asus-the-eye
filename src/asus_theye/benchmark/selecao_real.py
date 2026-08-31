@@ -4,7 +4,7 @@
 
 Honestidade primeiro (UNKNOWN over guess):
 
-- "Edge" de verdade é `p_nosso − p_comparador`. Se o comparador (Kalshi) não
+- "Edge" de verdade é `p_nosso − p_comparador`. Se o comparador (Chaox) não
   tem cotação registrada para o mercado, edge NÃO existe — e este módulo não
   inventa. Nesse caso a seleção roda em modo **confianca**: o valor de cada
   mercado é `|2p − 1|` (a convicção declarada do gerador), rotulado como valor

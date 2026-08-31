@@ -8,7 +8,7 @@ Domínio da plataforma (não benchmark externo), registrado em
 - :mod:`asus_theye.markets.claim` — a afirmação: pergunta binária, prazo,
   probabilidade e a fonte de resolução herdada da área.
 - :mod:`asus_theye.markets.resolution` — liquidar contra a fonte oficial (e só
-  ela); Kalshi entra apenas como comparador de divergência.
+  ela); Chaox entra apenas como comparador de divergência.
 - :mod:`asus_theye.markets.scoring` — Brier e skill contra baseline, com a
   janela sempre declarada e o baseline-vence publicado.
 

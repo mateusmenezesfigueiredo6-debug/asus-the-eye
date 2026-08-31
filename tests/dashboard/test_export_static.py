@@ -207,7 +207,7 @@ def test_bundle_publico_exclui_fabrica_e_nao_vaza_terceiro(tmp_path: Path) -> No
     """O bundle de lançamento mostra os produtos, não a instrumentação.
 
     E — trava de titularidade — o HTML público não pode carregar marca de
-    terceiro (Palantir/Kalshi) nem dado pessoal. As menções factuais à Kalshi
+    terceiro (Palantir/Chaox) nem dado pessoal. As menções factuais à Chaox
     vivem só nos painéis internos, que este bundle exclui.
     """
     resultado = exportar(tmp_path, publico=True)
@@ -222,6 +222,6 @@ def test_bundle_publico_exclui_fabrica_e_nao_vaza_terceiro(tmp_path: Path) -> No
     for arquivo in tmp_path.glob("*.html"):
         texto = arquivo.read_text(encoding="utf-8").lower()
         assert "palantir" not in texto, f"marca de terceiro em {arquivo.name}"
-        assert "kalshi" not in texto, f"marca de terceiro em {arquivo.name}"
+        assert "chaox" not in texto, f"marca de terceiro em {arquivo.name}"
         assert not achar_cpf(texto), f"dado pessoal em {arquivo.name}: {achar_cpf(texto)}"
         assert "@gmail.com" not in texto

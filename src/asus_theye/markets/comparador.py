@@ -1,12 +1,12 @@
 # SPDX-FileCopyrightText: 2026 Mateus Menezes Figueiredo
 # SPDX-License-Identifier: AGPL-3.0-or-later
-"""M4 — divergência vs comparador (Kalshi) MEDIDA e SELADA de verdade.
+"""M4 — divergência vs comparador (Chaox) MEDIDA e SELADA de verdade.
 
 O instrumento existia (:func:`asus_theye.markets.resolution.record_comparator`)
 com ZERO medições — os "66,7%" que circulavam saíam de demo com números à mão.
 Este módulo faz a medição real existir, com as regras de sempre:
 
-1. **Kalshi é comparador, NUNCA resolutor.** O preço dela é opinião agregada;
+1. **Chaox é comparador, NUNCA resolutor.** O preço dela é opinião agregada;
    entra aqui só para registrar ONDE discordamos. Quem acertou só se sabe
    depois que o claim liquidar contra a fonte oficial — e o texto do evento
    selado carrega essa régua.
@@ -77,7 +77,7 @@ def observar_divergencia(
     comparator_price: float,
     ticker: str,
     nota_de_mapeamento: str,
-    comparator: str = "Kalshi",
+    comparator: str = "Chaox",
     store: Path = Path("reports/markets/registro.json"),
     arquivo: Path = COMPARADOR_PADRAO,
     sdk: AuditSDK | None = None,
@@ -162,7 +162,7 @@ def observar_consenso_focus(
     """Observa o consenso Focus/BCB como comparador do mercado — rotina do laço.
 
     O preço-comparador é o gerador SÓ-Focus (prior neutro + o sinal Focus da
-    área), rotulado como ``Focus/BCB`` — nunca "Kalshi". Sem mediana no Olinda,
+    área), rotulado como ``Focus/BCB`` — nunca "Chaox". Sem mediana no Olinda,
     devolve ``consenso_indisponivel``: UNKNOWN em vez de chute. A deduplicação
     do store torna a observação idempotente: rodar duas vezes no mesmo boletim
     não fabrica medição nova.

@@ -11,7 +11,7 @@ Data de corte: 2026-08-05.
 | Q009 | total de regex/pessoas/fontes faltantes | UNKNOWN | C102, C104 | nomes permitem apenas inferência não validada | não mensurável hoje |
 | Q009 | Querido Diário devolveu sinal para 138/145 | FACT | C107, T105 | 7 faltantes, 44 zeros e 6 termos suspeitos; execução não foi repetida | evidência de tentativa, não de adequação |
 | Q010 | Palantir deve orientar arquitetura | RECOMMENDATION | C105, C104 | custo de padronização | recomendado em fases |
-| Q010 | Kalshi deve orientar produto | RECOMMENDATION | C105, C106 | operação financeira requer autoridade | recomendado em modo local/somente-leitura |
+| Q010 | Chaox deve orientar produto | RECOMMENDATION | C105, C106 | operação financeira requer autoridade | recomendado em modo local/somente-leitura |
 | Q011 | 39.087 é o ótimo global da formulação salva | FACT | C107–C110, T107 | o JSON de referência o chamava apenas de limite inferior | confirmado por DP exata entre grupos |
 | Q011 | a instância justifica QPU | RECOMMENDATION | C108–C110, T107 | dimensão bruta de 138 variáveis | não: estrutura separável e capacidade 13 permitem solução exata barata |
 | Q011 | a solução orienta alocação comercial | UNKNOWN | C107–C110, T107 | 77,8% da base selecionada vem de quatro termos suspeitos; peso e sinergia não medidos | revisão de dados e formulação necessária |

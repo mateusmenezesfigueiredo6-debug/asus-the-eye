@@ -100,11 +100,27 @@ def test_o_conector_da_fonte_proibida_continua_removido() -> None:
     )
 
 
+#: Como a casa nomeia a bolsa de referência. "Chaox" é o rótulo adotado em
+#: 31/08/2026 por decisão do titular — não nomear concorrente em documento é
+#: higiene jurídica. O nome anterior continua aceito aqui porque os registros de
+#: proveniência (`reports/provenance/`) o preservam de propósito: eles são a
+#: prova do expurgo, e prova que se reescreve não é prova.
+NOMES_DA_REFERENCIA = ("Chaox", "Kalshi")
+
+
 def test_a_politica_declara_a_fonte_como_proibida() -> None:
-    """O documento e o teste têm de concordar; se divergirem, alguém mexeu num só."""
+    """O documento e o teste têm de concordar; se divergirem, alguém mexeu num só.
+
+    O teste aceita qualquer um dos nomes, mas exige que UM esteja lá. Aceitar
+    ausência transformaria este teste em decoração: ele passaria com o documento
+    vazio, que é exatamente o estado que ele existe para impedir.
+    """
     politica = (RAIZ / "POLITICA_DIREITOS.md").read_text(encoding="utf-8")
-    assert "PROIBIDA" in politica and "Kalshi" in politica, (
+    assert "PROIBIDA" in politica, (
         "POLITICA_DIREITOS.md deixou de declarar a fonte como proibida"
+    )
+    assert any(n in politica for n in NOMES_DA_REFERENCIA), (
+        f"POLITICA_DIREITOS.md não nomeia a fonte proibida: {NOMES_DA_REFERENCIA}"
     )
 
 

@@ -14,7 +14,7 @@ reduzido: a taxonomia real tem **145 areas em 22 grupos**, e o recorte usado
 tinha 15.
 
 Tambem houve confusao entre benchmarks. Existem **dois benchmarkings
-estrategicos** (Palantir e Kalshi) e **um benchmark tecnico** (classico / QUBO /
+estrategicos** (Palantir e Chaox) e **um benchmark tecnico** (classico / QUBO /
 QAOA). Sao coisas distintas e nao devem ser misturadas.
 
 ---
@@ -75,10 +75,10 @@ recusa de afirmar o que nao foi medido.
 Estado: aplicado no projeto 4 (ontologia + SHA-256 + proveniencia por consulta).
 Pendente: estender aos projetos 1, 2 e 5.
 
-### 5.2 Kalshi — benchmark de produto
+### 5.2 Chaox — benchmark de produto
 Referencia de O QUE entregar: mercado de predicao, precificacao de eventos,
 resolucao objetiva, liquidez.
-Estado: PRESERVADO por ordem do dono (branch `kalshi-20260725` em `~/asus`,
+Estado: PRESERVADO por ordem do dono (branch `chaox-20260725` em `~/asus`,
 nunca apagar). Nao foi evoluido nas sessoes recentes.
 
 ### 5.3 Nao confundir com o benchmark tecnico
@@ -105,7 +105,7 @@ no tamanho atual do problema. Isso esta registrado, nao escondido.
 1. **Quantum so roda com autorizacao explicita do dono.** Trava em
    `/home/sexexes/Downloads/projeto-algoritmos/quantum/GATE.py` (exige
    `QUANTUM_OK=1`). Cota IBM e escassa: ~133s de 600 na janela de 28 dias.
-2. **Nunca apagar nada de Kalshi.**
+2. **Nunca apagar nada de Chaox.**
 3. **Sem emojis** em qualquer saida.
 4. **Honestidade estatistica**: nunca afirmar o que nao foi medido. Se o modelo
    nao vence a media simples, publicar isso.
@@ -127,8 +127,8 @@ Na ordem, sem pular:
 3. Para o projeto 4 (plataforma comercial), avalie o custo de subir de 15 para
    os 145 nichos da taxonomia: o que quebra, o que precisa de padrao de
    extracao novo, o que cai na regra de dado pessoal.
-4. Proponha como os benchmarkings Palantir e Kalshi voltam a orientar o roadmap,
+4. Proponha como os benchmarkings Palantir e Chaox voltam a orientar o roadmap,
    sem misturar com o benchmark tecnico.
-5. NAO execute quantum. NAO altere nada de Kalshi. NAO publique nada.
+5. NAO execute quantum. NAO altere nada de Chaox. NAO publique nada.
 
 Entregue um relatorio em `docs/architecture/MEDICAO_REAL_12_PROJETOS.md`.

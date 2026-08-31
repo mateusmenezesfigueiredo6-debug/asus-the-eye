@@ -13,7 +13,7 @@ import pytest
 def test_pagina_real_mostra_os_tres_mercados() -> None:
     """O painel real, sem observação de comparador.
 
-    A divergência que este teste afirmava saía do preço da Kalshi e
+    A divergência que este teste afirmava saía do preço da Chaox e
     foi expurgada (``data.redaction``, termos de terceiro). O painel degrada
     honestamente: mostra os mercados e continua declarando a doutrina, sem
     inventar um número de comparador que não existe mais.

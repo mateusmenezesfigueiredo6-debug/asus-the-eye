@@ -108,7 +108,7 @@ def ancora(tx_hash: str, *, chain_id: int, contrato: str, block_number: int | No
     )
 
 
-def comparador(nome: str = "Kalshi") -> No:
+def comparador(nome: str = "Chaox") -> No:
     return No(tipo=COMPARADOR, id=nome, rotulo=nome)
 
 

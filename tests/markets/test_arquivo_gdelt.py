@@ -4,7 +4,7 @@
 
 O teste que importa aqui não confere um número: confere que a plataforma
 percebe se a **concessão de uso sumiu** da página de termos. É a mitigação que
-faltou no episódio Kalshi, e ela só vale se estiver testada.
+faltou no episódio Chaox, e ela só vale se estiver testada.
 """
 
 from __future__ import annotations
@@ -123,7 +123,7 @@ def test_arquivo_revisado_pelo_gdelt_vira_registro_novo(tmp_path: Path) -> None:
 
 
 def test_alarme_dispara_quando_a_concessao_some(tmp_path: Path) -> None:
-    """A mitigação que faltou no episódio Kalshi, e que só vale testada."""
+    """A mitigação que faltou no episódio Chaox, e que só vale testada."""
     resultado = arquivar_cobertura(_observacao(), base=tmp_path, transport=TermosFalsos(PAGINA_SEM_CONCESSAO))
     assert resultado["alarme_de_termos"] is True
 

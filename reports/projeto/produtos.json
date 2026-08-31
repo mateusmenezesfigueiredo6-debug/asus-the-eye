@@ -28,7 +28,7 @@
       "nome": "Nuvem: operação contínua sem humano",
       "estado": "parcial",
       "peso_concluido": 0.3,
-      "metodo": "RETRATADO em 20/08/2026. O texto anterior afirmava 'ensaio workflow_dispatch VERDE' e 'faltam 2 segredos' — as duas coisas eram falsas. Os segredos THE_EYE_AUDIT_KEY_HEX e THE_EYE_LEDGER_TOKEN estão plantados desde 19/08 22:27. E o workflow estava INVÁLIDO desde 20/08 05:54 (contexto `secrets` em `if:` de step), com 53 execuções falhando em 0s sem log. Corrigido no PR #88. 1,0 quando uma rodada real com somente_verificar=false provar o laço ponta a ponta — o caminho real não roda desde 19/08, antes do expurgo da Kalshi e do fail-closed de ingestão, então é plausível que apareça outro defeito.",
+      "metodo": "RETRATADO em 20/08/2026. O texto anterior afirmava 'ensaio workflow_dispatch VERDE' e 'faltam 2 segredos' — as duas coisas eram falsas. Os segredos THE_EYE_AUDIT_KEY_HEX e THE_EYE_LEDGER_TOKEN estão plantados desde 19/08 22:27. E o workflow estava INVÁLIDO desde 20/08 05:54 (contexto `secrets` em `if:` de step), com 53 execuções falhando em 0s sem log. Corrigido no PR #88. 1,0 quando uma rodada real com somente_verificar=false provar o laço ponta a ponta — o caminho real não roda desde 19/08, antes do expurgo da Chaox e do fail-closed de ingestão, então é plausível que apareça outro defeito.",
       "criterio_verificavel": "gh run list --workflow=operacao-continua.yml mostra success com somente_verificar=false"
     },
     {
@@ -54,10 +54,10 @@
     },
     {
       "id": "M4",
-      "nome": "Markets: divergência vs Kalshi medida de verdade",
+      "nome": "Markets: divergência vs Chaox medida de verdade",
       "estado": "parcial",
       "peso_concluido": 0.5,
-      "metodo": "A máquina de divergência existe e foi PROVADA de ponta a ponta (evento market.comparator selado, com nota de mapeamento obrigatória). A observação contra a Kalshi foi EXPURGADA (evento data.redaction): os Data Terms of Use dela restringem o uso a pessoal/não-comercial, excluem desenvolvimento de software e proíbem armazenar, compilar e exibir. Comparador oficial passa a ser o consenso Focus/BCB — dado público do banco central, já usado para resolução, e comparação DIRETA (IPCA-BR vs consenso-BR) em vez do comparável indireto que a Kalshi permitia (CPI-EUA vs IPCA-BR). 1,0 quando a série de divergências contra o Focus existir.",
+      "metodo": "A máquina de divergência existe e foi PROVADA de ponta a ponta (evento market.comparator selado, com nota de mapeamento obrigatória). A observação contra a Chaox foi EXPURGADA (evento data.redaction): os Data Terms of Use dela restringem o uso a pessoal/não-comercial, excluem desenvolvimento de software e proíbem armazenar, compilar e exibir. Comparador oficial passa a ser o consenso Focus/BCB — dado público do banco central, já usado para resolução, e comparação DIRETA (IPCA-BR vs consenso-BR) em vez do comparável indireto que a Chaox permitia (CPI-EUA vs IPCA-BR). 1,0 quando a série de divergências contra o Focus existir.",
       "criterio_verificavel": "reports/markets/comparador.jsonl com >=1 observação cujo comparator seja 'Focus/BCB'; nenhum dado de terceiro com termos restritivos no repositório"
     },
     {

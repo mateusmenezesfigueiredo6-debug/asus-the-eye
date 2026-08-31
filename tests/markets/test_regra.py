@@ -81,7 +81,7 @@ def test_politica_de_indisponivel_nao_pode_ser_trocada() -> None:
 def test_fonte_proibida_levanta() -> None:
     """Comparador nunca resolve — a doutrina vale também dentro da regra."""
     with pytest.raises(RegraError, match="proibida"):
-        validar_regra(REGRA_IPCA | {"fonte": "Kalshi"})
+        validar_regra(REGRA_IPCA | {"fonte": "Chaox"})
 
 
 def test_fonte_vazia_levanta() -> None:

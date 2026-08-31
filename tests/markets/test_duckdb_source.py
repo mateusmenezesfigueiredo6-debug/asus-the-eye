@@ -140,10 +140,10 @@ def test_skill_report_baseline_externo_muda_a_resposta(synthetic_db: str) -> Non
     assert juros["baseline_probability"] == pytest.approx(0.7)
 
 
-def test_kalshi_como_fonte_no_banco_levanta(tmp_path: Path) -> None:
+def test_chaox_como_fonte_no_banco_levanta(tmp_path: Path) -> None:
     db = tmp_path / "hostil.duckdb"
-    _build_db(db, [{"id": "X-01", "produto": "juros", "probability": 0.5, "outcome": 1, "fonte": "Kalshi"}])
-    with pytest.raises(MarketsSourceError, match="Kalshi|proibida"):
+    _build_db(db, [{"id": "X-01", "produto": "juros", "probability": 0.5, "outcome": 1, "fonte": "Chaox"}])
+    with pytest.raises(MarketsSourceError, match="Chaox|proibida"):
         load_settled(str(db))
 
 

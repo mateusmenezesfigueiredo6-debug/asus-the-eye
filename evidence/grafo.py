@@ -167,7 +167,7 @@ def construir_grafo(base: Path = BASE_PADRAO) -> Grafo:
     for obs in _linhas_jsonl(base / "comparador.jsonl"):
         alvo_mercado = nos.get(("Mercado", obs["claim_id"]))
         if alvo_mercado is not None:
-            no_c = por(comparador(obs.get("comparator", "Kalshi")))
+            no_c = por(comparador(obs.get("comparator", "Chaox")))
             liga(no_c, DIVERGE_DE, alvo_mercado)
             mercado_por_observacao[f"comparador:{str(obs['observacao_id'])[:32]}"] = alvo_mercado
 

@@ -12,7 +12,7 @@ regras estruturais:
 2. **Fonte ``"a declarar"`` não liquida.** Sem fonte oficial escolhida não há o
    que medir — a resolução levanta em vez de inventar um desfecho. UNKNOWN over
    guess, de novo.
-3. **Kalshi nunca resolve.** Ela entra só por :func:`record_comparator`, que
+3. **Chaox nunca resolve.** Ela entra só por :func:`record_comparator`, que
    registra a divergência entre a nossa probabilidade e o preço dela — e deixa
    explícito que quem acertou só se sabe **depois** que o evento liquida contra
    a fonte oficial.
@@ -119,7 +119,7 @@ def resolve(
     if _is_forbidden(source):
         raise ResolutionError(
             f"{source!r} não pode resolver: preço de mercado é opinião agregada, não desfecho. "
-            "Kalshi é comparador (ver record_comparator), nunca fonte de resolução."
+            "Chaox é comparador (ver record_comparator), nunca fonte de resolução."
         )
 
     if source != claim.resolution_source:
@@ -152,7 +152,7 @@ def resolve(
 
 @dataclass(frozen=True)
 class ComparatorDivergence:
-    """Divergência registrada contra um comparador (ex.: Kalshi). Nunca liquida nada."""
+    """Divergência registrada contra um comparador (ex.: Chaox). Nunca liquida nada."""
 
     claim_id: str
     our_probability: float
@@ -178,12 +178,12 @@ def record_comparator(
     claim: MarketClaim,
     *,
     comparator_price: float,
-    comparator: str = "Kalshi",
+    comparator: str = "Chaox",
     recorded_at: str | None = None,
 ) -> ComparatorDivergence:
     """Registra a divergência entre a nossa probabilidade e o preço do comparador.
 
-    Kalshi entra **só aqui**. O preço é opinião agregada: serve para registrar
+    Chaox entra **só aqui**. O preço é opinião agregada: serve para registrar
     onde discordamos e, depois que o evento liquidar contra a fonte oficial,
     para dizer quem acertou. Ele nunca vira desfecho.
     """

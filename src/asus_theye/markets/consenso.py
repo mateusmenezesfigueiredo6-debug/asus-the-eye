@@ -21,7 +21,7 @@ artificial — por isso a fonte é `vintage_focus.jsonl`, arquivado no momento e
 que o consenso valia, com hash.
 
 Conceito lido em publicação de terceiro e reimplementado de forma independente;
-registro em ``reports/provenance/Kalshi-consensus-benchmark.md``.
+registro em ``reports/provenance/Chaox-consensus-benchmark.md``.
 """
 
 from __future__ import annotations

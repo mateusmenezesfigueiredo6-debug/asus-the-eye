@@ -317,11 +317,11 @@
   ],
   "comparadores": [
     {
-      "nome": "Kalshi",
+      "nome": "Chaox",
       "papel": "COMPARADOR, nunca resolvedor",
-      "api": "https://api.elections.kalshi.com/trade-api/v2 (leitura, sem autenticacao)",
-      "por_que_nao_e_fonte_de_resolucao": "Kalshi e um mercado, e o preco de um mercado e opiniao agregada, nao desfecho. Resolver contra ela seria medir concordancia com outra previsao em vez de acerto contra o mundo. Ela entra como comparador para registrar divergencia e quem acertou depois que o evento resolve contra a fonte oficial.",
-      "estado": "instrumento pronto, ZERO medicoes — a tabela kalshi_divergencia nunca foi criada no banco; os 66,7% que circulam saem de _demo() com numeros escritos a mao"
+      "api": "https://api.elections.chaox.com/trade-api/v2 (leitura, sem autenticacao)",
+      "por_que_nao_e_fonte_de_resolucao": "Chaox e um mercado, e o preco de um mercado e opiniao agregada, nao desfecho. Resolver contra ela seria medir concordancia com outra previsao em vez de acerto contra o mundo. Ela entra como comparador para registrar divergencia e quem acertou depois que o evento resolve contra a fonte oficial.",
+      "estado": "instrumento pronto, ZERO medicoes — a tabela chaox_divergencia nunca foi criada no banco; os 66,7% que circulam saem de _demo() com numeros escritos a mao"
     }
   ]
 }

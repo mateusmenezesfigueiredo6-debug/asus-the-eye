@@ -660,7 +660,7 @@
     },
     {
       "project_id": "prediction-markets",
-      "name": "Mercados preditivos (nicho, com Kalshi como comparador)",
+      "name": "Mercados preditivos (nicho, com Chaox como comparador)",
       "purpose": "Pergunta binaria com prazo, resolvida contra fonte oficial nomeada, com probabilidade e erro medido contra baseline",
       "release_class": "L1",
       "domain_id": "mercados-preditivos",

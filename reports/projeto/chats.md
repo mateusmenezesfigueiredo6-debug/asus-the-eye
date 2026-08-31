@@ -16,7 +16,7 @@ Ordem cronológica reversa. Copie o `session_id` e chame
 | 2 | [THE EYE] Conversa com algoritmos preditivos (fork) | `local_5fc8a360-1362-449f-80b4-7679d2c51332` | 2026-08-21 | PR #100 — refactor do site como sistema único (verdigris/latão, hash-ornamento, serifa/grotesca), 886 testes, 2 PDFs por produto |
 | 3 | [Infra] Cloudflare MCP repository | `local_1418eefd-a0d1-4d3a-9475-ede9bd02867d` | 2026-08-19 | Worker `the-eye-public-verifier` e `the-eye-audit-staging` em pé (D1 staging), token em `~/.the-eye/staging-token`; wrangler local |
 | 4 | [Dev] Corrigir 3 erros de tipo pré-existentes (mypy) | `local_e3b3d09d-95ab-4530-8de7-8b75ec334b4c` | 2026-08-17 | mypy passa em `src/` inteiro (override em pyproject removido) — CI verde |
-| 5 | [THE EYE] Algoritmos preditivos e tendências *(original)* | `local_23187da3-b8b2-4a34-a39e-11413cdd9d3a` | 2026-08-17 | Sessão original — travou com "Prompt is too long" por paste de 2,7M chars do site da Kalshi. NÃO REABRIR; virou o repo. |
+| 5 | [THE EYE] Algoritmos preditivos e tendências *(original)* | `local_23187da3-b8b2-4a34-a39e-11413cdd9d3a` | 2026-08-17 | Sessão original — travou com "Prompt is too long" por paste de 2,7M chars do site da Chaox. NÃO REABRIR; virou o repo. |
 | 6 | [Dev] Script Python (`from __future__` / contextlib) | `local_67d7d81a-2569-4302-b1f1-e81c7e85b433` | 2026-08-14 | Correções ao `scripts/publish_guard.py` (o path velho `/home/sexexes/asus_the_eye/` foi movido para `~/pegasus/asus_the_eye/`) |
 | 7 | [Infra] Integrar ChatGPT e Claude | `local_9e83a4c3-be3a-46ab-a376-2a1e530f3451` | 2026-08-08 | Fábrica 3-IAs mapeada: Claude (Code), Copilot coding agent (bot habilitado, PRs #19/#20/#21), Codex (bloqueado — sem crédito, login pendente) |
 | 8 | [Avulsos] WhatsApp RDC | `local_5c8e08ed-e200-473b-8443-489c5c2d7011` | 2026-08-05 | Subiu `uvicorn apps.comercial.api:create_app` do EYE em ambiente local — só teste, sem impacto |
@@ -26,7 +26,7 @@ Ordem cronológica reversa. Copie o `session_id` e chame
 - **17/08** — Etapa 4 fechada (PR #4, `ff7d5c7`): módulo `markets/`, DuckDB, CLI, painel; tie-out 41 liquidados, voto 0.003293, macro 0.111089.
 - **17/08 fim** — Roteiro em 95%. F3 a 70% até o faucet.
 - **19/08** — Dia da virada: PRs #15/#22/#23/#24 mergeados. MLops selado, checklist vivo `produtos.json`, ledger espelhado no D1 (10/10 idempotente), sinais IPCA (Focus/Olinda). Carteira trocada: `0xeDd93384dB68D849d5dCEf49FfACE3A1c12bcC76`.
-- **19/08 noite** — Roteiro 71,7%, fábrica 3-IAs completa. Kalshi comparador ao vivo. JUROS-01/CAMBIO-01 abertos com cron. Nowcast desafiante: R2 Brier 0,0575 / R4 0,0611 em 18 meses.
+- **19/08 noite** — Roteiro 71,7%, fábrica 3-IAs completa. Chaox comparador ao vivo. JUROS-01/CAMBIO-01 abertos com cron. Nowcast desafiante: R2 Brier 0,0575 / R4 0,0611 em 18 meses.
 - **20/08** — Custódia fechada: backup GPG AES-256/SHA-512 (`the-eye-chaves-2026-08-20.tar.gz.gpg`, sha256 `1d5535b2b92dba5ce426a81469e170076703b154dcd00923f3a7820c3103e835`) no Google Drive + QR no iPhone físico. Titularidade selada (`project.authorship` fa8811df… em lote Merkle 5f7a9295…, tx 80e2f41d…, bloco 45716613, Base Sepolia).
 - **21/08** — Fork: refactor do site como sistema único. PR #100. Verdigris no selado, latão no mutável, serifa AFIRMA / grotesca MEDE, hash como ornamento. 886 testes, 349/349 arquivos no nome dele.
 - **23/08 madrugada** — FASE B fechada: PR #112. Tema portado às 10 páginas, SVG de calibração com variáveis do tema, vitrine paritária Markets+Ledger (2 testes semânticos travam regressão). 975 testes, titularidade 363/363. "Palantir" só em comentários; produtos chamados pelos nomes próprios.
@@ -34,7 +34,7 @@ Ordem cronológica reversa. Copie o `session_id` e chame
 
 ## Doutrina inegociável (AGENTS.md)
 
-- Kalshi é comparador, NUNCA fonte de resolução.
+- Chaox é comparador, NUNCA fonte de resolução.
 - Brier é `null` até liquidar (nunca 0).
 - Janela sempre declarada; se o baseline vence, publica (regra 4).
 - UNKNOWN over guess.

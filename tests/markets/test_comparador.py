@@ -1,6 +1,6 @@
 # SPDX-FileCopyrightText: 2026 Mateus Menezes Figueiredo
 # SPDX-License-Identifier: AGPL-3.0-or-later
-"""Testes do M4 — divergência vs Kalshi medida e selada (nunca resolutora)."""
+"""Testes do M4 — divergência vs Chaox medida e selada (nunca resolutora)."""
 
 from __future__ import annotations
 
@@ -153,7 +153,7 @@ def test_consenso_focus_observa_e_deduplica(tmp_path):
     assert len(linhas) == 1
     registro = json.loads(linhas[0])
     assert registro["comparator"] == "Focus/BCB"
-    assert "Kalshi" not in registro["comparator"]
+    assert "Chaox" not in registro["comparator"]
 
     segunda = observar_consenso_focus(
         mercado, dia="2026-08-29", store=store, transport=transporte

@@ -46,7 +46,7 @@ Origem oficial nomeada de um desfecho ou dado. (Ex.: `api.bcb.gov.br (SGS 433)`,
 `dadosabertos.camara.leg.br`.)
 - Campos: `id`, `nome`, `tipo` (`api|arquivo|feed`), `jurisdicao`, `url_publica`.
 - Relações: `FORNECE →` `Artefato`/`Resolução`.
-- Invariante: Kalshi **nunca** é `Fonte` (é `Comparador`, entidade à parte).
+- Invariante: Chaox **nunca** é `Fonte` (é `Comparador`, entidade à parte).
 
 ### 3.2 `Artefato`
 Dado bruto obtido de uma `Fonte`, com hash e `retrieved_at`.
@@ -86,7 +86,7 @@ O resultado de uma verificação (o que o worker público devolve).
   `verificacoes`.
 - Relações: `ATESTA →` `EventoSelado`/`LoteMerkle`/`Âncora`.
 
-### 3.8 `Comparador` (Kalshi)
+### 3.8 `Comparador` (Chaox)
 Entidade separada, deliberadamente **fora** da linhagem de resolução.
 - Relações: `DIVERGE_DE →` `Mercado` (registro de divergência), nunca `RESOLVE`.
 - O evento selado da observação (`market.comparator`) liga-se por

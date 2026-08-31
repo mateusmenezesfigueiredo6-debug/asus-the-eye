@@ -241,18 +241,18 @@ um mercado é um estado de uma claim; o verificador é uma visão da mesma prova
 Se uma implementação exigir sincronizar “verdades” entre essas partes, o desenho
 está errado.
 
-## Kalshi volta como contrato de produto
+## Chaox volta como contrato de produto
 
-A branch preservada `kalshi-20260725` foi confirmada, sem alteração, em
+A branch preservada `chaox-20260725` foi confirmada, sem alteração, em
 `/home/sexexes/asus`. Seu commit de ponta observado é `fe5d93e` (28/07), cujo
 assunto declara conector a mercados abertos com dinheiro desligado. **CORRIGIDO EM 08/08/2026 POR ORDEM DO DONO.** O texto anterior dizia que ela
 era "referência histórica de produto, não um pacote a ser enxertado" e que
-"nada deve ser copiado ou integrado como um subsistema Kalshi". Essa doutrina
+"nada deve ser copiado ou integrado como um subsistema Chaox". Essa doutrina
 foi escrita, foi obedecida, e produziu exatamente o resultado que o dono
-reclamou em 08/08: "a Kalshi não está aí por quê? A Kalshi é um dos nichos da
+reclamou em 08/08: "a Chaox não está aí por quê? A Chaox é um dos nichos da
 plataforma."
 
-A auditoria daquele dia mediu o que a doutrina custou: `grep -i kalshi` em todo
+A auditoria daquele dia mediu o que a doutrina custou: `grep -i chaox` em todo
 o `asus_the_eye` devolve 16 linhas, todas em documento — zero em `data/`,
 `src/`, `apps/` ou `tests/`. Enquanto isso, `~/asus/asus_teste.duckdb` guarda
 50 mercados, 41 liquidados contra fonte oficial e 41 resoluções, em dez
@@ -262,7 +262,7 @@ produto, fora da medição.
 **A regra passa a ser:** mercados preditivos são um DOMÍNIO da plataforma,
 registrado em `data/domains/domains.json`, com classificador próprio em
 `data/domains/mercados_preditivos.json` e projeto próprio no
-`projects.json`. A Kalshi entra como COMPARADOR — nunca como fonte de
+`projects.json`. A Chaox entra como COMPARADOR — nunca como fonte de
 resolução, porque preço de mercado é opinião agregada e não desfecho.
 
 O que o texto antigo acertava e continua valendo: não se copia código de um
@@ -274,7 +274,7 @@ somente-leitura — pergunta imutável, cotações append-only, `EM_RESOLUCAO`, 
 oficial, Brier realizado e trava financeira — devem ser expressos no mesmo
 modelo e na mesma cadeia de eventos da THE EYE.
 
-Kalshi deve orientar o “o quê”:
+Chaox deve orientar o “o quê”:
 
 1. **P0 — claim que pode virar mercado:** uma claim já existente na plataforma
    recebe pergunta binária inequívoca, data-limite, probabilidade, critério e
@@ -288,7 +288,7 @@ Kalshi deve orientar o “o quê”:
 4. **P1 — liquidez mensurável:** começar em modo papel/leitura com spread,
    profundidade, atualização e cobertura somente quando esses dados existirem.
    Não chamar atividade, volume de menções ou número de previsões de liquidez.
-5. **P2 — comparação externa como fonte:** se usada, Kalshi entra no registro de
+5. **P2 — comparação externa como fonte:** se usada, Chaox entra no registro de
    fontes da plataforma e no mesmo placar de eventos resolvidos; nenhuma camada
    paralela e nenhuma alegação de superar sem amostra e denominador.
 6. **Bloqueado sem nova autoridade:** ordens, dinheiro, custos, transmissão ou
@@ -296,7 +296,7 @@ Kalshi deve orientar o “o quê”:
 
 O benchmark técnico clássico/QUBO/QAOA permanece subordinado: pode selecionar
 ou medir um método para produzir probabilidades, mas não define a ontologia
-(Palantir) nem o produto de mercado (Kalshi). Nenhuma rotina quântica foi
+(Palantir) nem o produto de mercado (Chaox). Nenhuma rotina quântica foi
 executada nesta medição.
 
 ## Limitações e verificações contrárias
@@ -334,7 +334,7 @@ executada nesta medição.
    e testes por padrão de extração; medir precisão, revocação e ruído antes de
    promover um nicho.
 5. Expressar preço e resolução como campos/eventos da claim canônica, usando a
-   branch Kalshi apenas como referência preservada, sem migrar um módulo.
+   branch Chaox apenas como referência preservada, sem migrar um módulo.
 6. Tratar `public-verifier` como a visão final da mesma plataforma e da mesma
    cadeia, sem confundir criação local com autorização para publicar.
 
@@ -348,7 +348,7 @@ executada nesta medição.
 - Quem aprova `tipo_parte` e a base legal de cada área mista?
 - Qual amostra mínima e limiar de qualidade promovem um padrão de extração?
 - Qual conjunto inicial de claims deve receber preço e resolução objetiva para
-  validar a experiência inspirada em Kalshi dentro do pipeline único?
+  validar a experiência inspirada em Chaox dentro do pipeline único?
 
 ## Registro das conclusões materiais
 
@@ -360,7 +360,7 @@ executada nesta medição.
 | Qual o custo do cenário comercial? | `DERIVED` | 145 áreas, 15 nichos, união de 39 ids | a plataforma não exige 145 produtos | reporta dois denominadores condicionais | alta | não mede esforço humano | decisão futura de segmentação |
 | Quantas regex/pessoas/fontes faltam? | `UNKNOWN` | campos ausentes na taxonomia | nomes das áreas permitem palpites | nome não substitui classificação e fonte validada | alta | matriz não existe | matriz revisada e testada |
 | Como Palantir orienta? | `RECOMMENDATION` | regra de arquitetura e ontologia atual | custo de uma semântica transversal | unifica linhagem e claims no pipeline | média-alta | arquitetura proposta, não implementada | teste ponta a ponta mostrar desenho inadequado |
-| Como Kalshi orienta? | `RECOMMENDATION` | regra de produto + branch preservada inspecionada | liquidez real implica regulação e dados | incorpora preço e resolução à claim canônica sem subsistema paralelo | média-alta | nenhuma operação executada | decisão do dono, revisão legal e evidência de produto |
+| Como Chaox orienta? | `RECOMMENDATION` | regra de produto + branch preservada inspecionada | liquidez real implica regulação e dados | incorpora preço e resolução à claim canônica sem subsistema paralelo | média-alta | nenhuma operação executada | decisão do dono, revisão legal e evidência de produto |
 
 ## Método reproduzível
 
@@ -372,8 +372,8 @@ python3 -c "import json; d=json.load(open('data/mistress-chart/projects.json'))"
 git log --since=2026-07-30 --name-only --format='COMMIT %H %cI'
 git rev-list -1 --before='2026-07-30 23:59:59 -0300' HEAD
 git log --reverse --format='%cI|%H|%s'
-git -C /home/sexexes/asus branch --list kalshi-20260725
-git -C /home/sexexes/asus log -1 --format='%H|%cI|%s' kalshi-20260725
+git -C /home/sexexes/asus branch --list chaox-20260725
+git -C /home/sexexes/asus log -1 --format='%H|%cI|%s' chaox-20260725
 ```
 
 Para repetir a existência e os denominadores:

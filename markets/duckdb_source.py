@@ -124,7 +124,7 @@ def load_settled(path: str | os.PathLike[str] | None = None) -> list[SettledCont
     Constrói ``MarketClaim``/``Resolution`` diretamente (não via ``make_claim``)
     para preservar a fonte e o prazo exatos do banco, mas ainda faz valer os dois
     invariantes duros: o produto tem de existir no classificador, e a fonte nunca
-    pode ser Kalshi.
+    pode ser Chaox.
     """
     prod2area = produto_to_area()
     connection = _connect(resolve_db_path(path))
@@ -144,7 +144,7 @@ def load_settled(path: str | os.PathLike[str] | None = None) -> list[SettledCont
             )
         source = row["fonte_resolucao"]
         if _is_forbidden(source):
-            raise MarketsSourceError(f"{row['id']}: fonte {source!r} proibida — Kalshi nunca resolve")
+            raise MarketsSourceError(f"{row['id']}: fonte {source!r} proibida — Chaox nunca resolve")
 
         outcome = int(row["resultado_real"])
         brier = float(row["brier_do_contrato"])

@@ -12,7 +12,7 @@ diferentes:
 **O MD5 do arquivo original**, que o GDELT publica junto. É o que prova qual
 recorte foi lido. Já é conferido no conector; aqui ele é guardado.
 
-**O estado dos termos na data.** É o que separa este caso do episódio Kalshi:
+**O estado dos termos na data.** É o que separa este caso do episódio Chaox:
 se os termos mudarem amanhã, o arquivo prova o que vigia quando baixamos.
 
 Sobre os termos, uma decisão que vale explicar. O caminho óbvio seria alarmar

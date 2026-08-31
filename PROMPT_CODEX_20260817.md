@@ -7,7 +7,7 @@ ambas dentro do SEU território — nenhuma toca `src/`.
 ## Antes de tudo (leia nesta ordem)
 
 1. `AGENTS.md` — missão e regras inegociáveis (UNKNOWN over guess; Brier nulo
-   até liquidar; janela sempre declarada; Kalshi é comparador, nunca fonte;
+   até liquidar; janela sempre declarada; Chaox é comparador, nunca fonte;
    nada de custo/broadcast/deploy).
 2. `COORDENACAO.md` — territórios.
 
@@ -26,7 +26,7 @@ A IMPLEMENTAÇÃO em `src/` fica com o Claude, a partir do que você projetar.
 
 Só absorver de fonte com licença que PERMITE: permissiva (MIT/Apache/BSD) ou
 copyleft compatível (AGPL). Repo SEM licença = proibido. Proprietário
-(Palantir/Kalshi) NUNCA — usa-se a categoria (ideia) e a API pública, nunca o
+(Palantir/Chaox) NUNCA — usa-se a categoria (ideia) e a API pública, nunca o
 código. Toda ideia absorvida cita origem + arquivo + commit + licença.
 
 ## TAREFA A — Projeto da ontologia de Evidência
