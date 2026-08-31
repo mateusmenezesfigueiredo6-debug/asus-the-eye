@@ -52,6 +52,14 @@ URL_CARGA_DIARIA = (
     "https://ons-aws-prod-opendata.s3.amazonaws.com"
     "/dataset/carga_energia_di/CARGA_ENERGIA_{ano}.csv"
 )
+#: Energia Armazenada — o nível dos reservatórios, em percentual da capacidade.
+#: Defasagem MENOR que a da carga (2 dias contra 3, medido em 31/08/2026) e o
+#: número é imediatamente compreensível: "os reservatórios do Sudeste estão em
+#: 58,4%". É o termômetro popular de risco de racionamento.
+URL_EAR_DIARIA = (
+    "https://ons-aws-prod-opendata.s3.amazonaws.com"
+    "/dataset/ear_subsistema_di/EAR_DIARIO_SUBSISTEMA_{ano}.csv"
+)
 MAX_BYTES = 8_000_000
 TIMEOUT = 60
 
@@ -68,6 +76,7 @@ SUBSISTEMAS = {
 }
 
 COLUNAS = ("id_subsistema", "nom_subsistema", "din_instante", "val_cargaenergiamwmed")
+COLUNAS_EAR = ("id_subsistema", "ear_data", "ear_verif_subsistema_percentual")
 
 
 class FonteOnsError(FonteError):
@@ -107,8 +116,14 @@ def _numero(bruto: object, contexto: str) -> float:
     return valor
 
 
-def _baixar_ano(ano: int, transport: Transport | None) -> list[dict]:
-    url = URL_CARGA_DIARIA.format(ano=ano)
+def _baixar_ano(
+    ano: int,
+    transport: Transport | None,
+    *,
+    url_modelo: str = URL_CARGA_DIARIA,
+    colunas: tuple[str, ...] = COLUNAS,
+) -> list[dict]:
+    url = url_modelo.format(ano=ano)
     try:
         resposta = get_bytes(
             url,
@@ -130,7 +145,7 @@ def _baixar_ano(ano: int, transport: Transport | None) -> list[dict]:
     linhas = list(csv.DictReader(io.StringIO(texto), delimiter=";"))
     if not linhas:
         raise FonteOnsError(f"CSV do ONS veio vazio em {url}")
-    faltando = [c for c in COLUNAS if c not in linhas[0]]
+    faltando = [c for c in colunas if c not in linhas[0]]
     if faltando:
         raise FonteOnsError(
             f"CSV do ONS sem as colunas {faltando} — o layout mudou: {sorted(linhas[0])}"
@@ -206,4 +221,86 @@ def mediana_do_subsistema(
     ]
     if not valores:
         raise FonteOnsError(f"nenhuma carga de {subsistema} no CSV do ONS de {ano}")
+    return statistics.median(valores)
+
+
+def ear_percentual_do_dia(
+    dia: str,
+    subsistema: str,
+    *,
+    transport: Transport | None = None,
+) -> float | None:
+    """Energia armazenada do subsistema em ``dia``, em % da capacidade máxima.
+
+    Devolve ``None`` quando o ONS ainda não publicou aquele dia — mesmo
+    princípio da carga: UNKNOWN, nunca zero. Zero aqui seria especialmente
+    grave, porque reservatório em 0% é o cenário de racionamento, e liquidar
+    "sim, está zerado" por causa de atraso de publicação seria o pior erro
+    possível desta série.
+
+    ARMADILHA DESTE ARQUIVO, e por que há strip em toda comparação: o ONS
+    publica ``id_subsistema`` com espaço à direita em alguns subsistemas
+    (``'S '``, ``'S  '``), enquanto o arquivo de carga vem limpo. Comparar sem
+    ``strip()`` faria o Sul simplesmente não existir — e a ausência seria lida
+    como "ainda não publicado", que é justamente o modo de falha silenciosa que
+    este conector foi escrito para não ter.
+    """
+    dia = _dia_valido(dia)
+    subsistema = _subsistema_valido(subsistema)
+    linhas = _baixar_ano(
+        int(dia[:4]), transport, url_modelo=URL_EAR_DIARIA, colunas=COLUNAS_EAR
+    )
+
+    achadas = [
+        linha
+        for linha in linhas
+        if str(linha["ear_data"]).strip() == dia
+        and str(linha["id_subsistema"]).strip() == subsistema
+    ]
+    if not achadas:
+        return None
+    if len(achadas) > 1:
+        raise FonteOnsError(
+            f"o par ({dia}, {subsistema}) aparece {len(achadas)} vezes no EAR do ONS"
+        )
+
+    valor = _numero(
+        achadas[0]["ear_verif_subsistema_percentual"], f"EAR {subsistema} em {dia}"
+    )
+    if valor > 100.0:
+        raise FonteOnsError(
+            f"EAR de {subsistema} em {dia} veio {valor}% — acima de 100% da "
+            "capacidade, o que não existe: layout ou unidade mudou"
+        )
+    return valor
+
+
+def mediana_ear(
+    ano: int,
+    subsistema: str,
+    *,
+    dias: int = 30,
+    transport: Transport | None = None,
+) -> float:
+    """Mediana do EAR do subsistema nos últimos ``dias`` publicados.
+
+    Janela recente, não o ano inteiro — pela mesma razão medida no seed da
+    carga: a série é sazonal/tendencial, e a mediana anual produz limiar
+    desequilibrado (chegou a dar contrato a 100%). Ver o cabeçalho de
+    ``scripts/seed-energia-diaria.mjs`` no site.
+    """
+    subsistema = _subsistema_valido(subsistema)
+    linhas = _baixar_ano(ano, transport, url_modelo=URL_EAR_DIARIA, colunas=COLUNAS_EAR)
+    pares = sorted(
+        (str(l["ear_data"]).strip(), l)
+        for l in linhas
+        if str(l["id_subsistema"]).strip() == subsistema
+    )
+    if not pares:
+        raise FonteOnsError(f"nenhum EAR de {subsistema} no CSV do ONS de {ano}")
+    recentes = pares[-dias:]
+    valores = [
+        _numero(l["ear_verif_subsistema_percentual"], f"EAR {subsistema} em {d}")
+        for d, l in recentes
+    ]
     return statistics.median(valores)

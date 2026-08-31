@@ -27,7 +27,9 @@ from asus_theye.markets.fonte_ons import (
     SUBSISTEMAS,
     FonteOnsError,
     carga_do_dia,
+    ear_percentual_do_dia,
     mediana_do_subsistema,
+    mediana_ear,
     ultimo_dia_publicado,
 )
 from asus_theye.net.http import HttpResponse
@@ -160,3 +162,97 @@ def test_mediana_de_subsistema_sem_dado_levanta() -> None:
 def test_o_erro_da_casa_herda_de_FonteError() -> None:
     # Quem trata fonte genericamente na rodada tem de pegar este também.
     assert issubclass(FonteOnsError, FonteError)
+
+
+# ---------------------------------------------------------------------------
+# EAR — energia armazenada (nível dos reservatórios), série DIÁRIA em %.
+#
+# Riscos próprios desta série, distintos dos da carga:
+#
+# 1. **Espaço à direita na sigla.** O ONS publica ``'S '`` e ``'S  '`` neste
+#    arquivo, enquanto o de carga vem limpo. Comparar sem strip faria o Sul
+#    não existir — e a ausência seria lida como "ainda não publicado", que é
+#    exatamente a falha silenciosa que este conector existe para não ter.
+#
+# 2. **Zero é o cenário de racionamento.** Devolver 0.0 para dia não publicado
+#    seria o pior erro possível: liquidaria "sim, o reservatório está zerado".
+# ---------------------------------------------------------------------------
+
+CABECALHO_EAR = (
+    "id_subsistema;nom_subsistema;ear_data;ear_max_subsistema;"
+    "ear_verif_subsistema_mwmes;ear_verif_subsistema_percentual"
+)
+
+EAR_PADRAO = (
+    "\n".join(
+        [
+            CABECALHO_EAR,
+            "SE;SUDESTE;2026-08-29;204615.328;119493.645;58.3992",
+            # o Sul vem com espaço à direita no arquivo real — de propósito aqui
+            "S ;SUL;2026-08-29;20459.242;16437.349;80.3419",
+            "NE;NORDESTE;2026-08-29;51000.000;30000.000;58.8235",
+            "SE;SUDESTE;2026-08-28;204615.328;119000.000;58.1583",
+            "S  ;SUL;2026-08-28;20459.242;16000.000;78.2050",
+        ]
+    )
+).encode("utf-8")
+
+
+class TransporteEar:
+    def __init__(self, status: int = 200, body: bytes | None = None) -> None:
+        self.status, self.body = status, EAR_PADRAO if body is None else body
+
+    def request(self, url: str, *, headers, timeout, max_bytes) -> HttpResponse:  # type: ignore[no-untyped-def]
+        return HttpResponse(url=url, status=self.status, headers={}, body=self.body)
+
+
+def test_ear_le_o_percentual_do_dia() -> None:
+    assert ear_percentual_do_dia(
+        "2026-08-29", "SE", transport=TransporteEar()
+    ) == pytest.approx(58.3992)
+
+
+def test_ear_acha_o_sul_apesar_do_espaco_a_direita_na_sigla() -> None:
+    # Sem strip() o Sul sumiria e viraria "não publicado" — falha silenciosa.
+    assert ear_percentual_do_dia(
+        "2026-08-29", "S", transport=TransporteEar()
+    ) == pytest.approx(80.3419)
+    assert ear_percentual_do_dia(
+        "2026-08-28", "S", transport=TransporteEar()
+    ) == pytest.approx(78.2050)
+
+
+def test_ear_dia_nao_publicado_e_None_nunca_zero() -> None:
+    # Zero aqui significaria reservatório vazio — o cenário de racionamento.
+    assert ear_percentual_do_dia("2026-08-30", "SE", transport=TransporteEar()) is None
+
+
+def test_ear_acima_de_100_por_cento_levanta() -> None:
+    corpo = "\n".join(
+        [CABECALHO_EAR, "SE;SUDESTE;2026-08-29;204615.328;119493.645;158.0"]
+    ).encode()
+    with pytest.raises(FonteOnsError, match="acima de 100"):
+        ear_percentual_do_dia("2026-08-29", "SE", transport=TransporteEar(body=corpo))
+
+
+def test_ear_layout_mudado_levanta() -> None:
+    corpo = b"id_subsistema;data;percentual\nSE;2026-08-29;58.4\n"
+    with pytest.raises(FonteOnsError, match="layout mudou"):
+        ear_percentual_do_dia("2026-08-29", "SE", transport=TransporteEar(body=corpo))
+
+
+def test_ear_subsistema_desconhecido_levanta() -> None:
+    with pytest.raises(FonteOnsError, match="não é do SIN"):
+        ear_percentual_do_dia("2026-08-29", "CO", transport=TransporteEar())
+
+
+def test_mediana_ear_usa_janela_recente() -> None:
+    # Duas leituras do SE: 58,3992 e 58,1583 -> mediana é a média das duas.
+    assert mediana_ear(2026, "SE", transport=TransporteEar()) == pytest.approx(
+        (58.3992 + 58.1583) / 2
+    )
+
+
+def test_mediana_ear_de_subsistema_sem_dado_levanta() -> None:
+    with pytest.raises(FonteOnsError, match="nenhum EAR de N"):
+        mediana_ear(2026, "N", transport=TransporteEar())
