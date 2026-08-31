@@ -52,7 +52,12 @@ UNDECLARED_SOURCE = "a declarar"
 #
 # É o mesmo defeito que a auditoria de 31/08 encontrou em outro lugar da casa —
 # controle que existe no comentário e não no código.
-FORBIDDEN_SOURCES = ("chaox", "kalshi")
+FORBIDDEN_SOURCES = ("chaox", "kalshi", "polymarket", "predictit", "manifold")
+# A lista cobre a família inteira, não só a referência: qualquer casa de
+# previsão é OPINIÃO AGREGADA de apostadores, não desfecho apurado — e o
+# viés dela é medido (Burgi/Deng/Whelan, GWU WP 2026-001: retorno medio -20%,
+# hipotese de preco nao-enviesado rejeitada nos cinco quintis de volume).
+# Liquidar contra isso seria importar o vies alheio para dentro da nossa serie.
 # Tolerância para marcar o limiar de máxima incerteza (mediana da janela).
 UNCERTAINTY_TOLERANCE = 1e-9
 
