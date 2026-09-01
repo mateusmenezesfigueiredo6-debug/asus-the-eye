@@ -97,8 +97,85 @@ def arquivar_vintage(
         "capturado_em": capturado_em,
         "metodo": "mediana das expectativas de mercado vigente na captura — vintage, não revisado",
     }
+    return _gravar_vintage(conteudo, base=base, sdk=sdk, eventos=eventos)
+
+
+def reconstruir_vintage(
+    mes_referencia: str,
+    corte: str,
+    *,
+    base: Path = BASE_PADRAO,
+    transport: Transport | None = None,
+    sdk: Any = None,
+    eventos: Path | None = None,
+    agora: str | None = None,
+) -> dict[str, Any]:
+    """Reconstrói o vintage de ``mes_referencia`` como ele era no dia ``corte``.
+
+    Isto NÃO viola a doutrina "vintage não se fabrica retroativamente" — a
+    doutrina proíbe usar dado REVISADO como se fosse da época. O arquivo do
+    Olinda é datado na origem: cada linha é a pesquisa Focus como registrada
+    naquele dia, imutável depois (o mesmo desenho dos real-time datasets
+    ALFRED/Philly Fed que a literatura de nowcast usa como padrão-ouro).
+    Reconstruir = ler o registro da época no arquivo oficial.
+
+    O que muda em relação à captura ao vivo é a ROTULAGEM, nunca o número:
+    ``metodo`` declara reconstrução e o corte; ``capturado_em`` é o instante
+    REAL desta execução (relógio não se falsifica). A identidade de
+    deduplicação é a mesma — se a captura ao vivo já arquivou o mesmo boletim,
+    a reconstrução converge para o registro existente em vez de duplicar.
+    """
+    from asus_theye.markets.sinais_ipca import mediana_focus_ipca_no_corte
+
+    try:
+        focus = mediana_focus_ipca_no_corte(mes_referencia, corte, transport=transport)
+    except SinaisError as erro:
+        raise VintageError(f"Focus indisponível para {mes_referencia} no corte {corte}: {erro}") from erro
+
+    capturado_em = agora or datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
+    if focus is None:
+        return {
+            "registro": None,
+            "duplicate": False,
+            "selagem": None,
+            "motivo": f"Olinda sem pesquisa para o mês até o corte {corte}",
+        }
+
+    mediana, data_boletim = focus
+    conteudo = {
+        "mes_referencia": mes_referencia,
+        "indicador": "IPCA",
+        "mediana": float(mediana),
+        "data_do_boletim": str(data_boletim),
+        "fonte": "api.bcb.gov.br/olinda (ExpectativaMercadoMensais)",
+        "capturado_em": capturado_em,
+        "metodo": (
+            "mediana reconstruída do arquivo datado do Olinda — última pesquisa "
+            f"com Data <= corte {corte}; reconstrução rotulada, não é captura ao vivo"
+        ),
+    }
+    return _gravar_vintage(conteudo, base=base, sdk=sdk, eventos=eventos)
+
+
+def _gravar_vintage(
+    conteudo: dict[str, Any],
+    *,
+    base: Path,
+    sdk: Any,
+    eventos: Path | None,
+) -> dict[str, Any]:
+    """Identidade, deduplicação, snapshot bruto, índice e selagem — caminho único.
+
+    Captura ao vivo e reconstrução gravam pelo MESMO funil: a identidade é
+    ``(mes, boletim, mediana)``, então os dois caminhos convergem para um
+    registro só quando falam do mesmo boletim.
+    """
     identidade = json.dumps(
-        {"mes": mes_referencia, "boletim": str(data_boletim), "mediana": float(mediana)},
+        {
+            "mes": conteudo["mes_referencia"],
+            "boletim": str(conteudo["data_do_boletim"]),
+            "mediana": float(conteudo["mediana"]),
+        },
         sort_keys=True,
         separators=(",", ":"),
     ).encode("utf-8")
@@ -128,7 +205,8 @@ def arquivar_vintage(
             pasta = base / PASTA_VINTAGE
             pasta.mkdir(parents=True, exist_ok=True)
             bruto = json.dumps(conteudo, ensure_ascii=False, indent=2) + "\n"
-            (pasta / f"focus-{mes_referencia}-{str(data_boletim)[:10]}.json").write_text(bruto, encoding="utf-8")
+            nome = f"focus-{conteudo['mes_referencia']}-{str(conteudo['data_do_boletim'])[:10]}.json"
+            (pasta / nome).write_text(bruto, encoding="utf-8")
             with indice.open("a", encoding="utf-8") as stream:
                 stream.write(json.dumps(conteudo, ensure_ascii=False) + "\n")
 

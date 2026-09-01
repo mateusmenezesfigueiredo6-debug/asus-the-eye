@@ -74,6 +74,37 @@ def mediana_focus_ipca(
     linha para o mês (UNKNOWN, não zero). Malformado/HTTP ruim levanta.
     """
     filtro = quote(f"Indicador eq 'IPCA' and DataReferencia eq '{_mes_olinda(mes_referencia)}'")
+    return _consultar_focus(filtro, transport=transport)
+
+
+def mediana_focus_ipca_no_corte(
+    mes_referencia: str,
+    corte: str,
+    *,
+    transport: Transport | None = None,
+) -> tuple[float, str] | None:
+    """Mediana Focus VIGENTE NO CORTE ``corte`` (``aaaa-mm-dd``) — ou ``None``.
+
+    A diferença para :func:`mediana_focus_ipca` é o relógio: aqui a resposta é
+    a última pesquisa com ``Data <= corte`` — o consenso que existia naquele
+    dia. O arquivo do Olinda é DATADO na origem (cada linha carrega o dia da
+    pesquisa e não é revisada depois); lê-se o registro da época, nunca uma
+    revisão de hoje.
+    """
+    if len(corte) != 10 or corte[4] != "-" or corte[7] != "-":
+        raise SinaisError(f"corte deve ser 'aaaa-mm-dd', veio {corte!r}")
+    filtro = quote(
+        f"Indicador eq 'IPCA' and DataReferencia eq '{_mes_olinda(mes_referencia)}' "
+        f"and Data le '{corte}'"
+    )
+    return _consultar_focus(filtro, transport=transport)
+
+
+def _consultar_focus(
+    filtro: str,
+    *,
+    transport: Transport | None = None,
+) -> tuple[float, str] | None:
     url = URL_FOCUS.format(filtro=filtro)
     try:
         response = get_bytes(

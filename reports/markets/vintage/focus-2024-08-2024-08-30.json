@@ -1,0 +1,10 @@
+{
+  "mes_referencia": "2024-08",
+  "indicador": "IPCA",
+  "mediana": 0.04,
+  "data_do_boletim": "2024-08-30",
+  "fonte": "api.bcb.gov.br/olinda (ExpectativaMercadoMensais)",
+  "capturado_em": "2026-09-01T21:13:38.628567Z",
+  "metodo": "mediana reconstruída do arquivo datado do Olinda — última pesquisa com Data <= corte 2024-08-31; reconstrução rotulada, não é captura ao vivo",
+  "vintage_id": "3c9be6d3ba51079a61c531efa17d354ec09b26a32259ccd5671722cda28d7819"
+}

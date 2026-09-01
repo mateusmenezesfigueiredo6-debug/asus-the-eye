@@ -1,0 +1,10 @@
+{
+  "mes_referencia": "2025-03",
+  "indicador": "IPCA",
+  "mediana": 0.56,
+  "data_do_boletim": "2025-03-31",
+  "fonte": "api.bcb.gov.br/olinda (ExpectativaMercadoMensais)",
+  "capturado_em": "2026-09-01T21:13:48.649732Z",
+  "metodo": "mediana reconstruída do arquivo datado do Olinda — última pesquisa com Data <= corte 2025-03-31; reconstrução rotulada, não é captura ao vivo",
+  "vintage_id": "c5c2b2c3c0e21784f819aa3af350658344896269a2c1a8505913dadbcc7ccfe3"
+}

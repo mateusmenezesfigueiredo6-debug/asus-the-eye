@@ -84,3 +84,59 @@ def test_vintage_selado_vira_evento_verificavel(tmp_path: Path) -> None:
     assert r["selagem"] is not None and r["selagem"]["duplicate"] is False
     selado = json.loads((tmp_path / "corrente.jsonl").read_text(encoding="utf-8").strip())
     assert selado["event_type"] == "market.vintage" and verify_event(selado)
+
+
+# ------------------------------------------------ reconstrução (backfill F1)
+
+
+class TransporteQueGravaURL(TransporteFalso):
+    """Além de responder, guarda a URL — para provar o filtro de corte."""
+
+    def __init__(self, corpo: bytes = COM_BOLETIM) -> None:
+        super().__init__(corpo)
+        self.urls: list[str] = []
+
+    def request(self, url: str, *, headers, timeout, max_bytes):  # type: ignore[no-untyped-def]
+        self.urls.append(url)
+        return super().request(url, headers=headers, timeout=timeout, max_bytes=max_bytes)
+
+
+def test_reconstruir_rotula_o_metodo_e_leva_o_corte_na_consulta(tmp_path: Path) -> None:
+    """Reconstrução NUNCA se disfarça de captura ao vivo: o metodo declara o
+    corte, e a consulta ao Olinda carrega ``Data le corte`` — lê o registro da
+    época, não o vigente de hoje."""
+    from asus_theye.markets.vintage_focus import reconstruir_vintage
+
+    transporte = TransporteQueGravaURL()
+    r = reconstruir_vintage("2026-09", "2026-08-15", base=tmp_path, transport=transporte)
+    assert r["duplicate"] is False
+    assert "reconstru" in r["registro"]["metodo"]
+    assert "corte 2026-08-15" in r["registro"]["metodo"]
+    assert "le%20%272026-08-15%27" in transporte.urls[0]
+
+
+def test_reconstruir_converge_com_a_captura_ao_vivo_do_mesmo_boletim(tmp_path: Path) -> None:
+    """Identidade = (mes, boletim, mediana): live e reconstrução do MESMO
+    boletim viram um registro só — a série nunca duplica por caminho."""
+    from asus_theye.markets.vintage_focus import reconstruir_vintage
+
+    arquivar_vintage("2026-09", base=tmp_path, transport=TransporteFalso(), agora="2026-08-20T00:00:00Z")
+    r = reconstruir_vintage("2026-09", "2026-08-15", base=tmp_path, transport=TransporteFalso())
+    assert r["duplicate"] is True
+    assert len(serie_vintage("2026-09", base=tmp_path)) == 1
+    # o registro vigente é o da captura ao vivo — reconstrução não o reescreve
+    assert "vintage, não revisado" in r["registro"]["metodo"]
+
+
+def test_reconstruir_sem_pesquisa_ate_o_corte_e_honesto(tmp_path: Path) -> None:
+    from asus_theye.markets.vintage_focus import reconstruir_vintage
+
+    r = reconstruir_vintage("2026-09", "2020-01-31", base=tmp_path, transport=TransporteFalso(SEM_BOLETIM))
+    assert r["registro"] is None and "até o corte" in r["motivo"]
+
+
+def test_corte_malformado_levanta_antes_de_qualquer_rede() -> None:
+    from asus_theye.markets.sinais_ipca import SinaisError, mediana_focus_ipca_no_corte
+
+    with pytest.raises(SinaisError, match="corte"):
+        mediana_focus_ipca_no_corte("2026-09", "15/08/2026")
