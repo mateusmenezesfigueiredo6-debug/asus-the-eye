@@ -27,6 +27,7 @@ from asus_theye.markets.fonte_tse import (
     cargo_no_escopo,
     cargos_da_eleicao,
     eleicoes_publicadas,
+    fracao_do_percentual_tse,
     houve_segundo_turno,
     percentual_do_candidato,
     situacao_do_candidato,
@@ -154,7 +155,7 @@ def test_apuracao_parcial_nao_liquida_nada():
     assert not b.apuracao_encerrada
     assert abstencao(b) is None
     assert percentual_do_candidato(b, "LULA") is None
-    assert houve_segundo_turno(b) is None
+    assert houve_segundo_turno(b, descricao_cargo="Presidente") is None
     assert situacao_do_candidato(b, "LULA") is None
 
 
@@ -187,7 +188,7 @@ def test_maioria_absoluta_e_apurada_em_inteiros_nao_em_percentual_arredondado():
             {"nm": "PERDEU", "pvap": "50,00", "vap": "49999600", "st": "Não eleito"},
         ],
     )
-    assert houve_segundo_turno(b) == 0.0
+    assert houve_segundo_turno(b, descricao_cargo="Presidente") == 0.0
 
 
 def test_empate_exato_abre_segundo_turno():
@@ -199,11 +200,13 @@ def test_empate_exato_abre_segundo_turno():
             {"nm": "B", "pvap": "50,00", "vap": "50000000", "st": "2º turno"},
         ],
     )
-    assert houve_segundo_turno(b) == 1.0
+    assert houve_segundo_turno(b, descricao_cargo="Presidente") == 1.0
 
 
 def test_2022_teve_segundo_turno():
-    assert houve_segundo_turno(boletim("ele2022", "544", cargo=1, transport=Transporte())) == 1.0
+    assert houve_segundo_turno(
+        boletim("ele2022", "544", cargo=1, transport=Transporte()), descricao_cargo="Presidente"
+    ) == 1.0
 
 
 # --------------------------------------------------------------------------
@@ -311,3 +314,47 @@ def test_linha_nao_dicionario_no_indice_nao_derruba_a_leitura():
     ciclo, eleicoes = eleicoes_publicadas(transport=Sujo())
     assert ciclo == "ele2024"
     assert eleicoes == ()
+
+
+# --------------------------------------------------------------------------
+# fracao_do_percentual_tse — fecha a mina de escala com fonte_tse (0-100) vs
+# modelo_eleitoral/modelo_2026/verificacao (0-1), apontada pela varredura
+# estrutural de 30/08/2026.
+
+
+def test_fracao_do_percentual_tse_converte_o_exemplo_real_de_2022():
+    assert fracao_do_percentual_tse(48.43) == pytest.approx(0.4843)
+
+
+def test_fracao_do_percentual_tse_recusa_valor_ja_em_fracao():
+    """Se alguém já converteu e converte de novo, 0.48 estaria fora de [0,100]
+    só quando MUITO pequeno — mas o caso real de detectar dupla conversão é
+    limitado; o que a guarda garante é a faixa nativa do TSE, 0 a 100."""
+    with pytest.raises(FonteTSEError, match=r"\[0,100\]"):
+        fracao_do_percentual_tse(-5.0)
+    with pytest.raises(FonteTSEError, match=r"\[0,100\]"):
+        fracao_do_percentual_tse(150.0)
+
+
+def test_fracao_do_percentual_tse_aceita_os_extremos():
+    assert fracao_do_percentual_tse(0.0) == 0.0
+    assert fracao_do_percentual_tse(100.0) == 1.0
+
+
+def test_integracao_percentual_do_candidato_convertido_alimenta_erro_absoluto_medio():
+    """Prova o ponto inteiro: dado real do TSE, convertido, não explode.
+
+    Antes da correção, pegar percentual_do_candidato() (0-100) e passar direto
+    para erro_absoluto_medio() (que espera 0-1) produziria um número absurdo
+    sem exceção nenhuma. Com o conversor no meio, o número bate.
+    """
+    from asus_theye.markets.modelo_eleitoral import erro_absoluto_medio
+
+    b = boletim("ele2022", "544", cargo=1, transport=Transporte())
+    real_pct = percentual_do_candidato(b, "LULA")
+    assert real_pct == pytest.approx(48.43)
+
+    real_fracao = fracao_do_percentual_tse(real_pct)
+    previsto = {"LULA": 0.4907}
+    erro = erro_absoluto_medio(previsto, {"LULA": real_fracao})
+    assert erro == pytest.approx(0.64, abs=0.01)  # não ~4794

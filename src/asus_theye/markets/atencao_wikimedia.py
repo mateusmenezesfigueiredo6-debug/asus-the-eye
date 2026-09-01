@@ -59,7 +59,6 @@ página, coisa bem diferente de "ainda não publicaram".
 from __future__ import annotations
 
 import json
-import math
 import os
 import re
 import unicodedata
@@ -68,6 +67,7 @@ from dataclasses import dataclass
 from datetime import date, timedelta
 from statistics import median
 
+from asus_theye.markets.composicional import clr as _clr, de_clr as _de_clr, normalizar as _normalizar
 from asus_theye.markets.fonte_base import FonteError
 from asus_theye.net.http import HttpError, Transport, get_bytes
 
@@ -138,17 +138,38 @@ def verificar_artigo(
     """Confere um título ANTES de medi-lo. Use uma vez, ao cadastrar."""
     if not titulo.strip():
         raise AtencaoError("título vazio")
+    # A API MediaWiki trata "|" como separador de MÚLTIPLOS títulos em
+    # `titles`. Sem esta guarda, um título com "|" consultaria várias páginas
+    # de uma vez e `paginas[0]` pegaria a primeira por ordem do dict — não
+    # necessariamente a pedida — confirmando "confiável" o artigo errado sem
+    # erro nenhum. Achado da revisão do Copilot em 30/08/2026.
+    if "|" in titulo:
+        raise AtencaoError(
+            f"título contém '|', que a API trata como separador de múltiplos "
+            f"títulos: {titulo!r}"
+        )
+    # A mesma validação que visualizacoes() já fazia — não fazer aqui era a
+    # assimetria que a revisão apontou: URL montada com projeto não validado.
+    if not re.fullmatch(r"[a-z]{2,3}\.wikipedia", projeto):
+        raise AtencaoError(f"projeto em formato inesperado: {projeto!r}")
     url = URL_API.format(projeto=projeto) + "?" + urllib.parse.urlencode(
         {"action": "query", "titles": titulo, "redirects": "1", "format": "json"}
     )
     try:
         consulta = json.loads(_pedir(url, transport).decode("utf-8"))["query"]
         paginas = list(consulta["pages"].values())
-    except (ValueError, KeyError, AttributeError, UnicodeDecodeError) as exc:
+    except (ValueError, KeyError, AttributeError, TypeError, UnicodeDecodeError) as exc:
         raise AtencaoError(f"resposta inesperada da API da Wikipédia ({exc})") from exc
     if not paginas:
         raise AtencaoError(f"a Wikipédia não devolveu página para {titulo!r}")
     p = paginas[0]
+    if not isinstance(p, dict):
+        raise AtencaoError(f"página em formato inesperado: {type(p).__name__}")
+    # "invalid" é a chave que o MediaWiki usa para título SINTATICAMENTE
+    # malformado (não é "existe: não" nem "existe: sim" — é "nem processei").
+    # Sem checar, esse caso caía no ramo "existe" por omissão.
+    if "invalid" in p:
+        raise AtencaoError(f"título rejeitado pela Wikipédia como inválido: {titulo!r}")
     return Artigo(
         titulo_pedido=titulo,
         titulo_real=str(p.get("title", titulo)),
@@ -202,7 +223,12 @@ def visualizacoes(
     serie: dict[date, int] = {}
     for item in itens:
         if not isinstance(item, dict):
-            continue
+            # O próprio cabeçalho deste arquivo declara: "dia ausente é
+            # ausência, nunca zero". Descartar item malformado em silêncio
+            # tratava resposta CORROMPIDA como dia legitimamente não
+            # publicado — a mesma mentira que a doutrina proíbe, só que ao
+            # contrário. Achado da revisão do Copilot em 30/08/2026.
+            raise AtencaoError(f"item da série não é objeto: {item!r}")
         carimbo, vistas = str(item.get("timestamp", "")), item.get("views")
         if not re.fullmatch(r"\d{10}", carimbo) or not isinstance(vistas, int):
             raise AtencaoError(f"item malformado na série da Wikimedia: {item!r}")
@@ -219,10 +245,7 @@ def fatia_de_atencao(totais: dict[str, float]) -> dict[str, float]:
     resultado. Medido com os candidatos de 2026: dá 38% a um autor de
     best-sellers e 7% ao presidente em exercício.
     """
-    soma = sum(totais.values())
-    if soma <= 0:
-        raise AtencaoError("atenção total zero — série indisponível, não empate")
-    return {k: v / soma for k, v in totais.items()}
+    return _normalizar(totais, erro=AtencaoError)
 
 
 def excedente_sobre_base(
@@ -248,6 +271,13 @@ def excedente_sobre_base(
     return fora
 
 
+#: A matemática de log-razão vive em ``composicional.py`` desde 30/08/2026,
+#: quando uma varredura estrutural achou esta cópia duplicando
+#: ``modelo_eleitoral.clr``/``de_clr`` — e divergindo: esta cópia não recusava
+#: composição negativa, a outra recusava. Os nomes ``log_razao``/``de_log_razao``
+#: continuam existindo porque são o vocabulário deste domínio (atenção pública),
+#: e continuam levantando ``AtencaoError``, via o parâmetro ``erro`` injetado —
+#: nenhum código que já chamava daqui precisa mudar.
 def log_razao(fatias: dict[str, float], *, piso: float = 1e-6) -> dict[str, float]:
     """Transformação log-razão centrada (CLR) de uma composição.
 
@@ -257,23 +287,13 @@ def log_razao(fatias: dict[str, float], *, piso: float = 1e-6) -> dict[str, floa
     concentração como uma **inclinação** — grandeza interpretável e regularizável
     — em vez do expoente de potência que, ajustado direto em 2022, disparou para
     o limite da busca (k = 6,0) e denunciou sobreajuste.
-
-    ``piso`` evita log(0). Fatia zerada é ausência de sinal, não impossibilidade.
     """
-    if not fatias:
-        raise AtencaoError("composição vazia")
-    seguras = {k: max(v, piso) for k, v in fatias.items()}
-    media_log = sum(math.log(v) for v in seguras.values()) / len(seguras)
-    return {k: math.log(v) - media_log for k, v in seguras.items()}
+    return _clr(fatias, piso=piso, erro=AtencaoError)
 
 
 def de_log_razao(clr: dict[str, float]) -> dict[str, float]:
     """Volta de log-razão para composição que soma 1."""
-    exp = {k: math.exp(v) for k, v in clr.items()}
-    soma = sum(exp.values())
-    if soma <= 0:
-        raise AtencaoError("composição degenerada ao voltar do log-razão")
-    return {k: v / soma for k, v in exp.items()}
+    return _de_clr(clr, erro=AtencaoError)
 
 
 def ultimo_dia_disponivel(hoje: date | None = None) -> date:
