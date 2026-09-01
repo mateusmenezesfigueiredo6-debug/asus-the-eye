@@ -1,16 +1,32 @@
 {
+  "gerado_em": "2026-09-01",
+  "componentes": [
+    {
+      "nome": "tempo de TV (HGPE, art. 47 §2º Lei 9.504/1997)",
+      "peso": 1.0,
+      "fonte_do_peso": "Speck & Cervi (2016), Dados — tempo de HGPE, beta padronizado 0,106 (N=13.038, R²=0,54)",
+      "vies_declarado": ""
+    }
+  ],
+  "atencao_excluida_por": [
+    "Renan Santos: artigo 'Renan Santos (ativista)' não confiável (não existe)",
+    "Edmilson Costa: artigo 'Edmilson Costa (economista)' não confiável (não existe)",
+    "Hertz Dias: Wikimedia limitou a taxa (HTTP 429) — reduza a frequência",
+    "Samara Martins: Wikimedia limitou a taxa (HTTP 429) — reduza a frequência",
+    "Rui Costa Pimenta: Wikimedia limitou a taxa (HTTP 429) — reduza a frequência"
+  ],
   "ordem_sem_apuracao": {
-    "Lula": 0.22696721459053013,
-    "Flávio Bolsonaro": 0.20746303406901484,
-    "Ronaldo Caiado": 0.17987318335494498,
-    "Augusto Cury": 0.10339684816249688,
-    "Renan Santos": 0.07731229978623183,
-    "Romeu Zema": 0.060806780798355796,
-    "Samara Martins": 0.036705542380683485,
-    "Rui Costa Pimenta": 0.02848653956936172,
-    "Pablo Marçal": 0.026780406709686882,
-    "Hertz Dias": 0.026422115049428173,
-    "Edmilson Costa": 0.02578603552926527
+    "Flávio Bolsonaro": 0.3070709351096168,
+    "Lula": 0.268605594610631,
+    "Ronaldo Caiado": 0.17665563673411372,
+    "Augusto Cury": 0.061501342078083845,
+    "Romeu Zema": 0.04208773707472362,
+    "Pablo Marçal": 0.024013125732138506,
+    "Renan Santos": 0.024013125732138506,
+    "Edmilson Costa": 0.024013125732138506,
+    "Hertz Dias": 0.024013125732138506,
+    "Samara Martins": 0.024013125732138506,
+    "Rui Costa Pimenta": 0.024013125732138506
   },
   "magnitude_encolhida": {
     "Lula": 0.09090909090909091,
@@ -25,5 +41,14 @@
     "Samara Martins": 0.09090909090909091,
     "Rui Costa Pimenta": 0.09090909090909091
   },
-  "encolhimento": 1.0
+  "encolhimento": 1.0,
+  "avisos": [
+    "encolhimento 100% — o modelo viu 0 de 19 observações do ciclo corrente",
+    "NENHUMA observação do ciclo: a saída está praticamente uniforme, e isso é honestidade, não falha. Sem resultado real de 2026 não existe base para afirmar magnitude — só ordem.",
+    "tempo de TV (HGPE, art. 47 §2º Lei 9.504/1997): peso 1.00 — Speck & Cervi (2016), Dados — tempo de HGPE, beta padronizado 0,106 (N=13.038, R²=0,54)",
+    "família única de evidência — o backtest de 2022 mostrou que atenção sozinha erra por não enxergar estrutura partidária"
+  ],
+  "tse": {
+    "ciclo_publicado": "ele2024"
+  }
 }

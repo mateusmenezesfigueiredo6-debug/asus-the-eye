@@ -205,6 +205,17 @@ def _parser() -> argparse.ArgumentParser:
     )
     markets_resolver_site.add_argument("--limite", type=int, default=None, help="máximo de contratos nesta rodada")
     markets_resolver_site.add_argument("--json", dest="json_out", action="store_true", help="saída em JSON")
+    markets_eleitoral = subcommands.add_parser(
+        "markets-eleitoral-preview",
+        help="roda o Modelo2026 (TV + atenção Wikipédia ao vivo) e grava o retrato datado em dados/",
+    )
+    markets_eleitoral.add_argument(
+        "--sem-atencao",
+        action="store_true",
+        help="só a família de TV (offline; a atenção exige Wikimedia ao vivo)",
+    )
+    markets_eleitoral.add_argument("--json", dest="json_out", action="store_true", help="saída em JSON")
+    markets_eleitoral.add_argument("--no-audit", action="store_true", help="não selar o retrato na cadeia")
     markets_nowcast = subcommands.add_parser(
         "markets-nowcast",
         help="executa o nowcast desafiante do IPCA (ridge walk-forward) e grava manifesto em reports/mlops/",
@@ -1250,6 +1261,73 @@ def main(argv: Sequence[str] | None = None) -> int:
             motivos[p.motivo] = motivos.get(p.motivo, 0) + 1
         for motivo, quantos in sorted(motivos.items(), key=lambda kv: -kv[1])[:8]:
             print(f"  pendente ×{quantos}: {motivo}")
+        return 0
+
+    if args.command == "markets-eleitoral-preview":
+        from asus_theye.markets.eleitoral_preview import ARQ_PREVIEW, gerar_preview
+        from asus_theye.markets.fonte_tse import FonteTSEError, eleicoes_publicadas
+        from asus_theye.markets.modelo_eleitoral import ModeloError
+
+        try:
+            retrato = gerar_preview(com_atencao=not args.sem_atencao)
+        except ModeloError as error:
+            print(f"markets-eleitoral-preview: {error}")
+            return 1
+        # trava de identidade: "o TSE já publicou 2026?" é leitura, não suposição
+        try:
+            ciclo, _ = eleicoes_publicadas()
+            retrato["tse"] = {"ciclo_publicado": ciclo}
+        except FonteTSEError as error:
+            retrato["tse"] = {"indisponivel": str(error)}
+        ARQ_PREVIEW.write_text(
+            json.dumps(retrato, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
+        )
+        if not args.no_audit:
+            from asus_theye.markets.auditoria import AuditoriaError, abrir_auditoria, selar_registro
+
+            # Identidade = o CONTEÚDO medido (mesmo padrão do vintage_id):
+            # duas rodadas no mesmo dia com atenção diferente são DUAS
+            # medições — correlation por data fazia a segunda parecer
+            # adulteração da primeira, e a selagem recusava (corretamente).
+            import hashlib as _hashlib
+
+            identidade = _hashlib.sha256(
+                json.dumps(retrato, sort_keys=True, ensure_ascii=False).encode("utf-8")
+            ).hexdigest()[:32]
+            try:
+                selagem = selar_registro(
+                    abrir_auditoria(),
+                    retrato,
+                    tipo_evento="project.measurement",
+                    recurso="eleitoral-preview",
+                    correlation_id=f"eleitoral-preview:{identidade}",
+                    occurred_at=f"{retrato['gerado_em']}T00:00:00Z",
+                )
+                retrato["selagem"] = {"event_hash": selagem["event_hash_sha256"][:16]}
+            except AuditoriaError as error:
+                print(f"markets-eleitoral-preview: selagem falhou — {error}")
+                return 1
+        if args.json_out:
+            print(json.dumps(retrato, ensure_ascii=False, indent=2))
+            return 0
+        print("=" * 62)
+        print("PREVIEW ELEITORAL 2026 — ordem, nunca previsão calibrada")
+        print("=" * 62)
+        print(f"\ngerado em {retrato['gerado_em']} · encolhimento {retrato['encolhimento']:.2f}")
+        for componente in retrato["componentes"]:
+            print(f"  família: {componente['nome']}")
+        if retrato["atencao_excluida_por"]:
+            print("  atenção EXCLUÍDA da rodada:")
+            for motivo in retrato["atencao_excluida_por"]:
+                print(f"    - {motivo}")
+        print()
+        for nome, fatia in list(retrato["ordem_sem_apuracao"].items())[:13]:
+            print(f"  {fatia * 100:5.2f}%  {nome}")
+        for aviso in retrato["avisos"]:
+            print(f"\n  AVISO: {aviso}")
+        tse = retrato["tse"]
+        print(f"\n  TSE: {'ciclo publicado ' + tse['ciclo_publicado'] if 'ciclo_publicado' in tse else 'índice indisponível — ' + tse['indisponivel'][:80]}")
+        print(f"  retrato gravado em {ARQ_PREVIEW}")
         return 0
 
     if args.command == "markets-vintage":
