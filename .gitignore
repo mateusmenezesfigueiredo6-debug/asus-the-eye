@@ -48,3 +48,4 @@ reports/markets/.lock-*
 
 # cache local do wrangler (deploy do verificador)
 apps/*/.wrangler/
+reports/audit/*.key

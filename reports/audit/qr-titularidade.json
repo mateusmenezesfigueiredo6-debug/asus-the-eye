@@ -1,0 +1,17 @@
+{
+  "obra": "THE EYE OF GOD — asus_the_eye (motor de mercados preditivos)",
+  "titular": "Mateus Menezes Figueiredo",
+  "licenca": "AGPL-3.0-or-later",
+  "titular_commitment": {
+    "algoritmo": "HMAC-SHA256(chave_de_pseudonimizacao, digitos_do_documento_do_titular)",
+    "valor": "240fadc904d240a8a480fbdf53e08e3c96270e5d7b9e5d375a7e931f3cc846a3",
+    "chave_fingerprint": "89e4a4ce3f75f7c2f9a4e3b520861cde4e0f70f17163da2d8b251ab1ae71a87e"
+  },
+  "corrente": {
+    "arquivo": "reports/markets/eventos.jsonl",
+    "elos": 210,
+    "ultimo_event_hash": "b767fa5284033ffe4755e0f819171bb020e2e089fa1a73cffbaa56904294d8d4"
+  },
+  "gerado_em": "2026-09-01T21:56:02.137531Z",
+  "verificacao": "recompute HMAC-SHA256 do CPF do titular com a chave cujo fingerprint está acima (reports/audit/pseudonimos.key, 0600) e compare"
+}
