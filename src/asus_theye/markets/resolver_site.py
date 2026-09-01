@@ -63,6 +63,9 @@ AREAS_COM_RESOLVEDOR = frozenset(
         "commodities",
         "cultura-streaming",
         "cambio-diario",
+        "cyber",
+        "commodities-fao",
+        "clima-ear",
     }
 )
 
@@ -161,6 +164,50 @@ def _observado(claim_id: str, area: str, transport=None) -> float | None:
         # devolve o VALOR publicado da competência — para o IC-Br, o nível em
         # pontos, que é exatamente o que o critério dos contratos compara.
         return ipca_mensal(competencia, serie=serie, transport=transport)
+
+    if area == "cyber":
+        from asus_theye.markets.fonte_cisa import contagem_kev_no_mes
+
+        # cyber-kev-2026-09 → competência no fim; o deadline do contrato dá a
+        # folga pós-fechamento (o dateAdded da CISA é imediato, mas o mês só
+        # se conta fechado).
+        partes = base.split("-")
+        if len(partes) != 4 or partes[:2] != ["cyber", "kev"]:
+            raise ResolucaoError(f"claim_id fora do padrão esperado: {base!r}")
+        return float(contagem_kev_no_mes(f"{partes[2]}-{partes[3]}", transport=transport))
+
+    if area == "commodities-fao":
+        from asus_theye.markets.fonte_fao import indice_no_mes
+
+        # commodities-fao-ffpi-2026-08 → a FAO publica com ~1 mês de atraso;
+        # None até publicar é PENDENTE, nunca zero.
+        partes = base.split("-")
+        if len(partes) != 5 or partes[:3] != ["commodities", "fao", "ffpi"]:
+            raise ResolucaoError(f"claim_id fora do padrão esperado: {base!r}")
+        return indice_no_mes(f"{partes[3]}-{partes[4]}", transport=transport)
+
+    if area == "clima-ear":
+        from calendar import monthrange
+        from datetime import timedelta
+
+        from asus_theye.markets.fonte_ons import SUBSISTEMAS, ear_percentual_do_dia
+
+        # clima-ear-se-2026-09 → EAR do ÚLTIMO registro do mês (critério IQF
+        # 85/100 de 01/09/2026): tenta o último dia e volta até 7 dias, porque
+        # o dataset diário pode não ter o dia-calendário exato ainda.
+        partes = base.split("-")
+        if len(partes) != 5 or partes[:2] != ["clima", "ear"]:
+            raise ResolucaoError(f"claim_id fora do padrão esperado: {base!r}")
+        sub = partes[2].upper()
+        if sub not in SUBSISTEMAS:
+            raise ResolucaoError(f"subsistema {sub!r} não é do SIN, em {base!r}")
+        ano, mes = int(partes[3]), int(partes[4])
+        fim = date(ano, mes, monthrange(ano, mes)[1])
+        for volta in range(7):
+            valor = ear_percentual_do_dia((fim - timedelta(days=volta)).isoformat(), sub, transport=transport)
+            if valor is not None:
+                return valor
+        return None  # mês sem registro nenhum na janela: fonte ainda não publicou
 
     if area == "cambio-diario":
         from asus_theye.markets.fonte_ptax import ptax_venda_do_dia

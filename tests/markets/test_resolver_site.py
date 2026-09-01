@@ -157,6 +157,79 @@ def test_cambio_diario_com_claim_fora_do_padrao_levanta(tmp_path: Path) -> None:
         liquidar_vencidos(b, hoje=date(2026, 9, 2), transport=TransporteCarga())
 
 
+def test_cyber_liquida_pela_contagem_kev_do_mes(tmp_path: Path) -> None:
+    """Setor cyber nasce liquidável: contagem de CVEs no KEV decide o contrato."""
+
+    class TransporteKEV:
+        def request(self, url, *, headers, timeout, max_bytes):  # type: ignore[no-untyped-def]
+            from asus_theye.net.http import HttpResponse
+
+            corpo = (
+                b'{"catalogVersion":"t","dateReleased":"t","count":3,"vulnerabilities":['
+                b'{"cveID":"CVE-1","dateAdded":"2026-09-02"},'
+                b'{"cveID":"CVE-2","dateAdded":"2026-09-20"},'
+                b'{"cveID":"CVE-3","dateAdded":"2026-08-31"}]}'
+            )
+            return HttpResponse(url=url, status=200, headers={}, body=corpo)
+
+    b = banco_com(tmp_path, ("cyber-kev-2026-09", "cyber", 24.5, "2026-10-05", "ABERTO", 0.5))
+    liq, pend = liquidar_vencidos(b, hoje=date(2026, 10, 6), transport=TransporteKEV())
+    assert not pend and len(liq) == 1
+    assert liq[0].valor_observado == 2.0  # só os dois de setembro contam
+    assert liq[0].outcome == 0  # 2 não é MAIOR que 24,5
+
+
+def test_commodities_fao_pendente_ate_a_fao_publicar(tmp_path: Path) -> None:
+    """A defasagem de ~1 mês da FAO é contrato, não defeito: mês ausente fica pendente."""
+
+    class TransporteFAOSemAgosto:
+        def request(self, url, *, headers, timeout, max_bytes):  # type: ignore[no-untyped-def]
+            from asus_theye.net.http import HttpResponse
+
+            corpo = (
+                b"titulo\n2014-2016=100\nDate,Food Price Index,Meat,Dairy,Cereals,Oils,Sugar\n"
+                b",,,,,,\n2026-07,131.1,,,,,\n"
+            )
+            return HttpResponse(url=url, status=200, headers={}, body=corpo)
+
+    b = banco_com(
+        tmp_path,
+        ("commodities-fao-ffpi-2026-08", "commodities-fao", 130.0, "2026-09-10", "ABERTO", 0.5),
+    )
+    liq, pend = liquidar_vencidos(b, hoje=date(2026, 9, 11), transport=TransporteFAOSemAgosto())
+    assert not liq and len(pend) == 1 and "não publicou" in pend[0].motivo
+
+
+def test_clima_ear_usa_o_ultimo_registro_do_mes(tmp_path: Path) -> None:
+    """O critério do IQF: EAR do último registro do mês — voltando dias se o
+    dataset ainda não tem o dia-calendário exato."""
+
+    class TransporteEAR:
+        """CSV do ONS só até 29/09 — o resolvedor tem de voltar do dia 30."""
+
+        def request(self, url, *, headers, timeout, max_bytes):  # type: ignore[no-untyped-def]
+            from asus_theye.net.http import HttpResponse
+
+            corpo = (
+                b"ear_data;id_subsistema;nom_subsistema;ear_verif_subsistema_percentual\n"
+                b"2026-09-28;SE;Sudeste/Centro-Oeste;51.2\n"
+                b"2026-09-29;SE;Sudeste/Centro-Oeste;50.9\n"
+            )
+            return HttpResponse(url=url, status=200, headers={}, body=corpo)
+
+    b = banco_com(tmp_path, ("clima-ear-se-2026-09", "clima-ear", 55.0, "2026-09-30", "ABERTO", 0.25))
+    liq, pend = liquidar_vencidos(b, hoje=date(2026, 10, 1), transport=TransporteEAR())
+    assert not pend and len(liq) == 1
+    assert liq[0].valor_observado == pytest.approx(50.9)
+    assert liq[0].outcome == 0  # 50,9 não é MAIOR que 55,0
+
+
+def test_clima_ear_subsistema_desconhecido_levanta(tmp_path: Path) -> None:
+    b = banco_com(tmp_path, ("clima-ear-xx-2026-09", "clima-ear", 55.0, "2026-09-30", "ABERTO", 0.25))
+    with pytest.raises(ResolucaoError, match="não é do SIN"):
+        liquidar_vencidos(b, hoje=date(2026, 10, 1), transport=TransporteCarga())
+
+
 def test_AreaSemResolvedor_e_subclasse_de_ResolucaoError(tmp_path: Path) -> None:
     # Quem quiser tratar tudo junto consegue; quem quiser distinguir também.
     assert issubclass(AreaSemResolvedor, ResolucaoError)
