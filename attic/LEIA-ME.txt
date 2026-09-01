@@ -1,0 +1,5 @@
+Cópias antigas de src/asus_theye/ que viviam na RAIZ do repo (motor velho).
+Quarentena de 01/09/2026 — F0 do plano de fortalecimento. NÃO importar daqui.
+A pasta data/ da raiz NÃO veio para cá: é a cópia viva que
+_pkg_paths.dado_vivo_ou_empacotado() prefere de propósito.
+Apagar attic/ inteiro após 1 ciclo de release sem referência (git grep attic).
