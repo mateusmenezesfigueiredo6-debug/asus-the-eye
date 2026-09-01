@@ -575,7 +575,14 @@ def resolver_pendentes(
     selada na cadeia auditável ao fim da rodada (varredura idempotente: cobre a
     liquidação recém-feita E qualquer LIQUIDADO antigo ainda não selado).
     """
+    # Uma rodada, UM relógio. `hoje` injetado governa também o created_at da
+    # re-emissão: mês derivado de um relógio e criação vinda de outro fazem
+    # make_claim recusar (deadline < criação) em toda virada de mês.
+    hoje_injetado = hoje is not None
     hoje = hoje or datetime.now(timezone.utc).date()
+    # `hoje` historicamente chega como date OU string ISO (duck-typing dos
+    # chamadores) — deriva o dia sem exigir um tipo só.
+    agora_da_rodada = f"{str(hoje)[:10]}T00:00:00Z" if hoje_injetado else None
 
     # Trava exclusiva pela rodada inteira: duas rodadas simultâneas fariam
     # last-writer-wins no registro (podendo reverter um LIQUIDADO) e uma
@@ -597,6 +604,7 @@ def resolver_pendentes(
             gerador_de_sinais=gerador_de_sinais,
             fetchers_por_area=fetchers_por_area,
             eventos=eventos,
+            agora_da_rodada=agora_da_rodada,
         )
     finally:
         fcntl.flock(trava, fcntl.LOCK_UN)
@@ -613,6 +621,7 @@ def _resolver_pendentes_travado(
     gerador_de_sinais: GeradorDeSinais | None = None,
     fetchers_por_area: dict[str, Fetcher] | None = None,
     eventos: Path | None = None,
+    agora_da_rodada: str | None = None,
 ) -> list[dict[str, Any]]:
     registro = carregar_registro(store)
     acoes: list[dict[str, Any]] = []
@@ -775,7 +784,12 @@ def _resolver_pendentes_travado(
                         motivo_sem_sinal = f"; sinais indisponíveis ({erro_sinal})"
                 # cada área re-emite a si mesma, com o PRÓPRIO limiar do mercado liquidado
                 emitido = emitir_area(
-                    registro, area, proximo, limiar=float(mercado["limiar"]), probabilidade=probabilidade
+                    registro,
+                    area,
+                    proximo,
+                    limiar=float(mercado["limiar"]),
+                    agora=agora_da_rodada,
+                    probabilidade=probabilidade,
                 )
             except Exception as erro:  # noqa: BLE001 - emissão nunca pode orfanar a resolução
                 emitido = None
