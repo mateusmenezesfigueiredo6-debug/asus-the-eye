@@ -114,15 +114,47 @@ def test_area_sem_resolvedor_vira_PENDENTE_e_nao_derruba_a_rodada(tmp_path: Path
     impedindo TODOS os contratos de energia e combustível de liquidar. Área sem
     resolvedor é dívida conhecida, não falha — e dívida conhecida não pode
     derrubar a rodada dos outros.
+
+    (Em 01/09 o câmbio GANHOU resolvedor — o exemplo aqui virou uma área
+    fictícia exatamente para este teste continuar cobrindo o caso "sem
+    resolvedor" para sempre, independente de qual área é a próxima da fila.)
     """
     b = banco_com(
         tmp_path,
-        ("cambio-diario::2026-09-01", "cambio-diario", 5.2, "2026-09-05", "ABERTO", 0.5),
+        ("clima-chuva-sp-2026-09-01", "clima-sem-resolvedor-ainda", 5.2, "2026-09-05", "ABERTO", 0.5),
         ("energia-carga-se-2026-09-01::p50", "energia-carga", 43000.0, "2026-09-05", "ABERTO", 0.6),
     )
     liq, pend = liquidar_vencidos(b, hoje=date(2026, 9, 6), transport=TransporteCarga())
     assert len(liq) == 1, "o contrato de energia tinha de liquidar mesmo assim"
     assert len(pend) == 1 and "não tem resolvedor" in pend[0].motivo
+
+
+def test_cambio_diario_liquida_contra_a_ptax_do_dia(tmp_path: Path) -> None:
+    """O câmbio foi a PRIMEIRA área a vencer sem resolvedor (31/08) — agora tem.
+
+    O fato do claim está no sufixo (`CAMBIO-D::aaaa-mm-dd`), diferente das
+    outras áreas; o teste trava esse parsing e a decisão contra o limiar.
+    """
+
+    class TransportePTAX:
+        def request(self, url, *, headers, timeout, max_bytes):  # type: ignore[no-untyped-def]
+            from asus_theye.net.http import HttpResponse
+
+            corpo = b'[{"data":"01/09/2026","valor":"5.1570"}]'
+            return HttpResponse(url=url, status=200, headers={}, body=corpo)
+
+    b = banco_com(tmp_path, ("CAMBIO-D::2026-09-01", "cambio-diario", 5.2005, "2026-09-01", "ABERTO", 0.5))
+    liq, pend = liquidar_vencidos(b, hoje=date(2026, 9, 2), transport=TransportePTAX())
+    assert not pend and len(liq) == 1
+    assert liq[0].valor_observado == pytest.approx(5.157)
+    assert liq[0].outcome == 0  # 5,157 não é MAIOR que 5,2005
+    assert liq[0].brier == pytest.approx(0.25)
+
+
+def test_cambio_diario_com_claim_fora_do_padrao_levanta(tmp_path: Path) -> None:
+    b = banco_com(tmp_path, ("CAMBIO-D-sem-sufixo", "cambio-diario", 5.2, "2026-09-01", "ABERTO", 0.5))
+    with pytest.raises(ResolucaoError, match="fora do padrão"):
+        liquidar_vencidos(b, hoje=date(2026, 9, 2), transport=TransporteCarga())
 
 
 def test_AreaSemResolvedor_e_subclasse_de_ResolucaoError(tmp_path: Path) -> None:

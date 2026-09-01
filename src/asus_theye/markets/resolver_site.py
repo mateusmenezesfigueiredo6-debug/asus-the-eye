@@ -56,8 +56,20 @@ CAMPOS_MUTAVEIS = ("valor_observado", "outcome", "brier", "resolvido_em", "estad
 #: pendentes com motivo explícito — nunca como falha silenciosa nem como
 #: exceção que derruba a rodada dos outros.
 AREAS_COM_RESOLVEDOR = frozenset(
-    {"energia-carga", "energia-reservatorio", "combustivel-uf"}
+    {
+        "energia-carga",
+        "energia-reservatorio",
+        "combustivel-uf",
+        "commodities",
+        "cultura-streaming",
+        "cambio-diario",
+    }
 )
+
+#: IC-Br por segmento — as séries SGS que os PRÓPRIOS contratos declaram no
+#: critério ("conforme a série NNNNN"). Conferido contra o banco do site em
+#: 01/09/2026: geral 27574, agro 27575, metal 27576, energia 27577.
+SERIES_ICBR = {"geral": 27574, "agro": 27575, "metal": 27576, "energia": 27577}
 
 
 class ResolucaoError(RuntimeError):
@@ -131,6 +143,51 @@ def _observado(claim_id: str, area: str, transport=None) -> float | None:
         except MesNaoPublicado:
             return None  # normal até a ANP publicar; não é falha
         return None if r is None else r.mediana
+
+    if area == "commodities":
+        # commodities-icbr-geral-2026-09  ->  segmento="geral", competencia="2026-09"
+        from asus_theye.markets.fonte_bcb import ipca_mensal
+
+        partes = base.split("-")
+        if len(partes) != 5 or partes[:2] != ["commodities", "icbr"]:
+            raise ResolucaoError(f"claim_id fora do padrão esperado: {base!r}")
+        serie = SERIES_ICBR.get(partes[2])
+        if serie is None:
+            raise ResolucaoError(
+                f"segmento IC-Br {partes[2]!r} desconhecido em {base!r}; conhecidos: {sorted(SERIES_ICBR)}"
+            )
+        competencia = f"{partes[3]}-{partes[4]}"
+        # ipca_mensal é o leitor genérico de série SGS mensal (nome histórico):
+        # devolve o VALOR publicado da competência — para o IC-Br, o nível em
+        # pontos, que é exatamente o que o critério dos contratos compara.
+        return ipca_mensal(competencia, serie=serie, transport=transport)
+
+    if area == "cambio-diario":
+        from asus_theye.markets.fonte_ptax import ptax_venda_do_dia
+
+        # CAMBIO-D::2026-09-01 — diferente das demais áreas, o fato aqui está
+        # no SUFIXO: o dia do contrato vem depois do `::`. Dois contratos de
+        # câmbio vencidos foram exatamente o que derrubou a primeira rodada
+        # real (ver comentário no fim desta função) — este ramo fecha a dívida.
+        partes = claim_id.split("::")
+        if len(partes) != 2 or len(partes[1]) != 10:
+            raise ResolucaoError(f"claim_id fora do padrão esperado: {claim_id!r}")
+        return ptax_venda_do_dia(partes[1], transport=transport)
+
+    if area == "cultura-streaming":
+        # cultura-netflix-br-films-2026-08-30  ->  pais="BR", lista="Films", semana
+        from asus_theye.markets.fonte_netflix import semanas_no_topo
+
+        partes = base.split("-")
+        if len(partes) != 7 or partes[:2] != ["cultura", "netflix"]:
+            raise ResolucaoError(f"claim_id fora do padrão esperado: {base!r}")
+        pais = partes[2].upper()
+        categoria = {"films": "Films", "tv": "TV"}.get(partes[3])
+        if categoria is None:
+            raise ResolucaoError(f"lista {partes[3]!r} desconhecida em {base!r} (films|tv)")
+        semana = "-".join(partes[4:])
+        valor = semanas_no_topo(semana, pais=pais, categoria=categoria, transport=transport)
+        return None if valor is None else float(valor)
 
     # Área sem resolvedor é estado CONHECIDO, não erro — e a diferença é a
     # rodada inteira. Levantar aqui faria um `cambio-diario` vencido derrubar a

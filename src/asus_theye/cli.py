@@ -193,6 +193,18 @@ def _parser() -> argparse.ArgumentParser:
     markets_vintage.add_argument("--mes", required=True, help="mês de referência, aaaa-mm")
     markets_vintage.add_argument("--json", dest="json_out", action="store_true", help="saída em JSON")
     markets_vintage.add_argument("--no-audit", action="store_true", help="arquiva sem selar na cadeia")
+    markets_resolver_site = subcommands.add_parser(
+        "markets-resolver-site",
+        help="liquida os contratos VENCIDOS do site (SQLite do painel) contra a fonte oficial — pendente não é erro",
+    )
+    markets_resolver_site.add_argument(
+        "--banco",
+        type=Path,
+        default=None,
+        help="caminho do SQLite do site (padrão: $HORUS_DB ou ~/projetos/painel-mercados/.dados/horus.db)",
+    )
+    markets_resolver_site.add_argument("--limite", type=int, default=None, help="máximo de contratos nesta rodada")
+    markets_resolver_site.add_argument("--json", dest="json_out", action="store_true", help="saída em JSON")
     markets_nowcast = subcommands.add_parser(
         "markets-nowcast",
         help="executa o nowcast desafiante do IPCA (ridge walk-forward) e grava manifesto em reports/mlops/",
@@ -1197,6 +1209,49 @@ def main(argv: Sequence[str] | None = None) -> int:
         print(f"{mercado_novo['question']}")
         print(f"critério: {mercado_novo['criterio']}  |  fonte: {mercado_novo['resolution_source']}")
         return 0
+    if args.command == "markets-resolver-site":
+        from asus_theye.markets.resolver_site import ResolucaoError, liquidar_vencidos
+
+        banco = args.banco or Path(
+            os.environ.get("HORUS_DB")
+            or Path.home() / "projetos" / "painel-mercados" / ".dados" / "horus.db"
+        )
+        if not banco.exists():
+            print(f"markets-resolver-site: banco do site não encontrado em {banco}")
+            return 1
+        try:
+            liquidados, pendentes = liquidar_vencidos(banco, limite=args.limite)
+        except ResolucaoError as error:
+            print(f"markets-resolver-site: {error}")
+            return 1
+        if args.json_out:
+            print(
+                json.dumps(
+                    {
+                        "liquidados": [vars(li) for li in liquidados],
+                        "pendentes": [vars(p) for p in pendentes],
+                    },
+                    ensure_ascii=False,
+                    indent=2,
+                )
+            )
+            return 0
+        print("=" * 62)
+        print("RESOLVEDOR DO SITE — liquida vencido, nunca chuta pendente")
+        print("=" * 62)
+        print(f"\nbanco: {banco}")
+        print(f"liquidados agora: {len(liquidados)} | pendentes (fonte ainda não publicou / sem resolvedor): {len(pendentes)}")
+        for li in liquidados[:20]:
+            print(f"  LIQUIDADO {li.claim_id}: observado {li.valor_observado} → outcome {li.outcome} (brier {li.brier:.4f})")
+        if len(liquidados) > 20:
+            print(f"  … e mais {len(liquidados) - 20}")
+        motivos: dict[str, int] = {}
+        for p in pendentes:
+            motivos[p.motivo] = motivos.get(p.motivo, 0) + 1
+        for motivo, quantos in sorted(motivos.items(), key=lambda kv: -kv[1])[:8]:
+            print(f"  pendente ×{quantos}: {motivo}")
+        return 0
+
     if args.command == "markets-vintage":
         from asus_theye.markets.auditoria import AuditoriaError, abrir_auditoria
         from asus_theye.markets.vintage_focus import VintageError, arquivar_vintage
