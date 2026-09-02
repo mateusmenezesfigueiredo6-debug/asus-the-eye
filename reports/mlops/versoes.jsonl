@@ -1,3 +1,4 @@
 {"modelo_id": "qaoa-benchmark", "versao": "0.2.0", "origem": "asus_theye.benchmark.runner.run_benchmark_suite", "versao_id": "qaoa-benchmark@0.2.0"}
 {"modelo_id": "ipca-nowcast-linear", "versao": "0.1.0", "origem": "commit 3db62b5 (src/asus_theye/markets/nowcast.py) conforme docs/architecture/NOWCAST_IPCA_SPEC.md", "versao_id": "ipca-nowcast-linear@0.1.0"}
 {"modelo_id": "ipca-nowcast-linear", "versao": "0.2.0", "origem": "main pós-3db62b5 com fatias de 5 anos no SGS (src/asus_theye/markets/nowcast.py), spec NOWCAST_IPCA_SPEC.md", "versao_id": "ipca-nowcast-linear@0.2.0"}
+{"modelo_id": "atlas-baselines", "versao": "0.1.0", "origem": "src/asus_theye/markets/atlas_algoritmos.py sobre statsforecast 2.1.1 (PyPI), catálogo com licença/versão por algoritmo", "versao_id": "atlas-baselines@0.1.0"}

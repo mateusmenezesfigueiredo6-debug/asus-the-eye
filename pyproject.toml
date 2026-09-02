@@ -20,6 +20,7 @@ commercial = ["numpy>=1.26"]
 markets = ["duckdb>=1.1"]
 anchor = ["web3>=7", "py-solc-x>=2", "eth-tester>=0.13", "py-evm>=0.10"]
 qr = ["segno>=1.6", "zxing-cpp>=3.1", "Pillow>=10"]
+atlas = ["statsforecast>=2.1"]
 dev = [
   "pytest>=8",
   "pytest-cov>=5",

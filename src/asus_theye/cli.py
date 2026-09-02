@@ -205,6 +205,12 @@ def _parser() -> argparse.ArgumentParser:
     )
     markets_resolver_site.add_argument("--limite", type=int, default=None, help="máximo de contratos nesta rodada")
     markets_resolver_site.add_argument("--json", dest="json_out", action="store_true", help="saída em JSON")
+    atlas_benchmark = subcommands.add_parser(
+        "atlas-benchmark",
+        help="mede as baselines do Atlas (statsforecast) nos folds do nowcast e sela corrida por algoritmo",
+    )
+    atlas_benchmark.add_argument("--json", dest="json_out", action="store_true", help="saída em JSON")
+    atlas_benchmark.add_argument("--no-audit", action="store_true", help="mede sem registrar/selar")
     markets_eleitoral = subcommands.add_parser(
         "markets-eleitoral-preview",
         help="roda o Modelo2026 (TV + atenção Wikipédia ao vivo) e grava o retrato datado em dados/",
@@ -1261,6 +1267,54 @@ def main(argv: Sequence[str] | None = None) -> int:
             motivos[p.motivo] = motivos.get(p.motivo, 0) + 1
         for motivo, quantos in sorted(motivos.items(), key=lambda kv: -kv[1])[:8]:
             print(f"  pendente ×{quantos}: {motivo}")
+        return 0
+
+    if args.command == "atlas-benchmark":
+        from asus_theye.audit.sdk import utc_now
+        from asus_theye.markets.atlas_algoritmos import AtlasError, benchmark_nos_folds_do_ipca
+        from asus_theye.markets.nowcast import NowcastError
+
+        try:
+            resultado = benchmark_nos_folds_do_ipca()
+        except (AtlasError, NowcastError) as error:
+            print(f"atlas-benchmark: {error}")
+            return 1
+        if not args.no_audit:
+            from asus_theye.markets.auditoria import abrir_auditoria
+            from asus_theye.mlops.rastreio import Corrida, registrar_corrida
+
+            sdk_atlas = abrir_auditoria()
+            agora = utc_now()
+            for algoritmo, res in resultado["algoritmos"].items():
+                registrar_corrida(
+                    Corrida(
+                        modelo_id="atlas-baselines",
+                        versao="0.1.0",
+                        params={
+                            "algoritmo": algoritmo,
+                            "janela_meses": resultado["janela_meses"],
+                            "regra": res["regra"],
+                            "hub": res["hub"],
+                            "licenca": res["licenca"],
+                            "versao_absorvida": res["versao_absorvida"],
+                        },
+                        metricas={"brier_regra_dura": res["brier"], "n_meses": float(res["n_meses"])},
+                        artefatos=[],
+                        executada_em=agora,
+                    ),
+                    sdk=sdk_atlas,
+                )
+        if args.json_out:
+            print(json.dumps(resultado, ensure_ascii=False, indent=2))
+            return 0
+        print("=" * 62)
+        print("ATLAS DE ALGORITMOS v0 — baselines medidas nos folds do nowcast")
+        print("=" * 62)
+        meses = resultado["meses_avaliados"]
+        print(f"\n{len(meses)} meses ({meses[0]} … {meses[-1]}) · regra dura, a mesma do baseline Focus")
+        for algoritmo, res in sorted(resultado["algoritmos"].items(), key=lambda kv: kv[1]["brier"]):
+            print(f"  {algoritmo:12s} Brier {res['brier']:.4f}  [{res['hub']} · {res['licenca']}]")
+        print("\n  referências já seladas: ridge R2 0,0575 · Focus (duro) 0,2222")
         return 0
 
     if args.command == "markets-eleitoral-preview":
