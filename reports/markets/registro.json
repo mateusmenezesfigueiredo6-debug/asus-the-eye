@@ -60,13 +60,15 @@
         }
       ],
       "gerador_proprio": {
-        "valor": 0.5,
+        "valor": 0.3125,
         "p_inicial": 0.5,
         "peso_inicial": 10.0,
         "peso_sim": 0,
-        "peso_nao": 0,
-        "max_uncertainty": true,
-        "fontes": []
+        "peso_nao": 6.0,
+        "max_uncertainty": false,
+        "fontes": [
+          "The GDELT Project (gdeltproject.org) — tom médio -1.1404 em 6 evento(s) sobre BR (referência -3.0; arquivo 20260904164500.export.CSV.zip, md5 ed8eaaffcf53…)"
+        ]
       }
     },
     {
@@ -105,13 +107,15 @@
         }
       ],
       "gerador_proprio": {
-        "valor": 0.5,
+        "valor": 0.3125,
         "p_inicial": 0.5,
         "peso_inicial": 10.0,
         "peso_sim": 0,
-        "peso_nao": 0,
-        "max_uncertainty": true,
-        "fontes": []
+        "peso_nao": 6.0,
+        "max_uncertainty": false,
+        "fontes": [
+          "The GDELT Project (gdeltproject.org) — tom médio -1.1404 em 6 evento(s) sobre BR (referência -3.0; arquivo 20260904164500.export.CSV.zip, md5 ed8eaaffcf53…)"
+        ]
       }
     },
     {
@@ -151,13 +155,15 @@
         }
       ],
       "gerador_proprio": {
-        "valor": 0.5,
+        "valor": 0.3125,
         "p_inicial": 0.5,
         "peso_inicial": 10.0,
         "peso_sim": 0,
-        "peso_nao": 0,
-        "max_uncertainty": true,
-        "fontes": []
+        "peso_nao": 6.0,
+        "max_uncertainty": false,
+        "fontes": [
+          "The GDELT Project (gdeltproject.org) — tom médio -1.1404 em 6 evento(s) sobre BR (referência -3.0; arquivo 20260904164500.export.CSV.zip, md5 ed8eaaffcf53…)"
+        ]
       }
     }
   ]
