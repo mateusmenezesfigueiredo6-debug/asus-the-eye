@@ -1,0 +1,20 @@
+{
+  "benchmark": "JRRanger",
+  "fase": "F0",
+  "gerado_em": "2026-09-03",
+  "coverage": {
+    "conectores_ligados": 0,
+    "nota": "F0 nao liga nenhuma fonte. Coverage real e gerado por source_graph/coverage.py a partir de F1, quando o titular autorizar 3-5 dos 21 conectores ready_to_enable.",
+    "por_fonte": []
+  },
+  "harness_reaproveitado": {
+    "ingest": "src/asus_theye/source_graph/fetcher.py (+ robots.py, max_bytes)",
+    "correlate": "src/asus_theye/evidence/grafo.py + markets/duckdb_source.py",
+    "predict": "src/asus_theye/markets/gerador.py + nowcast.py",
+    "measure": "src/asus_theye/markets/scoring.py + calibracao.py + conformal.py",
+    "seal": "src/asus_theye/audit/sdk.py -> ledger.py + merkle.py + canonical.py",
+    "track": "src/asus_theye/mlops/rastreio.py",
+    "verify": "src/asus_theye/audit/verifier.py"
+  },
+  "artefatos_F0": ["baseline/latest.json", "keep-discard.json", "manifest.json", "JRRanger-roadmap.pdf", "JRRanger-roadmap.html", "history.jsonl", "rounds/"]
+}

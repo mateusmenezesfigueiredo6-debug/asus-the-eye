@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8">
+<title>JRRanger — THE EYE como motor de inteligência</title>
+<style>
+  @page { size: A4; margin: 14mm 12mm; }
+  * { box-sizing: border-box; }
+  html,body { margin:0; padding:0; }
+  body { font: 12px/1.5 -apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif; color:#14202b; background:#fff; }
+  h1 { font-size:24px; margin:0 0 2px; color:#0b2a3a; }
+  h2 { font-size:15px; margin:22px 0 8px; color:#0b2a3a; border-bottom:2px solid #0b6e8c; padding-bottom:3px; }
+  h3 { font-size:12.5px; margin:12px 0 4px; color:#0b6e8c; text-transform:uppercase; letter-spacing:.04em;}
+  .sub { color:#5b6b78; font-size:12px; margin:0 0 4px; }
+  .seal { font:10px ui-monospace,Menlo,Consolas,monospace; color:#5b6b78; background:#f2f6f8; border:1px solid #d8e2e8; border-radius:6px; padding:7px 10px; margin:10px 0 0; }
+  .fig { page-break-inside:avoid; margin:10px 0 4px; border:1px solid #e0e7ec; border-radius:8px; padding:8px 10px; background:#fbfdfe; }
+  .fig figcaption { font-size:11px; color:#38505e; margin-top:4px; }
+  .fig .n { font-weight:700; color:#0b6e8c; }
+  table { border-collapse:collapse; width:100%; font-size:10.3px; margin:6px 0; }
+  th,td { border:1px solid #cdd9e0; padding:4px 6px; text-align:left; vertical-align:top; }
+  th { background:#eaf3f6; color:#0b2a3a; }
+  .keep { background:#e9f7ec; } .drop { background:#fdecec; }
+  code { font:10.5px ui-monospace,Menlo,Consolas,monospace; background:#eef3f6; padding:0 3px; border-radius:3px; }
+  .note { font-size:10.5px; color:#5b6b78; }
+  .pill { display:inline-block; font-size:9.5px; padding:1px 6px; border-radius:9px; background:#0b6e8c; color:#fff; }
+  .diff { display:inline-block; font-size:9.5px; padding:1px 6px; border-radius:9px; background:#b23; color:#fff; }
+  .pb { page-break-before:always; }
+  svg { display:block; width:100%; height:auto; font-family:inherit; }
+  .box { fill:#fff; stroke:#0b6e8c; stroke-width:1.4; }
+  .boxk { fill:#e9f7ec; stroke:#2e8b57; stroke-width:1.4; }
+  .boxd { fill:#fdecec; stroke:#c0392b; stroke-width:1.4; }
+  .hub { fill:#0b2a3a; }
+  .lbl { font-size:10px; fill:#14202b; }
+  .lblw { font-size:10px; fill:#fff; font-weight:700; }
+  .sm { font-size:8.6px; fill:#4a5b67; }
+  .rf { fill:#f3ede1; stroke:#b8862b; stroke-width:1.2; }
+  .flow { stroke:#0b6e8c; stroke-width:1.6; fill:none; }
+  .fb { stroke:#c0392b; stroke-width:1.6; fill:none; stroke-dasharray:5 3; }
+</style></head>
+<body>
+
+<h1>JRRanger</h1>
+<p class="sub"><b>THE EYE OF GOD / Olho de Hórus como <i>motor</i> de um benchmark classe Recorded Future — grátis, próprio e verificável.</b></p>
+<p class="sub">Roadmap faseado F0–F5 · Titular: Mateus Menezes Figueiredo · Data-base: 2026-09-03 · Instituto sem fins lucrativos (não vende, não divulga; superfície pública mínima).</p>
+<div class="seal">Proveniência: cada resposta e cada rodada são seladas na <b>corrente da vigília</b> (SHA-256, RFC-8785 canonical + Merkle) em nome do titular + commitment CPF — validade nacional/internacional por padrão aberto. Nada aqui promove fase ou liga fonte sozinho: cada promoção é ato exclusivo do titular.</div>
+
+<h2>1 · Por que (contexto) e o reenquadramento</h2>
+<p>A Recorded Future vende um <b>Intelligence Graph</b> (1,2 M+ fontes, 26 B+ entidades correlacionadas por domínio) com uma <b>camada humana de analistas (Insikt Group)</b> por cima — "expertise meets algorithm". Você quer o mesmo resultado <b>sem gastar</b>, reproduzindo a capacidade por <b>observação e conhecimento profundo</b> (OBSERVAR → ENTENDER → REPRODUZIR MELHOR), <b>não</b> por dependência de API paga. Autoaprendizado ao vivo, medido a cada rodada, selado em hash.</p>
+<p><b>Reenquadramento (após inventário em disco):</b> não se constrói do zero — <b>unifica-se o que já existe</b> em <code>/home/sexexes/pegasus/asus_the_eye</code>. JRRanger é um <b>overlay + harness de medição</b> sobre módulos que já rodam. Zero engine novo, zero agente novo.</p>
+
+<figure class="fig">
+<svg viewBox="0 0 720 300" role="img" aria-label="Mapa de camadas RF para THE EYE">
+  <defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#0b6e8c"/></marker></defs>
+  <text x="120" y="16" class="sm" text-anchor="middle" font-weight="700">RECORDED FUTURE (paga)</text>
+  <text x="470" y="16" class="lbl" text-anchor="middle" font-weight="700">THE EYE / JRRanger (grátis, verificável)</text>
+  <!-- RF stack -->
+  <g>
+    <rect class="rf" x="30" y="28" width="180" height="30" rx="4"/><text x="120" y="47" class="lbl" text-anchor="middle">Delivery (dash/API)</text>
+    <rect class="rf" x="30" y="66" width="180" height="30" rx="4"/><text x="120" y="85" class="lbl" text-anchor="middle">Insikt Group (analistas)</text>
+    <rect class="rf" x="30" y="104" width="180" height="30" rx="4"/><text x="120" y="123" class="lbl" text-anchor="middle">Correlation / risk score</text>
+    <rect class="rf" x="30" y="142" width="180" height="30" rx="4"/><text x="120" y="161" class="lbl" text-anchor="middle">Intelligence Graph</text>
+    <rect class="rf" x="30" y="180" width="180" height="30" rx="4"/><text x="120" y="199" class="lbl" text-anchor="middle">Collection (feeds)</text>
+    <rect x="30" y="230" width="180" height="30" rx="4" fill="#f7f7f7" stroke="#bbb" stroke-dasharray="4 3"/><text x="120" y="249" class="sm" text-anchor="middle">(RF não tem)</text>
+  </g>
+  <!-- arrows -->
+  <g>
+    <line class="flow" x1="212" y1="43"  x2="298" y2="43"  marker-end="url(#ar)"/>
+    <line class="flow" x1="212" y1="81"  x2="298" y2="81"  marker-end="url(#ar)"/>
+    <line class="flow" x1="212" y1="119" x2="298" y2="119" marker-end="url(#ar)"/>
+    <line class="flow" x1="212" y1="157" x2="298" y2="157" marker-end="url(#ar)"/>
+    <line class="flow" x1="212" y1="195" x2="298" y2="195" marker-end="url(#ar)"/>
+    <line class="flow" x1="212" y1="245" x2="298" y2="245" marker-end="url(#ar)"/>
+  </g>
+  <!-- EYE stack -->
+  <g>
+    <rect class="box" x="300" y="28" width="400" height="30" rx="4"/><text x="308" y="47" class="lbl">L6 Superfície pública mínima — verifier + demo agregada</text>
+    <rect class="box" x="300" y="66" width="400" height="30" rx="4"/><text x="308" y="85" class="lbl">L5 Bancada analista — o-conselho · curador-* · tutor-* · eng-reverso</text>
+    <rect class="box" x="300" y="104" width="400" height="30" rx="4"/><text x="308" y="123" class="lbl">L4 Correlação+predição — markets/ scoring·calibracao·conformal·nowcast</text>
+    <rect class="box" x="300" y="142" width="400" height="30" rx="4"/><text x="308" y="161" class="lbl">L3 Grafo — evidence/grafo·entidades · DuckDB local · memory MCP</text>
+    <rect class="box" x="300" y="180" width="400" height="30" rx="4"/><text x="308" y="199" class="lbl">L2 Coleta (só oficial/grátis) — source_graph/fetcher·robots · 38 conectores</text>
+    <rect class="boxk" x="300" y="230" width="400" height="34" rx="4"/><text x="308" y="245" class="lbl" font-weight="700">L1 Proveniência/confiança — DIFERENCIAL</text><text x="308" y="258" class="sm">audit/ ledger·merkle·canonical·redacao(LGPD) · corrente da vigília (69 elos)</text>
+  </g>
+</svg>
+<figcaption><span class="n">Fig. 1</span> — Cada camada paga da RF tem análogo NOSSO já em disco. A <b>L1</b> (proveniência) é o substrato onde todas as outras escrevem: é a prova que a RF não tem.</figcaption>
+</figure>
+
+<h2>2 · Os 7 módulos de inteligência</h2>
+<p class="note">Entradas só de fontes oficiais grátis já catalogadas em <code>connectors.json</code> (38 fontes, 0 ligadas). <b>M7 (comportamental) fecha a lacuna que você nomeou</b> e é medido por <i>ablation</i> — a única forma honesta de provar valor numérico.</p>
+
+<figure class="fig">
+<svg viewBox="0 0 720 300" role="img" aria-label="Roda dos sete módulos">
+  <defs><marker id="ar2" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#0b6e8c"/></marker>
+  <marker id="ard" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#c0392b"/></marker></defs>
+  <circle class="hub" cx="360" cy="150" r="52"/><text x="360" y="146" class="lblw" text-anchor="middle">Intelligence</text><text x="360" y="160" class="lblw" text-anchor="middle">Graph</text><text x="360" y="174" class="sm" fill="#cfe6ef" text-anchor="middle">evidence/grafo</text>
+  <!-- 7 nodes around -->
+  <g font-size="10">
+    <rect class="box" x="300" y="14" width="120" height="34" rx="6"/><text x="360" y="30" class="lbl" text-anchor="middle">M1 Cyber-Ameaça</text><text x="360" y="42" class="sm" text-anchor="middle">coverage + lead-time</text>
+    <rect class="box" x="540" y="52" width="150" height="34" rx="6"/><text x="615" y="68" class="lbl" text-anchor="middle">M2 Preditivo</text><text x="615" y="80" class="sm" text-anchor="middle">Brier</text>
+    <rect class="box" x="560" y="132" width="150" height="34" rx="6"/><text x="635" y="148" class="lbl" text-anchor="middle">M3 Quântico</text><text x="635" y="160" class="sm" text-anchor="middle">QAR + stability</text>
+    <rect class="box" x="540" y="214" width="150" height="34" rx="6"/><text x="615" y="230" class="lbl" text-anchor="middle">M4 LLM/Linguagem</text><text x="615" y="242" class="sm" text-anchor="middle">F1 + recusa</text>
+    <rect class="box" x="300" y="252" width="120" height="34" rx="6"/><text x="360" y="268" class="lbl" text-anchor="middle">M5 Biotec/Saúde</text><text x="360" y="280" class="sm" text-anchor="middle">coverage+frescor</text>
+    <rect class="box" x="30" y="214" width="150" height="34" rx="6"/><text x="105" y="230" class="lbl" text-anchor="middle">M6 Econ/Mercado</text><text x="105" y="242" class="sm" text-anchor="middle">Brier+calibração</text>
+    <rect class="boxk" x="20" y="94" width="160" height="40" rx="6"/><text x="100" y="110" class="lbl" text-anchor="middle" font-weight="700">M7 Comportamental</text><text x="100" y="123" class="sm" text-anchor="middle">Δ Brier (ablation)</text>
+  </g>
+  <g>
+    <line class="flow" x1="360" y1="98" x2="360" y2="52" marker-end="url(#ar2)"/>
+    <line class="flow" x1="408" y1="132" x2="540" y2="80" marker-end="url(#ar2)"/>
+    <line class="flow" x1="412" y1="150" x2="560" y2="150" marker-end="url(#ar2)"/>
+    <line class="flow" x1="408" y1="168" x2="540" y2="222" marker-end="url(#ar2)"/>
+    <line class="flow" x1="360" y1="202" x2="360" y2="252" marker-end="url(#ar2)"/>
+    <line class="flow" x1="312" y1="168" x2="180" y2="222" marker-end="url(#ar2)"/>
+    <line class="flow" x1="308" y1="140" x2="180" y2="118" marker-end="url(#ar2)"/>
+    <!-- M7 ablation dashed into M2 & M6 -->
+    <path class="fb" d="M100,94 C140,40 520,40 600,52" marker-end="url(#ard)"/>
+    <path class="fb" d="M100,134 C90,180 100,200 105,214" marker-end="url(#ard)"/>
+  </g>
+</svg>
+<figcaption><span class="n">Fig. 2</span> — Hub = grafo de inteligência. Sete módulos ao redor, cada um com seu dono (curador+tutor) e métrica. As setas <span style="color:#c0392b">tracejadas vermelhas</span> = M7 injeta features comportamentais em M2/M6 e é medido pela diferença de Brier (com vs sem).</figcaption>
+</figure>
+
+<table>
+<tr><th>Módulo</th><th>Análogo RF</th><th>Entradas grátis (ex.)</th><th>Dono (agente)</th><th>Métrica</th></tr>
+<tr><td><b>M1</b> Cyber-Ameaça</td><td>Threat/Vuln</td><td>CISA KEV, GDELT</td><td>curador-instituto + tutor-cyber</td><td>coverage + lead-time (dias)</td></tr>
+<tr><td><b>M2</b> Preditivo</td><td>risk scoring</td><td>BCB SGS/Selic/PTAX, SIDRA, Focus</td><td>curador-previsao + tutor-preditivos</td><td>Brier</td></tr>
+<tr><td><b>M3</b> Quântico-Predição</td><td>advanced analytics</td><td>benchmark/ sim local (IBM só GATED)</td><td>curador-instituto + tutor-quantum</td><td>QAR / stability (10 seeds)</td></tr>
+<tr><td><b>M4</b> LLM/Linguagem</td><td>NLP</td><td>GDELT-doc, arXiv/Crossref, Wikimedia</td><td>curador-jornais-pln + tutor-llm/ia</td><td>F1 extração + taxa de recusa</td></tr>
+<tr><td><b>M5</b> Biotec/Saúde</td><td>domain intel</td><td>ClinicalTrials, NCBI, OpenDataSUS, Zenodo</td><td>curador-instituto + tutor-biotec-saude</td><td>coverage + frescor</td></tr>
+<tr><td><b>M6</b> Econ/Mercado</td><td>geopol/3rd-party</td><td>WorldBank, ECB, IMF, OECD, Comtrade, TSE</td><td>curador-eventos-mercado + tutor-ml</td><td>Brier + calibração</td></tr>
+<tr class="keep"><td><b>M7</b> Comportamental</td><td><i>(sem análogo RF)</i></td><td>Wikimedia (atenção), GDELT (tom), proxies abertos</td><td><b>curador-comportamental</b> + tutor-ml</td><td>Δ Brier (ablation)</td></tr>
+</table>
+
+<div class="pb"></div>
+<h2>3 · Loop de autoaprendizado (1 rodada = 1 ciclo selado)</h2>
+<figure class="fig">
+<svg viewBox="0 0 720 250" role="img" aria-label="Loop de sete passos">
+  <defs><marker id="ar3" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#0b6e8c"/></marker>
+  <marker id="ar3b" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#c0392b"/></marker></defs>
+  <g font-size="10">
+    <rect class="box" x="12"  y="40" width="92" height="46" rx="6"/><text x="58"  y="58" class="lbl" text-anchor="middle" font-weight="700">1 INGEST</text><text x="58" y="72" class="sm" text-anchor="middle">coverage</text>
+    <rect class="box" x="118" y="40" width="92" height="46" rx="6"/><text x="164" y="58" class="lbl" text-anchor="middle" font-weight="700">2 CORRELATE</text><text x="164" y="72" class="sm" text-anchor="middle">link-rate</text>
+    <rect class="box" x="224" y="40" width="92" height="46" rx="6"/><text x="270" y="58" class="lbl" text-anchor="middle" font-weight="700">3 ENRICH</text><text x="270" y="72" class="sm" text-anchor="middle">aceite %</text>
+    <rect class="box" x="330" y="40" width="92" height="46" rx="6"/><text x="376" y="58" class="lbl" text-anchor="middle" font-weight="700">4 PREDICT</text><text x="376" y="72" class="sm" text-anchor="middle">peso 0</text>
+    <rect class="box" x="436" y="40" width="92" height="46" rx="6"/><text x="482" y="58" class="lbl" text-anchor="middle" font-weight="700">5 MEASURE</text><text x="482" y="72" class="sm" text-anchor="middle">Brier/cov</text>
+    <rect class="boxk" x="542" y="40" width="92" height="46" rx="6"/><text x="588" y="58" class="lbl" text-anchor="middle" font-weight="700">6 SEAL</text><text x="588" y="72" class="sm" text-anchor="middle">verify==ok</text>
+    <rect class="box" x="620" y="128" width="88" height="46" rx="6"/><text x="664" y="146" class="lbl" text-anchor="middle" font-weight="700">7 FEEDBACK</text><text x="664" y="160" class="sm" text-anchor="middle">ΔBrier?</text>
+  </g>
+  <g>
+    <line class="flow" x1="104" y1="63" x2="118" y2="63" marker-end="url(#ar3)"/>
+    <line class="flow" x1="210" y1="63" x2="224" y2="63" marker-end="url(#ar3)"/>
+    <line class="flow" x1="316" y1="63" x2="330" y2="63" marker-end="url(#ar3)"/>
+    <line class="flow" x1="422" y1="63" x2="436" y2="63" marker-end="url(#ar3)"/>
+    <line class="flow" x1="528" y1="63" x2="542" y2="63" marker-end="url(#ar3)"/>
+    <path class="flow" d="M588,86 C588,120 630,120 655,128" marker-end="url(#ar3)"/>
+    <path class="fb" d="M620,155 C300,215 120,150 58,86" marker-end="url(#ar3b)"/>
+  </g>
+  <text x="330" y="205" class="sm" text-anchor="middle">Melhoria = ΔBrier ≤ 0 nas mesmas folds/seeds (seed 42, 10-seed). Empate/regressão é registrado como é (doutrina UNKNOWN-sobre-chute). Challenger fica em peso 0 até portão de calendário + aprovação do titular.</text>
+</svg>
+<figcaption><span class="n">Fig. 3</span> — Cada passo nomeia o agente/módulo que roda e o número que emite. Compute de enriquecimento é grátis (roteador/Ollama). O passo 6 (SEAL) é o diferencial: nada avança sem selo verificável.</figcaption>
+</figure>
+
+<h2>4 · Roadmap faseado F0–F5</h2>
+<figure class="fig">
+<svg viewBox="0 0 720 250" role="img" aria-label="Swimlane F0 a F5">
+  <defs><marker id="ar4" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#0b6e8c"/></marker></defs>
+  <g font-size="9">
+    <text x="6" y="30" class="sm">Coleta</text><text x="6" y="70" class="sm">Grafo</text><text x="6" y="110" class="sm">Predição</text><text x="6" y="150" class="sm">Confiança</text><text x="6" y="190" class="sm">Público</text>
+    <!-- phase columns -->
+    <g>
+      <text x="90"  y="14" class="lbl" text-anchor="middle" font-weight="700">F0</text>
+      <text x="200" y="14" class="lbl" text-anchor="middle" font-weight="700">F1</text>
+      <text x="310" y="14" class="lbl" text-anchor="middle" font-weight="700">F2</text>
+      <text x="420" y="14" class="lbl" text-anchor="middle" font-weight="700">F3</text>
+      <text x="530" y="14" class="lbl" text-anchor="middle" font-weight="700">F4</text>
+      <text x="640" y="14" class="lbl" text-anchor="middle" font-weight="700">F5</text>
+    </g>
+    <!-- boxes -->
+    <rect class="boxk" x="50" y="140" width="80" height="24" rx="4"/><text x="90" y="156" class="sm" text-anchor="middle">baseline selada</text>
+    <rect class="box" x="160" y="20" width="80" height="24" rx="4"/><text x="200" y="36" class="sm" text-anchor="middle">3–5 fontes</text>
+    <rect class="box" x="270" y="60" width="80" height="24" rx="4"/><text x="310" y="76" class="sm" text-anchor="middle">entity-link</text>
+    <rect class="box" x="380" y="100" width="80" height="24" rx="4"/><text x="420" y="116" class="sm" text-anchor="middle">Brier/calib</text>
+    <rect class="box" x="490" y="180" width="80" height="24" rx="4"/><text x="530" y="196" class="sm" text-anchor="middle">verifier+demo</text>
+    <rect class="box" x="600" y="100" width="90" height="24" rx="4"/><text x="645" y="116" class="sm" text-anchor="middle">relatório+rodadas</text>
+    <!-- flow arrows -->
+    <line class="flow" x1="130" y1="152" x2="160" y2="40" marker-end="url(#ar4)"/>
+    <line class="flow" x1="240" y1="32" x2="270" y2="70" marker-end="url(#ar4)"/>
+    <line class="flow" x1="350" y1="72" x2="380" y2="108" marker-end="url(#ar4)"/>
+    <line class="flow" x1="460" y1="112" x2="490" y2="188" marker-end="url(#ar4)"/>
+    <line class="flow" x1="570" y1="190" x2="600" y2="116" marker-end="url(#ar4)"/>
+    <!-- approval gates (diamonds) -->
+    <g fill="#c0392b">
+      <path d="M150,152 l7,-7 l7,7 l-7,7 Z"/><path d="M260,42 l7,-7 l7,7 l-7,7 Z"/><path d="M370,82 l7,-7 l7,7 l-7,7 Z"/><path d="M480,120 l7,-7 l7,7 l-7,7 Z"/><path d="M590,196 l7,-7 l7,7 l-7,7 Z"/>
+    </g>
+  </g>
+  <text x="360" y="232" class="sm" text-anchor="middle">◆ vermelho = portão de aprovação humana (Stage-1 → Stage-2). Nenhuma fase promove sozinha; ligar fonte e promover fase são atos exclusivos do titular.</text>
+</svg>
+<figcaption><span class="n">Fig. 4</span> — As lanes mostram o que amadurece em cada fase. Só a partir de F4 algo vai ao ar — e só verifier + agregado.</figcaption>
+</figure>
+
+<table>
+<tr><th>Fase</th><th>Objetivo</th><th>Agentes/skills</th><th>Conect. ligados</th><th>Métrica do gate (alvo)</th><th>O que vai ao ar</th></tr>
+<tr><td><b>F0</b></td><td>Selar scaffold + baseline (offline)</td><td>arquiteto-do-plano, auditor-integridade, selo-ok-mago · pdf, duckdb</td><td><b>0</b></td><td>≥1 Brier/módulo ativo; verify_ledger 100% limpo; 0 fontes ligadas</td><td>nada</td></tr>
+<tr><td><b>F1</b></td><td>Coleta em fontes grátis</td><td>descobridor-de-fontes, curador-instituto/previsao, resiliencia-fontes · duckdb, poupar-cota</td><td>3–5 (dos 21 prontos)</td><td>manifesto sem lacuna injustificada; ≥3 fontes HTTP 200 datadas; débito GDELT-BR medido</td><td>nada (loopback)</td></tr>
+<tr><td><b>F2</b></td><td>Correlação + entity-linking</td><td>curador-proveniencia-bigtech, o-conselho, eng-reverso · duckdb, memory</td><td>= F1</td><td>≥N entidades ligadas em ≥2 módulos c/ proveniência; join c/ hash selado; 0 registro sem classe-de-fonte</td><td>nada</td></tr>
+<tr><td><b>F3</b></td><td>Predição + calibração + loop</td><td>curador-previsao/comportamental, guardiao-da-assertividade · sequential-thinking, roteador/Ollama</td><td>= F1</td><td>Brier+coverage/módulo; ΔBrier ≤ rodada selada anterior (ou "sem-melhoria" honesto); M7 ΔBrier assinado</td><td>nada (loop agendado)</td></tr>
+<tr><td><b>F4</b></td><td>Superfície pública mínima</td><td>gestor-do-preview, auditor-vazamento-html, resposta-a-vazamento, custodio · cloudflare (só se aprovado)</td><td>= F1</td><td>0 vazamento de campo protegido; verifier acerta 5 estados; 100% agregado/recibo</td><td><b>verifier + demo agregada</b></td></tr>
+<tr><td><b>F5</b></td><td>Relatório cross-domínio + rodadas contínuas</td><td>o-conselho, estrategista-noturno · pdf, dataviz, scheduled-tasks</td><td>= F1</td><td>relatório selado; ≥2 módulos c/ Brier < baseline ingênua; todo claim ancorado em elo</td><td>relatório agregado + verifier</td></tr>
+</table>
+
+<div class="pb"></div>
+<h2>5 · Cadeia de proveniência (o diferencial sobre a RF)</h2>
+<figure class="fig">
+<svg viewBox="0 0 720 150" role="img" aria-label="Cadeia de proveniência">
+  <defs><marker id="ar5" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#0b6e8c"/></marker></defs>
+  <g font-size="9.5">
+    <rect class="box" x="10"  y="50" width="96" height="40" rx="6"/><text x="58"  y="66" class="lbl" text-anchor="middle">record</text><text x="58" y="80" class="sm" text-anchor="middle">+ LICENÇA/ATRIB.</text>
+    <rect class="box" x="128" y="50" width="96" height="40" rx="6"/><text x="176" y="66" class="lbl" text-anchor="middle">canonical</text><text x="176" y="80" class="sm" text-anchor="middle">RFC-8785</text>
+    <rect class="box" x="246" y="50" width="96" height="40" rx="6"/><text x="294" y="66" class="lbl" text-anchor="middle">Merkle</text><text x="294" y="80" class="sm" text-anchor="middle">batch root</text>
+    <rect class="boxk" x="364" y="50" width="110" height="40" rx="6"/><text x="419" y="66" class="lbl" text-anchor="middle" font-weight="700">ledger link</text><text x="419" y="80" class="sm" text-anchor="middle">prev-hash (SHA-256)</text>
+    <rect class="box" x="496" y="50" width="96" height="40" rx="6"/><text x="544" y="66" class="lbl" text-anchor="middle">verifier</text><text x="544" y="80" class="sm" text-anchor="middle">5 estados</text>
+    <rect class="box" x="614" y="50" width="96" height="40" rx="6"/><text x="662" y="66" class="lbl" text-anchor="middle">recibo público</text><text x="662" y="80" class="sm" text-anchor="middle">sem ver conteúdo</text>
+  </g>
+  <g>
+    <line class="flow" x1="106" y1="70" x2="128" y2="70" marker-end="url(#ar5)"/>
+    <line class="flow" x1="224" y1="70" x2="246" y2="70" marker-end="url(#ar5)"/>
+    <line class="flow" x1="342" y1="70" x2="364" y2="70" marker-end="url(#ar5)"/>
+    <line class="flow" x1="474" y1="70" x2="496" y2="70" marker-end="url(#ar5)"/>
+    <line class="flow" x1="592" y1="70" x2="614" y2="70" marker-end="url(#ar5)"/>
+  </g>
+  <g><path d="M176,50 l0,-24" stroke="#c0392b" stroke-width="1.4" fill="none" marker-end="url(#ar5)"/><text x="182" y="24" class="sm" fill="#c0392b">redacao.py recusa campo sensível (LGPD)</text></g>
+</svg>
+<figcaption><span class="n">Fig. 5</span> — Em nome do titular + commitment CPF. RFC-8785 (padrão aberto) + Merkle + âncora = validade nacional/internacional. O recibo público prova sem revelar dado.</figcaption>
+</figure>
+
+<h2>6 · Metodologia cross-domínio (só ferramentas grátis)</h2>
+<figure class="fig">
+<svg viewBox="0 0 720 150" role="img" aria-label="Três joins sobre o lake local">
+  <defs><marker id="ar6" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#0b6e8c"/></marker></defs>
+  <g font-size="9.5">
+    <rect class="box" x="30"  y="20" width="180" height="30" rx="6"/><text x="120" y="39" class="lbl" text-anchor="middle">1 · entity-linking (ROR/DOI/ticker)</text>
+    <rect class="box" x="30"  y="60" width="180" height="30" rx="6"/><text x="120" y="79" class="lbl" text-anchor="middle">2 · event-study join (janela)</text>
+    <rect class="box" x="30"  y="100" width="180" height="30" rx="6"/><text x="120" y="119" class="lbl" text-anchor="middle">3 · provenance join (classe+licença)</text>
+    <rect class="hub" x="420" y="45" width="240" height="60" rx="8"/><text x="540" y="70" class="lblw" text-anchor="middle">DuckDB local + memory MCP</text><text x="540" y="88" class="sm" fill="#cfe6ef" text-anchor="middle">roteador/Ollama · sequential-thinking (grátis)</text>
+  </g>
+  <g>
+    <line class="flow" x1="210" y1="35"  x2="420" y2="60"  marker-end="url(#ar6)"/>
+    <line class="flow" x1="210" y1="75"  x2="420" y2="75"  marker-end="url(#ar6)"/>
+    <line class="flow" x1="210" y1="115" x2="420" y2="90"  marker-end="url(#ar6)"/>
+  </g>
+</svg>
+<figcaption><span class="n">Fig. 6</span> — Nenhuma API paga no caminho do join. Proveniência 100% exigida para selar — a correlação em si é auditável.</figcaption>
+</figure>
+
+<h2>7 · Medição (números REAIS medidos hoje vs. a computar em F0)</h2>
+<figure class="fig">
+<svg viewBox="0 0 720 250" role="img" aria-label="Painel de medição">
+  <g font-size="9.5">
+    <text x="10" y="16" class="lbl" font-weight="700">M3 Quântico — benchmark real (reports/benchmark/latest.json, 2026-08-28, seed 42)</text>
+    <!-- bars: QAR, quality_gap, stability sd -->
+    <text x="10" y="42" class="sm">QAR</text><rect x="120" y="34" width="200" height="12" fill="#0b6e8c"/><text x="330" y="44" class="sm">1,0 — "empate; não é prova científica"</text>
+    <text x="10" y="62" class="sm">quality_gap</text><rect x="120" y="54" width="4" height="12" fill="#2e8b57"/><text x="132" y="64" class="sm">0,0 (clássico = QUBO = QAOA, score 28)</text>
+    <text x="10" y="82" class="sm">stability σ</text><rect x="120" y="74" width="4" height="12" fill="#2e8b57"/><text x="132" y="84" class="sm">0,0 em 5 runs · QAOA fidelity 0,043 · só simulador local</text>
+    <line x1="10" y1="96" x2="710" y2="96" stroke="#d8e2e8"/>
+    <text x="10" y="116" class="lbl" font-weight="700">M6 Econ/Mercado — Brier real gravado (reports/markets/)</text>
+    <text x="10" y="138" class="sm">contrato (registro.json)</text><rect x="150" y="130" width="90" height="12" fill="#e08b2b"/><text x="248" y="140" class="sm">brier_do_contrato = 0,25</text>
+    <text x="10" y="158" class="sm">retrospectivo (40 contratos)</text><rect x="150" y="150" width="30" height="12" fill="#2e8b57"/><text x="186" y="160" class="sm">média 0,0033 · mediana 0,0006 · máx 0,022 · 0 acima de 1 — bem calibrado (legado_retrospectivo.jsonl)</text>
+    <line x1="10" y1="176" x2="710" y2="176" stroke="#d8e2e8"/>
+    <text x="10" y="196" class="lbl" font-weight="700">M2 Preditivo — nowcast IPCA (reports/mlops/artefatos/, 42 folds, spec R2)</text>
+    <text x="10" y="218" class="sm">erro pontual</text><rect x="150" y="210" width="58" height="12" fill="#0b6e8c"/><text x="214" y="220" class="sm">RMSE 0,144 · MAE 0,110 · skill ~0,48 vs naive</text>
+    <text x="10" y="238" class="sm">Brier pareado</text><rect x="150" y="230" width="70" height="12" fill="#c0392b"/><text x="226" y="240" class="sm">BLOCKED — ridge 0,0575 / focus 0,2222 existem, mas sem vintage Focus reproduzível; probabilidade=UNKNOWN 24/42</text>
+  </g>
+</svg>
+<figcaption><span class="n">Fig. 7</span> — <b>Anti-overpromise:</b> M2, M3 e M6 têm número medido com arquivo de origem (dados já em disco, 0 conectores ligados). M1, M4, M5 e M7 pendem do F1 (ligar fonte = ato exclusivo do titular). O Brier pareado do M2 fica <b>BLOCKED</b> de propósito: os números existem, mas o motor recusa cravar vitória sem vintage Focus reproduzível. Nenhum número foi inventado.</figcaption>
+</figure>
+
+<div class="pb"></div>
+<h2>8 · Usar tudo que serve, descartar o inútil (keep/discard)</h2>
+<figure class="fig">
+<svg viewBox="0 0 720 200" role="img" aria-label="Matriz keep discard">
+  <g font-size="9">
+    <text x="10" y="14" class="lbl" font-weight="700">KEEP (verde) — núcleo do JRRanger</text>
+    <g fill="#e9f7ec" stroke="#2e8b57" stroke-width="1">
+      <rect x="10" y="22" width="168" height="20" rx="4"/><rect x="184" y="22" width="168" height="20" rx="4"/><rect x="358" y="22" width="168" height="20" rx="4"/><rect x="532" y="22" width="178" height="20" rx="4"/>
+      <rect x="10" y="46" width="168" height="20" rx="4"/><rect x="184" y="46" width="168" height="20" rx="4"/><rect x="358" y="46" width="168" height="20" rx="4"/><rect x="532" y="46" width="178" height="20" rx="4"/>
+    </g>
+    <g class="lbl">
+      <text x="16" y="36">descobridor-de-fontes</text><text x="190" y="36">curador-* (M1–M7)</text><text x="364" y="36">tutor-* (domínios)</text><text x="538" y="36">o-conselho · maestro</text>
+      <text x="16" y="60">eng-reverso-web</text><text x="190" y="60">auditor-integridade</text><text x="364" y="60">custodio-consentimento</text><text x="538" y="60">duckdb · pdf · dataviz</text>
+    </g>
+    <text x="10" y="92" class="lbl" font-weight="700">DISCARD do loop (vermelho) — mantidos, só não roteados</text>
+    <g fill="#fdecec" stroke="#c0392b" stroke-width="1">
+      <rect x="10" y="100" width="168" height="20" rx="4"/><rect x="184" y="100" width="168" height="20" rx="4"/><rect x="358" y="100" width="168" height="20" rx="4"/><rect x="532" y="100" width="178" height="20" rx="4"/>
+      <rect x="10" y="124" width="168" height="20" rx="4"/><rect x="184" y="124" width="168" height="20" rx="4"/><rect x="358" y="124" width="168" height="20" rx="4"/><rect x="532" y="124" width="178" height="20" rx="4"/>
+    </g>
+    <g class="lbl">
+      <text x="16" y="114">juridicos/regulatório</text><text x="190" y="114">modelo-negocio/venda</text><text x="364" y="114">produto-mercados</text><text x="538" y="114">espelho-chaox</text>
+      <text x="16" y="138">twelvedata/Bigdata/Zacks*</text><text x="190" y="138">stripe (não transaciona)</text><text x="364" y="138">base44/lovable/vercel*</text><text x="538" y="138">zapier/swagger*</text>
+    </g>
+    <text x="10" y="168" class="sm">* Conectores MCP pagos ou de saída (SaaS) — ferem "grátis / não-alugar-inteligência" e "não-vazar / não-vender". Free equivalentes (WorldBank/ECB/IMF/BCB) já estão no connectors.json.</text>
+    <text x="10" y="184" class="sm">Cloudflare R2/D1/KV e Supabase: só a partir de F4, com aprovação do titular. Browser (playwright/chrome): só para eng-reverso ENTENDER página pública — nunca scraping contra ToS.</text>
+  </g>
+</svg>
+<figcaption><span class="n">Fig. 8</span> — Skills KEEP: duckdb, pdf, dataviz, sequential-thinking, superpowers(writing-plans/dispatching), poupar-cota, scheduled-tasks. Skills fora: figma, frontend-design, code-modernization, mcp-server-dev, plugin-dev.</figcaption>
+</figure>
+
+<h2>9 · Travas que o plano NÃO viola</h2>
+<p class="note">
+<b>Custo:</b> só compute grátis (Ollama/roteador/DuckDB); todo vendor pago excluído; Cloudflare/Supabase atrás de portão F4. ·
+<b>ToS:</b> só RSS/API/open-data via robots.py + max_bytes; browser só para entender. ·
+<b>Sigilo:</b> só recibo+agregado ao ar; redacao.py recusa sensível; arquivos 600; loopback. ·
+<b>Zero agente novo</b> (bloqueio reforçado até 2026-09-04): lacunas só FLAG para ordem do titular — (a) tutor comportamental dedicado p/ M7; (b) agente de correlação cross-domínio se o join superar o o-conselho. ·
+<b>Anti-overpromise:</b> todo claim do PDF ancorado em elo selado; nenhum "quantum advantage" sem os critérios científicos do próprio benchmark. ·
+<b>Nenhuma auto-promoção;</b> soma de probabilidades = 1,0 (sem overround); nunca banir/reduzir categoria eleitoral.
+</p>
+
+<div class="seal">Este documento é artefato interno do instituto. Ao ser gerado, seu SHA-256 é selado na corrente da vigília junto com a baseline F0. Verificação: <code>audit/verifier.py</code> → <code>verify_ledger()</code>. Scaffold: <code>reports/jrranger/</code>.</div>
+
+</body></html>

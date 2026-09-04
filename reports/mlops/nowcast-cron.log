@@ -1,0 +1,28 @@
+{
+  "especificacao": "R2",
+  "manifesto": "reports/mlops/artefatos/nowcast-ipca-r2-4a7b0146558df65d.json",
+  "sha256": "4a7b0146558df65dd9fa3c7a176858ef3b6c82cb9dd0210062d78f140f273dd1",
+  "params": {
+    "janela": 120,
+    "alphas": [
+      0.01,
+      0.1,
+      1.0,
+      10.0,
+      100.0
+    ],
+    "features": [
+      "ipca_15",
+      "igp_m"
+    ],
+    "especificacao": "R2",
+    "limiares": [
+      0.5
+    ]
+  },
+  "metricas": {
+    "brier_ridge": 0.05754150502466171,
+    "n_meses": 18.0,
+    "cobertura": 0.42857142857142855
+  }
+}

@@ -184,7 +184,10 @@ class AuditSDK:
             "legal_area_ids": values.pop("legal_area_ids", []),
             "classification": values.pop("classification", "confidential"),
             "retention_policy_id": values.pop("retention_policy_id", "audit-default-v1"),
-            "lawful_basis_reference": values.pop("lawful_basis_reference", "REQUIRES_LEGAL_VALIDATION"),
+            # Base legal padrão fixada pelo titular (02/09/2026): pesquisa privada
+            # própria, art. 5º da CF/88 — o placeholder antigo sugeria que o ato
+            # do titular dependia de validação de terceiro, e foi vetado por ele.
+            "lawful_basis_reference": values.pop("lawful_basis_reference", "CF88-art5-pesquisa-privada-do-titular"),
             "content_hash_sha256": hash_json(safe_content),
             "metadata_hash_sha256": hash_json(safe_metadata),
             "previous_event_hash_sha256": previous,

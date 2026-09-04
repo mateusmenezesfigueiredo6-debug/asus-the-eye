@@ -395,3 +395,37 @@ by the current repository. Clearly mark every skipped item and the exact safe
 command needed later.
 
 <!-- END THE EYE MASTER AUTONOMOUS POLICY -->
+
+## 2026-09-04 — Commitment de prognóstico (`audit/commitment.py`)
+
+**Por que existe:** o portal cívico precisa de uma trava que nem o titular
+destrave antes da data, mas que o deixe acompanhar em privado. O desenho
+original (`sha256(prognóstico)`) foi derrubado pelo `auditor-de-sabotagem`:
+prognóstico eleitoral tem espaço de ~10⁵ mensagens, enumerável em
+milissegundos — o hash seria *binding* mas não *hiding*.
+
+**O que faz:** `C = HMAC-SHA256(nonce 32 B, prognóstico canônico)`; lote com
+Merkle sobre todas as corridas, `n_folhas` e `esquema_nomes` no elo (revelação
+parcial fica visível); `_abertura` injetada no payload (revelar com outra data
+não bate). Serialização congelada em
+`Área de trabalho/PORTAL-CIVICO-2026/SERIALIZACAO-CANONICA-v1.md` — mudar
+`CASAS` ou `NONCE_BYTES` quebra toda revelação passada, e o teste cai.
+
+**O que NÃO faz:** não impede egresso. Commitment registra; trava impede
+(bind loopback, `publish_guard`). `raiz_merkle` é idêntica à de
+`~/.the-eye/ancorar_politica.py` — teste cruzado garante que a âncora externa
+entende a raiz.
+
+**Fronteira jurídica, para não reescrever a cada sessão:** a norma eleitoral
+só se acende em *entrevistar* e *divulgar* (Lei 9.504 art. 33; Res. TSE
+23.600 red. 23.747/2026, lida no PDF do DJE). Não há blackout legal — art.
+35-A é inconstitucional (STF, ADI 3741/DF, 2006). **A data de revelação é
+decisão editorial do titular; nunca documentar como "cumprimento de lei".**
+Trilha B do TSE pune *apresentação*: % + candidato nomeado + público =
+punível mesmo sendo modelo (REspEl 060049782, 18/06/2026). Logo o único
+egresso público é `C`. Recomendação em vigor: revelação única após 25/10/2026.
+
+**Pendente (F5):** não há prognóstico ainda; a cadência diária de `C` entra na
+`rodada_diaria.sh` quando `markets/modelo_eleitoral.py` existir e passar o
+backtest 2022 (Brier < 0,25). Wikimedia via **dumps horários**, não REST API
+(colide com o pool anônimo do fetcher).

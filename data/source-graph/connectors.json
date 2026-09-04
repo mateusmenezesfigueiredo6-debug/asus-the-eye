@@ -15,7 +15,7 @@
       "min_interval_seconds": 3.0,
       "max_bytes": 5242880,
       "requires_key": false,
-      "enabled": false,
+      "enabled": true,
       "provides": [
         "identidade canônica de organização de pesquisa",
         "país",
@@ -34,7 +34,8 @@
       "implementation": "src/asus_theye/source_graph/connectors/academico.py",
       "last_verified_at": "2026-08-05T20:32:21.771657Z",
       "verification_note": "HTTP 200 em 05/08/2026; a v2 mudou name->names[] e country->locations[]",
-      "ready_to_enable": true
+      "ready_to_enable": true,
+      "enabled_at": "2026-09-03"
     },
     {
       "connector_id": "crossref",
@@ -47,7 +48,7 @@
       "min_interval_seconds": 3.0,
       "max_bytes": 10485760,
       "requires_key": false,
-      "enabled": false,
+      "enabled": true,
       "provides": [
         "metadados de artigos e periódicos",
         "DOI",
@@ -67,7 +68,8 @@
       "implementation": "src/asus_theye/source_graph/connectors/academico.py",
       "last_verified_at": "2026-08-05T20:32:21.771657Z",
       "verification_note": "HTTP 200; NAO suporta busca por frase — usa query.title",
-      "ready_to_enable": true
+      "ready_to_enable": true,
+      "enabled_at": "2026-09-03"
     },
     {
       "connector_id": "arxiv",
@@ -80,7 +82,7 @@
       "min_interval_seconds": 3.0,
       "max_bytes": 5242880,
       "requires_key": false,
-      "enabled": false,
+      "enabled": true,
       "provides": [
         "metadados de preprints",
         "resumos",
@@ -96,7 +98,8 @@
       "implementation": "src/asus_theye/source_graph/connectors/academico.py",
       "last_verified_at": "2026-08-05T20:32:21.771657Z",
       "verification_note": "HTTP 200; aspas obrigatorias, sem elas casa palavras soltas (500x)",
-      "ready_to_enable": true
+      "ready_to_enable": true,
+      "enabled_at": "2026-09-03"
     },
     {
       "connector_id": "openlibrary",
@@ -109,7 +112,7 @@
       "min_interval_seconds": 3.0,
       "max_bytes": 5242880,
       "requires_key": false,
-      "enabled": false,
+      "enabled": true,
       "provides": [
         "metadados bibliográficos de livros",
         "ISBN",
@@ -125,7 +128,8 @@
         "1 req/s anônimo, 3 req/s identificado; User-Agent com contato é exigido",
         "a documentação declara explicitamente que a plataforma não é infraestrutura comercial"
       ],
-      "implementation": null
+      "implementation": null,
+      "enabled_at": "2026-09-03"
     },
     {
       "connector_id": "doaj",
@@ -138,7 +142,7 @@
       "min_interval_seconds": 3.0,
       "max_bytes": 5242880,
       "requires_key": false,
-      "enabled": false,
+      "enabled": true,
       "provides": [
         "periódicos open access verificados",
         "critérios de qualidade editorial"
@@ -153,7 +157,8 @@
       "implementation": "src/asus_theye/source_graph/connectors/academico.py",
       "last_verified_at": "2026-08-05T20:32:21.771657Z",
       "verification_note": "HTTP 200",
-      "ready_to_enable": true
+      "ready_to_enable": true,
+      "enabled_at": "2026-09-03"
     },
     {
       "connector_id": "openalex",
@@ -191,7 +196,7 @@
       "min_interval_seconds": 3.0,
       "max_bytes": 20971520,
       "requires_key": false,
-      "enabled": false,
+      "enabled": true,
       "provides": [
         "arquivamentos de empresas listadas nos EUA",
         "CIK",
@@ -204,7 +209,8 @@
       "limitations": [
         "User-Agent com contato é OBRIGATÓRIO — sem isso a SEC bloqueia; 10 req/s"
       ],
-      "implementation": null
+      "implementation": null,
+      "enabled_at": "2026-09-03"
     },
     {
       "connector_id": "dados-gov-br",
@@ -241,7 +247,7 @@
       "min_interval_seconds": 3.0,
       "max_bytes": 52428800,
       "requires_key": false,
-      "enabled": false,
+      "enabled": true,
       "provides": [
         "produção de petróleo e gás",
         "poços",
@@ -254,7 +260,8 @@
       "limitations": [
         "publicação por arquivo, não por API REST em todos os conjuntos"
       ],
-      "implementation": null
+      "implementation": null,
+      "enabled_at": "2026-09-03"
     },
     {
       "connector_id": "snis",
@@ -267,7 +274,7 @@
       "min_interval_seconds": 3.0,
       "max_bytes": 52428800,
       "requires_key": false,
-      "enabled": false,
+      "enabled": true,
       "provides": [
         "estações de tratamento de água e esgoto",
         "indicadores por município",
@@ -280,7 +287,8 @@
       "limitations": [
         "série anual com defasagem; autodeclarado pelos prestadores"
       ],
-      "implementation": null
+      "implementation": null,
+      "enabled_at": "2026-09-03"
     },
     {
       "connector_id": "ibm-quantum",
@@ -370,7 +378,7 @@
       "min_interval_seconds": 3.0,
       "max_bytes": 5242880,
       "requires_key": false,
-      "enabled": false,
+      "enabled": true,
       "provides": [
         "contagem e magnitude de sismos, atualização por minuto"
       ],
@@ -382,7 +390,8 @@
       "implementation": "src/asus_theye/markets (via sincronizador do Hórus)",
       "last_verified_at": "2026-08-29T15:14:41.646697+00:00",
       "verification_note": "IQF 100 (cluster J); coletado ao vivo em 29/08 (14 sismos M4.5+)",
-      "ready_to_enable": true
+      "ready_to_enable": true,
+      "enabled_at": "2026-09-03"
     },
     {
       "connector_id": "ecb_data_portal",
@@ -395,7 +404,7 @@
       "min_interval_seconds": 3.0,
       "max_bytes": 5242880,
       "requires_key": false,
-      "enabled": false,
+      "enabled": true,
       "provides": [
         "taxas do BCE (deposit facility), séries do euro"
       ],
@@ -407,7 +416,8 @@
       "implementation": "src/asus_theye/markets (via sincronizador do Hórus)",
       "last_verified_at": "2026-08-29T15:14:41.646697+00:00",
       "verification_note": "verificada ao vivo 29/08 (DFR 2,25%)",
-      "ready_to_enable": true
+      "ready_to_enable": true,
+      "enabled_at": "2026-09-03"
     },
     {
       "connector_id": "worldbank_api",
@@ -420,7 +430,7 @@
       "min_interval_seconds": 3.0,
       "max_bytes": 5242880,
       "requires_key": false,
-      "enabled": false,
+      "enabled": true,
       "provides": [
         "indicadores globais anuais (inflação, PIB)"
       ],
@@ -432,7 +442,8 @@
       "implementation": "src/asus_theye/markets (via sincronizador do Hórus)",
       "last_verified_at": "2026-08-29T15:14:41.646697+00:00",
       "verification_note": "verificada ao vivo 29/08",
-      "ready_to_enable": true
+      "ready_to_enable": true,
+      "enabled_at": "2026-09-03"
     },
     {
       "connector_id": "bcra_api",
@@ -445,7 +456,7 @@
       "min_interval_seconds": 3.0,
       "max_bytes": 5242880,
       "requires_key": false,
-      "enabled": false,
+      "enabled": true,
       "provides": [
         "inflação AR (INDEC via id 27), BADLAR (id 7), dólar oficial"
       ],
@@ -457,7 +468,8 @@
       "implementation": "src/asus_theye/markets (via sincronizador do Hórus)",
       "last_verified_at": "2026-08-29T15:14:41.646697+00:00",
       "verification_note": "verificada ao vivo 29/08; ids 160/161 (tasa política) MORTOS desde 07/2025 — usar BADLAR id 7",
-      "ready_to_enable": true
+      "ready_to_enable": true,
+      "enabled_at": "2026-09-03"
     },
     {
       "connector_id": "wikimedia_pageviews",
@@ -470,7 +482,7 @@
       "min_interval_seconds": 3.0,
       "max_bytes": 5242880,
       "requires_key": false,
-      "enabled": false,
+      "enabled": true,
       "provides": [
         "atenção real do público (sinal de descoberta)"
       ],
@@ -482,7 +494,8 @@
       "implementation": "src/asus_theye/markets (via sincronizador do Hórus)",
       "last_verified_at": "2026-08-29T15:14:41.646697+00:00",
       "verification_note": "verificada ao vivo 29/08; papel sinal, nunca liquidação",
-      "ready_to_enable": true
+      "ready_to_enable": true,
+      "enabled_at": "2026-09-03"
     },
     {
       "connector_id": "ons_dados_abertos",
@@ -495,7 +508,7 @@
       "min_interval_seconds": 3.0,
       "max_bytes": 5242880,
       "requires_key": false,
-      "enabled": false,
+      "enabled": true,
       "provides": [
         "carga e geração do SIN (horária)"
       ],
@@ -507,7 +520,8 @@
       "implementation": "src/asus_theye/markets (via sincronizador do Hórus)",
       "last_verified_at": "2026-08-29T15:35:16.762321+00:00",
       "verification_note": "CKAN validado ao vivo 29/08: package_search respondeu success=true com 83 datasets",
-      "ready_to_enable": true
+      "ready_to_enable": true,
+      "enabled_at": "2026-09-03"
     },
     {
       "connector_id": "inmet_apitempo",
@@ -520,7 +534,7 @@
       "min_interval_seconds": 3.0,
       "max_bytes": 5242880,
       "requires_key": false,
-      "enabled": false,
+      "enabled": true,
       "provides": [
         "clima por estação automática (tempo quase real)"
       ],
@@ -531,8 +545,9 @@
       "limitations": [],
       "implementation": "src/asus_theye/markets (via sincronizador do Hórus)",
       "last_verified_at": "2026-08-29T15:14:41.646697+00:00",
-      "verification_note": "INDISPONÍVEL na validação de 29/08 (conexão não abre daqui); manter não-pronto e revalidar",
-      "ready_to_enable": false
+      "verification_note": "INDISPONÍVEL na validação de 29/08 (conexão não abre daqui); manter não-pronto e revalidar | REVALIDADO 2026-09-03: HTTP 200 estacoes 263KB -> ligado",
+      "ready_to_enable": true,
+      "enabled_at": "2026-09-03"
     },
     {
       "connector_id": "opendatasus",
@@ -557,7 +572,35 @@
       "implementation": "src/asus_theye/markets (via sincronizador do Hórus)",
       "last_verified_at": "2026-08-29T15:14:41.646697+00:00",
       "verification_note": "IQF 83 (cluster J); atenção à cláusula ND na redistribuição derivada",
-      "ready_to_enable": false
+      "ready_to_enable": false,
+      "privacy": {
+        "aggregate_only": true,
+        "only_keep": [
+          "municipio_ibge",
+          "periodo_mes",
+          "faixa_etaria",
+          "sexo",
+          "causa_cid_capitulo_ou_tipo_penal",
+          "contagem"
+        ],
+        "drop_fields": [
+          "nome",
+          "documento",
+          "endereco",
+          "data_exata",
+          "coordenada_ponto",
+          "qualquer_identificador_direto_ou_quase"
+        ],
+        "suppression_threshold": 5,
+        "lgpd_basis": "dado sensivel — so agregado, minimizacao (LGPD art. 11)",
+        "never": [
+          "registro individual",
+          "identificar pessoa",
+          "pre-crime",
+          "dado de saude individual"
+        ]
+      },
+      "tema": "saude"
     },
     {
       "connector_id": "cvm_dados_abertos",
@@ -570,7 +613,7 @@
       "min_interval_seconds": 3.0,
       "max_bytes": 5242880,
       "requires_key": false,
-      "enabled": false,
+      "enabled": true,
       "provides": [
         "fatos relevantes e demonstrações como evidência datada"
       ],
@@ -581,8 +624,2185 @@
       "limitations": [],
       "implementation": "src/asus_theye/markets (via sincronizador do Hórus)",
       "last_verified_at": "2026-08-29T15:14:41.646697+00:00",
-      "verification_note": "IQF 78 (cluster J); análogo BR do SEC EDGAR",
+      "verification_note": "IQF 78 (cluster J); análogo BR do SEC EDGAR | REVALIDADO 2026-09-03: HTTP 200 CKAN package_list -> ligado",
+      "ready_to_enable": true,
+      "enabled_at": "2026-09-03"
+    },
+    {
+      "connector_id": "zenodo",
+      "name": "Zenodo REST API",
+      "base_url": "https://zenodo.org/api/",
+      "terms_url": "https://developers.zenodo.org/",
+      "license_id": "CC0-1.0",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "access_basis": "api_terms",
+      "min_interval_seconds": 3.0,
+      "max_bytes": 10485760,
+      "requires_key": false,
+      "enabled": true,
+      "provides": [
+        "metadados CC0 de datasets/software/preprints com DOI",
+        "campo access_right e licenca por record"
+      ],
+      "does_not_provide": [
+        "conteudo dos arquivos com licenca propria (varia por deposito)",
+        "garantia de curadoria editorial"
+      ],
+      "limitations": [
+        "guest: 60 req/min, 2000 req/h",
+        "licenca do metadado e CC0; licenca do arquivo e a que o depositante escolheu"
+      ],
+      "implementation": null,
+      "last_verified_at": "2026-09-03",
+      "verification_note": "HTTP 200 ao vivo 03/09; CERN/OpenAIRE; sem chave | leitura: GET /api/records?q={termo}&size=N — parsear metadata.license, metadata.access_right, doi | descoberto no 1o ciclo do descobridor-de-fontes",
+      "ready_to_enable": true,
+      "enabled_at": "2026-09-03"
+    },
+    {
+      "connector_id": "ncbi_eutils",
+      "name": "NCBI E-utilities (PubMed/PMC)",
+      "base_url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/",
+      "terms_url": "https://www.ncbi.nlm.nih.gov/home/about/policies/",
+      "license_id": "US-PD",
+      "license_url": "https://www.ncbi.nlm.nih.gov/home/about/policies/",
+      "access_basis": "api_terms",
+      "min_interval_seconds": 3.0,
+      "max_bytes": 10485760,
+      "requires_key": false,
+      "enabled": true,
+      "provides": [
+        "metadados/resumos de literatura biomedica",
+        "38 bases (PubMed, PMC, MeSH, Gene, ClinVar)"
+      ],
+      "does_not_provide": [
+        "texto completo sob paywall de editora (PMC so cobre OA)"
+      ],
+      "limitations": [
+        "3 req/s sem chave, 10 req/s com api_key grátis opcional",
+        "tool= e email= recomendados por etiqueta, nao exigidos"
+      ],
+      "implementation": null,
+      "last_verified_at": "2026-09-03",
+      "verification_note": "HTTP 200 ao vivo 03/09; XML valido; obra do governo EUA (dominio publico); sem chave | leitura: GET einfo.fcgi para descoberta; esearch.fcgi + efetch.fcgi para consulta | descoberto no 1o ciclo do descobridor-de-fontes",
+      "ready_to_enable": true,
+      "enabled_at": "2026-09-03"
+    },
+    {
+      "connector_id": "wikidata_query",
+      "name": "Wikidata Query Service (SPARQL) + Linked Data",
+      "base_url": "https://query.wikidata.org/sparql",
+      "terms_url": "https://www.wikidata.org/wiki/Wikidata:Data_access",
+      "license_id": "CC0-1.0",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "access_basis": "api_terms",
+      "min_interval_seconds": 3.0,
+      "max_bytes": 5242880,
+      "requires_key": false,
+      "enabled": true,
+      "provides": [
+        "grafo de conhecimento estruturado (entidades, propriedades, relacoes)",
+        "resolucao de entidade canonica multi-idioma"
+      ],
+      "does_not_provide": [
+        "dados de trafego/atencao (isso e wikimedia_pageviews)",
+        "atualizacao garantida em tempo real de todas as entidades"
+      ],
+      "limitations": [
+        "SPARQL sofre timeout em queries complexas — documentado",
+        "para volume alto usar dumps em dumps.wikimedia.org"
+      ],
+      "implementation": null,
+      "last_verified_at": "2026-09-03",
+      "verification_note": "pagina oficial de acesso confirmada ao vivo 03/09; CC0 explicito; Wikimedia | leitura: GET/POST SPARQL em query.wikidata.org/sparql?query=...&format=json | descoberto no 1o ciclo do descobridor-de-fontes",
+      "ready_to_enable": true,
+      "enabled_at": "2026-09-03"
+    },
+    {
+      "connector_id": "huggingface_hub",
+      "name": "Hugging Face Hub API (models/datasets)",
+      "base_url": "https://huggingface.co/api/",
+      "terms_url": "https://huggingface.co/docs/hub/repositories-licenses",
+      "license_id": "Mixed-per-item",
+      "license_url": "https://huggingface.co/docs/hub/repositories-licenses",
+      "access_basis": "api_terms",
+      "min_interval_seconds": 3.0,
+      "max_bytes": 10485760,
+      "requires_key": false,
+      "enabled": true,
+      "provides": [
+        "catalogo de modelos e datasets ML",
+        "campo license, downloads, tags por item"
+      ],
+      "does_not_provide": [
+        "licenca uniforme — cada item deve ser checado individualmente",
+        "repositorios gated/privados sem token"
+      ],
+      "limitations": [
+        "licenca varia por item (campo license) — legalidade condicional",
+        "itens gated exigem token mesmo p/ metadados completos",
+        "rate limit nao numerado na doc consultada"
+      ],
+      "implementation": null,
+      "last_verified_at": "2026-09-03",
+      "verification_note": "HTTP 200 ao vivo 03/09; JSON valido; empresa privada (nao orgao publico); sem chave p/ itens nao-gated | leitura: GET /api/models?limit=N&full=false e /api/datasets?limit=N — checar gated e license por item ANTES de usar | descoberto no 1o ciclo do descobridor-de-fontes",
+      "ready_to_enable": true,
+      "enabled_at": "2026-09-03"
+    },
+    {
+      "connector_id": "oecd_sdmx",
+      "name": "OECD Data Explorer (SDMX public REST)",
+      "base_url": "https://sdmx.oecd.org/public/rest/",
+      "terms_url": "https://www.oecd.org/en/about/terms-conditions.html",
+      "license_id": "CC-BY-4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "access_basis": "api_terms",
+      "min_interval_seconds": 3.0,
+      "max_bytes": 5242880,
+      "requires_key": false,
+      "enabled": true,
+      "provides": [
+        "indicadores estatisticos oficiais dos 38 membros + parceiros",
+        "series harmonizadas SDMX"
+      ],
+      "does_not_provide": [
+        "dados de alta frequencia (maioria anual/trimestral)"
+      ],
+      "limitations": [
+        "LACUNA: CC-BY-4.0 confirmada p/ conteudo OCDE em geral (jul/2024) mas NAO confirmado por acesso direto se cobre o dado numerico do SDMX (pagina de termos deu 403; so cache de busca) — checar antes de redistribuir comercialmente"
+      ],
+      "implementation": null,
+      "last_verified_at": "2026-09-03",
+      "verification_note": "HTTP 200 ao vivo 03/09 (catalogo dataflow); licenca via cache de busca, nao acesso direto — lacuna declarada | leitura: GET /public/rest/dataflow p/ catalogo; /public/rest/data/{dataflow}/{filtro} p/ series | descoberto no 1o ciclo do descobridor-de-fontes",
+      "ready_to_enable": true,
+      "enabled_at": "2026-09-03"
+    },
+    {
+      "connector_id": "openml",
+      "name": "OpenML REST API",
+      "base_url": "https://www.openml.org/api/v1/json/",
+      "terms_url": "https://www.openml.org/terms",
+      "license_id": "Mixed-per-item",
+      "license_url": "https://www.openml.org/terms",
+      "access_basis": "api_terms",
+      "min_interval_seconds": 3.0,
+      "max_bytes": 5242880,
+      "requires_key": false,
+      "enabled": true,
+      "provides": [
+        "catalogo de datasets de benchmarking ML",
+        "metadados de tarefas, flows, runs"
+      ],
+      "does_not_provide": [
+        "padronizacao de licenca — verificar por dataset"
+      ],
+      "limitations": [
+        "licenca varia por dataset (referencia academica, sem CC0 global)",
+        "endpoint legado api.openml.org redireciona 301 p/ www.openml.org"
+      ],
+      "implementation": null,
+      "last_verified_at": "2026-09-03",
+      "verification_note": "HTTP 200 ao vivo 03/09 apos seguir redirect; sem chave | leitura: GET /api/v1/json/data/list/limit/N | descoberto no 1o ciclo do descobridor-de-fontes",
+      "ready_to_enable": true,
+      "enabled_at": "2026-09-03"
+    },
+    {
+      "connector_id": "re3data",
+      "name": "re3data.org — Registry of Research Data Repositories",
+      "base_url": "https://www.re3data.org/api/beta/repository/",
+      "terms_url": "https://www.re3data.org/api/doc",
+      "license_id": "CC0-1.0",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "access_basis": "api_terms",
+      "min_interval_seconds": 3.0,
+      "max_bytes": 5242880,
+      "requires_key": false,
+      "enabled": true,
+      "provides": [
+        "registro-mestre de repositorios de dados de pesquisa globais",
+        "metadados de confiabilidade/certificacao por repositorio"
+      ],
+      "does_not_provide": [
+        "os dados em si (e registro de repositorios, nao os datasets)",
+        "rate limit numerado documentado"
+      ],
+      "limitations": [
+        "documentacao de endpoints esparsa — endpoint confirmado por tentativa ao vivo, nao por doc explicita"
+      ],
+      "implementation": null,
+      "last_verified_at": "2026-09-03",
+      "verification_note": "HTTP 200 ao vivo 03/09; XML valido; apoio DFG/Gottingen; sem chave; o registro-mestre pedido pelo titular | leitura: GET /api/beta/repository/?query={termo} — XML com id/DOI/nome/link self | descoberto no 1o ciclo do descobridor-de-fontes",
+      "ready_to_enable": true,
+      "enabled_at": "2026-09-03"
+    },
+    {
+      "connector_id": "gdelt_doc",
+      "name": "GDELT DOC 2.0 API",
+      "base_url": "https://api.gdeltproject.org/api/v2/doc/doc",
+      "terms_url": "https://www.gdeltproject.org/about.html",
+      "license_id": "GDELT-ToU",
+      "license_url": "https://www.gdeltproject.org/about.html",
+      "access_basis": "api_terms",
+      "min_interval_seconds": 3.0,
+      "max_bytes": 10485760,
+      "requires_key": false,
+      "enabled": false,
+      "provides": [
+        "busca full-text em noticias globais, janela rolante ~3 meses",
+        "sinal de atencao/tom de cobertura por evento/tema"
+      ],
+      "does_not_provide": [
+        "arquivo permanente (janela 3 meses) — p/ historico usar BigQuery publico do GDELT"
+      ],
+      "limitations": [
+        "USO COMO SINAL, NUNCA LIQUIDACAO — agregador de noticias, nao orgao oficial",
+        "endpoint deu ECONNRESET x3 em 03/09 — revalidar rede ANTES de habilitar"
+      ],
+      "implementation": null,
+      "last_verified_at": "2026-09-03",
+      "verification_note": "ToS confirmado por acesso direto 03/09 (uso irrestrito c/ citacao); endpoint de dados NAO respondeu (ECONNRESET x3) — lacuna | leitura: GET /doc/doc?query={termo}&mode=artlist&format=json&maxrecords=N | descoberto no 1o ciclo do descobridor-de-fontes | REVALIDADO 2026-09-03: timeout 18s desta rede -> segue nao-pronto | REVALIDADO 2026-09-03 21:03Z: agora responde 429 (vivo, throttled) - antes timeout/ECONNRESET; aumentar min_interval e reavaliar",
       "ready_to_enable": false
+    },
+    {
+      "connector_id": "imf_datamapper",
+      "name": "IMF DataMapper API",
+      "base_url": "https://www.imf.org/external/datamapper/api/v1/",
+      "terms_url": "https://www.imf.org/en/about/copyright-and-terms",
+      "license_id": "IMF-Terms-restrito",
+      "license_url": "https://www.imf.org/en/about/copyright-and-terms",
+      "access_basis": "api_terms",
+      "min_interval_seconds": 3.0,
+      "max_bytes": 5242880,
+      "requires_key": false,
+      "enabled": false,
+      "provides": [
+        "indicadores macro globais (WEO), ~190 paises"
+      ],
+      "does_not_provide": [
+        "permissao clara de coleta automatizada em lote — ver limitations"
+      ],
+      "limitations": [
+        "RISCO JURIDICO: FMI declara proibir 'bulk download by automated technology' e uso p/ treinar LLM sem permissao explicita (via snippet indexado; texto integral deu 403)",
+        "reuso comercial exige e-mail a copyright@imf.org",
+        "NAO AUTOMATIZAR EM LOTE sem confirmacao juridica formal"
+      ],
+      "implementation": null,
+      "last_verified_at": "2026-09-03",
+      "verification_note": "endpoint HTTP 200 ao vivo 03/09; risco juridico de uso automatizado identificado (nao confrontado c/ texto integral, 403) — NAO HABILITAR sem checagem juridica | leitura: GET /api/v1/{indicador}/{pais} — NAO automatizar em lote sem confirmar com copyright@imf.org | descoberto no 1o ciclo do descobridor-de-fontes",
+      "ready_to_enable": false
+    },
+    {
+      "connector_id": "commoncrawl_index",
+      "name": "Common Crawl Index (CDX API)",
+      "base_url": "https://index.commoncrawl.org/",
+      "terms_url": "https://commoncrawl.org/terms-of-use",
+      "license_id": "CommonCrawl-ToU",
+      "license_url": "https://commoncrawl.org/terms-of-use",
+      "access_basis": "api_terms",
+      "min_interval_seconds": 3.0,
+      "max_bytes": 20971520,
+      "requires_key": false,
+      "enabled": false,
+      "provides": [
+        "indice de bilhoes de paginas web rastreadas, por colecao mensal/bimestral"
+      ],
+      "does_not_provide": [
+        "garantia de legalidade/precisao do conteudo de terceiros indexado",
+        "atualizacao em tempo real"
+      ],
+      "limitations": [
+        "termos exigem INDENIZACAO do Common Crawl p/ uso ligado a IA/ML contra reclamacoes de terceiros — avaliar antes de usar como insumo de treino",
+        "responsabilidade por copyright de terceiros no conteudo e do usuario"
+      ],
+      "implementation": null,
+      "last_verified_at": "2026-09-03",
+      "verification_note": "HTTP 200 ao vivo 03/09 (indice e termos); snapshots mensais (sem tempo real); sem chave | leitura: GET /collinfo.json p/ catalogo; GET {cdx-api}?url={dominio}&output=json p/ consulta | descoberto no 1o ciclo do descobridor-de-fontes",
+      "ready_to_enable": true
+    },
+    {
+      "connector_id": "worldbank_procurement_notices",
+      "name": "World Bank Procurement Notices API",
+      "base_url": "https://search.worldbank.org/api/v2/procnotices",
+      "terms_url": "https://www.worldbank.org/en/about/legal/terms-of-use-for-datasets",
+      "license_id": "CC-BY-4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "access_basis": "api_terms",
+      "min_interval_seconds": 3.0,
+      "max_bytes": 10485760,
+      "requires_key": false,
+      "enabled": true,
+      "provides": [
+        "avisos de licitacao (procurement notices) de projetos financiados pelo Banco Mundial, filtravel por pais/setor",
+        "editais em Angola e RDC quando ha projeto BM ativo (agua/saude/multilateral)"
+      ],
+      "does_not_provide": [
+        "editais de licitacao puramente nacionais (governo de Angola/RDC) sem financiamento do BM",
+        "contratos assinados/valor final (so avisos, nao resultado)"
+      ],
+      "limitations": [
+        "cobertura depende de haver projeto BM ativo no pais/setor filtrado",
+        "417 mil+ registros globais — filtrar por countryname_exact para reduzir ruido"
+      ],
+      "implementation": "aba Mercado (VALUE PAS): GET ?format=json&countryname_exact=Angola (ou Congo, Democratic Republic of) — parsear project_name, notice_type, deadline, sector",
+      "last_verified_at": "2026-09-03",
+      "verification_note": "HTTP 200 ao vivo 03/09; JSON valido (total=417406, testado com countryname_exact=Angola); sem chave | descoberto na missao VALUE PAS do descobridor-de-fontes",
+      "ready_to_enable": true,
+      "enabled_at": "2026-09-03"
+    },
+    {
+      "connector_id": "reliefweb_api",
+      "name": "ReliefWeb API (OCHA)",
+      "base_url": "https://api.reliefweb.int/v2/",
+      "terms_url": "https://reliefweb.int/help/api",
+      "license_id": "CC-BY-4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "access_basis": "api_terms",
+      "min_interval_seconds": 3.0,
+      "max_bytes": 5242880,
+      "requires_key": false,
+      "enabled": false,
+      "provides": [
+        "relatorios humanitarios e de situacao curados de 4000+ fontes, filtravel por pais (Angola, RDC)",
+        "contexto de crise/saude publica que afeta operacao de hospitais e agua"
+      ],
+      "does_not_provide": [
+        "editais/contratos (nao e fonte de mercado, e de contexto/noticia humanitaria)",
+        "garantia de que todo relatorio individual e CC-BY (Reports/Jobs/Training podem conter material de terceiros com direitos proprios)"
+      ],
+      "limitations": [
+        "exige parametro appname (identificacao, nao chave paga) desde 01/11/2025",
+        "maximo 1000 registros/chamada, 1000 chamadas/dia"
+      ],
+      "implementation": "aba Noticias (VALUE PAS): GET /reports?appname=the-eye&filter[field]=country&filter[value]=Angola|Democratic Republic of the Congo — parsear title, date, source, body",
+      "last_verified_at": "2026-09-03",
+      "verification_note": "documentacao oficial confirmada ao vivo 03/09 (apidoc.reliefweb.int); free, sem custo, CC-BY-4.0 | descoberto na missao VALUE PAS do descobridor-de-fontes",
+      "ready_to_enable": true
+    },
+    {
+      "connector_id": "worldbank_commodity_pricedata",
+      "name": "World Bank Commodity Markets (Pink Sheet / CMO)",
+      "base_url": "https://thedocs.worldbank.org/en/doc/18675f1d1639c7a34d463f59263ba0a2-0050012025/related/CMO-Historical-Data-Monthly.xlsx",
+      "terms_url": "https://www.worldbank.org/en/research/commodity-markets",
+      "license_id": "CC-BY-4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "access_basis": "api_terms",
+      "min_interval_seconds": 3.0,
+      "max_bytes": 5242880,
+      "requires_key": false,
+      "enabled": true,
+      "provides": [
+        "precos mensais/anuais de commodities globais (fertilizantes, enxofre, metais) — proxy de custo de insumos quimicos (sulfato de aluminio, cloro) via materia-prima correlata",
+        "serie historica longa em xlsx, atualizacao mensal"
+      ],
+      "does_not_provide": [
+        "preco direto de hipoclorito de calcio ou sulfato de aluminio acabado (so materias-primas/proxies como enxofre e potassio)",
+        "API REST — e arquivo xlsx fixo por mes, nao endpoint parametrizavel"
+      ],
+      "limitations": [
+        "URL do arquivo muda a cada mes (padrao thedocs.worldbank.org/.../CMO-Historical-Data-Monthly.xlsx costuma ser estavel, mas o pink sheet mensal em PDF muda de nome)",
+        "sem tempo real; defasagem de ate 1 mes"
+      ],
+      "implementation": "aba Mercado (VALUE PAS): download mensal do xlsx, ler abas Monthly Prices/Indices, usar series de fertilizantes/enxofre como proxy de custo de insumo quimico",
+      "last_verified_at": "2026-09-03",
+      "verification_note": "HTTP 200 ao vivo 03/09; xlsx valido (760KB) baixado com sucesso; sem chave | descoberto na missao VALUE PAS do descobridor-de-fontes",
+      "ready_to_enable": true,
+      "enabled_at": "2026-09-03"
+    },
+    {
+      "connector_id": "afdb_opendataforafrica",
+      "name": "AfDB Africa Information Highway / Open Data for Africa",
+      "base_url": "https://dataportal.opendataforafrica.org/",
+      "terms_url": "https://dataportal.opendataforafrica.org/",
+      "license_id": "CC-BY-4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "access_basis": "api_terms",
+      "min_interval_seconds": 3.0,
+      "max_bytes": 5242880,
+      "requires_key": false,
+      "enabled": false,
+      "provides": [
+        "estatisticas socioeconomicas e de infraestrutura por pais africano (Angola, RDC), incluindo agua/saneamento",
+        "API/SDMX/JSON explorer para extracao programatica"
+      ],
+      "does_not_provide": [
+        "editais/contratos (e estatistica, nao mercado de compras)",
+        "dados de alta frequencia — maioria anual"
+      ],
+      "limitations": [
+        "operado via plataforma Knoema; documentacao de endpoint API dispersa — endpoint exato de consulta deve ser verificado por pais/dataset antes de implementar leitor"
+      ],
+      "implementation": "aba Mercado (VALUE PAS): usar API Explorer (dataportal.opendataforafrica.org/dev/explorer) para indicadores de agua/saneamento/infraestrutura de Angola e RDC",
+      "last_verified_at": "2026-09-03",
+      "verification_note": "portal e API Explorer confirmados ao vivo 03/09; CC-BY-4.0 declarada para dado publicado pelo AfDB; sem chave para consulta basica | descoberto na missao VALUE PAS do descobridor-de-fontes | REVALIDADO 2026-09-03: HTTP 403 (portal bloqueia GET nao-browser) -> segue nao-pronto | REVALIDADO 2026-09-03: 403 persiste",
+      "ready_to_enable": false
+    },
+    {
+      "connector_id": "un_comtrade_api",
+      "name": "UN Comtrade API (public preview)",
+      "base_url": "https://comtradeapi.un.org/public/v1/preview/",
+      "terms_url": "https://comtrade.un.org/data/dev/portal",
+      "license_id": "UN-Comtrade-terms",
+      "license_url": "https://comtrade.un.org/data/dev/portal",
+      "access_basis": "api_terms",
+      "min_interval_seconds": 3.0,
+      "max_bytes": 10485760,
+      "requires_key": false,
+      "enabled": true,
+      "provides": [
+        "fluxos de comercio internacional por codigo HS (ex.: 282710 hipoclorito de calcio, 283322 sulfato de aluminio) — proxy de preco via valor/quantidade importada por Angola/RDC",
+        "endpoint preview publico sem chave, limitado"
+      ],
+      "does_not_provide": [
+        "preco de referencia direto (e volume+valor de comercio, preco unitario precisa ser calculado)",
+        "acesso pleno/bulk — isso exige subscription key gratuita via portal comtradeapi.un.org"
+      ],
+      "limitations": [
+        "endpoint 'preview' e limitado em ano/volume; uso pleno exige registro gratuito para subscription key (Ocp-Apim-Subscription-Key) — nao verificado nesta execucao se preview basta p/ Angola/RDC especificamente",
+        "dados de Angola/RDC no Comtrade podem ter defasagem/lacunas de reporte nacional",
+        "SO endpoint preview (sem chave, ~500 registros amostra); uso pleno exigiria subscription key — NAO anexar (trava de privacidade)"
+      ],
+      "implementation": "aba Mercado (VALUE PAS): GET /public/v1/preview/C/A/HS?reporterCode=Angola|COD&cmdCode=282710,283322 — calcular preco unitario = primaryValue/qty",
+      "last_verified_at": "2026-09-03",
+      "verification_note": "HTTP 200 ao vivo 03/09 no endpoint preview (JSON, 500 registros de amostra); requisito de subscription key p/ uso pleno nao confirmado nesta execucao — lacuna declarada | descoberto na missao VALUE PAS do descobridor-de-fontes | REVALIDADO 2026-09-03: HTTP 200 preview JSON (sem chave) -> ligado",
+      "ready_to_enable": true,
+      "enabled_at": "2026-09-03"
+    },
+    {
+      "connector_id": "allafrica_rss",
+      "name": "AllAfrica.com RSS (Angola / RDC)",
+      "base_url": "https://allafrica.com/misc/tools/rss.html",
+      "terms_url": "https://allafrica.com/misc/tools/rss.html",
+      "license_id": "AllAfrica-RSS-attribution",
+      "license_url": "https://allafrica.com/misc/tools/rss.html",
+      "access_basis": "api_terms",
+      "min_interval_seconds": 3.0,
+      "max_bytes": 2097152,
+      "requires_key": false,
+      "enabled": true,
+      "provides": [
+        "agregador de noticias africanas por pais (Angola, RDC), feeds RSS oficiais, atualizacao continua"
+      ],
+      "does_not_provide": [
+        "texto completo redistribuivel — termos falam em exibir manchete/resumo com atribuicao e link, nao republicacao integral",
+        "uso comercial claro — termos mencionam 'uso pessoal ou em site' sem detalhar uso comercial/institucional"
+      ],
+      "limitations": [
+        "termos de reuso vagos quanto a uso institucional/comercial — usar so como SINAL de manchete com link de volta, nunca como texto integral, e revalidar com o titular antes de habilitar",
+        "e agregador, nao fonte oficial primaria — mesma doutrina do GDELT (sinal, nao liquidacao)",
+        "SINAL apenas: reuso limitado a manchete+atribuicao+link; nunca redistribuir conteudo integral"
+      ],
+      "implementation": "aba Noticias (VALUE PAS): consumir feed RSS por pais (allafrica.com/angola/, allafrica.com/drcongo/) como manchete+link, sempre com atribuicao e link de retorno",
+      "last_verified_at": "2026-09-03",
+      "verification_note": "pagina de RSS oficial confirmada ao vivo 03/09; termos de reuso limitados a manchete+atribuicao+link — nao aprovado para ready_to_enable ate confirmar uso institucional | descoberto na missao VALUE PAS do descobridor-de-fontes | REVALIDADO 2026-09-03: HTTP 200 feed RDF 27KB -> ligado",
+      "ready_to_enable": true,
+      "enabled_at": "2026-09-03"
+    },
+    {
+      "connector_id": "semanticscholar_graph",
+      "name": "Semantic Scholar Academic Graph API",
+      "base_url": "https://api.semanticscholar.org/graph/v1/",
+      "terms_url": "https://api.semanticscholar.org/license/",
+      "license_id": "ODC-BY-1.0",
+      "license_url": "https://opendatacommons.org/licenses/by/1-0/",
+      "access_basis": "api_terms",
+      "min_interval_seconds": 3.0,
+      "max_bytes": 5242880,
+      "requires_key": false,
+      "enabled": false,
+      "provides": [
+        "metadados de 200M+ papers academicos",
+        "citacoes, influencia e TLDR (resumo automatico)",
+        "grafo de autores e producao cientifica"
+      ],
+      "does_not_provide": [
+        "texto completo dos artigos",
+        "estabilidade garantida sem chave sob carga alta"
+      ],
+      "limitations": [
+        "429 Too Many Requests em 2 das 3 tentativas ao vivo desta execucao - pool anonimo compartilhado e instavel; recomenda-se solicitar API key gratuita opcional para uso continuo",
+        "documentacao cita ~1 req/s sem chave, mas na pratica o limite e compartilhado entre todos os usuarios anonimos do mesmo IP/pool"
+      ],
+      "implementation": null,
+      "last_verified_at": "2026-09-03",
+      "verification_note": "3 tentativas ao vivo: 1a e 2a HTTP 429 (rate limit); 3a (GET /paper/DOI:...) retornou JSON valido com paperId+title, confirmando API oficial ativa | IQF: legalidade-ok(ToS permite uso automatizado c/ atribuicao) oficialidade-ok(Allen Institute for AI) latencia-instavel(429 recorrente sem chave) estabilidade-ok(API versionada v1) cobertura-ok(200M+ papers) custo-0 | descoberto na fase F1 do descobridor-de-fontes",
+      "ready_to_enable": true
+    },
+    {
+      "connector_id": "openaire_graph",
+      "name": "OpenAIRE Graph API",
+      "base_url": "https://api.openaire.eu/graph/v1/",
+      "terms_url": "https://graph.openaire.eu/docs/downloads/full-graph/",
+      "license_id": "CC-BY-4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "access_basis": "api_terms",
+      "min_interval_seconds": 3.0,
+      "max_bytes": 5242880,
+      "requires_key": false,
+      "enabled": true,
+      "provides": [
+        "producao cientifica europeia agregada (publicacoes, datasets, software)",
+        "vinculo financiamento-projeto-organizacao-pesquisa",
+        "grafo aberto OpenAIRE"
+      ],
+      "does_not_provide": [
+        "cobertura garantida fora do ecossistema europeu",
+        "licenca uniforme - parte dos insumos (ex.: OpenCitations) e CC0, o grafo consolidado e CC-BY-4.0"
+      ],
+      "limitations": [
+        "sem numero de rate limit explicito documentado no endpoint testado - usar espacamento conservador"
+      ],
+      "implementation": null,
+      "last_verified_at": "2026-09-03",
+      "verification_note": "HTTP 200 ao vivo 03/09; JSON valido com header.numFound=7.661.610 para pageSize=1 | IQF: legalidade-ok oficialidade-ok(consorcio europeu OpenAIRE) latencia-ok(296ms) estabilidade-ok(Graph API v1) cobertura-ok custo-0 | descoberto na fase F1 do descobridor-de-fontes",
+      "ready_to_enable": true,
+      "enabled_at": "2026-09-03"
+    },
+    {
+      "connector_id": "dblp",
+      "name": "DBLP Computer Science Bibliography API",
+      "base_url": "https://dblp.org/search/publ/api",
+      "terms_url": "https://dblp.org/faq/Under+what+license+is+the+data+from+dblp+released.html",
+      "license_id": "CC0-1.0",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "access_basis": "api_terms",
+      "min_interval_seconds": 3.0,
+      "max_bytes": 5242880,
+      "requires_key": false,
+      "enabled": true,
+      "provides": [
+        "bibliografia canonica de ciencia da computacao (venues/autores/publicacoes)",
+        "export em XML/JSON/RDF/RIS/BibTeX",
+        "licenca secundaria ODC-BY-1.0 para compatibilidade"
+      ],
+      "does_not_provide": [
+        "abstracts ou texto completo",
+        "metricas de citacao (ver Semantic Scholar/Crossref para isso)"
+      ],
+      "limitations": [
+        "rate limit nao numerado publicamente - usar com espacamento conservador"
+      ],
+      "implementation": null,
+      "last_verified_at": "2026-09-03",
+      "verification_note": "HTTP 200 ao vivo 03/09; JSON valido com hits/completions (110.922 hits para 'test*') | IQF: legalidade-ok(CC0 desde 2019) oficialidade-ok(Schloss Dagstuhl) latencia-ok(2.99ms) estabilidade-ok cobertura-ok(bibliografia CS canonica) custo-0 | descoberto na fase F1 do descobridor-de-fontes",
+      "ready_to_enable": true,
+      "enabled_at": "2026-09-03"
+    },
+    {
+      "connector_id": "europepmc",
+      "name": "Europe PMC RESTful Web Service",
+      "base_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/",
+      "terms_url": "https://europepmc.org/RestfulWebService",
+      "license_id": "Mixed-per-item",
+      "license_url": "https://europepmc.org/Copyright",
+      "access_basis": "api_terms",
+      "min_interval_seconds": 3.0,
+      "max_bytes": 5242880,
+      "requires_key": false,
+      "enabled": true,
+      "provides": [
+        "busca full-text em literatura biomedica (PMC open access + preprints)",
+        "citacoes e links cruzados entre bases biomedicas",
+        "anotacoes de texto (bioentidades)"
+      ],
+      "does_not_provide": [
+        "texto completo de artigos sob paywall de editora (so cobre OA)",
+        "licenca uniforme - verificar por artigo"
+      ],
+      "limitations": [
+        "sem numero de rate limit publico explicito no endpoint testado - usar espacamento conservador"
+      ],
+      "implementation": null,
+      "last_verified_at": "2026-09-03",
+      "verification_note": "HTTP 200 ao vivo 03/09; JSON valido, hitCount=1.068.416 para query 'covid' | IQF: legalidade-ok oficialidade-ok(EMBL-EBI) latencia-ok estabilidade-ok(v6.9) cobertura-ok custo-0 | descoberto na fase F1 do descobridor-de-fontes",
+      "ready_to_enable": true,
+      "enabled_at": "2026-09-03"
+    },
+    {
+      "connector_id": "biorxiv_medrxiv",
+      "name": "bioRxiv/medRxiv API",
+      "base_url": "https://api.biorxiv.org/",
+      "terms_url": "https://api.biorxiv.org/",
+      "license_id": "Mixed-per-item",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "access_basis": "api_terms",
+      "min_interval_seconds": 3.0,
+      "max_bytes": 5242880,
+      "requires_key": false,
+      "enabled": true,
+      "provides": [
+        "metadados de preprints bio/medicos por intervalo de data",
+        "DOI, titulo, categoria e licenca por preprint",
+        "paginacao por blocos de 100 registros"
+      ],
+      "does_not_provide": [
+        "revisao por pares - preprint e NAO revisado",
+        "texto completo formatado"
+      ],
+      "limitations": [
+        "navegacao por cursor numerico obrigatoria para volumes grandes",
+        "licenca declarada varia por autor/deposito (campo license por registro)"
+      ],
+      "implementation": null,
+      "last_verified_at": "2026-09-03",
+      "verification_note": "HTTP 200 ao vivo 03/09; JSON valido com messages=[{status:ok}] e collection[] | IQF: legalidade-ok oficialidade-ok(Cold Spring Harbor Laboratory) latencia-ok estabilidade-ok cobertura-ok custo-0 | descoberto na fase F1 do descobridor-de-fontes",
+      "ready_to_enable": true,
+      "enabled_at": "2026-09-03"
+    },
+    {
+      "connector_id": "uniprot",
+      "name": "UniProt REST API",
+      "base_url": "https://rest.uniprot.org/",
+      "terms_url": "https://www.uniprot.org/help/license",
+      "license_id": "CC-BY-4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "access_basis": "api_terms",
+      "min_interval_seconds": 3.0,
+      "max_bytes": 5242880,
+      "requires_key": false,
+      "enabled": true,
+      "provides": [
+        "sequencias e anotacoes funcionais de proteinas",
+        "cruzamento com Ensembl, PDB e outras bases",
+        "busca por texto/campo estruturado (UniProtKB)"
+      ],
+      "does_not_provide": [
+        "dado pessoal de individuo (e proteina, nao pessoa)",
+        "predicao propria alem da anotacao curada/computacional ja existente"
+      ],
+      "limitations": [
+        "respostas grandes exigem paginacao por cursor"
+      ],
+      "implementation": null,
+      "last_verified_at": "2026-09-03",
+      "verification_note": "HTTP 200 ao vivo 03/09; JSON valido com results[] (ex.: P01308, insulina humana) | IQF: legalidade-ok oficialidade-ok(EMBL-EBI/SIB/PIR) latencia-ok estabilidade-ok cobertura-ok custo-0 | descoberto na fase F1 do descobridor-de-fontes",
+      "ready_to_enable": true,
+      "enabled_at": "2026-09-03"
+    },
+    {
+      "connector_id": "ensembl_rest",
+      "name": "Ensembl REST API",
+      "base_url": "https://rest.ensembl.org/",
+      "terms_url": "https://www.ensembl.org/info/about/legal/disclaimer.html",
+      "license_id": "Ensembl-sem-restricao",
+      "license_url": "https://www.ensembl.org/info/about/legal/disclaimer.html",
+      "access_basis": "api_terms",
+      "min_interval_seconds": 3.0,
+      "max_bytes": 5242880,
+      "requires_key": false,
+      "enabled": true,
+      "provides": [
+        "dados genomicos (sequencias, genes, variantes)",
+        "comparacao entre especies",
+        "endpoint /info/ping para healthcheck"
+      ],
+      "does_not_provide": [
+        "dados clinicos/individuais associados a variantes",
+        "genoma humano completo em uma unica chamada (usar consulta por regiao)"
+      ],
+      "limitations": [
+        "dados de terceiros incluidos na distribuicao podem ter restricao propria - checar por dataset especifico"
+      ],
+      "implementation": null,
+      "last_verified_at": "2026-09-03",
+      "verification_note": "HTTP 200 ao vivo 03/09; resposta {\"ping\":1} | IQF: legalidade-ok('Ensembl impoe nenhuma restricao de acesso/uso dos dados', confirmado ao vivo) oficialidade-ok(EMBL-EBI) latencia-ok estabilidade-ok cobertura-ok custo-0 | descoberto na fase F1 do descobridor-de-fontes",
+      "ready_to_enable": true,
+      "enabled_at": "2026-09-03"
+    },
+    {
+      "connector_id": "who_gho_odata",
+      "name": "WHO Global Health Observatory OData API",
+      "base_url": "https://ghoapi.azureedge.net/api/",
+      "terms_url": "https://www.who.int/about/policies/publishing/copyright",
+      "license_id": "CC-BY-NC-SA-3.0-IGO",
+      "license_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/igo/",
+      "access_basis": "api_terms",
+      "min_interval_seconds": 3.0,
+      "max_bytes": 5242880,
+      "requires_key": false,
+      "enabled": true,
+      "provides": [
+        "indicadores de saude global (formato OData)",
+        "series por pais/ano/indicador",
+        "catalogo completo de indicadores (centenas)"
+      ],
+      "does_not_provide": [
+        "uso comercial sem autorizacao (clausula NC restringe)",
+        "dado individual de paciente"
+      ],
+      "limitations": [
+        "licenca NC-SA impede redistribuicao com fins lucrativos sem permissao - compativel com instituto sem fins lucrativos, mas nunca vender este dado"
+      ],
+      "implementation": null,
+      "last_verified_at": "2026-09-03",
+      "verification_note": "HTTP 200 ao vivo 03/09; OData JSON valido com @odata.context e value[] (centenas de indicadores) | IQF: legalidade-ok(uso nao-comercial permitido) oficialidade-ok(OMS/WHO) latencia-ok estabilidade-ok cobertura-ok custo-0 | descoberto na fase F1 do descobridor-de-fontes",
+      "ready_to_enable": true,
+      "enabled_at": "2026-09-03"
+    },
+    {
+      "connector_id": "osf_api",
+      "name": "Open Science Framework (OSF) API v2",
+      "base_url": "https://api.osf.io/v2/",
+      "terms_url": "https://osf.io/terms_of_use/",
+      "license_id": "Mixed-per-item",
+      "license_url": "https://osf.io/terms_of_use/",
+      "access_basis": "api_terms",
+      "min_interval_seconds": 3.0,
+      "max_bytes": 5242880,
+      "requires_key": false,
+      "enabled": true,
+      "provides": [
+        "pre-registros e dados abertos de pesquisa (inclui PsyArXiv)",
+        "metadados de projetos/arquivos com licenca por item",
+        "JSON:API navegavel (nodes, users, collections)"
+      ],
+      "does_not_provide": [
+        "licenca uniforme - cada projeto escolhe a propria, checar antes de reusar",
+        "projetos privados/embargados"
+      ],
+      "limitations": [
+        "rate limit nao numerado no root testado - usar espacamento conservador"
+      ],
+      "implementation": null,
+      "last_verified_at": "2026-09-03",
+      "verification_note": "HTTP 200 ao vivo 03/09; JSON:API root com meta.message='Welcome to the OSF API', version 2.20 | IQF: legalidade-ok oficialidade-ok(Center for Open Science) latencia-ok estabilidade-ok cobertura-ok custo-0 | descoberto na fase F1 do descobridor-de-fontes",
+      "ready_to_enable": true,
+      "enabled_at": "2026-09-03"
+    },
+    {
+      "connector_id": "our_world_in_data",
+      "name": "Our World in Data - Grapher CSV/JSON export",
+      "base_url": "https://ourworldindata.org/grapher/",
+      "terms_url": "https://ourworldindata.org/faqs",
+      "license_id": "CC-BY-4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "access_basis": "api_terms",
+      "min_interval_seconds": 3.0,
+      "max_bytes": 5242880,
+      "requires_key": false,
+      "enabled": true,
+      "provides": [
+        "series socioeconomicas curadas (saude, clima, energia, demografia)",
+        "download direto em CSV/JSON por grafico (ex.: /grapher/{slug}.csv)",
+        "metadados de fonte original por indicador"
+      ],
+      "does_not_provide": [
+        "endpoint de busca/paginacao generica - e download por grafico especifico conhecido, nao query livre",
+        "licenca uniforme - dado de terceiro segue a licenca da fonte original (WHO/UN/World Bank etc.)"
+      ],
+      "limitations": [
+        "acesso e por slug de grafico conhecido - nao ha endpoint de listagem publico testado nesta execucao"
+      ],
+      "implementation": null,
+      "last_verified_at": "2026-09-03",
+      "verification_note": "HTTP 200 ao vivo 03/09; CSV valido (colunas Entity,Code,Year,Life expectancy) | IQF: legalidade-ok(dado proprio OWID) oficialidade-ok(Universidade de Oxford/OWID) latencia-ok estabilidade-ok cobertura-ok custo-0 | descoberto na fase F1 do descobridor-de-fontes",
+      "ready_to_enable": true,
+      "enabled_at": "2026-09-03"
+    },
+    {
+      "connector_id": "acl_anthology",
+      "name": "ACL Anthology - repositorio de dados (GitHub)",
+      "base_url": "https://raw.githubusercontent.com/acl-org/acl-anthology/master/data/",
+      "terms_url": "https://aclanthology.org/faq/copyright/",
+      "license_id": "Mixed-CC-BY-4.0-e-CC-BY-NC-SA-3.0",
+      "license_url": "https://aclanthology.org/faq/copyright/",
+      "access_basis": "api_terms",
+      "min_interval_seconds": 3.0,
+      "max_bytes": 5242880,
+      "requires_key": false,
+      "enabled": false,
+      "provides": [
+        "corpus bibliografico canonico de NLP/linguistica computacional",
+        "metadados XML por venue/ano (data/xml/) e pessoas (data/json/people.json)",
+        "modulo Python oficial 'acl-anthology' (PyPI) para consumo estruturado"
+      ],
+      "does_not_provide": [
+        "texto completo dos artigos (so metadados/BibTeX)",
+        "uso comercial de materiais anteriores a 2016 (licenca NC-SA)"
+      ],
+      "limitations": [
+        "materiais 2016+ sao CC-BY-4.0 (uso comercial permitido); materiais pre-2016 sao CC-BY-NC-SA-3.0 (nao-comercial) - checar ano antes de qualquer redistribuicao",
+        "acesso e via repositorio git (bulk), nao API REST parametrizavel; arquivo bib.gz completo excedeu 10MB no verificador"
+      ],
+      "implementation": null,
+      "last_verified_at": "2026-09-03",
+      "verification_note": "confirmado ao vivo 03/09: pagina de copyright (CC-BY-4.0 pos-2016 / CC-BY-NC-SA-3.0 pre-2016) e diretorio data/xml no GitHub com arquivos reais (ex.: 1952.earlymt.xml, 8.607 bytes) | IQF: legalidade-ok oficialidade-ok(ACL) latencia-ok estabilidade-ok cobertura-ok custo-0 | descoberto na fase F1 do descobridor-de-fontes",
+      "ready_to_enable": true
+    },
+    {
+      "connector_id": "nist_pqc",
+      "name": "NIST Post-Quantum Cryptography - padroes FIPS 203/204/205",
+      "base_url": "https://csrc.nist.gov/pubs/fips/",
+      "terms_url": "https://www.nist.gov/privacy-policy",
+      "license_id": "US-PublicDomain",
+      "license_url": "https://www.nist.gov/privacy-policy",
+      "access_basis": "api_terms",
+      "min_interval_seconds": 3.0,
+      "max_bytes": 5242880,
+      "requires_key": false,
+      "enabled": true,
+      "provides": [
+        "texto oficial dos padroes pos-quanticos: FIPS 203 (ML-KEM), FIPS 204 (ML-DSA), FIPS 205 (SLH-DSA)",
+        "PDFs oficiais hospedados em nvlpubs.nist.gov",
+        "ponte direta com o tema cyber (criptografia pos-quantica)"
+      ],
+      "does_not_provide": [
+        "implementacao de referencia executavel (e o padrao normativo, nao codigo)",
+        "API JSON estruturada - e entrega de documento/pagina, nao endpoint de dados"
+      ],
+      "limitations": [
+        "nao e uma API REST - e canal de documento oficial (HTTP/doc); leitor precisa parsear PDF/pagina, nao JSON",
+        "padrao de URL por familia: /pubs/fips/{203,204,205}/final - so 203 foi verificado ao vivo nesta execucao"
+      ],
+      "implementation": null,
+      "last_verified_at": "2026-09-03",
+      "verification_note": "HTTP 200 ao vivo 03/09 em csrc.nist.gov/pubs/fips/203/final (titulo 'Module-Lattice-Based Key-Encapsulation Mechanism Standard', data 13/08/2024 confirmados; PDF direto em nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.203.pdf) | IQF: legalidade-ok(obra do governo federal EUA, dominio publico) oficialidade-ok(NIST) latencia-ok estabilidade-ok cobertura-ok(padrao definitivo, nao rascunho) custo-0 | descoberto na fase F1 do descobridor-de-fontes",
+      "ready_to_enable": true,
+      "enabled_at": "2026-09-03"
+    },
+    {
+      "connector_id": "nvd_nist",
+      "name": "National Vulnerability Database (NVD) REST API 2.0",
+      "base_url": "https://services.nvd.nist.gov/rest/json/",
+      "terms_url": "https://nvd.nist.gov/developers/start-here",
+      "license_id": "US-PublicDomain",
+      "license_url": "https://www.nist.gov/privacy-policy",
+      "access_basis": "api_terms",
+      "min_interval_seconds": 6.0,
+      "max_bytes": 5242880,
+      "requires_key": false,
+      "enabled": true,
+      "provides": [
+        "CVE + CVSS canonico",
+        "historico completo de vulnerabilidades desde 1999",
+        "busca por palavra-chave/CPE/data de publicacao"
+      ],
+      "does_not_provide": [
+        "exploits/PoC (so metadados de vulnerabilidade)",
+        "vulnerabilidades open-source fora do escopo CVE (ver OSV.dev para isso)"
+      ],
+      "limitations": [
+        "sem chave: 5 requisicoes/30s; com chave gratuita opcional: 50 requisicoes/30s - min_interval_seconds calibrado para o limite sem chave"
+      ],
+      "implementation": null,
+      "last_verified_at": "2026-09-03",
+      "verification_note": "HTTP 200 ao vivo 03/09; JSON valido com totalResults=385.855 e vulnerabilities[] (ex.: CVE-1999-0095) | IQF: legalidade-ok oficialidade-ok(NIST) latencia-ok(limite documentado e respeitavel) estabilidade-ok(v2.0) cobertura-ok custo-0 | descoberto na fase F1 do descobridor-de-fontes",
+      "ready_to_enable": true,
+      "enabled_at": "2026-09-03"
+    },
+    {
+      "connector_id": "mitre_attack_stix",
+      "name": "MITRE ATT&CK STIX Data",
+      "base_url": "https://raw.githubusercontent.com/mitre-attack/attack-stix-data/master/",
+      "terms_url": "https://github.com/mitre-attack/attack-stix-data/blob/master/LICENSE.txt",
+      "license_id": "MITRE-ATT&CK-custom",
+      "license_url": "https://github.com/mitre-attack/attack-stix-data/blob/master/LICENSE.txt",
+      "access_basis": "api_terms",
+      "min_interval_seconds": 3.0,
+      "max_bytes": 60000000,
+      "requires_key": false,
+      "enabled": false,
+      "provides": [
+        "taticas/tecnicas/procedimentos de adversario em STIX 2.1 (enterprise/mobile/ics)",
+        "matrizes versionadas por release",
+        "base para deteccao/threat modeling"
+      ],
+      "does_not_provide": [
+        "dados de deteccao em tempo real (e taxonomia, nao feed de IOC ao vivo)",
+        "garantia de completude de todo TTP existente no mundo real"
+      ],
+      "limitations": [
+        "arquivo enterprise-attack.json tem ~53MB (53.835.637 bytes confirmados) - exige download/streaming, max_bytes ajustado acima do default de 5MB",
+        "licenca customizada da MITRE (nao e CC-BY nem Apache-2.0) - exige reproducao do aviso de copyright da MITRE em qualquer copia"
+      ],
+      "implementation": null,
+      "last_verified_at": "2026-09-03",
+      "verification_note": "confirmado ao vivo 03/09 via GitHub Contents API: enterprise-attack.json existe, size=53.835.637 bytes, download_url valido (download direto do JSON de 53MB excedeu o limite de 10MB do verificador, mas a existencia/tamanho foi confirmada pela API de metadados do GitHub) | IQF: legalidade-ok(licenca MITRE p/ pesquisa/dev/uso comercial c/ atribuicao) oficialidade-ok(MITRE Corporation) latencia-ok estabilidade-ok(repo versionado) cobertura-ok custo-0 | descoberto na fase F1 do descobridor-de-fontes",
+      "ready_to_enable": true
+    },
+    {
+      "connector_id": "osv_dev",
+      "name": "OSV.dev - Open Source Vulnerabilities API",
+      "base_url": "https://api.osv.dev/v1/",
+      "terms_url": "https://google.github.io/osv.dev/faq/",
+      "license_id": "Mixed-per-source",
+      "license_url": "https://github.com/google/osv.dev/blob/master/LICENSE",
+      "access_basis": "api_terms",
+      "min_interval_seconds": 3.0,
+      "max_bytes": 5242880,
+      "requires_key": false,
+      "enabled": true,
+      "provides": [
+        "vulnerabilidades de pacotes open-source por ecossistema (PyPI, npm, Go, etc.)",
+        "consulta por pacote+versao (POST /v1/query) ou por ID (GET /v1/vulns/{id})",
+        "formato OSV padronizado entre ecossistemas"
+      ],
+      "does_not_provide": [
+        "CVEs de software proprietario/closed-source fora de ecossistemas open-source",
+        "licenca uniforme - cada registro herda a licenca da base de origem (ex.: GHSA=CC0, outras variam)"
+      ],
+      "limitations": [
+        "endpoint de consulta principal (/v1/query) exige POST com corpo JSON - GET retorna 405 (comportamento correto, confirmado ao vivo)"
+      ],
+      "implementation": null,
+      "last_verified_at": "2026-09-03",
+      "verification_note": "HTTP 200 ao vivo 03/09 em GET /v1/vulns/GHSA-2cc5-23r7-vc4v (retornou dados reais, CVE-2021-29480); GET /v1/query retornou 405 (esperado, endpoint e POST-only, confirma que esta ativo) | IQF: legalidade-ok oficialidade-ok(Google/comunidade open source) latencia-ok estabilidade-ok(v1) cobertura-ok custo-0 | descoberto na fase F1 do descobridor-de-fontes",
+      "ready_to_enable": true,
+      "enabled_at": "2026-09-03"
+    },
+    {
+      "connector_id": "abusech_urlhaus",
+      "name": "abuse.ch URLhaus - feed publico de URLs maliciosas",
+      "base_url": "https://urlhaus.abuse.ch/downloads/",
+      "terms_url": "https://urlhaus.abuse.ch/api/",
+      "license_id": "abuse.ch-fair-use-nao-comercial",
+      "license_url": "https://urlhaus.abuse.ch/api/",
+      "access_basis": "api_terms",
+      "min_interval_seconds": 3.0,
+      "max_bytes": 5242880,
+      "requires_key": false,
+      "enabled": false,
+      "provides": [
+        "URLs maliciosas ativas/recentes (feed CSV)",
+        "classificacao de ameaca e tags por URL",
+        "atualizacao continua (feed atualizado no momento da verificacao)"
+      ],
+      "does_not_provide": [
+        "uso comercial/for-profit sem assinatura paga da API comercial abuse.ch",
+        "amostras de malware (isso e o MalwareBazaar, endpoint irmao separado)"
+      ],
+      "limitations": [
+        "a API REST v1 com Auth-Key (urlhaus-api.abuse.ch) retornou 401 sem credencial - registrado aqui o FEED CSV publico (sem chave) como canal verificado; API v1 completa exige Auth-Key gratuita mediante cadastro",
+        "uso comercial/for-profit pode exigir assinatura paga - THE EYE (instituto sem fins lucrativos) se enquadra em fair use, mas o dado nunca deve ser vendido/redistribuido comercialmente"
+      ],
+      "implementation": null,
+      "last_verified_at": "2026-09-03",
+      "verification_note": "HTTP 200 ao vivo 03/09 no feed urlhaus.abuse.ch/downloads/csv_recent/ (cabecalho com timestamp 'Last updated: 2026-09-03 06:12:08 UTC', dado real); tentativa em urlhaus-api.abuse.ch/v1/urls/recent/ deu 401 (exige Auth-Key) - usado o feed, nao a API com chave | IQF: legalidade-ok(fair use nao-comercial) oficialidade-ok(abuse.ch/Bern University of Applied Sciences) latencia-ok estabilidade-ok cobertura-ok custo-0 | descoberto na fase F1 do descobridor-de-fontes",
+      "ready_to_enable": true
+    },
+    {
+      "connector_id": "github_rest",
+      "name": "GitHub REST API v3",
+      "base_url": "https://api.github.com/",
+      "terms_url": "https://docs.github.com/en/site-policy/github-terms/github-terms-of-service",
+      "license_id": "Mixed-per-repo",
+      "license_url": "https://docs.github.com/en/site-policy/github-terms/github-terms-of-service",
+      "access_basis": "api_terms",
+      "min_interval_seconds": 65.0,
+      "max_bytes": 5242880,
+      "requires_key": false,
+      "enabled": true,
+      "provides": [
+        "metadados de repositorios/releases/issues publicos",
+        "sinal de adocao de tecnologia/algoritmo (estrelas, forks, atividade)",
+        "grafo de dependencias publicas"
+      ],
+      "does_not_provide": [
+        "conteudo de repositorios privados sem token",
+        "codigo-fonte completo (endpoint de metadados, nao de conteudo de arquivo)"
+      ],
+      "limitations": [
+        "sem chave: 60 requisicoes/hora (muito restritivo) - com token pessoal gratuito opcional sobe para 5.000/hora; min_interval_seconds calibrado para o limite sem chave",
+        "licenca do CODIGO de cada repo varia (campo license por repo) - verificar antes de qualquer reuso alem do metadado"
+      ],
+      "implementation": null,
+      "last_verified_at": "2026-09-03",
+      "verification_note": "HTTP 200 ao vivo 03/09; JSON valido (torvalds/linux, full_name confirmado, stargazers_count=246.027) | IQF: legalidade-ok oficialidade-ok(GitHub/Microsoft) latencia-restritiva(60 req/h sem chave) estabilidade-ok cobertura-ok custo-0 | descoberto na fase F1 do descobridor-de-fontes",
+      "ready_to_enable": true,
+      "enabled_at": "2026-09-03"
+    },
+    {
+      "connector_id": "internet_archive",
+      "name": "Internet Archive - Advanced Search API",
+      "base_url": "https://archive.org/",
+      "terms_url": "https://archive.org/about/terms.php",
+      "license_id": "Mixed-per-item",
+      "license_url": "https://archive.org/about/terms.php",
+      "access_basis": "api_terms",
+      "min_interval_seconds": 3.0,
+      "max_bytes": 5242880,
+      "requires_key": false,
+      "enabled": true,
+      "provides": [
+        "busca avancada no acervo do Internet Archive (advancedsearch.php)",
+        "milhoes de itens em texto/audio/video/software historico",
+        "metadados por item (licenseurl, data, colecao)"
+      ],
+      "does_not_provide": [
+        "licenca uniforme - verificar metadado 'licenseurl' por registro",
+        "confirmacao do endpoint CDX de web.archive.org nesta execucao (falha de rede da propria ferramenta de verificacao, nao necessariamente da API)"
+      ],
+      "limitations": [
+        "endpoint CDX (web.archive.org/cdx/search) nao respondeu via ferramenta de verificacao nesta execucao - usar archive.org/advancedsearch.php como canal confirmado; revalidar CDX/Wayback especificamente antes de implementar leitor de paginas arquivadas"
+      ],
+      "implementation": null,
+      "last_verified_at": "2026-09-03",
+      "verification_note": "HTTP 200 ao vivo 03/09 em archive.org/advancedsearch.php?q=test&rows=1&output=json; JSON valido com response.numFound=976.103 | IQF: legalidade-ok oficialidade-ok(Internet Archive, ONG 501c3) latencia-ok estabilidade-ok cobertura-ok custo-0 | descoberto na fase F1 do descobridor-de-fontes",
+      "ready_to_enable": true,
+      "enabled_at": "2026-09-03"
+    },
+    {
+      "connector_id": "data_europa_eu",
+      "name": "data.europa.eu - Search API (catalogo mestre UE)",
+      "base_url": "https://data.europa.eu/api/hub/search/",
+      "terms_url": "https://data.europa.eu/en/legal-notice",
+      "license_id": "CC0-1.0-metadados-Mixed-per-dataset-conteudo",
+      "license_url": "https://data.europa.eu/en/legal-notice",
+      "access_basis": "api_terms",
+      "min_interval_seconds": 3.0,
+      "max_bytes": 5242880,
+      "requires_key": false,
+      "enabled": true,
+      "provides": [
+        "catalogo mestre de dados abertos da UE (72k+ datasets)",
+        "busca federada entre portais nacionais europeus",
+        "metadados DCAT-AP padronizados"
+      ],
+      "does_not_provide": [
+        "os dados brutos em si - e catalogo/registro que redireciona ao portal de origem",
+        "licenca uniforme de conteudo - cada dataset tem a sua (metadado do catalogo e CC0-1.0)"
+      ],
+      "limitations": [
+        "volume grande (72k+ datasets) - usar filtros de busca para reduzir ruido"
+      ],
+      "implementation": null,
+      "last_verified_at": "2026-09-03",
+      "verification_note": "HTTP 200 ao vivo 03/09; JSON valido com result.count=72.594 para query 'water' | IQF: legalidade-ok oficialidade-ok(Comissao Europeia) latencia-ok estabilidade-ok cobertura-ok custo-0 | descoberto na fase F1 do descobridor-de-fontes",
+      "ready_to_enable": true,
+      "enabled_at": "2026-09-03"
+    },
+    {
+      "connector_id": "eurostat_dissemination",
+      "name": "Eurostat - Dissemination API (SDMX-JSON)",
+      "base_url": "https://ec.europa.eu/eurostat/api/dissemination/",
+      "terms_url": "https://ec.europa.eu/eurostat/web/main/help/copyright-notice",
+      "license_id": "CC-BY-4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "access_basis": "api_terms",
+      "min_interval_seconds": 3.0,
+      "max_bytes": 5242880,
+      "requires_key": false,
+      "enabled": true,
+      "provides": [
+        "estatistica oficial harmonizada da UE (formato SDMX-JSON)",
+        "series demograficas, economicas e sociais por pais/regiao",
+        "filtragem por dimensao (geo/time/etc.) na propria URL"
+      ],
+      "does_not_provide": [
+        "dados de alta frequencia (maioria anual/trimestral)",
+        "resposta compacta sem filtro - dataset completo pode exceder limites de tamanho"
+      ],
+      "limitations": [
+        "consultas amplas sem filtro de geo/time geram respostas muito grandes (ex.: demo_pjan sem filtro excedeu 10MB no verificador) - sempre filtrar por dimensao"
+      ],
+      "implementation": null,
+      "last_verified_at": "2026-09-03",
+      "verification_note": "HTTP 200 ao vivo 03/09 com filtro (demo_pjan, geo=DE, time=2023): JSON SDMX valido, populacao=83.118.501 | IQF: legalidade-ok oficialidade-ok(Eurostat/Comissao Europeia) latencia-ok estabilidade-ok cobertura-ok custo-0 | descoberto na fase F1 do descobridor-de-fontes",
+      "ready_to_enable": true,
+      "enabled_at": "2026-09-03"
+    },
+    {
+      "connector_id": "un_sdg_api",
+      "name": "UN SDG API (UN Statistics Division) - substituto verificado de 'UN Data'",
+      "base_url": "https://unstats.un.org/SDGAPI/v1/sdg/",
+      "terms_url": "https://unstats.un.org/sdgs/indicators/database/",
+      "license_id": "UN-terms-nao-confirmado",
+      "license_url": "https://unstats.un.org/sdgs/indicators/database/",
+      "access_basis": "api_terms",
+      "min_interval_seconds": 3.0,
+      "max_bytes": 5242880,
+      "requires_key": false,
+      "enabled": false,
+      "provides": [
+        "indicadores oficiais dos Objetivos de Desenvolvimento Sustentavel (ODS/SDG) da ONU",
+        "series por pais/meta/indicador",
+        "canal ativo e documentado que substitui o legado data.un.org"
+      ],
+      "does_not_provide": [
+        "confirmacao da licenca exata de reuso - LACUNA declarada, nao encontrada ao vivo nesta execucao",
+        "cobertura de indicadores fora do arcabouco SDG"
+      ],
+      "limitations": [
+        "data.un.org (o portal originalmente listado como 'UN Data' no catalogo de origem) nao apresentou endpoint de API moderno/documentado nesta verificacao - a pagina so lista links de navegacao para 'API'/'Web Service' sem conteudo tecnico direto",
+        "SDG API da UNSD (unstats.un.org/SDGAPI) foi confirmado como o canal oficial ativo e mais proximo, mas licenca de reuso pendente de confirmacao formal antes de qualquer redistribuicao"
+      ],
+      "implementation": null,
+      "last_verified_at": "2026-09-03",
+      "verification_note": "HTTP 200 ao vivo 03/09 em SDGAPI/v1/sdg/Goal/List; JSON valido com os 17 SDGs (code/title/description) | IQF: legalidade-ressalva(licenca exata nao confirmada) oficialidade-ok(UN Statistics Division) latencia-ok estabilidade-ok cobertura-ok(ODS globais) custo-0 | data.un.org legado nao teve API moderna confirmada nesta execucao - substituido pelo SDGAPI, que e o canal realmente ativo | descoberto na fase F1 do descobridor-de-fontes",
+      "ready_to_enable": true
+    },
+    {
+      "connector_id": "pennylane_datasets",
+      "name": "PennyLane Quantum Datasets (Xanadu)",
+      "base_url": "https://cloud.pennylane.ai/graphql",
+      "terms_url": "https://pennylane.ai/datasets/",
+      "license_id": "Xanadu-PennyLane-terms-a-confirmar",
+      "license_url": "https://pennylane.ai/datasets/",
+      "access_basis": "api_terms",
+      "min_interval_seconds": 3.0,
+      "max_bytes": 5242880,
+      "requires_key": false,
+      "enabled": false,
+      "provides": [
+        "datasets quanticos abertos (moleculas, circuitos, spin systems)",
+        "acesso oficial via SDK Python 'qml.data.load()' que fala com este endpoint GraphQL"
+      ],
+      "does_not_provide": [
+        "confirmacao de consulta de dado real nesta execucao - GET simples so retornou a pagina HTML do Apollo Sandbox, nao um payload de dataset",
+        "endpoint REST simples - e GraphQL, exige corpo de consulta estruturado via POST, nao testado com payload real"
+      ],
+      "limitations": [
+        "pagina pennylane.ai/datasets/ e uma SPA (conteudo renderizado em JS) - nao foi possivel extrair texto/licenca via fetch simples",
+        "endpoint GraphQL confirmado ATIVO (Apollo Router respondeu) mas uma consulta real de dado (POST com query GraphQL) nao foi executada nesta verificacao - fica pendente para proxima rodada"
+      ],
+      "implementation": null,
+      "last_verified_at": "2026-09-03",
+      "verification_note": "GET em cloud.pennylane.ai/graphql confirmou Apollo Router ativo (retornou HTML 'Welcome to the Apollo Router' / Apollo Sandbox); NAO foi possivel confirmar retorno de dado real via POST GraphQL nesta execucao - LACUNA declarada | IQF: legalidade-desconhecida oficialidade-ok(Xanadu) latencia-desconhecida estabilidade-desconhecida cobertura-desconhecida custo-0 | NAO PRONTO: verificacao incompleta (endpoint vivo, payload de dado nao confirmado) | descoberto na fase F1 do descobridor-de-fontes | REVALIDADO 2026-09-03: erro TLS (unexpected eof); GraphQL POST -> segue nao-pronto",
+      "ready_to_enable": false
+    },
+    {
+      "connector_id": "clinicaltrials_gov_v2",
+      "name": "ClinicalTrials.gov API v2",
+      "base_url": "https://clinicaltrials.gov/api/v2/",
+      "terms_url": "https://clinicaltrials.gov/policy/terms-conditions",
+      "license_id": "US-PublicDomain",
+      "license_url": "https://clinicaltrials.gov/policy/terms-conditions",
+      "access_basis": "api_terms",
+      "min_interval_seconds": 3.0,
+      "max_bytes": 10485760,
+      "requires_key": false,
+      "enabled": true,
+      "provides": [
+        "metadados estruturados de ensaios clinicos registrados (protocolo, status, fase, intervencoes)",
+        "busca por condicao/pais/status/data",
+        "atualizado continuamente pelos patrocinadores"
+      ],
+      "does_not_provide": [
+        "dado individual de paciente (e registro de estudo, nao prontuario)",
+        "resultado clinico bruto alem do que o patrocinador publica no registro"
+      ],
+      "limitations": [
+        "volume de campos por estudo e grande (protocolSection completo) - usar fields= para reduzir payload",
+        "pagina de termos (policy/terms-conditions) nao renderizou texto detalhado via fetch simples nesta execucao (pagina JS-heavy) - base de dominio publico assumida por analogia a outras fontes .gov ja registradas (nvd_nist, nist_pqc), nao confirmada linha a linha"
+      ],
+      "implementation": null,
+      "last_verified_at": "2026-09-03",
+      "verification_note": "HTTP 200 ao vivo 03/09 em GET /api/v2/studies?pageSize=1 - JSON valido com estudo real (NCT07224035, University of Miami, triagem H. pylori); servico do NIH/NLM (National Library of Medicine), orgao federal EUA | leitura: GET /api/v2/studies?query.cond={termo}&pageSize=N&fields=NCTId,BriefTitle,OverallStatus - usar pageToken para paginacao | descoberto no 2o ciclo do descobridor-de-fontes",
+      "ready_to_enable": true,
+      "enabled_at": "2026-09-03"
+    },
+    {
+      "connector_id": "cisa_kev",
+      "name": "CISA Known Exploited Vulnerabilities (KEV) Catalog",
+      "base_url": "https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json",
+      "terms_url": "https://www.cisa.gov/sites/default/files/licenses/kev/license.txt",
+      "license_id": "CC0-1.0",
+      "license_url": "https://www.cisa.gov/sites/default/files/licenses/kev/license.txt",
+      "access_basis": "api_terms",
+      "min_interval_seconds": 3.0,
+      "max_bytes": 5242880,
+      "requires_key": false,
+      "enabled": true,
+      "provides": [
+        "catalogo curado de CVEs com exploracao ativa confirmada (subconjunto priorizado, nao o universo CVE inteiro)",
+        "campos dateAdded, dueDate (prazo p/ agencias federais dos EUA), vendorProject/product",
+        "atualizado continuamente (1.694 entradas em 02/09/2026)"
+      ],
+      "does_not_provide": [
+        "universo completo de CVEs (isso ja e coberto por nvd_nist)",
+        "score CVSS (nao presente neste feed especifico)"
+      ],
+      "limitations": [
+        "arquivo JSON unico completo, sem paginacao - cachear localmente e comparar catalogVersion/dateReleased antes de reprocessar"
+      ],
+      "implementation": null,
+      "last_verified_at": "2026-09-03",
+      "verification_note": "HTTP 200 ao vivo 03/09; JSON valido com catalogVersion=2026.09.02, count=1694, vulnerabilities[] (ex.: CVE-2026-59822); licenca CC0 1.0 confirmada ao vivo em license.txt oficial | leitura: GET direto do arquivo JSON completo, filtrar vulnerabilities[] localmente por dateAdded/vendorProject | descoberto no 2o ciclo do descobridor-de-fontes",
+      "ready_to_enable": true,
+      "enabled_at": "2026-09-03"
+    },
+    {
+      "connector_id": "bcb_sgs",
+      "name": "BCB SGS - Sistema Gerenciador de Series Temporais",
+      "base_url": "https://api.bcb.gov.br/dados/serie/bcdata.sgs.",
+      "terms_url": "https://dadosabertos.bcb.gov.br/",
+      "license_id": "dados-abertos-BR",
+      "license_url": "https://dadosabertos.bcb.gov.br/",
+      "access_basis": "api_terms",
+      "min_interval_seconds": 3.0,
+      "max_bytes": 5242880,
+      "requires_key": false,
+      "enabled": true,
+      "provides": [
+        "series temporais economicas oficiais do Banco Central (Selic, IPCA, cambio, agregados monetarios)",
+        "milhares de series numeradas por codigo (ex.: 11=Selic diaria, 433=IPCA), formato JSON/CSV/XML",
+        "consulta por ultimos N valores ou por intervalo de datas"
+      ],
+      "does_not_provide": [
+        "catalogo pesquisavel por nome dentro da propria API REST (o codigo da serie deve ser conhecido de antemao, via catalogo do SGS na web)",
+        "dado de instituicao financeira ou cliente individual (e serie agregada, nao microdado)"
+      ],
+      "limitations": [
+        "sem numero de rate limit publicado explicitamente no endpoint testado - usar espacamento conservador (3s) como as demais fontes BR do conjunto",
+        "pagina de termos/copyright do BCB nao renderizou conteudo detalhado via fetch simples nesta execucao - licenca assumida por analogia as demais fontes dados-abertos-BR ja registradas (ons_dados_abertos, opendatasus, cvm_dados_abertos), nao confirmada linha a linha"
+      ],
+      "implementation": null,
+      "last_verified_at": "2026-09-03",
+      "verification_note": "HTTP 200 ao vivo 03/09 em GET /dados/serie/bcdata.sgs.11/dados/ultimos/1?formato=json - retornou registro real com campos data=02/09/2026 e valor=0.051660 (Selic diaria); orgao oficial (Banco Central do Brasil, autarquia federal) | leitura: GET https://api.bcb.gov.br/dados/serie/bcdata.sgs.{codigo}/dados?formato=json (ou /dados/ultimos/N ou /dados?dataInicial=DD/MM/AAAA&dataFinal=DD/MM/AAAA) | descoberto no 2o ciclo do descobridor-de-fontes",
+      "ready_to_enable": true,
+      "enabled_at": "2026-09-03"
+    },
+    {
+      "connector_id": "ibge_agregados_sidra",
+      "name": "IBGE - API de Agregados (SIDRA)",
+      "base_url": "https://servicodados.ibge.gov.br/api/v3/agregados/",
+      "terms_url": "https://servicodados.ibge.gov.br/api/docs/agregados",
+      "license_id": "dados-abertos-BR",
+      "license_url": "https://servicodados.ibge.gov.br/api/docs/agregados",
+      "access_basis": "api_terms",
+      "min_interval_seconds": 3.0,
+      "max_bytes": 5242880,
+      "requires_key": false,
+      "enabled": true,
+      "provides": [
+        "catalogo e valores de agregados estatisticos oficiais do IBGE (SIDRA): populacao, PIB municipal/regional, precos, biodiversidade, empresas etc.",
+        "milhares de tabelas/agregados por tema, navegavel por /agregados (catalogo) e /agregados/{id}/... (valores)",
+        "granularidade multi-nivel (Brasil, UF, municipio, regiao)"
+      ],
+      "does_not_provide": [
+        "dado individual de pessoa/empresa (e agregado estatistico oficial, nunca microdado identificavel)",
+        "series de alta frequencia diaria (maioria e mensal/trimestral/anual/censitaria)"
+      ],
+      "limitations": [
+        "pagina de documentacao (api/docs/agregados) retornou erro 500 na tentativa de leitura de texto nesta execucao, mas o endpoint de DADOS (/api/v3/agregados) respondeu 200 com JSON real - revalidar a doc antes de implementar leitor completo",
+        "catalogo completo de agregados e extenso - usar filtro por pesquisa/assunto para reduzir ruido"
+      ],
+      "implementation": null,
+      "last_verified_at": "2026-09-03",
+      "verification_note": "HTTP 200 ao vivo 03/09 em GET /api/v3/agregados - JSON valido com catalogo real de agregados (ex.: id 10763 'Areas urbanizadas...', id 10510 'Indice de conhecimento da biodiversidade'); orgao oficial (IBGE, fundacao publica federal) | leitura: GET /api/v3/agregados p/ catalogo; GET /api/v3/agregados/{id}/periodos/{periodo}/variaveis/{var}?localidades=N{nivel}[{codigo}] p/ valores | pagina de docs deu erro 500 nesta tentativa - revalidar | descoberto no 2o ciclo do descobridor-de-fontes",
+      "ready_to_enable": true,
+      "enabled_at": "2026-09-03"
+    },
+    {
+      "connector_id": "fred_stlouisfed",
+      "name": "FRED - Federal Reserve Economic Data API (St. Louis Fed)",
+      "base_url": "https://api.stlouisfed.org/fred/",
+      "terms_url": "https://fred.stlouisfed.org/docs/api/terms_of_use.html",
+      "license_id": "FRED-terms-atribuicao-obrigatoria",
+      "license_url": "https://fred.stlouisfed.org/docs/api/terms_of_use.html",
+      "access_basis": "api_terms",
+      "min_interval_seconds": 3.0,
+      "max_bytes": 5242880,
+      "requires_key": true,
+      "enabled": false,
+      "provides": [
+        "series economicas e financeiras dos EUA e parceiros (milhares de series: PIB, inflacao, juros, mercado de trabalho)",
+        "dados historicos longos, mantidos pelo Federal Reserve Bank of St. Louis",
+        "chave de API gratuita mediante cadastro simples (sem custo)"
+      ],
+      "does_not_provide": [
+        "acesso sem chave - toda chamada exige api_key (GET sem key retornou HTTP 400 nesta execucao)",
+        "direito de replicar/substituir a experiencia central do site FRED (vedado nos termos)",
+        "redistribuicao livre de series de terceiros sem permissao do dono original do dado"
+      ],
+      "limitations": [
+        "BLOQUEADO NO ESTAGIO 1 ate obtencao de chave gratuita pelo titular - requires_key=true; cadastro nao envia dado nosso, so identifica o solicitante",
+        "atribuicao obrigatoria em qualquer produto que use a API ('This product uses the FRED(R) API but is not endorsed or certified by the Federal Reserve Bank of St. Louis')",
+        "termos proibem replicar a experiencia essencial do fred.stlouisfed.org"
+      ],
+      "implementation": null,
+      "last_verified_at": "2026-09-03",
+      "verification_note": "HTTP 400 ao vivo 03/09 em GET /fred/series/observations sem api_key - comportamento correto/esperado (endpoint ativo, exige chave); termos confirmados em fred.stlouisfed.org/docs/api/terms_of_use.html (gratuito com cadastro, atribuicao obrigatoria, proibe substituir experiencia central do site) | leitura (apos obtencao de chave gratuita pelo titular): GET /fred/series/observations?series_id={id}&file_type=json&api_key={key} | descoberto no 2o ciclo do descobridor-de-fontes",
+      "ready_to_enable": false
+    },
+    {
+      "connector_id": "nasa_power",
+      "name": "NASA POWER API (Prediction Of Worldwide Energy Resources)",
+      "base_url": "https://power.larc.nasa.gov/api/temporal/daily/point",
+      "terms_url": "https://power.larc.nasa.gov/docs/services/api/",
+      "license_id": "US-PD-NASA",
+      "license_url": "https://www.earthdata.nasa.gov/engage/open-data-services-software-policies/data-use-guidance",
+      "access_basis": "api_terms",
+      "min_interval_seconds": 3.0,
+      "max_bytes": 5242880,
+      "requires_key": false,
+      "enabled": true,
+      "provides": [
+        "series climaticas/solares/eolicas diarias e horarias por ponto geografico (temperatura, radiacao solar, vento) derivadas de reanalise MERRA-2",
+        "cobertura global, historico desde 1981"
+      ],
+      "does_not_provide": [
+        "medicao in-situ direta (e produto de reanalise/modelo, nao estacao fisica)",
+        "dado em tempo real da ultima hora (defasagem de dias no reprocessamento)"
+      ],
+      "limitations": [
+        "pagina de termos formal da API nao traz clausula de licenca explicita; base legal por analogia a obra do governo federal dos EUA (NASA), confirmada via NASA Earthdata Data Use Guidance ('nao copyrighted'), nao pela pagina do POWER em si - LACUNA parcial declarada",
+        "citacao/agradecimento solicitado (nao obrigatorio legalmente) em qualquer publicacao que use os dados"
+      ],
+      "implementation": null,
+      "last_verified_at": "2026-09-03",
+      "verification_note": "HTTP 200 ao vivo 03/09; JSON GeoJSON valido com header/geometry/properties (T2M ponto Sao Paulo, fonte MERRA2, elevacao 790m); sem chave | IQF: legalidade-ressalva(termos formais nao encontrados na pagina do POWER, por analogia a NASA Earthdata PD) oficialidade-ok(NASA Langley Research Center) latencia-ok estabilidade-ok cobertura-ok(global, historico 1981+) custo-0 | leitura: GET /api/temporal/daily/point?parameters={vars}&community=RE&longitude={lon}&latitude={lat}&start={AAAAMMDD}&end={AAAAMMDD}&format=JSON | descoberto no 3o ciclo do descobridor-de-fontes",
+      "ready_to_enable": true,
+      "enabled_at": "2026-09-03"
+    },
+    {
+      "connector_id": "open_meteo",
+      "name": "Open-Meteo Weather Forecast API",
+      "base_url": "https://api.open-meteo.com/v1/forecast",
+      "terms_url": "https://open-meteo.com/en/terms",
+      "license_id": "CC-BY-4.0-uso-nao-comercial",
+      "license_url": "https://open-meteo.com/en/terms",
+      "access_basis": "api_terms",
+      "min_interval_seconds": 3.0,
+      "max_bytes": 5242880,
+      "requires_key": false,
+      "enabled": true,
+      "provides": [
+        "previsao meteorologica horaria/diaria global por coordenadas (temperatura, precipitacao, vento) agregando modelos oficiais (NOAA, DWD, ECMWF, MeteoFrance etc.)",
+        "endpoint historico/arquivo separado para series passadas"
+      ],
+      "does_not_provide": [
+        "uso comercial sem plano pago - termos restringem o tier gratuito a uso NAO-comercial",
+        "medicao propria - e agregador de modelos oficiais de terceiros, nao fonte primaria unica"
+      ],
+      "limitations": [
+        "termos: 'You may only use the free API services for non-commercial purposes' - compativel com THE EYE (instituto sem fins lucrativos), mas NUNCA usar em produto vendavel",
+        "limite sem chave: menos de 10.000 chamadas/dia, 5.000/hora, 600/minuto"
+      ],
+      "implementation": null,
+      "last_verified_at": "2026-09-03",
+      "verification_note": "HTTP 200 ao vivo 03/09; JSON valido com latitude/longitude/current.temperature_2m=12.1C (Sao Paulo); sem chave; termos CC-BY-4.0 + clausula nao-comercial confirmados ao vivo em open-meteo.com/en/terms | IQF: legalidade-ok(NC compativel com instituto sem fins lucrativos) oficialidade-ressalva(agregador de modelos oficiais, nao orgao unico) latencia-ok estabilidade-ok cobertura-ok(global) custo-0 | leitura: GET /v1/forecast?latitude={lat}&longitude={lon}&current={vars}&hourly={vars} | descoberto no 3o ciclo do descobridor-de-fontes",
+      "ready_to_enable": true,
+      "enabled_at": "2026-09-03"
+    },
+    {
+      "connector_id": "gbif_occurrence",
+      "name": "GBIF - Global Biodiversity Information Facility API",
+      "base_url": "https://api.gbif.org/v1/",
+      "terms_url": "https://www.gbif.org/terms",
+      "license_id": "Mixed-per-record-CC0-CCBY-CCBYNC",
+      "license_url": "https://www.gbif.org/terms",
+      "access_basis": "api_terms",
+      "min_interval_seconds": 3.0,
+      "max_bytes": 5242880,
+      "requires_key": false,
+      "enabled": true,
+      "provides": [
+        "ocorrencias de biodiversidade georreferenciadas (3,9 bilhoes+ registros agregados), especies, taxonomia",
+        "busca/filtro por especie/pais/data/dataset de origem"
+      ],
+      "does_not_provide": [
+        "licenca uniforme - cada registro herda a licenca do dataset de origem (CC0, CC-BY ou CC-BY-NC) - checar campo license por registro antes de reuso",
+        "garantia de acuracia taxonomica/geodesica (o proprio registro traz flags de qualidade, confirmado na verificacao)"
+      ],
+      "limitations": [
+        "sem rate limit numerado publicado - GBIF pede uso consciente; para volumes grandes (milhares de registros) usar o mecanismo de download assincrono em vez de occurrence/search paginado",
+        "parte dos registros pode ser CC-BY-NC - nunca vender/redistribuir comercialmente esse subconjunto"
+      ],
+      "implementation": null,
+      "last_verified_at": "2026-09-03",
+      "verification_note": "HTTP 200 ao vivo 03/09; JSON valido, count na casa dos bilhoes, 1 registro real retornado (Frangula dodonei, Franca) com campo license=CC-BY 4.0 presente por item | IQF: legalidade-ok(licenca por registro, verificavel) oficialidade-ok(consorcio internacional GBIF) latencia-ok estabilidade-ok cobertura-ok(global, 3,9bi+ registros) custo-0 | leitura: GET /v1/occurrence/search?scientificName={nome}&country={ISO2}&limit=N - checar campo license por registro | descoberto no 3o ciclo do descobridor-de-fontes",
+      "ready_to_enable": true,
+      "enabled_at": "2026-09-03"
+    },
+    {
+      "connector_id": "osm_overpass_api",
+      "name": "OpenStreetMap Overpass API",
+      "base_url": "https://overpass-api.de/api/interpreter",
+      "terms_url": "https://wiki.openstreetmap.org/wiki/Overpass_API",
+      "license_id": "ODbL-1.0",
+      "license_url": "https://opendatacommons.org/licenses/odbl/",
+      "access_basis": "api_terms",
+      "min_interval_seconds": 3.0,
+      "max_bytes": 5242880,
+      "requires_key": false,
+      "enabled": true,
+      "provides": [
+        "consulta estruturada (Overpass QL) sobre o grafo geoespacial mundial do OpenStreetMap: hospitais, estradas, fronteiras, POIs",
+        "dado real testado ao vivo (Hospital Sao Paulo com endereco/telefone/coordenadas/CNES)"
+      ],
+      "does_not_provide": [
+        "uso comercial em escala na instancia publica compartilhada - para volume alto, exige instancia propria ou provedor pago",
+        "garantia de completude/precisao - mapa colaborativo, cobertura desigual por regiao"
+      ],
+      "limitations": [
+        "politica informal da instancia publica: menos de 10.000 consultas/dia e menos de 1GB/dia; para app regular, menos de 100 consultas e 10MB/dia - acima disso, hospedar instancia propria",
+        "exige header User-Agent ou Referer identificando o cliente; em HTTP 429/406 pausar 30s antes de nova tentativa",
+        "dados sob ODbL exigem atribuicao E compartilhamento de bases de dados derivadas substanciais sob a mesma licenca (share-alike) - nunca fechar/vender um derivado substancial sem manter ODbL"
+      ],
+      "implementation": null,
+      "last_verified_at": "2026-09-03",
+      "verification_note": "HTTP 200 ao vivo 03/09; resposta OSM/JSON valida com POI real (Hospital Sao Paulo, coordenadas -23.5977766/-46.6435335, telefone, wheelchair=yes, licenca ODbL citada na atribuicao embutida); sem chave | IQF: legalidade-ok(ODbL, share-alike documentado) oficialidade-ok(OpenStreetMap Foundation) latencia-ok estabilidade-ressalva(politica de uso justo informal, sem SLA formal) cobertura-ok(global) custo-0 | leitura: GET/POST data=[out:json];{Overpass QL};out; - sempre com User-Agent identificado, respeitar teto de 10k consultas/dia | descoberto no 3o ciclo do descobridor-de-fontes",
+      "ready_to_enable": true,
+      "enabled_at": "2026-09-03"
+    },
+    {
+      "connector_id": "open_targets_platform",
+      "name": "Open Targets Platform GraphQL API",
+      "base_url": "https://api.platform.opentargets.org/api/v4/graphql",
+      "terms_url": "https://platform-docs.opentargets.org/licence",
+      "license_id": "CC0-1.0-dados-Apache-2.0-codigo",
+      "license_url": "https://platform-docs.opentargets.org/licence",
+      "access_basis": "api_terms",
+      "min_interval_seconds": 3.0,
+      "max_bytes": 5242880,
+      "requires_key": false,
+      "enabled": false,
+      "provides": [
+        "associacoes gene-doenca com evidencia agregada de multiplas fontes (ChEMBL, Ensembl, FAERS, ClinVar)",
+        "busca de alvos terapeuticos, farmacos e variantes geneticas via GraphQL"
+      ],
+      "does_not_provide": [
+        "dado clinico individual de paciente",
+        "endpoint REST simples - exige corpo GraphQL estruturado via POST"
+      ],
+      "limitations": [
+        "consulta real de dado (POST com query GraphQL) NAO foi executada nesta verificacao - so o schema (SDL) foi confirmado ao vivo; confirmar payload real de dado antes de implementar qualquer leitor",
+        "rate limit nao numerado publicamente na documentacao consultada"
+      ],
+      "implementation": null,
+      "last_verified_at": "2026-09-03",
+      "verification_note": "schema GraphQL confirmado ao vivo 03/09 (endpoint ativo, tipos Target/Disease/Drug/Variant presentes); licenca CC0-1.0 para dados e Apache-2.0 para codigo confirmada em platform-docs.opentargets.org/licence; sem chave | IQF: legalidade-ok(CC0) oficialidade-ok(EMBL-EBI + Wellcome Sanger + consorcio farmaceutico Open Targets) latencia-desconhecida(nao testada com query de dado real) estabilidade-ok(API v4) cobertura-ok custo-0 | leitura: POST {base_url} com body {query:'...', variables:{...}} - consultar schema antes de montar a query | descoberto no 3o ciclo do descobridor-de-fontes | PENDENTE: confirmar retorno de dado real via POST antes de habilitar",
+      "ready_to_enable": false
+    },
+    {
+      "connector_id": "openfda",
+      "name": "openFDA API (FDA Adverse Events, Drug/Device Labels)",
+      "base_url": "https://api.fda.gov/",
+      "terms_url": "https://open.fda.gov/license/",
+      "license_id": "CC0-1.0",
+      "license_url": "https://open.fda.gov/license/",
+      "access_basis": "api_terms",
+      "min_interval_seconds": 3.0,
+      "max_bytes": 5242880,
+      "requires_key": false,
+      "enabled": true,
+      "provides": [
+        "eventos adversos de medicamentos/dispositivos reportados (FAERS), rotulagem de farmacos, recalls",
+        "20,7 milhoes+ registros, busca estruturada por droga/reacao/data"
+      ],
+      "does_not_provide": [
+        "confirmacao medica validada - a propria API alerta 'Do not rely on openFDA to make decisions regarding medical care', dados nao verificados clinicamente",
+        "dado individual identificavel de paciente (relatos sao anonimizados/agregados por reporte)"
+      ],
+      "limitations": [
+        "conteudo GMDN (terminologia de dispositivos medicos) e marca registrada com licenca separada da The GMDN Agency - exige licenca propria para uso comercial/treino de IA especifico desse subconjunto",
+        "sem chave: limite mais restrito nao numerado na pagina testada; chave gratuita opcional disponivel para volume maior"
+      ],
+      "implementation": null,
+      "last_verified_at": "2026-09-03",
+      "verification_note": "HTTP 200 ao vivo 03/09 em /drug/event.json?limit=1; JSON valido com meta.results.total=20,7M e registro real de evento adverso (Duragesic-100/fentanil); sem chave; CC0-1.0 confirmado ao vivo em open.fda.gov/license/ | IQF: legalidade-ok(CC0, exceto GMDN marca registrada) oficialidade-ok(FDA/HHS, governo federal EUA) latencia-ok estabilidade-ok cobertura-ok custo-0 | leitura: GET /drug/event.json?search={campo}:{termo}&limit=N (tambem /drug/label.json, /device/event.json, /food/enforcement.json) | descoberto no 3o ciclo do descobridor-de-fontes",
+      "ready_to_enable": true,
+      "enabled_at": "2026-09-03"
+    },
+    {
+      "connector_id": "wikimedia_eventstreams",
+      "name": "Wikimedia EventStreams (recentchange SSE)",
+      "base_url": "https://stream.wikimedia.org/v2/stream/recentchange",
+      "terms_url": "https://foundation.wikimedia.org/wiki/Policy:Terms_of_Use",
+      "license_id": "CC-BY-SA-4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+      "access_basis": "api_terms",
+      "min_interval_seconds": 3.0,
+      "max_bytes": 5242880,
+      "requires_key": false,
+      "enabled": true,
+      "provides": [
+        "fluxo em tempo real (Server-Sent Events) de edicoes em toda a rede Wikimedia (Wikipedia, Wikidata, Commons etc.)",
+        "sinal de atividade/atencao em tempo quase real, complementar ao wikimedia_pageviews (que e agregado diario)"
+      ],
+      "does_not_provide": [
+        "conteudo integral da edicao (o evento traz metadado da mudanca, nao necessariamente o diff completo)",
+        "garantia de uso como liquidacao de mercado - e sinal de atividade editorial, nunca fato de mercado"
+      ],
+      "limitations": [
+        "e um stream continuo (SSE), nao uma chamada request/response finita - um leitor real precisa consumir com timeout/corte proprio, NUNCA tentar 'ler ate o fim'",
+        "mesma familia de termos (Wikimedia Foundation ToU) ja usada no wikimedia_pageviews ja registrado; texto integral especifico do endpoint de stream nao reconfirmado nesta execucao"
+      ],
+      "implementation": null,
+      "last_verified_at": "2026-09-03",
+      "verification_note": "endpoint respondeu ao vivo 03/09 e manteve conexao SSE aberta continuamente - a tentativa de leitura completa estourou o limite de 10MB do verificador exatamente por ser stream infinito, o que e evidencia de que o servico esta ATIVO e emitindo eventos sem interrupcao; mesma licenca/ToU do wikimedia_pageviews ja registrado (Wikimedia Foundation) | IQF: legalidade-ok oficialidade-ok(Wikimedia Foundation) latencia-otima(tempo real) estabilidade-ok cobertura-ok(toda a rede Wikimedia) custo-0 | leitura: consumir via EventSource/SSE em /v2/stream/recentchange (ou /v2/stream/revision-create para so revisoes) - sempre com corte de tempo/tamanho proprio, nunca ler ate o fim | descoberto no 3o ciclo do descobridor-de-fontes",
+      "ready_to_enable": true,
+      "enabled_at": "2026-09-03"
+    },
+    {
+      "connector_id": "natural_earth_vectors",
+      "name": "Natural Earth - Vector/Raster Map Data (mirror GitHub oficial do curador)",
+      "base_url": "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/",
+      "terms_url": "https://www.naturalearthdata.com/about/terms-of-use/",
+      "license_id": "Public-Domain",
+      "license_url": "https://www.naturalearthdata.com/about/terms-of-use/",
+      "access_basis": "api_terms",
+      "min_interval_seconds": 3.0,
+      "max_bytes": 10485760,
+      "requires_key": false,
+      "enabled": true,
+      "provides": [
+        "dados geograficos vetoriais/raster de fronteiras administrativas, paises, estados e cidades em 3 escalas (1:10m, 1:50m, 1:110m)",
+        "mirror git oficial mantido pelo curador do projeto (nvkelso), navegavel via GitHub Contents API"
+      ],
+      "does_not_provide": [
+        "API de consulta parametrizavel - sao arquivos estaticos (shapefile/GeoJSON) para download direto, nao endpoint de query",
+        "atualizacao em tempo real - dataset versionado, atualizado por release"
+      ],
+      "limitations": [
+        "o dominio principal naturalearthdata.com retornou HTTP 500 na tentativa de download direto testada nesta execucao (possivel instabilidade momentanea do servidor de origem) - usar o mirror GitHub oficial (nvkelso/natural-earth-vector) como canal primario de leitura, confirmado ao vivo; revalidar o dominio oficial na proxima execucao",
+        "arquivos completos por escala podem exceder 5MB - max_bytes ja ajustado para 10MB acima do default"
+      ],
+      "implementation": null,
+      "last_verified_at": "2026-09-03",
+      "verification_note": "dominio oficial deu HTTP 500 na tentativa de download direto 03/09 (instabilidade momentanea); mirror GitHub oficial do curador confirmado ao vivo via Contents API (ne_110m_admin_0_countries.README.html existe, 41.905 bytes, download_url valido); dominio publico confirmado ao vivo em terms-of-use ('todas as versoes... estao em dominio publico') | IQF: legalidade-ok(PD explicito) oficialidade-ressalva(mirror do curador do projeto, dominio oficial deu 500 no momento do teste) latencia-ok estabilidade-ressalva(500 no dominio oficial nesta execucao) cobertura-ok custo-0 | leitura: GET api.github.com/repos/nvkelso/natural-earth-vector/contents/{escala}_cultural/{arquivo} para metadados, seguir download_url para o arquivo | descoberto no 3o ciclo do descobridor-de-fontes",
+      "ready_to_enable": true,
+      "enabled_at": "2026-09-03"
+    },
+    {
+      "connector_id": "eia_opendata",
+      "name": "EIA Open Data API (U.S. Energy Information Administration)",
+      "base_url": "https://api.eia.gov/v2/",
+      "terms_url": "https://www.eia.gov/opendata/documentation.php",
+      "license_id": "US-PD-EIA-ToS",
+      "license_url": "https://www.eia.gov/about/copyrights_reuse.php",
+      "access_basis": "api_terms",
+      "min_interval_seconds": 3.0,
+      "max_bytes": 5242880,
+      "requires_key": true,
+      "enabled": false,
+      "provides": [
+        "series de energia dos EUA e globais (petroleo, gas, eletricidade, renovaveis) com historico longo",
+        "milhares de series numeradas por rota de API, formato JSON"
+      ],
+      "does_not_provide": [
+        "acesso sem chave - toda chamada exige api_key gratuita mediante cadastro simples",
+        "cobertura internacional com a mesma profundidade dos dados dos EUA"
+      ],
+      "limitations": [
+        "BLOQUEADO NO ESTAGIO 1 ate obtencao de chave gratuita pelo titular - requires_key=true; cadastro nao envia dado nosso, so identifica o solicitante (mesmo padrao ja adotado para fred_stlouisfed)",
+        "exige aceite do Termo de Servico da API e da Politica de Copyright/Reuso do EIA"
+      ],
+      "implementation": null,
+      "last_verified_at": "2026-09-03",
+      "verification_note": "HTTP 403 ao vivo 03/09 em GET /v2/ sem api_key - comportamento esperado (endpoint ativo, exige chave); pagina de documentacao confirma registro gratuito e API 'fornecida sem custo' | IQF: legalidade-ok(dado do governo federal EUA, com ToS de API a aceitar) oficialidade-ok(EIA/Dept. of Energy) latencia-desconhecida(nao testada com chave) estabilidade-ok(v2) cobertura-ok custo-0 | leitura (apos chave gratuita do titular): GET /v2/{rota}/data?api_key={key}&... | descoberto no 3o ciclo do descobridor-de-fontes",
+      "ready_to_enable": false
+    },
+    {
+      "connector_id": "inpe_queimadas",
+      "name": "INPE Programa Queimadas",
+      "base_url": "https://queimadas.dgi.inpe.br/queimadas/dados-abertos/",
+      "terms_url": "https://queimadas.dgi.inpe.br/queimadas/dados-abertos/",
+      "license_id": "dados-abertos-BR",
+      "license_url": "https://www.gov.br/governodigital/pt-br/dados-abertos",
+      "access_basis": "dados_abertos",
+      "min_interval_seconds": 3.0,
+      "max_bytes": 5242880,
+      "requires_key": false,
+      "enabled": false,
+      "provides": [
+        "focos de fogo por municipio/dia (satelite)"
+      ],
+      "does_not_provide": [
+        "dado pessoal"
+      ],
+      "limitations": [
+        "registrado; verificar endpoint ao vivo antes de ligar"
+      ],
+      "implementation": null,
+      "last_verified_at": "2026-09-03T16:20:47.711947+00:00",
+      "verification_note": "registrado 2026-09-03 com politica de privacidade; ready_to_enable=false ate verificacao ao vivo | REVALIDADO 2026-09-03: 301 redirect (endpoint exato a confirmar)",
+      "ready_to_enable": false,
+      "tema": "satelite/desastre",
+      "privacy": {
+        "aggregate_only": true,
+        "pii": "nenhum (ambiental/geo/economico agregado)",
+        "suppression_threshold": null,
+        "lgpd_basis": "dado publico nao-pessoal (LGPD art. 7)",
+        "never": [
+          "dado pessoal"
+        ]
+      }
+    },
+    {
+      "connector_id": "inpe_terrabrasilis",
+      "name": "INPE TerraBrasilis (PRODES/DETER)",
+      "base_url": "https://terrabrasilis.dpi.inpe.br/geoserver/ows",
+      "terms_url": "https://terrabrasilis.dpi.inpe.br/",
+      "license_id": "dados-abertos-BR",
+      "license_url": "https://www.gov.br/governodigital/pt-br/dados-abertos",
+      "access_basis": "dados_abertos",
+      "min_interval_seconds": 3.0,
+      "max_bytes": 5242880,
+      "requires_key": false,
+      "enabled": true,
+      "provides": [
+        "desmatamento anual e alertas"
+      ],
+      "does_not_provide": [
+        "dado pessoal"
+      ],
+      "limitations": [
+        "registrado; verificar endpoint ao vivo antes de ligar"
+      ],
+      "implementation": null,
+      "last_verified_at": "2026-09-03T16:20:47.711947+00:00",
+      "verification_note": "registrado 2026-09-03 com politica de privacidade; ready_to_enable=false ate verificacao ao vivo | REVALIDADO 2026-09-03: WFS GetCapabilities 200 em geoserver/ows (171KB) - FUNCIONA, mas corrigir base_url do portal para o geoserver e definir typename antes de ligar | CORRIGIDO 2026-09-03: base_url -> geoserver/ows; WFS 2.0.0 GetCapabilities OK, 93 FeatureTypes (PRODES desmatamento por bioma) | leitura: GET ?service=WFS&version=2.0.0&request=GetFeature&typeName=prodes-legal-amz:accumulated_deforestation_2007&outputFormat=application/json&count=N -> ligado",
+      "ready_to_enable": true,
+      "tema": "satelite/ambiente",
+      "privacy": {
+        "aggregate_only": true,
+        "pii": "nenhum (ambiental/geo/economico agregado)",
+        "suppression_threshold": null,
+        "lgpd_basis": "dado publico nao-pessoal (LGPD art. 7)",
+        "never": [
+          "dado pessoal"
+        ]
+      },
+      "enabled_at": "2026-09-03"
+    },
+    {
+      "connector_id": "inpe_cptec",
+      "name": "CPTEC/INPE",
+      "base_url": "https://www.cptec.inpe.br/",
+      "terms_url": "https://www.cptec.inpe.br/",
+      "license_id": "dados-abertos-BR",
+      "license_url": "https://www.gov.br/governodigital/pt-br/dados-abertos",
+      "access_basis": "dados_abertos",
+      "min_interval_seconds": 3.0,
+      "max_bytes": 5242880,
+      "requires_key": false,
+      "enabled": false,
+      "provides": [
+        "previsao de tempo/clima"
+      ],
+      "does_not_provide": [
+        "dado pessoal"
+      ],
+      "limitations": [
+        "registrado; verificar endpoint ao vivo antes de ligar"
+      ],
+      "implementation": null,
+      "last_verified_at": "2026-09-03T16:20:47.711947+00:00",
+      "verification_note": "registrado 2026-09-03 com politica de privacidade; ready_to_enable=false ate verificacao ao vivo",
+      "ready_to_enable": false,
+      "tema": "clima",
+      "privacy": {
+        "aggregate_only": true,
+        "pii": "nenhum (ambiental/geo/economico agregado)",
+        "suppression_threshold": null,
+        "lgpd_basis": "dado publico nao-pessoal (LGPD art. 7)",
+        "never": [
+          "dado pessoal"
+        ]
+      }
+    },
+    {
+      "connector_id": "anm_dados",
+      "name": "ANM dados abertos / SIGMINE",
+      "base_url": "https://dados.gov.br/dados/organizacoes/visualizar/agencia-nacional-de-mineracao",
+      "terms_url": "https://dados.gov.br/dados/organizacoes/visualizar/agencia-nacional-de-mineracao",
+      "license_id": "dados-abertos-BR",
+      "license_url": "https://www.gov.br/governodigital/pt-br/dados-abertos",
+      "access_basis": "dados_abertos",
+      "min_interval_seconds": 3.0,
+      "max_bytes": 5242880,
+      "requires_key": false,
+      "enabled": false,
+      "provides": [
+        "producao mineral, titulos, CFEM, geo de areas"
+      ],
+      "does_not_provide": [
+        "dado pessoal"
+      ],
+      "limitations": [
+        "registrado; verificar endpoint ao vivo antes de ligar"
+      ],
+      "implementation": null,
+      "last_verified_at": "2026-09-03T16:20:47.711947+00:00",
+      "verification_note": "registrado 2026-09-03 com politica de privacidade; ready_to_enable=false ate verificacao ao vivo",
+      "ready_to_enable": false,
+      "tema": "mineracao",
+      "privacy": {
+        "aggregate_only": true,
+        "pii": "nenhum (ambiental/geo/economico agregado)",
+        "suppression_threshold": null,
+        "lgpd_basis": "dado publico nao-pessoal (LGPD art. 7)",
+        "never": [
+          "dado pessoal"
+        ]
+      }
+    },
+    {
+      "connector_id": "cemaden",
+      "name": "CEMADEN dados abertos",
+      "base_url": "https://dadosabertos.cemaden.gov.br/",
+      "terms_url": "https://dadosabertos.cemaden.gov.br/",
+      "license_id": "dados-abertos-BR",
+      "license_url": "https://www.gov.br/governodigital/pt-br/dados-abertos",
+      "access_basis": "dados_abertos",
+      "min_interval_seconds": 3.0,
+      "max_bytes": 5242880,
+      "requires_key": false,
+      "enabled": false,
+      "provides": [
+        "chuva, risco, alertas de desastre"
+      ],
+      "does_not_provide": [
+        "dado pessoal"
+      ],
+      "limitations": [
+        "registrado; verificar endpoint ao vivo antes de ligar"
+      ],
+      "implementation": null,
+      "last_verified_at": "2026-09-03T16:20:47.711947+00:00",
+      "verification_note": "registrado 2026-09-03 com politica de privacidade; ready_to_enable=false ate verificacao ao vivo | REVALIDADO 2026-09-03: DNS nao resolve dadosabertos.cemaden.gov.br",
+      "ready_to_enable": false,
+      "tema": "desastre",
+      "privacy": {
+        "aggregate_only": true,
+        "pii": "nenhum (ambiental/geo/economico agregado)",
+        "suppression_threshold": null,
+        "lgpd_basis": "dado publico nao-pessoal (LGPD art. 7)",
+        "never": [
+          "dado pessoal"
+        ]
+      }
+    },
+    {
+      "connector_id": "ana_snirh",
+      "name": "ANA Hidroweb / SNIRH",
+      "base_url": "https://www.snirh.gov.br/hidroweb/",
+      "terms_url": "https://www.snirh.gov.br/hidroweb/",
+      "license_id": "dados-abertos-BR",
+      "license_url": "https://www.gov.br/governodigital/pt-br/dados-abertos",
+      "access_basis": "dados_abertos",
+      "min_interval_seconds": 3.0,
+      "max_bytes": 5242880,
+      "requires_key": false,
+      "enabled": false,
+      "provides": [
+        "nivel de rios/reservatorios, hidrologia"
+      ],
+      "does_not_provide": [
+        "dado pessoal"
+      ],
+      "limitations": [
+        "registrado; verificar endpoint ao vivo antes de ligar"
+      ],
+      "implementation": null,
+      "last_verified_at": "2026-09-03T16:20:47.711947+00:00",
+      "verification_note": "registrado 2026-09-03 com politica de privacidade; ready_to_enable=false ate verificacao ao vivo",
+      "ready_to_enable": false,
+      "tema": "agua",
+      "privacy": {
+        "aggregate_only": true,
+        "pii": "nenhum (ambiental/geo/economico agregado)",
+        "suppression_threshold": null,
+        "lgpd_basis": "dado publico nao-pessoal (LGPD art. 7)",
+        "never": [
+          "dado pessoal"
+        ]
+      }
+    },
+    {
+      "connector_id": "conab",
+      "name": "CONAB Portal de Informacoes Agropecuarias",
+      "base_url": "https://portaldeinformacoes.conab.gov.br/",
+      "terms_url": "https://portaldeinformacoes.conab.gov.br/",
+      "license_id": "dados-abertos-BR",
+      "license_url": "https://www.gov.br/governodigital/pt-br/dados-abertos",
+      "access_basis": "dados_abertos",
+      "min_interval_seconds": 3.0,
+      "max_bytes": 5242880,
+      "requires_key": false,
+      "enabled": false,
+      "provides": [
+        "safras, estoques, precos agricolas"
+      ],
+      "does_not_provide": [
+        "dado pessoal"
+      ],
+      "limitations": [
+        "registrado; verificar endpoint ao vivo antes de ligar"
+      ],
+      "implementation": null,
+      "last_verified_at": "2026-09-03T16:20:47.711947+00:00",
+      "verification_note": "registrado 2026-09-03 com politica de privacidade; ready_to_enable=false ate verificacao ao vivo | REVALIDADO 2026-09-03: base_url e portal HTML (42KB), nao API parametrizavel - precisa URL de dataset",
+      "ready_to_enable": false,
+      "tema": "commodity",
+      "privacy": {
+        "aggregate_only": true,
+        "pii": "nenhum (ambiental/geo/economico agregado)",
+        "suppression_threshold": null,
+        "lgpd_basis": "dado publico nao-pessoal (LGPD art. 7)",
+        "never": [
+          "dado pessoal"
+        ]
+      }
+    },
+    {
+      "connector_id": "inep_dados",
+      "name": "INEP dados abertos (IDEB/Censo Escolar)",
+      "base_url": "https://www.gov.br/inep/pt-br/acesso-a-informacao/dados-abertos",
+      "terms_url": "https://www.gov.br/inep/pt-br/acesso-a-informacao/dados-abertos",
+      "license_id": "dados-abertos-BR",
+      "license_url": "https://www.gov.br/governodigital/pt-br/dados-abertos",
+      "access_basis": "dados_abertos",
+      "min_interval_seconds": 3.0,
+      "max_bytes": 5242880,
+      "requires_key": false,
+      "enabled": false,
+      "provides": [
+        "IDEB, evasao, matricula por escola/municipio - agregado"
+      ],
+      "does_not_provide": [
+        "dado pessoal"
+      ],
+      "limitations": [
+        "registrado; verificar endpoint ao vivo antes de ligar"
+      ],
+      "implementation": null,
+      "last_verified_at": "2026-09-03T16:20:47.711947+00:00",
+      "verification_note": "registrado 2026-09-03 com politica de privacidade; ready_to_enable=false ate verificacao ao vivo",
+      "ready_to_enable": false,
+      "tema": "educacao",
+      "privacy": {
+        "aggregate_only": true,
+        "pii": "nenhum (ambiental/geo/economico agregado)",
+        "suppression_threshold": null,
+        "lgpd_basis": "dado publico nao-pessoal (LGPD art. 7)",
+        "never": [
+          "dado pessoal"
+        ]
+      }
+    },
+    {
+      "connector_id": "antaq_dados",
+      "name": "ANTAQ dados abertos / Anuario",
+      "base_url": "https://web.antaq.gov.br/anuario/",
+      "terms_url": "https://web.antaq.gov.br/anuario/",
+      "license_id": "dados-abertos-BR",
+      "license_url": "https://www.gov.br/governodigital/pt-br/dados-abertos",
+      "access_basis": "dados_abertos",
+      "min_interval_seconds": 3.0,
+      "max_bytes": 5242880,
+      "requires_key": false,
+      "enabled": false,
+      "provides": [
+        "movimentacao portuaria"
+      ],
+      "does_not_provide": [
+        "dado pessoal"
+      ],
+      "limitations": [
+        "registrado; verificar endpoint ao vivo antes de ligar"
+      ],
+      "implementation": null,
+      "last_verified_at": "2026-09-03T16:20:47.711947+00:00",
+      "verification_note": "registrado 2026-09-03 com politica de privacidade; ready_to_enable=false ate verificacao ao vivo",
+      "ready_to_enable": false,
+      "tema": "logistica",
+      "privacy": {
+        "aggregate_only": true,
+        "pii": "nenhum (ambiental/geo/economico agregado)",
+        "suppression_threshold": null,
+        "lgpd_basis": "dado publico nao-pessoal (LGPD art. 7)",
+        "never": [
+          "dado pessoal"
+        ]
+      }
+    },
+    {
+      "connector_id": "ibge_geo",
+      "name": "IBGE servicodados (malhas/localidades)",
+      "base_url": "https://servicodados.ibge.gov.br/api/docs",
+      "terms_url": "https://servicodados.ibge.gov.br/api/docs",
+      "license_id": "dados-abertos-BR",
+      "license_url": "https://www.gov.br/governodigital/pt-br/dados-abertos",
+      "access_basis": "dados_abertos",
+      "min_interval_seconds": 3.0,
+      "max_bytes": 5242880,
+      "requires_key": false,
+      "enabled": true,
+      "provides": [
+        "malha municipal, localidades, base geografica"
+      ],
+      "does_not_provide": [
+        "dado pessoal"
+      ],
+      "limitations": [
+        "registrado; verificar endpoint ao vivo antes de ligar"
+      ],
+      "implementation": null,
+      "last_verified_at": "2026-09-03T16:20:47.711947+00:00",
+      "verification_note": "registrado 2026-09-03 com politica de privacidade; ready_to_enable=false ate verificacao ao vivo | REVALIDADO 2026-09-03: 200 JSON em /api/v1/localidades/estados -> ligado",
+      "ready_to_enable": true,
+      "tema": "geo/posicionamento",
+      "privacy": {
+        "aggregate_only": true,
+        "pii": "nenhum (ambiental/geo/economico agregado)",
+        "suppression_threshold": null,
+        "lgpd_basis": "dado publico nao-pessoal (LGPD art. 7)",
+        "never": [
+          "dado pessoal"
+        ]
+      },
+      "enabled_at": "2026-09-03"
+    },
+    {
+      "connector_id": "ibama_dados",
+      "name": "MMA/IBAMA dados abertos",
+      "base_url": "https://dadosabertos.ibama.gov.br/",
+      "terms_url": "https://dadosabertos.ibama.gov.br/",
+      "license_id": "dados-abertos-BR",
+      "license_url": "https://www.gov.br/governodigital/pt-br/dados-abertos",
+      "access_basis": "dados_abertos",
+      "min_interval_seconds": 3.0,
+      "max_bytes": 5242880,
+      "requires_key": false,
+      "enabled": false,
+      "provides": [
+        "autuacoes, embargos, focos - agregado"
+      ],
+      "does_not_provide": [
+        "dado pessoal"
+      ],
+      "limitations": [
+        "registrado; verificar endpoint ao vivo antes de ligar"
+      ],
+      "implementation": null,
+      "last_verified_at": "2026-09-03T16:20:47.711947+00:00",
+      "verification_note": "registrado 2026-09-03 com politica de privacidade; ready_to_enable=false ate verificacao ao vivo | REVALIDADO 2026-09-03: CKAN 502",
+      "ready_to_enable": false,
+      "tema": "ambiente",
+      "privacy": {
+        "aggregate_only": true,
+        "pii": "nenhum (ambiental/geo/economico agregado)",
+        "suppression_threshold": null,
+        "lgpd_basis": "dado publico nao-pessoal (LGPD art. 7)",
+        "never": [
+          "dado pessoal"
+        ]
+      }
+    },
+    {
+      "connector_id": "datasus_sim",
+      "name": "DATASUS-SIM (Sistema de Informacao sobre Mortalidade)",
+      "base_url": "https://opendatasus.saude.gov.br/dataset/sim",
+      "terms_url": "https://opendatasus.saude.gov.br/dataset/sim",
+      "license_id": "dados-abertos-BR",
+      "license_url": "https://www.gov.br/governodigital/pt-br/dados-abertos",
+      "access_basis": "dados_abertos",
+      "min_interval_seconds": 3.0,
+      "max_bytes": 5242880,
+      "requires_key": false,
+      "enabled": false,
+      "provides": [
+        "obitos por causa/municipio - CONTAGEM agregada apos mascara"
+      ],
+      "does_not_provide": [
+        "QUALQUER registro individual",
+        "identificacao de pessoa",
+        "pre-crime"
+      ],
+      "limitations": [
+        "registrado; verificar endpoint ao vivo antes de ligar"
+      ],
+      "implementation": null,
+      "last_verified_at": "2026-09-03T16:20:47.711947+00:00",
+      "verification_note": "registrado 2026-09-03 com politica de privacidade; ready_to_enable=false ate verificacao ao vivo",
+      "ready_to_enable": false,
+      "tema": "mortalidade",
+      "privacy": {
+        "aggregate_only": true,
+        "only_keep": [
+          "municipio_ibge",
+          "periodo_mes",
+          "faixa_etaria",
+          "sexo",
+          "causa_cid_capitulo_ou_tipo_penal",
+          "contagem"
+        ],
+        "drop_fields": [
+          "nome",
+          "documento",
+          "endereco",
+          "data_exata",
+          "coordenada_ponto",
+          "qualquer_identificador_direto_ou_quase"
+        ],
+        "suppression_threshold": 5,
+        "lgpd_basis": "dado sensivel — so agregado, minimizacao (LGPD art. 11)",
+        "never": [
+          "registro individual",
+          "identificar pessoa",
+          "pre-crime",
+          "dado de saude individual"
+        ]
+      }
+    },
+    {
+      "connector_id": "datasus_tabnet",
+      "name": "DATASUS TabNet (saude agregada)",
+      "base_url": "https://datasus.saude.gov.br/informacoes-de-saude-tabnet/",
+      "terms_url": "https://datasus.saude.gov.br/informacoes-de-saude-tabnet/",
+      "license_id": "dados-abertos-BR",
+      "license_url": "https://www.gov.br/governodigital/pt-br/dados-abertos",
+      "access_basis": "dados_abertos",
+      "min_interval_seconds": 3.0,
+      "max_bytes": 5242880,
+      "requires_key": false,
+      "enabled": false,
+      "provides": [
+        "internacoes/notificacoes agregadas"
+      ],
+      "does_not_provide": [
+        "QUALQUER registro individual",
+        "identificacao de pessoa",
+        "pre-crime"
+      ],
+      "limitations": [
+        "registrado; verificar endpoint ao vivo antes de ligar"
+      ],
+      "implementation": null,
+      "last_verified_at": "2026-09-03T16:20:47.711947+00:00",
+      "verification_note": "registrado 2026-09-03 com politica de privacidade; ready_to_enable=false ate verificacao ao vivo",
+      "ready_to_enable": false,
+      "tema": "saude",
+      "privacy": {
+        "aggregate_only": true,
+        "only_keep": [
+          "municipio_ibge",
+          "periodo_mes",
+          "faixa_etaria",
+          "sexo",
+          "causa_cid_capitulo_ou_tipo_penal",
+          "contagem"
+        ],
+        "drop_fields": [
+          "nome",
+          "documento",
+          "endereco",
+          "data_exata",
+          "coordenada_ponto",
+          "qualquer_identificador_direto_ou_quase"
+        ],
+        "suppression_threshold": 5,
+        "lgpd_basis": "dado sensivel — so agregado, minimizacao (LGPD art. 11)",
+        "never": [
+          "registro individual",
+          "identificar pessoa",
+          "pre-crime",
+          "dado de saude individual"
+        ]
+      }
+    },
+    {
+      "connector_id": "sinesp_seguranca",
+      "name": "SINESP - estatisticas de seguranca publica",
+      "base_url": "https://www.gov.br/mj/pt-br/assuntos/sua-seguranca/seguranca-publica/estatistica",
+      "terms_url": "https://www.gov.br/mj/pt-br/assuntos/sua-seguranca/seguranca-publica/estatistica",
+      "license_id": "dados-abertos-BR",
+      "license_url": "https://www.gov.br/governodigital/pt-br/dados-abertos",
+      "access_basis": "dados_abertos",
+      "min_interval_seconds": 3.0,
+      "max_bytes": 5242880,
+      "requires_key": false,
+      "enabled": false,
+      "provides": [
+        "ocorrencias criminais AGREGADAS por UF/municipio"
+      ],
+      "does_not_provide": [
+        "QUALQUER registro individual",
+        "identificacao de pessoa",
+        "pre-crime"
+      ],
+      "limitations": [
+        "registrado; verificar endpoint ao vivo antes de ligar"
+      ],
+      "implementation": null,
+      "last_verified_at": "2026-09-03T16:20:47.711947+00:00",
+      "verification_note": "registrado 2026-09-03 com politica de privacidade; ready_to_enable=false ate verificacao ao vivo",
+      "ready_to_enable": false,
+      "tema": "seguranca",
+      "privacy": {
+        "aggregate_only": true,
+        "only_keep": [
+          "municipio_ibge",
+          "periodo_mes",
+          "faixa_etaria",
+          "sexo",
+          "causa_cid_capitulo_ou_tipo_penal",
+          "contagem"
+        ],
+        "drop_fields": [
+          "nome",
+          "documento",
+          "endereco",
+          "data_exata",
+          "coordenada_ponto",
+          "qualquer_identificador_direto_ou_quase"
+        ],
+        "suppression_threshold": 5,
+        "lgpd_basis": "dado sensivel — so agregado, minimizacao (LGPD art. 11)",
+        "never": [
+          "registro individual",
+          "identificar pessoa",
+          "pre-crime",
+          "dado de saude individual"
+        ]
+      }
+    },
+    {
+      "connector_id": "fbsp_anuario",
+      "name": "Forum Bras. de Seguranca Publica - Anuario",
+      "base_url": "https://forumseguranca.org.br/",
+      "terms_url": "https://forumseguranca.org.br/",
+      "license_id": "dados-abertos-BR",
+      "license_url": "https://www.gov.br/governodigital/pt-br/dados-abertos",
+      "access_basis": "dados_abertos",
+      "min_interval_seconds": 3.0,
+      "max_bytes": 5242880,
+      "requires_key": false,
+      "enabled": false,
+      "provides": [
+        "series historicas agregadas de criminalidade"
+      ],
+      "does_not_provide": [
+        "QUALQUER registro individual",
+        "identificacao de pessoa",
+        "pre-crime"
+      ],
+      "limitations": [
+        "registrado; verificar endpoint ao vivo antes de ligar"
+      ],
+      "implementation": null,
+      "last_verified_at": "2026-09-03T16:20:47.711947+00:00",
+      "verification_note": "registrado 2026-09-03 com politica de privacidade; ready_to_enable=false ate verificacao ao vivo",
+      "ready_to_enable": false,
+      "tema": "seguranca",
+      "privacy": {
+        "aggregate_only": true,
+        "only_keep": [
+          "municipio_ibge",
+          "periodo_mes",
+          "faixa_etaria",
+          "sexo",
+          "causa_cid_capitulo_ou_tipo_penal",
+          "contagem"
+        ],
+        "drop_fields": [
+          "nome",
+          "documento",
+          "endereco",
+          "data_exata",
+          "coordenada_ponto",
+          "qualquer_identificador_direto_ou_quase"
+        ],
+        "suppression_threshold": 5,
+        "lgpd_basis": "dado sensivel — so agregado, minimizacao (LGPD art. 11)",
+        "never": [
+          "registro individual",
+          "identificar pessoa",
+          "pre-crime",
+          "dado de saude individual"
+        ]
+      }
     }
   ]
 }

@@ -1,0 +1,684 @@
+{
+  "gerado_em": "2026-09-03",
+  "fase": "F1",
+  "nota": "Staging do Descobridor de Fontes (ordem do titular Mateus Menezes Figueiredo). NAO foi feito merge no connectors.json vivo nem selagem na corrente da vigilia - isso e ato da casa/titular. Todas as entradas nascem enabled:false. Candidatos duplicados (ja no connectors.json vivo) e candidatos nao-verificaveis ao vivo nesta execucao ficaram FORA deste arquivo - ver relatorio da execucao.",
+  "connectors": [
+    {
+      "connector_id": "semanticscholar_graph",
+      "name": "Semantic Scholar Academic Graph API",
+      "base_url": "https://api.semanticscholar.org/graph/v1/",
+      "terms_url": "https://api.semanticscholar.org/license/",
+      "license_id": "ODC-BY-1.0",
+      "license_url": "https://opendatacommons.org/licenses/by/1-0/",
+      "access_basis": "api_terms",
+      "min_interval_seconds": 3.0,
+      "max_bytes": 5242880,
+      "requires_key": false,
+      "enabled": false,
+      "provides": [
+        "metadados de 200M+ papers academicos",
+        "citacoes, influencia e TLDR (resumo automatico)",
+        "grafo de autores e producao cientifica"
+      ],
+      "does_not_provide": [
+        "texto completo dos artigos",
+        "estabilidade garantida sem chave sob carga alta"
+      ],
+      "limitations": [
+        "429 Too Many Requests em 2 das 3 tentativas ao vivo desta execucao - pool anonimo compartilhado e instavel; recomenda-se solicitar API key gratuita opcional para uso continuo",
+        "documentacao cita ~1 req/s sem chave, mas na pratica o limite e compartilhado entre todos os usuarios anonimos do mesmo IP/pool"
+      ],
+      "implementation": null,
+      "last_verified_at": "2026-09-03",
+      "verification_note": "3 tentativas ao vivo: 1a e 2a HTTP 429 (rate limit); 3a (GET /paper/DOI:...) retornou JSON valido com paperId+title, confirmando API oficial ativa | IQF: legalidade-ok(ToS permite uso automatizado c/ atribuicao) oficialidade-ok(Allen Institute for AI) latencia-instavel(429 recorrente sem chave) estabilidade-ok(API versionada v1) cobertura-ok(200M+ papers) custo-0 | descoberto na fase F1 do descobridor-de-fontes",
+      "ready_to_enable": true
+    },
+    {
+      "connector_id": "openaire_graph",
+      "name": "OpenAIRE Graph API",
+      "base_url": "https://api.openaire.eu/graph/v1/",
+      "terms_url": "https://graph.openaire.eu/docs/downloads/full-graph/",
+      "license_id": "CC-BY-4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "access_basis": "api_terms",
+      "min_interval_seconds": 3.0,
+      "max_bytes": 5242880,
+      "requires_key": false,
+      "enabled": false,
+      "provides": [
+        "producao cientifica europeia agregada (publicacoes, datasets, software)",
+        "vinculo financiamento-projeto-organizacao-pesquisa",
+        "grafo aberto OpenAIRE"
+      ],
+      "does_not_provide": [
+        "cobertura garantida fora do ecossistema europeu",
+        "licenca uniforme - parte dos insumos (ex.: OpenCitations) e CC0, o grafo consolidado e CC-BY-4.0"
+      ],
+      "limitations": [
+        "sem numero de rate limit explicito documentado no endpoint testado - usar espacamento conservador"
+      ],
+      "implementation": null,
+      "last_verified_at": "2026-09-03",
+      "verification_note": "HTTP 200 ao vivo 03/09; JSON valido com header.numFound=7.661.610 para pageSize=1 | IQF: legalidade-ok oficialidade-ok(consorcio europeu OpenAIRE) latencia-ok(296ms) estabilidade-ok(Graph API v1) cobertura-ok custo-0 | descoberto na fase F1 do descobridor-de-fontes",
+      "ready_to_enable": true
+    },
+    {
+      "connector_id": "dblp",
+      "name": "DBLP Computer Science Bibliography API",
+      "base_url": "https://dblp.org/search/publ/api",
+      "terms_url": "https://dblp.org/faq/Under+what+license+is+the+data+from+dblp+released.html",
+      "license_id": "CC0-1.0",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "access_basis": "api_terms",
+      "min_interval_seconds": 3.0,
+      "max_bytes": 5242880,
+      "requires_key": false,
+      "enabled": false,
+      "provides": [
+        "bibliografia canonica de ciencia da computacao (venues/autores/publicacoes)",
+        "export em XML/JSON/RDF/RIS/BibTeX",
+        "licenca secundaria ODC-BY-1.0 para compatibilidade"
+      ],
+      "does_not_provide": [
+        "abstracts ou texto completo",
+        "metricas de citacao (ver Semantic Scholar/Crossref para isso)"
+      ],
+      "limitations": [
+        "rate limit nao numerado publicamente - usar com espacamento conservador"
+      ],
+      "implementation": null,
+      "last_verified_at": "2026-09-03",
+      "verification_note": "HTTP 200 ao vivo 03/09; JSON valido com hits/completions (110.922 hits para 'test*') | IQF: legalidade-ok(CC0 desde 2019) oficialidade-ok(Schloss Dagstuhl) latencia-ok(2.99ms) estabilidade-ok cobertura-ok(bibliografia CS canonica) custo-0 | descoberto na fase F1 do descobridor-de-fontes",
+      "ready_to_enable": true
+    },
+    {
+      "connector_id": "europepmc",
+      "name": "Europe PMC RESTful Web Service",
+      "base_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/",
+      "terms_url": "https://europepmc.org/RestfulWebService",
+      "license_id": "Mixed-per-item",
+      "license_url": "https://europepmc.org/Copyright",
+      "access_basis": "api_terms",
+      "min_interval_seconds": 3.0,
+      "max_bytes": 5242880,
+      "requires_key": false,
+      "enabled": false,
+      "provides": [
+        "busca full-text em literatura biomedica (PMC open access + preprints)",
+        "citacoes e links cruzados entre bases biomedicas",
+        "anotacoes de texto (bioentidades)"
+      ],
+      "does_not_provide": [
+        "texto completo de artigos sob paywall de editora (so cobre OA)",
+        "licenca uniforme - verificar por artigo"
+      ],
+      "limitations": [
+        "sem numero de rate limit publico explicito no endpoint testado - usar espacamento conservador"
+      ],
+      "implementation": null,
+      "last_verified_at": "2026-09-03",
+      "verification_note": "HTTP 200 ao vivo 03/09; JSON valido, hitCount=1.068.416 para query 'covid' | IQF: legalidade-ok oficialidade-ok(EMBL-EBI) latencia-ok estabilidade-ok(v6.9) cobertura-ok custo-0 | descoberto na fase F1 do descobridor-de-fontes",
+      "ready_to_enable": true
+    },
+    {
+      "connector_id": "biorxiv_medrxiv",
+      "name": "bioRxiv/medRxiv API",
+      "base_url": "https://api.biorxiv.org/",
+      "terms_url": "https://api.biorxiv.org/",
+      "license_id": "Mixed-per-item",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "access_basis": "api_terms",
+      "min_interval_seconds": 3.0,
+      "max_bytes": 5242880,
+      "requires_key": false,
+      "enabled": false,
+      "provides": [
+        "metadados de preprints bio/medicos por intervalo de data",
+        "DOI, titulo, categoria e licenca por preprint",
+        "paginacao por blocos de 100 registros"
+      ],
+      "does_not_provide": [
+        "revisao por pares - preprint e NAO revisado",
+        "texto completo formatado"
+      ],
+      "limitations": [
+        "navegacao por cursor numerico obrigatoria para volumes grandes",
+        "licenca declarada varia por autor/deposito (campo license por registro)"
+      ],
+      "implementation": null,
+      "last_verified_at": "2026-09-03",
+      "verification_note": "HTTP 200 ao vivo 03/09; JSON valido com messages=[{status:ok}] e collection[] | IQF: legalidade-ok oficialidade-ok(Cold Spring Harbor Laboratory) latencia-ok estabilidade-ok cobertura-ok custo-0 | descoberto na fase F1 do descobridor-de-fontes",
+      "ready_to_enable": true
+    },
+    {
+      "connector_id": "uniprot",
+      "name": "UniProt REST API",
+      "base_url": "https://rest.uniprot.org/",
+      "terms_url": "https://www.uniprot.org/help/license",
+      "license_id": "CC-BY-4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "access_basis": "api_terms",
+      "min_interval_seconds": 3.0,
+      "max_bytes": 5242880,
+      "requires_key": false,
+      "enabled": false,
+      "provides": [
+        "sequencias e anotacoes funcionais de proteinas",
+        "cruzamento com Ensembl, PDB e outras bases",
+        "busca por texto/campo estruturado (UniProtKB)"
+      ],
+      "does_not_provide": [
+        "dado pessoal de individuo (e proteina, nao pessoa)",
+        "predicao propria alem da anotacao curada/computacional ja existente"
+      ],
+      "limitations": [
+        "respostas grandes exigem paginacao por cursor"
+      ],
+      "implementation": null,
+      "last_verified_at": "2026-09-03",
+      "verification_note": "HTTP 200 ao vivo 03/09; JSON valido com results[] (ex.: P01308, insulina humana) | IQF: legalidade-ok oficialidade-ok(EMBL-EBI/SIB/PIR) latencia-ok estabilidade-ok cobertura-ok custo-0 | descoberto na fase F1 do descobridor-de-fontes",
+      "ready_to_enable": true
+    },
+    {
+      "connector_id": "ensembl_rest",
+      "name": "Ensembl REST API",
+      "base_url": "https://rest.ensembl.org/",
+      "terms_url": "https://www.ensembl.org/info/about/legal/disclaimer.html",
+      "license_id": "Ensembl-sem-restricao",
+      "license_url": "https://www.ensembl.org/info/about/legal/disclaimer.html",
+      "access_basis": "api_terms",
+      "min_interval_seconds": 3.0,
+      "max_bytes": 5242880,
+      "requires_key": false,
+      "enabled": false,
+      "provides": [
+        "dados genomicos (sequencias, genes, variantes)",
+        "comparacao entre especies",
+        "endpoint /info/ping para healthcheck"
+      ],
+      "does_not_provide": [
+        "dados clinicos/individuais associados a variantes",
+        "genoma humano completo em uma unica chamada (usar consulta por regiao)"
+      ],
+      "limitations": [
+        "dados de terceiros incluidos na distribuicao podem ter restricao propria - checar por dataset especifico"
+      ],
+      "implementation": null,
+      "last_verified_at": "2026-09-03",
+      "verification_note": "HTTP 200 ao vivo 03/09; resposta {\"ping\":1} | IQF: legalidade-ok('Ensembl impoe nenhuma restricao de acesso/uso dos dados', confirmado ao vivo) oficialidade-ok(EMBL-EBI) latencia-ok estabilidade-ok cobertura-ok custo-0 | descoberto na fase F1 do descobridor-de-fontes",
+      "ready_to_enable": true
+    },
+    {
+      "connector_id": "who_gho_odata",
+      "name": "WHO Global Health Observatory OData API",
+      "base_url": "https://ghoapi.azureedge.net/api/",
+      "terms_url": "https://www.who.int/about/policies/publishing/copyright",
+      "license_id": "CC-BY-NC-SA-3.0-IGO",
+      "license_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/igo/",
+      "access_basis": "api_terms",
+      "min_interval_seconds": 3.0,
+      "max_bytes": 5242880,
+      "requires_key": false,
+      "enabled": false,
+      "provides": [
+        "indicadores de saude global (formato OData)",
+        "series por pais/ano/indicador",
+        "catalogo completo de indicadores (centenas)"
+      ],
+      "does_not_provide": [
+        "uso comercial sem autorizacao (clausula NC restringe)",
+        "dado individual de paciente"
+      ],
+      "limitations": [
+        "licenca NC-SA impede redistribuicao com fins lucrativos sem permissao - compativel com instituto sem fins lucrativos, mas nunca vender este dado"
+      ],
+      "implementation": null,
+      "last_verified_at": "2026-09-03",
+      "verification_note": "HTTP 200 ao vivo 03/09; OData JSON valido com @odata.context e value[] (centenas de indicadores) | IQF: legalidade-ok(uso nao-comercial permitido) oficialidade-ok(OMS/WHO) latencia-ok estabilidade-ok cobertura-ok custo-0 | descoberto na fase F1 do descobridor-de-fontes",
+      "ready_to_enable": true
+    },
+    {
+      "connector_id": "osf_api",
+      "name": "Open Science Framework (OSF) API v2",
+      "base_url": "https://api.osf.io/v2/",
+      "terms_url": "https://osf.io/terms_of_use/",
+      "license_id": "Mixed-per-item",
+      "license_url": "https://osf.io/terms_of_use/",
+      "access_basis": "api_terms",
+      "min_interval_seconds": 3.0,
+      "max_bytes": 5242880,
+      "requires_key": false,
+      "enabled": false,
+      "provides": [
+        "pre-registros e dados abertos de pesquisa (inclui PsyArXiv)",
+        "metadados de projetos/arquivos com licenca por item",
+        "JSON:API navegavel (nodes, users, collections)"
+      ],
+      "does_not_provide": [
+        "licenca uniforme - cada projeto escolhe a propria, checar antes de reusar",
+        "projetos privados/embargados"
+      ],
+      "limitations": [
+        "rate limit nao numerado no root testado - usar espacamento conservador"
+      ],
+      "implementation": null,
+      "last_verified_at": "2026-09-03",
+      "verification_note": "HTTP 200 ao vivo 03/09; JSON:API root com meta.message='Welcome to the OSF API', version 2.20 | IQF: legalidade-ok oficialidade-ok(Center for Open Science) latencia-ok estabilidade-ok cobertura-ok custo-0 | descoberto na fase F1 do descobridor-de-fontes",
+      "ready_to_enable": true
+    },
+    {
+      "connector_id": "our_world_in_data",
+      "name": "Our World in Data - Grapher CSV/JSON export",
+      "base_url": "https://ourworldindata.org/grapher/",
+      "terms_url": "https://ourworldindata.org/faqs",
+      "license_id": "CC-BY-4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "access_basis": "api_terms",
+      "min_interval_seconds": 3.0,
+      "max_bytes": 5242880,
+      "requires_key": false,
+      "enabled": false,
+      "provides": [
+        "series socioeconomicas curadas (saude, clima, energia, demografia)",
+        "download direto em CSV/JSON por grafico (ex.: /grapher/{slug}.csv)",
+        "metadados de fonte original por indicador"
+      ],
+      "does_not_provide": [
+        "endpoint de busca/paginacao generica - e download por grafico especifico conhecido, nao query livre",
+        "licenca uniforme - dado de terceiro segue a licenca da fonte original (WHO/UN/World Bank etc.)"
+      ],
+      "limitations": [
+        "acesso e por slug de grafico conhecido - nao ha endpoint de listagem publico testado nesta execucao"
+      ],
+      "implementation": null,
+      "last_verified_at": "2026-09-03",
+      "verification_note": "HTTP 200 ao vivo 03/09; CSV valido (colunas Entity,Code,Year,Life expectancy) | IQF: legalidade-ok(dado proprio OWID) oficialidade-ok(Universidade de Oxford/OWID) latencia-ok estabilidade-ok cobertura-ok custo-0 | descoberto na fase F1 do descobridor-de-fontes",
+      "ready_to_enable": true
+    },
+    {
+      "connector_id": "acl_anthology",
+      "name": "ACL Anthology - repositorio de dados (GitHub)",
+      "base_url": "https://raw.githubusercontent.com/acl-org/acl-anthology/master/data/",
+      "terms_url": "https://aclanthology.org/faq/copyright/",
+      "license_id": "Mixed-CC-BY-4.0-e-CC-BY-NC-SA-3.0",
+      "license_url": "https://aclanthology.org/faq/copyright/",
+      "access_basis": "api_terms",
+      "min_interval_seconds": 3.0,
+      "max_bytes": 5242880,
+      "requires_key": false,
+      "enabled": false,
+      "provides": [
+        "corpus bibliografico canonico de NLP/linguistica computacional",
+        "metadados XML por venue/ano (data/xml/) e pessoas (data/json/people.json)",
+        "modulo Python oficial 'acl-anthology' (PyPI) para consumo estruturado"
+      ],
+      "does_not_provide": [
+        "texto completo dos artigos (so metadados/BibTeX)",
+        "uso comercial de materiais anteriores a 2016 (licenca NC-SA)"
+      ],
+      "limitations": [
+        "materiais 2016+ sao CC-BY-4.0 (uso comercial permitido); materiais pre-2016 sao CC-BY-NC-SA-3.0 (nao-comercial) - checar ano antes de qualquer redistribuicao",
+        "acesso e via repositorio git (bulk), nao API REST parametrizavel; arquivo bib.gz completo excedeu 10MB no verificador"
+      ],
+      "implementation": null,
+      "last_verified_at": "2026-09-03",
+      "verification_note": "confirmado ao vivo 03/09: pagina de copyright (CC-BY-4.0 pos-2016 / CC-BY-NC-SA-3.0 pre-2016) e diretorio data/xml no GitHub com arquivos reais (ex.: 1952.earlymt.xml, 8.607 bytes) | IQF: legalidade-ok oficialidade-ok(ACL) latencia-ok estabilidade-ok cobertura-ok custo-0 | descoberto na fase F1 do descobridor-de-fontes",
+      "ready_to_enable": true
+    },
+    {
+      "connector_id": "nist_pqc",
+      "name": "NIST Post-Quantum Cryptography - padroes FIPS 203/204/205",
+      "base_url": "https://csrc.nist.gov/pubs/fips/",
+      "terms_url": "https://www.nist.gov/privacy-policy",
+      "license_id": "US-PublicDomain",
+      "license_url": "https://www.nist.gov/privacy-policy",
+      "access_basis": "api_terms",
+      "min_interval_seconds": 3.0,
+      "max_bytes": 5242880,
+      "requires_key": false,
+      "enabled": false,
+      "provides": [
+        "texto oficial dos padroes pos-quanticos: FIPS 203 (ML-KEM), FIPS 204 (ML-DSA), FIPS 205 (SLH-DSA)",
+        "PDFs oficiais hospedados em nvlpubs.nist.gov",
+        "ponte direta com o tema cyber (criptografia pos-quantica)"
+      ],
+      "does_not_provide": [
+        "implementacao de referencia executavel (e o padrao normativo, nao codigo)",
+        "API JSON estruturada - e entrega de documento/pagina, nao endpoint de dados"
+      ],
+      "limitations": [
+        "nao e uma API REST - e canal de documento oficial (HTTP/doc); leitor precisa parsear PDF/pagina, nao JSON",
+        "padrao de URL por familia: /pubs/fips/{203,204,205}/final - so 203 foi verificado ao vivo nesta execucao"
+      ],
+      "implementation": null,
+      "last_verified_at": "2026-09-03",
+      "verification_note": "HTTP 200 ao vivo 03/09 em csrc.nist.gov/pubs/fips/203/final (titulo 'Module-Lattice-Based Key-Encapsulation Mechanism Standard', data 13/08/2024 confirmados; PDF direto em nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.203.pdf) | IQF: legalidade-ok(obra do governo federal EUA, dominio publico) oficialidade-ok(NIST) latencia-ok estabilidade-ok cobertura-ok(padrao definitivo, nao rascunho) custo-0 | descoberto na fase F1 do descobridor-de-fontes",
+      "ready_to_enable": true
+    },
+    {
+      "connector_id": "nvd_nist",
+      "name": "National Vulnerability Database (NVD) REST API 2.0",
+      "base_url": "https://services.nvd.nist.gov/rest/json/",
+      "terms_url": "https://nvd.nist.gov/developers/start-here",
+      "license_id": "US-PublicDomain",
+      "license_url": "https://www.nist.gov/privacy-policy",
+      "access_basis": "api_terms",
+      "min_interval_seconds": 6.0,
+      "max_bytes": 5242880,
+      "requires_key": false,
+      "enabled": false,
+      "provides": [
+        "CVE + CVSS canonico",
+        "historico completo de vulnerabilidades desde 1999",
+        "busca por palavra-chave/CPE/data de publicacao"
+      ],
+      "does_not_provide": [
+        "exploits/PoC (so metadados de vulnerabilidade)",
+        "vulnerabilidades open-source fora do escopo CVE (ver OSV.dev para isso)"
+      ],
+      "limitations": [
+        "sem chave: 5 requisicoes/30s; com chave gratuita opcional: 50 requisicoes/30s - min_interval_seconds calibrado para o limite sem chave"
+      ],
+      "implementation": null,
+      "last_verified_at": "2026-09-03",
+      "verification_note": "HTTP 200 ao vivo 03/09; JSON valido com totalResults=385.855 e vulnerabilities[] (ex.: CVE-1999-0095) | IQF: legalidade-ok oficialidade-ok(NIST) latencia-ok(limite documentado e respeitavel) estabilidade-ok(v2.0) cobertura-ok custo-0 | descoberto na fase F1 do descobridor-de-fontes",
+      "ready_to_enable": true
+    },
+    {
+      "connector_id": "mitre_attack_stix",
+      "name": "MITRE ATT&CK STIX Data",
+      "base_url": "https://raw.githubusercontent.com/mitre-attack/attack-stix-data/master/",
+      "terms_url": "https://github.com/mitre-attack/attack-stix-data/blob/master/LICENSE.txt",
+      "license_id": "MITRE-ATT&CK-custom",
+      "license_url": "https://github.com/mitre-attack/attack-stix-data/blob/master/LICENSE.txt",
+      "access_basis": "api_terms",
+      "min_interval_seconds": 3.0,
+      "max_bytes": 60000000,
+      "requires_key": false,
+      "enabled": false,
+      "provides": [
+        "taticas/tecnicas/procedimentos de adversario em STIX 2.1 (enterprise/mobile/ics)",
+        "matrizes versionadas por release",
+        "base para deteccao/threat modeling"
+      ],
+      "does_not_provide": [
+        "dados de deteccao em tempo real (e taxonomia, nao feed de IOC ao vivo)",
+        "garantia de completude de todo TTP existente no mundo real"
+      ],
+      "limitations": [
+        "arquivo enterprise-attack.json tem ~53MB (53.835.637 bytes confirmados) - exige download/streaming, max_bytes ajustado acima do default de 5MB",
+        "licenca customizada da MITRE (nao e CC-BY nem Apache-2.0) - exige reproducao do aviso de copyright da MITRE em qualquer copia"
+      ],
+      "implementation": null,
+      "last_verified_at": "2026-09-03",
+      "verification_note": "confirmado ao vivo 03/09 via GitHub Contents API: enterprise-attack.json existe, size=53.835.637 bytes, download_url valido (download direto do JSON de 53MB excedeu o limite de 10MB do verificador, mas a existencia/tamanho foi confirmada pela API de metadados do GitHub) | IQF: legalidade-ok(licenca MITRE p/ pesquisa/dev/uso comercial c/ atribuicao) oficialidade-ok(MITRE Corporation) latencia-ok estabilidade-ok(repo versionado) cobertura-ok custo-0 | descoberto na fase F1 do descobridor-de-fontes",
+      "ready_to_enable": true
+    },
+    {
+      "connector_id": "osv_dev",
+      "name": "OSV.dev - Open Source Vulnerabilities API",
+      "base_url": "https://api.osv.dev/v1/",
+      "terms_url": "https://google.github.io/osv.dev/faq/",
+      "license_id": "Mixed-per-source",
+      "license_url": "https://github.com/google/osv.dev/blob/master/LICENSE",
+      "access_basis": "api_terms",
+      "min_interval_seconds": 3.0,
+      "max_bytes": 5242880,
+      "requires_key": false,
+      "enabled": false,
+      "provides": [
+        "vulnerabilidades de pacotes open-source por ecossistema (PyPI, npm, Go, etc.)",
+        "consulta por pacote+versao (POST /v1/query) ou por ID (GET /v1/vulns/{id})",
+        "formato OSV padronizado entre ecossistemas"
+      ],
+      "does_not_provide": [
+        "CVEs de software proprietario/closed-source fora de ecossistemas open-source",
+        "licenca uniforme - cada registro herda a licenca da base de origem (ex.: GHSA=CC0, outras variam)"
+      ],
+      "limitations": [
+        "endpoint de consulta principal (/v1/query) exige POST com corpo JSON - GET retorna 405 (comportamento correto, confirmado ao vivo)"
+      ],
+      "implementation": null,
+      "last_verified_at": "2026-09-03",
+      "verification_note": "HTTP 200 ao vivo 03/09 em GET /v1/vulns/GHSA-2cc5-23r7-vc4v (retornou dados reais, CVE-2021-29480); GET /v1/query retornou 405 (esperado, endpoint e POST-only, confirma que esta ativo) | IQF: legalidade-ok oficialidade-ok(Google/comunidade open source) latencia-ok estabilidade-ok(v1) cobertura-ok custo-0 | descoberto na fase F1 do descobridor-de-fontes",
+      "ready_to_enable": true
+    },
+    {
+      "connector_id": "abusech_urlhaus",
+      "name": "abuse.ch URLhaus - feed publico de URLs maliciosas",
+      "base_url": "https://urlhaus.abuse.ch/downloads/",
+      "terms_url": "https://urlhaus.abuse.ch/api/",
+      "license_id": "abuse.ch-fair-use-nao-comercial",
+      "license_url": "https://urlhaus.abuse.ch/api/",
+      "access_basis": "api_terms",
+      "min_interval_seconds": 3.0,
+      "max_bytes": 5242880,
+      "requires_key": false,
+      "enabled": false,
+      "provides": [
+        "URLs maliciosas ativas/recentes (feed CSV)",
+        "classificacao de ameaca e tags por URL",
+        "atualizacao continua (feed atualizado no momento da verificacao)"
+      ],
+      "does_not_provide": [
+        "uso comercial/for-profit sem assinatura paga da API comercial abuse.ch",
+        "amostras de malware (isso e o MalwareBazaar, endpoint irmao separado)"
+      ],
+      "limitations": [
+        "a API REST v1 com Auth-Key (urlhaus-api.abuse.ch) retornou 401 sem credencial - registrado aqui o FEED CSV publico (sem chave) como canal verificado; API v1 completa exige Auth-Key gratuita mediante cadastro",
+        "uso comercial/for-profit pode exigir assinatura paga - THE EYE (instituto sem fins lucrativos) se enquadra em fair use, mas o dado nunca deve ser vendido/redistribuido comercialmente"
+      ],
+      "implementation": null,
+      "last_verified_at": "2026-09-03",
+      "verification_note": "HTTP 200 ao vivo 03/09 no feed urlhaus.abuse.ch/downloads/csv_recent/ (cabecalho com timestamp 'Last updated: 2026-09-03 06:12:08 UTC', dado real); tentativa em urlhaus-api.abuse.ch/v1/urls/recent/ deu 401 (exige Auth-Key) - usado o feed, nao a API com chave | IQF: legalidade-ok(fair use nao-comercial) oficialidade-ok(abuse.ch/Bern University of Applied Sciences) latencia-ok estabilidade-ok cobertura-ok custo-0 | descoberto na fase F1 do descobridor-de-fontes",
+      "ready_to_enable": true
+    },
+    {
+      "connector_id": "github_rest",
+      "name": "GitHub REST API v3",
+      "base_url": "https://api.github.com/",
+      "terms_url": "https://docs.github.com/en/site-policy/github-terms/github-terms-of-service",
+      "license_id": "Mixed-per-repo",
+      "license_url": "https://docs.github.com/en/site-policy/github-terms/github-terms-of-service",
+      "access_basis": "api_terms",
+      "min_interval_seconds": 65.0,
+      "max_bytes": 5242880,
+      "requires_key": false,
+      "enabled": false,
+      "provides": [
+        "metadados de repositorios/releases/issues publicos",
+        "sinal de adocao de tecnologia/algoritmo (estrelas, forks, atividade)",
+        "grafo de dependencias publicas"
+      ],
+      "does_not_provide": [
+        "conteudo de repositorios privados sem token",
+        "codigo-fonte completo (endpoint de metadados, nao de conteudo de arquivo)"
+      ],
+      "limitations": [
+        "sem chave: 60 requisicoes/hora (muito restritivo) - com token pessoal gratuito opcional sobe para 5.000/hora; min_interval_seconds calibrado para o limite sem chave",
+        "licenca do CODIGO de cada repo varia (campo license por repo) - verificar antes de qualquer reuso alem do metadado"
+      ],
+      "implementation": null,
+      "last_verified_at": "2026-09-03",
+      "verification_note": "HTTP 200 ao vivo 03/09; JSON valido (torvalds/linux, full_name confirmado, stargazers_count=246.027) | IQF: legalidade-ok oficialidade-ok(GitHub/Microsoft) latencia-restritiva(60 req/h sem chave) estabilidade-ok cobertura-ok custo-0 | descoberto na fase F1 do descobridor-de-fontes",
+      "ready_to_enable": true
+    },
+    {
+      "connector_id": "dsa_transparency_db",
+      "name": "DSA Transparency Database (Comissao Europeia)",
+      "base_url": "https://transparency.dsa.ec.europa.eu/api/v1/",
+      "terms_url": "https://transparency.dsa.ec.europa.eu/page/research-api",
+      "license_id": "EU-reuse-policy-a-confirmar",
+      "license_url": "https://data.europa.eu/en/legal-notice",
+      "access_basis": "api_terms",
+      "min_interval_seconds": 3.0,
+      "max_bytes": 5242880,
+      "requires_key": true,
+      "enabled": false,
+      "provides": [
+        "decisoes de moderacao de conteudo (Statements of Reasons) de grandes plataformas (X, TikTok, Meta etc.) sob o DSA",
+        "Research API para pesquisa academica/politica publica (mediante token)",
+        "pipeline experimental de dumps publicos em Parquet via CloudFront (documentado, sem chave)"
+      ],
+      "does_not_provide": [
+        "acesso sem credencial ao Research API - exige login EU e token aprovado pelo DSA Helpdesk (CNECT-DSA-HELPDESK@ec.europa.eu)",
+        "garantia de disponibilidade do pipeline de dump publico - a propria documentacao oficial marca como 'experimental'"
+      ],
+      "limitations": [
+        "Research API oficial (POST /api/v1/research/search) exige token via EU Login - NAO e keyless, ao contrario do presumido no catalogo de origem",
+        "pipeline de dumps publicos (d3vax7phxnku8l.cloudfront.net) retornou 403 na listagem de diretorio nesta verificacao - nao foi possivel baixar um arquivo especifico para confirmar",
+        "indice de pesquisa do Research API so contem SoRs dos ultimos 6 meses"
+      ],
+      "implementation": null,
+      "last_verified_at": "2026-09-03",
+      "verification_note": "GET no endpoint de pesquisa retornou 405 Method Not Allowed (confirma que esta ativo, mas e POST-only e exige token de pesquisa credenciado); pipeline de dump publico documentado oficialmente (dsa-tdb docs) mas listagem CloudFront deu 403 nesta execucao - LACUNA declarada, nao foi possivel confirmar acesso 100% sem credencial | IQF: legalidade-ressalva(uso academico via token; ToS restringe bulk collection) oficialidade-ok(Comissao Europeia) latencia-desconhecida estabilidade-ressalva(pipeline publico marcado 'experimental' pela propria doc) cobertura-ok(moderacao de grandes plataformas) custo-0 | NAO PRONTO: exige credenciamento EU Login - ato do titular, nao automatizavel nesta fase | descoberto na fase F1 do descobridor-de-fontes",
+      "ready_to_enable": false
+    },
+    {
+      "connector_id": "internet_archive",
+      "name": "Internet Archive - Advanced Search API",
+      "base_url": "https://archive.org/",
+      "terms_url": "https://archive.org/about/terms.php",
+      "license_id": "Mixed-per-item",
+      "license_url": "https://archive.org/about/terms.php",
+      "access_basis": "api_terms",
+      "min_interval_seconds": 3.0,
+      "max_bytes": 5242880,
+      "requires_key": false,
+      "enabled": false,
+      "provides": [
+        "busca avancada no acervo do Internet Archive (advancedsearch.php)",
+        "milhoes de itens em texto/audio/video/software historico",
+        "metadados por item (licenseurl, data, colecao)"
+      ],
+      "does_not_provide": [
+        "licenca uniforme - verificar metadado 'licenseurl' por registro",
+        "confirmacao do endpoint CDX de web.archive.org nesta execucao (falha de rede da propria ferramenta de verificacao, nao necessariamente da API)"
+      ],
+      "limitations": [
+        "endpoint CDX (web.archive.org/cdx/search) nao respondeu via ferramenta de verificacao nesta execucao - usar archive.org/advancedsearch.php como canal confirmado; revalidar CDX/Wayback especificamente antes de implementar leitor de paginas arquivadas"
+      ],
+      "implementation": null,
+      "last_verified_at": "2026-09-03",
+      "verification_note": "HTTP 200 ao vivo 03/09 em archive.org/advancedsearch.php?q=test&rows=1&output=json; JSON valido com response.numFound=976.103 | IQF: legalidade-ok oficialidade-ok(Internet Archive, ONG 501c3) latencia-ok estabilidade-ok cobertura-ok custo-0 | descoberto na fase F1 do descobridor-de-fontes",
+      "ready_to_enable": true
+    },
+    {
+      "connector_id": "data_europa_eu",
+      "name": "data.europa.eu - Search API (catalogo mestre UE)",
+      "base_url": "https://data.europa.eu/api/hub/search/",
+      "terms_url": "https://data.europa.eu/en/legal-notice",
+      "license_id": "CC0-1.0-metadados-Mixed-per-dataset-conteudo",
+      "license_url": "https://data.europa.eu/en/legal-notice",
+      "access_basis": "api_terms",
+      "min_interval_seconds": 3.0,
+      "max_bytes": 5242880,
+      "requires_key": false,
+      "enabled": false,
+      "provides": [
+        "catalogo mestre de dados abertos da UE (72k+ datasets)",
+        "busca federada entre portais nacionais europeus",
+        "metadados DCAT-AP padronizados"
+      ],
+      "does_not_provide": [
+        "os dados brutos em si - e catalogo/registro que redireciona ao portal de origem",
+        "licenca uniforme de conteudo - cada dataset tem a sua (metadado do catalogo e CC0-1.0)"
+      ],
+      "limitations": [
+        "volume grande (72k+ datasets) - usar filtros de busca para reduzir ruido"
+      ],
+      "implementation": null,
+      "last_verified_at": "2026-09-03",
+      "verification_note": "HTTP 200 ao vivo 03/09; JSON valido com result.count=72.594 para query 'water' | IQF: legalidade-ok oficialidade-ok(Comissao Europeia) latencia-ok estabilidade-ok cobertura-ok custo-0 | descoberto na fase F1 do descobridor-de-fontes",
+      "ready_to_enable": true
+    },
+    {
+      "connector_id": "eurostat_dissemination",
+      "name": "Eurostat - Dissemination API (SDMX-JSON)",
+      "base_url": "https://ec.europa.eu/eurostat/api/dissemination/",
+      "terms_url": "https://ec.europa.eu/eurostat/web/main/help/copyright-notice",
+      "license_id": "CC-BY-4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "access_basis": "api_terms",
+      "min_interval_seconds": 3.0,
+      "max_bytes": 5242880,
+      "requires_key": false,
+      "enabled": false,
+      "provides": [
+        "estatistica oficial harmonizada da UE (formato SDMX-JSON)",
+        "series demograficas, economicas e sociais por pais/regiao",
+        "filtragem por dimensao (geo/time/etc.) na propria URL"
+      ],
+      "does_not_provide": [
+        "dados de alta frequencia (maioria anual/trimestral)",
+        "resposta compacta sem filtro - dataset completo pode exceder limites de tamanho"
+      ],
+      "limitations": [
+        "consultas amplas sem filtro de geo/time geram respostas muito grandes (ex.: demo_pjan sem filtro excedeu 10MB no verificador) - sempre filtrar por dimensao"
+      ],
+      "implementation": null,
+      "last_verified_at": "2026-09-03",
+      "verification_note": "HTTP 200 ao vivo 03/09 com filtro (demo_pjan, geo=DE, time=2023): JSON SDMX valido, populacao=83.118.501 | IQF: legalidade-ok oficialidade-ok(Eurostat/Comissao Europeia) latencia-ok estabilidade-ok cobertura-ok custo-0 | descoberto na fase F1 do descobridor-de-fontes",
+      "ready_to_enable": true
+    },
+    {
+      "connector_id": "un_sdg_api",
+      "name": "UN SDG API (UN Statistics Division) - substituto verificado de 'UN Data'",
+      "base_url": "https://unstats.un.org/SDGAPI/v1/sdg/",
+      "terms_url": "https://unstats.un.org/sdgs/indicators/database/",
+      "license_id": "UN-terms-nao-confirmado",
+      "license_url": "https://unstats.un.org/sdgs/indicators/database/",
+      "access_basis": "api_terms",
+      "min_interval_seconds": 3.0,
+      "max_bytes": 5242880,
+      "requires_key": false,
+      "enabled": false,
+      "provides": [
+        "indicadores oficiais dos Objetivos de Desenvolvimento Sustentavel (ODS/SDG) da ONU",
+        "series por pais/meta/indicador",
+        "canal ativo e documentado que substitui o legado data.un.org"
+      ],
+      "does_not_provide": [
+        "confirmacao da licenca exata de reuso - LACUNA declarada, nao encontrada ao vivo nesta execucao",
+        "cobertura de indicadores fora do arcabouco SDG"
+      ],
+      "limitations": [
+        "data.un.org (o portal originalmente listado como 'UN Data' no catalogo de origem) nao apresentou endpoint de API moderno/documentado nesta verificacao - a pagina so lista links de navegacao para 'API'/'Web Service' sem conteudo tecnico direto",
+        "SDG API da UNSD (unstats.un.org/SDGAPI) foi confirmado como o canal oficial ativo e mais proximo, mas licenca de reuso pendente de confirmacao formal antes de qualquer redistribuicao"
+      ],
+      "implementation": null,
+      "last_verified_at": "2026-09-03",
+      "verification_note": "HTTP 200 ao vivo 03/09 em SDGAPI/v1/sdg/Goal/List; JSON valido com os 17 SDGs (code/title/description) | IQF: legalidade-ressalva(licenca exata nao confirmada) oficialidade-ok(UN Statistics Division) latencia-ok estabilidade-ok cobertura-ok(ODS globais) custo-0 | data.un.org legado nao teve API moderna confirmada nesta execucao - substituido pelo SDGAPI, que e o canal realmente ativo | descoberto na fase F1 do descobridor-de-fontes",
+      "ready_to_enable": true
+    },
+    {
+      "connector_id": "pennylane_datasets",
+      "name": "PennyLane Quantum Datasets (Xanadu)",
+      "base_url": "https://cloud.pennylane.ai/graphql",
+      "terms_url": "https://pennylane.ai/datasets/",
+      "license_id": "Xanadu-PennyLane-terms-a-confirmar",
+      "license_url": "https://pennylane.ai/datasets/",
+      "access_basis": "api_terms",
+      "min_interval_seconds": 3.0,
+      "max_bytes": 5242880,
+      "requires_key": false,
+      "enabled": false,
+      "provides": [
+        "datasets quanticos abertos (moleculas, circuitos, spin systems)",
+        "acesso oficial via SDK Python 'qml.data.load()' que fala com este endpoint GraphQL"
+      ],
+      "does_not_provide": [
+        "confirmacao de consulta de dado real nesta execucao - GET simples so retornou a pagina HTML do Apollo Sandbox, nao um payload de dataset",
+        "endpoint REST simples - e GraphQL, exige corpo de consulta estruturado via POST, nao testado com payload real"
+      ],
+      "limitations": [
+        "pagina pennylane.ai/datasets/ e uma SPA (conteudo renderizado em JS) - nao foi possivel extrair texto/licenca via fetch simples",
+        "endpoint GraphQL confirmado ATIVO (Apollo Router respondeu) mas uma consulta real de dado (POST com query GraphQL) nao foi executada nesta verificacao - fica pendente para proxima rodada"
+      ],
+      "implementation": null,
+      "last_verified_at": "2026-09-03",
+      "verification_note": "GET em cloud.pennylane.ai/graphql confirmou Apollo Router ativo (retornou HTML 'Welcome to the Apollo Router' / Apollo Sandbox); NAO foi possivel confirmar retorno de dado real via POST GraphQL nesta execucao - LACUNA declarada | IQF: legalidade-desconhecida oficialidade-ok(Xanadu) latencia-desconhecida estabilidade-desconhecida cobertura-desconhecida custo-0 | NAO PRONTO: verificacao incompleta (endpoint vivo, payload de dado nao confirmado) | descoberto na fase F1 do descobridor-de-fontes",
+      "ready_to_enable": false
+    }
+  ]
+}

@@ -1,0 +1,5 @@
+{"round": 1, "fase": "F0", "M3_qar": 1.0, "M6_brier_mediana": 0.0006, "conectores": 0, "pdf_sha256": "28e84e59841405aaae57609782108663f14b5f3b806871add19368879d970717"}
+{"round": 2, "fase": "F0", "M2_rmse": 0.144, "M2_brier_pareado": "BLOCKED", "conectores": 0}
+{"round": 3, "fase": "F2->F3", "grafo_nos": 798, "grafo_arestas": 1985, "cruzamentos": 33, "mercados": 415, "custo": 0}
+{"round": 4, "fase": "F3", "desfechos_casados": 0, "minimo": 30, "mercados_vivos": 22, "abertos": 19, "gate": "NAO alcancavel sem >=8 mercados novos"}
+{"round": 5, "fase": "F3", "correcao": "415 mercados/411 abertos; 188 vencem 2026-09; gate F3 ETA 2026-09"}

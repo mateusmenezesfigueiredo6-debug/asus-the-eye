@@ -66,6 +66,7 @@ AREAS_COM_RESOLVEDOR = frozenset(
         "cyber",
         "commodities-fao",
         "clima-ear",
+        "biotec-trials",
     }
 )
 
@@ -185,6 +186,23 @@ def _observado(claim_id: str, area: str, transport=None) -> float | None:
         if len(partes) != 5 or partes[:3] != ["commodities", "fao", "ffpi"]:
             raise ResolucaoError(f"claim_id fora do padrão esperado: {base!r}")
         return indice_no_mes(f"{partes[3]}-{partes[4]}", transport=transport)
+
+    if area == "biotec-trials":
+        from asus_theye.markets.fonte_clinicaltrials import contagem_estudos_no_mes
+
+        # biotec-trials-br-2026-09 → país no meio, competência no fim. O
+        # desenho manda o deadline dar folga (StartDate antecipável, registro
+        # atrasado): o resolvedor lê a fonte NA DATA em que roda, como o
+        # critério do contrato declara.
+        partes = base.split("-")
+        if len(partes) != 5 or partes[:2] != ["biotec", "trials"]:
+            raise ResolucaoError(f"claim_id fora do padrão esperado: {base!r}")
+        pais = {"br": "Brazil"}.get(partes[2])
+        if pais is None:
+            raise ResolucaoError(f"país {partes[2]!r} sem mapeamento em {base!r}")
+        return float(
+            contagem_estudos_no_mes(f"{partes[3]}-{partes[4]}", pais=pais, transport=transport)
+        )
 
     if area == "clima-ear":
         from calendar import monthrange

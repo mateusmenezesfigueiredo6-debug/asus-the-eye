@@ -1,0 +1,49 @@
+{
+  "benchmark": "JRRanger",
+  "gerado_em": "2026-09-03",
+  "agentes": {
+    "keep": [
+      "descobridor-de-fontes", "curador-instituto", "curador-previsao", "curador-comportamental",
+      "curador-eventos-mercado", "curador-jornais-pln", "curador-proveniencia-bigtech", "fontes-liquidacao",
+      "tutor-quantum", "tutor-cyber", "tutor-ia", "tutor-ml", "tutor-llm", "tutor-preditivos",
+      "tutor-biotec-saude", "tutor-algoritmos",
+      "o-conselho", "maestro-da-bancada", "engenheiro-reverso-web",
+      "auditor-integridade", "auditor-de-sabotagem", "selo-ok-mago", "custodio-do-consentimento",
+      "resposta-a-vazamento", "auditor-vazamento-html",
+      "arquiteto-do-plano", "arquiteto-fullstack-horus", "gestor-do-preview", "estrategista-noturno",
+      "guardiao-da-assertividade", "resiliencia-fontes", "roteador-economico", "continuador-do-plano"
+    ],
+    "discard_do_loop": {
+      "juridico-cannabis": "produto vertical", "juridico-spa-apostas": "produto vertical",
+      "juridico-cvm-valores": "produto vertical", "juridico-jurisprudencia": "produto vertical",
+      "juridico-internacional": "produto vertical", "agente-regulatorio-br-ar": "produto vertical",
+      "conformidade-pld-lgpd": "LGPD ja embutida em audit/redacao.py",
+      "modelo-negocio-licenca": "comercial/venda - fere doutrina instituto",
+      "produto-mercados": "comercial", "tesouraria-custodia": "comercial",
+      "cliente-brasileiro": "comercial", "canais-oficiais-midia": "comercial",
+      "espelho-chaox": "mirroring comercial",
+      "medico-do-ambiente": "utilitario de build", "tutor-programacao": "utilitario",
+      "resolvedor-de-pendencias": "utilitario"
+    }
+  },
+  "skills": {
+    "keep": ["duckdb-skills", "anthropic-skills:pdf", "dataviz", "sequential-thinking",
+             "superpowers:writing-plans", "superpowers:dispatching-parallel-agents", "poupar-cota", "scheduled-tasks"],
+    "discard": ["figma:*", "frontend-design", "code-modernization:*", "mcp-server-dev:*", "plugin-dev:*",
+                "cloudflare:build-* (so F4)", "pptx/docx/xlsx (salvo deliverable especifico)"]
+  },
+  "conectores_mcp": {
+    "keep_gratis": ["roteador (ask_local/gemini/gpt/openrouter)+Ollama", "memory", "duckdb", "sequential-thinking",
+                    "context7/fetch (so docs)", "git", "scheduled-tasks", "huggingface (dados/modelos abertos como entrada)"],
+    "keep_condicional_F4": ["cloudflare R2/D1/KV (so com aprovacao titular)", "supabase (nao como store primario)"],
+    "discard": {
+      "twelvedata": "vendor pago = alugar API (proibido)",
+      "bigdata.com": "vendor pago", "zacks": "vendor pago", "crypto.com": "vendor pago",
+      "stripe": "instituto nao transaciona",
+      "base44": "SaaS de saida - risco egress", "lovable": "SaaS de saida", "vercel": "SaaS de saida",
+      "zapier": "SaaS de saida", "swagger/portal": "SaaS de saida", "htmlcsstoimage": "SaaS de saida",
+      "unstructured-cloud": "SaaS de saida - parsing deve rodar local",
+      "playwright/chrome": "so para eng-reverso ENTENDER pagina publica; nunca scraping contra ToS"
+    }
+  }
+}

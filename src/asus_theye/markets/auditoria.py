@@ -50,7 +50,7 @@ from typing import Any
 from asus_theye.audit.schema import hash_json, verify_chain
 from asus_theye.audit.sdk import AuditSDK, SQLiteAuditStore, redact
 
-TENANT_PADRAO = "tenant-demo"
+TENANT_PADRAO = "titular-mateus-menezes-figueiredo"
 DB_PADRAO = Path("reports/audit/markets-ledger.db")
 CHAVE_PADRAO = Path("reports/audit/pseudonimos.key")
 EVENTOS_PADRAO = Path("reports/markets/eventos.jsonl")

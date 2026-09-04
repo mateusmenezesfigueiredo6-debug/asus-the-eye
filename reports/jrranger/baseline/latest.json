@@ -1,0 +1,143 @@
+{
+  "benchmark": "JRRanger",
+  "titular": "Mateus Menezes Figueiredo",
+  "data_base": "2026-09-03",
+  "fase": "F3 em curso (0/30 desfechos hoje; 411 mercados abertos; gate ETA 2026-09)",
+  "doutrina": "OBSERVAR->ENTENDER->REPRODUZIR MELHOR; grátis; sem API paga; selado; instituto sem fins lucrativos",
+  "conectores_ligados": 0,
+  "conectores_total": 38,
+  "conectores_prontos": 21,
+  "modulos": {
+    "M1_cyber_ameaca": {
+      "metrica": "coverage + lead-time(dias)",
+      "status": "coletado_F1_seq95_metrica_por_modulo_pendente",
+      "dono": "curador-instituto+tutor-cyber",
+      "fontes": [
+        "cisa-kev",
+        "gdelt_doc"
+      ]
+    },
+    "M2_preditivo": {
+      "metrica": "erro pontual (RMSE/MAE); Brier so quando probabilidade!=UNKNOWN",
+      "status": "medido",
+      "dono": "curador-previsao+tutor-preditivos",
+      "fontes": [
+        "bcb-sgs(433,7478,189,1)",
+        "igp_m",
+        "ipca_15"
+      ],
+      "valores": {
+        "spec": "R2",
+        "n_folds": 42,
+        "rmse": 0.144,
+        "mae": 0.1095,
+        "skill_vs_naive_media": 0.484,
+        "brier_ridge": 0.057542,
+        "brier_focus": 0.222222,
+        "comparacao_pareada": "BLOCKED",
+        "motivo_bloqueio": "sem vintage Focus reproduzivel no mesmo corte; probabilidade=UNKNOWN em 24/42 folds",
+        "challenger_peso": 0,
+        "periodo": "2025-02..2026-07 (18 meses)"
+      },
+      "evidencia": "reports/mlops/artefatos/nowcast-ipca-r2-*.json (metricas de topo)"
+    },
+    "M3_quantico": {
+      "metrica": "QAR / quality_gap / stability",
+      "status": "medido",
+      "dono": "curador-instituto+tutor-quantum",
+      "valores": {
+        "qar": 1.0,
+        "qar_interpretacao": "empate; nao constitui prova cientifica",
+        "quality_gap": 0.0,
+        "stability_sigma": 0.0,
+        "stability_runs": 5,
+        "qaoa_fidelity": 0.04315542586379005,
+        "seed": 42,
+        "hardware_execution": false
+      },
+      "evidencia": "reports/benchmark/latest.json (2026-08-28)"
+    },
+    "M4_llm_linguagem": {
+      "metrica": "F1 extracao + taxa recusa/alucinacao",
+      "status": "coletado_F1_seq95_metrica_por_modulo_pendente",
+      "dono": "curador-jornais-pln+tutor-llm",
+      "fontes": [
+        "gdelt_doc",
+        "arxiv",
+        "crossref",
+        "wikimedia"
+      ]
+    },
+    "M5_biotec_saude": {
+      "metrica": "coverage + frescor",
+      "status": "coletado_F1_seq95_metrica_por_modulo_pendente",
+      "dono": "curador-instituto+tutor-biotec-saude",
+      "fontes": [
+        "clinicaltrials",
+        "ncbi-eutils",
+        "opendatasus",
+        "zenodo"
+      ]
+    },
+    "M6_econ_mercado": {
+      "metrica": "Brier + calibracao",
+      "status": "medido",
+      "dono": "curador-eventos-mercado+tutor-ml",
+      "valores": {
+        "brier_contrato_vivo": 0.25,
+        "retrospectivo_n": 40,
+        "retrospectivo_media": 0.0033,
+        "retrospectivo_mediana": 0.0006,
+        "retrospectivo_min": 1.56e-05,
+        "retrospectivo_max": 0.022,
+        "retrospectivo_acima_de_1": 0
+      },
+      "correcao": "valores 'grandes' anteriores (ate 8.6) eram artefato de grep sobre notacao cientifica (ex.: 8.648e-05); parser JSON confirma todos <=0.022 (bem calibrado)",
+      "evidencia": "reports/markets/registro.json ; reports/markets/legado_retrospectivo.jsonl (40 contratos legado, top-level brier_do_contrato)"
+    },
+    "M7_comportamental": {
+      "metrica": "delta_Brier (ablation com vs sem features comportamentais em M2/M6)",
+      "status": "coletado_F1_seq95_metrica_por_modulo_pendente",
+      "dono": "curador-comportamental+tutor-ml",
+      "fontes": [
+        "wikimedia-pageviews",
+        "gdelt-tom",
+        "proxies-abertos"
+      ],
+      "nota": "lacuna nomeada pelo titular; medida so por ablation"
+    }
+  },
+  "gate_F0": {
+    "exige": [
+      ">=1 Brier por modulo ativo",
+      "verify_ledger() limpo em 100% dos elos novos",
+      "0 conectores enabled:true"
+    ],
+    "verificacao": "asus-theye audit-verify"
+  },
+  "regras_permanentes": [
+    "soma_probabilidades=1.0 sem overround",
+    "nunca banir/reduzir categoria eleitoral",
+    "challenger peso 0 ate portao calendario+aprovacao titular",
+    "nenhuma auto-promocao",
+    "nenhum agente novo sem ordem escrita (bloqueio reforcado ate 2026-09-04)"
+  ],
+  "f2_grafo": {
+    "nos": 798,
+    "arestas": 1985,
+    "templates": 31,
+    "cruzamentos": 33,
+    "mercados": 415,
+    "evidencia": "corrente seq 108"
+  },
+  "f3_calibracao": {
+    "n_desfechos_hoje": 0,
+    "minimo": 30,
+    "mercados_total": 415,
+    "abertos": 411,
+    "vencem_2026_09": 188,
+    "eta_gate": "2026-09",
+    "liquidacao": "timer systemd theye-rodada 07:40 + retentativa 11:00",
+    "correcao": "rodada4 dizia 22 (lote), corrigido na rodada5"
+  }
+}

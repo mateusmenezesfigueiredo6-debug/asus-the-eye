@@ -1,5 +1,5 @@
 {
-  "gerado_em": "2026-09-01",
+  "gerado_em": "2026-09-02",
   "componentes": [
     {
       "nome": "tempo de TV (HGPE, art. 47 §2º Lei 9.504/1997)",
@@ -9,8 +9,11 @@
     }
   ],
   "atencao_excluida_por": [
-    "Renan Santos: artigo 'Renan Santos (ativista)' não confiável (não existe)",
-    "Edmilson Costa: artigo 'Edmilson Costa (economista)' não confiável (não existe)",
+    "Romeu Zema: Wikimedia limitou a taxa (HTTP 429) — reduza a frequência",
+    "Pablo Marçal: Wikimedia limitou a taxa (HTTP 429) — reduza a frequência",
+    "Renan Santos: Wikimedia limitou a taxa (HTTP 429) — reduza a frequência",
+    "Augusto Cury: Wikimedia limitou a taxa (HTTP 429) — reduza a frequência",
+    "Edmilson Costa: Wikimedia limitou a taxa (HTTP 429) — reduza a frequência",
     "Hertz Dias: Wikimedia limitou a taxa (HTTP 429) — reduza a frequência",
     "Samara Martins: Wikimedia limitou a taxa (HTTP 429) — reduza a frequência",
     "Rui Costa Pimenta: Wikimedia limitou a taxa (HTTP 429) — reduza a frequência"
@@ -49,6 +52,6 @@
     "família única de evidência — o backtest de 2022 mostrou que atenção sozinha erra por não enxergar estrutura partidária"
   ],
   "tse": {
-    "ciclo_publicado": "ele2024"
+    "indisponivel": "TSE inalcançável: inalcançável: https://resultados.tse.jus.br/oficial/comum/config/ele-c.json (<urlopen error [Errno 104] Connection reset by peer>)"
   }
 }

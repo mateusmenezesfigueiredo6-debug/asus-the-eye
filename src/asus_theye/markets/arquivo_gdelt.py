@@ -44,7 +44,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
-from asus_theye.markets.fonte_gdelt import CoberturaNoticiosa
+from asus_theye.markets.fonte_gdelt import CoberturaDia, CoberturaNoticiosa
 from asus_theye.net.http import HttpError, Transport, get_bytes
 
 BASE_PADRAO = Path("reports/markets")
@@ -155,6 +155,33 @@ def arquivar_cobertura(
     # usar o dado que está em questão. Só isto acorda alguém.
     alarme = termos.get("termos_conferidos") is True and termos.get("concessao_presente") is False
 
+    nome = f"gdelt-{observacao.pais_fips}-{observacao.arquivo.split('.')[0]}.json"
+    vigente, duplicado, selagem = _gravar_registro(
+        conteudo, base=base, nome_do_recorte=nome, correlation_prefixo="cobertura", sdk=sdk, eventos=eventos
+    )
+
+    return {
+        "registro": vigente,
+        "duplicate": duplicado,
+        "selagem": selagem,
+        "alarme_de_termos": alarme,
+    }
+
+
+def _gravar_registro(
+    conteudo: dict[str, Any],
+    *,
+    base: Path,
+    nome_do_recorte: str,
+    correlation_prefixo: str,
+    sdk: Any,
+    eventos: Path | None,
+) -> tuple[dict[str, Any], bool, Any]:
+    """Dedup, selagem e escrita sob trava — comum à janela única e ao dia.
+
+    Devolve ``(vigente, duplicado, selagem)``. Só grava quando a identidade
+    ainda não existe no índice; registro existente nunca é reescrito.
+    """
     with _trava(base):
         indice = base / INDICE
         existente = next((li for li in _linhas(indice) if li.get("cobertura_id") == conteudo["cobertura_id"]), None)
@@ -169,7 +196,7 @@ def arquivar_cobertura(
                 vigente,
                 tipo_evento="market.news_coverage",
                 recurso="cobertura",
-                correlation_id=f"cobertura:{vigente['cobertura_id'][:32]}",
+                correlation_id=f"{correlation_prefixo}:{vigente['cobertura_id'][:32]}",
                 occurred_at=str(vigente.get("observado_em") or ""),
                 eventos=eventos or EVENTOS_PADRAO,
             )
@@ -177,14 +204,62 @@ def arquivar_cobertura(
         if existente is None:
             pasta = base / PASTA_COBERTURA
             pasta.mkdir(parents=True, exist_ok=True)
-            nome = f"gdelt-{observacao.pais_fips}-{observacao.arquivo.split('.')[0]}.json"
-            (pasta / nome).write_text(json.dumps(conteudo, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+            (pasta / nome_do_recorte).write_text(
+                json.dumps(conteudo, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
+            )
             with indice.open("a", encoding="utf-8") as stream:
                 stream.write(json.dumps(conteudo, ensure_ascii=False) + "\n")
 
+    return vigente, existente is not None, selagem
+
+
+def arquivar_cobertura_do_dia(
+    observacao: CoberturaDia,
+    *,
+    base: Path = BASE_PADRAO,
+    transport: Transport | None = None,
+    sdk: Any = None,
+    eventos: Path | None = None,
+) -> dict[str, Any]:
+    """Arquiva o agregado DIÁRIO da cobertura — o conserto de 2026-09-02.
+
+    Identidade = ``(dia, país, regime "dia-utc")``: o mesmo dia UTC para o
+    mesmo país arquivado duas vezes **deduplica**. Não há MD5 aqui porque não
+    há UM arquivo: o registro é a soma de até 96 janelas, e é o ``metodo``
+    que declara de quantas.
+
+    **Imutabilidade — e como os regimes convivem no mesmo índice.** As linhas
+    antigas de janela única (uma por arquivo de 15 minutos) **não** são
+    reescritas nem apagadas: histórico não se remenda. Elas ficam rotuladas
+    pelo que já carregam — o ``metodo`` de janela única e a AUSÊNCIA do
+    ``metodo`` novo ("agregado de N janelas de 15min do dia UTC...") e do
+    campo ``dia``. Quem lê o índice separa os regimes por esses campos; nada
+    é migrado retroativamente.
+
+    Devolve também ``alarme_de_termos`` — mesma regra da janela única: quem
+    chama **precisa** propagar.
+    """
+    termos = estado_dos_termos(transport=transport)
+
+    conteudo: dict[str, Any] = dict(observacao.as_dict())
+    conteudo.update(termos)
+    identidade = json.dumps(
+        {"dia": observacao.dia, "pais": observacao.pais_fips, "regime": "dia-utc"},
+        sort_keys=True,
+        separators=(",", ":"),
+    ).encode("utf-8")
+    conteudo["cobertura_id"] = hashlib.sha256(identidade).hexdigest()
+
+    alarme = termos.get("termos_conferidos") is True and termos.get("concessao_presente") is False
+
+    nome = f"gdelt-dia-{observacao.pais_fips}-{observacao.dia}.json"
+    vigente, duplicado, selagem = _gravar_registro(
+        conteudo, base=base, nome_do_recorte=nome, correlation_prefixo="cobertura-dia", sdk=sdk, eventos=eventos
+    )
+
     return {
         "registro": vigente,
-        "duplicate": existente is not None,
+        "duplicate": duplicado,
         "selagem": selagem,
         "alarme_de_termos": alarme,
     }

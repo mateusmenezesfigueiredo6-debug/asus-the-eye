@@ -230,6 +230,34 @@ def test_clima_ear_subsistema_desconhecido_levanta(tmp_path: Path) -> None:
         liquidar_vencidos(b, hoje=date(2026, 10, 1), transport=TransporteCarga())
 
 
+def test_biotec_trials_liquida_pela_contagem_de_estudos(tmp_path: Path) -> None:
+    """1º mercado do setor biotec: contagem de estudos com centro no Brasil.
+
+    NOTA a seco (02/09, sem shell): escrito contra o contrato de
+    fonte_clinicaltrials (totalCount do JSON) e desk-checado; primeira
+    execução real deve confirmar.
+    """
+
+    class TransporteCT:
+        def request(self, url, *, headers, timeout, max_bytes):  # type: ignore[no-untyped-def]
+            from asus_theye.net.http import HttpResponse
+
+            corpo = b'{"totalCount": 46, "studies": []}'
+            return HttpResponse(url=url, status=200, headers={}, body=corpo)
+
+    b = banco_com(tmp_path, ("biotec-trials-br-2026-09", "biotec-trials", 42.0, "2026-10-25", "ABERTO", 0.67))
+    liq, pend = liquidar_vencidos(b, hoje=date(2026, 10, 26), transport=TransporteCT())
+    assert not pend and len(liq) == 1
+    assert liq[0].valor_observado == 46.0
+    assert liq[0].outcome == 1  # 46 é MAIOR que 42
+
+
+def test_biotec_trials_pais_sem_mapeamento_levanta(tmp_path: Path) -> None:
+    b = banco_com(tmp_path, ("biotec-trials-xx-2026-09", "biotec-trials", 42.0, "2026-10-25", "ABERTO", 0.5))
+    with pytest.raises(ResolucaoError, match="sem mapeamento"):
+        liquidar_vencidos(b, hoje=date(2026, 10, 26), transport=TransporteCarga())
+
+
 def test_AreaSemResolvedor_e_subclasse_de_ResolucaoError(tmp_path: Path) -> None:
     # Quem quiser tratar tudo junto consegue; quem quiser distinguir também.
     assert issubclass(AreaSemResolvedor, ResolucaoError)
