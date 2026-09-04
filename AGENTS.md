@@ -65,6 +65,18 @@ does exactly that, and it is wrong. Fixing it is open work.
 
 <!-- END MISSION -->
 
+<!-- BEGIN CONVERSA 1/7 — plano das 7 conversas, 2026-09-04 -->
+## CONVERSA 1 de 7 · THE EYE OF GOD · motor e instituto
+Esta pasta é a âncora da conversa "THE EYE OF GOD · motor e instituto" no app. Abra a conversa a partir desta pasta, nunca de `~/Downloads`. Cada conversa = uma pasta = um CLAUDE.md = um grupo na barra lateral.
+**Vive aqui:** motor, super-cérebro, atlas de algoritmos e fontes, JRRanger, curadores/tutores/estudantes, quantum (IBM), corrente hash + âncora on-chain + custódia, Ledger e Central (vitrines de verificação), estatuto e objeto social do instituto, captação (doações, editais, FINEP).
+**Não vive aqui:** mercado com preço (→2), tela de cliente (→2/3), eleitoral (→4).
+**Agentes convocados:** maestro-da-bancada, arquiteto-do-plano, descobridor-de-fontes, curador-instituto, auditor-integridade, resiliencia-fontes, canais-oficiais-midia, estudante-*/tutor-* por tema, custodio-do-consentimento, selo-ok-mago, o-conselho (raro). O resto da bancada existe, mas não é chamado nesta conversa.
+**Kit (skills · comandos · plugins · conectores):** poupar-cota · superpowers (TDD, verificação, worktrees) · pdf · xlsx · dataviz · /commit /code-review /security-review /loop /schedule /revise-claude-md · pyright-lsp, hookify, remember · git, roteador, fetch, memory, Formal Logic, Hugging Face Hub, Context7, Cloudflare (D1/R2).
+**As outras seis:** 1 motor `~/pegasus/asus_the_eye` · 2 Heru `~/projetos/painel-mercados` · 3 Rá `~/projetos/olhodera` (+`olhodeodin`) · 4 Portal Cívico `~/pegasus/asus-eleicoes-2026` · 5 Negócios `~/projetos/negocios` · 6 Gota Verde `~/Projetos/cannabis-consolidado` · 7 Casa `~`.
+**Regras comuns às 7:** aviso em texto antes de qualquer ação · nunca ceder direito (eleitoral em especial) · selar cada resposta em nome do titular + fingerprint · nenhum agente novo sem ordem escrita, por agente · zero-custo (fonte oficial grátis, conector nasce desligado) · público só demo/verificador · número medido, nunca inventado; prior nunca 0,50; soma 1,0 · delegar bruto ao Ollama/Copilot/Codex via staging · entrega em CLAUDE.md do repo + `.txt` na raiz da Área de trabalho.
+Plano completo e mapa das sessões antigas: `~/.claude/plans/1-preciso-organizar-esse-cheeky-reddy.md`.
+<!-- END CONVERSA 1/7 -->
+
 ## The three agents — one brain, one board, one router
 
 Unified 10/08/2026 by the owner's order: "quero tudo junto, sem perder nada".
