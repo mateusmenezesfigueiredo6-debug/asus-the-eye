@@ -220,3 +220,84 @@ def test_csv_em_latin1_nao_quebra() -> None:
     corpo = "\n".join([CABECALHO, posto("AL", "GASOLINA", "6,69")]).encode("latin-1")
     r = preco_mediano("2026-07", "AL", "GASOLINA", transport=TransporteFalso(csv_body=corpo))
     assert r is not None and r.mediana == pytest.approx(6.69)
+
+
+# ---------------------------------------------------------------------------
+# Recorte MUNICIPAL (04/09/2026) — o risco novo é de reidentificação: a mediana
+# de um município com dois postos É o preço de um posto que a cidade inteira
+# sabe de quem é. O piso de k-anonimato existe para isso, e estes testes
+# provam que ele morde.
+# ---------------------------------------------------------------------------
+
+def posto_em(uf: str, municipio: str, valor: str, produto: str = "GASOLINA") -> str:
+    return (
+        f"NE;{uf};{municipio};CDA EMPREENDIMENTOS LTDA; 12.486.809/0004-05;RODOVIA BR 104;SN;;"
+        f"MATA DO ROLO;57100-000;{produto};01/07/2026;{valor};;R$ / litro;VIBRA"
+    )
+
+
+#: Cidade grande (5 postos) e vilarejo (2 postos) no mesmo CSV.
+CSV_MUNICIPIOS = "\n".join(
+    [CABECALHO]
+    + [posto_em("AL", "MACEIO", v) for v in ("6,50", "6,60", "6,70", "6,80", "6,90")]
+    + [posto_em("AL", "VILAREJO", v) for v in ("9,99", "10,50")]
+).encode("utf-8")
+
+
+def test_municipio_devolve_mediana_quando_ha_coletas_bastantes() -> None:
+    from asus_theye.markets.fonte_anp import PrecoMedianoMunicipio, preco_mediano_municipio
+
+    r = preco_mediano_municipio(
+        "2026-07", "AL", "Maceió", "GASOLINA",
+        minimo_coletas=5, transport=TransporteFalso(csv_body=CSV_MUNICIPIOS),
+    )
+    assert isinstance(r, PrecoMedianoMunicipio)
+    assert r.mediana == pytest.approx(6.70)  # mediana de 5 valores
+    assert r.coletas == 5
+    assert r.municipio == "MACEIO"  # normalizado: o acento do pedido não vaza
+
+
+def test_municipio_abaixo_do_piso_nao_publica_o_preco_do_posto() -> None:
+    """O vilarejo tem 2 postos: devolver a mediana seria publicar preço de posto."""
+    from asus_theye.markets.fonte_anp import preco_mediano_municipio
+
+    assert preco_mediano_municipio(
+        "2026-07", "AL", "VILAREJO", "GASOLINA",
+        minimo_coletas=5, transport=TransporteFalso(csv_body=CSV_MUNICIPIOS),
+    ) is None
+
+
+def test_municipio_casa_grafia_com_e_sem_acento_e_caixa() -> None:
+    from asus_theye.markets.fonte_anp import preco_mediano_municipio
+
+    for grafia in ("MACEIO", "maceio", "Maceió", "  maceió  "):
+        r = preco_mediano_municipio(
+            "2026-07", "AL", grafia, "GASOLINA",
+            minimo_coletas=5, transport=TransporteFalso(csv_body=CSV_MUNICIPIOS),
+        )
+        assert r is not None, f"grafia {grafia!r} não casou"
+
+
+def test_municipio_recusa_entrada_invalida_em_vez_de_devolver_numero() -> None:
+    from asus_theye.markets.fonte_anp import preco_mediano_municipio
+
+    with pytest.raises(FonteAnpError):
+        preco_mediano_municipio("2026-07", "AL", "   ", "GASOLINA", transport=TransporteFalso())
+    with pytest.raises(FonteAnpError):
+        preco_mediano_municipio(
+            "2026-07", "AL", "MACEIO", "GASOLINA", minimo_coletas=0, transport=TransporteFalso()
+        )
+
+
+def test_municipio_nao_devolve_dado_identificador() -> None:
+    """Mesma garantia da UF: nada de CNPJ, razão social, rua ou CEP no retorno."""
+    from asus_theye.markets.fonte_anp import preco_mediano_municipio
+
+    r = preco_mediano_municipio(
+        "2026-07", "AL", "MACEIO", "GASOLINA",
+        minimo_coletas=5, transport=TransporteFalso(csv_body=CSV_MUNICIPIOS),
+    )
+    assert r is not None
+    texto = repr(r)
+    for proibido in ("CDA EMPREENDIMENTOS", "12.486.809", "RODOVIA BR 104", "57100-000"):
+        assert proibido not in texto, f"vazou {proibido!r} no agregado municipal"

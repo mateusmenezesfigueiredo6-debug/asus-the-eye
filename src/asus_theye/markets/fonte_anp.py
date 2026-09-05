@@ -51,6 +51,7 @@ import csv
 import io
 import re
 import statistics
+import unicodedata
 from dataclasses import dataclass
 
 from asus_theye.markets.fonte_base import FonteError
@@ -258,3 +259,114 @@ def preco_mediano(
         mediana=statistics.median(valores),
         coletas=len(valores),
     )
+
+
+@dataclass(frozen=True)
+class PrecoMedianoMunicipio:
+    """Agregado por MUNICÍPIO — e só o agregado, com piso de k-anonimato.
+
+    Mesma doutrina do ``PrecoMediano``: nada de revenda, CNPJ ou endereço. A
+    diferença é que o recorte municipal exige uma proteção a mais, explicada em
+    ``preco_mediano_municipio``.
+    """
+
+    uf: str
+    municipio: str
+    produto: str
+    competencia: str  # aaaa-mm
+    mediana: float
+    coletas: int
+
+
+# PISO DE K-ANONIMATO — por que 20, e por que existe.
+#
+# Município NÃO é dado pessoal, mas a MEDIANA de um município com dois ou três
+# postos É, na prática, o preço de um estabelecimento identificável: quem
+# conhece a cidade sabe de quem é o número. Publicar isso seria fazer pela
+# porta dos fundos o que o módulo se recusa a fazer pela porta da frente (ver a
+# nota de LGPD no topo). É o mesmo problema que institutos de estatística
+# resolvem com supressão de célula.
+#
+# O valor 20 é ESCOLHA DE POLÍTICA sustentada por medição feita em 04/09/2026
+# sobre o CSV real de julho (GASOLINA, 414 municípios com coleta):
+#     < 2 coletas:   5 municípios (1%)      < 10 coletas:  17 (4%)
+#     < 5 coletas:   8 municípios (2%)      < 20 coletas:  40 (10%)
+#     mediana de coletas por município: 36 · máximo: 888 (São Paulo)
+# Com o piso em 20 sobram 374 municípios (90% da cobertura) e a mediana passa a
+# ser o valor do décimo posto ordenado — nenhum estabelecimento isolado se lê
+# ali. O piso clássico de 5 seria permissivo demais para uma MEDIANA de preço.
+#
+# Município abaixo do piso devolve ``None``, exatamente como par (UF, produto)
+# sem coleta: UNKNOWN over guess. Não se inventa número, e não se publica o
+# preço do posto do seu Zé.
+PISO_K_ANONIMATO = 20
+
+
+def preco_mediano_municipio(
+    competencia: str,
+    uf: str,
+    municipio: str,
+    produto: str,
+    *,
+    minimo_coletas: int = PISO_K_ANONIMATO,
+    transport: Transport | None = None,
+) -> PrecoMedianoMunicipio | None:
+    """Mediana do ``produto`` naquele município, ou ``None``.
+
+    Devolve ``None`` em dois casos, deliberadamente indistinguíveis para quem
+    chama porque ambos significam "não liquida": o município não teve coleta no
+    mês, ou teve MENOS que ``minimo_coletas`` — ver ``PISO_K_ANONIMATO``.
+
+    O nome do município é comparado sem acento e sem caixa, porque a ANP grafa
+    "SAO PAULO" num mês e "São Paulo" noutro — casar por igualdade crua daria
+    404 silencioso de dado, que é o pior tipo.
+    """
+    ano, mes = _competencia_valida(competencia)
+    produto = _produto_valido(produto)
+    uf = _uf_valida(uf)
+    alvo = _normalizar_municipio(municipio)
+    if not alvo:
+        raise FonteAnpError("município vazio")
+    if minimo_coletas < 1:
+        raise FonteAnpError(f"piso de k-anonimato inválido: {minimo_coletas}")
+
+    caminho = _csv_do_mes(ano, mes, produto, transport)
+    corpo = _buscar(f"{BASE}/arquivos/{caminho}", transport, "text/csv")
+    try:
+        texto = corpo.decode("utf-8-sig")
+    except UnicodeDecodeError:
+        texto = corpo.decode("latin-1")
+
+    linhas = csv.DictReader(io.StringIO(texto), delimiter=";")
+    campos = linhas.fieldnames or []
+    faltando = [c for c in COLUNAS_NECESSARIAS if c not in campos]
+    if faltando:
+        raise FonteAnpError(
+            f"CSV da ANP sem as colunas {faltando} — o layout mudou: {sorted(campos)}"
+        )
+
+    valores = [
+        _preco(linha["Valor de Venda"], f"{produto} em {municipio}/{uf}, {competencia}")
+        for linha in linhas
+        if str(linha["Estado - Sigla"]).strip().upper() == uf
+        and _normalizar_municipio(linha["Municipio"]) == alvo
+        and str(linha["Produto"]).strip().upper() == produto
+        and str(linha["Valor de Venda"]).strip()
+    ]
+    if len(valores) < minimo_coletas:
+        return None  # sem coleta OU abaixo do piso — os dois significam "não liquida"
+    return PrecoMedianoMunicipio(
+        uf=uf,
+        municipio=alvo,
+        produto=produto,
+        competencia=competencia,
+        mediana=statistics.median(valores),
+        coletas=len(valores),
+    )
+
+
+def _normalizar_municipio(nome: object) -> str:
+    """Caixa alta, sem acento, espaços colapsados — para casar grafias da ANP."""
+    texto = unicodedata.normalize("NFD", str(nome or "").strip().upper())
+    sem_acento = "".join(c for c in texto if unicodedata.category(c) != "Mn")
+    return " ".join(sem_acento.split())
