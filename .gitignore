@@ -46,6 +46,15 @@ HANDOFF.md
 reports/markets/.lock
 reports/markets/.lock-*
 
+# Log de execucao do cron de vintage e o registro regeneravel dos mercados:
+# saida operacional, sem valor de auditoria. Os OUTROS arquivos de
+# reports/markets/ ficam versionados de proposito — sao append-only e carregam
+# a prova: eventos.jsonl e o export verificavel (ver acima), resolucoes.jsonl e
+# serie_p.jsonl sao livros-razao, e cobertura_gdelt.jsonl traz o md5 de cada
+# boletim como proveniencia. Decisao do titular em 06/09/2026.
+reports/markets/vintage-cron.log
+reports/markets/registro.json
+
 # cache local do wrangler (deploy do verificador)
 apps/*/.wrangler/
 reports/audit/*.key
