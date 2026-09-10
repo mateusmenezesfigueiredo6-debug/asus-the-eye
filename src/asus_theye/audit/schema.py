@@ -102,3 +102,43 @@ def verify_chain(events: list[dict[str, Any]], *, genesis_hash: str = GENESIS_HA
         previous = event["event_hash_sha256"]
         expected_sequence += 1
     return True
+
+
+def verify_chains(events: list[dict[str, Any]], *, genesis_hash: str = GENESIS_HASH) -> bool:
+    """Verifica um arquivo que pode conter MAIS DE UMA corrente.
+
+    ``verify_chain`` é mono-tenant por construção: fixa o tenant no primeiro
+    evento e reprova qualquer outro. Isso é garantia, não defeito — e por isso
+    ela não muda. Mas quem lê um arquivo inteiro precisa de outra pergunta:
+    *cada* corrente aqui dentro está íntegra?
+
+    A distinção nasceu de um caso real (04/09/2026): o ``TENANT_PADRAO`` mudou
+    e o arquivo passou a guardar duas correntes válidas. O leitor antigo
+    respondia "quebrada", e o grafo de evidência gravava ``tampered`` — o
+    sistema acusando a corrente do titular de adulteração que não houve.
+
+    Devolve ``True`` só se TODA corrente do conjunto fechar. Um elo mexido em
+    qualquer uma delas continua reprovando tudo.
+    """
+    if not events:
+        return True
+    por_tenant: dict[str, list[dict[str, Any]]] = {}
+    for event in events:
+        try:
+            por_tenant.setdefault(event["tenant_id"], []).append(event)
+        except (KeyError, TypeError):
+            return False
+    return all(
+        verify_chain(grupo, genesis_hash=genesis_hash) for grupo in por_tenant.values()
+    )
+
+
+def tenants_da_corrente(events: list[dict[str, Any]]) -> list[str]:
+    """Os tenants presentes, em ordem estável. Para relatório honesto."""
+    vistos: dict[str, None] = {}
+    for event in events:
+        try:
+            vistos.setdefault(event["tenant_id"], None)
+        except (KeyError, TypeError):
+            continue
+    return list(vistos)

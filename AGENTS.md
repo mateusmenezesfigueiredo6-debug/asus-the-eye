@@ -441,3 +441,40 @@ egresso público é `C`. Recomendação em vigor: revelação única após 25/10
 `rodada_diaria.sh` quando `markets/modelo_eleitoral.py` existir e passar o
 backtest 2022 (Brier < 0,25). Wikimedia via **dumps horários**, não REST API
 (colide com o pool anônimo do fetcher).
+
+## 2026-09-04 (manhã) — Garantias: vigia de acesso, dash e e-mail
+
+**Ordem do titular:** "tudo no documento e no dash blockchain com alertas de
+uso; se alguém abrir, sempre eu receba um e-mail". O que existe agora:
+
+- `~/.the-eye/vigia_acesso.py` + serviço `the-eye-vigia-acesso` (systemd
+  --user, Restart=always): fotografa o conjunto protegido (`.the-eye`,
+  PORTAL-CIVICO-2026, AGENTES-THE-EYE, `.claude/agents`, corrente, `audit/`,
+  `source-graph/`) a cada 60 s. Login novo, permissão aberta a grupo/outros,
+  arquivo sumido e **corrente encolhida** viram elo + e-mail imediatos;
+  alterações de conteúdo viram digest de 15 min. Correntes `.jsonl` são
+  append-only: crescer é normal, encolher é alerta. **Sessão nova só confere
+  `is-active`; nunca recria** (mesma regra da sentinela).
+- **E-mail só sai com `~/.the-eye/smtp.env`** (molde em `smtp.env.example`,
+  senha de app do Gmail). Havia 96 alertas presos em `emails-pendentes/`
+  desde 03/09 porque o arquivo nunca existiu; `reenviar_pendentes.py` esvazia
+  a fila quando o titular preencher. **Só ele preenche.**
+- `dashboard/garantias.py` → `dist/garantias.html`: nove cartões medidos
+  (corrente, vigia, sentinela, e-mail, permissões, portas, conectores,
+  âncora, termo) + achados da auditoria se `~/.the-eye/garantias-achados.json`
+  existir. Estático, sem script, sem rede, 600. Coletor ignora symlinks
+  (venv-selo aponta para /usr/bin com 755 — não é vazamento). 4 testes.
+- OpenTimestamps instalado no venv (`ots` 0.7.2). **`ots stamp` não roda sem
+  ordem**: publica o hash em calendário público, mesma regra da âncora
+  on-chain (`AUTORIZADO_ONCHAIN=1`).
+- Permissões: 1.789 arquivos do conjunto protegido tinham bit de grupo/outros
+  (1.771 eram o `venv-selo`); todos fechados com `chmod -R go-rwx`. Serviços
+  seguem ativos — tudo roda como o mesmo usuário.
+- **Achado para o titular:** commit `a113557` (04/09 02:35, identidade git do
+  titular, sem elo de sessão entre 01:00 e 03:00) ligou 56/89 conectores no
+  `connectors.json` vivo enquanto a mensagem dizia "enabled:false em tudo".
+  Reverter só o arquivo é decisão dele.
+- **Termo de exclusividade:** todo arquivo tem cabeçalho AGPL-3.0-or-later
+  (licença livre). Isso é incompatível com "exclusividade de uso e venda".
+  Redação só após o parecer do `juridico-jurisprudencia` (CC 412/413, vínculo
+  unilateral, troca de licença).

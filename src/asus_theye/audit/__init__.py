@@ -4,7 +4,7 @@
 
 from .ledger import AuditLedger, verify_ledger
 from .merkle import MerkleProof, MerkleTree, verify_proof
-from .schema import event_hash, seal_event, verify_chain, verify_event
+from .schema import event_hash, seal_event, tenants_da_corrente, verify_chain, verify_chains, verify_event
 from .sdk import AuditSDK, AuditUnavailableError, SQLiteAuditStore
 
 __all__ = [
@@ -17,6 +17,8 @@ __all__ = [
     "event_hash",
     "seal_event",
     "verify_chain",
+    "verify_chains",
+    "tenants_da_corrente",
     "verify_event",
     "verify_ledger",
     "verify_proof",

@@ -1,5 +1,5 @@
 {
-  "gerado_em": "2026-09-02",
+  "gerado_em": "2026-09-04",
   "componentes": [
     {
       "nome": "tempo de TV (HGPE, art. 47 §2º Lei 9.504/1997)",
@@ -52,6 +52,6 @@
     "família única de evidência — o backtest de 2022 mostrou que atenção sozinha erra por não enxergar estrutura partidária"
   ],
   "tse": {
-    "indisponivel": "TSE inalcançável: inalcançável: https://resultados.tse.jus.br/oficial/comum/config/ele-c.json (<urlopen error [Errno 104] Connection reset by peer>)"
+    "ciclo_publicado": "ele2024"
   }
 }

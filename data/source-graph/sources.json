@@ -3491,6 +3491,3030 @@
         "status": "pending"
       },
       "poc_status": "production"
+    },
+    {
+      "source_id": "url:yz.tsinghua.edu.cn/en/programs/graduate_programs_in_english.htm",
+      "category_id": "academic-programs",
+      "entity_type": "institution",
+      "official_name": "Tsinghua University (清华大学) — catálogo de pós",
+      "official_url": "https://yz.tsinghua.edu.cn/en/Programs/Graduate_Programs_in_English.htm",
+      "jurisdiction": "China continental",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "site-oficial"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "Engenharia Civil (estruturas, gestão de construção); Engenharia Ambiental / água e saneamento; Engenharia Química; Public Policy and Management (MPA in International Development, em inglês); Finanças (PBC School of Finance); Direito (Tsinghua Law School, LLM em inglês); Ciência da Computação e IA (A"
+    },
+    {
+      "source_id": "url:newetds.lib.tsinghua.edu.cn/qh/qhsearch/qbindex",
+      "category_id": "open-theses",
+      "entity_type": "institution",
+      "official_name": "Tsinghua University (清华大学) — teses abertas",
+      "official_url": "https://newetds.lib.tsinghua.edu.cn/qh/qhSearch/QbIndex",
+      "jurisdiction": "China continental",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "site-oficial"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "Engenharia Civil (estruturas, gestão de construção); Engenharia Ambiental / água e saneamento; Engenharia Química; Public Policy and Management (MPA in International Development, em inglês); Finanças (PBC School of Finance); Direito (Tsinghua Law School, LLM em inglês); Ciência da Computação e IA (A"
+    },
+    {
+      "source_id": "url:isd.pku.edu.cn/en/graduate_program.php",
+      "category_id": "academic-programs",
+      "entity_type": "institution",
+      "official_name": "Peking University (北京大学) — catálogo de pós",
+      "official_url": "https://isd.pku.edu.cn/en/graduate_program.php",
+      "jurisdiction": "China continental",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "site-oficial"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "Direito (LLM em Chinese Law / arbitragem e contratos, PKU Law School); Public Policy / MPA (School of Government); Economia do Desenvolvimento e finanças públicas (NSD); Finanças e Contabilidade (Guanghua); Tributação internacional (Economia/Guanghua); Urbanismo e Ciências Ambientais (College of Urb"
+    },
+    {
+      "source_id": "url:ir.pku.edu.cn",
+      "category_id": "open-theses",
+      "entity_type": "institution",
+      "official_name": "Peking University (北京大学) — teses abertas",
+      "official_url": "https://ir.pku.edu.cn/",
+      "jurisdiction": "China continental",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "site-oficial"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "Direito (LLM em Chinese Law / arbitragem e contratos, PKU Law School); Public Policy / MPA (School of Government); Economia do Desenvolvimento e finanças públicas (NSD); Finanças e Contabilidade (Guanghua); Tributação internacional (Economia/Guanghua); Urbanismo e Ciências Ambientais (College of Urb"
+    },
+    {
+      "source_id": "url:gs.fudan.edu.cn/gsenglish/p2781c2689/list.htm",
+      "category_id": "academic-programs",
+      "entity_type": "institution",
+      "official_name": "Fudan University (复旦大学) — catálogo de pós",
+      "official_url": "https://gs.fudan.edu.cn/gsenglish/p2781c2689/list.htm",
+      "jurisdiction": "China continental",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "site-oficial"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "Finanças (Fanhai International School of Finance, MF/MBA em inglês); Economia e tributação (School of Economics); Direito internacional e de contratos (Fudan Law School, LLM em inglês); Public Administration / políticas públicas (SIRPA, MPA e IMPA em inglês); Saúde Pública e gestão hospitalar (Schoo"
+    },
+    {
+      "source_id": "url:en.gs.sjtu.edu.cn/admission1/degree_programs/master.htm",
+      "category_id": "academic-programs",
+      "entity_type": "institution",
+      "official_name": "Shanghai Jiao Tong University (上海交通大学) — catálogo de pós",
+      "official_url": "https://en.gs.sjtu.edu.cn/Admission1/Degree_Programs/Master.htm",
+      "jurisdiction": "China continental",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "site-oficial"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "Engenharia Civil, Oceânica e Naval (NAOCE — portos, offshore, obras marítimas); Engenharia Ambiental e tratamento de água (School of Environmental Science and Engineering); Engenharia Química; Engenharia Mecânica e de Energia; Finanças (SAIF — project finance, mercados); Economia e Gestão (Antai); D"
+    },
+    {
+      "source_id": "url:ir.lib.sjtu.edu.cn",
+      "category_id": "open-theses",
+      "entity_type": "institution",
+      "official_name": "Shanghai Jiao Tong University (上海交通大学) — teses abertas",
+      "official_url": "http://www.ir.lib.sjtu.edu.cn/",
+      "jurisdiction": "China continental",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "site-oficial"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "Engenharia Civil, Oceânica e Naval (NAOCE — portos, offshore, obras marítimas); Engenharia Ambiental e tratamento de água (School of Environmental Science and Engineering); Engenharia Química; Engenharia Mecânica e de Energia; Finanças (SAIF — project finance, mercados); Economia e Gestão (Antai); D"
+    },
+    {
+      "source_id": "url:iczu.zju.edu.cn/admissionsen/wasterwswwegreewwrograms/list.htm",
+      "category_id": "academic-programs",
+      "entity_type": "institution",
+      "official_name": "Zhejiang University (浙江大学) — catálogo de pós",
+      "official_url": "https://iczu.zju.edu.cn/admissionsen/wasterwswwegreewwrograms/list.htm",
+      "jurisdiction": "China continental",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "site-oficial"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "Engenharia Civil e Arquitetura (estruturas, geotecnia, gestão de construção); Ciências Ambientais e de Recursos (água, solo, saneamento); Engenharia Química e Biológica; Engenharia Hidráulica; Direito (Guanghua Law School); Public Administration / políticas públicas (School of Public Affairs, MPA); "
+    },
+    {
+      "source_id": "url:ic.ustc.edu.cn/en/v7info.php?nav_x=10",
+      "category_id": "academic-programs",
+      "entity_type": "institution",
+      "official_name": "University of Science and Technology of China (USTC, 中国科学技术大学) — catálogo de pós",
+      "official_url": "https://ic.ustc.edu.cn/en/v7info.php?Nav_x=10",
+      "jurisdiction": "China continental",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "site-oficial"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "Química e Ciência dos Materiais (eletroquímica, catálise — base para química industrial e tratamento de água); Ciência Ambiental e tecnologia de detecção; Ciências da Terra (geofísica, recursos hídricos); Ciência da Computação e IA (uma das mais fortes da China); Engenharia da Informação; Engenharia"
+    },
+    {
+      "source_id": "url:gradsch.hku.hk/prospective_students/programmes",
+      "category_id": "academic-programs",
+      "entity_type": "institution",
+      "official_name": "The University of Hong Kong (HKU, 香港大學) — catálogo de pós",
+      "official_url": "https://gradsch.hku.hk/prospective_students/programmes",
+      "jurisdiction": "Hong Kong (RAE da China)",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "site-oficial"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "MSc in Engineering (Civil Engineering — infraestrutura, geotecnia, transportes); MSc in Environmental Engineering / Environmental Management (água e saneamento); MSc in Real Estate and Construction / Construction Project Management (Faculty of Architecture); LLM e LLM in Corporate & Financial Law / "
+    },
+    {
+      "source_id": "url:etd.lib.hku.hk",
+      "category_id": "open-theses",
+      "entity_type": "institution",
+      "official_name": "The University of Hong Kong (HKU, 香港大學) — teses abertas",
+      "official_url": "https://etd.lib.hku.hk/",
+      "jurisdiction": "Hong Kong (RAE da China)",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "site-oficial"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "MSc in Engineering (Civil Engineering — infraestrutura, geotecnia, transportes); MSc in Environmental Engineering / Environmental Management (água e saneamento); MSc in Real Estate and Construction / Construction Project Management (Faculty of Architecture); LLM e LLM in Corporate & Financial Law / "
+    },
+    {
+      "source_id": "url:prog-crs.hkust.edu.hk/pgprog",
+      "category_id": "academic-programs",
+      "entity_type": "institution",
+      "official_name": "The Hong Kong University of Science and Technology (HKUST, 香港科技大學) — catálogo de pós",
+      "official_url": "https://prog-crs.hkust.edu.hk/pgprog",
+      "jurisdiction": "Hong Kong (RAE da China)",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "site-oficial"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "MSc/PGD in Civil Infrastructural Engineering and Management (CIEM); MSc/PGD in Environmental Engineering and Management (EVEM); MSc in Chemical and Biomolecular Engineering; Master of Public Policy (MPP) e MPhil/PhD em Public Policy; MSc in Big Data Technology e MSc in Artificial Intelligence; MSc i"
+    },
+    {
+      "source_id": "url:repository.hkust.edu.hk",
+      "category_id": "open-theses",
+      "entity_type": "institution",
+      "official_name": "The Hong Kong University of Science and Technology (HKUST, 香港科技大學) — teses abertas",
+      "official_url": "https://repository.hkust.edu.hk/",
+      "jurisdiction": "Hong Kong (RAE da China)",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "site-oficial"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "MSc/PGD in Civil Infrastructural Engineering and Management (CIEM); MSc/PGD in Environmental Engineering and Management (EVEM); MSc in Chemical and Biomolecular Engineering; Master of Public Policy (MPP) e MPhil/PhD em Public Policy; MSc in Big Data Technology e MSc in Artificial Intelligence; MSc i"
+    },
+    {
+      "source_id": "url:gs.cuhk.edu.hk/programmes",
+      "category_id": "academic-programs",
+      "entity_type": "institution",
+      "official_name": "The Chinese University of Hong Kong (CUHK, 香港中文大學) — catálogo de pós",
+      "official_url": "https://www.gs.cuhk.edu.hk/programmes",
+      "jurisdiction": "Hong Kong (RAE da China)",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "site-oficial"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "LLM in International Economic Law / LLM in Chinese Business Law e Juris Doctor (Faculty of Law — contratos e arbitragem); MSc in Systems Engineering and Engineering Management (gestão de projetos e operações); MSc in Sustainable and Environmental Design / Environmental Science (Institute of Environm"
+    },
+    {
+      "source_id": "url:repository.lib.cuhk.edu.hk/en/collection/cuhk-etd",
+      "category_id": "open-theses",
+      "entity_type": "institution",
+      "official_name": "The Chinese University of Hong Kong (CUHK, 香港中文大學) — teses abertas",
+      "official_url": "https://repository.lib.cuhk.edu.hk/en/collection/cuhk-etd",
+      "jurisdiction": "Hong Kong (RAE da China)",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "site-oficial"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "LLM in International Economic Law / LLM in Chinese Business Law e Juris Doctor (Faculty of Law — contratos e arbitragem); MSc in Systems Engineering and Engineering Management (gestão de projetos e operações); MSc in Sustainable and Environmental Design / Environmental Science (Institute of Environm"
+    },
+    {
+      "source_id": "url:cityu.edu.hk/pg/programmes",
+      "category_id": "academic-programs",
+      "entity_type": "institution",
+      "official_name": "City University of Hong Kong (CityUHK, 香港城市大學) — catálogo de pós",
+      "official_url": "https://www.cityu.edu.hk/pg/programmes",
+      "jurisdiction": "Hong Kong (RAE da China)",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "site-oficial"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "LLM in Arbitration and Dispute Resolution (LLMArbDR) — primeiro mestrado do gênero na Ásia, 1991, e primeiro reconhecido pelo Chartered Institute of Arbitrators em Hong Kong; Doctor of Juridical Science (JSD) e LLM geral (School of Law); MSc in Civil and Architectural Engineering / Construction Mana"
+    },
+    {
+      "source_id": "url:cityu.edu.hk/lib/digital/thesis",
+      "category_id": "open-theses",
+      "entity_type": "institution",
+      "official_name": "City University of Hong Kong (CityUHK, 香港城市大學) — teses abertas",
+      "official_url": "https://www.cityu.edu.hk/lib/digital/thesis/",
+      "jurisdiction": "Hong Kong (RAE da China)",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "site-oficial"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "LLM in Arbitration and Dispute Resolution (LLMArbDR) — primeiro mestrado do gênero na Ásia, 1991, e primeiro reconhecido pelo Chartered Institute of Arbitrators em Hong Kong; Doctor of Juridical Science (JSD) e LLM geral (School of Law); MSc in Civil and Architectural Engineering / Construction Mana"
+    },
+    {
+      "source_id": "url:pll.harvard.edu/catalog",
+      "category_id": "academic-programs",
+      "entity_type": "institution",
+      "official_name": "Harvard University — catálogo de pós",
+      "official_url": "https://pll.harvard.edu/catalog",
+      "jurisdiction": "Estados Unidos",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "site-oficial"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "MPA e MPP (Harvard Kennedy School) – política pública, orçamento e regulação; MPA/ID – International Development, com núcleo quantitativo de economia do desenvolvimento; Master in Urban Planning (GSD) – infraestrutura urbana; Master in Design Studies (GSD); MS e PhD em Environmental Science and Engi"
+    },
+    {
+      "source_id": "url:dash.harvard.edu/home",
+      "category_id": "open-theses",
+      "entity_type": "institution",
+      "official_name": "Harvard University — teses abertas",
+      "official_url": "https://dash.harvard.edu/home",
+      "jurisdiction": "Estados Unidos",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "site-oficial"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "MPA e MPP (Harvard Kennedy School) – política pública, orçamento e regulação; MPA/ID – International Development, com núcleo quantitativo de economia do desenvolvimento; Master in Urban Planning (GSD) – infraestrutura urbana; Master in Design Studies (GSD); MS e PhD em Environmental Science and Engi"
+    },
+    {
+      "source_id": "url:catalog.yale.edu/gsas",
+      "category_id": "academic-programs",
+      "entity_type": "institution",
+      "official_name": "Yale University — catálogo de pós",
+      "official_url": "https://catalog.yale.edu/gsas/",
+      "jurisdiction": "Estados Unidos",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "site-oficial"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "Chemical and Environmental Engineering (MS/PhD) – química industrial e tratamento de água; Public Health / MPH – gestão de serviços de saúde e economia da saúde; Statistics and Data Science (MS/PhD) – modelagem e IA aplicada; Computer Science (MS/PhD); Applied and Computational Mathematics; Economic"
+    },
+    {
+      "source_id": "url:elischolar.library.yale.edu/gsas_dissertations",
+      "category_id": "open-theses",
+      "entity_type": "institution",
+      "official_name": "Yale University — teses abertas",
+      "official_url": "https://elischolar.library.yale.edu/gsas_dissertations/",
+      "jurisdiction": "Estados Unidos",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "site-oficial"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "Chemical and Environmental Engineering (MS/PhD) – química industrial e tratamento de água; Public Health / MPH – gestão de serviços de saúde e economia da saúde; Statistics and Data Science (MS/PhD) – modelagem e IA aplicada; Computer Science (MS/PhD); Applied and Computational Mathematics; Economic"
+    },
+    {
+      "source_id": "url:registrar.princeton.edu/course-offerings",
+      "category_id": "academic-programs",
+      "entity_type": "institution",
+      "official_name": "Princeton University — catálogo de pós",
+      "official_url": "https://registrar.princeton.edu/course-offerings",
+      "jurisdiction": "Estados Unidos",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "site-oficial"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "MPA e MPP (SPIA) – política pública, regulação e avaliação de programas governamentais; PhD em Public Affairs (SPIA); Civil and Environmental Engineering (MSE/PhD, SEAS) – infraestrutura, materiais e recursos hídricos; Operations Research and Financial Engineering (ORFE, MSE/PhD) – otimização, logís"
+    },
+    {
+      "source_id": "url:dataspace.princeton.edu",
+      "category_id": "open-theses",
+      "entity_type": "institution",
+      "official_name": "Princeton University — teses abertas",
+      "official_url": "https://dataspace.princeton.edu/",
+      "jurisdiction": "Estados Unidos",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "site-oficial"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "MPA e MPP (SPIA) – política pública, regulação e avaliação de programas governamentais; PhD em Public Affairs (SPIA); Civil and Environmental Engineering (MSE/PhD, SEAS) – infraestrutura, materiais e recursos hídricos; Operations Research and Financial Engineering (ORFE, MSE/PhD) – otimização, logís"
+    },
+    {
+      "source_id": "url:doc.sis.columbia.edu",
+      "category_id": "academic-programs",
+      "entity_type": "institution",
+      "official_name": "Columbia University — catálogo de pós",
+      "official_url": "https://doc.sis.columbia.edu/",
+      "jurisdiction": "Estados Unidos",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "site-oficial"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "Civil Engineering and Engineering Mechanics (MS/PhD) – estruturas, construção e gestão de obras; Earth and Environmental Engineering (MS/PhD) – água, resíduos e processos químicos ambientais; Construction Administration (MS, programa executivo de administração de construção); MPA e MIA (SIPA) – polí"
+    },
+    {
+      "source_id": "url:academiccommons.columbia.edu",
+      "category_id": "open-theses",
+      "entity_type": "institution",
+      "official_name": "Columbia University — teses abertas",
+      "official_url": "https://academiccommons.columbia.edu/",
+      "jurisdiction": "Estados Unidos",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "site-oficial"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "Civil Engineering and Engineering Mechanics (MS/PhD) – estruturas, construção e gestão de obras; Earth and Environmental Engineering (MS/PhD) – água, resíduos e processos químicos ambientais; Construction Administration (MS, programa executivo de administração de construção); MPA e MIA (SIPA) – polí"
+    },
+    {
+      "source_id": "url:catalog.upenn.edu/graduate",
+      "category_id": "academic-programs",
+      "entity_type": "institution",
+      "official_name": "University of Pennsylvania — catálogo de pós",
+      "official_url": "https://catalog.upenn.edu/graduate/",
+      "jurisdiction": "Estados Unidos",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "site-oficial"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "MBA e programas de pós da Wharton – finanças de projeto, project finance e valuation de infraestrutura; Master in Business Analytics; Environmental Studies e Environmental Engineering (Penn Engineering) – água e processos; Chemical and Biomolecular Engineering (MSE/PhD) – química industrial; Systems"
+    },
+    {
+      "source_id": "url:repository.upenn.edu",
+      "category_id": "open-theses",
+      "entity_type": "institution",
+      "official_name": "University of Pennsylvania — teses abertas",
+      "official_url": "https://repository.upenn.edu/",
+      "jurisdiction": "Estados Unidos",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "site-oficial"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "MBA e programas de pós da Wharton – finanças de projeto, project finance e valuation de infraestrutura; Master in Business Analytics; Environmental Studies e Environmental Engineering (Penn Engineering) – água e processos; Chemical and Biomolecular Engineering (MSE/PhD) – química industrial; Systems"
+    },
+    {
+      "source_id": "url:bulletin.brown.edu",
+      "category_id": "academic-programs",
+      "entity_type": "institution",
+      "official_name": "Brown University — catálogo de pós",
+      "official_url": "https://bulletin.brown.edu/",
+      "jurisdiction": "Estados Unidos",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "site-oficial"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "Master of Public Affairs (MPA, Watson Institute) – políticas públicas, avaliação e implementação de programas de governo; Engineering (ScM/PhD, School of Engineering) com concentrações em Fluids and Thermal Sciences, Materials e Environmental Engineering – infraestrutura e água; Chemistry (ScM/PhD) "
+    },
+    {
+      "source_id": "url:repository.library.brown.edu/studio",
+      "category_id": "open-theses",
+      "entity_type": "institution",
+      "official_name": "Brown University — teses abertas",
+      "official_url": "https://repository.library.brown.edu/studio/",
+      "jurisdiction": "Estados Unidos",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "site-oficial"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "Master of Public Affairs (MPA, Watson Institute) – políticas públicas, avaliação e implementação de programas de governo; Engineering (ScM/PhD, School of Engineering) com concentrações em Fluids and Thermal Sciences, Materials e Environmental Engineering – infraestrutura e água; Chemistry (ScM/PhD) "
+    },
+    {
+      "source_id": "url:dartmouth.smartcatalogiq.com/current/orc",
+      "category_id": "academic-programs",
+      "entity_type": "institution",
+      "official_name": "Dartmouth College — catálogo de pós",
+      "official_url": "https://dartmouth.smartcatalogiq.com/current/orc/",
+      "jurisdiction": "Estados Unidos",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "site-oficial"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "Engineering Sciences – Graduate (MS/PhD, Thayer) e Master of Engineering Management (MEM) – gestão de projetos de engenharia, o programa mais diretamente aplicável a EPC; Health Policy and Clinical Practice (TDI) – política e avaliação de sistemas de saúde; Master of Health Care Delivery Science (MH"
+    },
+    {
+      "source_id": "url:digitalcommons.dartmouth.edu/dissertations",
+      "category_id": "open-theses",
+      "entity_type": "institution",
+      "official_name": "Dartmouth College — teses abertas",
+      "official_url": "https://digitalcommons.dartmouth.edu/dissertations/",
+      "jurisdiction": "Estados Unidos",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "site-oficial"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "Engineering Sciences – Graduate (MS/PhD, Thayer) e Master of Engineering Management (MEM) – gestão de projetos de engenharia, o programa mais diretamente aplicável a EPC; Health Policy and Clinical Practice (TDI) – política e avaliação de sistemas de saúde; Master of Health Care Delivery Science (MH"
+    },
+    {
+      "source_id": "url:classes.cornell.edu",
+      "category_id": "academic-programs",
+      "entity_type": "institution",
+      "official_name": "Cornell University — catálogo de pós",
+      "official_url": "https://classes.cornell.edu/",
+      "jurisdiction": "Estados Unidos",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "site-oficial"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "Civil and Environmental Engineering (MEng/MS/PhD) – o campo mais forte da lista para EPC, com Project Management, Construction Planning and Operations, Engineering Management Project e Modeling and Optimization for Smart Infrastructure Systems; Environmental and Water Resources Systems – água e sane"
+    },
+    {
+      "source_id": "url:ecommons.cornell.edu",
+      "category_id": "open-theses",
+      "entity_type": "institution",
+      "official_name": "Cornell University — teses abertas",
+      "official_url": "https://ecommons.cornell.edu/",
+      "jurisdiction": "Estados Unidos",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "site-oficial"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "Civil and Environmental Engineering (MEng/MS/PhD) – o campo mais forte da lista para EPC, com Project Management, Construction Planning and Operations, Engineering Management Project e Modeling and Optimization for Smart Infrastructure Systems; Environmental and Water Resources Systems – água e sane"
+    },
+    {
+      "source_id": "url:ocw.mit.edu/courses",
+      "category_id": "academic-programs",
+      "entity_type": "institution",
+      "official_name": "Massachusetts Institute of Technology (MIT) — catálogo de pós",
+      "official_url": "https://ocw.mit.edu/courses/",
+      "jurisdiction": "Estados Unidos",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "site-oficial"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "1.011 Project Evaluation (avaliação econômico-financeira de projetos, OCW); 1.103[J]/11.173[J] Infrastructure Design for Climate Change; 1.070A[J] Introduction to Hydrology and Water Resources; MEng/SM em Civil and Environmental Engineering (trilhas de infraestrutura e recursos hídricos); DUSP MCP —"
+    },
+    {
+      "source_id": "url:dspace.mit.edu",
+      "category_id": "open-theses",
+      "entity_type": "institution",
+      "official_name": "Massachusetts Institute of Technology (MIT) — teses abertas",
+      "official_url": "https://dspace.mit.edu/",
+      "jurisdiction": "Estados Unidos",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "site-oficial"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "1.011 Project Evaluation (avaliação econômico-financeira de projetos, OCW); 1.103[J]/11.173[J] Infrastructure Design for Climate Change; 1.070A[J] Introduction to Hydrology and Water Resources; MEng/SM em Civil and Environmental Engineering (trilhas de infraestrutura e recursos hídricos); DUSP MCP —"
+    },
+    {
+      "source_id": "url:exploredegrees.stanford.edu",
+      "category_id": "academic-programs",
+      "entity_type": "institution",
+      "official_name": "Stanford University — catálogo de pós",
+      "official_url": "https://exploredegrees.stanford.edu/",
+      "jurisdiction": "Estados Unidos",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "site-oficial"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "MS/PhD em Civil and Environmental Engineering — trilha Sustainable Design & Construction (projeto e gestão de EPC); trilha Environmental Engineering & Science (tratamento de água, química ambiental); trilha Atmosphere/Energy; Construction Engineering and Management (CEM); MS em Management Science an"
+    },
+    {
+      "source_id": "url:sdr.stanford.edu",
+      "category_id": "open-theses",
+      "entity_type": "institution",
+      "official_name": "Stanford University — teses abertas",
+      "official_url": "https://sdr.stanford.edu/",
+      "jurisdiction": "Estados Unidos",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "site-oficial"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "MS/PhD em Civil and Environmental Engineering — trilha Sustainable Design & Construction (projeto e gestão de EPC); trilha Environmental Engineering & Science (tratamento de água, química ambiental); trilha Atmosphere/Energy; Construction Engineering and Management (CEM); MS em Management Science an"
+    },
+    {
+      "source_id": "url:guide.berkeley.edu/graduate/degree-programs",
+      "category_id": "academic-programs",
+      "entity_type": "institution",
+      "official_name": "University of California, Berkeley (UC Berkeley) — catálogo de pós",
+      "official_url": "https://guide.berkeley.edu/graduate/degree-programs/",
+      "jurisdiction": "Estados Unidos",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "site-oficial"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "MEng/MS/PhD em Civil and Environmental Engineering — Engineering and Project Management (E-PM), a trilha mais direta para EPC e contratos de construção; CEE Environmental Engineering — tratamento de água e química ambiental; CEE Systems Engineering — transporte e logística; Goldman School MPP e PhD "
+    },
+    {
+      "source_id": "url:escholarship.org/uc/ucb_etd",
+      "category_id": "open-theses",
+      "entity_type": "institution",
+      "official_name": "University of California, Berkeley (UC Berkeley) — teses abertas",
+      "official_url": "https://escholarship.org/uc/ucb_etd",
+      "jurisdiction": "Estados Unidos",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "site-oficial"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "MEng/MS/PhD em Civil and Environmental Engineering — Engineering and Project Management (E-PM), a trilha mais direta para EPC e contratos de construção; CEE Environmental Engineering — tratamento de água e química ambiental; CEE Systems Engineering — transporte e logística; Goldman School MPP e PhD "
+    },
+    {
+      "source_id": "url:catalog.caltech.edu/current",
+      "category_id": "academic-programs",
+      "entity_type": "institution",
+      "official_name": "California Institute of Technology (Caltech) — catálogo de pós",
+      "official_url": "https://catalog.caltech.edu/current/",
+      "jurisdiction": "Estados Unidos",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "site-oficial"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "MS/PhD em Environmental Science and Engineering (ESE) — química da água, processos de tratamento e qualidade ambiental, o ponto mais forte do Caltech para o seu eixo de água/química industrial; MS/PhD em Civil Engineering (dentro de Mechanical and Civil Engineering) — estruturas e risco sísmico de i"
+    },
+    {
+      "source_id": "url:thesis.caltech.edu",
+      "category_id": "open-theses",
+      "entity_type": "institution",
+      "official_name": "California Institute of Technology (Caltech) — teses abertas",
+      "official_url": "https://thesis.caltech.edu/",
+      "jurisdiction": "Estados Unidos",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "site-oficial"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "MS/PhD em Environmental Science and Engineering (ESE) — química da água, processos de tratamento e qualidade ambiental, o ponto mais forte do Caltech para o seu eixo de água/química industrial; MS/PhD em Civil Engineering (dentro de Mechanical and Civil Engineering) — estruturas e risco sísmico de i"
+    },
+    {
+      "source_id": "url:coursecatalog.web.cmu.edu",
+      "category_id": "academic-programs",
+      "entity_type": "institution",
+      "official_name": "Carnegie Mellon University (CMU) — catálogo de pós",
+      "official_url": "https://coursecatalog.web.cmu.edu/",
+      "jurisdiction": "Estados Unidos",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "site-oficial"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "Heinz College MSPPM (Master of Science in Public Policy and Management) — análise de política pública com forte componente quantitativo, o programa mais aderente a projetos governamentais; Heinz MSPPM-DA (Data Analytics) — dados aplicados a governo; Heinz MISM (Master of Information Systems Manageme"
+    },
+    {
+      "source_id": "url:kilthub.cmu.edu",
+      "category_id": "open-theses",
+      "entity_type": "institution",
+      "official_name": "Carnegie Mellon University (CMU) — teses abertas",
+      "official_url": "https://kilthub.cmu.edu/",
+      "jurisdiction": "Estados Unidos",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "site-oficial"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "Heinz College MSPPM (Master of Science in Public Policy and Management) — análise de política pública com forte componente quantitativo, o programa mais aderente a projetos governamentais; Heinz MSPPM-DA (Data Analytics) — dados aplicados a governo; Heinz MISM (Master of Information Systems Manageme"
+    },
+    {
+      "source_id": "url:admissions.kaust.edu.sa/study",
+      "category_id": "academic-programs",
+      "entity_type": "institution",
+      "official_name": "King Abdullah University of Science and Technology (KAUST) — catálogo de pós",
+      "official_url": "https://admissions.kaust.edu.sa/study",
+      "jurisdiction": "Arábia Saudita",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "site-oficial"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "Environmental Science and Engineering; Earth Science and Engineering; Chemical Engineering; Energy Resources and Petroleum Engineering; Mechanical Engineering; Material Science and Engineering; Computer Science; Electrical and Computer Engineering; Applied Mathematics and Computational Science; Stat"
+    },
+    {
+      "source_id": "url:repository.kaust.edu.sa",
+      "category_id": "open-theses",
+      "entity_type": "institution",
+      "official_name": "King Abdullah University of Science and Technology (KAUST) — teses abertas",
+      "official_url": "https://repository.kaust.edu.sa/",
+      "jurisdiction": "Arábia Saudita",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "site-oficial"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "Environmental Science and Engineering; Earth Science and Engineering; Chemical Engineering; Energy Resources and Petroleum Engineering; Mechanical Engineering; Material Science and Engineering; Computer Science; Electrical and Computer Engineering; Applied Mathematics and Computational Science; Stat"
+    },
+    {
+      "source_id": "url:kfupm.edu.sa/study/master-of-science-thesis-based-phd",
+      "category_id": "academic-programs",
+      "entity_type": "institution",
+      "official_name": "King Fahd University of Petroleum & Minerals (KFUPM) — catálogo de pós",
+      "official_url": "https://www.kfupm.edu.sa/study/master-of-science-thesis-based-phd",
+      "jurisdiction": "Arábia Saudita",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "site-oficial"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "Civil and Environmental Engineering; Construction Engineering and Management; Chemical Engineering; Petroleum Engineering; Systems Engineering; Industrial and Systems Engineering; Mechanical Engineering; Computer Science / Artificial Intelligence; Data Science; Finance; Accounting; Architectural Eng"
+    },
+    {
+      "source_id": "url:eprints.kfupm.edu.sa",
+      "category_id": "open-theses",
+      "entity_type": "institution",
+      "official_name": "King Fahd University of Petroleum & Minerals (KFUPM) — teses abertas",
+      "official_url": "https://eprints.kfupm.edu.sa/",
+      "jurisdiction": "Arábia Saudita",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "site-oficial"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "Civil and Environmental Engineering; Construction Engineering and Management; Chemical Engineering; Petroleum Engineering; Systems Engineering; Industrial and Systems Engineering; Mechanical Engineering; Computer Science / Artificial Intelligence; Data Science; Finance; Accounting; Architectural Eng"
+    },
+    {
+      "source_id": "url:ku.ac.ae/academics/graduate-programs",
+      "category_id": "academic-programs",
+      "entity_type": "institution",
+      "official_name": "Khalifa University of Science and Technology — catálogo de pós",
+      "official_url": "https://www.ku.ac.ae/academics/graduate-programs",
+      "jurisdiction": "Emirados Árabes Unidos",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "site-oficial"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "MSc Civil and Infrastructural Engineering; MSc Engineering Systems and Management (Technology Management / Complex Systems); MSc Health Systems Management; MSc Chemical Engineering; MSc Health, Safety and Environmental Engineering; MSc Petroleum Engineering; MSc Computational Data Science; MSc Compu"
+    },
+    {
+      "source_id": "url:khazna.ku.ac.ae",
+      "category_id": "open-theses",
+      "entity_type": "institution",
+      "official_name": "Khalifa University of Science and Technology — teses abertas",
+      "official_url": "https://khazna.ku.ac.ae/",
+      "jurisdiction": "Emirados Árabes Unidos",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "site-oficial"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "MSc Civil and Infrastructural Engineering; MSc Engineering Systems and Management (Technology Management / Complex Systems); MSc Health Systems Management; MSc Chemical Engineering; MSc Health, Safety and Environmental Engineering; MSc Petroleum Engineering; MSc Computational Data Science; MSc Compu"
+    },
+    {
+      "source_id": "url:qu.edu.qa/en-us/research/graduate-studies/pages/default.aspx",
+      "category_id": "academic-programs",
+      "entity_type": "institution",
+      "official_name": "Qatar University — catálogo de pós",
+      "official_url": "https://www.qu.edu.qa/en-us/Research/graduate-studies/Pages/default.aspx",
+      "jurisdiction": "Catar",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "site-oficial"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "MSc Civil Engineering; MSc Environmental Engineering; MSc Gas and Process Engineering; MSc Engineering Management; MSc Urban Planning and Design; PhD em Chemical Engineering / Civil Engineering / Environmental Engineering / Industrial and Systems Engineering; MSc Finance; Master of Accounting; MBA e"
+    },
+    {
+      "source_id": "url:qspace.qu.edu.qa",
+      "category_id": "open-theses",
+      "entity_type": "institution",
+      "official_name": "Qatar University — teses abertas",
+      "official_url": "https://qspace.qu.edu.qa/",
+      "jurisdiction": "Catar",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "site-oficial"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "MSc Civil Engineering; MSc Environmental Engineering; MSc Gas and Process Engineering; MSc Engineering Management; MSc Urban Planning and Design; PhD em Chemical Engineering / Civil Engineering / Environmental Engineering / Industrial and Systems Engineering; MSc Finance; Master of Accounting; MBA e"
+    },
+    {
+      "source_id": "url:aub.edu.lb/academics/pages/majors_programs.aspx",
+      "category_id": "academic-programs",
+      "entity_type": "institution",
+      "official_name": "American University of Beirut (AUB) — catálogo de pós",
+      "official_url": "https://www.aub.edu.lb/academics/Pages/majors_programs.aspx",
+      "jurisdiction": "Líbano",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "site-oficial"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "Civil and Environmental Engineering (MSc/PhD); Engineering Management; Construction Engineering and Management; Chemical Engineering; Mechanical Engineering; Environmental Technology / Water resources; Master of Public Health e Health Management and Policy (Faculty of Health Sciences); MBA e Master "
+    },
+    {
+      "source_id": "url:scholarworks.aub.edu.lb",
+      "category_id": "open-theses",
+      "entity_type": "institution",
+      "official_name": "American University of Beirut (AUB) — teses abertas",
+      "official_url": "https://scholarworks.aub.edu.lb/",
+      "jurisdiction": "Líbano",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "site-oficial"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "Civil and Environmental Engineering (MSc/PhD); Engineering Management; Construction Engineering and Management; Chemical Engineering; Mechanical Engineering; Environmental Technology / Water resources; Master of Public Health e Health Management and Policy (Faculty of Health Sciences); MBA e Master "
+    },
+    {
+      "source_id": "url:graduate.technion.ac.il/en",
+      "category_id": "academic-programs",
+      "entity_type": "institution",
+      "official_name": "Technion – Israel Institute of Technology — catálogo de pós",
+      "official_url": "https://graduate.technion.ac.il/en/",
+      "jurisdiction": "Israel",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "site-oficial"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "Civil and Environmental Engineering (engenharia de transportes, estruturas, recursos hídricos e engenharia sanitária); Chemical Engineering; Data and Decision Sciences (inclui engenharia industrial, gestão e pesquisa operacional); Computer Science; Biomedical Engineering; Faculty of Medicine; Archit"
+    },
+    {
+      "source_id": "url:graduate.technion.ac.il/en/these-search",
+      "category_id": "open-theses",
+      "entity_type": "institution",
+      "official_name": "Technion – Israel Institute of Technology — teses abertas",
+      "official_url": "https://graduate.technion.ac.il/en/these-search/",
+      "jurisdiction": "Israel",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "site-oficial"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "Civil and Environmental Engineering (engenharia de transportes, estruturas, recursos hídricos e engenharia sanitária); Chemical Engineering; Data and Decision Sciences (inclui engenharia industrial, gestão e pesquisa operacional); Computer Science; Biomedical Engineering; Faculty of Medicine; Archit"
+    },
+    {
+      "source_id": "url:international.tau.ac.il/degree_programs",
+      "category_id": "academic-programs",
+      "entity_type": "institution",
+      "official_name": "Tel Aviv University — catálogo de pós",
+      "official_url": "https://international.tau.ac.il/Degree_Programs",
+      "jurisdiction": "Israel",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "site-oficial"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "Engenharia (Fleischman) com trilhas de engenharia ambiental e de sistemas; Porter School of the Environment and Earth Sciences (água, clima, política ambiental); Buchmann Faculty of Law (LLM, incluindo direito comercial e internacional); Coller School of Management (MBA, finanças); Computer Science "
+    },
+    {
+      "source_id": "url:en.huji.ac.il/graduate-studies",
+      "category_id": "academic-programs",
+      "entity_type": "institution",
+      "official_name": "The Hebrew University of Jerusalem — catálogo de pós",
+      "official_url": "https://en.huji.ac.il/Graduate-Studies",
+      "jurisdiction": "Israel",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "site-oficial"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "Faculty of Law (LLM, direito comercial e internacional, arbitragem); School of Business Administration (finanças); Federmann School of Public Policy (políticas públicas e regulação); Braun School of Public Health and Community Medicine; Faculty of Agriculture, Food and Environment (qualidade da água"
+    },
+    {
+      "source_id": "url:en.libraries.huji.ac.il/news/digital-collections",
+      "category_id": "open-theses",
+      "entity_type": "institution",
+      "official_name": "The Hebrew University of Jerusalem — teses abertas",
+      "official_url": "https://en.libraries.huji.ac.il/news/digital-collections",
+      "jurisdiction": "Israel",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "site-oficial"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "Faculty of Law (LLM, direito comercial e internacional, arbitragem); School of Business Administration (finanças); Federmann School of Public Policy (políticas públicas e regulação); Braun School of Public Health and Community Medicine; Faculty of Agriculture, Food and Environment (qualidade da água"
+    },
+    {
+      "source_id": "url:weizmann.ac.il/wsos/academic-programs",
+      "category_id": "academic-programs",
+      "entity_type": "institution",
+      "official_name": "Weizmann Institute of Science — catálogo de pós",
+      "official_url": "https://www.weizmann.ac.il/wsos/academic-programs",
+      "jurisdiction": "Israel",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "site-oficial"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "Chemistry (química de materiais e catálise, com aderência a tratamento de água e processos); Mathematics and Computer Science (aprendizado de máquina, otimização, criptografia); Physics; Biochemistry; Biology; Environmental Sciences and Energy Research (departamento de pesquisa); Science Teaching; p"
+    },
+    {
+      "source_id": "url:weizmann.libguides.com/wis-oa",
+      "category_id": "open-theses",
+      "entity_type": "institution",
+      "official_name": "Weizmann Institute of Science — teses abertas",
+      "official_url": "https://weizmann.libguides.com/wis-oa",
+      "jurisdiction": "Israel",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "site-oficial"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "Chemistry (química de materiais e catálise, com aderência a tratamento de água e processos); Mathematics and Computer Science (aprendizado de máquina, otimização, criptografia); Physics; Biochemistry; Biology; Environmental Sciences and Energy Research (departamento de pesquisa); Science Teaching; p"
+    },
+    {
+      "source_id": "url:acad.iitb.ac.in/admissions/masters",
+      "category_id": "academic-programs",
+      "entity_type": "institution",
+      "official_name": "Indian Institute of Technology Bombay (IIT Bombay) — catálogo de pós",
+      "official_url": "https://acad.iitb.ac.in/admissions/masters",
+      "jurisdiction": "Índia",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "site-oficial"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "M.Tech em Civil Engineering (estruturas, geotecnia, transportes, recursos hídricos, construction technology and management); M.Tech em Environmental Science and Engineering (CESE — água e saneamento); M.Tech em Chemical Engineering; M.Tech em Industrial Engineering and Operations Research; Master in"
+    },
+    {
+      "source_id": "url:dspace.library.iitb.ac.in/jspui",
+      "category_id": "open-theses",
+      "entity_type": "institution",
+      "official_name": "Indian Institute of Technology Bombay (IIT Bombay) — teses abertas",
+      "official_url": "https://dspace.library.iitb.ac.in/jspui/",
+      "jurisdiction": "Índia",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "site-oficial"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "M.Tech em Civil Engineering (estruturas, geotecnia, transportes, recursos hídricos, construction technology and management); M.Tech em Environmental Science and Engineering (CESE — água e saneamento); M.Tech em Chemical Engineering; M.Tech em Industrial Engineering and Operations Research; Master in"
+    },
+    {
+      "source_id": "url:academics.iitd.ac.in",
+      "category_id": "academic-programs",
+      "entity_type": "institution",
+      "official_name": "Indian Institute of Technology Delhi (IIT Delhi) — catálogo de pós",
+      "official_url": "https://academics.iitd.ac.in/",
+      "jurisdiction": "Índia",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "site-oficial"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "M.Tech em Civil Engineering (estruturas, geotecnia, engenharia de transportes, engenharia ambiental e de recursos hídricos); M.Tech em Chemical Engineering; School of Public Policy (política pública e regulação); Department of Management Studies (MBA, gestão de projetos e finanças); School of Artifi"
+    },
+    {
+      "source_id": "url:ir.iitd.ac.in",
+      "category_id": "open-theses",
+      "entity_type": "institution",
+      "official_name": "Indian Institute of Technology Delhi (IIT Delhi) — teses abertas",
+      "official_url": "https://ir.iitd.ac.in/",
+      "jurisdiction": "Índia",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "site-oficial"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "M.Tech em Civil Engineering (estruturas, geotecnia, engenharia de transportes, engenharia ambiental e de recursos hídricos); M.Tech em Chemical Engineering; School of Public Policy (política pública e regulação); Department of Management Studies (MBA, gestão de projetos e finanças); School of Artifi"
+    },
+    {
+      "source_id": "url:iisc.ac.in/academics/graduate-programmes",
+      "category_id": "academic-programs",
+      "entity_type": "institution",
+      "official_name": "Indian Institute of Science (IISc) Bangalore — catálogo de pós",
+      "official_url": "https://www.iisc.ac.in/academics/graduate-programmes/",
+      "jurisdiction": "Índia",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "site-oficial"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "Civil Engineering (estruturas, geotecnia, transportes, engenharia ambiental e recursos hídricos); Chemical Engineering; Centre for Sustainable Technologies; Department of Management Studies (gestão e finanças de projeto); Computer Science and Automation; Computational and Data Sciences; Robert Bosch"
+    },
+    {
+      "source_id": "url:etd.iisc.ac.in",
+      "category_id": "open-theses",
+      "entity_type": "institution",
+      "official_name": "Indian Institute of Science (IISc) Bangalore — teses abertas",
+      "official_url": "https://etd.iisc.ac.in/",
+      "jurisdiction": "Índia",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "site-oficial"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "Civil Engineering (estruturas, geotecnia, transportes, engenharia ambiental e recursos hídricos); Chemical Engineering; Centre for Sustainable Technologies; Department of Management Studies (gestão e finanças de projeto); Computer Science and Automation; Computational and Data Sciences; Robert Bosch"
+    },
+    {
+      "source_id": "url:ox.ac.uk/admissions/graduate/courses/courses-a-z-listing",
+      "category_id": "academic-programs",
+      "entity_type": "institution",
+      "official_name": "University of Oxford — catálogo de pós",
+      "official_url": "https://www.ox.ac.uk/admissions/graduate/courses/courses-a-z-listing",
+      "jurisdiction": "Reino Unido",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "site-oficial"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "MSc in Water Science, Policy and Management (SoGE); MPhil in Water Science, Policy and Management; MSc in Law and Finance (Law + Saïd, conjunto); Master of Public Policy - MPP (Blavatnik); DPhil/MSc by Research em Engineering Science (infraestrutura, energia, civil); programas do Smith School (empre"
+    },
+    {
+      "source_id": "url:ora.ox.ac.uk",
+      "category_id": "open-theses",
+      "entity_type": "institution",
+      "official_name": "University of Oxford — teses abertas",
+      "official_url": "https://ora.ox.ac.uk/",
+      "jurisdiction": "Reino Unido",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "site-oficial"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "MSc in Water Science, Policy and Management (SoGE); MPhil in Water Science, Policy and Management; MSc in Law and Finance (Law + Saïd, conjunto); Master of Public Policy - MPP (Blavatnik); DPhil/MSc by Research em Engineering Science (infraestrutura, energia, civil); programas do Smith School (empre"
+    },
+    {
+      "source_id": "url:postgraduate.study.cam.ac.uk/courses",
+      "category_id": "academic-programs",
+      "entity_type": "institution",
+      "official_name": "University of Cambridge — catálogo de pós",
+      "official_url": "https://www.postgraduate.study.cam.ac.uk/courses",
+      "jurisdiction": "Reino Unido",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "site-oficial"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "MPhil in Engineering for Sustainable Development; MSt in Construction Engineering (Engineering + Judge, part-time para executivos do setor de construção); MPhil in Advanced Chemical Engineering; MPhil in Industrial Systems, Manufacture and Management; MPhil in Engineering (pesquisa, com temas em inf"
+    },
+    {
+      "source_id": "url:repository.cam.ac.uk",
+      "category_id": "open-theses",
+      "entity_type": "institution",
+      "official_name": "University of Cambridge — teses abertas",
+      "official_url": "https://www.repository.cam.ac.uk/",
+      "jurisdiction": "Reino Unido",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "site-oficial"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "MPhil in Engineering for Sustainable Development; MSt in Construction Engineering (Engineering + Judge, part-time para executivos do setor de construção); MPhil in Advanced Chemical Engineering; MPhil in Industrial Systems, Manufacture and Management; MPhil in Engineering (pesquisa, com temas em inf"
+    },
+    {
+      "source_id": "url:ethz.ch/en/studies/master/degree-programmes.html",
+      "category_id": "academic-programs",
+      "entity_type": "institution",
+      "official_name": "ETH Zürich (Eidgenössische Technische Hochschule Zürich) — catálogo de pós",
+      "official_url": "https://ethz.ch/en/studies/master/degree-programmes.html",
+      "jurisdiction": "Suíça",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "site-oficial"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "Mestrados do D-BAUG: engenharia civil, engenharia ambiental, geomática e desenvolvimento espacial/infraestrutura; D-MTEC: management, technology and economics (gestão de projeto, risco e economia da tecnologia); D-CHAB e D-MAVT: engenharia química e de processos; D-USYS: ciências de sistemas ambient"
+    },
+    {
+      "source_id": "url:research-collection.ethz.ch",
+      "category_id": "open-theses",
+      "entity_type": "institution",
+      "official_name": "ETH Zürich (Eidgenössische Technische Hochschule Zürich) — teses abertas",
+      "official_url": "https://www.research-collection.ethz.ch/",
+      "jurisdiction": "Suíça",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "site-oficial"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "Mestrados do D-BAUG: engenharia civil, engenharia ambiental, geomática e desenvolvimento espacial/infraestrutura; D-MTEC: management, technology and economics (gestão de projeto, risco e economia da tecnologia); D-CHAB e D-MAVT: engenharia química e de processos; D-USYS: ciências de sistemas ambient"
+    },
+    {
+      "source_id": "url:imperial.ac.uk/study/courses",
+      "category_id": "academic-programs",
+      "entity_type": "institution",
+      "official_name": "Imperial College London — catálogo de pós",
+      "official_url": "https://www.imperial.ac.uk/study/courses/",
+      "jurisdiction": "Reino Unido",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "site-oficial"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "MSc Environmental Engineering (Civil and Environmental Engineering); MSc General Structural Engineering; MSc Advanced Chemical Engineering; MSc Risk Management and Financial Engineering (Business School); MSc Artificial Intelligence and Machine Learning; MSc/MRes do Centre for Environmental Policy; "
+    },
+    {
+      "source_id": "url:spiral.imperial.ac.uk",
+      "category_id": "open-theses",
+      "entity_type": "institution",
+      "official_name": "Imperial College London — teses abertas",
+      "official_url": "https://spiral.imperial.ac.uk/",
+      "jurisdiction": "Reino Unido",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "site-oficial"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "MSc Environmental Engineering (Civil and Environmental Engineering); MSc General Structural Engineering; MSc Advanced Chemical Engineering; MSc Risk Management and Financial Engineering (Business School); MSc Artificial Intelligence and Machine Learning; MSc/MRes do Centre for Environmental Policy; "
+    },
+    {
+      "source_id": "url:ucl.ac.uk/prospective-students/graduate/taught-degrees",
+      "category_id": "academic-programs",
+      "entity_type": "institution",
+      "official_name": "University College London (UCL) — catálogo de pós",
+      "official_url": "https://www.ucl.ac.uk/prospective-students/graduate/taught-degrees",
+      "jurisdiction": "Reino Unido",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "site-oficial"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "MSc Infrastructure Investment and Finance (Bartlett); MSc Construction Economics and Management; MSc Environmental Systems Engineering; MSc Health Economics and Decision Science; LLM (UCL Laws, com trilhas de direito internacional e comercial); MSc Data Science and Machine Learning; programas do IIP"
+    },
+    {
+      "source_id": "url:discovery.ucl.ac.uk",
+      "category_id": "open-theses",
+      "entity_type": "institution",
+      "official_name": "University College London (UCL) — teses abertas",
+      "official_url": "https://discovery.ucl.ac.uk/",
+      "jurisdiction": "Reino Unido",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "site-oficial"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "MSc Infrastructure Investment and Finance (Bartlett); MSc Construction Economics and Management; MSc Environmental Systems Engineering; MSc Health Economics and Decision Science; LLM (UCL Laws, com trilhas de direito internacional e comercial); MSc Data Science and Machine Learning; programas do IIP"
+    },
+    {
+      "source_id": "url:epfl.ch/education/master/programs",
+      "category_id": "academic-programs",
+      "entity_type": "institution",
+      "official_name": "EPFL (École polytechnique fédérale de Lausanne) — catálogo de pós",
+      "official_url": "https://www.epfl.ch/education/master/programs/",
+      "jurisdiction": "Suíça",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "site-oficial"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "Master in Civil Engineering; Master in Environmental Sciences and Engineering; Master in Urban Systems; Master in Chemical Engineering and Biotechnology; Master in Energy Science and Technology; Master in Management, Technology and Entrepreneurship (MTE); Master in Sustainable Management and Technol"
+    },
+    {
+      "source_id": "url:infoscience.epfl.ch",
+      "category_id": "open-theses",
+      "entity_type": "institution",
+      "official_name": "EPFL (École polytechnique fédérale de Lausanne) — teses abertas",
+      "official_url": "https://infoscience.epfl.ch/",
+      "jurisdiction": "Suíça",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "site-oficial"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "Master in Civil Engineering; Master in Environmental Sciences and Engineering; Master in Urban Systems; Master in Chemical Engineering and Biotechnology; Master in Energy Science and Technology; Master in Management, Technology and Entrepreneurship (MTE); Master in Sustainable Management and Technol"
+    },
+    {
+      "source_id": "url:study.ed.ac.uk/programmes",
+      "category_id": "academic-programs",
+      "entity_type": "institution",
+      "official_name": "University of Edinburgh — catálogo de pós",
+      "official_url": "https://study.ed.ac.uk/programmes",
+      "jurisdiction": "Reino Unido",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "site-oficial"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "Programas de pós da School of Engineering no Institute for Infrastructure and Environment (engenharia civil, estruturas, energia); School of GeoSciences (água, clima, gestão ambiental, geociências de recursos); Edinburgh Law School (LLM em direito comercial e internacional, incluindo arbitragem/reso"
+    },
+    {
+      "source_id": "url:era.ed.ac.uk",
+      "category_id": "open-theses",
+      "entity_type": "institution",
+      "official_name": "University of Edinburgh — teses abertas",
+      "official_url": "https://era.ed.ac.uk/",
+      "jurisdiction": "Reino Unido",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "site-oficial"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "Programas de pós da School of Engineering no Institute for Infrastructure and Environment (engenharia civil, estruturas, energia); School of GeoSciences (água, clima, gestão ambiental, geociências de recursos); Edinburgh Law School (LLM em direito comercial e internacional, incluindo arbitragem/reso"
+    },
+    {
+      "source_id": "url:tum.de/en/studies/degree-programs",
+      "category_id": "academic-programs",
+      "entity_type": "institution",
+      "official_name": "Technische Universität München (TUM) — catálogo de pós",
+      "official_url": "https://www.tum.de/en/studies/degree-programs",
+      "jurisdiction": "Alemanha",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "site-oficial"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "Mestrados da School of Engineering and Design em engenharia civil, engenharia ambiental, gestão de recursos hídricos e transportes/mobilidade; química e engenharia de processos na School of Natural Sciences; TUM School of Management (finanças, gestão de projetos e tecnologia); AI in Society e AI in "
+    },
+    {
+      "source_id": "url:mediatum.ub.tum.de",
+      "category_id": "open-theses",
+      "entity_type": "institution",
+      "official_name": "Technische Universität München (TUM) — teses abertas",
+      "official_url": "https://mediatum.ub.tum.de/",
+      "jurisdiction": "Alemanha",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "site-oficial"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "Mestrados da School of Engineering and Design em engenharia civil, engenharia ambiental, gestão de recursos hídricos e transportes/mobilidade; química e engenharia de processos na School of Natural Sciences; TUM School of Management (finanças, gestão de projetos e tecnologia); AI in Society e AI in "
+    },
+    {
+      "source_id": "url:psl.eu/en/education",
+      "category_id": "academic-programs",
+      "entity_type": "institution",
+      "official_name": "Université PSL (Paris Sciences & Lettres) — catálogo de pós",
+      "official_url": "https://psl.eu/en/education",
+      "jurisdiction": "França",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "site-oficial"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "Mestrados e PhD Tracks agrupados em cerca de 15 categorias de graduate programs, incluindo Economics, Finance, Management, Chemistry, Computer Science e Physics; engenharia, energia e geociências via MINES Paris - PSL; finanças, direito e gestão via Dauphine - PSL; química industrial via Chimie Pari"
+    },
+    {
+      "source_id": "url:hal.science/psl",
+      "category_id": "open-theses",
+      "entity_type": "institution",
+      "official_name": "Université PSL (Paris Sciences & Lettres) — teses abertas",
+      "official_url": "https://hal.science/PSL",
+      "jurisdiction": "França",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "site-oficial"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "Mestrados e PhD Tracks agrupados em cerca de 15 categorias de graduate programs, incluindo Economics, Finance, Management, Chemistry, Computer Science e Physics; engenharia, energia e geociências via MINES Paris - PSL; finanças, direito e gestão via Dauphine - PSL; química industrial via Chimie Pari"
+    },
+    {
+      "source_id": "url:tudelft.nl/en/education/programmes/masters",
+      "category_id": "academic-programs",
+      "entity_type": "institution",
+      "official_name": "Delft University of Technology (TU Delft) — catálogo de pós",
+      "official_url": "https://www.tudelft.nl/en/education/programmes/masters",
+      "jurisdiction": "Países Baixos",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "site-oficial"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "MSc Civil Engineering (com trilhas de Hydraulic Engineering, Hydraulic and Offshore Structures e Geotechnical Engineering); MSc Environmental Engineering; MSc Transport, Infrastructure and Logistics; MSc Construction Management and Engineering; MSc Management of Technology; MSc Complex Systems Engin"
+    },
+    {
+      "source_id": "url:repository.tudelft.nl",
+      "category_id": "open-theses",
+      "entity_type": "institution",
+      "official_name": "Delft University of Technology (TU Delft) — teses abertas",
+      "official_url": "https://repository.tudelft.nl/",
+      "jurisdiction": "Países Baixos",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "site-oficial"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "MSc Civil Engineering (com trilhas de Hydraulic Engineering, Hydraulic and Offshore Structures e Geotechnical Engineering); MSc Environmental Engineering; MSc Transport, Infrastructure and Logistics; MSc Construction Management and Engineering; MSc Management of Technology; MSc Complex Systems Engin"
+    },
+    {
+      "source_id": "url:lse.ac.uk/programmes/search-courses",
+      "category_id": "academic-programs",
+      "entity_type": "institution",
+      "official_name": "London School of Economics and Political Science (LSE) — catálogo de pós",
+      "official_url": "https://www.lse.ac.uk/programmes/search-courses",
+      "jurisdiction": "Reino Unido",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "site-oficial"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "LLM da LSE Law School (com módulos de direito comercial internacional, regulação e resolução de disputas/arbitragem); programas da School of Public Policy (política pública, administração e avaliação); Department of Health Policy (economia da saúde, financiamento e planejamento de sistemas de saúde)"
+    },
+    {
+      "source_id": "url:researchonline.lse.ac.uk/theses.html",
+      "category_id": "open-theses",
+      "entity_type": "institution",
+      "official_name": "London School of Economics and Political Science (LSE) — teses abertas",
+      "official_url": "https://researchonline.lse.ac.uk/theses.html",
+      "jurisdiction": "Reino Unido",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "site-oficial"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "LLM da LSE Law School (com módulos de direito comercial internacional, regulação e resolução de disputas/arbitragem); programas da School of Public Policy (política pública, administração e avaliação); Department of Health Policy (economia da saúde, financiamento e planejamento de sistemas de saúde)"
+    },
+    {
+      "source_id": "url:sorbonne-universite.fr/en/education",
+      "category_id": "academic-programs",
+      "entity_type": "institution",
+      "official_name": "Sorbonne Université — catálogo de pós",
+      "official_url": "https://www.sorbonne-universite.fr/en/education",
+      "jurisdiction": "França",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "site-oficial"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "Mestrados da Faculté des Sciences et Ingénierie em química, ciências ambientais, mecânica/engenharia, matemática aplicada e ciência da computação/IA; formação em saúde e pesquisa clínica pela Faculté de Médecine; doutorado pelas escolas doutorais do Collège doctoral"
+    },
+    {
+      "source_id": "url:hal.sorbonne-universite.fr",
+      "category_id": "open-theses",
+      "entity_type": "institution",
+      "official_name": "Sorbonne Université — teses abertas",
+      "official_url": "https://hal.sorbonne-universite.fr/",
+      "jurisdiction": "França",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "site-oficial"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "Mestrados da Faculté des Sciences et Ingénierie em química, ciências ambientais, mecânica/engenharia, matemática aplicada e ciência da computação/IA; formação em saúde e pesquisa clínica pela Faculté de Médecine; doutorado pelas escolas doutorais do Collège doctoral"
+    },
+    {
+      "source_id": "url:catalog.he.u-tokyo.ac.jp",
+      "category_id": "academic-programs",
+      "entity_type": "institution",
+      "official_name": "The University of Tokyo (UTokyo / 東京大学) — catálogo de pós",
+      "official_url": "https://catalog.he.u-tokyo.ac.jp/",
+      "jurisdiction": "Japão",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "site-oficial"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "Civil Engineering (infraestrutura, geotecnia, pontes); Urban Engineering (abastecimento de água, esgoto e engenharia sanitária); Chemical System Engineering; Environmental Systems (Frontier Sciences, Kashiwa); Graduate School of Public Policy - MPP (regulação, PPP e política de infraestrutura); Law "
+    },
+    {
+      "source_id": "url:repository.dl.itc.u-tokyo.ac.jp",
+      "category_id": "open-theses",
+      "entity_type": "institution",
+      "official_name": "The University of Tokyo (UTokyo / 東京大学) — teses abertas",
+      "official_url": "https://repository.dl.itc.u-tokyo.ac.jp/",
+      "jurisdiction": "Japão",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "site-oficial"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "Civil Engineering (infraestrutura, geotecnia, pontes); Urban Engineering (abastecimento de água, esgoto e engenharia sanitária); Chemical System Engineering; Environmental Systems (Frontier Sciences, Kashiwa); Graduate School of Public Policy - MPP (regulação, PPP e política de infraestrutura); Law "
+    },
+    {
+      "source_id": "url:ocw.kyoto-u.ac.jp/en",
+      "category_id": "academic-programs",
+      "entity_type": "institution",
+      "official_name": "Kyoto University (京都大学) — catálogo de pós",
+      "official_url": "https://ocw.kyoto-u.ac.jp/en/",
+      "jurisdiction": "Japão",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "site-oficial"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "Civil and Earth Resources Engineering (infraestrutura, geotecnia, hidráulica); Urban and Environmental Engineering (engenharia ambiental, água e saneamento); Chemical Engineering; Global Environmental Studies (gestão ambiental e desenvolvimento); School of Government - Public Policy (regulação, PPP,"
+    },
+    {
+      "source_id": "url:repository.kulib.kyoto-u.ac.jp",
+      "category_id": "open-theses",
+      "entity_type": "institution",
+      "official_name": "Kyoto University (京都大学) — teses abertas",
+      "official_url": "https://repository.kulib.kyoto-u.ac.jp/",
+      "jurisdiction": "Japão",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "site-oficial"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "Civil and Earth Resources Engineering (infraestrutura, geotecnia, hidráulica); Urban and Environmental Engineering (engenharia ambiental, água e saneamento); Chemical Engineering; Global Environmental Studies (gestão ambiental e desenvolvimento); School of Government - Public Policy (regulação, PPP,"
+    },
+    {
+      "source_id": "url:osaka-u.ac.jp/en/academics/schools",
+      "category_id": "academic-programs",
+      "entity_type": "institution",
+      "official_name": "The University of Osaka (Osaka University / 大阪大学) — catálogo de pós",
+      "official_url": "https://www.osaka-u.ac.jp/en/academics/schools",
+      "jurisdiction": "Japão",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "site-oficial"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "Division of Global Architecture - Civil Engineering (infraestrutura, estruturas, portos); Environmental and Energy Engineering (água, saneamento e resíduos); Applied Chemistry / Chemical Engineering (química industrial); Business Engineering (gestão de projetos de engenharia); OSIPP - International "
+    },
+    {
+      "source_id": "url:ir.library.osaka-u.ac.jp/repo/ouka/all/?lang=1",
+      "category_id": "open-theses",
+      "entity_type": "institution",
+      "official_name": "The University of Osaka (Osaka University / 大阪大学) — teses abertas",
+      "official_url": "https://ir.library.osaka-u.ac.jp/repo/ouka/all/?lang=1",
+      "jurisdiction": "Japão",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "site-oficial"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "Division of Global Architecture - Civil Engineering (infraestrutura, estruturas, portos); Environmental and Energy Engineering (água, saneamento e resíduos); Applied Chemistry / Chemical Engineering (química industrial); Business Engineering (gestão de projetos de engenharia); OSIPP - International "
+    },
+    {
+      "source_id": "url:tohoku.ac.jp/en/academics/the_syllabus.html",
+      "category_id": "academic-programs",
+      "entity_type": "institution",
+      "official_name": "Tohoku University (東北大学) — catálogo de pós",
+      "official_url": "https://www.tohoku.ac.jp/en/academics/the_syllabus.html",
+      "jurisdiction": "Japão",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "site-oficial"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "Civil and Environmental Engineering (infraestrutura, hidrologia, tratamento de água e esgoto); Chemical Engineering / Applied Chemistry (química industrial); Environmental Studies (ciclo de recursos, avaliação ambiental); Management Science and Technology (gestão de projetos de engenharia); Law - di"
+    },
+    {
+      "source_id": "url:tohoku.repo.nii.ac.jp",
+      "category_id": "open-theses",
+      "entity_type": "institution",
+      "official_name": "Tohoku University (東北大学) — teses abertas",
+      "official_url": "https://tohoku.repo.nii.ac.jp/",
+      "jurisdiction": "Japão",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "site-oficial"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "Civil and Environmental Engineering (infraestrutura, hidrologia, tratamento de água e esgoto); Chemical Engineering / Applied Chemistry (química industrial); Environmental Studies (ciclo de recursos, avaliação ambiental); Management Science and Technology (gestão de projetos de engenharia); Law - di"
+    },
+    {
+      "source_id": "url:admissions.isct.ac.jp/en/013/graduate",
+      "category_id": "academic-programs",
+      "entity_type": "institution",
+      "official_name": "Institute of Science Tokyo (Science Tokyo — fusão do Tokyo Institute of Technology com a Tokyo Medical and Dental University) — catálogo de pós",
+      "official_url": "https://admissions.isct.ac.jp/en/013/graduate",
+      "jurisdiction": "Japão",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "site-oficial"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "Civil and Environmental Engineering (infraestrutura, água); Architecture and Building Engineering; Transdisciplinary Science and Engineering (sistemas urbanos e política de infraestrutura, inclui o GEDES); Technology and Innovation Management - MOT (avaliação econômica de projetos); Chemical Science"
+    },
+    {
+      "source_id": "url:isct.repo.nii.ac.jp",
+      "category_id": "open-theses",
+      "entity_type": "institution",
+      "official_name": "Institute of Science Tokyo (Science Tokyo — fusão do Tokyo Institute of Technology com a Tokyo Medical and Dental University) — teses abertas",
+      "official_url": "https://isct.repo.nii.ac.jp/",
+      "jurisdiction": "Japão",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "site-oficial"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "Civil and Environmental Engineering (infraestrutura, água); Architecture and Building Engineering; Transdisciplinary Science and Engineering (sistemas urbanos e política de infraestrutura, inclui o GEDES); Technology and Innovation Management - MOT (avaliação econômica de projetos); Chemical Science"
+    },
+    {
+      "source_id": "url:admission.kaist.ac.kr/intl-graduate",
+      "category_id": "academic-programs",
+      "entity_type": "institution",
+      "official_name": "KAIST (Korea Advanced Institute of Science and Technology) — catálogo de pós",
+      "official_url": "https://admission.kaist.ac.kr/intl-graduate/",
+      "jurisdiction": "Coreia do Sul",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "site-oficial"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "Civil and Environmental Engineering (infraestrutura, recursos hídricos, saneamento); Chemical and Biomolecular Engineering (química industrial); Graduate School of Green Growth and Sustainability (finanças verdes, ESG, avaliação de projetos); Graduate School of Science and Technology Policy (regulaç"
+    },
+    {
+      "source_id": "url:koasas.kaist.ac.kr",
+      "category_id": "open-theses",
+      "entity_type": "institution",
+      "official_name": "KAIST (Korea Advanced Institute of Science and Technology) — teses abertas",
+      "official_url": "https://koasas.kaist.ac.kr/",
+      "jurisdiction": "Coreia do Sul",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "site-oficial"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "Civil and Environmental Engineering (infraestrutura, recursos hídricos, saneamento); Chemical and Biomolecular Engineering (química industrial); Graduate School of Green Growth and Sustainability (finanças verdes, ESG, avaliação de projetos); Graduate School of Science and Technology Policy (regulaç"
+    },
+    {
+      "source_id": "url:sugang.snu.ac.kr",
+      "category_id": "academic-programs",
+      "entity_type": "institution",
+      "official_name": "Seoul National University (SNU / 서울대학교) — catálogo de pós",
+      "official_url": "https://sugang.snu.ac.kr/",
+      "jurisdiction": "Coreia do Sul",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "site-oficial"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "Civil and Environmental Engineering (infraestrutura, hidráulica, saneamento); Chemical and Biological Engineering (química industrial); Graduate School of Environmental Studies - Environmental Planning (saneamento e planejamento urbano); Technology Management, Economics and Policy Program - TEMEP (r"
+    },
+    {
+      "source_id": "url:s-space.snu.ac.kr",
+      "category_id": "open-theses",
+      "entity_type": "institution",
+      "official_name": "Seoul National University (SNU / 서울대학교) — teses abertas",
+      "official_url": "https://s-space.snu.ac.kr/",
+      "jurisdiction": "Coreia do Sul",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "site-oficial"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "Civil and Environmental Engineering (infraestrutura, hidráulica, saneamento); Chemical and Biological Engineering (química industrial); Graduate School of Environmental Studies - Environmental Planning (saneamento e planejamento urbano); Technology Management, Economics and Policy Program - TEMEP (r"
+    },
+    {
+      "source_id": "url:postech.ac.kr/eng/academics/graduate.do",
+      "category_id": "academic-programs",
+      "entity_type": "institution",
+      "official_name": "POSTECH (Pohang University of Science and Technology / 포항공과대학교) — catálogo de pós",
+      "official_url": "https://www.postech.ac.kr/eng/academics/graduate.do",
+      "jurisdiction": "Coreia do Sul",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "site-oficial"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "Environmental Science and Engineering (tratamento de água e efluentes, qualidade ambiental); Chemical Engineering (processos e química industrial); Graduate Institute of Ferrous and Eco Materials Technology - GIFT (siderurgia e materiais, relevante para suprimento de EPC); Graduate School of Artific"
+    },
+    {
+      "source_id": "url:oasis.postech.ac.kr",
+      "category_id": "open-theses",
+      "entity_type": "institution",
+      "official_name": "POSTECH (Pohang University of Science and Technology / 포항공과대학교) — teses abertas",
+      "official_url": "https://oasis.postech.ac.kr/",
+      "jurisdiction": "Coreia do Sul",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "site-oficial"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "Environmental Science and Engineering (tratamento de água e efluentes, qualidade ambiental); Chemical Engineering (processos e química industrial); Graduate Institute of Ferrous and Eco Materials Technology - GIFT (siderurgia e materiais, relevante para suprimento de EPC); Graduate School of Artific"
+    },
+    {
+      "source_id": "url:nus.edu.sg/nusbulletin",
+      "category_id": "academic-programs",
+      "entity_type": "institution",
+      "official_name": "National University of Singapore (NUS) — catálogo de pós",
+      "official_url": "https://www.nus.edu.sg/nusbulletin/",
+      "jurisdiction": "Singapura",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "site-oficial"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "MSc Project Management (CDE — referência para EPC e gestão de contratos de obra); MSc Civil Engineering; MSc Environmental Engineering (água e saneamento, ligado ao NUS Environmental Research Institute); MSc Chemical Engineering; LKYSPP - Master in Public Policy e Master in Public Administration (re"
+    },
+    {
+      "source_id": "url:scholarbank.nus.edu.sg",
+      "category_id": "open-theses",
+      "entity_type": "institution",
+      "official_name": "National University of Singapore (NUS) — teses abertas",
+      "official_url": "https://scholarbank.nus.edu.sg/",
+      "jurisdiction": "Singapura",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "site-oficial"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "MSc Project Management (CDE — referência para EPC e gestão de contratos de obra); MSc Civil Engineering; MSc Environmental Engineering (água e saneamento, ligado ao NUS Environmental Research Institute); MSc Chemical Engineering; LKYSPP - Master in Public Policy e Master in Public Administration (re"
+    },
+    {
+      "source_id": "url:wish.wis.ntu.edu.sg/webexe/owa/aus_subj_cont.main",
+      "category_id": "academic-programs",
+      "entity_type": "institution",
+      "official_name": "Nanyang Technological University, Singapore (NTU Singapore) — catálogo de pós",
+      "official_url": "https://wish.wis.ntu.edu.sg/webexe/owa/aus_subj_cont.main",
+      "jurisdiction": "Singapura",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "site-oficial"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "MSc Civil Engineering (infraestrutura e estruturas); MSc Environmental Engineering (água, efluentes e saneamento, ancorado no NEWRI); MSc International Construction Management (EPC, contratos e pleitos de obra); MSc Chemical Engineering (química industrial); MSc Maritime Studies (logística portuária"
+    },
+    {
+      "source_id": "url:dr.ntu.edu.sg",
+      "category_id": "open-theses",
+      "entity_type": "institution",
+      "official_name": "Nanyang Technological University, Singapore (NTU Singapore) — teses abertas",
+      "official_url": "https://dr.ntu.edu.sg/",
+      "jurisdiction": "Singapura",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "site-oficial"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "MSc Civil Engineering (infraestrutura e estruturas); MSc Environmental Engineering (água, efluentes e saneamento, ancorado no NEWRI); MSc International Construction Management (EPC, contratos e pleitos de obra); MSc Chemical Engineering (química industrial); MSc Maritime Studies (logística portuária"
+    },
+    {
+      "source_id": "url:nol.ntu.edu.tw/nol/coursesearch",
+      "category_id": "academic-programs",
+      "entity_type": "institution",
+      "official_name": "National Taiwan University (NTU / 國立臺灣大學) — catálogo de pós",
+      "official_url": "https://nol.ntu.edu.tw/nol/coursesearch/",
+      "jurisdiction": "Taiwan",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "site-oficial"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "Graduate Institute of Civil Engineering - divisão de Construction Management (EPC, contratos e cronograma); Graduate Institute of Environmental Engineering (água, esgoto e resíduos); Department of Chemical Engineering (química industrial); Graduate Institute of Building and Planning (planejamento ur"
+    },
+    {
+      "source_id": "url:api.openalex.org",
+      "category_id": "open-repositories",
+      "entity_type": "repository",
+      "official_name": "OpenAlex",
+      "official_url": "https://api.openalex.org",
+      "jurisdiction": "global",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "Dados em CC0 (domínio público) — é o único da lista que libera redistribuição…"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "O MELHOR FILTRO DE RANKING DE TODA A LISTA. (1) Ordenação direta por citações: sort=cited_by_count:desc — TESTADO 200 OK em https://api.openalex.org/works?filter=is_oa:true&sort=cited_by_count:desc. ("
+    },
+    {
+      "source_id": "url:openaire.eu",
+      "category_id": "open-repositories",
+      "entity_type": "repository",
+      "official_name": "OpenAIRE Graph",
+      "official_url": "https://www.openaire.eu/",
+      "jurisdiction": "global",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "Metadados do Graph liberados para reuso (dumps públicos no Zenodo). Cada texto…"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "MELHOR ALTERNATIVA A CITAÇÃO BRUTA. A Graph API v1 aceita indicadores BIP! nativos, TESTADOS AO VIVO 200 OK: sortBy=influence%20DESC (PageRank de influência de longo prazo) e sortBy=popularity%20DESC "
+    },
+    {
+      "source_id": "url:core.ac.uk",
+      "category_id": "open-repositories",
+      "entity_type": "repository",
+      "official_name": "CORE (COnnecting REpositories)",
+      "official_url": "https://core.ac.uk/",
+      "jurisdiction": "global",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "Metadados sob T&C do CORE (https://core.ac.uk/terms, VERIFICADO…"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "ATENÇÃO — ESTE É O PONTO FRACO DO CORE: não há ordenação por citações nativa confiável. O crivo aqui é de PROCEDÊNCIA, não de impacto. (1) Filtre por provedor de alta reputação: use o campo dataProvid"
+    },
+    {
+      "source_id": "url:base-search.net",
+      "category_id": "open-repositories",
+      "entity_type": "repository",
+      "official_name": "BASE (Bielefeld Academic Search Engine)",
+      "official_url": "https://www.base-search.net/",
+      "jurisdiction": "global",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "Uso dos metadados regido pelos termos em…"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "CRIVO DE TIPO E DE PROCEDÊNCIA, sem métrica de citação. (1) O campo mais útil é dcrights / 'Access': restrinja a Open Access verificado. (2) dccontenttype para separar artigo de tese de relatório. (3)"
+    },
+    {
+      "source_id": "url:opendoar.ac.uk",
+      "category_id": "open-repositories",
+      "entity_type": "repository",
+      "official_name": "CORE/OpenDOAR — Directory of Open Access Repositories (Jisc)",
+      "official_url": "https://opendoar.ac.uk/",
+      "jurisdiction": "global",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "Conteúdo do site sob CC BY-NC-ND 4.0 (LIDO DIRETAMENTE DO RODAPÉ DA PÁGINA…"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "AQUI O 'MELHOR RANQUEADO' NÃO É ARTIGO, É FONTE — e é justamente isso que dá o crivo mais valioso do atlas. (1) Toda inclusão passa por EQUIPE EDITORIAL: o texto oficial verificado diz que 'our editor"
+    },
+    {
+      "source_id": "url:roar.eprints.org",
+      "category_id": "open-repositories",
+      "entity_type": "repository",
+      "official_name": "ROAR — Registry of Open Access Repositories",
+      "official_url": "https://roar.eprints.org/",
+      "jurisdiction": "global",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "Não há declaração de licença explícita na página inicial. Tratar os metadados…"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "Crivo de fonte, como o OpenDOAR, porém mais frouxo: o ROAR é auto-registro com harvesting automático, sem a revisão editorial que a Jisc aplica no OpenDOAR. (1) Browse by Repository Type separa instit"
+    },
+    {
+      "source_id": "url:zenodo.org",
+      "category_id": "open-repositories",
+      "entity_type": "repository",
+      "official_name": "Zenodo (CERN)",
+      "official_url": "https://zenodo.org/",
+      "jurisdiction": "global",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "Licença POR REGISTRO, escolhida pelo depositante (varia de CC0 a 'todos os…"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "O MAIS FRACO EM RANKING DE TODA A LISTA — não há revisão por pares e qualquer um deposita. Por isso o crivo tem de ser construído: (1) sort=mostviewed (TESTADO 200 OK) como proxy de atenção. (2) type="
+    },
+    {
+      "source_id": "url:pmc.ncbi.nlm.nih.gov",
+      "category_id": "open-repositories",
+      "entity_type": "repository",
+      "official_name": "PubMed Central (PMC) — NIH/NLM",
+      "official_url": "https://pmc.ncbi.nlm.nih.gov/",
+      "jurisdiction": "global",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "HETEROGÊNEA E EXIGE ATENÇÃO. O PMC inteiro NÃO é livre para reuso: só o OPEN…"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "O MELHOR CRIVO METODOLÓGICO DA LISTA (não de citação, mas de FORÇA DE EVIDÊNCIA — que para saúde vale mais). Via E-utilities/PubMed: (1) Publication Type — filtre por 'Meta-Analysis', 'Systematic Revi"
+    },
+    {
+      "source_id": "url:hal.science",
+      "category_id": "open-repositories",
+      "entity_type": "repository",
+      "official_name": "HAL — Hyper Articles en Ligne (CNRS/CCSD, França)",
+      "official_url": "https://hal.science/",
+      "jurisdiction": "global",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "Depósitos com licença por documento (frequentemente CC-BY ou 'arquivo aberto'…"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "MELHOR FILTRO EXPLÍCITO DE PEER REVIEW DA LISTA, e foi TESTADO CAMPO A CAMPO. (1) peerReviewing_s:1 filtra SOMENTE o que passou por revisão por pares — teste ao vivo com 'eau' retornou 39.285 revisado"
+    },
+    {
+      "source_id": "url:repec.org",
+      "category_id": "open-repositories",
+      "entity_type": "repository",
+      "official_name": "RePEc / IDEAS — Research Papers in Economics",
+      "official_url": "http://repec.org/",
+      "jurisdiction": "global",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "Metadados em formato ReDIF, distribuídos por arquivos dos…"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "O ÚNICO DA LISTA COM RANKINGS PÚBLICOS PRONTOS — não é preciso calcular nada, a comunidade já publica as ligas. TODAS AS URLS ABAIXO FORAM TESTADAS 200 OK: (1) https://ideas.repec.org/top/ — portal de"
+    },
+    {
+      "source_id": "url:arxiv.org",
+      "category_id": "open-repositories",
+      "entity_type": "repository",
+      "official_name": "arXiv (Cornell University)",
+      "official_url": "https://arxiv.org/",
+      "jurisdiction": "global",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "POR SUBMISSÃO, escolhida pelo autor — varia entre CC-BY, CC-BY-SA, CC0 e a…"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "ATENÇÃO — NÃO HÁ REVISÃO POR PARES NEM CITAÇÃO NATIVA. É preprint…"
+    },
+    {
+      "source_id": "url:biorxiv.org",
+      "category_id": "open-repositories",
+      "entity_type": "repository",
+      "official_name": "bioRxiv e medRxiv (Cold Spring Harbor Laboratory)",
+      "official_url": "https://www.biorxiv.org/",
+      "jurisdiction": "global",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "POR PREPRINT, escolhida pelo autor no depósito (CC-BY, CC-BY-NC, CC-BY-ND ou…"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "O CRIVO MAIS FRACO DA LISTA — preprint sem revisão por pares, com triagem apenas de escopo e plágio. Como qualificar mesmo assim: (1) A API de detalhes (TESTADA 200 OK em https://api.biorxiv.org/detai"
+    },
+    {
+      "source_id": "url:ssrn.com",
+      "category_id": "open-repositories",
+      "entity_type": "repository",
+      "official_name": "SSRN — Social Science Research Network (Elsevier)",
+      "official_url": "https://www.ssrn.com/",
+      "jurisdiction": "global",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "Direitos retidos pelo autor, com termos de uso da Elsevier sobre a plataforma.…"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "O RANKING AQUI É POR DOWNLOAD, NÃO POR CITAÇÃO — e isso muda a interpretação: mede atenção de PRATICANTES (advogados, banqueiros, reguladores) e não de acadêmicos, o que para uma consultoria é frequen"
+    },
+    {
+      "source_id": "url:ndltd.org",
+      "category_id": "open-repositories",
+      "entity_type": "repository",
+      "official_name": "NDLTD — Networked Digital Library of Theses and Dissertations",
+      "official_url": "https://ndltd.org/",
+      "jurisdiction": "global",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "Site institucional e lista de fontes de acesso livre. Não distribui texto…"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "(a) NDLTD ETD Awards / Innovative ETD Award — premiação da própria rede, use como semente de teses de referência; (b) como o NDLTD só agrega, o ranqueamento real se faz na fonte: filtre por instituiçã"
+    },
+    {
+      "source_id": "url:oatd.org",
+      "category_id": "open-repositories",
+      "entity_type": "repository",
+      "official_name": "Global ETD Search / OATD — Open Access Theses and Dissertations",
+      "official_url": "https://oatd.org/",
+      "jurisdiction": "global",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "Índice de metadados de material declarado em acesso…"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "Não tem métrica de citação nem ranking próprio. Método: filtrar por instituição (facet de universidade) restringindo às escolas fortes do tema, e depois ranquear fora da base — jogar o título no OpenA"
+    },
+    {
+      "source_id": "url:explore.openaire.eu",
+      "category_id": "open-repositories",
+      "entity_type": "repository",
+      "official_name": "OpenAIRE Graph (substituto europeu do DART-Europe)",
+      "official_url": "https://explore.openaire.eu/",
+      "jurisdiction": "global",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "Metadados do OpenAIRE Graph são abertos (o Graph é publicado como recurso…"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "(a) a resposta traz country, language e subjects — filtre por país e instituição forte; (b) o Graph carrega vínculo com projetos financiados (Horizon/ERC) — tese ligada a projeto competitivo europeu é"
+    },
+    {
+      "source_id": "url:ethos.bl.uk",
+      "category_id": "open-repositories",
+      "entity_type": "repository",
+      "official_name": "EThOS — E-Theses Online Service (British Library)",
+      "official_url": "https://ethos.bl.uk/",
+      "jurisdiction": "global",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "Plataforma da British Library, com 'Terms and conditions' próprios linkados no…"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "Não há citação nem prêmio dentro da plataforma. Método: (a) filtrar pela instituição outorgante e privilegiar as fortes no tema — para EPC/infraestrutura e água, Imperial College, Leeds, Cranfield, Lo"
+    },
+    {
+      "source_id": "url:about.proquest.com/en/products-services/pqdtglobal",
+      "category_id": "open-repositories",
+      "entity_type": "repository",
+      "official_name": "ProQuest Dissertations & Theses / PQDT Open",
+      "official_url": "https://about.proquest.com/en/products-services/pqdtglobal/",
+      "jurisdiction": "global",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "Base proprietária, majoritariamente por assinatura. O subconjunto 'Open Access…"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "Dentro da ProQuest há filtro por instituição e por orientador. Mas registro a ressalva pedida: é agregador COMERCIAL, a maior parte do acervo é paga e a regra do trabalho manda preferir a página ofici"
+    },
+    {
+      "source_id": "url:theses.fr",
+      "category_id": "open-repositories",
+      "entity_type": "repository",
+      "official_name": "theses.fr — Le moteur de recherche des thèses françaises",
+      "official_url": "https://theses.fr/",
+      "jurisdiction": "global",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "A plataforma se declara em open data e distribui os dados via data.gouv.fr.…"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "A API é a mais rica desta lista para ranquear: cada registro traz etabSoutenance (instituição), discipline, ecolesDoctorale, directeurs, rapporteurs, examinateurs, president e nnt/doi. Método: (a) fil"
+    },
+    {
+      "source_id": "url:diva-portal.org",
+      "category_id": "open-repositories",
+      "entity_type": "repository",
+      "official_name": "DiVA — Digitala Vetenskapliga Arkivet (Academic Archive On-line)",
+      "official_url": "https://www.diva-portal.org/",
+      "jurisdiction": "global",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "Metadados colhíveis por OAI-PMH. Contato administrativo declarado:…"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "(a) Separar a busca 'Advanced search - Research publications' da 'Advanced search - Student theses' — o portal mistura tese de doutorado com trabalho de graduação/mestrado, e ignorar essa distinção é "
+    },
+    {
+      "source_id": "url:irdb.nii.ac.jp",
+      "category_id": "open-repositories",
+      "entity_type": "repository",
+      "official_name": "IRDB — Institutional Repositories DataBase (NII, Japão) — sucessor do JAIRO",
+      "official_url": "https://irdb.nii.ac.jp/",
+      "jurisdiction": "global",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "Serviço público do National Institute of Informatics (NII). Metadados colhíveis…"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "(a) Filtrar por tipo 'doctoral dissertation' (博士論文) — no Japão o depósito da tese de doutorado no repositório institucional é obrigatório por norma, então a cobertura recente é praticamente censitária"
+    },
+    {
+      "source_id": "url:shodhganga.inflibnet.ac.in",
+      "category_id": "open-repositories",
+      "entity_type": "repository",
+      "official_name": "Shodhganga — a reservoir of Indian theses @ INFLIBNET",
+      "official_url": "https://shodhganga.inflibnet.ac.in/",
+      "jurisdiction": "global",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "Repositório público do INFLIBNET/UGC, de consulta aberta. Não consegui…"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "(a) O corte de qualidade mais eficiente é por instituição: restrinja aos IITs (Bombay, Delhi, Madras, Kanpur, Kharagpur), IISc Bangalore e NITs — a diferença de nível para o resto da base é grande; (b"
+    },
+    {
+      "source_id": "url:tdx.cat",
+      "category_id": "open-repositories",
+      "entity_type": "repository",
+      "official_name": "TDX / TDR — Tesis Doctorals en Xarxa",
+      "official_url": "https://www.tdx.cat/",
+      "jurisdiction": "global",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "Não verificada nesta rodada por causa do bloqueio anti-bot. Repositórios do…"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "(a) 'Premi Extraordinari de Doctorat' — cada universidade catalã concede o prêmio extraordinário de doutorado por área a cada ano; é o selo de melhor tese e a lista sai no site de cada universidade (n"
+    },
+    {
+      "source_id": "url:bdtd.ibict.br/vufind",
+      "category_id": "open-repositories",
+      "entity_type": "repository",
+      "official_name": "BDTD — Biblioteca Digital Brasileira de Teses e Dissertações (IBICT)",
+      "official_url": "https://bdtd.ibict.br/vufind/",
+      "jurisdiction": "global",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "Serviço público do IBICT, consulta aberta. Metadados…"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "O ranqueamento no Brasil não está na BDTD — está na CAPES, e é aqui que a combinação rende: (a) filtrar por Instituição de Ensino e por Programa na BDTD; (b) levar o nome do programa ao Sucupira/CAPES"
+    },
+    {
+      "source_id": "url:catalogodeteses.capes.gov.br/catalogo-teses",
+      "category_id": "open-repositories",
+      "entity_type": "repository",
+      "official_name": "Catálogo de Teses e Dissertações da CAPES",
+      "official_url": "https://catalogodeteses.capes.gov.br/catalogo-teses/",
+      "jurisdiction": "global",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "Dado público do governo federal brasileiro. O catálogo expõe ficha e…"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "Esta é a fonte com o melhor mecanismo de ranqueamento oficial de toda a lista, e é o que a diferencia da BDTD: (a) PRÊMIO CAPES DE TESE — instituído em 2005, primeira edição em 2006, premia as melhore"
+    },
+    {
+      "source_id": "url:openknowledge.worldbank.org",
+      "category_id": "open-repositories",
+      "entity_type": "repository",
+      "official_name": "World Bank Open Knowledge Repository (OKR)",
+      "official_url": "https://openknowledge.worldbank.org/",
+      "jurisdiction": "global",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "Majoritariamente CC BY 4.0 e CC BY 3.0…"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "Filtrar por coleção 'Publications & Research' (revisão interna) e por 'Policy Research Working Papers' (peer-review interno do DEC). Ordenar por data e cruzar o DOI no OpenAlex/Crossref para contagem "
+    },
+    {
+      "source_id": "url:documents.worldbank.org/en/publication/documents-reports",
+      "category_id": "open-repositories",
+      "entity_type": "repository",
+      "official_name": "World Bank Documents & Reports",
+      "official_url": "https://documents.worldbank.org/en/publication/documents-reports",
+      "jurisdiction": "global",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "Predominantemente CC BY 4.0 / CC BY 3.0…"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "Usar os facetes 'Document Type' (Project Appraisal Document, Implementation Completion Report) e 'Major Sector'. Para consultoria, os ICR/IEG Reviews são o material mais confiável, porque trazem resul"
+    },
+    {
+      "source_id": "url:ppi.worldbank.org/en/ppi",
+      "category_id": "open-repositories",
+      "entity_type": "repository",
+      "official_name": "World Bank PPI Database (Private Participation in Infrastructure)",
+      "official_url": "https://ppi.worldbank.org/en/ppi",
+      "jurisdiction": "global",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "Download livre sob os Termos de Uso do Banco Mundial, com exigência de…"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "Não há ranking acadêmico aqui — o filtro de qualidade é metodológico: usar apenas registros com 'financial closure' confirmada e conferir a nota metodológica anual. Cruzar cada projeto com o ICR corre"
+    },
+    {
+      "source_id": "url:ppiaf.org/knowledge",
+      "category_id": "open-repositories",
+      "entity_type": "repository",
+      "official_name": "PPIAF — Public-Private Infrastructure Advisory Facility",
+      "official_url": "https://www.ppiaf.org/knowledge",
+      "jurisdiction": "global",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "Livre para…"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "Priorizar as séries carro-chefe (Benchmarking Infrastructure Development e os toolkits setoriais) sobre notas avulsas de país. Como o material é técnico e não peer-reviewed, o proxy de qualidade é a c"
+    },
+    {
+      "source_id": "url:ppp.worldbank.org/public-private-partnership/library",
+      "category_id": "open-repositories",
+      "entity_type": "repository",
+      "official_name": "World Bank PPP Legal Resource Center / PPP Knowledge Lab",
+      "official_url": "https://ppp.worldbank.org/public-private-partnership/library",
+      "jurisdiction": "global",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "Acesso livre sob termos do Banco…"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "Priorizar as 'Sample Contractual Provisions' e o PPP Reference Guide (edição mais recente), que passam por revisão jurídica formal. Descartar contribuições de país sem data de atualização."
+    },
+    {
+      "source_id": "url:trid.trb.org",
+      "category_id": "open-repositories",
+      "entity_type": "repository",
+      "official_name": "TRID — Transport Research International Documentation (TRB)",
+      "official_url": "https://trid.trb.org/",
+      "jurisdiction": "global",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "Busca e metadados livres. RESTRIÇÃO CRÍTICA: a própria página declara que a…"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "Filtrar por 'Serial' = Transportation Research Record (peer-reviewed) e por publicações do NCHRP/TCRP, que são programas de pesquisa cooperativa com revisão por painel. Usar a busca avançada por modo "
+    },
+    {
+      "source_id": "url:rip.trb.org",
+      "category_id": "open-repositories",
+      "entity_type": "repository",
+      "official_name": "TRB Research in Progress (RiP)",
+      "official_url": "https://rip.trb.org/",
+      "jurisdiction": "global",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "Domínio público / governo dos EUA, acesso livre."
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "Filtrar por projetos financiados por NCHRP, FHWA e por DOTs estaduais; esses passam por seleção competitiva. Ordenar por data de início para captar a fronteira do tema."
+    },
+    {
+      "source_id": "url:fidic.org/bookshop",
+      "category_id": "open-repositories",
+      "entity_type": "repository",
+      "official_name": "FIDIC — Fédération Internationale des Ingénieurs-Conseils",
+      "official_url": "https://fidic.org/bookshop",
+      "jurisdiction": "global",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "PROPRIETÁRIA E PAGA. Os livros de contrato custam entre €43 e €195 por título.…"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "Usar sempre a edição mais recente (2ª ed. 2017 em diante) e ler o Guidance Memorandum correspondente, que corrige ambiguidades da edição-base. Para saber o que é aceito na prática, cruzar com os laudo"
+    },
+    {
+      "source_id": "url:data.worldbank.org",
+      "category_id": "open-repositories",
+      "entity_type": "repository",
+      "official_name": "World Bank Open Data",
+      "official_url": "https://data.worldbank.org/",
+      "jurisdiction": "global",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "CC BY 4.0 para a maior parte dos indicadores (Open Data Terms of Use)."
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "Preferir séries com metadado de fonte primária (IEA, OMS, UNESCO) sobre estimativas modeladas; checar o campo de 'Aggregation method' e a data da última atualização de cada indicador antes de usar em "
+    },
+    {
+      "source_id": "url:iwaponline.com",
+      "category_id": "open-repositories",
+      "entity_type": "repository",
+      "official_name": "IWA Publishing",
+      "official_url": "https://iwaponline.com/",
+      "jurisdiction": "global",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "Híbrida: artigos OA em CC BY ou CC BY-NC-ND…"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "Filtrar por artigos em open access (Water Science and Technology é OA desde 2021; H2Open Journal é OA desde 2018; Journal of Water and Health é OA). Ranquear por citação via OpenAlex/Crossref usando o"
+    },
+    {
+      "source_id": "url:susana.org/knowledge-hub/resources",
+      "category_id": "open-repositories",
+      "entity_type": "repository",
+      "official_name": "SuSanA — Sustainable Sanitation Alliance (Knowledge Hub)",
+      "official_url": "https://www.susana.org/knowledge-hub/resources",
+      "jurisdiction": "global",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "Acesso…"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "Priorizar publicações de instituições-membro reconhecidas (GIZ, Eawag/Sandec, WHO, IWA) e os Factsheets do próprio SuSanA, que passam por revisão dos grupos de trabalho. Literatura cinzenta de ONG sem"
+    },
+    {
+      "source_id": "url:ihedelftrepository.contentdm.oclc.org",
+      "category_id": "open-repositories",
+      "entity_type": "repository",
+      "official_name": "IHE Delft Institute for Water Education — Repositório Institucional",
+      "official_url": "https://ihedelftrepository.contentdm.oclc.org/",
+      "jurisdiction": "global",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "Varia por…"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "Filtrar por PhD dissertations (revisão de banca doutoral) acima de MSc theses. Entre as MSc, priorizar as premiadas e as que geraram artigo publicado — rastreável cruzando o nome do autor no OpenAlex."
+    },
+    {
+      "source_id": "url:washdata.org",
+      "category_id": "open-repositories",
+      "entity_type": "repository",
+      "official_name": "JMP — WHO/UNICEF Joint Monitoring Programme (washdata.org)",
+      "official_url": "https://washdata.org/",
+      "jurisdiction": "global",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "Acesso livre com atribuição (termos WHO/UNICEF)."
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "É a fonte oficial de referência para os indicadores ODS de WASH — o filtro é usar as estimativas JMP em vez de dados nacionais avulsos quando houver conflito, e sempre citar o ano da rodada de estimat"
+    },
+    {
+      "source_id": "url:iris.who.int",
+      "category_id": "open-repositories",
+      "entity_type": "repository",
+      "official_name": "WHO IRIS — Institutional Repository for Information Sharing",
+      "official_url": "https://iris.who.int/",
+      "jurisdiction": "global",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "Predominantemente CC BY-NC-SA 3.0 IGO — permite reuso e adaptação com…"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "Priorizar a coleção de 'WHO Guidelines' — passam pelo Guidelines Review Committee, que é o padrão-ouro metodológico (GRADE) da OMS. Diretriz supera relatório técnico, que supera documento de reunião. "
+    },
+    {
+      "source_id": "url:iris.paho.org",
+      "category_id": "open-repositories",
+      "entity_type": "repository",
+      "official_name": "PAHO IRIS — Repositório Institucional da OPAS",
+      "official_url": "https://iris.paho.org/",
+      "jurisdiction": "global",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "Acesso…"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "Priorizar as publicações científico-técnicas e os artigos da Revista Panamericana (peer-reviewed) sobre atas de reunião. Para o contexto brasileiro, é mais aplicável que o WHO IRIS por trazer normas a"
+    },
+    {
+      "source_id": "url:cochranelibrary.com/about/open-access",
+      "category_id": "open-repositories",
+      "entity_type": "repository",
+      "official_name": "Cochrane Library",
+      "official_url": "https://www.cochranelibrary.com/about/open-access",
+      "jurisdiction": "global",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "Mista: parte das revisões é open access (CC BY ou CC…"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "A própria natureza do acervo já é o filtro: revisão sistemática Cochrane é o material mais bem ranqueado que existe em evidência clínica. Dentro dele, priorizar revisões atualizadas nos últimos 3 anos"
+    },
+    {
+      "source_id": "url:europepmc.org",
+      "category_id": "open-repositories",
+      "entity_type": "repository",
+      "official_name": "Europe PMC",
+      "official_url": "https://europepmc.org/",
+      "jurisdiction": "global",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "Metadados…"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "Usar o filtro de texto completo aberto (OPEN_ACCESS:Y) combinado com o tipo de publicação: revisão sistemática e ensaio clínico randomizado no topo. A API expõe contagem de citações, permitindo ranque"
+    },
+    {
+      "source_id": "url:bvsalud.org",
+      "category_id": "open-repositories",
+      "entity_type": "repository",
+      "official_name": "BVS / Biblioteca Virtual em Saúde (BIREME/OPAS)",
+      "official_url": "https://bvsalud.org/",
+      "jurisdiction": "global",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "Acesso livre à busca; licença do texto completo varia por periódico."
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "Filtrar pela base LILACS (indexação com critérios editoriais próprios) e por tipo de estudo. Para política de saúde brasileira, priorizar o que também está no SciELO Brasil, sinal de periódico com ava"
+    },
+    {
+      "source_id": "url:nice.org.uk/guidance",
+      "category_id": "open-repositories",
+      "entity_type": "repository",
+      "official_name": "NICE — National Institute for Health and Care Excellence",
+      "official_url": "https://www.nice.org.uk/guidance",
+      "jurisdiction": "global",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "NICE UK Open Content Licence — reuso permitido com atribuição, com restrições…"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "Priorizar 'NICE guidelines' e 'Technology appraisal guidance' sobre 'advice'. Cada peça traz a data de revisão programada — descartar guidance marcada como retirada ou substituída."
+    },
+    {
+      "source_id": "url:osti.gov",
+      "category_id": "open-repositories",
+      "entity_type": "repository",
+      "official_name": "OSTI.gov — Office of Scientific and Technical Information (DOE)",
+      "official_url": "https://www.osti.gov/",
+      "jurisdiction": "global",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "Produção do governo dos EUA em geral em domínio…"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "Priorizar registros com DOI de periódico (peer-reviewed) sobre relatórios técnicos internos; usar o filtro por laboratório nacional (NREL para renováveis, ORNL/PNNL para química e materiais) como prox"
+    },
+    {
+      "source_id": "url:iea.org/data-and-statistics",
+      "category_id": "open-repositories",
+      "entity_type": "repository",
+      "official_name": "IEA — International Energy Agency",
+      "official_url": "https://www.iea.org/data-and-statistics",
+      "jurisdiction": "global",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "PROPRIETÁRIA. Os relatórios são gratuitos para leitura, mas os dados são…"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "Priorizar as publicações-carro-chefe (World Energy Outlook, Energy Technology Perspectives) e os relatórios de rastreamento setorial, que passam por revisão dos países-membros. Sempre citar o ano da e"
+    },
+    {
+      "source_id": "url:semanticscholar.org/product/api",
+      "category_id": "open-repositories",
+      "entity_type": "repository",
+      "official_name": "Semantic Scholar (Allen Institute for AI)",
+      "official_url": "https://www.semanticscholar.org/product/api",
+      "jurisdiction": "global",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "Datasets do Academic Graph sob ODC-BY (exigem atribuição). Termos de uso do AI2…"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "É a melhor ferramenta de ranqueamento da lista: ordenar por citationCount e por influentialCitationCount, filtrar por fieldsOfStudy ('Engineering','Chemistry','Environmental Science') e por isOpenAcce"
+    },
+    {
+      "source_id": "url:api.openalex.org",
+      "category_id": "open-repositories",
+      "entity_type": "repository",
+      "official_name": "OpenAlex (OurResearch)",
+      "official_url": "https://api.openalex.org/",
+      "jurisdiction": "global",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "CC0 (domínio público) para os dados — a licença mais permissiva de toda esta…"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "Ranquear por cited_by_count; filtrar por is_oa=true, por type=article e pelo percentil do periódico. Permite montar um top-N reprodutível por tema com uma única chamada — o filtro de qualidade vira có"
+    },
+    {
+      "source_id": "url:doaj.org",
+      "category_id": "open-repositories",
+      "entity_type": "repository",
+      "official_name": "DOAJ — Directory of Open Access Journals",
+      "official_url": "https://doaj.org/",
+      "jurisdiction": "global",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "Metadados do DOAJ em CC0 (domínio público), inclusive os dumps completos. Cada…"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "O próprio DOAJ é um filtro de qualidade: só entra periódico que comprova revisão por pares e transparência editorial — serve de lista branca contra periódicos predatórios. Priorizar os que ostentam o "
+    },
+    {
+      "source_id": "url:data-explorer.oecd.org",
+      "category_id": "open-repositories",
+      "entity_type": "repository",
+      "official_name": "OECD iLibrary / OECD Data Explorer",
+      "official_url": "https://data-explorer.oecd.org/",
+      "jurisdiction": "global",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "CC BY 4.0 para todo conteúdo escrito publicado a partir de 1º de julho de 2024…"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "Priorizar os 'OECD Reviews' por país e as Recommendations do Conselho (instrumentos jurídicos formais) sobre working papers. Em tributação, os relatórios BEPS e as Transfer Pricing Guidelines são a re"
+    },
+    {
+      "source_id": "url:erc.undp.org",
+      "category_id": "open-repositories",
+      "entity_type": "repository",
+      "official_name": "UNDP Evaluation Resource Centre (ERC) + Open UNDP",
+      "official_url": "https://erc.undp.org/",
+      "jurisdiction": "global",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "Acesso livre; termos das Nações Unidas, em geral reuso permitido com atribuição."
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "Priorizar as Independent Country Programme Evaluations e as avaliações temáticas do IEO (Independent Evaluation Office) sobre autoavaliações de projeto — o IEO tem independência estrutural. Cada avali"
+    },
+    {
+      "source_id": "url:afdb.org/en/documents/category/publications",
+      "category_id": "open-repositories",
+      "entity_type": "repository",
+      "official_name": "African Development Bank Group — Documents & Publications",
+      "official_url": "https://www.afdb.org/en/documents/category/publications",
+      "jurisdiction": "global",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "Acesso livre com atribuição, sob os termos do Grupo BAD."
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "Priorizar os relatórios do IDEV (avaliação independente) e as Development Effectiveness Reviews, que auditam resultado; documentos de projeto servem como fonte primária de escopo e custo, não como evi"
+    },
+    {
+      "source_id": "url:elibrary.imf.org",
+      "category_id": "open-repositories",
+      "entity_type": "repository",
+      "official_name": "IMF eLibrary",
+      "official_url": "https://www.elibrary.imf.org/",
+      "jurisdiction": "global",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "Livre para leitura desde 1º de janeiro de 2020 — todo o conteúdo eletrônico do…"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "Priorizar os Country Reports do Artigo IV (revisão formal pelo Board) e os manuais metodológicos (GFSM, PIMA) sobre Working Papers, que trazem a ressalva de não representarem a posição do Fundo. Para "
+    },
+    {
+      "source_id": "url:icsid.worldbank.org/cases/case-database",
+      "category_id": "open-repositories",
+      "entity_type": "repository",
+      "official_name": "ICSID — Base de Casos (Banco Mundial)",
+      "official_url": "https://icsid.worldbank.org/cases/case-database",
+      "jurisdiction": "global",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "Acesso livre; documentos publicados mediante consentimento das partes."
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "Filtrar por setor (infraestrutura, água, energia) e por status 'Concluded' com laudo publicado. Laudos e decisões de anulação valem mais que ordens processuais. Para arbitragem de investimento fora do"
+    },
+    {
+      "source_id": "url:uncitral.un.org/en/case_law",
+      "category_id": "open-repositories",
+      "entity_type": "repository",
+      "official_name": "UNCITRAL — CLOUT e textos normativos",
+      "official_url": "https://uncitral.un.org/en/case_law",
+      "jurisdiction": "global",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "Documentos oficiais da ONU — acesso livre, reprodução permitida com atribuição."
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "Priorizar os guias legislativos e as leis modelo (instrumentos negociados entre Estados) sobre os resumos de caso do CLOUT, que são sínteses. Para execução de laudo, cruzar com a base da Convenção de "
+    },
+    {
+      "source_id": "url:bdtd.ibict.br",
+      "category_id": "open-repositories",
+      "entity_type": "repository",
+      "official_name": "BDTD / oasisbr — IBICT",
+      "official_url": "https://bdtd.ibict.br/",
+      "jurisdiction": "global",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "Varia por instituição…"
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "Filtrar por programas de pós-graduação com nota CAPES alta (6–7) nas áreas de Engenharia Civil, Engenharia Química, Recursos Hídricos e Saúde Coletiva. Teses de doutorado premiadas (Prêmio CAPES de Te"
+    },
+    {
+      "source_id": "url:scielo.br",
+      "category_id": "open-repositories",
+      "entity_type": "repository",
+      "official_name": "SciELO — Scientific Electronic Library Online",
+      "official_url": "https://www.scielo.br/",
+      "jurisdiction": "global",
+      "authority_tier": 1,
+      "license": {
+        "license_id": "Predominantemente CC BY 4.0 — reuso amplo, inclusive comercial, com atribuição."
+      },
+      "claim_class": "academic",
+      "first_seen_at": "2026-09-06",
+      "last_verification_at": "2026-09-06",
+      "human_review": "pendente",
+      "discovery_query_id": "atlas-academico-value-pas",
+      "notas": "A admissão na coleção SciELO já implica avaliação editorial periódica — periódico excluído sai da base. Ranquear por citação cruzando o DOI no OpenAlex ou no Semantic Scholar, já que a interface do Sc"
     }
   ]
 }

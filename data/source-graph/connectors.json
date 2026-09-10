@@ -35,7 +35,14 @@
       "last_verified_at": "2026-08-05T20:32:21.771657Z",
       "verification_note": "HTTP 200 em 05/08/2026; a v2 mudou name->names[] e country->locations[]",
       "ready_to_enable": true,
-      "enabled_at": "2026-09-03"
+      "enabled_at": "2026-09-03",
+      "portoes": {
+        "instituto": "sim",
+        "associados": "sim",
+        "produto": "sim",
+        "procedencia": "derivado",
+        "nota": "Inferido do rótulo license_id; NINGUÉM leu os termos ao vivo. Exija veredito verificado antes de usar em produto vendido ou em entrega a associado — em 3 de 6 fontes auditadas o rótulo divergia dos termos reais."
+      }
     },
     {
       "connector_id": "crossref",
@@ -69,7 +76,14 @@
       "last_verified_at": "2026-08-05T20:32:21.771657Z",
       "verification_note": "HTTP 200; NAO suporta busca por frase — usa query.title",
       "ready_to_enable": true,
-      "enabled_at": "2026-09-03"
+      "enabled_at": "2026-09-03",
+      "portoes": {
+        "instituto": "sim",
+        "associados": "sim",
+        "produto": "sim",
+        "procedencia": "derivado",
+        "nota": "Inferido do rótulo license_id; NINGUÉM leu os termos ao vivo. Exija veredito verificado antes de usar em produto vendido ou em entrega a associado — em 3 de 6 fontes auditadas o rótulo divergia dos termos reais."
+      }
     },
     {
       "connector_id": "arxiv",
@@ -99,7 +113,14 @@
       "last_verified_at": "2026-08-05T20:32:21.771657Z",
       "verification_note": "HTTP 200; aspas obrigatorias, sem elas casa palavras soltas (500x)",
       "ready_to_enable": true,
-      "enabled_at": "2026-09-03"
+      "enabled_at": "2026-09-03",
+      "portoes": {
+        "instituto": "sim",
+        "associados": "sim",
+        "produto": "sim",
+        "procedencia": "derivado",
+        "nota": "Inferido do rótulo license_id; NINGUÉM leu os termos ao vivo. Exija veredito verificado antes de usar em produto vendido ou em entrega a associado — em 3 de 6 fontes auditadas o rótulo divergia dos termos reais."
+      }
     },
     {
       "connector_id": "openlibrary",
@@ -129,7 +150,14 @@
         "a documentação declara explicitamente que a plataforma não é infraestrutura comercial"
       ],
       "implementation": null,
-      "enabled_at": "2026-09-03"
+      "enabled_at": "2026-09-03",
+      "portoes": {
+        "instituto": "sim",
+        "associados": "sim",
+        "produto": "sim",
+        "procedencia": "derivado",
+        "nota": "Inferido do rótulo license_id; NINGUÉM leu os termos ao vivo. Exija veredito verificado antes de usar em produto vendido ou em entrega a associado — em 3 de 6 fontes auditadas o rótulo divergia dos termos reais."
+      }
     },
     {
       "connector_id": "doaj",
@@ -158,7 +186,14 @@
       "last_verified_at": "2026-08-05T20:32:21.771657Z",
       "verification_note": "HTTP 200",
       "ready_to_enable": true,
-      "enabled_at": "2026-09-03"
+      "enabled_at": "2026-09-03",
+      "portoes": {
+        "instituto": "sim",
+        "associados": "cinza",
+        "produto": "sim",
+        "procedencia": "derivado",
+        "nota": "Inferido do rótulo license_id; NINGUÉM leu os termos ao vivo. Exija veredito verificado antes de usar em produto vendido ou em entrega a associado — em 3 de 6 fontes auditadas o rótulo divergia dos termos reais."
+      }
     },
     {
       "connector_id": "openalex",
@@ -183,7 +218,14 @@
         "BLOQUEADO NO ESTÁGIO 1: desde fev/2026 exige chave e cobra por uso (US$1/dia grátis). O AGENTS.md proíbe criar custos",
         "caminho correto é o dump CC0 no S3 — grátis, sem chave, Estágio 2"
       ],
-      "implementation": null
+      "implementation": null,
+      "portoes": {
+        "instituto": "sim",
+        "associados": "sim",
+        "produto": "sim",
+        "procedencia": "derivado",
+        "nota": "Inferido do rótulo license_id; NINGUÉM leu os termos ao vivo. Exija veredito verificado antes de usar em produto vendido ou em entrega a associado — em 3 de 6 fontes auditadas o rótulo divergia dos termos reais."
+      }
     },
     {
       "connector_id": "sec-edgar",
@@ -210,7 +252,14 @@
         "User-Agent com contato é OBRIGATÓRIO — sem isso a SEC bloqueia; 10 req/s"
       ],
       "implementation": null,
-      "enabled_at": "2026-09-03"
+      "enabled_at": "2026-09-03",
+      "portoes": {
+        "instituto": "sim",
+        "associados": "sim",
+        "produto": "sim",
+        "procedencia": "derivado",
+        "nota": "Inferido do rótulo license_id; NINGUÉM leu os termos ao vivo. Exija veredito verificado antes de usar em produto vendido ou em entrega a associado — em 3 de 6 fontes auditadas o rótulo divergia dos termos reais."
+      }
     },
     {
       "connector_id": "dados-gov-br",
@@ -234,7 +283,14 @@
         "base legal: Lei 12.527/2011 + Decreto 8.777/2016"
       ],
       "verification_note": "HTTP 401 em 05/08/2026 — declaracao anterior estava desatualizada",
-      "last_verified_at": "2026-08-05T20:32:21.771657Z"
+      "last_verified_at": "2026-08-05T20:32:21.771657Z",
+      "portoes": {
+        "instituto": "sim",
+        "associados": "sim",
+        "produto": "sim",
+        "procedencia": "derivado",
+        "nota": "Inferido do rótulo license_id; NINGUÉM leu os termos ao vivo. Exija veredito verificado antes de usar em produto vendido ou em entrega a associado — em 3 de 6 fontes auditadas o rótulo divergia dos termos reais."
+      }
     },
     {
       "connector_id": "anp",
@@ -261,7 +317,14 @@
         "publicação por arquivo, não por API REST em todos os conjuntos"
       ],
       "implementation": "src/asus_theye/markets/fonte_anp.py",
-      "enabled_at": "2026-09-03"
+      "enabled_at": "2026-09-03",
+      "portoes": {
+        "instituto": "sim",
+        "associados": "sim",
+        "produto": "sim",
+        "procedencia": "derivado",
+        "nota": "Inferido do rótulo license_id; NINGUÉM leu os termos ao vivo. Exija veredito verificado antes de usar em produto vendido ou em entrega a associado — em 3 de 6 fontes auditadas o rótulo divergia dos termos reais."
+      }
     },
     {
       "connector_id": "snis",
@@ -288,7 +351,14 @@
         "série anual com defasagem; autodeclarado pelos prestadores"
       ],
       "implementation": null,
-      "enabled_at": "2026-09-03"
+      "enabled_at": "2026-09-03",
+      "portoes": {
+        "instituto": "sim",
+        "associados": "sim",
+        "produto": "sim",
+        "procedencia": "derivado",
+        "nota": "Inferido do rótulo license_id; NINGUÉM leu os termos ao vivo. Exija veredito verificado antes de usar em produto vendido ou em entrega a associado — em 3 de 6 fontes auditadas o rótulo divergia dos termos reais."
+      }
     },
     {
       "connector_id": "ibm-quantum",
@@ -315,7 +385,14 @@
       "limitations": [
         "JÁ EM USO NESTE PROJETO: job d9ngkpcsfqic73ar17vg em ibm_kingston, 3,94 s de QPU"
       ],
-      "implementation": null
+      "implementation": null,
+      "portoes": {
+        "instituto": "sim",
+        "associados": "sim",
+        "produto": "sim",
+        "procedencia": "derivado",
+        "nota": "Inferido do rótulo license_id; NINGUÉM leu os termos ao vivo. Exija veredito verificado antes de usar em produto vendido ou em entrega a associado — em 3 de 6 fontes auditadas o rótulo divergia dos termos reais."
+      }
     },
     {
       "connector_id": "amazon-braket",
@@ -339,7 +416,14 @@
       "limitations": [
         "cria custo além da cota — bloqueado pelo AGENTS.md"
       ],
-      "implementation": null
+      "implementation": null,
+      "portoes": {
+        "instituto": "sim",
+        "associados": "sim",
+        "produto": "sim",
+        "procedencia": "derivado",
+        "nota": "Inferido do rótulo license_id; NINGUÉM leu os termos ao vivo. Exija veredito verificado antes de usar em produto vendido ou em entrega a associado — em 3 de 6 fontes auditadas o rótulo divergia dos termos reais."
+      }
     },
     {
       "connector_id": "dwave-leap",
@@ -365,7 +449,14 @@
       "limitations": [
         "annealer resolve uma classe restrita de problema; não roda QAOA de porta"
       ],
-      "implementation": null
+      "implementation": null,
+      "portoes": {
+        "instituto": "sim",
+        "associados": "sim",
+        "produto": "sim",
+        "procedencia": "derivado",
+        "nota": "Inferido do rótulo license_id; NINGUÉM leu os termos ao vivo. Exija veredito verificado antes de usar em produto vendido ou em entrega a associado — em 3 de 6 fontes auditadas o rótulo divergia dos termos reais."
+      }
     },
     {
       "connector_id": "usgs_quakes",
@@ -391,7 +482,14 @@
       "last_verified_at": "2026-08-29T15:14:41.646697+00:00",
       "verification_note": "IQF 100 (cluster J); coletado ao vivo em 29/08 (14 sismos M4.5+)",
       "ready_to_enable": true,
-      "enabled_at": "2026-09-03"
+      "enabled_at": "2026-09-03",
+      "portoes": {
+        "instituto": "sim",
+        "associados": "sim",
+        "produto": "sim",
+        "procedencia": "derivado",
+        "nota": "Inferido do rótulo license_id; NINGUÉM leu os termos ao vivo. Exija veredito verificado antes de usar em produto vendido ou em entrega a associado — em 3 de 6 fontes auditadas o rótulo divergia dos termos reais."
+      }
     },
     {
       "connector_id": "ecb_data_portal",
@@ -417,7 +515,14 @@
       "last_verified_at": "2026-08-29T15:14:41.646697+00:00",
       "verification_note": "verificada ao vivo 29/08 (DFR 2,25%)",
       "ready_to_enable": true,
-      "enabled_at": "2026-09-03"
+      "enabled_at": "2026-09-03",
+      "portoes": {
+        "instituto": "sim",
+        "associados": "sim",
+        "produto": "sim",
+        "procedencia": "derivado",
+        "nota": "Inferido do rótulo license_id; NINGUÉM leu os termos ao vivo. Exija veredito verificado antes de usar em produto vendido ou em entrega a associado — em 3 de 6 fontes auditadas o rótulo divergia dos termos reais."
+      }
     },
     {
       "connector_id": "worldbank_api",
@@ -443,7 +548,14 @@
       "last_verified_at": "2026-08-29T15:14:41.646697+00:00",
       "verification_note": "verificada ao vivo 29/08",
       "ready_to_enable": true,
-      "enabled_at": "2026-09-03"
+      "enabled_at": "2026-09-03",
+      "portoes": {
+        "instituto": "sim",
+        "associados": "sim",
+        "produto": "sim",
+        "procedencia": "derivado",
+        "nota": "Inferido do rótulo license_id; NINGUÉM leu os termos ao vivo. Exija veredito verificado antes de usar em produto vendido ou em entrega a associado — em 3 de 6 fontes auditadas o rótulo divergia dos termos reais."
+      }
     },
     {
       "connector_id": "bcra_api",
@@ -469,7 +581,14 @@
       "last_verified_at": "2026-08-29T15:14:41.646697+00:00",
       "verification_note": "verificada ao vivo 29/08; ids 160/161 (tasa política) MORTOS desde 07/2025 — usar BADLAR id 7",
       "ready_to_enable": true,
-      "enabled_at": "2026-09-03"
+      "enabled_at": "2026-09-03",
+      "portoes": {
+        "instituto": "sim",
+        "associados": "sim",
+        "produto": "sim",
+        "procedencia": "derivado",
+        "nota": "Inferido do rótulo license_id; NINGUÉM leu os termos ao vivo. Exija veredito verificado antes de usar em produto vendido ou em entrega a associado — em 3 de 6 fontes auditadas o rótulo divergia dos termos reais."
+      }
     },
     {
       "connector_id": "wikimedia_pageviews",
@@ -495,7 +614,14 @@
       "last_verified_at": "2026-08-29T15:14:41.646697+00:00",
       "verification_note": "verificada ao vivo 29/08; papel sinal, nunca liquidação",
       "ready_to_enable": true,
-      "enabled_at": "2026-09-03"
+      "enabled_at": "2026-09-03",
+      "portoes": {
+        "instituto": "sim",
+        "associados": "cinza",
+        "produto": "sim",
+        "procedencia": "derivado",
+        "nota": "Inferido do rótulo license_id; NINGUÉM leu os termos ao vivo. Exija veredito verificado antes de usar em produto vendido ou em entrega a associado — em 3 de 6 fontes auditadas o rótulo divergia dos termos reais."
+      }
     },
     {
       "connector_id": "ons_dados_abertos",
@@ -521,7 +647,14 @@
       "last_verified_at": "2026-08-29T15:35:16.762321+00:00",
       "verification_note": "CKAN validado ao vivo 29/08: package_search respondeu success=true com 83 datasets",
       "ready_to_enable": true,
-      "enabled_at": "2026-09-03"
+      "enabled_at": "2026-09-03",
+      "portoes": {
+        "instituto": "sim",
+        "associados": "sim",
+        "produto": "sim",
+        "procedencia": "derivado",
+        "nota": "Inferido do rótulo license_id; NINGUÉM leu os termos ao vivo. Exija veredito verificado antes de usar em produto vendido ou em entrega a associado — em 3 de 6 fontes auditadas o rótulo divergia dos termos reais."
+      }
     },
     {
       "connector_id": "inmet_apitempo",
@@ -547,7 +680,14 @@
       "last_verified_at": "2026-08-29T15:14:41.646697+00:00",
       "verification_note": "INDISPONÍVEL na validação de 29/08 (conexão não abre daqui); manter não-pronto e revalidar | REVALIDADO 2026-09-03: HTTP 200 estacoes 263KB -> ligado",
       "ready_to_enable": true,
-      "enabled_at": "2026-09-03"
+      "enabled_at": "2026-09-03",
+      "portoes": {
+        "instituto": "sim",
+        "associados": "sim",
+        "produto": "sim",
+        "procedencia": "derivado",
+        "nota": "Inferido do rótulo license_id; NINGUÉM leu os termos ao vivo. Exija veredito verificado antes de usar em produto vendido ou em entrega a associado — em 3 de 6 fontes auditadas o rótulo divergia dos termos reais."
+      }
     },
     {
       "connector_id": "opendatasus",
@@ -600,7 +740,14 @@
           "dado de saude individual"
         ]
       },
-      "tema": "saude"
+      "tema": "saude",
+      "portoes": {
+        "instituto": "sim",
+        "associados": "cinza",
+        "produto": "nao",
+        "procedencia": "derivado",
+        "nota": "Inferido do rótulo license_id; NINGUÉM leu os termos ao vivo. Exija veredito verificado antes de usar em produto vendido ou em entrega a associado — em 3 de 6 fontes auditadas o rótulo divergia dos termos reais."
+      }
     },
     {
       "connector_id": "cvm_dados_abertos",
@@ -626,7 +773,14 @@
       "last_verified_at": "2026-08-29T15:14:41.646697+00:00",
       "verification_note": "IQF 78 (cluster J); análogo BR do SEC EDGAR | REVALIDADO 2026-09-03: HTTP 200 CKAN package_list -> ligado",
       "ready_to_enable": true,
-      "enabled_at": "2026-09-03"
+      "enabled_at": "2026-09-03",
+      "portoes": {
+        "instituto": "sim",
+        "associados": "sim",
+        "produto": "sim",
+        "procedencia": "derivado",
+        "nota": "Inferido do rótulo license_id; NINGUÉM leu os termos ao vivo. Exija veredito verificado antes de usar em produto vendido ou em entrega a associado — em 3 de 6 fontes auditadas o rótulo divergia dos termos reais."
+      }
     },
     {
       "connector_id": "zenodo",
@@ -656,7 +810,14 @@
       "last_verified_at": "2026-09-03",
       "verification_note": "HTTP 200 ao vivo 03/09; CERN/OpenAIRE; sem chave | leitura: GET /api/records?q={termo}&size=N — parsear metadata.license, metadata.access_right, doi | descoberto no 1o ciclo do descobridor-de-fontes",
       "ready_to_enable": true,
-      "enabled_at": "2026-09-03"
+      "enabled_at": "2026-09-03",
+      "portoes": {
+        "instituto": "sim",
+        "associados": "sim",
+        "produto": "sim",
+        "procedencia": "derivado",
+        "nota": "Inferido do rótulo license_id; NINGUÉM leu os termos ao vivo. Exija veredito verificado antes de usar em produto vendido ou em entrega a associado — em 3 de 6 fontes auditadas o rótulo divergia dos termos reais."
+      }
     },
     {
       "connector_id": "ncbi_eutils",
@@ -685,7 +846,14 @@
       "last_verified_at": "2026-09-03",
       "verification_note": "HTTP 200 ao vivo 03/09; XML valido; obra do governo EUA (dominio publico); sem chave | leitura: GET einfo.fcgi para descoberta; esearch.fcgi + efetch.fcgi para consulta | descoberto no 1o ciclo do descobridor-de-fontes",
       "ready_to_enable": true,
-      "enabled_at": "2026-09-03"
+      "enabled_at": "2026-09-03",
+      "portoes": {
+        "instituto": "sim",
+        "associados": "sim",
+        "produto": "sim",
+        "procedencia": "derivado",
+        "nota": "Inferido do rótulo license_id; NINGUÉM leu os termos ao vivo. Exija veredito verificado antes de usar em produto vendido ou em entrega a associado — em 3 de 6 fontes auditadas o rótulo divergia dos termos reais."
+      }
     },
     {
       "connector_id": "wikidata_query",
@@ -715,7 +883,14 @@
       "last_verified_at": "2026-09-03",
       "verification_note": "pagina oficial de acesso confirmada ao vivo 03/09; CC0 explicito; Wikimedia | leitura: GET/POST SPARQL em query.wikidata.org/sparql?query=...&format=json | descoberto no 1o ciclo do descobridor-de-fontes",
       "ready_to_enable": true,
-      "enabled_at": "2026-09-03"
+      "enabled_at": "2026-09-03",
+      "portoes": {
+        "instituto": "sim",
+        "associados": "sim",
+        "produto": "sim",
+        "procedencia": "derivado",
+        "nota": "Inferido do rótulo license_id; NINGUÉM leu os termos ao vivo. Exija veredito verificado antes de usar em produto vendido ou em entrega a associado — em 3 de 6 fontes auditadas o rótulo divergia dos termos reais."
+      }
     },
     {
       "connector_id": "huggingface_hub",
@@ -746,7 +921,14 @@
       "last_verified_at": "2026-09-03",
       "verification_note": "HTTP 200 ao vivo 03/09; JSON valido; empresa privada (nao orgao publico); sem chave p/ itens nao-gated | leitura: GET /api/models?limit=N&full=false e /api/datasets?limit=N — checar gated e license por item ANTES de usar | descoberto no 1o ciclo do descobridor-de-fontes",
       "ready_to_enable": true,
-      "enabled_at": "2026-09-03"
+      "enabled_at": "2026-09-03",
+      "portoes": {
+        "instituto": "sim",
+        "associados": "sim",
+        "produto": "sim",
+        "procedencia": "derivado",
+        "nota": "Inferido do rótulo license_id; NINGUÉM leu os termos ao vivo. Exija veredito verificado antes de usar em produto vendido ou em entrega a associado — em 3 de 6 fontes auditadas o rótulo divergia dos termos reais."
+      }
     },
     {
       "connector_id": "oecd_sdmx",
@@ -774,7 +956,14 @@
       "last_verified_at": "2026-09-03",
       "verification_note": "HTTP 200 ao vivo 03/09 (catalogo dataflow); licenca via cache de busca, nao acesso direto — lacuna declarada | leitura: GET /public/rest/dataflow p/ catalogo; /public/rest/data/{dataflow}/{filtro} p/ series | descoberto no 1o ciclo do descobridor-de-fontes",
       "ready_to_enable": true,
-      "enabled_at": "2026-09-03"
+      "enabled_at": "2026-09-03",
+      "portoes": {
+        "instituto": "sim",
+        "associados": "sim",
+        "produto": "sim",
+        "procedencia": "derivado",
+        "nota": "Inferido do rótulo license_id; NINGUÉM leu os termos ao vivo. Exija veredito verificado antes de usar em produto vendido ou em entrega a associado — em 3 de 6 fontes auditadas o rótulo divergia dos termos reais."
+      }
     },
     {
       "connector_id": "openml",
@@ -803,7 +992,14 @@
       "last_verified_at": "2026-09-03",
       "verification_note": "HTTP 200 ao vivo 03/09 apos seguir redirect; sem chave | leitura: GET /api/v1/json/data/list/limit/N | descoberto no 1o ciclo do descobridor-de-fontes",
       "ready_to_enable": true,
-      "enabled_at": "2026-09-03"
+      "enabled_at": "2026-09-03",
+      "portoes": {
+        "instituto": "sim",
+        "associados": "sim",
+        "produto": "sim",
+        "procedencia": "derivado",
+        "nota": "Inferido do rótulo license_id; NINGUÉM leu os termos ao vivo. Exija veredito verificado antes de usar em produto vendido ou em entrega a associado — em 3 de 6 fontes auditadas o rótulo divergia dos termos reais."
+      }
     },
     {
       "connector_id": "re3data",
@@ -832,7 +1028,14 @@
       "last_verified_at": "2026-09-03",
       "verification_note": "HTTP 200 ao vivo 03/09; XML valido; apoio DFG/Gottingen; sem chave; o registro-mestre pedido pelo titular | leitura: GET /api/beta/repository/?query={termo} — XML com id/DOI/nome/link self | descoberto no 1o ciclo do descobridor-de-fontes",
       "ready_to_enable": true,
-      "enabled_at": "2026-09-03"
+      "enabled_at": "2026-09-03",
+      "portoes": {
+        "instituto": "sim",
+        "associados": "sim",
+        "produto": "sim",
+        "procedencia": "derivado",
+        "nota": "Inferido do rótulo license_id; NINGUÉM leu os termos ao vivo. Exija veredito verificado antes de usar em produto vendido ou em entrega a associado — em 3 de 6 fontes auditadas o rótulo divergia dos termos reais."
+      }
     },
     {
       "connector_id": "gdelt_doc",
@@ -860,7 +1063,14 @@
       "implementation": "src/asus_theye/markets/fonte_gdelt.py",
       "last_verified_at": "2026-09-03",
       "verification_note": "ToS confirmado por acesso direto 03/09 (uso irrestrito c/ citacao); endpoint de dados NAO respondeu (ECONNRESET x3) — lacuna | leitura: GET /doc/doc?query={termo}&mode=artlist&format=json&maxrecords=N | descoberto no 1o ciclo do descobridor-de-fontes | REVALIDADO 2026-09-03: timeout 18s desta rede -> segue nao-pronto | REVALIDADO 2026-09-03 21:03Z: agora responde 429 (vivo, throttled) - antes timeout/ECONNRESET; aumentar min_interval e reavaliar",
-      "ready_to_enable": false
+      "ready_to_enable": false,
+      "portoes": {
+        "instituto": "sim",
+        "associados": "sim",
+        "produto": "sim",
+        "procedencia": "derivado",
+        "nota": "Inferido do rótulo license_id; NINGUÉM leu os termos ao vivo. Exija veredito verificado antes de usar em produto vendido ou em entrega a associado — em 3 de 6 fontes auditadas o rótulo divergia dos termos reais."
+      }
     },
     {
       "connector_id": "imf_datamapper",
@@ -888,7 +1098,14 @@
       "implementation": null,
       "last_verified_at": "2026-09-03",
       "verification_note": "endpoint HTTP 200 ao vivo 03/09; risco juridico de uso automatizado identificado (nao confrontado c/ texto integral, 403) — NAO HABILITAR sem checagem juridica | leitura: GET /api/v1/{indicador}/{pais} — NAO automatizar em lote sem confirmar com copyright@imf.org | descoberto no 1o ciclo do descobridor-de-fontes",
-      "ready_to_enable": false
+      "ready_to_enable": false,
+      "portoes": {
+        "instituto": "sim",
+        "associados": "sim",
+        "produto": "sim",
+        "procedencia": "derivado",
+        "nota": "Inferido do rótulo license_id; NINGUÉM leu os termos ao vivo. Exija veredito verificado antes de usar em produto vendido ou em entrega a associado — em 3 de 6 fontes auditadas o rótulo divergia dos termos reais."
+      }
     },
     {
       "connector_id": "commoncrawl_index",
@@ -916,7 +1133,14 @@
       "implementation": null,
       "last_verified_at": "2026-09-03",
       "verification_note": "HTTP 200 ao vivo 03/09 (indice e termos); snapshots mensais (sem tempo real); sem chave | leitura: GET /collinfo.json p/ catalogo; GET {cdx-api}?url={dominio}&output=json p/ consulta | descoberto no 1o ciclo do descobridor-de-fontes",
-      "ready_to_enable": true
+      "ready_to_enable": true,
+      "portoes": {
+        "instituto": "sim",
+        "associados": "sim",
+        "produto": "sim",
+        "procedencia": "derivado",
+        "nota": "Inferido do rótulo license_id; NINGUÉM leu os termos ao vivo. Exija veredito verificado antes de usar em produto vendido ou em entrega a associado — em 3 de 6 fontes auditadas o rótulo divergia dos termos reais."
+      }
     },
     {
       "connector_id": "worldbank_procurement_notices",
@@ -946,7 +1170,14 @@
       "last_verified_at": "2026-09-03",
       "verification_note": "HTTP 200 ao vivo 03/09; JSON valido (total=417406, testado com countryname_exact=Angola); sem chave | descoberto na missao VALUE PAS do descobridor-de-fontes",
       "ready_to_enable": true,
-      "enabled_at": "2026-09-03"
+      "enabled_at": "2026-09-03",
+      "portoes": {
+        "instituto": "sim",
+        "associados": "sim",
+        "produto": "sim",
+        "procedencia": "derivado",
+        "nota": "Inferido do rótulo license_id; NINGUÉM leu os termos ao vivo. Exija veredito verificado antes de usar em produto vendido ou em entrega a associado — em 3 de 6 fontes auditadas o rótulo divergia dos termos reais."
+      }
     },
     {
       "connector_id": "reliefweb_api",
@@ -975,7 +1206,14 @@
       "implementation": "aba Noticias (VALUE PAS): GET /reports?appname=the-eye&filter[field]=country&filter[value]=Angola|Democratic Republic of the Congo — parsear title, date, source, body",
       "last_verified_at": "2026-09-03",
       "verification_note": "documentacao oficial confirmada ao vivo 03/09 (apidoc.reliefweb.int); free, sem custo, CC-BY-4.0 | descoberto na missao VALUE PAS do descobridor-de-fontes",
-      "ready_to_enable": true
+      "ready_to_enable": true,
+      "portoes": {
+        "instituto": "sim",
+        "associados": "sim",
+        "produto": "sim",
+        "procedencia": "derivado",
+        "nota": "Inferido do rótulo license_id; NINGUÉM leu os termos ao vivo. Exija veredito verificado antes de usar em produto vendido ou em entrega a associado — em 3 de 6 fontes auditadas o rótulo divergia dos termos reais."
+      }
     },
     {
       "connector_id": "worldbank_commodity_pricedata",
@@ -1005,7 +1243,14 @@
       "last_verified_at": "2026-09-03",
       "verification_note": "HTTP 200 ao vivo 03/09; xlsx valido (760KB) baixado com sucesso; sem chave | descoberto na missao VALUE PAS do descobridor-de-fontes",
       "ready_to_enable": true,
-      "enabled_at": "2026-09-03"
+      "enabled_at": "2026-09-03",
+      "portoes": {
+        "instituto": "sim",
+        "associados": "sim",
+        "produto": "sim",
+        "procedencia": "derivado",
+        "nota": "Inferido do rótulo license_id; NINGUÉM leu os termos ao vivo. Exija veredito verificado antes de usar em produto vendido ou em entrega a associado — em 3 de 6 fontes auditadas o rótulo divergia dos termos reais."
+      }
     },
     {
       "connector_id": "afdb_opendataforafrica",
@@ -1033,7 +1278,14 @@
       "implementation": "aba Mercado (VALUE PAS): usar API Explorer (dataportal.opendataforafrica.org/dev/explorer) para indicadores de agua/saneamento/infraestrutura de Angola e RDC",
       "last_verified_at": "2026-09-03",
       "verification_note": "portal e API Explorer confirmados ao vivo 03/09; CC-BY-4.0 declarada para dado publicado pelo AfDB; sem chave para consulta basica | descoberto na missao VALUE PAS do descobridor-de-fontes | REVALIDADO 2026-09-03: HTTP 403 (portal bloqueia GET nao-browser) -> segue nao-pronto | REVALIDADO 2026-09-03: 403 persiste",
-      "ready_to_enable": false
+      "ready_to_enable": false,
+      "portoes": {
+        "instituto": "sim",
+        "associados": "sim",
+        "produto": "sim",
+        "procedencia": "derivado",
+        "nota": "Inferido do rótulo license_id; NINGUÉM leu os termos ao vivo. Exija veredito verificado antes de usar em produto vendido ou em entrega a associado — em 3 de 6 fontes auditadas o rótulo divergia dos termos reais."
+      }
     },
     {
       "connector_id": "un_comtrade_api",
@@ -1064,7 +1316,14 @@
       "last_verified_at": "2026-09-03",
       "verification_note": "HTTP 200 ao vivo 03/09 no endpoint preview (JSON, 500 registros de amostra); requisito de subscription key p/ uso pleno nao confirmado nesta execucao — lacuna declarada | descoberto na missao VALUE PAS do descobridor-de-fontes | REVALIDADO 2026-09-03: HTTP 200 preview JSON (sem chave) -> ligado",
       "ready_to_enable": true,
-      "enabled_at": "2026-09-03"
+      "enabled_at": "2026-09-03",
+      "portoes": {
+        "instituto": "sim",
+        "associados": "sim",
+        "produto": "sim",
+        "procedencia": "derivado",
+        "nota": "Inferido do rótulo license_id; NINGUÉM leu os termos ao vivo. Exija veredito verificado antes de usar em produto vendido ou em entrega a associado — em 3 de 6 fontes auditadas o rótulo divergia dos termos reais."
+      }
     },
     {
       "connector_id": "allafrica_rss",
@@ -1094,7 +1353,14 @@
       "last_verified_at": "2026-09-03",
       "verification_note": "pagina de RSS oficial confirmada ao vivo 03/09; termos de reuso limitados a manchete+atribuicao+link — nao aprovado para ready_to_enable ate confirmar uso institucional | descoberto na missao VALUE PAS do descobridor-de-fontes | REVALIDADO 2026-09-03: HTTP 200 feed RDF 27KB -> ligado",
       "ready_to_enable": true,
-      "enabled_at": "2026-09-03"
+      "enabled_at": "2026-09-03",
+      "portoes": {
+        "instituto": "sim",
+        "associados": "sim",
+        "produto": "sim",
+        "procedencia": "derivado",
+        "nota": "Inferido do rótulo license_id; NINGUÉM leu os termos ao vivo. Exija veredito verificado antes de usar em produto vendido ou em entrega a associado — em 3 de 6 fontes auditadas o rótulo divergia dos termos reais."
+      }
     },
     {
       "connector_id": "semanticscholar_graph",
@@ -1124,7 +1390,15 @@
       "implementation": null,
       "last_verified_at": "2026-09-03",
       "verification_note": "3 tentativas ao vivo: 1a e 2a HTTP 429 (rate limit); 3a (GET /paper/DOI:...) retornou JSON valido com paperId+title, confirmando API oficial ativa | IQF: legalidade-ok(ToS permite uso automatizado c/ atribuicao) oficialidade-ok(Allen Institute for AI) latencia-instavel(429 recorrente sem chave) estabilidade-ok(API versionada v1) cobertura-ok(200M+ papers) custo-0 | descoberto na fase F1 do descobridor-de-fontes",
-      "ready_to_enable": true
+      "ready_to_enable": true,
+      "portoes": {
+        "instituto": "sim",
+        "associados": "nao",
+        "produto": "nao",
+        "procedencia": "verificado",
+        "verificado_em": "2026-09-06",
+        "nota": "Rótulo dizia ODC-BY-1.0; os termos ao vivo dizem 'non-commercial, research and/or educational purposes only' E proíbem 'sell, lease, SHARE, transfer ... to ANY THIRD PARTY' — por isso trava também os associados. Exposição hoje é ZERO: nenhum dado foi colhido da API."
+      }
     },
     {
       "connector_id": "openaire_graph",
@@ -1154,7 +1428,14 @@
       "last_verified_at": "2026-09-03",
       "verification_note": "HTTP 200 ao vivo 03/09; JSON valido com header.numFound=7.661.610 para pageSize=1 | IQF: legalidade-ok oficialidade-ok(consorcio europeu OpenAIRE) latencia-ok(296ms) estabilidade-ok(Graph API v1) cobertura-ok custo-0 | descoberto na fase F1 do descobridor-de-fontes",
       "ready_to_enable": true,
-      "enabled_at": "2026-09-03"
+      "enabled_at": "2026-09-03",
+      "portoes": {
+        "instituto": "sim",
+        "associados": "sim",
+        "produto": "sim",
+        "procedencia": "derivado",
+        "nota": "Inferido do rótulo license_id; NINGUÉM leu os termos ao vivo. Exija veredito verificado antes de usar em produto vendido ou em entrega a associado — em 3 de 6 fontes auditadas o rótulo divergia dos termos reais."
+      }
     },
     {
       "connector_id": "dblp",
@@ -1184,7 +1465,14 @@
       "last_verified_at": "2026-09-03",
       "verification_note": "HTTP 200 ao vivo 03/09; JSON valido com hits/completions (110.922 hits para 'test*') | IQF: legalidade-ok(CC0 desde 2019) oficialidade-ok(Schloss Dagstuhl) latencia-ok(2.99ms) estabilidade-ok cobertura-ok(bibliografia CS canonica) custo-0 | descoberto na fase F1 do descobridor-de-fontes",
       "ready_to_enable": true,
-      "enabled_at": "2026-09-03"
+      "enabled_at": "2026-09-03",
+      "portoes": {
+        "instituto": "sim",
+        "associados": "sim",
+        "produto": "sim",
+        "procedencia": "derivado",
+        "nota": "Inferido do rótulo license_id; NINGUÉM leu os termos ao vivo. Exija veredito verificado antes de usar em produto vendido ou em entrega a associado — em 3 de 6 fontes auditadas o rótulo divergia dos termos reais."
+      }
     },
     {
       "connector_id": "europepmc",
@@ -1214,7 +1502,14 @@
       "last_verified_at": "2026-09-03",
       "verification_note": "HTTP 200 ao vivo 03/09; JSON valido, hitCount=1.068.416 para query 'covid' | IQF: legalidade-ok oficialidade-ok(EMBL-EBI) latencia-ok estabilidade-ok(v6.9) cobertura-ok custo-0 | descoberto na fase F1 do descobridor-de-fontes",
       "ready_to_enable": true,
-      "enabled_at": "2026-09-03"
+      "enabled_at": "2026-09-03",
+      "portoes": {
+        "instituto": "sim",
+        "associados": "sim",
+        "produto": "sim",
+        "procedencia": "derivado",
+        "nota": "Inferido do rótulo license_id; NINGUÉM leu os termos ao vivo. Exija veredito verificado antes de usar em produto vendido ou em entrega a associado — em 3 de 6 fontes auditadas o rótulo divergia dos termos reais."
+      }
     },
     {
       "connector_id": "biorxiv_medrxiv",
@@ -1245,7 +1540,14 @@
       "last_verified_at": "2026-09-03",
       "verification_note": "HTTP 200 ao vivo 03/09; JSON valido com messages=[{status:ok}] e collection[] | IQF: legalidade-ok oficialidade-ok(Cold Spring Harbor Laboratory) latencia-ok estabilidade-ok cobertura-ok custo-0 | descoberto na fase F1 do descobridor-de-fontes",
       "ready_to_enable": true,
-      "enabled_at": "2026-09-03"
+      "enabled_at": "2026-09-03",
+      "portoes": {
+        "instituto": "sim",
+        "associados": "sim",
+        "produto": "sim",
+        "procedencia": "derivado",
+        "nota": "Inferido do rótulo license_id; NINGUÉM leu os termos ao vivo. Exija veredito verificado antes de usar em produto vendido ou em entrega a associado — em 3 de 6 fontes auditadas o rótulo divergia dos termos reais."
+      }
     },
     {
       "connector_id": "uniprot",
@@ -1275,7 +1577,14 @@
       "last_verified_at": "2026-09-03",
       "verification_note": "HTTP 200 ao vivo 03/09; JSON valido com results[] (ex.: P01308, insulina humana) | IQF: legalidade-ok oficialidade-ok(EMBL-EBI/SIB/PIR) latencia-ok estabilidade-ok cobertura-ok custo-0 | descoberto na fase F1 do descobridor-de-fontes",
       "ready_to_enable": true,
-      "enabled_at": "2026-09-03"
+      "enabled_at": "2026-09-03",
+      "portoes": {
+        "instituto": "sim",
+        "associados": "sim",
+        "produto": "sim",
+        "procedencia": "derivado",
+        "nota": "Inferido do rótulo license_id; NINGUÉM leu os termos ao vivo. Exija veredito verificado antes de usar em produto vendido ou em entrega a associado — em 3 de 6 fontes auditadas o rótulo divergia dos termos reais."
+      }
     },
     {
       "connector_id": "ensembl_rest",
@@ -1305,7 +1614,14 @@
       "last_verified_at": "2026-09-03",
       "verification_note": "HTTP 200 ao vivo 03/09; resposta {\"ping\":1} | IQF: legalidade-ok('Ensembl impoe nenhuma restricao de acesso/uso dos dados', confirmado ao vivo) oficialidade-ok(EMBL-EBI) latencia-ok estabilidade-ok cobertura-ok custo-0 | descoberto na fase F1 do descobridor-de-fontes",
       "ready_to_enable": true,
-      "enabled_at": "2026-09-03"
+      "enabled_at": "2026-09-03",
+      "portoes": {
+        "instituto": "sim",
+        "associados": "sim",
+        "produto": "sim",
+        "procedencia": "derivado",
+        "nota": "Inferido do rótulo license_id; NINGUÉM leu os termos ao vivo. Exija veredito verificado antes de usar em produto vendido ou em entrega a associado — em 3 de 6 fontes auditadas o rótulo divergia dos termos reais."
+      }
     },
     {
       "connector_id": "who_gho_odata",
@@ -1335,7 +1651,15 @@
       "last_verified_at": "2026-09-03",
       "verification_note": "HTTP 200 ao vivo 03/09; OData JSON valido com @odata.context e value[] (centenas de indicadores) | IQF: legalidade-ok(uso nao-comercial permitido) oficialidade-ok(OMS/WHO) latencia-ok estabilidade-ok cobertura-ok custo-0 | descoberto na fase F1 do descobridor-de-fontes",
       "ready_to_enable": true,
-      "enabled_at": "2026-09-03"
+      "enabled_at": "2026-09-03",
+      "portoes": {
+        "instituto": "sim",
+        "associados": "cinza",
+        "produto": "nao",
+        "procedencia": "verificado",
+        "verificado_em": "2026-09-06",
+        "nota": "CC-BY-NC-SA-3.0-IGO. O 'SA' pode obrigar a abrir o derivado se a entrega a associados contar como uso público — colide com o sigilo. Parecer recomenda perguntar por escrito à OMS em vez de presumir."
+      }
     },
     {
       "connector_id": "osf_api",
@@ -1365,7 +1689,14 @@
       "last_verified_at": "2026-09-03",
       "verification_note": "HTTP 200 ao vivo 03/09; JSON:API root com meta.message='Welcome to the OSF API', version 2.20 | IQF: legalidade-ok oficialidade-ok(Center for Open Science) latencia-ok estabilidade-ok cobertura-ok custo-0 | descoberto na fase F1 do descobridor-de-fontes",
       "ready_to_enable": true,
-      "enabled_at": "2026-09-03"
+      "enabled_at": "2026-09-03",
+      "portoes": {
+        "instituto": "sim",
+        "associados": "sim",
+        "produto": "sim",
+        "procedencia": "derivado",
+        "nota": "Inferido do rótulo license_id; NINGUÉM leu os termos ao vivo. Exija veredito verificado antes de usar em produto vendido ou em entrega a associado — em 3 de 6 fontes auditadas o rótulo divergia dos termos reais."
+      }
     },
     {
       "connector_id": "our_world_in_data",
@@ -1395,7 +1726,14 @@
       "last_verified_at": "2026-09-03",
       "verification_note": "HTTP 200 ao vivo 03/09; CSV valido (colunas Entity,Code,Year,Life expectancy) | IQF: legalidade-ok(dado proprio OWID) oficialidade-ok(Universidade de Oxford/OWID) latencia-ok estabilidade-ok cobertura-ok custo-0 | descoberto na fase F1 do descobridor-de-fontes",
       "ready_to_enable": true,
-      "enabled_at": "2026-09-03"
+      "enabled_at": "2026-09-03",
+      "portoes": {
+        "instituto": "sim",
+        "associados": "sim",
+        "produto": "sim",
+        "procedencia": "derivado",
+        "nota": "Inferido do rótulo license_id; NINGUÉM leu os termos ao vivo. Exija veredito verificado antes de usar em produto vendido ou em entrega a associado — em 3 de 6 fontes auditadas o rótulo divergia dos termos reais."
+      }
     },
     {
       "connector_id": "acl_anthology",
@@ -1425,7 +1763,15 @@
       "implementation": null,
       "last_verified_at": "2026-09-03",
       "verification_note": "confirmado ao vivo 03/09: pagina de copyright (CC-BY-4.0 pos-2016 / CC-BY-NC-SA-3.0 pre-2016) e diretorio data/xml no GitHub com arquivos reais (ex.: 1952.earlymt.xml, 8.607 bytes) | IQF: legalidade-ok oficialidade-ok(ACL) latencia-ok estabilidade-ok cobertura-ok custo-0 | descoberto na fase F1 do descobridor-de-fontes",
-      "ready_to_enable": true
+      "ready_to_enable": true,
+      "portoes": {
+        "instituto": "sim",
+        "associados": "sim",
+        "produto": "sim",
+        "procedencia": "verificado",
+        "verificado_em": "2026-09-06",
+        "nota": "Passa nos três PORQUE a casa guarda fato bibliográfico + crítica própria, sem colar texto do artigo. Referência bibliográfica não depende da licença da obra: direito autoral protege a EXPRESSÃO, não a ideia nem o método. Colar texto mudaria o veredito."
+      }
     },
     {
       "connector_id": "nist_pqc",
@@ -1456,7 +1802,14 @@
       "last_verified_at": "2026-09-03",
       "verification_note": "HTTP 200 ao vivo 03/09 em csrc.nist.gov/pubs/fips/203/final (titulo 'Module-Lattice-Based Key-Encapsulation Mechanism Standard', data 13/08/2024 confirmados; PDF direto em nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.203.pdf) | IQF: legalidade-ok(obra do governo federal EUA, dominio publico) oficialidade-ok(NIST) latencia-ok estabilidade-ok cobertura-ok(padrao definitivo, nao rascunho) custo-0 | descoberto na fase F1 do descobridor-de-fontes",
       "ready_to_enable": true,
-      "enabled_at": "2026-09-03"
+      "enabled_at": "2026-09-03",
+      "portoes": {
+        "instituto": "sim",
+        "associados": "sim",
+        "produto": "sim",
+        "procedencia": "derivado",
+        "nota": "Inferido do rótulo license_id; NINGUÉM leu os termos ao vivo. Exija veredito verificado antes de usar em produto vendido ou em entrega a associado — em 3 de 6 fontes auditadas o rótulo divergia dos termos reais."
+      }
     },
     {
       "connector_id": "nvd_nist",
@@ -1486,7 +1839,14 @@
       "last_verified_at": "2026-09-03",
       "verification_note": "HTTP 200 ao vivo 03/09; JSON valido com totalResults=385.855 e vulnerabilities[] (ex.: CVE-1999-0095) | IQF: legalidade-ok oficialidade-ok(NIST) latencia-ok(limite documentado e respeitavel) estabilidade-ok(v2.0) cobertura-ok custo-0 | descoberto na fase F1 do descobridor-de-fontes",
       "ready_to_enable": true,
-      "enabled_at": "2026-09-03"
+      "enabled_at": "2026-09-03",
+      "portoes": {
+        "instituto": "sim",
+        "associados": "sim",
+        "produto": "sim",
+        "procedencia": "derivado",
+        "nota": "Inferido do rótulo license_id; NINGUÉM leu os termos ao vivo. Exija veredito verificado antes de usar em produto vendido ou em entrega a associado — em 3 de 6 fontes auditadas o rótulo divergia dos termos reais."
+      }
     },
     {
       "connector_id": "mitre_attack_stix",
@@ -1516,7 +1876,14 @@
       "implementation": null,
       "last_verified_at": "2026-09-03",
       "verification_note": "confirmado ao vivo 03/09 via GitHub Contents API: enterprise-attack.json existe, size=53.835.637 bytes, download_url valido (download direto do JSON de 53MB excedeu o limite de 10MB do verificador, mas a existencia/tamanho foi confirmada pela API de metadados do GitHub) | IQF: legalidade-ok(licenca MITRE p/ pesquisa/dev/uso comercial c/ atribuicao) oficialidade-ok(MITRE Corporation) latencia-ok estabilidade-ok(repo versionado) cobertura-ok custo-0 | descoberto na fase F1 do descobridor-de-fontes",
-      "ready_to_enable": true
+      "ready_to_enable": true,
+      "portoes": {
+        "instituto": "sim",
+        "associados": "sim",
+        "produto": "sim",
+        "procedencia": "derivado",
+        "nota": "Inferido do rótulo license_id; NINGUÉM leu os termos ao vivo. Exija veredito verificado antes de usar em produto vendido ou em entrega a associado — em 3 de 6 fontes auditadas o rótulo divergia dos termos reais."
+      }
     },
     {
       "connector_id": "osv_dev",
@@ -1546,7 +1913,14 @@
       "last_verified_at": "2026-09-03",
       "verification_note": "HTTP 200 ao vivo 03/09 em GET /v1/vulns/GHSA-2cc5-23r7-vc4v (retornou dados reais, CVE-2021-29480); GET /v1/query retornou 405 (esperado, endpoint e POST-only, confirma que esta ativo) | IQF: legalidade-ok oficialidade-ok(Google/comunidade open source) latencia-ok estabilidade-ok(v1) cobertura-ok custo-0 | descoberto na fase F1 do descobridor-de-fontes",
       "ready_to_enable": true,
-      "enabled_at": "2026-09-03"
+      "enabled_at": "2026-09-03",
+      "portoes": {
+        "instituto": "sim",
+        "associados": "sim",
+        "produto": "sim",
+        "procedencia": "derivado",
+        "nota": "Inferido do rótulo license_id; NINGUÉM leu os termos ao vivo. Exija veredito verificado antes de usar em produto vendido ou em entrega a associado — em 3 de 6 fontes auditadas o rótulo divergia dos termos reais."
+      }
     },
     {
       "connector_id": "abusech_urlhaus",
@@ -1576,7 +1950,15 @@
       "implementation": null,
       "last_verified_at": "2026-09-03",
       "verification_note": "HTTP 200 ao vivo 03/09 no feed urlhaus.abuse.ch/downloads/csv_recent/ (cabecalho com timestamp 'Last updated: 2026-09-03 06:12:08 UTC', dado real); tentativa em urlhaus-api.abuse.ch/v1/urls/recent/ deu 401 (exige Auth-Key) - usado o feed, nao a API com chave | IQF: legalidade-ok(fair use nao-comercial) oficialidade-ok(abuse.ch/Bern University of Applied Sciences) latencia-ok estabilidade-ok cobertura-ok custo-0 | descoberto na fase F1 do descobridor-de-fontes",
-      "ready_to_enable": true
+      "ready_to_enable": true,
+      "portoes": {
+        "instituto": "sim",
+        "associados": "cinza",
+        "produto": "nao",
+        "procedencia": "verificado",
+        "verificado_em": "2026-09-06",
+        "nota": "Termos desde 04/11/2025 restringem a 'not-for-profit purposes'. Desde 01/08/2022 a Spamhaus é licenciada primária e administra assinatura comercial. Catálogos de vulnerabilidade (NVD/KEV) passam nos 3 portões mas NÃO substituem: indicador de ameaça em tempo real é outra coisa."
+      }
     },
     {
       "connector_id": "github_rest",
@@ -1607,7 +1989,14 @@
       "last_verified_at": "2026-09-03",
       "verification_note": "HTTP 200 ao vivo 03/09; JSON valido (torvalds/linux, full_name confirmado, stargazers_count=246.027) | IQF: legalidade-ok oficialidade-ok(GitHub/Microsoft) latencia-restritiva(60 req/h sem chave) estabilidade-ok cobertura-ok custo-0 | descoberto na fase F1 do descobridor-de-fontes",
       "ready_to_enable": true,
-      "enabled_at": "2026-09-03"
+      "enabled_at": "2026-09-03",
+      "portoes": {
+        "instituto": "sim",
+        "associados": "sim",
+        "produto": "sim",
+        "procedencia": "derivado",
+        "nota": "Inferido do rótulo license_id; NINGUÉM leu os termos ao vivo. Exija veredito verificado antes de usar em produto vendido ou em entrega a associado — em 3 de 6 fontes auditadas o rótulo divergia dos termos reais."
+      }
     },
     {
       "connector_id": "internet_archive",
@@ -1637,7 +2026,14 @@
       "last_verified_at": "2026-09-03",
       "verification_note": "HTTP 200 ao vivo 03/09 em archive.org/advancedsearch.php?q=test&rows=1&output=json; JSON valido com response.numFound=976.103 | IQF: legalidade-ok oficialidade-ok(Internet Archive, ONG 501c3) latencia-ok estabilidade-ok cobertura-ok custo-0 | descoberto na fase F1 do descobridor-de-fontes",
       "ready_to_enable": true,
-      "enabled_at": "2026-09-03"
+      "enabled_at": "2026-09-03",
+      "portoes": {
+        "instituto": "sim",
+        "associados": "sim",
+        "produto": "sim",
+        "procedencia": "derivado",
+        "nota": "Inferido do rótulo license_id; NINGUÉM leu os termos ao vivo. Exija veredito verificado antes de usar em produto vendido ou em entrega a associado — em 3 de 6 fontes auditadas o rótulo divergia dos termos reais."
+      }
     },
     {
       "connector_id": "data_europa_eu",
@@ -1667,7 +2063,14 @@
       "last_verified_at": "2026-09-03",
       "verification_note": "HTTP 200 ao vivo 03/09; JSON valido com result.count=72.594 para query 'water' | IQF: legalidade-ok oficialidade-ok(Comissao Europeia) latencia-ok estabilidade-ok cobertura-ok custo-0 | descoberto na fase F1 do descobridor-de-fontes",
       "ready_to_enable": true,
-      "enabled_at": "2026-09-03"
+      "enabled_at": "2026-09-03",
+      "portoes": {
+        "instituto": "sim",
+        "associados": "sim",
+        "produto": "sim",
+        "procedencia": "derivado",
+        "nota": "Inferido do rótulo license_id; NINGUÉM leu os termos ao vivo. Exija veredito verificado antes de usar em produto vendido ou em entrega a associado — em 3 de 6 fontes auditadas o rótulo divergia dos termos reais."
+      }
     },
     {
       "connector_id": "eurostat_dissemination",
@@ -1697,7 +2100,14 @@
       "last_verified_at": "2026-09-03",
       "verification_note": "HTTP 200 ao vivo 03/09 com filtro (demo_pjan, geo=DE, time=2023): JSON SDMX valido, populacao=83.118.501 | IQF: legalidade-ok oficialidade-ok(Eurostat/Comissao Europeia) latencia-ok estabilidade-ok cobertura-ok custo-0 | descoberto na fase F1 do descobridor-de-fontes",
       "ready_to_enable": true,
-      "enabled_at": "2026-09-03"
+      "enabled_at": "2026-09-03",
+      "portoes": {
+        "instituto": "sim",
+        "associados": "sim",
+        "produto": "sim",
+        "procedencia": "derivado",
+        "nota": "Inferido do rótulo license_id; NINGUÉM leu os termos ao vivo. Exija veredito verificado antes de usar em produto vendido ou em entrega a associado — em 3 de 6 fontes auditadas o rótulo divergia dos termos reais."
+      }
     },
     {
       "connector_id": "un_sdg_api",
@@ -1727,7 +2137,14 @@
       "implementation": null,
       "last_verified_at": "2026-09-03",
       "verification_note": "HTTP 200 ao vivo 03/09 em SDGAPI/v1/sdg/Goal/List; JSON valido com os 17 SDGs (code/title/description) | IQF: legalidade-ressalva(licenca exata nao confirmada) oficialidade-ok(UN Statistics Division) latencia-ok estabilidade-ok cobertura-ok(ODS globais) custo-0 | data.un.org legado nao teve API moderna confirmada nesta execucao - substituido pelo SDGAPI, que e o canal realmente ativo | descoberto na fase F1 do descobridor-de-fontes",
-      "ready_to_enable": true
+      "ready_to_enable": true,
+      "portoes": {
+        "instituto": "sim",
+        "associados": "sim",
+        "produto": "sim",
+        "procedencia": "derivado",
+        "nota": "Inferido do rótulo license_id; NINGUÉM leu os termos ao vivo. Exija veredito verificado antes de usar em produto vendido ou em entrega a associado — em 3 de 6 fontes auditadas o rótulo divergia dos termos reais."
+      }
     },
     {
       "connector_id": "pennylane_datasets",
@@ -1756,7 +2173,14 @@
       "implementation": null,
       "last_verified_at": "2026-09-03",
       "verification_note": "GET em cloud.pennylane.ai/graphql confirmou Apollo Router ativo (retornou HTML 'Welcome to the Apollo Router' / Apollo Sandbox); NAO foi possivel confirmar retorno de dado real via POST GraphQL nesta execucao - LACUNA declarada | IQF: legalidade-desconhecida oficialidade-ok(Xanadu) latencia-desconhecida estabilidade-desconhecida cobertura-desconhecida custo-0 | NAO PRONTO: verificacao incompleta (endpoint vivo, payload de dado nao confirmado) | descoberto na fase F1 do descobridor-de-fontes | REVALIDADO 2026-09-03: erro TLS (unexpected eof); GraphQL POST -> segue nao-pronto",
-      "ready_to_enable": false
+      "ready_to_enable": false,
+      "portoes": {
+        "instituto": "sim",
+        "associados": "sim",
+        "produto": "sim",
+        "procedencia": "derivado",
+        "nota": "Inferido do rótulo license_id; NINGUÉM leu os termos ao vivo. Exija veredito verificado antes de usar em produto vendido ou em entrega a associado — em 3 de 6 fontes auditadas o rótulo divergia dos termos reais."
+      }
     },
     {
       "connector_id": "clinicaltrials_gov_v2",
@@ -1787,7 +2211,14 @@
       "last_verified_at": "2026-09-03",
       "verification_note": "HTTP 200 ao vivo 03/09 em GET /api/v2/studies?pageSize=1 - JSON valido com estudo real (NCT07224035, University of Miami, triagem H. pylori); servico do NIH/NLM (National Library of Medicine), orgao federal EUA | leitura: GET /api/v2/studies?query.cond={termo}&pageSize=N&fields=NCTId,BriefTitle,OverallStatus - usar pageToken para paginacao | descoberto no 2o ciclo do descobridor-de-fontes",
       "ready_to_enable": true,
-      "enabled_at": "2026-09-03"
+      "enabled_at": "2026-09-03",
+      "portoes": {
+        "instituto": "sim",
+        "associados": "sim",
+        "produto": "sim",
+        "procedencia": "derivado",
+        "nota": "Inferido do rótulo license_id; NINGUÉM leu os termos ao vivo. Exija veredito verificado antes de usar em produto vendido ou em entrega a associado — em 3 de 6 fontes auditadas o rótulo divergia dos termos reais."
+      }
     },
     {
       "connector_id": "cisa_kev",
@@ -1817,7 +2248,14 @@
       "last_verified_at": "2026-09-03",
       "verification_note": "HTTP 200 ao vivo 03/09; JSON valido com catalogVersion=2026.09.02, count=1694, vulnerabilities[] (ex.: CVE-2026-59822); licenca CC0 1.0 confirmada ao vivo em license.txt oficial | leitura: GET direto do arquivo JSON completo, filtrar vulnerabilities[] localmente por dateAdded/vendorProject | descoberto no 2o ciclo do descobridor-de-fontes",
       "ready_to_enable": true,
-      "enabled_at": "2026-09-03"
+      "enabled_at": "2026-09-03",
+      "portoes": {
+        "instituto": "sim",
+        "associados": "sim",
+        "produto": "sim",
+        "procedencia": "derivado",
+        "nota": "Inferido do rótulo license_id; NINGUÉM leu os termos ao vivo. Exija veredito verificado antes de usar em produto vendido ou em entrega a associado — em 3 de 6 fontes auditadas o rótulo divergia dos termos reais."
+      }
     },
     {
       "connector_id": "bcb_sgs",
@@ -1848,7 +2286,14 @@
       "last_verified_at": "2026-09-03",
       "verification_note": "HTTP 200 ao vivo 03/09 em GET /dados/serie/bcdata.sgs.11/dados/ultimos/1?formato=json - retornou registro real com campos data=02/09/2026 e valor=0.051660 (Selic diaria); orgao oficial (Banco Central do Brasil, autarquia federal) | leitura: GET https://api.bcb.gov.br/dados/serie/bcdata.sgs.{codigo}/dados?formato=json (ou /dados/ultimos/N ou /dados?dataInicial=DD/MM/AAAA&dataFinal=DD/MM/AAAA) | descoberto no 2o ciclo do descobridor-de-fontes",
       "ready_to_enable": true,
-      "enabled_at": "2026-09-03"
+      "enabled_at": "2026-09-03",
+      "portoes": {
+        "instituto": "sim",
+        "associados": "sim",
+        "produto": "sim",
+        "procedencia": "derivado",
+        "nota": "Inferido do rótulo license_id; NINGUÉM leu os termos ao vivo. Exija veredito verificado antes de usar em produto vendido ou em entrega a associado — em 3 de 6 fontes auditadas o rótulo divergia dos termos reais."
+      }
     },
     {
       "connector_id": "ibge_agregados_sidra",
@@ -1879,7 +2324,14 @@
       "last_verified_at": "2026-09-03",
       "verification_note": "HTTP 200 ao vivo 03/09 em GET /api/v3/agregados - JSON valido com catalogo real de agregados (ex.: id 10763 'Areas urbanizadas...', id 10510 'Indice de conhecimento da biodiversidade'); orgao oficial (IBGE, fundacao publica federal) | leitura: GET /api/v3/agregados p/ catalogo; GET /api/v3/agregados/{id}/periodos/{periodo}/variaveis/{var}?localidades=N{nivel}[{codigo}] p/ valores | pagina de docs deu erro 500 nesta tentativa - revalidar | descoberto no 2o ciclo do descobridor-de-fontes",
       "ready_to_enable": true,
-      "enabled_at": "2026-09-03"
+      "enabled_at": "2026-09-03",
+      "portoes": {
+        "instituto": "sim",
+        "associados": "sim",
+        "produto": "sim",
+        "procedencia": "derivado",
+        "nota": "Inferido do rótulo license_id; NINGUÉM leu os termos ao vivo. Exija veredito verificado antes de usar em produto vendido ou em entrega a associado — em 3 de 6 fontes auditadas o rótulo divergia dos termos reais."
+      }
     },
     {
       "connector_id": "fred_stlouisfed",
@@ -1911,7 +2363,14 @@
       "implementation": null,
       "last_verified_at": "2026-09-03",
       "verification_note": "HTTP 400 ao vivo 03/09 em GET /fred/series/observations sem api_key - comportamento correto/esperado (endpoint ativo, exige chave); termos confirmados em fred.stlouisfed.org/docs/api/terms_of_use.html (gratuito com cadastro, atribuicao obrigatoria, proibe substituir experiencia central do site) | leitura (apos obtencao de chave gratuita pelo titular): GET /fred/series/observations?series_id={id}&file_type=json&api_key={key} | descoberto no 2o ciclo do descobridor-de-fontes",
-      "ready_to_enable": false
+      "ready_to_enable": false,
+      "portoes": {
+        "instituto": "sim",
+        "associados": "sim",
+        "produto": "sim",
+        "procedencia": "derivado",
+        "nota": "Inferido do rótulo license_id; NINGUÉM leu os termos ao vivo. Exija veredito verificado antes de usar em produto vendido ou em entrega a associado — em 3 de 6 fontes auditadas o rótulo divergia dos termos reais."
+      }
     },
     {
       "connector_id": "nasa_power",
@@ -1941,7 +2400,14 @@
       "last_verified_at": "2026-09-03",
       "verification_note": "HTTP 200 ao vivo 03/09; JSON GeoJSON valido com header/geometry/properties (T2M ponto Sao Paulo, fonte MERRA2, elevacao 790m); sem chave | IQF: legalidade-ressalva(termos formais nao encontrados na pagina do POWER, por analogia a NASA Earthdata PD) oficialidade-ok(NASA Langley Research Center) latencia-ok estabilidade-ok cobertura-ok(global, historico 1981+) custo-0 | leitura: GET /api/temporal/daily/point?parameters={vars}&community=RE&longitude={lon}&latitude={lat}&start={AAAAMMDD}&end={AAAAMMDD}&format=JSON | descoberto no 3o ciclo do descobridor-de-fontes",
       "ready_to_enable": true,
-      "enabled_at": "2026-09-03"
+      "enabled_at": "2026-09-03",
+      "portoes": {
+        "instituto": "sim",
+        "associados": "sim",
+        "produto": "sim",
+        "procedencia": "derivado",
+        "nota": "Inferido do rótulo license_id; NINGUÉM leu os termos ao vivo. Exija veredito verificado antes de usar em produto vendido ou em entrega a associado — em 3 de 6 fontes auditadas o rótulo divergia dos termos reais."
+      }
     },
     {
       "connector_id": "open_meteo",
@@ -1971,7 +2437,15 @@
       "last_verified_at": "2026-09-03",
       "verification_note": "HTTP 200 ao vivo 03/09; JSON valido com latitude/longitude/current.temperature_2m=12.1C (Sao Paulo); sem chave; termos CC-BY-4.0 + clausula nao-comercial confirmados ao vivo em open-meteo.com/en/terms | IQF: legalidade-ok(NC compativel com instituto sem fins lucrativos) oficialidade-ressalva(agregador de modelos oficiais, nao orgao unico) latencia-ok estabilidade-ok cobertura-ok(global) custo-0 | leitura: GET /v1/forecast?latitude={lat}&longitude={lon}&current={vars}&hourly={vars} | descoberto no 3o ciclo do descobridor-de-fontes",
       "ready_to_enable": true,
-      "enabled_at": "2026-09-03"
+      "enabled_at": "2026-09-03",
+      "portoes": {
+        "instituto": "sim",
+        "associados": "sim",
+        "produto": "nao",
+        "procedencia": "verificado",
+        "verificado_em": "2026-09-06",
+        "nota": "Dado é CC-BY 4.0 (permite venda); a trava é CONTRATUAL, dos Termos do tier gratuito. O mesmo dado direto na origem (ERA5/Copernicus, comercial liberado em 02/07/2025) NÃO carrega a restrição."
+      }
     },
     {
       "connector_id": "gbif_occurrence",
@@ -2001,7 +2475,15 @@
       "last_verified_at": "2026-09-03",
       "verification_note": "HTTP 200 ao vivo 03/09; JSON valido, count na casa dos bilhoes, 1 registro real retornado (Frangula dodonei, Franca) com campo license=CC-BY 4.0 presente por item | IQF: legalidade-ok(licenca por registro, verificavel) oficialidade-ok(consorcio internacional GBIF) latencia-ok estabilidade-ok cobertura-ok(global, 3,9bi+ registros) custo-0 | leitura: GET /v1/occurrence/search?scientificName={nome}&country={ISO2}&limit=N - checar campo license por registro | descoberto no 3o ciclo do descobridor-de-fontes",
       "ready_to_enable": true,
-      "enabled_at": "2026-09-03"
+      "enabled_at": "2026-09-03",
+      "portoes": {
+        "instituto": "sim",
+        "associados": "sim",
+        "produto": "sim",
+        "procedencia": "verificado",
+        "verificado_em": "2026-09-06",
+        "nota": "Licença é POR REGISTRO, não do acervo. A API filtra por licença: license=CC0_1_0&license=CC_BY_4_0. Medido em 06/09: 83,2% do acervo global e 88,66% do Brasil são comercializáveis. O 'sim' vale SOMENTE com o filtro aplicado; sem filtro, 16,8% trava o produto."
+      }
     },
     {
       "connector_id": "osm_overpass_api",
@@ -2032,7 +2514,14 @@
       "last_verified_at": "2026-09-03",
       "verification_note": "HTTP 200 ao vivo 03/09; resposta OSM/JSON valida com POI real (Hospital Sao Paulo, coordenadas -23.5977766/-46.6435335, telefone, wheelchair=yes, licenca ODbL citada na atribuicao embutida); sem chave | IQF: legalidade-ok(ODbL, share-alike documentado) oficialidade-ok(OpenStreetMap Foundation) latencia-ok estabilidade-ressalva(politica de uso justo informal, sem SLA formal) cobertura-ok(global) custo-0 | leitura: GET/POST data=[out:json];{Overpass QL};out; - sempre com User-Agent identificado, respeitar teto de 10k consultas/dia | descoberto no 3o ciclo do descobridor-de-fontes",
       "ready_to_enable": true,
-      "enabled_at": "2026-09-03"
+      "enabled_at": "2026-09-03",
+      "portoes": {
+        "instituto": "sim",
+        "associados": "cinza",
+        "produto": "sim",
+        "procedencia": "derivado",
+        "nota": "Inferido do rótulo license_id; NINGUÉM leu os termos ao vivo. Exija veredito verificado antes de usar em produto vendido ou em entrega a associado — em 3 de 6 fontes auditadas o rótulo divergia dos termos reais."
+      }
     },
     {
       "connector_id": "open_targets_platform",
@@ -2061,7 +2550,14 @@
       "implementation": null,
       "last_verified_at": "2026-09-03",
       "verification_note": "schema GraphQL confirmado ao vivo 03/09 (endpoint ativo, tipos Target/Disease/Drug/Variant presentes); licenca CC0-1.0 para dados e Apache-2.0 para codigo confirmada em platform-docs.opentargets.org/licence; sem chave | IQF: legalidade-ok(CC0) oficialidade-ok(EMBL-EBI + Wellcome Sanger + consorcio farmaceutico Open Targets) latencia-desconhecida(nao testada com query de dado real) estabilidade-ok(API v4) cobertura-ok custo-0 | leitura: POST {base_url} com body {query:'...', variables:{...}} - consultar schema antes de montar a query | descoberto no 3o ciclo do descobridor-de-fontes | PENDENTE: confirmar retorno de dado real via POST antes de habilitar",
-      "ready_to_enable": false
+      "ready_to_enable": false,
+      "portoes": {
+        "instituto": "sim",
+        "associados": "sim",
+        "produto": "sim",
+        "procedencia": "derivado",
+        "nota": "Inferido do rótulo license_id; NINGUÉM leu os termos ao vivo. Exija veredito verificado antes de usar em produto vendido ou em entrega a associado — em 3 de 6 fontes auditadas o rótulo divergia dos termos reais."
+      }
     },
     {
       "connector_id": "openfda",
@@ -2091,7 +2587,14 @@
       "last_verified_at": "2026-09-03",
       "verification_note": "HTTP 200 ao vivo 03/09 em /drug/event.json?limit=1; JSON valido com meta.results.total=20,7M e registro real de evento adverso (Duragesic-100/fentanil); sem chave; CC0-1.0 confirmado ao vivo em open.fda.gov/license/ | IQF: legalidade-ok(CC0, exceto GMDN marca registrada) oficialidade-ok(FDA/HHS, governo federal EUA) latencia-ok estabilidade-ok cobertura-ok custo-0 | leitura: GET /drug/event.json?search={campo}:{termo}&limit=N (tambem /drug/label.json, /device/event.json, /food/enforcement.json) | descoberto no 3o ciclo do descobridor-de-fontes",
       "ready_to_enable": true,
-      "enabled_at": "2026-09-03"
+      "enabled_at": "2026-09-03",
+      "portoes": {
+        "instituto": "sim",
+        "associados": "sim",
+        "produto": "sim",
+        "procedencia": "derivado",
+        "nota": "Inferido do rótulo license_id; NINGUÉM leu os termos ao vivo. Exija veredito verificado antes de usar em produto vendido ou em entrega a associado — em 3 de 6 fontes auditadas o rótulo divergia dos termos reais."
+      }
     },
     {
       "connector_id": "wikimedia_eventstreams",
@@ -2121,7 +2624,14 @@
       "last_verified_at": "2026-09-03",
       "verification_note": "endpoint respondeu ao vivo 03/09 e manteve conexao SSE aberta continuamente - a tentativa de leitura completa estourou o limite de 10MB do verificador exatamente por ser stream infinito, o que e evidencia de que o servico esta ATIVO e emitindo eventos sem interrupcao; mesma licenca/ToU do wikimedia_pageviews ja registrado (Wikimedia Foundation) | IQF: legalidade-ok oficialidade-ok(Wikimedia Foundation) latencia-otima(tempo real) estabilidade-ok cobertura-ok(toda a rede Wikimedia) custo-0 | leitura: consumir via EventSource/SSE em /v2/stream/recentchange (ou /v2/stream/revision-create para so revisoes) - sempre com corte de tempo/tamanho proprio, nunca ler ate o fim | descoberto no 3o ciclo do descobridor-de-fontes",
       "ready_to_enable": true,
-      "enabled_at": "2026-09-03"
+      "enabled_at": "2026-09-03",
+      "portoes": {
+        "instituto": "sim",
+        "associados": "cinza",
+        "produto": "sim",
+        "procedencia": "derivado",
+        "nota": "Inferido do rótulo license_id; NINGUÉM leu os termos ao vivo. Exija veredito verificado antes de usar em produto vendido ou em entrega a associado — em 3 de 6 fontes auditadas o rótulo divergia dos termos reais."
+      }
     },
     {
       "connector_id": "natural_earth_vectors",
@@ -2151,7 +2661,14 @@
       "last_verified_at": "2026-09-03",
       "verification_note": "dominio oficial deu HTTP 500 na tentativa de download direto 03/09 (instabilidade momentanea); mirror GitHub oficial do curador confirmado ao vivo via Contents API (ne_110m_admin_0_countries.README.html existe, 41.905 bytes, download_url valido); dominio publico confirmado ao vivo em terms-of-use ('todas as versoes... estao em dominio publico') | IQF: legalidade-ok(PD explicito) oficialidade-ressalva(mirror do curador do projeto, dominio oficial deu 500 no momento do teste) latencia-ok estabilidade-ressalva(500 no dominio oficial nesta execucao) cobertura-ok custo-0 | leitura: GET api.github.com/repos/nvkelso/natural-earth-vector/contents/{escala}_cultural/{arquivo} para metadados, seguir download_url para o arquivo | descoberto no 3o ciclo do descobridor-de-fontes",
       "ready_to_enable": true,
-      "enabled_at": "2026-09-03"
+      "enabled_at": "2026-09-03",
+      "portoes": {
+        "instituto": "sim",
+        "associados": "sim",
+        "produto": "sim",
+        "procedencia": "derivado",
+        "nota": "Inferido do rótulo license_id; NINGUÉM leu os termos ao vivo. Exija veredito verificado antes de usar em produto vendido ou em entrega a associado — em 3 de 6 fontes auditadas o rótulo divergia dos termos reais."
+      }
     },
     {
       "connector_id": "eia_opendata",
@@ -2180,7 +2697,14 @@
       "implementation": null,
       "last_verified_at": "2026-09-03",
       "verification_note": "HTTP 403 ao vivo 03/09 em GET /v2/ sem api_key - comportamento esperado (endpoint ativo, exige chave); pagina de documentacao confirma registro gratuito e API 'fornecida sem custo' | IQF: legalidade-ok(dado do governo federal EUA, com ToS de API a aceitar) oficialidade-ok(EIA/Dept. of Energy) latencia-desconhecida(nao testada com chave) estabilidade-ok(v2) cobertura-ok custo-0 | leitura (apos chave gratuita do titular): GET /v2/{rota}/data?api_key={key}&... | descoberto no 3o ciclo do descobridor-de-fontes",
-      "ready_to_enable": false
+      "ready_to_enable": false,
+      "portoes": {
+        "instituto": "sim",
+        "associados": "sim",
+        "produto": "sim",
+        "procedencia": "derivado",
+        "nota": "Inferido do rótulo license_id; NINGUÉM leu os termos ao vivo. Exija veredito verificado antes de usar em produto vendido ou em entrega a associado — em 3 de 6 fontes auditadas o rótulo divergia dos termos reais."
+      }
     },
     {
       "connector_id": "inpe_queimadas",
@@ -2216,6 +2740,13 @@
         "never": [
           "dado pessoal"
         ]
+      },
+      "portoes": {
+        "instituto": "sim",
+        "associados": "sim",
+        "produto": "sim",
+        "procedencia": "derivado",
+        "nota": "Inferido do rótulo license_id; NINGUÉM leu os termos ao vivo. Exija veredito verificado antes de usar em produto vendido ou em entrega a associado — em 3 de 6 fontes auditadas o rótulo divergia dos termos reais."
       }
     },
     {
@@ -2253,7 +2784,14 @@
           "dado pessoal"
         ]
       },
-      "enabled_at": "2026-09-03"
+      "enabled_at": "2026-09-03",
+      "portoes": {
+        "instituto": "sim",
+        "associados": "sim",
+        "produto": "sim",
+        "procedencia": "derivado",
+        "nota": "Inferido do rótulo license_id; NINGUÉM leu os termos ao vivo. Exija veredito verificado antes de usar em produto vendido ou em entrega a associado — em 3 de 6 fontes auditadas o rótulo divergia dos termos reais."
+      }
     },
     {
       "connector_id": "inpe_cptec",
@@ -2289,6 +2827,13 @@
         "never": [
           "dado pessoal"
         ]
+      },
+      "portoes": {
+        "instituto": "sim",
+        "associados": "sim",
+        "produto": "sim",
+        "procedencia": "derivado",
+        "nota": "Inferido do rótulo license_id; NINGUÉM leu os termos ao vivo. Exija veredito verificado antes de usar em produto vendido ou em entrega a associado — em 3 de 6 fontes auditadas o rótulo divergia dos termos reais."
       }
     },
     {
@@ -2325,6 +2870,13 @@
         "never": [
           "dado pessoal"
         ]
+      },
+      "portoes": {
+        "instituto": "sim",
+        "associados": "sim",
+        "produto": "sim",
+        "procedencia": "derivado",
+        "nota": "Inferido do rótulo license_id; NINGUÉM leu os termos ao vivo. Exija veredito verificado antes de usar em produto vendido ou em entrega a associado — em 3 de 6 fontes auditadas o rótulo divergia dos termos reais."
       }
     },
     {
@@ -2361,6 +2913,13 @@
         "never": [
           "dado pessoal"
         ]
+      },
+      "portoes": {
+        "instituto": "sim",
+        "associados": "sim",
+        "produto": "sim",
+        "procedencia": "derivado",
+        "nota": "Inferido do rótulo license_id; NINGUÉM leu os termos ao vivo. Exija veredito verificado antes de usar em produto vendido ou em entrega a associado — em 3 de 6 fontes auditadas o rótulo divergia dos termos reais."
       }
     },
     {
@@ -2397,6 +2956,13 @@
         "never": [
           "dado pessoal"
         ]
+      },
+      "portoes": {
+        "instituto": "sim",
+        "associados": "sim",
+        "produto": "sim",
+        "procedencia": "derivado",
+        "nota": "Inferido do rótulo license_id; NINGUÉM leu os termos ao vivo. Exija veredito verificado antes de usar em produto vendido ou em entrega a associado — em 3 de 6 fontes auditadas o rótulo divergia dos termos reais."
       }
     },
     {
@@ -2433,6 +2999,13 @@
         "never": [
           "dado pessoal"
         ]
+      },
+      "portoes": {
+        "instituto": "sim",
+        "associados": "sim",
+        "produto": "sim",
+        "procedencia": "derivado",
+        "nota": "Inferido do rótulo license_id; NINGUÉM leu os termos ao vivo. Exija veredito verificado antes de usar em produto vendido ou em entrega a associado — em 3 de 6 fontes auditadas o rótulo divergia dos termos reais."
       }
     },
     {
@@ -2469,6 +3042,13 @@
         "never": [
           "dado pessoal"
         ]
+      },
+      "portoes": {
+        "instituto": "sim",
+        "associados": "sim",
+        "produto": "sim",
+        "procedencia": "derivado",
+        "nota": "Inferido do rótulo license_id; NINGUÉM leu os termos ao vivo. Exija veredito verificado antes de usar em produto vendido ou em entrega a associado — em 3 de 6 fontes auditadas o rótulo divergia dos termos reais."
       }
     },
     {
@@ -2505,6 +3085,13 @@
         "never": [
           "dado pessoal"
         ]
+      },
+      "portoes": {
+        "instituto": "sim",
+        "associados": "sim",
+        "produto": "sim",
+        "procedencia": "derivado",
+        "nota": "Inferido do rótulo license_id; NINGUÉM leu os termos ao vivo. Exija veredito verificado antes de usar em produto vendido ou em entrega a associado — em 3 de 6 fontes auditadas o rótulo divergia dos termos reais."
       }
     },
     {
@@ -2542,7 +3129,14 @@
           "dado pessoal"
         ]
       },
-      "enabled_at": "2026-09-03"
+      "enabled_at": "2026-09-03",
+      "portoes": {
+        "instituto": "sim",
+        "associados": "sim",
+        "produto": "sim",
+        "procedencia": "derivado",
+        "nota": "Inferido do rótulo license_id; NINGUÉM leu os termos ao vivo. Exija veredito verificado antes de usar em produto vendido ou em entrega a associado — em 3 de 6 fontes auditadas o rótulo divergia dos termos reais."
+      }
     },
     {
       "connector_id": "ibama_dados",
@@ -2578,6 +3172,13 @@
         "never": [
           "dado pessoal"
         ]
+      },
+      "portoes": {
+        "instituto": "sim",
+        "associados": "sim",
+        "produto": "sim",
+        "procedencia": "derivado",
+        "nota": "Inferido do rótulo license_id; NINGUÉM leu os termos ao vivo. Exija veredito verificado antes de usar em produto vendido ou em entrega a associado — em 3 de 6 fontes auditadas o rótulo divergia dos termos reais."
       }
     },
     {
@@ -2634,6 +3235,13 @@
           "pre-crime",
           "dado de saude individual"
         ]
+      },
+      "portoes": {
+        "instituto": "sim",
+        "associados": "sim",
+        "produto": "sim",
+        "procedencia": "derivado",
+        "nota": "Inferido do rótulo license_id; NINGUÉM leu os termos ao vivo. Exija veredito verificado antes de usar em produto vendido ou em entrega a associado — em 3 de 6 fontes auditadas o rótulo divergia dos termos reais."
       }
     },
     {
@@ -2690,6 +3298,13 @@
           "pre-crime",
           "dado de saude individual"
         ]
+      },
+      "portoes": {
+        "instituto": "sim",
+        "associados": "sim",
+        "produto": "sim",
+        "procedencia": "derivado",
+        "nota": "Inferido do rótulo license_id; NINGUÉM leu os termos ao vivo. Exija veredito verificado antes de usar em produto vendido ou em entrega a associado — em 3 de 6 fontes auditadas o rótulo divergia dos termos reais."
       }
     },
     {
@@ -2746,6 +3361,13 @@
           "pre-crime",
           "dado de saude individual"
         ]
+      },
+      "portoes": {
+        "instituto": "sim",
+        "associados": "sim",
+        "produto": "sim",
+        "procedencia": "derivado",
+        "nota": "Inferido do rótulo license_id; NINGUÉM leu os termos ao vivo. Exija veredito verificado antes de usar em produto vendido ou em entrega a associado — em 3 de 6 fontes auditadas o rótulo divergia dos termos reais."
       }
     },
     {
@@ -2802,7 +3424,641 @@
           "pre-crime",
           "dado de saude individual"
         ]
+      },
+      "portoes": {
+        "instituto": "sim",
+        "associados": "sim",
+        "produto": "sim",
+        "procedencia": "derivado",
+        "nota": "Inferido do rótulo license_id; NINGUÉM leu os termos ao vivo. Exija veredito verificado antes de usar em produto vendido ou em entrega a associado — em 3 de 6 fontes auditadas o rótulo divergia dos termos reais."
       }
+    },
+    {
+      "connector_id": "atlas_openalex",
+      "url": "https://api.openalex.org",
+      "api": "https://api.openalex.org/works?filter=title_and_abstract.search:TERMO&sort=cited_by_count:desc&per-page=25",
+      "tipo": "agregador",
+      "enabled": false,
+      "ready_to_enable": true,
+      "last_verified_at": "2026-09-06",
+      "iqf": "alto",
+      "origem": "atlas-academico-value-pas"
+    },
+    {
+      "connector_id": "atlas_openaire_graph",
+      "url": "https://www.openaire.eu/",
+      "api": "https://api.openaire.eu/graph/v1/researchProducts?search=TERMO&sortBy=influence%20DESC&pageSize=25",
+      "tipo": "agregador",
+      "enabled": false,
+      "ready_to_enable": true,
+      "last_verified_at": "2026-09-06",
+      "iqf": "alto",
+      "origem": "atlas-academico-value-pas"
+    },
+    {
+      "connector_id": "atlas_core_connecting_repositories",
+      "url": "https://core.ac.uk/",
+      "api": "https://api.core.ac.uk/v3/search/works",
+      "tipo": "agregador",
+      "enabled": false,
+      "ready_to_enable": true,
+      "last_verified_at": "2026-09-06",
+      "iqf": "alto",
+      "origem": "atlas-academico-value-pas"
+    },
+    {
+      "connector_id": "atlas_base_bielefeld_academic_search_engine",
+      "url": "https://www.base-search.net/",
+      "api": "https://api.base-search.net/cgi-bin/BaseHttpSearchInterface.fcgi?func=PerformSearch&query=TERMO",
+      "tipo": "agregador",
+      "enabled": false,
+      "ready_to_enable": true,
+      "last_verified_at": "2026-09-06",
+      "iqf": "alto",
+      "origem": "atlas-academico-value-pas"
+    },
+    {
+      "connector_id": "atlas_core_opendoar_directory_of_open_access_r",
+      "url": "https://opendoar.ac.uk/",
+      "api": "https://api.openpolicyfinder.jisc.ac.uk",
+      "tipo": "repositório institucional",
+      "enabled": false,
+      "ready_to_enable": true,
+      "last_verified_at": "2026-09-06",
+      "iqf": "alto",
+      "origem": "atlas-academico-value-pas"
+    },
+    {
+      "connector_id": "atlas_roar_registry_of_open_access_repositorie",
+      "url": "https://roar.eprints.org/",
+      "api": "https://roar.eprints.org/cgi/oai2?verb=Identify",
+      "tipo": "repositório institucional",
+      "enabled": false,
+      "ready_to_enable": true,
+      "last_verified_at": "2026-09-06",
+      "iqf": "alto",
+      "origem": "atlas-academico-value-pas"
+    },
+    {
+      "connector_id": "atlas_zenodo_cern",
+      "url": "https://zenodo.org/",
+      "api": "https://zenodo.org/api/records?q=TERMO&type=publication&sort=mostviewed",
+      "tipo": "dados",
+      "enabled": false,
+      "ready_to_enable": true,
+      "last_verified_at": "2026-09-06",
+      "iqf": "alto",
+      "origem": "atlas-academico-value-pas"
+    },
+    {
+      "connector_id": "atlas_pubmed_central_pmc_nih_nlm",
+      "url": "https://pmc.ncbi.nlm.nih.gov/",
+      "api": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pmc&term=TERMO&retmode=json",
+      "tipo": "repositório institucional",
+      "enabled": false,
+      "ready_to_enable": true,
+      "last_verified_at": "2026-09-06",
+      "iqf": "alto",
+      "origem": "atlas-academico-value-pas"
+    },
+    {
+      "connector_id": "atlas_hal_hyper_articles_en_ligne_cnrs_ccsd_fr",
+      "url": "https://hal.science/",
+      "api": "https://api.archives-ouvertes.fr/search/?q=TERMO&fq=peerReviewing_s:1&rows=50&wt=json",
+      "tipo": "repositório institucional",
+      "enabled": false,
+      "ready_to_enable": true,
+      "last_verified_at": "2026-09-06",
+      "iqf": "alto",
+      "origem": "atlas-academico-value-pas"
+    },
+    {
+      "connector_id": "atlas_repec_ideas_research_papers_in_economics",
+      "url": "http://repec.org/",
+      "api": "",
+      "tipo": "agregador",
+      "enabled": false,
+      "ready_to_enable": false,
+      "last_verified_at": "2026-09-06",
+      "iqf": "medio",
+      "origem": "atlas-academico-value-pas"
+    },
+    {
+      "connector_id": "atlas_arxiv_cornell_university",
+      "url": "https://arxiv.org/",
+      "api": "https://export.arxiv.org/api/query?search_query=cat:econ.GN&max_results=50&sortBy=submittedDate&sortOrder=descending",
+      "tipo": "pré-print",
+      "enabled": false,
+      "ready_to_enable": true,
+      "last_verified_at": "2026-09-06",
+      "iqf": "alto",
+      "origem": "atlas-academico-value-pas"
+    },
+    {
+      "connector_id": "atlas_biorxiv_e_medrxiv_cold_spring_harbor_lab",
+      "url": "https://www.biorxiv.org/",
+      "api": "https://api.biorxiv.org/details/biorxiv/10.1101/DOI",
+      "tipo": "pré-print",
+      "enabled": false,
+      "ready_to_enable": true,
+      "last_verified_at": "2026-09-06",
+      "iqf": "alto",
+      "origem": "atlas-academico-value-pas"
+    },
+    {
+      "connector_id": "atlas_ssrn_social_science_research_network_els",
+      "url": "https://www.ssrn.com/",
+      "api": "",
+      "tipo": "pré-print",
+      "enabled": false,
+      "ready_to_enable": false,
+      "last_verified_at": "2026-09-06",
+      "iqf": "medio",
+      "origem": "atlas-academico-value-pas"
+    },
+    {
+      "connector_id": "atlas_ndltd_networked_digital_library_of_these",
+      "url": "https://ndltd.org/",
+      "api": "",
+      "tipo": "agregador (organização internacional de…",
+      "enabled": false,
+      "ready_to_enable": false,
+      "last_verified_at": "2026-09-06",
+      "iqf": "medio",
+      "origem": "atlas-academico-value-pas"
+    },
+    {
+      "connector_id": "atlas_global_etd_search_oatd_open_access_these",
+      "url": "https://oatd.org/",
+      "api": "",
+      "tipo": "agregador (busca global de teses)",
+      "enabled": false,
+      "ready_to_enable": false,
+      "last_verified_at": "2026-09-06",
+      "iqf": "medio",
+      "origem": "atlas-academico-value-pas"
+    },
+    {
+      "connector_id": "atlas_openaire_graph_substituto_europeu_do_dar",
+      "url": "https://explore.openaire.eu/",
+      "api": "https://api.openaire.eu/graph/v1/researchProducts?instanceType=Doctoral%20thesis&search=<termo>&pageSize=<n>",
+      "tipo": "agregador (infraestrutura pública…",
+      "enabled": false,
+      "ready_to_enable": true,
+      "last_verified_at": "2026-09-06",
+      "iqf": "alto",
+      "origem": "atlas-academico-value-pas"
+    },
+    {
+      "connector_id": "atlas_ethos_e_theses_online_service_british_li",
+      "url": "https://ethos.bl.uk/",
+      "api": "",
+      "tipo": "teses (serviço nacional do Reino Unido)",
+      "enabled": false,
+      "ready_to_enable": false,
+      "last_verified_at": "2026-09-06",
+      "iqf": "medio",
+      "origem": "atlas-academico-value-pas"
+    },
+    {
+      "connector_id": "atlas_proquest_dissertations_theses_pqdt_open",
+      "url": "https://about.proquest.com/en/products-services/pqdtglobal/",
+      "api": "",
+      "tipo": "agregador comercial",
+      "enabled": false,
+      "ready_to_enable": false,
+      "last_verified_at": "2026-09-06",
+      "iqf": "medio",
+      "origem": "atlas-academico-value-pas"
+    },
+    {
+      "connector_id": "atlas_theses_fr_le_moteur_de_recherche_des_th_",
+      "url": "https://theses.fr/",
+      "api": "https://theses.fr/api/v1/theses/recherche/?q=<termo>&nombre=<n> — testada e funcional, retorna JSON com…",
+      "tipo": "teses (serviço nacional da França)",
+      "enabled": false,
+      "ready_to_enable": true,
+      "last_verified_at": "2026-09-06",
+      "iqf": "alto",
+      "origem": "atlas-academico-value-pas"
+    },
+    {
+      "connector_id": "atlas_diva_digitala_vetenskapliga_arkivet_acad",
+      "url": "https://www.diva-portal.org/",
+      "api": "https://www.diva-portal.org/dice/oai?verb=Identify — OAI-PMH testado e funcional (baseURL declarado: http://services.diva-portal.org/dice/oai).",
+      "tipo": "repositório institucional consorciado…",
+      "enabled": false,
+      "ready_to_enable": true,
+      "last_verified_at": "2026-09-06",
+      "iqf": "alto",
+      "origem": "atlas-academico-value-pas"
+    },
+    {
+      "connector_id": "atlas_irdb_institutional_repositories_database",
+      "url": "https://irdb.nii.ac.jp/",
+      "api": "https://irdb.nii.ac.jp/oai?verb=Identify — OAI-PMH testado e funcional. Camada complementar de descoberta: CiNii Research, https://cir.nii.ac.jp/ (HTTP 200…",
+      "tipo": "agregador de repositórios…",
+      "enabled": false,
+      "ready_to_enable": true,
+      "last_verified_at": "2026-09-06",
+      "iqf": "alto",
+      "origem": "atlas-academico-value-pas"
+    },
+    {
+      "connector_id": "atlas_shodhganga_a_reservoir_of_indian_theses_",
+      "url": "https://shodhganga.inflibnet.ac.in/",
+      "api": "",
+      "tipo": "teses (repositório nacional da Índia)",
+      "enabled": false,
+      "ready_to_enable": false,
+      "last_verified_at": "2026-09-06",
+      "iqf": "medio",
+      "origem": "atlas-academico-value-pas"
+    },
+    {
+      "connector_id": "atlas_tdx_tdr_tesis_doctorals_en_xarxa",
+      "url": "https://www.tdx.cat/",
+      "api": "",
+      "tipo": "repositório cooperativo (Catalunha e…",
+      "enabled": false,
+      "ready_to_enable": false,
+      "last_verified_at": "2026-09-06",
+      "iqf": "medio",
+      "origem": "atlas-academico-value-pas"
+    },
+    {
+      "connector_id": "atlas_bdtd_biblioteca_digital_brasileira_de_te",
+      "url": "https://bdtd.ibict.br/vufind/",
+      "api": "",
+      "tipo": "teses (agregador nacional brasileiro)",
+      "enabled": false,
+      "ready_to_enable": false,
+      "last_verified_at": "2026-09-06",
+      "iqf": "medio",
+      "origem": "atlas-academico-value-pas"
+    },
+    {
+      "connector_id": "atlas_cat_logo_de_teses_e_disserta_es_da_capes",
+      "url": "https://catalogodeteses.capes.gov.br/catalogo-teses/",
+      "api": "",
+      "tipo": "teses (catálogo oficial do governo…",
+      "enabled": false,
+      "ready_to_enable": false,
+      "last_verified_at": "2026-09-06",
+      "iqf": "medio",
+      "origem": "atlas-academico-value-pas"
+    },
+    {
+      "connector_id": "atlas_world_bank_open_knowledge_repository_okr",
+      "url": "https://openknowledge.worldbank.org/",
+      "api": "https://openknowledge.worldbank.org/server/oai/request (OAI-PMH 2.0, verificado com verb=Identify) e https://openknowledge.worldbank.org/server/api (DSpace 7…",
+      "tipo": "repositório institucional",
+      "enabled": false,
+      "ready_to_enable": true,
+      "last_verified_at": "2026-09-06",
+      "iqf": "alto",
+      "origem": "atlas-academico-value-pas"
+    },
+    {
+      "connector_id": "atlas_world_bank_documents_reports",
+      "url": "https://documents.worldbank.org/en/publication/documents-reports",
+      "api": "",
+      "tipo": "repositório institucional",
+      "enabled": false,
+      "ready_to_enable": false,
+      "last_verified_at": "2026-09-06",
+      "iqf": "medio",
+      "origem": "atlas-academico-value-pas"
+    },
+    {
+      "connector_id": "atlas_world_bank_ppi_database_private_particip",
+      "url": "https://ppi.worldbank.org/en/ppi",
+      "api": "",
+      "tipo": "dados",
+      "enabled": false,
+      "ready_to_enable": false,
+      "last_verified_at": "2026-09-06",
+      "iqf": "medio",
+      "origem": "atlas-academico-value-pas"
+    },
+    {
+      "connector_id": "atlas_ppiaf_public_private_infrastructure_advi",
+      "url": "https://www.ppiaf.org/knowledge",
+      "api": "",
+      "tipo": "repositório institucional",
+      "enabled": false,
+      "ready_to_enable": false,
+      "last_verified_at": "2026-09-06",
+      "iqf": "medio",
+      "origem": "atlas-academico-value-pas"
+    },
+    {
+      "connector_id": "atlas_world_bank_ppp_legal_resource_center_ppp",
+      "url": "https://ppp.worldbank.org/public-private-partnership/library",
+      "api": "",
+      "tipo": "repositório institucional",
+      "enabled": false,
+      "ready_to_enable": false,
+      "last_verified_at": "2026-09-06",
+      "iqf": "medio",
+      "origem": "atlas-academico-value-pas"
+    },
+    {
+      "connector_id": "atlas_trid_transport_research_international_do",
+      "url": "https://trid.trb.org/",
+      "api": "",
+      "tipo": "agregador",
+      "enabled": false,
+      "ready_to_enable": false,
+      "last_verified_at": "2026-09-06",
+      "iqf": "medio",
+      "origem": "atlas-academico-value-pas"
+    },
+    {
+      "connector_id": "atlas_trb_research_in_progress_rip",
+      "url": "https://rip.trb.org/",
+      "api": "",
+      "tipo": "dados",
+      "enabled": false,
+      "ready_to_enable": false,
+      "last_verified_at": "2026-09-06",
+      "iqf": "medio",
+      "origem": "atlas-academico-value-pas"
+    },
+    {
+      "connector_id": "atlas_fidic_f_d_ration_internationale_des_ing_",
+      "url": "https://fidic.org/bookshop",
+      "api": "",
+      "tipo": "periódicos",
+      "enabled": false,
+      "ready_to_enable": false,
+      "last_verified_at": "2026-09-06",
+      "iqf": "medio",
+      "origem": "atlas-academico-value-pas"
+    },
+    {
+      "connector_id": "atlas_world_bank_open_data",
+      "url": "https://data.worldbank.org/",
+      "api": "https://api.worldbank.org/v2/ (REST, JSON/XML, sem chave — verificado com /v2/country?format=json)",
+      "tipo": "dados",
+      "enabled": false,
+      "ready_to_enable": true,
+      "last_verified_at": "2026-09-06",
+      "iqf": "alto",
+      "origem": "atlas-academico-value-pas"
+    },
+    {
+      "connector_id": "atlas_iwa_publishing",
+      "url": "https://iwaponline.com/",
+      "api": "",
+      "tipo": "periódicos",
+      "enabled": false,
+      "ready_to_enable": false,
+      "last_verified_at": "2026-09-06",
+      "iqf": "medio",
+      "origem": "atlas-academico-value-pas"
+    },
+    {
+      "connector_id": "atlas_susana_sustainable_sanitation_alliance_k",
+      "url": "https://www.susana.org/knowledge-hub/resources",
+      "api": "",
+      "tipo": "agregador",
+      "enabled": false,
+      "ready_to_enable": false,
+      "last_verified_at": "2026-09-06",
+      "iqf": "medio",
+      "origem": "atlas-academico-value-pas"
+    },
+    {
+      "connector_id": "atlas_ihe_delft_institute_for_water_education_",
+      "url": "https://ihedelftrepository.contentdm.oclc.org/",
+      "api": "",
+      "tipo": "teses",
+      "enabled": false,
+      "ready_to_enable": false,
+      "last_verified_at": "2026-09-06",
+      "iqf": "medio",
+      "origem": "atlas-academico-value-pas"
+    },
+    {
+      "connector_id": "atlas_jmp_who_unicef_joint_monitoring_programm",
+      "url": "https://washdata.org/",
+      "api": "",
+      "tipo": "dados",
+      "enabled": false,
+      "ready_to_enable": false,
+      "last_verified_at": "2026-09-06",
+      "iqf": "medio",
+      "origem": "atlas-academico-value-pas"
+    },
+    {
+      "connector_id": "atlas_who_iris_institutional_repository_for_in",
+      "url": "https://iris.who.int/",
+      "api": "https://iris.who.int/server/oai/request (OAI-PMH 2.0, verificado com verb=Identify — repositoryName 'WHO IRIS', adminEmail repository@who.int)",
+      "tipo": "repositório institucional",
+      "enabled": false,
+      "ready_to_enable": true,
+      "last_verified_at": "2026-09-06",
+      "iqf": "alto",
+      "origem": "atlas-academico-value-pas"
+    },
+    {
+      "connector_id": "atlas_paho_iris_reposit_rio_institucional_da_o",
+      "url": "https://iris.paho.org/",
+      "api": "",
+      "tipo": "repositório institucional",
+      "enabled": false,
+      "ready_to_enable": false,
+      "last_verified_at": "2026-09-06",
+      "iqf": "medio",
+      "origem": "atlas-academico-value-pas"
+    },
+    {
+      "connector_id": "atlas_cochrane_library",
+      "url": "https://www.cochranelibrary.com/about/open-access",
+      "api": "",
+      "tipo": "periódicos",
+      "enabled": false,
+      "ready_to_enable": false,
+      "last_verified_at": "2026-09-06",
+      "iqf": "medio",
+      "origem": "atlas-academico-value-pas"
+    },
+    {
+      "connector_id": "atlas_europe_pmc",
+      "url": "https://europepmc.org/",
+      "api": "https://www.ebi.ac.uk/europepmc/webservices/rest/search (REST, JSON, sem chave — verificado)",
+      "tipo": "agregador",
+      "enabled": false,
+      "ready_to_enable": true,
+      "last_verified_at": "2026-09-06",
+      "iqf": "alto",
+      "origem": "atlas-academico-value-pas"
+    },
+    {
+      "connector_id": "atlas_bvs_biblioteca_virtual_em_sa_de_bireme_o",
+      "url": "https://bvsalud.org/",
+      "api": "",
+      "tipo": "agregador",
+      "enabled": false,
+      "ready_to_enable": false,
+      "last_verified_at": "2026-09-06",
+      "iqf": "medio",
+      "origem": "atlas-academico-value-pas"
+    },
+    {
+      "connector_id": "atlas_nice_national_institute_for_health_and_c",
+      "url": "https://www.nice.org.uk/guidance",
+      "api": "",
+      "tipo": "repositório institucional",
+      "enabled": false,
+      "ready_to_enable": false,
+      "last_verified_at": "2026-09-06",
+      "iqf": "medio",
+      "origem": "atlas-academico-value-pas"
+    },
+    {
+      "connector_id": "atlas_osti_gov_office_of_scientific_and_techni",
+      "url": "https://www.osti.gov/",
+      "api": "https://www.osti.gov/api/v1/records (REST, JSON, sem chave — verificado; documentação em https://www.osti.gov/api/v1/docs)",
+      "tipo": "agregador",
+      "enabled": false,
+      "ready_to_enable": true,
+      "last_verified_at": "2026-09-06",
+      "iqf": "alto",
+      "origem": "atlas-academico-value-pas"
+    },
+    {
+      "connector_id": "atlas_iea_international_energy_agency",
+      "url": "https://www.iea.org/data-and-statistics",
+      "api": "",
+      "tipo": "dados",
+      "enabled": false,
+      "ready_to_enable": false,
+      "last_verified_at": "2026-09-06",
+      "iqf": "medio",
+      "origem": "atlas-academico-value-pas"
+    },
+    {
+      "connector_id": "atlas_semantic_scholar_allen_institute_for_ai",
+      "url": "https://www.semanticscholar.org/product/api",
+      "api": "https://api.semanticscholar.org/graph/v1/ (REST,…",
+      "tipo": "agregador",
+      "enabled": false,
+      "ready_to_enable": true,
+      "last_verified_at": "2026-09-06",
+      "iqf": "alto",
+      "origem": "atlas-academico-value-pas"
+    },
+    {
+      "connector_id": "atlas_openalex_ourresearch",
+      "url": "https://api.openalex.org/",
+      "api": "https://api.openalex.org/ (REST, JSON, sem chave; verificado com /works?per-page=1)",
+      "tipo": "agregador",
+      "enabled": false,
+      "ready_to_enable": true,
+      "last_verified_at": "2026-09-06",
+      "iqf": "alto",
+      "origem": "atlas-academico-value-pas"
+    },
+    {
+      "connector_id": "atlas_doaj_directory_of_open_access_journals",
+      "url": "https://doaj.org/",
+      "api": "https://doaj.org/api/v4/ (REST, JSON, sem chave para busca — documentação verificada em /api/v4/docs)",
+      "tipo": "periódicos",
+      "enabled": false,
+      "ready_to_enable": true,
+      "last_verified_at": "2026-09-06",
+      "iqf": "alto",
+      "origem": "atlas-academico-value-pas"
+    },
+    {
+      "connector_id": "atlas_oecd_ilibrary_oecd_data_explorer",
+      "url": "https://data-explorer.oecd.org/",
+      "api": "https://sdmx.oecd.org/public/rest/ (API SDMX pública, JSON/XML, sem chave — verificado com /public/rest/dataflow)",
+      "tipo": "repositório institucional",
+      "enabled": false,
+      "ready_to_enable": true,
+      "last_verified_at": "2026-09-06",
+      "iqf": "alto",
+      "origem": "atlas-academico-value-pas"
+    },
+    {
+      "connector_id": "atlas_undp_evaluation_resource_centre_erc_open",
+      "url": "https://erc.undp.org/",
+      "api": "",
+      "tipo": "repositório institucional",
+      "enabled": false,
+      "ready_to_enable": false,
+      "last_verified_at": "2026-09-06",
+      "iqf": "medio",
+      "origem": "atlas-academico-value-pas"
+    },
+    {
+      "connector_id": "atlas_african_development_bank_group_documents",
+      "url": "https://www.afdb.org/en/documents/category/publications",
+      "api": "",
+      "tipo": "repositório institucional",
+      "enabled": false,
+      "ready_to_enable": false,
+      "last_verified_at": "2026-09-06",
+      "iqf": "medio",
+      "origem": "atlas-academico-value-pas"
+    },
+    {
+      "connector_id": "atlas_imf_elibrary",
+      "url": "https://www.elibrary.imf.org/",
+      "api": "",
+      "tipo": "repositório institucional",
+      "enabled": false,
+      "ready_to_enable": false,
+      "last_verified_at": "2026-09-06",
+      "iqf": "medio",
+      "origem": "atlas-academico-value-pas"
+    },
+    {
+      "connector_id": "atlas_icsid_base_de_casos_banco_mundial",
+      "url": "https://icsid.worldbank.org/cases/case-database",
+      "api": "",
+      "tipo": "dados",
+      "enabled": false,
+      "ready_to_enable": false,
+      "last_verified_at": "2026-09-06",
+      "iqf": "medio",
+      "origem": "atlas-academico-value-pas"
+    },
+    {
+      "connector_id": "atlas_uncitral_clout_e_textos_normativos",
+      "url": "https://uncitral.un.org/en/case_law",
+      "api": "",
+      "tipo": "repositório institucional",
+      "enabled": false,
+      "ready_to_enable": false,
+      "last_verified_at": "2026-09-06",
+      "iqf": "medio",
+      "origem": "atlas-academico-value-pas"
+    },
+    {
+      "connector_id": "atlas_bdtd_oasisbr_ibict",
+      "url": "https://bdtd.ibict.br/",
+      "api": "",
+      "tipo": "teses",
+      "enabled": false,
+      "ready_to_enable": false,
+      "last_verified_at": "2026-09-06",
+      "iqf": "medio",
+      "origem": "atlas-academico-value-pas"
+    },
+    {
+      "connector_id": "atlas_scielo_scientific_electronic_library_onl",
+      "url": "https://www.scielo.br/",
+      "api": "",
+      "tipo": "periódicos",
+      "enabled": false,
+      "ready_to_enable": false,
+      "last_verified_at": "2026-09-06",
+      "iqf": "medio",
+      "origem": "atlas-academico-value-pas"
     }
   ]
 }
