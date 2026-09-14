@@ -38,7 +38,7 @@
       "limiar": 0.5,
       "criterio": "IPCA mensal >= 0.50%",
       "serie_sgs": 433,
-      "estado": "ABERTO",
+      "estado": "LIQUIDADO",
       "tentativas": [],
       "gerador": {
         "valor": 0.166667,
@@ -67,7 +67,13 @@
         "peso_nao": 0,
         "max_uncertainty": true,
         "fontes": []
-      }
+      },
+      "valor_observado": -0.32,
+      "outcome": 0,
+      "brier_do_contrato": 0.027778,
+      "resolved_at": "2026-09-14T18:26:18.309011Z",
+      "determination_date": "2026-09-14",
+      "determination_basis": "primeira_observacao"
     },
     {
       "claim_id": "JUROS-01::2026-09",
@@ -158,6 +164,45 @@
         "peso_nao": 0,
         "max_uncertainty": true,
         "fontes": []
+      }
+    },
+    {
+      "claim_id": "MACRO-01::2026-09",
+      "market_area_id": "macroeconomia",
+      "question": "A inflação oficial (IPCA) de 2026-09 fica em 0.50% ou mais?",
+      "deadline": "2026-09-30",
+      "probability": 0.833333,
+      "resolution_source": "api.bcb.gov.br (SGS)",
+      "created_at": "2026-09-14T18:26:19.397247Z",
+      "max_uncertainty": false,
+      "resolvable": true,
+      "mes_referencia": "2026-09",
+      "limiar": 0.5,
+      "criterio": "IPCA mensal >= 0.50%",
+      "serie_sgs": 433,
+      "regra": {
+        "versao_schema": 1,
+        "fonte": "api.bcb.gov.br (SGS)",
+        "serie": 433,
+        "indicador": "IPCA mensal",
+        "periodo_referencia": "2026-09",
+        "operador": ">=",
+        "limiar": 0.5,
+        "unidade": "percentual_mensal",
+        "quando_indisponivel": "UNKNOWN"
+      },
+      "estado": "ABERTO",
+      "tentativas": [],
+      "gerador": {
+        "valor": 0.833333,
+        "p_inicial": 0.5,
+        "peso_inicial": 10.0,
+        "peso_sim": 20.0,
+        "peso_nao": 0,
+        "max_uncertainty": false,
+        "fontes": [
+          "BCB Focus/Olinda ExpectativaMercadoMensais — mediana IPCA 2026-09: 0.50% (boletim 2026-09-11; criterio >= 0.50%)"
+        ]
       }
     }
   ]
