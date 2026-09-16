@@ -111,15 +111,13 @@
         }
       ],
       "gerador_proprio": {
-        "valor": 0.3125,
+        "valor": 0.5,
         "p_inicial": 0.5,
         "peso_inicial": 10.0,
         "peso_sim": 0,
-        "peso_nao": 6.0,
-        "max_uncertainty": false,
-        "fontes": [
-          "The GDELT Project (gdeltproject.org) — tom médio +0.3616 em 5 evento(s) sobre BR (referência -3.0; arquivo 20260915173000.export.CSV.zip, md5 fc7c02a958ed…)"
-        ]
+        "peso_nao": 0,
+        "max_uncertainty": true,
+        "fontes": []
       }
     },
     {
@@ -159,15 +157,13 @@
         }
       ],
       "gerador_proprio": {
-        "valor": 0.3125,
+        "valor": 0.5,
         "p_inicial": 0.5,
         "peso_inicial": 10.0,
         "peso_sim": 0,
-        "peso_nao": 6.0,
-        "max_uncertainty": false,
-        "fontes": [
-          "The GDELT Project (gdeltproject.org) — tom médio +0.3616 em 5 evento(s) sobre BR (referência -3.0; arquivo 20260915173000.export.CSV.zip, md5 fc7c02a958ed…)"
-        ]
+        "peso_nao": 0,
+        "max_uncertainty": true,
+        "fontes": []
       }
     },
     {
@@ -207,6 +203,15 @@
         "fontes": [
           "BCB Focus/Olinda ExpectativaMercadoMensais — mediana IPCA 2026-09: 0.50% (boletim 2026-09-11; criterio >= 0.50%)"
         ]
+      },
+      "gerador_proprio": {
+        "valor": 0.5,
+        "p_inicial": 0.5,
+        "peso_inicial": 10.0,
+        "peso_sim": 0,
+        "peso_nao": 0,
+        "max_uncertainty": true,
+        "fontes": []
       }
     }
   ]
