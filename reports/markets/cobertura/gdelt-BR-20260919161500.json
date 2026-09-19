@@ -1,0 +1,20 @@
+{
+  "pais_fips": "BR",
+  "eventos": 0,
+  "tom_medio": 0.0,
+  "arquivo": "20260919161500.export.CSV.zip",
+  "md5_do_arquivo": "3f7fc819fcb36ae2469367fe6fb13a5e",
+  "observado_em": "2026-09-19T16:18:00.023597Z",
+  "suficiente": false,
+  "minimo_de_eventos": 5,
+  "licenca": "GDELT Terms of Use — uso irrestrito, inclusive comercial, sem taxa",
+  "atribuicao": "The GDELT Project (gdeltproject.org)",
+  "metodo": "contagem e média de AvgTone (col 34) dos eventos cujo ActionGeo_CountryCode (col 53) é o país pedido, no arquivo de eventos de 15 minutos. Duas colunas de 61: texto de artigo, manchete e URL de origem NÃO são lidos — pertencem a veículos de imprensa, cujos termos são outros.",
+  "termos_conferidos": true,
+  "termos_url": "https://www.gdeltproject.org/about.html",
+  "termos_sha256": "384754b514042255c4542d51dc1e631da55c83c67d46a92b53b48a812d94be6b",
+  "termos_conferidos_em": "2026-09-19T16:18:00.023639Z",
+  "concessao_citada": "unlimited and unrestricted use",
+  "concessao_presente": true,
+  "cobertura_id": "5a17d20eb6ccf94f8c4ca62b09320311183a392eea45a729e1582dc37ebc3c88"
+}
